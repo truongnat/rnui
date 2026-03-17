@@ -1,0 +1,36 @@
+{
+  "name": "@rnui/tokens",
+  "version": "0.0.1",
+  "description": "Design tokens for RNUI — primitive, semantic, component",
+  "keywords": [
+    "react-native",
+    "design-tokens",
+    "theme"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup && tsc --emitDeclarationOnly",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3",
+    "ts-jest": "^29.3.2",
+    "jest": "^29.7.0"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "components/button",
+  "title": "Button",
+  "description": "The Button component wraps usePressable from the headless layer. All animation runs on the UI thread via Reanimated 3.",
+  "source": "@site/docs/components/button.md",
+  "sourceDirName": "components",
+  "slug": "/components/button",
+  "permalink": "/docs/components/button",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/button.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Headless API",
+    "permalink": "/docs/headless"
+  },
+  "next": {
+    "title": "BottomSheet",
+    "permalink": "/docs/components/bottom-sheet"
+  }
+}

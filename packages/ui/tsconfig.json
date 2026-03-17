@@ -1,0 +1,28 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "dist",
+        "rootDir": "..",
+        "baseUrl": ".",
+        "paths": {
+            "@rnui/tokens": [
+                "../tokens/src"
+            ],
+            "@rnui/headless": [
+                "../headless/src"
+            ]
+        }
+    },
+    "include": [
+        "src",
+        "../headless/src",
+        "../tokens/src"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "src/__tests__",
+        "../headless/src/__tests__",
+        "../tokens/src/__tests__"
+    ]
+}

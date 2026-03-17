@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@rnui/ui": [
+        "../../packages/ui/src/index.ts"
+      ],
+      "@rnui/tokens": [
+        "../../packages/tokens/src/index.ts"
+      ],
+      "@rnui/headless": [
+        "../../packages/headless/src/index.ts"
+      ]
+    }
+  },
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ]
+}

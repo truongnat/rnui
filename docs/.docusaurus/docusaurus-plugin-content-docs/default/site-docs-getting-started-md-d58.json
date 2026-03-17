@@ -1,0 +1,20 @@
+{
+  "id": "getting-started",
+  "title": "Getting started",
+  "description": "Requirements",
+  "source": "@site/docs/getting-started.md",
+  "sourceDirName": ".",
+  "slug": "/getting-started",
+  "permalink": "/docs/getting-started",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/getting-started.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Theming",
+    "permalink": "/docs/theming"
+  }
+}

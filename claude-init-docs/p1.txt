@@ -1,0 +1,63 @@
+# Báo cáo: Những kiến thức mới nhất về React Native (2026)
+
+---
+
+## 1. Phiên bản mới nhất
+
+Tính đến tháng 3/2026, phiên bản ổn định mới nhất là **React Native 0.84** (ra mắt 11/2/2026), với v0.85-RC.0 đang trong giai đoạn thử nghiệm.
+
+---
+
+## 2. Kiến trúc mới (New Architecture) — thay đổi lớn nhất
+
+Kiến trúc mới bao gồm 4 thành phần cốt lõi: **JSI** (JavaScript Interface), **TurboModules**, **Fabric renderer** và **Codegen**.
+
+- **JSI** thay thế cầu nối JSON bất đồng bộ cũ bằng cách cho phép JS gọi trực tiếp các hàm native qua C++ — nhanh hơn tới 40 lần.
+- **TurboModules** hỗ trợ lazy loading, đồng bộ layout, tích hợp các tính năng concurrent của React 18.
+- Lộ trình bắt buộc: v0.76 đặt New Architecture làm mặc định, v0.82 xóa hoàn toàn kiến trúc cũ.
+
+**Hiệu năng thực tế:** Shopify ghi nhận cold start nhanh hơn 43%, rendering cải thiện 39%, bộ nhớ giảm 20–30%.
+
+---
+
+## 3. React Native 0.84 — Hermes V1 mặc định
+
+Phiên bản 0.84 đưa **Hermes V1** trở thành JS engine mặc định, mang lại cải thiện hiệu năng đáng kể cho mọi ứng dụng React Native. Hermes V1 cải thiện hỗ trợ ES6 classes, const/let, async/await và được tối ưu cho cold start.
+
+---
+
+## 4. React Native 0.83 — DevTools mới & React 19.2
+
+Phiên bản 0.83 tích hợp **React 19.2**, bổ sung `Activity` component (chế độ `visible`/`hidden` để bảo toàn state khi điều hướng) và `useEffectEvent` tách biệt logic event khỏi effect, tránh các re-run không cần thiết.
+
+DevTools được nâng cấp thành ứng dụng desktop độc lập, tích hợp **network panel** và **performance panel** để tracing JS, React performance và network requests.
+
+---
+
+## 5. Expo SDK 55 — hệ sinh thái đi kèm
+
+**Expo SDK 55** (ra mắt đầu 2026) đi kèm React Native 0.83 và React 19.2. SDK 55 không còn hỗ trợ Legacy Architecture — đây là thay đổi bắt buộc.
+
+SDK 55 giới thiệu **Hermes V1** (bản thử nghiệm), **Expo UI** với hỗ trợ SwiftUI và Jetpack Compose (bao gồm Card, LazyColumn, Material3 components), cùng nhiều API hướng đối tượng mới cho contacts, media library, calendar.
+
+---
+
+## 6. Xu hướng lớn trong 2026
+
+**TypeScript first-class:** TypeScript ngày càng phổ biến trong hệ sinh thái, với type definitions được cải thiện, autocompletion tốt hơn và các công cụ migration từ JS sang TS.
+
+**Đa nền tảng:** React Native mở rộng sang Windows, macOS (qua Microsoft), web apps (React Native Web), TV và thiết bị nhúng.
+
+**Tích hợp AI:** AI on-device qua TensorFlow Lite và PyTorch, cùng các công ty như Mistral, v0, Replit đang xây dựng ứng dụng AI trên React Native.
+
+**React Native cho Meta Quest:** Tháng 2/2026, Meta chính thức công bố React Native trên nền tảng Quest (VR/AR).
+
+---
+
+## 7. Hướng đến v1.0
+
+Tại React Conf 2025, đội ngũ React Native thông báo v1.0 đang "trong tầm nhìn". Việc New Architecture trở thành mặc định trong v0.76 là mốc quan trọng hướng đến mục tiêu này, cùng với sáng kiến "Moving Towards a Stable JavaScript API" để API lõi không thay đổi bất ngờ.
+
+---
+
+**Tóm lại**, 2026 là năm React Native chuyển mình mạnh mẽ nhất từ trước đến nay: kiến trúc mới bắt buộc, engine mới tốc độ cao, DevTools chuyên nghiệp hơn, và đang tiến gần đến cột mốc v1.0 sau 10 năm phát triển.

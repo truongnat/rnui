@@ -1,0 +1,24 @@
+{
+  "id": "headless",
+  "title": "Headless API",
+  "description": "All hooks live in @rnui/headless. @rnui/ui re-exports everything, so you only need one install.",
+  "source": "@site/docs/headless.md",
+  "sourceDirName": ".",
+  "slug": "/headless",
+  "permalink": "/docs/headless",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/headless.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Theming",
+    "permalink": "/docs/theming"
+  },
+  "next": {
+    "title": "Button",
+    "permalink": "/docs/components/button"
+  }
+}

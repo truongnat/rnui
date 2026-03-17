@@ -1,0 +1,32 @@
+{
+  "name": "rnui",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "docs"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "typecheck": "turbo typecheck",
+    "clean": "turbo clean && rm -rf node_modules",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo build && changeset publish",
+    "docs": "cd docs && bun start",
+    "docs:build": "cd docs && bun build"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "bun@1.1.38",
+  "dependencies": {
+    "babel-preset-expo": "^55.0.11"
+  }
+}

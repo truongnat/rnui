@@ -1,0 +1,16 @@
+Được, Bun hoạt động rất tốt cho monorepo RN. Một vài điểm cần lưu ý:
+
+**Lợi thế khi dùng Bun:**
+- `bun install` nhanh hơn pnpm đáng kể (thường 3–5x)
+- `bun run` built-in, không cần thêm `turbo` để chạy scripts đơn giản
+- Bun workspaces syntax giống hệt pnpm — migration gần như không tốn công
+
+**Một điểm cần chú ý:**
+Turborepo vẫn nên giữ lại dù đổi package manager. Turborepo xử lý build cache và task pipeline — đây là vai trò khác với Bun. Hai công cụ không conflict, Turbo chạy tốt trên Bun từ v1.0.
+
+**Thay đổi duy nhất trong scaffold:**
+- `pnpm-workspace.yaml` → `bunfig.toml` + `workspaces` field trong `package.json` gốc
+- Mọi `pnpm install / pnpm run` → `bun install / bun run`
+- Lockfile từ `pnpm-lock.yaml` → `bun.lockb`
+
+Muốn tôi scaffold luôn monorepo với Bun + Turborepo không?

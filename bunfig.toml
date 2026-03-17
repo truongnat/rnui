@@ -1,0 +1,12 @@
+[install]
+# Bun workspace installs hoisting strategy
+hoist = true
+
+[install.lockfile]
+# Save lockfile on install
+save = true
+print = "bun"
+
+[run]
+# Always use Bun's JS runtime for scripts
+bun = true

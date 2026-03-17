@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "moduleResolution": "NodeNext",
+        "module": "NodeNext",
+        "target": "ES2020",
+        "jsx": "react-native",
+        "outDir": "dist",
+        "rootDir": "src",
+        "baseUrl": ".",
+        "composite": true,
+        "incremental": true,
+        "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+        "declaration": true,
+        "declarationMap": true
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "src/__tests__"
+    ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "index",
+  "title": "RNUI",
+  "description": "Welcome to the RNUI documentation.",
+  "source": "@site/docs/index.md",
+  "sourceDirName": ".",
+  "slug": "/",
+  "permalink": "/docs/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/index.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

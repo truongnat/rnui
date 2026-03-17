@@ -1,0 +1,25 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "dist",
+        "rootDir": "src",
+        "baseUrl": ".",
+        "declaration": true,
+        "declarationMap": true,
+        "composite": true,
+        "emitDeclarationOnly": true
+    },
+    "references": [
+        {
+            "path": "../tokens"
+        }
+    ],
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "src/__tests__"
+    ]
+}
