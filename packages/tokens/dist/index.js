@@ -199,12 +199,12 @@ var lightTokens = {
     // Backgrounds
     bg: {
       default: color.white,
-      subtle: color.gray[100],
-      // F1F5F9 - Clearly distinguished from white
+      subtle: color.gray[50],
+      // F8FAFC
       muted: color.gray[200],
       // E2E8F0
-      emphasis: color.gray[300],
-      // CBD5E1
+      emphasis: color.gray[400],
+      // 94A3B8 - Highly visible for skeletons
       inverse: color.gray[900],
       // 0F172A
       overlay: "rgba(0,0,0,0.6)"
@@ -230,12 +230,12 @@ var lightTokens = {
       link: color.brand[700]
       // Darker blue for links
     },
-    // Border - Much stronger
+    // Border - Ultra visible
     border: {
-      default: color.gray[300],
-      // CBD5E1 - Solid visible line
-      strong: color.gray[400],
-      // 94A3B8 - Very distinct
+      default: color.gray[400],
+      // 94A3B8 - Highly visible
+      strong: color.gray[600],
+      // 475569 - Very dark
       focus: color.brand[600],
       error: color.red[600]
     },
@@ -360,8 +360,8 @@ function buttonTokens(t) {
     },
     size: {
       sm: { container: { height: 36, paddingHorizontal: t.spacing[4] }, text: { fontSize: t.fontSize.sm } },
-      md: { container: { height: 48, paddingHorizontal: t.spacing[5] }, text: { fontSize: t.fontSize.md } },
-      lg: { container: { height: 56, paddingHorizontal: t.spacing[8] }, text: { fontSize: t.fontSize.lg } }
+      md: { container: { height: 44, paddingHorizontal: t.spacing[6] }, text: { fontSize: t.fontSize.md } },
+      lg: { container: { height: 54, paddingHorizontal: t.spacing[8] }, text: { fontSize: t.fontSize.lg } }
     },
     disabled: {
       container: { opacity: t.opacity[40], ...t.shadow.none }
@@ -381,9 +381,9 @@ function inputTokens(t) {
       gap: t.spacing[2]
     },
     size: {
-      sm: { height: 36, fontSize: t.fontSize.sm },
-      md: { height: 44, fontSize: t.fontSize.md },
-      lg: { height: 52, fontSize: t.fontSize.lg }
+      sm: { height: 32, fontSize: t.fontSize.sm },
+      md: { height: 40, fontSize: t.fontSize.md },
+      lg: { height: 48, fontSize: t.fontSize.lg }
     },
     state: {
       default: { borderColor: t.color.border.default },
@@ -436,8 +436,8 @@ function badgeTokens(t) {
   return {
     base: {
       borderRadius: t.radius.full,
-      paddingHorizontal: t.spacing[2],
-      paddingVertical: t.spacing[0.5],
+      paddingHorizontal: t.spacing[4],
+      paddingVertical: t.spacing[2],
       alignSelf: "flex-start"
     },
     variant: {
@@ -458,23 +458,24 @@ function toastTokens(t) {
   return {
     container: {
       borderRadius: t.radius.lg,
-      paddingHorizontal: t.spacing[4],
-      paddingVertical: t.spacing[3],
+      paddingHorizontal: t.spacing[6],
+      paddingVertical: t.spacing[5],
       flexDirection: "row",
       alignItems: "center",
-      gap: t.spacing[3],
+      gap: t.spacing[4],
       ...t.shadow.lg
     },
     variant: {
-      default: { backgroundColor: t.color.bg.inverse, borderWidth: 0, borderColor: "transparent" },
-      success: { backgroundColor: t.color.success.bg, borderWidth: 1, borderColor: t.color.success.border },
-      warning: { backgroundColor: t.color.warning.bg, borderWidth: 1, borderColor: t.color.warning.border },
-      error: { backgroundColor: t.color.error.bg, borderWidth: 1, borderColor: t.color.error.border },
-      info: { backgroundColor: t.color.info.bg, borderWidth: 1, borderColor: t.color.info.border }
+      default: { backgroundColor: t.color.bg.inverse, borderWidth: 0 },
+      success: { backgroundColor: t.color.bg.inverse, borderLeftWidth: 4, borderLeftColor: t.color.success.icon },
+      warning: { backgroundColor: t.color.bg.inverse, borderLeftWidth: 4, borderLeftColor: t.color.warning.icon },
+      error: { backgroundColor: t.color.bg.inverse, borderLeftWidth: 4, borderLeftColor: t.color.error.icon },
+      info: { backgroundColor: t.color.bg.inverse, borderLeftWidth: 4, borderLeftColor: t.color.info.icon }
     },
     text: {
       fontSize: t.fontSize.sm,
-      color: t.color.text.inverse,
+      color: "#FFFFFF",
+      // Use definite white for background inverse for maximum contrast
       flex: 1
     }
   };

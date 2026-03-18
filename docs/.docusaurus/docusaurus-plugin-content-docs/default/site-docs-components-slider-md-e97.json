@@ -1,0 +1,24 @@
+{
+  "id": "components/slider",
+  "title": "Slider",
+  "description": "A gesture-driven slider with optional value display, range labels, and step marks.",
+  "source": "@site/docs/components/slider.md",
+  "sourceDirName": "components",
+  "slug": "/components/slider",
+  "permalink": "/docs/components/slider",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/slider.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Switch",
+    "permalink": "/docs/components/switch"
+  },
+  "next": {
+    "title": "Rating",
+    "permalink": "/docs/components/rating"
+  }
+}

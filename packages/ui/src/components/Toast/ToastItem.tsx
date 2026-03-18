@@ -15,34 +15,33 @@ import { useComponentTokens, useTokens } from "@rnui/headless";
 import { spring } from "@rnui/tokens";
 import type { ToastItem as ToastItemType, ToastPosition } from "@rnui/headless";
 
-// ─── Icons (simple geometric shapes, no icon lib dependency) ─────
-
 function VariantIcon({ variant, color }: { variant: ToastItemType["variant"]; color: string }) {
+  const size = 20;
   if (variant === "success") {
     return (
-      <View style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ color: "#fff", fontSize: 11, fontWeight: "700", marginTop: -1 }}>✓</Text>
+      <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
+        <Text style={{ color: "#fff", fontSize: 12, fontWeight: "800", marginTop: -1 }}>✓</Text>
       </View>
     );
   }
   if (variant === "error") {
     return (
-      <View style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ color: "#fff", fontSize: 12, fontWeight: "700", marginTop: -1 }}>✕</Text>
+      <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
+        <Text style={{ color: "#fff", fontSize: 13, fontWeight: "800", marginTop: -1 }}>✕</Text>
       </View>
     );
   }
   if (variant === "warning") {
     return (
-      <View style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ color: "#fff", fontSize: 12, fontWeight: "800" }}>!</Text>
+      <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
+        <Text style={{ color: "#fff", fontSize: 13, fontWeight: "900" }}>!</Text>
       </View>
     );
   }
   if (variant === "info") {
     return (
-      <View style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ color: "#fff", fontSize: 12, fontWeight: "700" }}>i</Text>
+      <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
+        <Text style={{ color: "#fff", fontSize: 13, fontWeight: "900" }}>i</Text>
       </View>
     );
   }
@@ -105,7 +104,16 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
       ]}
     >
       {/* Icon */}
-      {item.variant !== "default" && (
+      {item.icon ? (
+        <View style={{ width: 20, height: 20, alignItems: "center", justifyContent: "center" }}>
+          {React.isValidElement(item.icon)
+            ? React.cloneElement(item.icon as React.ReactElement, {
+              size: (item.icon.props as any)?.size ?? 20,
+              color: (item.icon.props as any)?.color ?? "#FFFFFF",
+            } as any)
+            : item.icon}
+        </View>
+      ) : item.variant !== "default" && (
         <VariantIcon variant={item.variant} color={v.iconColor} />
       )}
 

@@ -1,0 +1,24 @@
+{
+  "id": "components/link",
+  "title": "Link",
+  "description": "Inline link that opens external URLs.",
+  "source": "@site/docs/components/link.md",
+  "sourceDirName": "components",
+  "slug": "/components/link",
+  "permalink": "/docs/components/link",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/link.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "SpeedDial",
+    "permalink": "/docs/components/speed-dial"
+  },
+  "next": {
+    "title": "Paper",
+    "permalink": "/docs/components/paper"
+  }
+}

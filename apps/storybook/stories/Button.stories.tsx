@@ -1,19 +1,31 @@
-import type { Meta, StoryObj } from "@storybook/react-native";
+import type { StoryObj } from "@storybook/react-native";
+import React from "react";
 import { ThemeProvider, Button } from "@rnui/ui";
 import { View } from "react-native";
 
-const meta: Meta<typeof Button> = {
+const Wrap = ({ children }: { children: React.ReactNode }) => (
+  <ThemeProvider>
+    <View style={{ padding: 24 }}>
+      {children}
+    </View>
+  </ThemeProvider>
+);
+
+// Wrapper component that provides required props
+const ButtonWrapper = (props: any) => (
+  <Button 
+    {...props} 
+    onPress={props.onPress || (() => {})}
+    onLongPress={props.onLongPress || (() => {})}
+    accessibilityLabel={props.accessibilityLabel || props.label}
+    accessibilityHint=""
+  />
+);
+
+const meta = {
   title: "Components/Button",
-  component: Button,
-  decorators: [
-    (Story) => (
-      <ThemeProvider>
-        <View style={{ padding: 24 }}>
-          <Story />
-        </View>
-      </ThemeProvider>
-    ),
-  ],
+  component: ButtonWrapper,
+  decorators: [(Story) => <Wrap><Story /></Wrap>],
   argTypes: {
     variant: {
       control: { type: "select" },
@@ -25,42 +37,63 @@ const meta: Meta<typeof Button> = {
     },
     disabled: { control: "boolean" },
     loading: { control: "boolean" },
+    label: { control: "text" },
+    fullWidth: { control: "boolean" },
+  },
+  args: {
+    label: "Button",
+    variant: "solid",
+    size: "md",
+    disabled: false,
+    loading: false,
+    fullWidth: false,
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof ButtonWrapper>;
 
 export const Solid: Story = {
-  args: { label: "Solid button", variant: "solid", size: "md" },
+  args: { label: "Solid button", variant: "solid" },
 };
 
 export const Outline: Story = {
-  args: { label: "Outline button", variant: "outline", size: "md" },
+  args: { label: "Outline button", variant: "outline" },
 };
 
 export const Ghost: Story = {
-  args: { label: "Ghost button", variant: "ghost", size: "md" },
+  args: { label: "Ghost button", variant: "ghost" },
 };
 
 export const Destructive: Story = {
-  args: { label: "Delete item", variant: "destructive", size: "md" },
+  args: { label: "Delete item", variant: "destructive" },
 };
 
 export const Loading: Story = {
-  args: { label: "Saving...", variant: "solid", loading: true },
+  args: { label: "Loading...", loading: true },
 };
 
 export const Disabled: Story = {
-  args: { label: "Unavailable", variant: "solid", disabled: true },
+  args: { label: "Disabled", disabled: true },
+};
+
+export const AllVariants: Story = {
+  render: (args) => (
+    <View style={{ gap: 12 }}>
+      <ButtonWrapper {...args} label="Solid" variant="solid" />
+      <ButtonWrapper {...args} label="Outline" variant="outline" />
+      <ButtonWrapper {...args} label="Ghost" variant="ghost" />
+      <ButtonWrapper {...args} label="Destructive" variant="destructive" />
+    </View>
+  ),
 };
 
 export const AllSizes: Story = {
-  render: () => (
-    <View style={{ gap: 8 }}>
-      <Button label="Small" size="sm" onPress={() => {}} />
-      <Button label="Medium" size="md" onPress={() => {}} />
-      <Button label="Large" size="lg" onPress={() => {}} />
+  render: (args) => (
+    <View style={{ gap: 12 }}>
+      <ButtonWrapper {...args} label="Small" size="sm" />
+      <ButtonWrapper {...args} label="Medium" size="md" />
+      <ButtonWrapper {...args} label="Large" size="lg" />
     </View>
   ),
 };

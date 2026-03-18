@@ -17,6 +17,8 @@ export interface ToastItem {
     label: string;
     onPress: () => void;
   };
+  /** Optional custom icon */
+  icon?: React.ReactNode;
 }
 
 export interface ShowToastOptions {
@@ -26,6 +28,8 @@ export interface ShowToastOptions {
   duration?: number;
   persistent?: boolean;
   action?: ToastItem["action"];
+  /** Optional custom icon */
+  icon?: React.ReactNode;
 }
 
 // ─── Store (singleton — lives outside React) ─────────────────────
@@ -66,6 +70,7 @@ export function showToast(options: ShowToastOptions): string {
     duration: options.duration ?? 3500,
     persistent: options.persistent ?? false,
     action: options.action,
+    icon: options.icon,
   };
 
   // Max 3 toasts visible at once — drop oldest

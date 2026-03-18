@@ -14,14 +14,14 @@ import { Button } from "@rnui/ui";
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `label` | `string` | — | Button text (required) |
+| `label` | `string` | — | Button text (optional for icon-only) |
 | `variant` | `"solid" \| "outline" \| "ghost" \| "destructive"` | `"solid"` | Visual style |
 | `size` | `"sm" \| "md" \| "lg"` | `"md"` | Height and padding preset |
 | `onPress` | `() => void` | — | Press callback |
 | `onLongPress` | `() => void` | — | Long press callback |
 | `loading` | `boolean` | `false` | Show spinner, disable press |
 | `disabled` | `boolean` | `false` | Disable interaction and dim |
-| `leadingIcon` | `ReactNode` | — | Slot before label |
+| `leadingIcon` | `ReactNode` | — | Slot before label (or center if no label) |
 | `trailingIcon` | `ReactNode` | — | Slot after label |
 | `feedbackMode` | `"scale" \| "scaleSubtle" \| "opacity" \| "none"` | `"scale"` | Press animation |
 | `fullWidth` | `boolean` | `false` | Fill container width |
@@ -39,6 +39,12 @@ import { Button } from "@rnui/ui";
 
 ## Sizes
 
+Buttons come in three standardized heights:
+
+- **Small**: 32px
+- **Medium**: 44px
+- **Large**: 54px
+
 ```tsx
 <Button label="Small"  size="sm" onPress={() => {}} />
 <Button label="Medium" size="md" onPress={() => {}} />  {/* default */}
@@ -53,14 +59,19 @@ import { Button } from "@rnui/ui";
 
 ## With icons
 
-```tsx
-import { PlusIcon } from "your-icon-lib";
+The library uses a standardized icon styling system. Icons passed to `leadingIcon` or `trailingIcon` will automatically receive the correct size and color based on the button's variant and size.
 
-<Button
-  label="Add item"
-  leadingIcon={<PlusIcon size={16} color="#fff" />}
-  onPress={addItem}
-/>
+```tsx
+import { Plus, Send, Mail } from "lucide-react-native";
+
+// Leading icon
+<Button label="Add item" leadingIcon={<Plus />} />
+
+// Trailing icon
+<Button label="Send" variant="outline" trailingIcon={<Send />} />
+
+// Icon only
+<Button leadingIcon={<Mail />} onPress={() => {}} />
 ```
 
 ## Headless usage

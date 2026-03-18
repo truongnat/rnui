@@ -1,22 +1,41 @@
 import React, { useMemo } from "react";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { ActivityIndicator, Text, View, StyleSheet } from "react-native";
-import { usePressable, useComponentTokens } from "@rnui/headless";
+import { ActivityIndicator, Text, View, StyleSheet, Linking } from "react-native";
+import { usePressable, useComponentTokens, useIconStyle, useTokens } from "@rnui/headless";
 import type { PressFeedbackMode } from "@rnui/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
 
-export type ButtonVariant = "solid" | "outline" | "ghost" | "destructive";
+export type ButtonVariant =
+  | "solid"
+  | "outline"
+  | "ghost"
+  | "destructive"
+  | "text"
+  | "contained"
+  | "outlined";
 export type ButtonSize = "sm" | "md" | "lg";
+export type ButtonColor =
+  | "inherit"
+  | "primary"
+  | "secondary"
+  | "success"
+  | "error"
+  | "info"
+  | "warning";
 
 export interface ButtonProps {
   /** Visual style variant */
   variant?: ButtonVariant;
+  /** Color theme */
+  color?: ButtonColor;
   /** Size preset */
   size?: ButtonSize;
-  /** Button label */
-  label: string;
+  /** Button label (optional for icon-only buttons) */
+  label?: string;
+  /** Optional children (preferred over label) */
+  children?: React.ReactNode;
   /** Called on press */
   onPress?: () => void;
   /** Called on long press */
@@ -25,14 +44,28 @@ export interface ButtonProps {
   disabled?: boolean;
   /** Show loading spinner, disable interaction */
   loading?: boolean;
+  /** Custom loading indicator */
+  loadingIndicator?: React.ReactNode;
+  /** Loading indicator placement */
+  loadingPosition?: "start" | "end" | "center";
   /** Slot for leading icon */
   leadingIcon?: React.ReactNode;
   /** Slot for trailing icon */
   trailingIcon?: React.ReactNode;
+  /** Alias for leadingIcon */
+  startIcon?: React.ReactNode;
+  /** Alias for trailingIcon */
+  endIcon?: React.ReactNode;
   /** Override press feedback mode */
   feedbackMode?: PressFeedbackMode;
   /** Fill container width */
   fullWidth?: boolean;
+  /** Render as link */
+  href?: string;
+  /** Remove drop shadow */
+  disableElevation?: boolean;
+  /** Additional style override */
+  style?: object;
   /** Accessibility label override (defaults to label) */
   accessibilityLabel?: string;
   /** Accessibility hint */
@@ -43,45 +76,149 @@ export interface ButtonProps {
 
 export function Button({
   variant = "solid",
+  color = "primary",
   size = "md",
   label,
+  children,
   onPress,
   onLongPress,
   disabled = false,
   loading = false,
+  loadingIndicator,
+  loadingPosition = "center",
   leadingIcon,
   trailingIcon,
+  startIcon,
+  endIcon,
   feedbackMode = "scale",
   fullWidth = false,
+  href,
+  disableElevation = false,
+  style,
   accessibilityLabel,
   accessibilityHint,
 }: ButtonProps) {
   const { button } = useComponentTokens();
+  const tokens = useTokens();
+  const { size: iconSize } = useIconStyle("button");
   const isDisabled = disabled || loading;
 
+  const resolvedVariant: "solid" | "outline" | "ghost" | "destructive" = useMemo(() => {
+    if (variant === "contained") return "solid";
+    if (variant === "outlined") return "outline";
+    if (variant === "text") return "ghost";
+    return variant as "solid" | "outline" | "ghost" | "destructive";
+  }, [variant]);
+
+  const resolvedColor = useMemo(() => {
+    if (color === "inherit") {
+      return {
+        main: tokens.color.text.primary,
+        subtle: tokens.color.bg.muted,
+        textOn: tokens.color.text.inverse,
+      };
+    }
+    if (color === "secondary") {
+      return {
+        main: tokens.color.text.secondary,
+        subtle: tokens.color.bg.muted,
+        textOn: tokens.color.text.inverse,
+      };
+    }
+    if (color === "success") {
+      return {
+        main: tokens.color.success.icon,
+        subtle: tokens.color.success.bg,
+        textOn: tokens.color.text.inverse,
+      };
+    }
+    if (color === "warning") {
+      return {
+        main: tokens.color.warning.icon,
+        subtle: tokens.color.warning.bg,
+        textOn: tokens.color.text.inverse,
+      };
+    }
+    if (color === "error") {
+      return {
+        main: tokens.color.error.icon,
+        subtle: tokens.color.error.bg,
+        textOn: tokens.color.text.inverse,
+      };
+    }
+    if (color === "info") {
+      return {
+        main: tokens.color.info.icon,
+        subtle: tokens.color.info.bg,
+        textOn: tokens.color.text.inverse,
+      };
+    }
+    return {
+      main: tokens.color.brand.default,
+      subtle: tokens.color.brand.subtle,
+      textOn: tokens.color.text.inverse,
+    };
+  }, [color, tokens]);
+
+  const handlePress = useMemo(() => {
+    if (!href) return onPress;
+    return () => {
+      onPress?.();
+      Linking.openURL(href);
+    };
+  }, [href, onPress]);
+
   const { animatedStyle, gesture, accessibilityProps } = usePressable({
-    onPress,
+    onPress: handlePress,
     onLongPress,
     disabled: isDisabled,
     feedbackMode,
-    accessibilityLabel: accessibilityLabel ?? label,
+    accessibilityLabel: accessibilityLabel ?? (typeof children === "string" ? children : label),
     accessibilityHint,
     accessibilityRole: "button",
-    haptic: true,
   });
 
   // Resolve styles from component tokens — only recomputes on theme change
   const containerStyle = useMemo(() => [
-    button.variant[variant].container,
+    button.variant[resolvedVariant].container,
     button.size[size].container,
     fullWidth && { alignSelf: "stretch" as const },
     isDisabled && button.disabled.container,
-  ], [button, variant, size, fullWidth, isDisabled]);
+    !label && !children && { paddingHorizontal: button.size[size].container.paddingHorizontal / 2, width: button.size[size].container.height },
+    disableElevation && tokens.shadow.none,
+    resolvedVariant === "solid" && { backgroundColor: resolvedColor.main },
+    resolvedVariant === "outline" && { borderColor: resolvedColor.main },
+    resolvedVariant === "ghost" && { backgroundColor: resolvedColor.subtle },
+    resolvedVariant === "destructive" && { backgroundColor: tokens.color.error.bg, borderColor: tokens.color.error.border },
+    style,
+  ], [button, resolvedVariant, size, fullWidth, isDisabled, label, children, disableElevation, tokens, resolvedColor, style]);
 
   const textStyle = useMemo(() => [
-    button.variant[variant].text,
+    button.variant[resolvedVariant].text,
     button.size[size].text,
-  ], [button, variant, size]);
+    resolvedVariant === "solid" && { color: resolvedColor.textOn },
+    resolvedVariant === "outline" && { color: resolvedColor.main },
+    resolvedVariant === "ghost" && { color: resolvedColor.main },
+    resolvedVariant === "destructive" && { color: tokens.color.error.text },
+  ], [button, resolvedVariant, size, resolvedColor, tokens]);
+
+  const iconColor = String((textStyle[0] as any)?.color ?? button.variant[resolvedVariant].text.color);
+  const content = children ?? label;
+  const isTextContent = typeof content === "string" || typeof content === "number";
+  const leading = startIcon ?? leadingIcon;
+  const trailing = endIcon ?? trailingIcon;
+
+  // Helper to clone icon with standardized props
+  const renderIcon = (icon: React.ReactNode) => {
+    if (!icon) return null;
+    if (React.isValidElement(icon)) {
+      return React.cloneElement(icon as React.ReactElement, {
+        size: (icon.props as any)?.size ?? iconSize,
+        color: (icon.props as any)?.color ?? iconColor,
+      } as any);
+    }
+    return icon;
+  };
 
   return (
     <GestureDetector gesture={gesture}>
@@ -93,20 +230,19 @@ export function Button({
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: button.variant[variant].container.gap,
-          opacity: loading ? 0 : 1
+          gap: button.variant[resolvedVariant].container.gap,
+          opacity: loading && loadingPosition === "center" ? 0 : 1,
         }}>
-          {leadingIcon}
-          <Text style={textStyle}>{label}</Text>
-          {trailingIcon}
+          {loading && loadingPosition === "start" && (loadingIndicator ?? <ActivityIndicator size="small" color={iconColor} />)}
+          {renderIcon(leading)}
+          {isTextContent ? <Text style={textStyle}>{content}</Text> : content}
+          {renderIcon(trailing)}
+          {loading && loadingPosition === "end" && (loadingIndicator ?? <ActivityIndicator size="small" color={iconColor} />)}
         </View>
 
-        {loading && (
+        {loading && loadingPosition === "center" && (
           <View style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}>
-            <ActivityIndicator
-              size="small"
-              color={String(button.variant[variant].text.color)}
-            />
+            {loadingIndicator ?? <ActivityIndicator size="small" color={iconColor} />}
           </View>
         )}
       </Animated.View>

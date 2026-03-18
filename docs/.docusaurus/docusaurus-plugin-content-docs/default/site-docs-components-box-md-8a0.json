@@ -1,0 +1,24 @@
+{
+  "id": "components/box",
+  "title": "Box",
+  "description": "Layout primitive for spacing and structure.",
+  "source": "@site/docs/components/box.md",
+  "sourceDirName": "components",
+  "slug": "/components/box",
+  "permalink": "/docs/components/box",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/box.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "ToggleButton",
+    "permalink": "/docs/components/toggle-button"
+  },
+  "next": {
+    "title": "Stack",
+    "permalink": "/docs/components/stack"
+  }
+}

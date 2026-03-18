@@ -1,0 +1,24 @@
+{
+  "id": "components/menu",
+  "title": "Menu",
+  "description": "Popup menu list.",
+  "source": "@site/docs/components/menu.md",
+  "sourceDirName": "components",
+  "slug": "/components/menu",
+  "permalink": "/docs/components/menu",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/menu.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Drawer",
+    "permalink": "/docs/components/drawer"
+  },
+  "next": {
+    "title": "Stepper",
+    "permalink": "/docs/components/stepper"
+  }
+}

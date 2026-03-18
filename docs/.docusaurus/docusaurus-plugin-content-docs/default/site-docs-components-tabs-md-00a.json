@@ -1,0 +1,24 @@
+{
+  "id": "components/tabs",
+  "title": "Tabs",
+  "description": "Switch between sections.",
+  "source": "@site/docs/components/tabs.md",
+  "sourceDirName": "components",
+  "slug": "/components/tabs",
+  "permalink": "/docs/components/tabs",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/tabs.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "AppBar",
+    "permalink": "/docs/components/app-bar"
+  },
+  "next": {
+    "title": "Drawer",
+    "permalink": "/docs/components/drawer"
+  }
+}

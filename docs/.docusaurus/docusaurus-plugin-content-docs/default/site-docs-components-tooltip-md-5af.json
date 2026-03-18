@@ -1,0 +1,24 @@
+{
+  "id": "components/tooltip",
+  "title": "Tooltip",
+  "description": "Hover or press helper text.",
+  "source": "@site/docs/components/tooltip.md",
+  "sourceDirName": "components",
+  "slug": "/components/tooltip",
+  "permalink": "/docs/components/tooltip",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/tooltip.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Badge",
+    "permalink": "/docs/components/badge"
+  },
+  "next": {
+    "title": "Divider",
+    "permalink": "/docs/components/divider"
+  }
+}

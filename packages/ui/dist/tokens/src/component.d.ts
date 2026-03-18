@@ -94,7 +94,7 @@ export declare function buttonTokens(t: SemanticTokens): {
         md: {
             container: {
                 height: number;
-                paddingHorizontal: 20;
+                paddingHorizontal: 24;
             };
             text: {
                 fontSize: 15;
@@ -197,8 +197,8 @@ export declare function cardTokens(t: SemanticTokens): {
 export declare function badgeTokens(t: SemanticTokens): {
     base: {
         borderRadius: 9999;
-        paddingHorizontal: 8;
-        paddingVertical: 2;
+        paddingHorizontal: 16;
+        paddingVertical: 8;
         alignSelf: "flex-start";
     };
     variant: {
@@ -235,37 +235,36 @@ export declare function badgeTokens(t: SemanticTokens): {
 export declare function toastTokens(t: SemanticTokens): {
     container: {
         borderRadius: 12;
-        paddingHorizontal: 16;
-        paddingVertical: 12;
+        paddingHorizontal: 24;
+        paddingVertical: 20;
         flexDirection: "row";
         alignItems: "center";
-        gap: 12;
+        gap: 16;
     };
     variant: {
         default: {
             backgroundColor: string;
             borderWidth: number;
-            borderColor: string;
         };
         success: {
             backgroundColor: string;
-            borderWidth: number;
-            borderColor: string;
+            borderLeftWidth: number;
+            borderLeftColor: string;
         };
         warning: {
             backgroundColor: string;
-            borderWidth: number;
-            borderColor: string;
+            borderLeftWidth: number;
+            borderLeftColor: string;
         };
         error: {
             backgroundColor: string;
-            borderWidth: number;
-            borderColor: string;
+            borderLeftWidth: number;
+            borderLeftColor: string;
         };
         info: {
             backgroundColor: string;
-            borderWidth: number;
-            borderColor: string;
+            borderLeftWidth: number;
+            borderLeftColor: string;
         };
     };
     text: {
@@ -403,7 +402,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             md: {
                 container: {
                     height: number;
-                    paddingHorizontal: 20;
+                    paddingHorizontal: 24;
                 };
                 text: {
                     fontSize: 15;
@@ -506,8 +505,8 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
     badge: {
         base: {
             borderRadius: 9999;
-            paddingHorizontal: 8;
-            paddingVertical: 2;
+            paddingHorizontal: 16;
+            paddingVertical: 8;
             alignSelf: "flex-start";
         };
         variant: {
@@ -544,37 +543,36 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
     toast: {
         container: {
             borderRadius: 12;
-            paddingHorizontal: 16;
-            paddingVertical: 12;
+            paddingHorizontal: 24;
+            paddingVertical: 20;
             flexDirection: "row";
             alignItems: "center";
-            gap: 12;
+            gap: 16;
         };
         variant: {
             default: {
                 backgroundColor: string;
                 borderWidth: number;
-                borderColor: string;
             };
             success: {
                 backgroundColor: string;
-                borderWidth: number;
-                borderColor: string;
+                borderLeftWidth: number;
+                borderLeftColor: string;
             };
             warning: {
                 backgroundColor: string;
-                borderWidth: number;
-                borderColor: string;
+                borderLeftWidth: number;
+                borderLeftColor: string;
             };
             error: {
                 backgroundColor: string;
-                borderWidth: number;
-                borderColor: string;
+                borderLeftWidth: number;
+                borderLeftColor: string;
             };
             info: {
                 backgroundColor: string;
-                borderWidth: number;
-                borderColor: string;
+                borderLeftWidth: number;
+                borderLeftColor: string;
             };
         };
         text: {

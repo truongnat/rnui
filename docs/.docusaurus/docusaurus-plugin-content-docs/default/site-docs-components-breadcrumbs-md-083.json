@@ -1,0 +1,24 @@
+{
+  "id": "components/breadcrumbs",
+  "title": "Breadcrumbs",
+  "description": "Navigation breadcrumbs.",
+  "source": "@site/docs/components/breadcrumbs.md",
+  "sourceDirName": "components",
+  "slug": "/components/breadcrumbs",
+  "permalink": "/docs/components/breadcrumbs",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/breadcrumbs.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "BottomNavigation",
+    "permalink": "/docs/components/bottom-navigation"
+  },
+  "next": {
+    "title": "SpeedDial",
+    "permalink": "/docs/components/speed-dial"
+  }
+}

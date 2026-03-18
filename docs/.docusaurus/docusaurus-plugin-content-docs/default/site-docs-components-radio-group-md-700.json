@@ -1,0 +1,24 @@
+{
+  "id": "components/radio-group",
+  "title": "RadioGroup",
+  "description": "RadioGroup renders a list of options using the RadioItem component with shared selection state.",
+  "source": "@site/docs/components/radio-group.md",
+  "sourceDirName": "components",
+  "slug": "/components/radio-group",
+  "permalink": "/docs/components/radio-group",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/radio-group.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Checkbox",
+    "permalink": "/docs/components/checkbox"
+  },
+  "next": {
+    "title": "Switch",
+    "permalink": "/docs/components/switch"
+  }
+}

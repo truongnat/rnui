@@ -14,7 +14,7 @@
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Button",
-    "permalink": "/docs/components/button"
+    "title": "Pressable",
+    "permalink": "/docs/components/pressable"
   }
 }

@@ -1,0 +1,24 @@
+{
+  "id": "components/card",
+  "title": "Card",
+  "description": "Cards are surface containers with consistent padding, radius, and optional press feedback.",
+  "source": "@site/docs/components/card.md",
+  "sourceDirName": "components",
+  "slug": "/components/card",
+  "permalink": "/docs/components/card",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/card.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Paper",
+    "permalink": "/docs/components/paper"
+  },
+  "next": {
+    "title": "Accordion",
+    "permalink": "/docs/components/accordion"
+  }
+}

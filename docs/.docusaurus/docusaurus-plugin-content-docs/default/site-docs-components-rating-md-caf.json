@@ -1,0 +1,24 @@
+{
+  "id": "components/rating",
+  "title": "Rating",
+  "description": "Star rating input.",
+  "source": "@site/docs/components/rating.md",
+  "sourceDirName": "components",
+  "slug": "/components/rating",
+  "permalink": "/docs/components/rating",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/rating.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Slider",
+    "permalink": "/docs/components/slider"
+  },
+  "next": {
+    "title": "ToggleButton",
+    "permalink": "/docs/components/toggle-button"
+  }
+}

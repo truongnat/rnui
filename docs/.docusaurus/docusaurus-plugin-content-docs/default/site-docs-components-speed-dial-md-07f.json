@@ -1,0 +1,24 @@
+{
+  "id": "components/speed-dial",
+  "title": "SpeedDial",
+  "description": "Floating quick actions menu.",
+  "source": "@site/docs/components/speed-dial.md",
+  "sourceDirName": "components",
+  "slug": "/components/speed-dial",
+  "permalink": "/docs/components/speed-dial",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/speed-dial.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Breadcrumbs",
+    "permalink": "/docs/components/breadcrumbs"
+  },
+  "next": {
+    "title": "Link",
+    "permalink": "/docs/components/link"
+  }
+}

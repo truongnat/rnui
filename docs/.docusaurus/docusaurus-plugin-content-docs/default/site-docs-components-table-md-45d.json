@@ -1,0 +1,24 @@
+{
+  "id": "components/table",
+  "title": "Table",
+  "description": "Structured data table.",
+  "source": "@site/docs/components/table.md",
+  "sourceDirName": "components",
+  "slug": "/components/table",
+  "permalink": "/docs/components/table",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/table.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Typography",
+    "permalink": "/docs/components/typography"
+  },
+  "next": {
+    "title": "List",
+    "permalink": "/docs/components/list"
+  }
+}

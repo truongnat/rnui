@@ -1,0 +1,24 @@
+{
+  "id": "components/form-field",
+  "title": "FormField",
+  "description": "FormField wraps inputs with a consistent label, error, and helper text layout. FormGroup stacks fields with uniform spacing.",
+  "source": "@site/docs/components/form-field.md",
+  "sourceDirName": "components",
+  "slug": "/components/form-field",
+  "permalink": "/docs/components/form-field",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/form-field.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "FormControl",
+    "permalink": "/docs/components/form-control"
+  },
+  "next": {
+    "title": "Pressable",
+    "permalink": "/docs/components/pressable"
+  }
+}

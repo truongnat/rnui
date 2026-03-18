@@ -2,7 +2,8 @@ import React, { createContext, useMemo, useContext, useRef, useCallback, useStat
 import { Dimensions, useColorScheme, Platform } from 'react-native';
 import { GestureHandlerRootView, Gesture } from 'react-native-gesture-handler';
 import { semanticTokens, resolveComponentTokens, pressFeedback, spring } from '@rnui/tokens';
-import { useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS, interpolate, Extrapolation } from 'react-native-reanimated';
+import { useSharedValue, useAnimatedStyle, withSpring, withTiming, interpolate, Extrapolation } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 
 var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
   get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
@@ -75,7 +76,7 @@ function usePressable({
   accessibilityLabel,
   accessibilityHint,
   accessibilityRole = "button",
-  haptic = true
+  haptic = false
 } = {}) {
   const isPressedRef = useRef(false);
   const scale = useSharedValue(1);
@@ -120,12 +121,12 @@ function usePressable({
       opacity.value = withTiming(1, { duration: 100 });
     }
     if (success) {
-      runOnJS(handlePress)();
+      scheduleOnRN(handlePress);
     }
   });
   const longPressGesture = Gesture.LongPress().enabled(!disabled && !!onLongPress).minDuration(longPressMinDuration).onStart(() => {
     "worklet";
-    runOnJS(handleLongPress)();
+    scheduleOnRN(handleLongPress);
   });
   const gesture = Gesture.Simultaneous(tapGesture, longPressGesture);
   const accessibilityProps = {
@@ -281,7 +282,8 @@ function showToast(options) {
     variant: options.variant ?? "default",
     duration: options.duration ?? 3500,
     persistent: options.persistent ?? false,
-    action: options.action
+    action: options.action,
+    icon: options.icon
   };
   store.queue = [...store.queue.slice(-2), item];
   notify();
@@ -346,7 +348,7 @@ function useBottomSheet({
       const targetHeight = snapPoints[index] ?? snapPoints[snapPoints.length - 1];
       const targetY = SCREEN_HEIGHT - targetHeight;
       translateY.value = withSpring(targetY, gentleSpring, (finished) => {
-        if (finished && onDone) runOnJS(onDone)();
+        if (finished && onDone) scheduleOnRN(onDone);
       });
       const maxHeight = Math.max(...snapPoints);
       backdropOpacity.value = withTiming(
@@ -363,6 +365,10 @@ function useBottomSheet({
       currentIndexRef.current = idx;
       const targetHeight = snapPoints[idx] ?? snapPoints[snapPoints.length - 1];
       const targetY = SCREEN_HEIGHT - targetHeight;
+      if (typeof targetY !== "number" || isNaN(targetY)) {
+        console.warn("Invalid targetY calculated for open:", targetY);
+        return;
+      }
       translateY.value = withSpring(targetY, gentleSpring);
       const maxHeight = Math.max(...snapPoints);
       backdropOpacity.value = withTiming(
@@ -380,7 +386,7 @@ function useBottomSheet({
   const close = useCallback(() => {
     translateY.value = withSpring(SCREEN_HEIGHT, gentleSpring, (finished) => {
       if (finished) {
-        runOnJS(handleCloseEnd)();
+        scheduleOnRN(handleCloseEnd);
       }
     });
     backdropOpacity.value = withTiming(0, { duration: 200 });
@@ -391,6 +397,10 @@ function useBottomSheet({
       currentIndexRef.current = index;
       const targetHeight = snapPoints[index];
       const targetY = SCREEN_HEIGHT - targetHeight;
+      if (typeof targetY !== "number" || isNaN(targetY)) {
+        console.warn("Invalid targetY calculated for snapTo:", targetY);
+        return;
+      }
       translateY.value = withSpring(targetY, gentleSpring);
       const maxHeight = Math.max(...snapPoints);
       backdropOpacity.value = withTiming(
@@ -421,7 +431,7 @@ function useBottomSheet({
     const velocity = e.velocityY;
     const currentHeight = SCREEN_HEIGHT - translateY.value;
     if (velocity > 800 && enableDismissOnSwipe) {
-      runOnJS(close)();
+      scheduleOnRN(close);
       return;
     }
     let bestIndex = 0;
@@ -433,11 +443,11 @@ function useBottomSheet({
         bestIndex = i;
       }
     }
-    runOnJS(snapTo)(bestIndex);
+    scheduleOnRN(snapTo, bestIndex);
   });
   const backdropTapGesture = Gesture.Tap().onEnd(() => {
     "worklet";
-    runOnJS(close)();
+    scheduleOnRN(close);
   });
   const sheetAnimatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }]
@@ -604,11 +614,11 @@ function useListItem({
       isRevealedValue.value = false;
       return;
     }
-    if (onPress) runOnJS(onPress)();
+    if (onPress) scheduleOnRN(onPress);
   });
   const longPressGesture = Gesture.LongPress().enabled(!disabled && !!onLongPress).minDuration(500).onStart(() => {
     "worklet";
-    if (onLongPress) runOnJS(onLongPress)();
+    if (onLongPress) scheduleOnRN(onLongPress);
   });
   const panGesture = Gesture.Pan().activeOffsetX([-8, 8]).failOffsetY([-5, 5]).onUpdate((e) => {
     "worklet";
@@ -717,6 +727,7 @@ function useSlider({
   const thumbRatio = useSharedValue(percentage);
   const isDragging = useSharedValue(false);
   const dragStartRatio = useSharedValue(0);
+  const thumbScale = useSharedValue(1);
   const onTrackLayout = useCallback(
     (width) => {
       trackWidth.value = width;
@@ -740,10 +751,12 @@ function useSlider({
     },
     [min, max, step, onChangeEnd]
   );
-  const snappySpring = spring.snappy;
+  const snappySpringConfig = spring.snappy;
+  const lastEmittedValue = useSharedValue(currentValue);
   const panGesture = Gesture.Pan().enabled(!disabled).onStart(() => {
     "worklet";
     isDragging.value = true;
+    thumbScale.value = withSpring(1.2, snappySpringConfig);
     dragStartRatio.value = thumbRatio.value;
   }).onUpdate((e) => {
     "worklet";
@@ -751,24 +764,41 @@ function useSlider({
     const delta = e.translationX / trackWidth.value;
     const next = Math.max(0, Math.min(1, dragStartRatio.value + delta));
     thumbRatio.value = next;
-    runOnJS(emitChange)(next);
+    const raw = next * (max - min) + min;
+    const snapped = Math.round((raw - min) / step) * step + min;
+    const finalSnapped = Math.max(min, Math.min(max, snapped));
+    if (finalSnapped !== lastEmittedValue.value) {
+      lastEmittedValue.value = finalSnapped;
+      scheduleOnRN(emitChange, next);
+    }
   }).onEnd(() => {
     "worklet";
     isDragging.value = false;
+    thumbScale.value = withSpring(1, snappySpringConfig);
     const raw = thumbRatio.value * (max - min) + min;
-    const snapped = snapToStep(raw, min, max, step);
-    thumbRatio.value = withSpring((snapped - min) / (max - min), snappySpring);
-    runOnJS(emitChangeEnd)(thumbRatio.value);
+    const snapped = Math.round((raw - min) / step) * step + min;
+    const finalSnapped = Math.max(min, Math.min(max, snapped));
+    const targetRatio = (finalSnapped - min) / (max - min);
+    thumbRatio.value = withSpring(targetRatio, snappySpringConfig);
+    scheduleOnRN(emitChangeEnd, targetRatio);
   });
-  const thumbAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: thumbRatio.value * trackWidth.value },
-      { scale: isDragging.value ? withSpring(1.2, spring.snappy) : withSpring(1, spring.snappy) }
-    ]
-  }));
-  const fillAnimatedStyle = useAnimatedStyle(() => ({
-    width: `${thumbRatio.value * 100}%`
-  }));
+  const thumbAnimatedStyle = useAnimatedStyle(() => {
+    const width = trackWidth.value;
+    const ratio = thumbRatio.value;
+    const scale = thumbScale.value;
+    return {
+      transform: [
+        { translateX: ratio * width },
+        { scale }
+      ]
+    };
+  });
+  const fillAnimatedStyle = useAnimatedStyle(() => {
+    const ratio = thumbRatio.value;
+    return {
+      width: `${ratio * 100}%`
+    };
+  });
   const trackAnimatedStyle = useAnimatedStyle(() => ({
     opacity: disabled ? 0.4 : 1
   }));
@@ -783,6 +813,257 @@ function useSlider({
   };
 }
 
-export { ThemeProvider, dismissAllToasts, dismissToast, showToast, useBottomSheet, useCheckbox, useComponentTokens, useDisclosure, useField, useIsDark, useListItem, usePressable, useRadioGroup, useSelect, useSlider, useSwitch, useTheme, useToast, useTokens };
+// src/hooks/useIconStyle.ts
+function useIconStyle(context) {
+  const tokens = useTokens();
+  if (context === "button") {
+    return {
+      size: tokens.fontSize.md,
+      color: "inherit"
+      // Components should handle setting this based on variant
+    };
+  }
+  if (context === "input" || context === "select") {
+    return {
+      size: tokens.fontSize.lg,
+      // Search icons and chevrons usually slightly larger
+      color: tokens.color.text.tertiary
+    };
+  }
+  if (context === "list") {
+    return {
+      size: tokens.fontSize.md,
+      color: tokens.color.text.secondary
+    };
+  }
+  return {
+    size: tokens.fontSize.md,
+    color: tokens.color.text.primary
+  };
+}
+function useTabs({
+  defaultValue,
+  value: controlledValue,
+  onChange
+} = {}) {
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const value = controlledValue !== void 0 ? controlledValue : internalValue;
+  const setValue = useCallback(
+    (next) => {
+      if (controlledValue === void 0) setInternalValue(next);
+      onChange?.(next);
+    },
+    [controlledValue, onChange]
+  );
+  const isSelected = useCallback(
+    (v) => value === v,
+    [value]
+  );
+  const getTabProps = useCallback(
+    (v, disabled = false) => ({
+      onPress: () => {
+        if (disabled) return;
+        setValue(v);
+      },
+      accessibilityRole: "tab",
+      accessibilityState: { selected: value === v, disabled }
+    }),
+    [setValue, value]
+  );
+  return { value, setValue, isSelected, getTabProps };
+}
+function useToggleGroup({
+  value: controlledValue,
+  defaultValue,
+  onChange,
+  exclusive = false,
+  disabled = false
+} = {}) {
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const value = controlledValue !== void 0 ? controlledValue : internalValue;
+  const isSelected = useCallback(
+    (v) => {
+      if (Array.isArray(value)) return value.includes(v);
+      return value === v;
+    },
+    [value]
+  );
+  const toggle = useCallback(
+    (v) => {
+      if (disabled) return;
+      let next;
+      if (exclusive) {
+        next = value === v ? void 0 : v;
+      } else {
+        const arr = Array.isArray(value) ? value : [];
+        next = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
+      }
+      if (controlledValue === void 0) setInternalValue(next);
+      onChange?.(next);
+    },
+    [disabled, exclusive, value, controlledValue, onChange]
+  );
+  return { value, isSelected, toggle };
+}
+function useRating({
+  value: controlledValue,
+  defaultValue = 0,
+  max = 5,
+  precision = 1,
+  disabled = false,
+  readOnly = false,
+  onChange
+} = {}) {
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const value = controlledValue !== void 0 ? controlledValue : internalValue;
+  const setValue = useCallback(
+    (next) => {
+      if (disabled || readOnly) return;
+      if (controlledValue === void 0) setInternalValue(next);
+      onChange?.(next);
+    },
+    [disabled, readOnly, controlledValue, onChange]
+  );
+  return { value, setValue, max, precision, disabled, readOnly };
+}
+function range(start, end) {
+  const arr = [];
+  for (let i = start; i <= end; i++) arr.push(i);
+  return arr;
+}
+function usePagination({
+  count,
+  page: controlledPage,
+  defaultPage = 1,
+  siblingCount = 1,
+  boundaryCount = 1,
+  onChange
+}) {
+  const [internalPage, setInternalPage] = useState(defaultPage);
+  const page = controlledPage ?? internalPage;
+  const setPage = useCallback(
+    (next) => {
+      const clamped = Math.max(1, Math.min(count, next));
+      if (controlledPage === void 0) setInternalPage(clamped);
+      onChange?.(clamped);
+    },
+    [count, controlledPage, onChange]
+  );
+  const items = useMemo(() => {
+    if (count <= 0) return [];
+    const startPages = range(1, Math.min(boundaryCount, count));
+    const endPages = range(Math.max(count - boundaryCount + 1, boundaryCount + 1), count);
+    const siblingsStart = Math.max(
+      Math.min(page - siblingCount, count - boundaryCount - siblingCount * 2 - 1),
+      boundaryCount + 2
+    );
+    const siblingsEnd = Math.min(
+      Math.max(page + siblingCount, boundaryCount + siblingCount * 2 + 2),
+      endPages.length > 0 ? endPages[0] - 2 : count - 1
+    );
+    const result = [];
+    result.push(...startPages);
+    if (siblingsStart > boundaryCount + 2) {
+      result.push("start-ellipsis");
+    } else if (boundaryCount + 1 < count - boundaryCount) {
+      result.push(boundaryCount + 1);
+    }
+    result.push(...range(siblingsStart, siblingsEnd));
+    if (siblingsEnd < count - boundaryCount - 1) {
+      result.push("end-ellipsis");
+    } else if (count - boundaryCount > boundaryCount) {
+      result.push(count - boundaryCount);
+    }
+    result.push(...endPages);
+    return Array.from(new Set(result)).filter((item) => {
+      if (typeof item === "number") return item >= 1 && item <= count;
+      return true;
+    });
+  }, [count, page, siblingCount, boundaryCount]);
+  return { page, setPage, items };
+}
+function useAutocomplete({
+  options,
+  value: controlledValue,
+  defaultValue,
+  multiple = false,
+  inputValue: controlledInput,
+  defaultInputValue = "",
+  onInputChange,
+  onChange,
+  getOptionLabel,
+  filterOptions,
+  open: controlledOpen,
+  onOpen,
+  onClose
+}) {
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const [internalInput, setInternalInput] = useState(defaultInputValue);
+  const disclosure = useDisclosure({
+    isOpen: controlledOpen,
+    onOpen,
+    onClose
+  });
+  const value = controlledValue !== void 0 ? controlledValue : internalValue;
+  const inputValue = controlledInput !== void 0 ? controlledInput : internalInput;
+  const setInputValue = useCallback(
+    (next) => {
+      if (controlledInput === void 0) setInternalInput(next);
+      onInputChange?.(next);
+    },
+    [controlledInput, onInputChange]
+  );
+  const isSelected = useCallback(
+    (v) => {
+      if (Array.isArray(value)) return value.includes(v);
+      return value === v;
+    },
+    [value]
+  );
+  const selectOption = useCallback(
+    (v) => {
+      let next;
+      if (multiple) {
+        const arr = Array.isArray(value) ? value : [];
+        next = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
+      } else {
+        next = v;
+        disclosure.close();
+      }
+      if (controlledValue === void 0) setInternalValue(next);
+      onChange?.(next);
+      if (!multiple) {
+        const label = getOptionLabel ? getOptionLabel(v) : String(v);
+        setInputValue(label);
+      }
+    },
+    [multiple, value, controlledValue, onChange, disclosure, getOptionLabel, setInputValue]
+  );
+  const clear = useCallback(() => {
+    if (controlledValue === void 0) setInternalValue(multiple ? [] : void 0);
+    onChange?.(multiple ? [] : void 0);
+    setInputValue("");
+  }, [controlledValue, multiple, onChange, setInputValue]);
+  const filteredOptions = useMemo(() => {
+    const base = filterOptions ? filterOptions(options, inputValue) : options;
+    if (!inputValue) return base;
+    const labelOf = getOptionLabel ?? ((o) => String(o));
+    return base.filter((opt) => labelOf(opt).toLowerCase().includes(inputValue.toLowerCase()));
+  }, [options, inputValue, filterOptions, getOptionLabel]);
+  return {
+    value,
+    inputValue,
+    setInputValue,
+    isOpen: disclosure.isOpen,
+    open: disclosure.open,
+    close: disclosure.close,
+    isSelected,
+    selectOption,
+    clear,
+    filteredOptions
+  };
+}
+
+export { ThemeProvider, dismissAllToasts, dismissToast, showToast, useAutocomplete, useBottomSheet, useCheckbox, useComponentTokens, useDisclosure, useField, useIconStyle, useIsDark, useListItem, usePagination, usePressable, useRadioGroup, useRating, useSelect, useSlider, useSwitch, useTabs, useTheme, useToast, useToggleGroup, useTokens };
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map

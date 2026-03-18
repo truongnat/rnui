@@ -139,9 +139,9 @@ export declare const lightTokens: {
     readonly color: {
         readonly bg: {
             readonly default: "#FFFFFF";
-            readonly subtle: "#F1F5F9";
+            readonly subtle: "#F8FAFC";
             readonly muted: "#E2E8F0";
-            readonly emphasis: "#CBD5E1";
+            readonly emphasis: "#94A3B8";
             readonly inverse: "#0F172A";
             readonly overlay: "rgba(0,0,0,0.6)";
         };
@@ -160,8 +160,8 @@ export declare const lightTokens: {
             readonly link: "#4338CA";
         };
         readonly border: {
-            readonly default: "#CBD5E1";
-            readonly strong: "#94A3B8";
+            readonly default: "#94A3B8";
+            readonly strong: "#475569";
             readonly focus: "#4F46E5";
             readonly error: "#DC2626";
         };

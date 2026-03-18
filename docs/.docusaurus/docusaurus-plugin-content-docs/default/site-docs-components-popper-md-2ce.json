@@ -1,0 +1,24 @@
+{
+  "id": "components/popper",
+  "title": "Popper",
+  "description": "Low level positioning primitive.",
+  "source": "@site/docs/components/popper.md",
+  "sourceDirName": "components",
+  "slug": "/components/popper",
+  "permalink": "/docs/components/popper",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/popper.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Popover",
+    "permalink": "/docs/components/popover"
+  },
+  "next": {
+    "title": "FormControl",
+    "permalink": "/docs/components/form-control"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "components/avatar",
+  "title": "Avatar",
+  "description": "The Avatar component displays a user image, initials, or a fallback icon. Use AvatarGroup to show multiple users with overlap.",
+  "source": "@site/docs/components/avatar.md",
+  "sourceDirName": "components",
+  "slug": "/components/avatar",
+  "permalink": "/docs/components/avatar",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/avatar.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Chip",
+    "permalink": "/docs/components/chip"
+  },
+  "next": {
+    "title": "Badge",
+    "permalink": "/docs/components/badge"
+  }
+}

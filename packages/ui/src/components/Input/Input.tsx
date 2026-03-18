@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { TextInput as RNTextInput, View, Text, type TextInputProps as RNTextInputProps } from "react-native";
-import { useComponentTokens, useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens, useIconStyle } from "@rnui/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -39,6 +39,7 @@ export function Input({
 }: InputProps) {
   const { input } = useComponentTokens();
   const tokens = useTokens();
+  const { size: iconSize, color: iconColor } = useIconStyle("input");
   const [isFocused, setIsFocused] = useState(false);
 
   const containerStyle = useMemo(() => [
@@ -49,6 +50,18 @@ export function Input({
     disabled && input.state.disabled,
   ], [input, size, isFocused, error, disabled]);
 
+  // Helper to clone icon with standardized props
+  const renderIcon = (icon: React.ReactNode) => {
+    if (!icon) return null;
+    if (React.isValidElement(icon)) {
+      return React.cloneElement(icon as React.ReactElement, {
+        size: (icon.props as any)?.size ?? (size === "sm" ? tokens.fontSize.md : iconSize),
+        color: (icon.props as any)?.color ?? iconColor,
+      } as any);
+    }
+    return icon;
+  };
+
   return (
     <View>
       {label && (
@@ -56,7 +69,7 @@ export function Input({
       )}
 
       <View style={containerStyle}>
-        {leadingElement}
+        {renderIcon(leadingElement)}
         <RNTextInput
           style={{ flex: 1, color: input.text.color, fontSize: input.size[size].fontSize }}
           placeholderTextColor={input.text.placeholderColor}
@@ -73,7 +86,7 @@ export function Input({
           }}
           {...rest}
         />
-        {trailingElement}
+        {renderIcon(trailingElement)}
       </View>
 
       {error ? (

@@ -3,6 +3,7 @@ export type BadgeVariant = "default" | "brand" | "success" | "warning" | "error"
 export interface BadgeProps {
     label: string;
     variant?: BadgeVariant;
+    icon?: React.ReactNode;
 }
-export declare function Badge({ label, variant }: BadgeProps): React.JSX.Element;
+export declare function Badge({ label, variant, icon }: BadgeProps): React.JSX.Element;
 //# sourceMappingURL=Badge.d.ts.map

@@ -1,0 +1,24 @@
+{
+  "id": "components/badge",
+  "title": "Badge",
+  "description": "Compact status label with variants and an optional icon.",
+  "source": "@site/docs/components/badge.md",
+  "sourceDirName": "components",
+  "slug": "/components/badge",
+  "permalink": "/docs/components/badge",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/badge.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Avatar",
+    "permalink": "/docs/components/avatar"
+  },
+  "next": {
+    "title": "Tooltip",
+    "permalink": "/docs/components/tooltip"
+  }
+}

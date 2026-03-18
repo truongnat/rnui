@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-native";
+import type { StoryObj } from "@storybook/react-native";
 import React, { useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import {

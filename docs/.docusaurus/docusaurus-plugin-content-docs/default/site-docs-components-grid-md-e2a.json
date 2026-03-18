@@ -1,0 +1,24 @@
+{
+  "id": "components/grid",
+  "title": "Grid",
+  "description": "Responsive layout grid inspired by MUI.",
+  "source": "@site/docs/components/grid.md",
+  "sourceDirName": "components",
+  "slug": "/components/grid",
+  "permalink": "/docs/components/grid",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/grid.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Stack",
+    "permalink": "/docs/components/stack"
+  },
+  "next": {
+    "title": "AppBar",
+    "permalink": "/docs/components/app-bar"
+  }
+}

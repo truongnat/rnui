@@ -1,0 +1,24 @@
+{
+  "id": "components/bottom-navigation",
+  "title": "BottomNavigation",
+  "description": "Bottom navigation actions.",
+  "source": "@site/docs/components/bottom-navigation.md",
+  "sourceDirName": "components",
+  "slug": "/components/bottom-navigation",
+  "permalink": "/docs/components/bottom-navigation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/bottom-navigation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Pagination",
+    "permalink": "/docs/components/pagination"
+  },
+  "next": {
+    "title": "Breadcrumbs",
+    "permalink": "/docs/components/breadcrumbs"
+  }
+}

@@ -1,0 +1,15 @@
+# LinearProgress
+
+Horizontal progress bar.
+
+## Usage
+
+```tsx
+import { LinearProgress } from "@rnui/ui";
+
+<LinearProgress value={40} variant="determinate" />
+```
+
+## Notes
+
+- Refer to the component props in the API reference or source for advanced configuration.

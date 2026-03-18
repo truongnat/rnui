@@ -52,3 +52,20 @@ export type { UseRadioGroupOptions, UseRadioGroupReturn } from "./hooks/useRadio
 
 export { useSlider } from "./hooks/useSlider";
 export type { UseSliderOptions, UseSliderReturn } from "./hooks/useSlider";
+
+export { useIconStyle } from "./hooks/useIconStyle";
+
+export { useTabs } from "./hooks/useTabs";
+export type { UseTabsOptions, UseTabsReturn } from "./hooks/useTabs";
+
+export { useToggleGroup } from "./hooks/useToggleGroup";
+export type { UseToggleGroupOptions, UseToggleGroupReturn } from "./hooks/useToggleGroup";
+
+export { useRating } from "./hooks/useRating";
+export type { UseRatingOptions, UseRatingReturn } from "./hooks/useRating";
+
+export { usePagination } from "./hooks/usePagination";
+export type { UsePaginationOptions, UsePaginationReturn, PaginationItem } from "./hooks/usePagination";
+
+export { useAutocomplete } from "./hooks/useAutocomplete";
+export type { UseAutocompleteOptions, UseAutocompleteReturn } from "./hooks/useAutocomplete";

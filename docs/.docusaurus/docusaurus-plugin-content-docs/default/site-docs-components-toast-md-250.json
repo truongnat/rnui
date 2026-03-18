@@ -1,0 +1,24 @@
+{
+  "id": "components/toast",
+  "title": "Toast",
+  "description": "Transient notifications powered by useToast and rendered by ToastContainer.",
+  "source": "@site/docs/components/toast.md",
+  "sourceDirName": "components",
+  "slug": "/components/toast",
+  "permalink": "/docs/components/toast",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/toast.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Skeleton",
+    "permalink": "/docs/components/skeleton"
+  },
+  "next": {
+    "title": "EmptyState",
+    "permalink": "/docs/components/empty-state"
+  }
+}

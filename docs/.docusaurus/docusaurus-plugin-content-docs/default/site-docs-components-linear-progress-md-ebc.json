@@ -1,0 +1,24 @@
+{
+  "id": "components/linear-progress",
+  "title": "LinearProgress",
+  "description": "Horizontal progress bar.",
+  "source": "@site/docs/components/linear-progress.md",
+  "sourceDirName": "components",
+  "slug": "/components/linear-progress",
+  "permalink": "/docs/components/linear-progress",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/linear-progress.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "CircularProgress",
+    "permalink": "/docs/components/circular-progress"
+  },
+  "next": {
+    "title": "Skeleton",
+    "permalink": "/docs/components/skeleton"
+  }
+}

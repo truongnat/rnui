@@ -1,0 +1,24 @@
+{
+  "id": "components/drawer",
+  "title": "Drawer",
+  "description": "Side panel that slides in.",
+  "source": "@site/docs/components/drawer.md",
+  "sourceDirName": "components",
+  "slug": "/components/drawer",
+  "permalink": "/docs/components/drawer",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/drawer.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Tabs",
+    "permalink": "/docs/components/tabs"
+  },
+  "next": {
+    "title": "Menu",
+    "permalink": "/docs/components/menu"
+  }
+}

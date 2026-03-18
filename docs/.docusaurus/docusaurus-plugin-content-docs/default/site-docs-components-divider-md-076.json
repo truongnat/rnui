@@ -1,0 +1,24 @@
+{
+  "id": "components/divider",
+  "title": "Divider",
+  "description": "Dividers separate content vertically or horizontally, with optional label text.",
+  "source": "@site/docs/components/divider.md",
+  "sourceDirName": "components",
+  "slug": "/components/divider",
+  "permalink": "/docs/components/divider",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/divider.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Tooltip",
+    "permalink": "/docs/components/tooltip"
+  },
+  "next": {
+    "title": "ImageList",
+    "permalink": "/docs/components/image-list"
+  }
+}

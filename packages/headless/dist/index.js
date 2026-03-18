@@ -5,6 +5,7 @@ var reactNative = require('react-native');
 var reactNativeGestureHandler = require('react-native-gesture-handler');
 var tokens = require('@rnui/tokens');
 var reactNativeReanimated = require('react-native-reanimated');
+var reactNativeWorklets = require('react-native-worklets');
 
 function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
 
@@ -81,7 +82,7 @@ function usePressable({
   accessibilityLabel,
   accessibilityHint,
   accessibilityRole = "button",
-  haptic = true
+  haptic = false
 } = {}) {
   const isPressedRef = React.useRef(false);
   const scale = reactNativeReanimated.useSharedValue(1);
@@ -126,12 +127,12 @@ function usePressable({
       opacity.value = reactNativeReanimated.withTiming(1, { duration: 100 });
     }
     if (success) {
-      reactNativeReanimated.runOnJS(handlePress)();
+      reactNativeWorklets.scheduleOnRN(handlePress);
     }
   });
   const longPressGesture = reactNativeGestureHandler.Gesture.LongPress().enabled(!disabled && !!onLongPress).minDuration(longPressMinDuration).onStart(() => {
     "worklet";
-    reactNativeReanimated.runOnJS(handleLongPress)();
+    reactNativeWorklets.scheduleOnRN(handleLongPress);
   });
   const gesture = reactNativeGestureHandler.Gesture.Simultaneous(tapGesture, longPressGesture);
   const accessibilityProps = {
@@ -287,7 +288,8 @@ function showToast(options) {
     variant: options.variant ?? "default",
     duration: options.duration ?? 3500,
     persistent: options.persistent ?? false,
-    action: options.action
+    action: options.action,
+    icon: options.icon
   };
   store.queue = [...store.queue.slice(-2), item];
   notify();
@@ -352,7 +354,7 @@ function useBottomSheet({
       const targetHeight = snapPoints[index] ?? snapPoints[snapPoints.length - 1];
       const targetY = SCREEN_HEIGHT - targetHeight;
       translateY.value = reactNativeReanimated.withSpring(targetY, gentleSpring, (finished) => {
-        if (finished && onDone) reactNativeReanimated.runOnJS(onDone)();
+        if (finished && onDone) reactNativeWorklets.scheduleOnRN(onDone);
       });
       const maxHeight = Math.max(...snapPoints);
       backdropOpacity.value = reactNativeReanimated.withTiming(
@@ -369,6 +371,10 @@ function useBottomSheet({
       currentIndexRef.current = idx;
       const targetHeight = snapPoints[idx] ?? snapPoints[snapPoints.length - 1];
       const targetY = SCREEN_HEIGHT - targetHeight;
+      if (typeof targetY !== "number" || isNaN(targetY)) {
+        console.warn("Invalid targetY calculated for open:", targetY);
+        return;
+      }
       translateY.value = reactNativeReanimated.withSpring(targetY, gentleSpring);
       const maxHeight = Math.max(...snapPoints);
       backdropOpacity.value = reactNativeReanimated.withTiming(
@@ -386,7 +392,7 @@ function useBottomSheet({
   const close = React.useCallback(() => {
     translateY.value = reactNativeReanimated.withSpring(SCREEN_HEIGHT, gentleSpring, (finished) => {
       if (finished) {
-        reactNativeReanimated.runOnJS(handleCloseEnd)();
+        reactNativeWorklets.scheduleOnRN(handleCloseEnd);
       }
     });
     backdropOpacity.value = reactNativeReanimated.withTiming(0, { duration: 200 });
@@ -397,6 +403,10 @@ function useBottomSheet({
       currentIndexRef.current = index;
       const targetHeight = snapPoints[index];
       const targetY = SCREEN_HEIGHT - targetHeight;
+      if (typeof targetY !== "number" || isNaN(targetY)) {
+        console.warn("Invalid targetY calculated for snapTo:", targetY);
+        return;
+      }
       translateY.value = reactNativeReanimated.withSpring(targetY, gentleSpring);
       const maxHeight = Math.max(...snapPoints);
       backdropOpacity.value = reactNativeReanimated.withTiming(
@@ -427,7 +437,7 @@ function useBottomSheet({
     const velocity = e.velocityY;
     const currentHeight = SCREEN_HEIGHT - translateY.value;
     if (velocity > 800 && enableDismissOnSwipe) {
-      reactNativeReanimated.runOnJS(close)();
+      reactNativeWorklets.scheduleOnRN(close);
       return;
     }
     let bestIndex = 0;
@@ -439,11 +449,11 @@ function useBottomSheet({
         bestIndex = i;
       }
     }
-    reactNativeReanimated.runOnJS(snapTo)(bestIndex);
+    reactNativeWorklets.scheduleOnRN(snapTo, bestIndex);
   });
   const backdropTapGesture = reactNativeGestureHandler.Gesture.Tap().onEnd(() => {
     "worklet";
-    reactNativeReanimated.runOnJS(close)();
+    reactNativeWorklets.scheduleOnRN(close);
   });
   const sheetAnimatedStyle = reactNativeReanimated.useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }]
@@ -610,11 +620,11 @@ function useListItem({
       isRevealedValue.value = false;
       return;
     }
-    if (onPress) reactNativeReanimated.runOnJS(onPress)();
+    if (onPress) reactNativeWorklets.scheduleOnRN(onPress);
   });
   const longPressGesture = reactNativeGestureHandler.Gesture.LongPress().enabled(!disabled && !!onLongPress).minDuration(500).onStart(() => {
     "worklet";
-    if (onLongPress) reactNativeReanimated.runOnJS(onLongPress)();
+    if (onLongPress) reactNativeWorklets.scheduleOnRN(onLongPress);
   });
   const panGesture = reactNativeGestureHandler.Gesture.Pan().activeOffsetX([-8, 8]).failOffsetY([-5, 5]).onUpdate((e) => {
     "worklet";
@@ -723,6 +733,7 @@ function useSlider({
   const thumbRatio = reactNativeReanimated.useSharedValue(percentage);
   const isDragging = reactNativeReanimated.useSharedValue(false);
   const dragStartRatio = reactNativeReanimated.useSharedValue(0);
+  const thumbScale = reactNativeReanimated.useSharedValue(1);
   const onTrackLayout = React.useCallback(
     (width) => {
       trackWidth.value = width;
@@ -746,10 +757,12 @@ function useSlider({
     },
     [min, max, step, onChangeEnd]
   );
-  const snappySpring = tokens.spring.snappy;
+  const snappySpringConfig = tokens.spring.snappy;
+  const lastEmittedValue = reactNativeReanimated.useSharedValue(currentValue);
   const panGesture = reactNativeGestureHandler.Gesture.Pan().enabled(!disabled).onStart(() => {
     "worklet";
     isDragging.value = true;
+    thumbScale.value = reactNativeReanimated.withSpring(1.2, snappySpringConfig);
     dragStartRatio.value = thumbRatio.value;
   }).onUpdate((e) => {
     "worklet";
@@ -757,24 +770,41 @@ function useSlider({
     const delta = e.translationX / trackWidth.value;
     const next = Math.max(0, Math.min(1, dragStartRatio.value + delta));
     thumbRatio.value = next;
-    reactNativeReanimated.runOnJS(emitChange)(next);
+    const raw = next * (max - min) + min;
+    const snapped = Math.round((raw - min) / step) * step + min;
+    const finalSnapped = Math.max(min, Math.min(max, snapped));
+    if (finalSnapped !== lastEmittedValue.value) {
+      lastEmittedValue.value = finalSnapped;
+      reactNativeWorklets.scheduleOnRN(emitChange, next);
+    }
   }).onEnd(() => {
     "worklet";
     isDragging.value = false;
+    thumbScale.value = reactNativeReanimated.withSpring(1, snappySpringConfig);
     const raw = thumbRatio.value * (max - min) + min;
-    const snapped = snapToStep(raw, min, max, step);
-    thumbRatio.value = reactNativeReanimated.withSpring((snapped - min) / (max - min), snappySpring);
-    reactNativeReanimated.runOnJS(emitChangeEnd)(thumbRatio.value);
+    const snapped = Math.round((raw - min) / step) * step + min;
+    const finalSnapped = Math.max(min, Math.min(max, snapped));
+    const targetRatio = (finalSnapped - min) / (max - min);
+    thumbRatio.value = reactNativeReanimated.withSpring(targetRatio, snappySpringConfig);
+    reactNativeWorklets.scheduleOnRN(emitChangeEnd, targetRatio);
   });
-  const thumbAnimatedStyle = reactNativeReanimated.useAnimatedStyle(() => ({
-    transform: [
-      { translateX: thumbRatio.value * trackWidth.value },
-      { scale: isDragging.value ? reactNativeReanimated.withSpring(1.2, tokens.spring.snappy) : reactNativeReanimated.withSpring(1, tokens.spring.snappy) }
-    ]
-  }));
-  const fillAnimatedStyle = reactNativeReanimated.useAnimatedStyle(() => ({
-    width: `${thumbRatio.value * 100}%`
-  }));
+  const thumbAnimatedStyle = reactNativeReanimated.useAnimatedStyle(() => {
+    const width = trackWidth.value;
+    const ratio = thumbRatio.value;
+    const scale = thumbScale.value;
+    return {
+      transform: [
+        { translateX: ratio * width },
+        { scale }
+      ]
+    };
+  });
+  const fillAnimatedStyle = reactNativeReanimated.useAnimatedStyle(() => {
+    const ratio = thumbRatio.value;
+    return {
+      width: `${ratio * 100}%`
+    };
+  });
   const trackAnimatedStyle = reactNativeReanimated.useAnimatedStyle(() => ({
     opacity: disabled ? 0.4 : 1
   }));
@@ -789,24 +819,281 @@ function useSlider({
   };
 }
 
+// src/hooks/useIconStyle.ts
+function useIconStyle(context) {
+  const tokens = useTokens();
+  if (context === "button") {
+    return {
+      size: tokens.fontSize.md,
+      color: "inherit"
+      // Components should handle setting this based on variant
+    };
+  }
+  if (context === "input" || context === "select") {
+    return {
+      size: tokens.fontSize.lg,
+      // Search icons and chevrons usually slightly larger
+      color: tokens.color.text.tertiary
+    };
+  }
+  if (context === "list") {
+    return {
+      size: tokens.fontSize.md,
+      color: tokens.color.text.secondary
+    };
+  }
+  return {
+    size: tokens.fontSize.md,
+    color: tokens.color.text.primary
+  };
+}
+function useTabs({
+  defaultValue,
+  value: controlledValue,
+  onChange
+} = {}) {
+  const [internalValue, setInternalValue] = React.useState(defaultValue);
+  const value = controlledValue !== void 0 ? controlledValue : internalValue;
+  const setValue = React.useCallback(
+    (next) => {
+      if (controlledValue === void 0) setInternalValue(next);
+      onChange?.(next);
+    },
+    [controlledValue, onChange]
+  );
+  const isSelected = React.useCallback(
+    (v) => value === v,
+    [value]
+  );
+  const getTabProps = React.useCallback(
+    (v, disabled = false) => ({
+      onPress: () => {
+        if (disabled) return;
+        setValue(v);
+      },
+      accessibilityRole: "tab",
+      accessibilityState: { selected: value === v, disabled }
+    }),
+    [setValue, value]
+  );
+  return { value, setValue, isSelected, getTabProps };
+}
+function useToggleGroup({
+  value: controlledValue,
+  defaultValue,
+  onChange,
+  exclusive = false,
+  disabled = false
+} = {}) {
+  const [internalValue, setInternalValue] = React.useState(defaultValue);
+  const value = controlledValue !== void 0 ? controlledValue : internalValue;
+  const isSelected = React.useCallback(
+    (v) => {
+      if (Array.isArray(value)) return value.includes(v);
+      return value === v;
+    },
+    [value]
+  );
+  const toggle = React.useCallback(
+    (v) => {
+      if (disabled) return;
+      let next;
+      if (exclusive) {
+        next = value === v ? void 0 : v;
+      } else {
+        const arr = Array.isArray(value) ? value : [];
+        next = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
+      }
+      if (controlledValue === void 0) setInternalValue(next);
+      onChange?.(next);
+    },
+    [disabled, exclusive, value, controlledValue, onChange]
+  );
+  return { value, isSelected, toggle };
+}
+function useRating({
+  value: controlledValue,
+  defaultValue = 0,
+  max = 5,
+  precision = 1,
+  disabled = false,
+  readOnly = false,
+  onChange
+} = {}) {
+  const [internalValue, setInternalValue] = React.useState(defaultValue);
+  const value = controlledValue !== void 0 ? controlledValue : internalValue;
+  const setValue = React.useCallback(
+    (next) => {
+      if (disabled || readOnly) return;
+      if (controlledValue === void 0) setInternalValue(next);
+      onChange?.(next);
+    },
+    [disabled, readOnly, controlledValue, onChange]
+  );
+  return { value, setValue, max, precision, disabled, readOnly };
+}
+function range(start, end) {
+  const arr = [];
+  for (let i = start; i <= end; i++) arr.push(i);
+  return arr;
+}
+function usePagination({
+  count,
+  page: controlledPage,
+  defaultPage = 1,
+  siblingCount = 1,
+  boundaryCount = 1,
+  onChange
+}) {
+  const [internalPage, setInternalPage] = React.useState(defaultPage);
+  const page = controlledPage ?? internalPage;
+  const setPage = React.useCallback(
+    (next) => {
+      const clamped = Math.max(1, Math.min(count, next));
+      if (controlledPage === void 0) setInternalPage(clamped);
+      onChange?.(clamped);
+    },
+    [count, controlledPage, onChange]
+  );
+  const items = React.useMemo(() => {
+    if (count <= 0) return [];
+    const startPages = range(1, Math.min(boundaryCount, count));
+    const endPages = range(Math.max(count - boundaryCount + 1, boundaryCount + 1), count);
+    const siblingsStart = Math.max(
+      Math.min(page - siblingCount, count - boundaryCount - siblingCount * 2 - 1),
+      boundaryCount + 2
+    );
+    const siblingsEnd = Math.min(
+      Math.max(page + siblingCount, boundaryCount + siblingCount * 2 + 2),
+      endPages.length > 0 ? endPages[0] - 2 : count - 1
+    );
+    const result = [];
+    result.push(...startPages);
+    if (siblingsStart > boundaryCount + 2) {
+      result.push("start-ellipsis");
+    } else if (boundaryCount + 1 < count - boundaryCount) {
+      result.push(boundaryCount + 1);
+    }
+    result.push(...range(siblingsStart, siblingsEnd));
+    if (siblingsEnd < count - boundaryCount - 1) {
+      result.push("end-ellipsis");
+    } else if (count - boundaryCount > boundaryCount) {
+      result.push(count - boundaryCount);
+    }
+    result.push(...endPages);
+    return Array.from(new Set(result)).filter((item) => {
+      if (typeof item === "number") return item >= 1 && item <= count;
+      return true;
+    });
+  }, [count, page, siblingCount, boundaryCount]);
+  return { page, setPage, items };
+}
+function useAutocomplete({
+  options,
+  value: controlledValue,
+  defaultValue,
+  multiple = false,
+  inputValue: controlledInput,
+  defaultInputValue = "",
+  onInputChange,
+  onChange,
+  getOptionLabel,
+  filterOptions,
+  open: controlledOpen,
+  onOpen,
+  onClose
+}) {
+  const [internalValue, setInternalValue] = React.useState(defaultValue);
+  const [internalInput, setInternalInput] = React.useState(defaultInputValue);
+  const disclosure = useDisclosure({
+    isOpen: controlledOpen,
+    onOpen,
+    onClose
+  });
+  const value = controlledValue !== void 0 ? controlledValue : internalValue;
+  const inputValue = controlledInput !== void 0 ? controlledInput : internalInput;
+  const setInputValue = React.useCallback(
+    (next) => {
+      if (controlledInput === void 0) setInternalInput(next);
+      onInputChange?.(next);
+    },
+    [controlledInput, onInputChange]
+  );
+  const isSelected = React.useCallback(
+    (v) => {
+      if (Array.isArray(value)) return value.includes(v);
+      return value === v;
+    },
+    [value]
+  );
+  const selectOption = React.useCallback(
+    (v) => {
+      let next;
+      if (multiple) {
+        const arr = Array.isArray(value) ? value : [];
+        next = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
+      } else {
+        next = v;
+        disclosure.close();
+      }
+      if (controlledValue === void 0) setInternalValue(next);
+      onChange?.(next);
+      if (!multiple) {
+        const label = getOptionLabel ? getOptionLabel(v) : String(v);
+        setInputValue(label);
+      }
+    },
+    [multiple, value, controlledValue, onChange, disclosure, getOptionLabel, setInputValue]
+  );
+  const clear = React.useCallback(() => {
+    if (controlledValue === void 0) setInternalValue(multiple ? [] : void 0);
+    onChange?.(multiple ? [] : void 0);
+    setInputValue("");
+  }, [controlledValue, multiple, onChange, setInputValue]);
+  const filteredOptions = React.useMemo(() => {
+    const base = filterOptions ? filterOptions(options, inputValue) : options;
+    if (!inputValue) return base;
+    const labelOf = getOptionLabel ?? ((o) => String(o));
+    return base.filter((opt) => labelOf(opt).toLowerCase().includes(inputValue.toLowerCase()));
+  }, [options, inputValue, filterOptions, getOptionLabel]);
+  return {
+    value,
+    inputValue,
+    setInputValue,
+    isOpen: disclosure.isOpen,
+    open: disclosure.open,
+    close: disclosure.close,
+    isSelected,
+    selectOption,
+    clear,
+    filteredOptions
+  };
+}
+
 exports.ThemeProvider = ThemeProvider;
 exports.dismissAllToasts = dismissAllToasts;
 exports.dismissToast = dismissToast;
 exports.showToast = showToast;
+exports.useAutocomplete = useAutocomplete;
 exports.useBottomSheet = useBottomSheet;
 exports.useCheckbox = useCheckbox;
 exports.useComponentTokens = useComponentTokens;
 exports.useDisclosure = useDisclosure;
 exports.useField = useField;
+exports.useIconStyle = useIconStyle;
 exports.useIsDark = useIsDark;
 exports.useListItem = useListItem;
+exports.usePagination = usePagination;
 exports.usePressable = usePressable;
 exports.useRadioGroup = useRadioGroup;
+exports.useRating = useRating;
 exports.useSelect = useSelect;
 exports.useSlider = useSlider;
 exports.useSwitch = useSwitch;
+exports.useTabs = useTabs;
 exports.useTheme = useTheme;
 exports.useToast = useToast;
+exports.useToggleGroup = useToggleGroup;
 exports.useTokens = useTokens;
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

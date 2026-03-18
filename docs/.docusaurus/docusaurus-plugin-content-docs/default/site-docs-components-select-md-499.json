@@ -1,0 +1,24 @@
+{
+  "id": "components/select",
+  "title": "Select",
+  "description": "Bottom-sheet select with optional search and multi-select.",
+  "source": "@site/docs/components/select.md",
+  "sourceDirName": "components",
+  "slug": "/components/select",
+  "permalink": "/docs/components/select",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/select.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "TextArea",
+    "permalink": "/docs/components/text-area"
+  },
+  "next": {
+    "title": "Autocomplete",
+    "permalink": "/docs/components/autocomplete"
+  }
+}

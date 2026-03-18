@@ -1,0 +1,24 @@
+{
+  "id": "components/text-field",
+  "title": "TextField",
+  "description": "Full featured input with label and helper text.",
+  "source": "@site/docs/components/text-field.md",
+  "sourceDirName": "components",
+  "slug": "/components/text-field",
+  "permalink": "/docs/components/text-field",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/text-field.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Fab",
+    "permalink": "/docs/components/fab"
+  },
+  "next": {
+    "title": "Input",
+    "permalink": "/docs/components/input"
+  }
+}

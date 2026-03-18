@@ -1,0 +1,19 @@
+# AppBar
+
+Top application bar.
+
+## Usage
+
+```tsx
+import { AppBar, Toolbar, Typography } from "@rnui/ui";
+
+<AppBar>
+  <Toolbar>
+    <Typography variant="h6">Title</Typography>
+  </Toolbar>
+</AppBar>
+```
+
+## Notes
+
+- Refer to the component props in the API reference or source for advanced configuration.

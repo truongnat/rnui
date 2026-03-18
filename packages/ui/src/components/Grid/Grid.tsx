@@ -1,0 +1,70 @@
+import React from "react";
+import { View, type ViewStyle } from "react-native";
+import { useTokens } from "@rnui/headless";
+
+export interface GridProps {
+  children?: React.ReactNode;
+  container?: boolean;
+  size?: number | "auto" | "grow";
+  columns?: number;
+  spacing?: number;
+  rowSpacing?: number;
+  columnSpacing?: number;
+  direction?: ViewStyle["flexDirection"];
+  wrap?: ViewStyle["flexWrap"];
+  offset?: number;
+  style?: ViewStyle | ViewStyle[];
+}
+
+export function Grid({
+  children,
+  container = false,
+  size,
+  columns = 12,
+  spacing = 0,
+  rowSpacing,
+  columnSpacing,
+  direction = "row",
+  wrap = "wrap",
+  offset,
+  style,
+}: GridProps) {
+  const tokens = useTokens();
+  const gap = tokens.spacing[spacing as keyof typeof tokens.spacing] ?? spacing;
+  const rowGap = rowSpacing !== undefined
+    ? tokens.spacing[rowSpacing as keyof typeof tokens.spacing] ?? rowSpacing
+    : gap;
+  const colGap = columnSpacing !== undefined
+    ? tokens.spacing[columnSpacing as keyof typeof tokens.spacing] ?? columnSpacing
+    : gap;
+
+  if (container) {
+    return (
+      <View
+        style={[
+          {
+            flexDirection: direction,
+            flexWrap: wrap,
+            rowGap,
+            columnGap: colGap,
+          },
+          style,
+        ]}
+      >
+        {children}
+      </View>
+    );
+  }
+
+  const widthPct = typeof size === "number" ? `${(size / columns) * 100}%` : undefined;
+  const widthValue = widthPct as unknown as ViewStyle["width"];
+  const itemStyle: ViewStyle = {
+    flexGrow: size === "grow" ? 1 : 0,
+    flexBasis: size === "grow" ? 0 : size === "auto" ? undefined : (widthValue as any),
+    maxWidth: size === "grow" ? undefined : size === "auto" ? undefined : (widthValue as any),
+    marginLeft: offset ? (`${(offset / columns) * 100}%` as unknown as ViewStyle["marginLeft"]) : undefined,
+  };
+
+  return <View style={[itemStyle, style]}
+  >{children}</View>;
+}

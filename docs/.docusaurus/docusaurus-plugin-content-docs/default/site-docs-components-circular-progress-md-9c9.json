@@ -1,0 +1,24 @@
+{
+  "id": "components/circular-progress",
+  "title": "CircularProgress",
+  "description": "Circular loading indicator.",
+  "source": "@site/docs/components/circular-progress.md",
+  "sourceDirName": "components",
+  "slug": "/components/circular-progress",
+  "permalink": "/docs/components/circular-progress",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/circular-progress.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Snackbar",
+    "permalink": "/docs/components/snackbar"
+  },
+  "next": {
+    "title": "LinearProgress",
+    "permalink": "/docs/components/linear-progress"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "components/autocomplete",
+  "title": "Autocomplete",
+  "description": "Searchable select with suggestion list.",
+  "source": "@site/docs/components/autocomplete.md",
+  "sourceDirName": "components",
+  "slug": "/components/autocomplete",
+  "permalink": "/docs/components/autocomplete",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/autocomplete.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Select",
+    "permalink": "/docs/components/select"
+  },
+  "next": {
+    "title": "Checkbox",
+    "permalink": "/docs/components/checkbox"
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { ScrollView, View, Text } from "react-native";
 import {
-  Button, Input, TextArea, Card, Badge,
+  Button, Input, PasswordInput, TextArea, Card, Badge,
   Checkbox, Switch, RadioGroup, Slider,
   Avatar, AvatarGroup,
   Select, List, ListItem, SectionHeader,
@@ -12,6 +12,24 @@ import {
   type BottomSheetRef,
 } from "@rnui/ui";
 import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  Search,
+  Plus,
+  Mail,
+  ChevronRight,
+  Settings,
+  Heart,
+  Calendar,
+  AlertCircle,
+  CheckCircle2,
+  Info,
+  TriangleAlert,
+  ArrowRight,
+  LogOut,
+  MapPin,
+  Clock,
+  Star
+} from "lucide-react-native";
 
 const COUNTRIES = [
   { label: "Việt Nam", value: "vn" },
@@ -68,11 +86,17 @@ export default function KitchenSink() {
           <Button label="Danger" variant="destructive" onPress={() => { }} />
         </View>
         <View style={row}>
+          <Button label="Left Icon" leadingIcon={<Plus />} onPress={() => { }} />
+          <Button label="Right Icon" trailingIcon={<ArrowRight />} variant="outline" onPress={() => { }} />
+          <Button leadingIcon={<Settings />} variant="ghost" onPress={() => { }} />
+          <Button leadingIcon={<Heart />} variant="destructive" size="sm" onPress={() => { }} />
+        </View>
+        <View style={row}>
           <Button label="Loading" loading={loading}
             onPress={() => { setLoading(true); setTimeout(() => setLoading(false), 1500); }} />
-          <Button label="Disabled" disabled onPress={() => { }} />
-          <Button label="SM" size="sm" onPress={() => { }} />
-          <Button label="LG" size="lg" onPress={() => { }} />
+          <Button label="Disabled" disabled leadingIcon={<Plus />} onPress={() => { }} />
+          <Button label="LG Size" size="lg" trailingIcon={<Plus />} onPress={() => { }} />
+          <Button leadingIcon={<Plus />} size="lg" onPress={() => { }} />
         </View>
 
         {/* Pressable — escape hatch */}
@@ -97,8 +121,26 @@ export default function KitchenSink() {
           <FormField label="Email" required
             error={emailField.touched ? emailField.error : undefined}
             helperText="Your account email">
-            <Input placeholder="you@example.com" keyboardType="email-address"
-              autoCapitalize="none" {...emailField.inputProps} onBlur={emailField.onBlur} />
+            <Input
+              placeholder="you@example.com"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              leadingElement={<Mail />}
+              {...emailField.inputProps}
+              onBlur={emailField.onBlur}
+            />
+          </FormField>
+
+          <FormField label="Username" helperText="Pick a unique handle">
+            <Input
+              placeholder="johndoe"
+              leadingElement={<Search size={18} />}
+              trailingElement={<Text style={{ color: t.color.text.tertiary, fontSize: 12 }}>@gmail.com</Text>}
+            />
+          </FormField>
+
+          <FormField label="Password" helperText="At least 8 characters">
+            <PasswordInput placeholder="••••••••" />
           </FormField>
 
           <FormField label="Bio" helperText="Max 200 characters">
@@ -173,6 +215,12 @@ export default function KitchenSink() {
             <Badge key={v} label={v} variant={v} />
           ))}
         </View>
+        <View style={[row, { marginTop: 8 }]}>
+          <Badge label="Verified" variant="brand" icon={<CheckCircle2 />} />
+          <Badge label="Pending" variant="warning" icon={<Clock />} />
+          <Badge label="Sale" variant="error" icon={<TriangleAlert />} />
+          <Badge label="New" variant="success" icon={<Plus />} />
+        </View>
 
         {/* Skeleton */}
         <Text style={section}>Skeleton</Text>
@@ -215,7 +263,7 @@ export default function KitchenSink() {
           {CONTACTS.map((c, i) => (
             <ListItem key={c.id} title={c.name} subtitle={c.role}
               leading={<Avatar initials={c.initials} size="sm" />}
-              trailing={<Text style={{ fontSize: 13, color: t.color.text.tertiary }}>›</Text>}
+              trailing={<ChevronRight size={16} color={t.color.text.tertiary} />}
               onPress={() => toast.info(`Opening ${c.name}`)}
               trailingActions={[{
                 label: "Delete", color: t.color.error.icon,
@@ -232,13 +280,17 @@ export default function KitchenSink() {
         {/* Toast */}
         <Text style={section}>Toast</Text>
         <View style={row}>
-          <Button label="Success" variant="outline" size="sm" onPress={() => toast.success("Saved!")} />
-          <Button label="Error" variant="outline" size="sm" onPress={() => toast.error("Failed.")} />
-          <Button label="Warning" variant="outline" size="sm" onPress={() => toast.warning("Low storage.")} />
-          <Button label="Info" variant="outline" size="sm" onPress={() => toast.info("FYI.")} />
+          <Button label="Success" variant="outline" size="sm" leadingIcon={<CheckCircle2 />} onPress={() => toast.success("Changes saved successfully!")} />
+          <Button label="Error" variant="outline" size="sm" leadingIcon={<AlertCircle />} onPress={() => toast.error("Failed to connect to server.")} />
+          <Button label="Warning" variant="outline" size="sm" leadingIcon={<TriangleAlert />} onPress={() => toast.warning("Your trial ends in 2 days.")} />
+          <Button label="Info" variant="outline" size="sm" leadingIcon={<Info />} onPress={() => toast.info("New update available.")} />
         </View>
-        <Button label="With undo action" variant="outline" size="sm" onPress={() =>
-          toast.show({ message: "Archived.", action: { label: "Undo", onPress: () => toast.info("Restored!") } })} />
+        <View style={row}>
+          <Button label="Custom Icon" variant="outline" size="sm" leadingIcon={<Mail />} onPress={() =>
+            toast.show({ message: "You have 3 new messages", icon: <Mail />, variant: "info" })} />
+          <Button label="With action" variant="outline" size="sm" leadingIcon={<Clock />} onPress={() =>
+            toast.show({ message: "Archived item.", action: { label: "Undo", onPress: () => toast.info("Restored!") } })} />
+        </View>
 
         {/* Bottom Sheet */}
         <Text style={section}>Bottom Sheet</Text>

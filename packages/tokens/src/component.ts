@@ -45,9 +45,9 @@ export function buttonTokens(t: SemanticTokens) {
       },
     },
     size: {
-      sm: { container: { height: 32, paddingHorizontal: t.spacing[6] }, text: { fontSize: t.fontSize.sm } },
-      md: { container: { height: 40, paddingHorizontal: t.spacing[9] }, text: { fontSize: t.fontSize.md } },
-      lg: { container: { height: 48, paddingHorizontal: t.spacing[12] }, text: { fontSize: t.fontSize.lg } },
+      sm: { container: { height: 36, paddingHorizontal: t.spacing[4] }, text: { fontSize: t.fontSize.sm } },
+      md: { container: { height: 44, paddingHorizontal: t.spacing[6] }, text: { fontSize: t.fontSize.md } },
+      lg: { container: { height: 54, paddingHorizontal: t.spacing[8] }, text: { fontSize: t.fontSize.lg } },
     },
     disabled: {
       container: { opacity: t.opacity[40], ...t.shadow.none },
@@ -128,8 +128,8 @@ export function badgeTokens(t: SemanticTokens) {
   return {
     base: {
       borderRadius: t.radius.full,
-      paddingHorizontal: t.spacing[3],
-      paddingVertical: t.spacing[1],
+      paddingHorizontal: t.spacing[4],
+      paddingVertical: t.spacing[2],
       alignSelf: "flex-start" as const,
     },
     variant: {
@@ -152,11 +152,11 @@ export function toastTokens(t: SemanticTokens) {
   return {
     container: {
       borderRadius: t.radius.lg,
-      paddingHorizontal: t.spacing[5],
-      paddingVertical: t.spacing[4],
+      paddingHorizontal: t.spacing[6],
+      paddingVertical: t.spacing[5],
       flexDirection: "row" as const,
       alignItems: "center" as const,
-      gap: t.spacing[3],
+      gap: t.spacing[4],
       ...t.shadow.lg,
     },
     variant: {
@@ -168,7 +168,7 @@ export function toastTokens(t: SemanticTokens) {
     },
     text: {
       fontSize: t.fontSize.sm,
-      color: t.color.text.inverse,
+      color: "#FFFFFF", // Use definite white for background inverse for maximum contrast
       flex: 1,
     },
   };

@@ -1,0 +1,24 @@
+{
+  "id": "components/checkbox",
+  "title": "Checkbox",
+  "description": "Checkboxes support controlled or uncontrolled state, indeterminate state, and optional label/description.",
+  "source": "@site/docs/components/checkbox.md",
+  "sourceDirName": "components",
+  "slug": "/components/checkbox",
+  "permalink": "/docs/components/checkbox",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/checkbox.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Autocomplete",
+    "permalink": "/docs/components/autocomplete"
+  },
+  "next": {
+    "title": "RadioGroup",
+    "permalink": "/docs/components/radio-group"
+  }
+}

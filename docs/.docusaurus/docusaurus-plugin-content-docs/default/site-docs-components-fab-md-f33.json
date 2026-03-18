@@ -1,0 +1,24 @@
+{
+  "id": "components/fab",
+  "title": "Fab",
+  "description": "Floating action button for primary actions.",
+  "source": "@site/docs/components/fab.md",
+  "sourceDirName": "components",
+  "slug": "/components/fab",
+  "permalink": "/docs/components/fab",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/fab.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "ButtonGroup",
+    "permalink": "/docs/components/button-group"
+  },
+  "next": {
+    "title": "TextField",
+    "permalink": "/docs/components/text-field"
+  }
+}

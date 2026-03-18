@@ -3,7 +3,7 @@ import { View, Text, Pressable } from "react-native";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
 import { FlashList, type FlashListProps } from "@shopify/flash-list";
-import { useListItem, useTokens } from "@rnui/headless";
+import { useListItem, useTokens, useIconStyle } from "@rnui/headless";
 import type { SwipeAction } from "@rnui/headless";
 
 // ─── ListItem ─────────────────────────────────────────────────────
@@ -45,7 +45,19 @@ export function ListItem({
     accessibilityProps,
   } = useListItem({ onPress, onLongPress, trailingActions, leadingActions, disabled });
 
-  const hasSwipe = trailingActions.length > 0 || leadingActions.length > 0;
+  const { size: iconSize, color: iconColor } = useIconStyle("list");
+
+  // Helper to clone icon with standardized props
+  const renderIcon = (icon: React.ReactNode) => {
+    if (!icon) return null;
+    if (React.isValidElement(icon)) {
+      return React.cloneElement(icon as React.ReactElement, {
+        size: (icon.props as any)?.size ?? iconSize,
+        color: (icon.props as any)?.color ?? iconColor,
+      } as any);
+    }
+    return icon;
+  };
 
   return (
     <View style={{ overflow: "hidden" }}>
@@ -133,7 +145,7 @@ export function ListItem({
           ]}
           {...accessibilityProps}
         >
-          {leading && <View>{leading}</View>}
+          {leading && <View style={{ width: 24, alignItems: "center", justifyContent: "center" }}>{renderIcon(leading)}</View>}
 
           <View style={{ flex: 1 }}>
             <Text
@@ -160,7 +172,7 @@ export function ListItem({
             )}
           </View>
 
-          {trailing && <View>{trailing}</View>}
+          {trailing && <View>{renderIcon(trailing)}</View>}
         </Animated.View>
       </GestureDetector>
 
@@ -168,7 +180,7 @@ export function ListItem({
         <View
           style={{
             height: 0.5,
-            marginLeft: leading ? tokens.spacing[4] + 40 + tokens.spacing[3] : tokens.spacing[4],
+            marginLeft: leading ? tokens.spacing[4] + 24 + tokens.spacing[3] : tokens.spacing[4],
             backgroundColor: tokens.color.border.default,
           }}
         />

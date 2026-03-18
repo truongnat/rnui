@@ -1,0 +1,24 @@
+{
+  "id": "components/stack",
+  "title": "Stack",
+  "description": "Vertical or horizontal layout with consistent spacing.",
+  "source": "@site/docs/components/stack.md",
+  "sourceDirName": "components",
+  "slug": "/components/stack",
+  "permalink": "/docs/components/stack",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/stack.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Box",
+    "permalink": "/docs/components/box"
+  },
+  "next": {
+    "title": "Grid",
+    "permalink": "/docs/components/grid"
+  }
+}

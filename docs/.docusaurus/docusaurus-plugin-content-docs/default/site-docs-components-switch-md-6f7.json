@@ -1,0 +1,24 @@
+{
+  "id": "components/switch",
+  "title": "Switch",
+  "description": "Switches toggle a boolean state and support optional label/description.",
+  "source": "@site/docs/components/switch.md",
+  "sourceDirName": "components",
+  "slug": "/components/switch",
+  "permalink": "/docs/components/switch",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/switch.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "RadioGroup",
+    "permalink": "/docs/components/radio-group"
+  },
+  "next": {
+    "title": "Slider",
+    "permalink": "/docs/components/slider"
+  }
+}

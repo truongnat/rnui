@@ -1,0 +1,24 @@
+{
+  "id": "components/text-area",
+  "title": "TextArea",
+  "description": "Multi-line text input with label, helper text, error state, and auto-resizing.",
+  "source": "@site/docs/components/text-area.md",
+  "sourceDirName": "components",
+  "slug": "/components/text-area",
+  "permalink": "/docs/components/text-area",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/text-area.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "PasswordInput",
+    "permalink": "/docs/components/password-input"
+  },
+  "next": {
+    "title": "Select",
+    "permalink": "/docs/components/select"
+  }
+}

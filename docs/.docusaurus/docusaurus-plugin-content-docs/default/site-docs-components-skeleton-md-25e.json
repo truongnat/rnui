@@ -1,0 +1,24 @@
+{
+  "id": "components/skeleton",
+  "title": "Skeleton",
+  "description": "Skeletons provide loading placeholders with optional shimmer.",
+  "source": "@site/docs/components/skeleton.md",
+  "sourceDirName": "components",
+  "slug": "/components/skeleton",
+  "permalink": "/docs/components/skeleton",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/skeleton.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "LinearProgress",
+    "permalink": "/docs/components/linear-progress"
+  },
+  "next": {
+    "title": "Toast",
+    "permalink": "/docs/components/toast"
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { View, Text, TextInput, ScrollView, Pressable } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { useSelect, useTokens } from "@rnui/headless";
+import { useSelect, useTokens, useIconStyle } from "@rnui/headless";
 import { BottomSheet } from "../BottomSheet/BottomSheet";
 import type { BottomSheetRef } from "../BottomSheet/BottomSheet";
 import type { UseSelectOptions, SelectOption } from "@rnui/headless";
@@ -58,6 +58,8 @@ export function Select<T = string>({
     selectOption(val);
     if (!hookOptions.multiple) handleClose();
   };
+
+  const { size: searchIconSize, color: searchIconColor } = useIconStyle("input");
 
   return (
     <View>
@@ -124,31 +126,31 @@ export function Select<T = string>({
                 borderColor: tokens.color.border.default,
                 borderRadius: tokens.radius.md,
                 paddingHorizontal: tokens.spacing[3],
-                height: 40,
+                height: 44,
                 marginBottom: tokens.spacing[3],
                 backgroundColor: tokens.color.bg.subtle,
               }}
             >
-              {/* Custom Magnifying Glass Icon */}
-              <View style={{ width: 20, height: 20, marginRight: 10, alignItems: "center", justifyContent: "center" }}>
+              {/* Custom Magnifying Glass Icon — Standardized */}
+              <View style={{ width: searchIconSize, height: searchIconSize, marginRight: 8, alignItems: "center", justifyContent: "center" }}>
                 <View style={{
-                  width: 14,
-                  height: 14,
-                  borderRadius: 7,
+                  width: searchIconSize * 0.7,
+                  height: searchIconSize * 0.7,
+                  borderRadius: searchIconSize * 0.35,
                   borderWidth: 2,
-                  borderColor: tokens.color.text.tertiary,
+                  borderColor: searchIconColor,
                   position: "absolute",
-                  top: 2,
-                  left: 2,
+                  top: 0,
+                  left: 0,
                 }} />
                 <View style={{
                   width: 2,
-                  height: 6,
-                  backgroundColor: tokens.color.text.tertiary,
+                  height: searchIconSize * 0.4,
+                  backgroundColor: searchIconColor,
                   borderRadius: 1,
                   position: "absolute",
-                  bottom: 2,
-                  right: 2,
+                  bottom: 0,
+                  right: 0,
                   transform: [{ rotate: "-45deg" }],
                 }} />
               </View>
@@ -157,7 +159,7 @@ export function Select<T = string>({
                 onChangeText={setQuery}
                 placeholder="Search…"
                 placeholderTextColor={tokens.color.text.tertiary}
-                style={{ flex: 1, fontSize: tokens.fontSize.md, color: tokens.color.text.primary }}
+                style={{ flex: 1, fontSize: tokens.fontSize.md, color: tokens.color.text.primary, height: "100%" }}
                 autoFocus
               />
               {query.length > 0 && (

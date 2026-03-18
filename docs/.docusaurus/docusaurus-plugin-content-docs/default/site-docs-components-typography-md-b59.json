@@ -1,0 +1,24 @@
+{
+  "id": "components/typography",
+  "title": "Typography",
+  "description": "Text styles with semantic variants.",
+  "source": "@site/docs/components/typography.md",
+  "sourceDirName": "components",
+  "slug": "/components/typography",
+  "permalink": "/docs/components/typography",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/typography.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Accordion",
+    "permalink": "/docs/components/accordion"
+  },
+  "next": {
+    "title": "Table",
+    "permalink": "/docs/components/table"
+  }
+}

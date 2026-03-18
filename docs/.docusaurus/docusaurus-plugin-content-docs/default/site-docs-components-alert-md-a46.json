@@ -1,0 +1,24 @@
+{
+  "id": "components/alert",
+  "title": "Alert",
+  "description": "Feedback banner for status.",
+  "source": "@site/docs/components/alert.md",
+  "sourceDirName": "components",
+  "slug": "/components/alert",
+  "permalink": "/docs/components/alert",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/alert.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Icon",
+    "permalink": "/docs/components/icon"
+  },
+  "next": {
+    "title": "Dialog",
+    "permalink": "/docs/components/dialog"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "components/popover",
+  "title": "Popover",
+  "description": "Floating overlay anchored to a position.",
+  "source": "@site/docs/components/popover.md",
+  "sourceDirName": "components",
+  "slug": "/components/popover",
+  "permalink": "/docs/components/popover",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/popover.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Modal",
+    "permalink": "/docs/components/modal"
+  },
+  "next": {
+    "title": "Popper",
+    "permalink": "/docs/components/popper"
+  }
+}

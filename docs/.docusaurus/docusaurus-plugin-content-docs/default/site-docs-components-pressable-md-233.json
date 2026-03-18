@@ -1,0 +1,24 @@
+{
+  "id": "components/pressable",
+  "title": "Pressable",
+  "description": "Pressable wraps the headless usePressable hook with gesture-driven feedback on the UI thread.",
+  "source": "@site/docs/components/pressable.md",
+  "sourceDirName": "components",
+  "slug": "/components/pressable",
+  "permalink": "/docs/components/pressable",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/pressable.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "FormField",
+    "permalink": "/docs/components/form-field"
+  },
+  "next": {
+    "title": "BottomSheet",
+    "permalink": "/docs/components/bottom-sheet"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "components/dialog",
+  "title": "Dialog",
+  "description": "Modal dialog surface.",
+  "source": "@site/docs/components/dialog.md",
+  "sourceDirName": "components",
+  "slug": "/components/dialog",
+  "permalink": "/docs/components/dialog",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/dialog.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Alert",
+    "permalink": "/docs/components/alert"
+  },
+  "next": {
+    "title": "Snackbar",
+    "permalink": "/docs/components/snackbar"
+  }
+}

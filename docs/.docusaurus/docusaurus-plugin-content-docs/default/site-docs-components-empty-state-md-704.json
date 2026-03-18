@@ -1,0 +1,24 @@
+{
+  "id": "components/empty-state",
+  "title": "EmptyState",
+  "description": "Empty states provide a consistent layout for blank screens or empty lists.",
+  "source": "@site/docs/components/empty-state.md",
+  "sourceDirName": "components",
+  "slug": "/components/empty-state",
+  "permalink": "/docs/components/empty-state",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/empty-state.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Toast",
+    "permalink": "/docs/components/toast"
+  },
+  "next": {
+    "title": "Modal",
+    "permalink": "/docs/components/modal"
+  }
+}

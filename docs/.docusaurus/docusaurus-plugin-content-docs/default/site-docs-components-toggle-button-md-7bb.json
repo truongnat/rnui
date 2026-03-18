@@ -1,0 +1,24 @@
+{
+  "id": "components/toggle-button",
+  "title": "ToggleButton",
+  "description": "Exclusive or multi select toggle group.",
+  "source": "@site/docs/components/toggle-button.md",
+  "sourceDirName": "components",
+  "slug": "/components/toggle-button",
+  "permalink": "/docs/components/toggle-button",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/toggle-button.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Rating",
+    "permalink": "/docs/components/rating"
+  },
+  "next": {
+    "title": "Box",
+    "permalink": "/docs/components/box"
+  }
+}

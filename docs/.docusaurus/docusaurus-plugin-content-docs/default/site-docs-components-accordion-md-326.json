@@ -1,0 +1,24 @@
+{
+  "id": "components/accordion",
+  "title": "Accordion",
+  "description": "Expandable content panels.",
+  "source": "@site/docs/components/accordion.md",
+  "sourceDirName": "components",
+  "slug": "/components/accordion",
+  "permalink": "/docs/components/accordion",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/accordion.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Card",
+    "permalink": "/docs/components/card"
+  },
+  "next": {
+    "title": "Typography",
+    "permalink": "/docs/components/typography"
+  }
+}

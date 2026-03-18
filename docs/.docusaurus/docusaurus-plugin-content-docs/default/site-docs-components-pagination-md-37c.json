@@ -1,0 +1,24 @@
+{
+  "id": "components/pagination",
+  "title": "Pagination",
+  "description": "Page navigation controls.",
+  "source": "@site/docs/components/pagination.md",
+  "sourceDirName": "components",
+  "slug": "/components/pagination",
+  "permalink": "/docs/components/pagination",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/pagination.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Stepper",
+    "permalink": "/docs/components/stepper"
+  },
+  "next": {
+    "title": "BottomNavigation",
+    "permalink": "/docs/components/bottom-navigation"
+  }
+}

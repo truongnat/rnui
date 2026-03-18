@@ -68,7 +68,7 @@ export function usePressable({
   accessibilityLabel,
   accessibilityHint,
   accessibilityRole = "button",
-  haptic = true,
+  haptic = false,
 }: UsePressableOptions = {}): UsePressableReturn {
   const isPressedRef = useRef(false);
 

@@ -1,0 +1,24 @@
+{
+  "id": "components/paper",
+  "title": "Paper",
+  "description": "Surface container with elevation or outline.",
+  "source": "@site/docs/components/paper.md",
+  "sourceDirName": "components",
+  "slug": "/components/paper",
+  "permalink": "/docs/components/paper",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/paper.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Link",
+    "permalink": "/docs/components/link"
+  },
+  "next": {
+    "title": "Card",
+    "permalink": "/docs/components/card"
+  }
+}

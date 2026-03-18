@@ -1,0 +1,24 @@
+{
+  "id": "components/button-group",
+  "title": "ButtonGroup",
+  "description": "Group related buttons together.",
+  "source": "@site/docs/components/button-group.md",
+  "sourceDirName": "components",
+  "slug": "/components/button-group",
+  "permalink": "/docs/components/button-group",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/button-group.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Button",
+    "permalink": "/docs/components/button"
+  },
+  "next": {
+    "title": "Fab",
+    "permalink": "/docs/components/fab"
+  }
+}

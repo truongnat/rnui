@@ -1,0 +1,24 @@
+{
+  "id": "components/list",
+  "title": "List",
+  "description": "High-performance list built on FlashList, with optional swipe actions and section headers.",
+  "source": "@site/docs/components/list.md",
+  "sourceDirName": "components",
+  "slug": "/components/list",
+  "permalink": "/docs/components/list",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/list.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Table",
+    "permalink": "/docs/components/table"
+  },
+  "next": {
+    "title": "Chip",
+    "permalink": "/docs/components/chip"
+  }
+}

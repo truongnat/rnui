@@ -1,0 +1,24 @@
+{
+  "id": "components/icon",
+  "title": "Icon",
+  "description": "Render icon glyphs or SVGs.",
+  "source": "@site/docs/components/icon.md",
+  "sourceDirName": "components",
+  "slug": "/components/icon",
+  "permalink": "/docs/components/icon",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/icon.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Timeline",
+    "permalink": "/docs/components/timeline"
+  },
+  "next": {
+    "title": "Alert",
+    "permalink": "/docs/components/alert"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "components/stepper",
+  "title": "Stepper",
+  "description": "Progress through steps.",
+  "source": "@site/docs/components/stepper.md",
+  "sourceDirName": "components",
+  "slug": "/components/stepper",
+  "permalink": "/docs/components/stepper",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/stepper.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Menu",
+    "permalink": "/docs/components/menu"
+  },
+  "next": {
+    "title": "Pagination",
+    "permalink": "/docs/components/pagination"
+  }
+}
