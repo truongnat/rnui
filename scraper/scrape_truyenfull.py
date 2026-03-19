@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """
-Scraper cho truyenfull.vn
+Scraper cho truyenchu.net (WordPress Madara theme)
 Cào 10 bộ truyện, lưu ra JSON để import vào DB
+
+Nguồn: truyenchu.net
+- URL truyện: https://truyenchu.net/truyen/{slug}/
+- Chapter list: POST https://truyenchu.net/truyen/{slug}/ajax/chapters/
+- Chapter content: https://truyenchu.net/truyen/{slug}/chuong-{n}/
 """
 
 import requests
@@ -13,7 +18,7 @@ import re
 import sys
 from datetime import datetime
 
-BASE_URL = "https://truyenfull.vn"
+BASE_URL = "https://truyenchu.net"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -23,37 +28,36 @@ HEADERS = {
 OUTPUT_DIR = "output"
 DELAY_BETWEEN_REQUESTS = 1.5  # seconds
 
-# 10 bộ truyện nổi tiếng trên truyenfull
+# 10 bộ truyện đã xác nhận tồn tại trên truyenchu.net
 TOP_STORIES = [
-    "toan-cau-cao-thiem-chim-toi-co-mot-toa-nha-vo-nghia",
-    "ta-la-dai-than-tien",
-    "tu-luyen-bao-nam-tu-thanh-than-lan-cuoi",
-    "long-vuong-truyen",
-    "de-vuong-ky",
-    "pham-nhan-tu-tien-truyen",
-    "bat-bai-than-de",
-    "than-dao-dan-de",
-    "vo-than-thu",
-    "tien-nghich",
+    "tien-nghich",           # Tiên Nghịch - Nhĩ Căn
+    "pham-nhan-tu-tien",     # Phàm Nhân Tu Tiên
+    "long-vuong-truyen",     # Long Vương Truyện
+    "vu-luyen-dien-phong",   # Vũ Luyện Điên Phong
+    "van-co-chi-ton",        # Vạn Cổ Chi Tôn
+    "doc-bo-thien-ha",       # Độc Bộ Thiên Hạ
+    "nhat-niem-vinh-hang",   # Nhất Niệm Vĩnh Hằng
+    "nga-duc-phong-thien",   # Ngã Độc Phong Thiên
+    "chan-tien",             # Chân Tiên
+    "tinh-gioi",             # Tinh Giới
 ]
 
 
-def slugify(text):
-    """Tạo slug từ text"""
-    text = text.lower().strip()
-    text = re.sub(r'[^\w\s-]', '', text)
-    text = re.sub(r'[\s_-]+', '-', text)
-    return text
-
-
-def get_soup(url, retries=3):
+def get_soup(url, method="GET", retries=3):
     """Fetch URL và trả về BeautifulSoup object"""
     for attempt in range(retries):
         try:
-            resp = requests.get(url, headers=HEADERS, timeout=15)
+            if method == "POST":
+                resp = requests.post(
+                    url,
+                    headers={**HEADERS, "X-Requested-With": "XMLHttpRequest"},
+                    timeout=20,
+                )
+            else:
+                resp = requests.get(url, headers=HEADERS, timeout=15)
             resp.raise_for_status()
-            resp.encoding = 'utf-8'
-            return BeautifulSoup(resp.text, 'html.parser')
+            resp.encoding = "utf-8"
+            return BeautifulSoup(resp.text, "html.parser")
         except Exception as e:
             print(f"  [!] Lỗi fetch {url}: {e} (attempt {attempt+1}/{retries})")
             if attempt < retries - 1:
@@ -63,7 +67,7 @@ def get_soup(url, retries=3):
 
 def get_story_info(story_slug):
     """Lấy thông tin cơ bản của truyện"""
-    url = f"{BASE_URL}/{story_slug}/"
+    url = f"{BASE_URL}/truyen/{story_slug}/"
     print(f"  → Lấy info: {url}")
     soup = get_soup(url)
     if not soup:
@@ -76,91 +80,71 @@ def get_story_info(story_slug):
     }
 
     # Title
-    title_tag = soup.select_one("h3.title")
-    if not title_tag:
-        title_tag = soup.select_one("h1")
+    title_tag = soup.select_one("h1")
     info["title"] = title_tag.get_text(strip=True) if title_tag else story_slug
 
     # Author
-    author_tag = soup.select_one("div.info a[href*='tac-gia']")
-    if not author_tag:
-        author_tag = soup.select_one("div.info-holder a[href*='tac-gia']")
+    author_tag = soup.select_one("a[href*='tac-gia'], .author-content a")
     info["author"] = author_tag.get_text(strip=True) if author_tag else "Không rõ"
 
-    # Genres
-    genre_tags = soup.select("div.info a[href*='the-loai']")
-    info["genres"] = [g.get_text(strip=True) for g in genre_tags]
+    # Genres - chỉ lấy trong block thông tin truyện
+    genres_container = soup.select_one(".genres-content, .post-content_item .summary-content")
+    if genres_container:
+        genre_tags = genres_container.select("a")
+    else:
+        genre_tags = soup.select(".post-content_item a[href*='the-loai']")
+    info["genres"] = list(dict.fromkeys(g.get_text(strip=True) for g in genre_tags))
 
     # Status
-    status_tag = soup.select_one("span.text-success, span.text-primary")
+    status_tag = soup.select_one(".post-status .summary-content, .manga-status")
     info["status"] = status_tag.get_text(strip=True) if status_tag else "Không rõ"
 
     # Description
-    desc_tag = soup.select_one("div.desc-text")
-    if not desc_tag:
-        desc_tag = soup.select_one("div.story-detail-info")
+    desc_tag = soup.select_one(".description-summary, .summary__content")
     info["description"] = desc_tag.get_text(strip=True) if desc_tag else ""
 
     # Cover image
-    img_tag = soup.select_one("div.book img")
-    info["cover_image"] = img_tag.get("src", "") if img_tag else ""
+    img_tag = soup.select_one(".summary_image img, .manga-thumbnail img")
+    info["cover_image"] = (
+        img_tag.get("data-src") or img_tag.get("src", "") if img_tag else ""
+    )
 
-    # Total chapters count (from listing)
-    chapters_count_tag = soup.select_one("a[title*='Chương cuối']")
-    info["total_chapters_approx"] = None
-    if chapters_count_tag:
-        m = re.search(r'(\d+)', chapters_count_tag.get_text())
-        if m:
-            info["total_chapters_approx"] = int(m.group(1))
+    # manga_id từ JS (dùng để debug nếu cần)
+    manga_id_match = re.search(r'"manga_id"\s*:\s*"(\d+)"', soup.decode())
+    info["source_id"] = manga_id_match.group(1) if manga_id_match else None
 
     return info
 
 
 def get_chapter_list(story_slug, max_chapters=50):
-    """Lấy danh sách chương (tối đa max_chapters chương đầu)"""
-    chapters = []
-    page = 1
-    while True:
-        if page == 1:
-            url = f"{BASE_URL}/{story_slug}/"
-        else:
-            url = f"{BASE_URL}/{story_slug}/trang-{page}/"
-        
-        print(f"    → Trang chương {page}: {url}")
-        soup = get_soup(url)
-        if not soup:
-            break
+    """Lấy danh sách chương qua Madara AJAX endpoint"""
+    url = f"{BASE_URL}/truyen/{story_slug}/ajax/chapters/"
+    print(f"    → POST {url}")
+    soup = get_soup(url, method="POST")
+    if not soup:
+        return []
 
-        chapter_tags = soup.select("ul.list-chapter li a")
-        if not chapter_tags:
-            break
+    chapter_tags = soup.select("li.wp-manga-chapter a")
+    # Chapters được trả về theo thứ tự mới nhất → đảo ngược để có thứ tự đúng
+    chapter_tags = list(reversed(chapter_tags))
 
-        for tag in chapter_tags:
-            href = tag.get("href", "")
-            title = tag.get_text(strip=True)
-            # Extract chapter number
-            m = re.search(r'chuong-(\d+)', href)
-            chap_num = int(m.group(1)) if m else len(chapters) + 1
-            chapters.append({
+    chapters_meta = []
+    for tag in chapter_tags[:max_chapters]:
+        href = tag.get("href", "")
+        title = tag.get_text(strip=True)
+        # Extract chapter number từ URL: /chuong-123/
+        m = re.search(r"chuong-(\d+)", href)
+        chap_num = int(m.group(1)) if m else len(chapters_meta) + 1
+        chapters_meta.append(
+            {
                 "number": chap_num,
                 "title": title,
                 "url": href,
-                "slug": href.rstrip('/').split('/')[-1],
-            })
-            if len(chapters) >= max_chapters:
-                break
+                "slug": href.rstrip("/").split("/")[-1],
+            }
+        )
 
-        if len(chapters) >= max_chapters:
-            break
-
-        # Check next page
-        next_btn = soup.select_one("ul.pagination li.active + li a")
-        if not next_btn:
-            break
-        page += 1
-        time.sleep(DELAY_BETWEEN_REQUESTS)
-
-    return chapters
+    return chapters_meta
 
 
 def get_chapter_content(chapter_url):
@@ -169,36 +153,25 @@ def get_chapter_content(chapter_url):
     if not soup:
         return ""
 
-    content_div = soup.select_one("div#chapter-c")
-    if not content_div:
-        content_div = soup.select_one("div.chapter-c")
-    if not content_div:
-        content_div = soup.select_one("div.box-chap")
-
+    content_div = soup.select_one(".read-container .entry-content, .reading-content, .read-container")
     if not content_div:
         return ""
 
-    # Clean ads and junk
-    for tag in content_div.select("script, .ads, .quảng-cáo, [class*='ads']"):
+    # Xóa ads và script
+    for tag in content_div.select("script, style, .ads, [class*='ads'], .adsbox"):
         tag.decompose()
 
-    # Get paragraphs
-    paragraphs = []
-    for p in content_div.find_all(['p', 'div'], recursive=False):
-        text = p.get_text(separator='\n', strip=True)
-        if text:
-            paragraphs.append(text)
-
-    if not paragraphs:
-        paragraphs = [content_div.get_text(separator='\n', strip=True)]
-
-    return '\n\n'.join(paragraphs)
+    # Lấy text theo đoạn
+    text = content_div.get_text(separator="\n", strip=True)
+    # Clean multiple blank lines
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
 
 
 def scrape_story(story_slug, max_chapters=50):
     """Cào toàn bộ thông tin một bộ truyện"""
     print(f"\n[*] Đang cào: {story_slug}")
-    
+
     # Get basic info
     info = get_story_info(story_slug)
     if not info:
@@ -207,7 +180,7 @@ def scrape_story(story_slug, max_chapters=50):
     print(f"  ✓ Tên: {info['title']} | Tác giả: {info['author']}")
     time.sleep(DELAY_BETWEEN_REQUESTS)
 
-    # Get chapter list
+    # Get chapter list via AJAX
     print(f"  → Lấy danh sách chương (tối đa {max_chapters})...")
     chapters_meta = get_chapter_list(story_slug, max_chapters=max_chapters)
     print(f"  ✓ Tìm được {len(chapters_meta)} chương")
@@ -216,13 +189,17 @@ def scrape_story(story_slug, max_chapters=50):
     # Get chapter contents
     chapters = []
     for i, chap in enumerate(chapters_meta):
-        print(f"    [{i+1}/{len(chapters_meta)}] Chương {chap['number']}: {chap['title'][:50]}")
+        print(
+            f"    [{i+1}/{len(chapters_meta)}] Chương {chap['number']}: {chap['title'][:50]}"
+        )
         content = get_chapter_content(chap["url"])
-        chapters.append({
-            **chap,
-            "content": content,
-            "word_count": len(content.split()) if content else 0,
-        })
+        chapters.append(
+            {
+                **chap,
+                "content": content,
+                "word_count": len(content.split()) if content else 0,
+            }
+        )
         time.sleep(DELAY_BETWEEN_REQUESTS)
 
     story = {
@@ -238,7 +215,7 @@ def save_story(story, output_dir):
     os.makedirs(output_dir, exist_ok=True)
     filename = f"{story['slug']}.json"
     filepath = os.path.join(output_dir, filename)
-    with open(filepath, 'w', encoding='utf-8') as f:
+    with open(filepath, "w", encoding="utf-8") as f:
         json.dump(story, f, ensure_ascii=False, indent=2)
     size_kb = os.path.getsize(filepath) / 1024
     print(f"  ✓ Đã lưu: {filepath} ({size_kb:.1f} KB)")
@@ -248,7 +225,7 @@ def save_story(story, output_dir):
 def save_index(stories_index, output_dir):
     """Lưu file index tổng hợp"""
     filepath = os.path.join(output_dir, "index.json")
-    with open(filepath, 'w', encoding='utf-8') as f:
+    with open(filepath, "w", encoding="utf-8") as f:
         json.dump(stories_index, f, ensure_ascii=False, indent=2)
     print(f"\n✓ Index: {filepath}")
 
@@ -261,7 +238,8 @@ def main():
         except ValueError:
             pass
 
-    print(f"=== TruyenFull Scraper ===")
+    print(f"=== TruyenChu.net Scraper ===")
+    print(f"Nguồn: {BASE_URL}")
     print(f"Sẽ cào {len(TOP_STORIES)} bộ truyện, mỗi bộ tối đa {max_chapters} chương")
     print(f"Output: {os.path.abspath(OUTPUT_DIR)}\n")
 
@@ -273,21 +251,24 @@ def main():
             story = scrape_story(slug, max_chapters=max_chapters)
             if story:
                 filepath = save_story(story, OUTPUT_DIR)
-                stories_index.append({
-                    "slug": story["slug"],
-                    "title": story["title"],
-                    "author": story["author"],
-                    "genres": story["genres"],
-                    "status": story["status"],
-                    "chapter_count_scraped": story["chapter_count_scraped"],
-                    "total_chapters_approx": story.get("total_chapters_approx"),
-                    "file": filepath,
-                })
+                stories_index.append(
+                    {
+                        "slug": story["slug"],
+                        "title": story["title"],
+                        "author": story["author"],
+                        "genres": story["genres"],
+                        "status": story["status"],
+                        "chapter_count_scraped": story["chapter_count_scraped"],
+                        "file": filepath,
+                    }
+                )
         except Exception as e:
             print(f"  [!] Lỗi khi cào {slug}: {e}")
 
     save_index(stories_index, OUTPUT_DIR)
-    print(f"\n=== Hoàn tất! Đã cào {len(stories_index)}/{len(TOP_STORIES)} bộ truyện ===")
+    print(
+        f"\n=== Hoàn tất! Đã cào {len(stories_index)}/{len(TOP_STORIES)} bộ truyện ==="
+    )
 
 
 if __name__ == "__main__":
