@@ -23,7 +23,8 @@ export type ButtonColor =
   | "success"
   | "error"
   | "info"
-  | "warning";
+  | "warning"
+  | "accent";  // Amber CTA — stands out from brand violet
 
 export interface ButtonProps {
   /** Visual style variant */
@@ -151,6 +152,13 @@ export function Button({
         main: tokens.color.info.icon,
         subtle: tokens.color.info.bg,
         textOn: tokens.color.text.inverse,
+      };
+    }
+    if (color === "accent") {
+      return {
+        main: tokens.color.accent.default,
+        subtle: tokens.color.accent.subtle,
+        textOn: tokens.color.accent.onAccent,
       };
     }
     return {

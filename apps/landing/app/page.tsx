@@ -281,15 +281,16 @@ export default function Home() {
             <h3 className={styles.tokenBlockTitle}>Shadows</h3>
             <div className={styles.shadowRow}>
               {[
-                {n:"none",s:"none"},
-                {n:"sm",s:"0 1px 2px rgba(0,0,0,0.1)"},
-                {n:"md",s:"0 6px 12px rgba(0,0,0,0.2)"},
-                {n:"lg",s:"0 12px 24px rgba(0,0,0,0.25)"},
-                {n:"xl",s:"0 20px 40px rgba(0,0,0,0.3)"},
-              ].map(({n,s})=>(
+                {n:"none",s:"none",e:"0"},
+                {n:"sm",s:"0 1px 3px rgba(0,0,0,0.08)",e:"2"},
+                {n:"md",s:"0 4px 8px rgba(0,0,0,0.12)",e:"4"},
+                {n:"lg",s:"0 8px 16px rgba(0,0,0,0.16)",e:"8"},
+                {n:"xl",s:"0 16px 32px rgba(0,0,0,0.20)",e:"16"},
+              ].map(({n,s,e})=>(
                 <div key={n} className={styles.shadowItem}>
                   <div className={styles.shadowBox} style={{boxShadow:s}} />
                   <span className={styles.shadowLabel}>{n}</span>
+                  <span className={styles.swatchHex}>elev. {e}</span>
                 </div>
               ))}
             </div>

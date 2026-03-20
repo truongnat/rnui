@@ -181,6 +181,13 @@ export const primitive = {
     tooltip: 600,
   },
 
+  // ─── Focus ring ──────────────────────────────────────────────
+  focusRing: {
+    width: 2,
+    offset: 2,
+    outlineWidth: 2,
+  },
+
   // ─── Elevation (Android shadow level) ────────────────────────
   elevation: {
     none: 0,

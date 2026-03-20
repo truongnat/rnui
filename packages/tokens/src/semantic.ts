@@ -6,7 +6,7 @@ import { primitive } from "./primitive";
  * RULE: Components import from here, never from primitive.
  */
 
-const { color, spacing, radius, fontSize, fontWeight, lineHeight, letterSpacing, opacity, zIndex, elevation } = primitive;
+const { color, spacing, radius, fontSize, fontWeight, lineHeight, letterSpacing, opacity, zIndex, elevation, focusRing } = primitive;
 
 // ─── Shared (mode-independent) ───────────────────────────────────
 const shared = {
@@ -19,6 +19,7 @@ const shared = {
   opacity,
   zIndex,
   elevation,
+  focusRing,
 
   // Typography styles (composite)
   text: {
@@ -45,7 +46,8 @@ export const lightTokens = {
       emphasis: color.gray[400], // 94A3B8 - Highly visible for skeletons
       inverse: color.gray[900],  // 0F172A
       overlay: "rgba(0,0,0,0.6)",
-      hover: color.gray[100],  // F1F5F9 - hover state
+      hover: color.gray[100],    // #F1F5F9 - hover state
+      disabled: color.gray[100], // #F1F5F9 - disabled background
     },
     // Surfaces (cards, sheets, modals)
     surface: {
@@ -53,6 +55,8 @@ export const lightTokens = {
       raised: color.white,
       overlay: color.white,
       sunken: color.gray[100],
+      hover: color.gray[50],     // #F8FAFC - subtle hover on elevated surface
+      disabled: color.gray[100], // #F1F5F9
     },
     // Text - Much darker overall
     text: {
@@ -61,7 +65,9 @@ export const lightTokens = {
       tertiary: color.gray[500],  // 64748B - Not "faded" anymore
       disabled: color.gray[500],  // #64748B — 4.8x on white ✅ WCAG AA
       inverse: color.white,
-      link: color.brand[700],     // Darker blue for links
+      link: color.brand[700],     // #6D28D9
+      onBrand: color.white,         // text on violet backgrounds
+      onAccent: "#1C1917",          // text on amber backgrounds
     },
     // Border - Ultra visible
     border: {
@@ -98,13 +104,13 @@ export const lightTokens = {
     info: { bg: color.blue[50], text: color.blue[900], border: color.blue[500], icon: color.blue[600] },
   },
 
-  // Shadows (iOS) - Aggressive elevation for clear separation
+  // Shadows — cross-platform (iOS shadowProps + Android elevation)
   shadow: {
-    none: {},
-    sm: { shadowColor: color.black, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.1, shadowRadius: 2 },
-    md: { shadowColor: color.black, shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.2, shadowRadius: 12 },
-    lg: { shadowColor: color.black, shadowOffset: { width: 0, height: 12 }, shadowOpacity: 0.25, shadowRadius: 24 },
-    xl: { shadowColor: color.black, shadowOffset: { width: 0, height: 20 }, shadowOpacity: 0.3, shadowRadius: 40 },
+    none: { shadowColor: "transparent", shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
+    sm:   { shadowColor: color.black, shadowOffset: { width: 0, height: 1 },  shadowOpacity: 0.08, shadowRadius: 3,  elevation: 2 },
+    md:   { shadowColor: color.black, shadowOffset: { width: 0, height: 4 },  shadowOpacity: 0.12, shadowRadius: 8,  elevation: 4 },
+    lg:   { shadowColor: color.black, shadowOffset: { width: 0, height: 8 },  shadowOpacity: 0.16, shadowRadius: 16, elevation: 8 },
+    xl:   { shadowColor: color.black, shadowOffset: { width: 0, height: 16 }, shadowOpacity: 0.20, shadowRadius: 32, elevation: 16 },
   },
 } as const;
 
@@ -120,13 +126,16 @@ export const darkTokens = {
       emphasis: color.gray[700],
       inverse: color.gray[50],
       overlay: `rgba(0,0,0,0.6)`,
-      hover: color.gray[800],  // 1E293B - hover state dark
+      hover: color.gray[800],    // #1E293B - hover state dark
+      disabled: color.gray[800],  // #1E293B - disabled bg dark
     },
     surface: {
       default: color.gray[900],
       raised: color.gray[800],
       overlay: color.gray[800],
       sunken: color.gray[950],
+      hover: "#1A1A28",           // slightly lighter than raised
+      disabled: "#0D0D14",        // same as bg.default = sunken feel
     },
     text: {
       primary: color.gray[50],
@@ -134,7 +143,9 @@ export const darkTokens = {
       tertiary: color.gray[500],  // #64748B — 4.2x on dark-bg ✅
       disabled: color.gray[600],  // #475569 — clearer than before
       inverse: color.gray[900],
-      link: color.brand[400],
+      link: color.brand[400],      // #A78BFA
+      onBrand: color.white,         // text on violet backgrounds
+      onAccent: "#1C1917",          // text on amber backgrounds
     },
     border: {
       default: color.gray[700],    // #334155 - Standard border
@@ -169,12 +180,13 @@ export const darkTokens = {
     info: { bg: `rgba(59,130,246,0.12)`, text: color.blue[400], border: color.blue[600], icon: color.blue[400] },
   },
 
+  // Shadows dark mode — stronger for depth perception
   shadow: {
-    none: {},
-    sm: { shadowColor: color.black, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.2, shadowRadius: 2 },
-    md: { shadowColor: color.black, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 8 },
-    lg: { shadowColor: color.black, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.4, shadowRadius: 16 },
-    xl: { shadowColor: color.black, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.5, shadowRadius: 24 },
+    none: { shadowColor: "transparent", shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
+    sm:   { shadowColor: color.black, shadowOffset: { width: 0, height: 1 },  shadowOpacity: 0.25, shadowRadius: 4,  elevation: 2 },
+    md:   { shadowColor: color.black, shadowOffset: { width: 0, height: 4 },  shadowOpacity: 0.35, shadowRadius: 10, elevation: 4 },
+    lg:   { shadowColor: color.black, shadowOffset: { width: 0, height: 8 },  shadowOpacity: 0.45, shadowRadius: 20, elevation: 8 },
+    xl:   { shadowColor: color.black, shadowOffset: { width: 0, height: 16 }, shadowOpacity: 0.55, shadowRadius: 36, elevation: 16 },
   },
 } as const;
 
@@ -187,12 +199,15 @@ interface ColorGroup {
     inverse: string;
     overlay: string;
     hover: string;
+    disabled: string;
   };
   surface: {
     default: string;
     raised: string;
     overlay: string;
     sunken: string;
+    hover: string;
+    disabled: string;
   };
   text: {
     primary: string;
@@ -201,6 +216,8 @@ interface ColorGroup {
     disabled: string;
     inverse: string;
     link: string;
+    onBrand: string;
+    onAccent: string;
   };
   border: {
     default: string;
@@ -243,14 +260,15 @@ export interface SemanticTokens {
   opacity: typeof shared.opacity;
   zIndex: typeof shared.zIndex;
   elevation: typeof shared.elevation;
+  focusRing: typeof shared.focusRing;
   text: typeof shared.text;
   color: ColorGroup;
   shadow: {
-    none: object;
-    sm: object;
-    md: object;
-    lg: object;
-    xl: object;
+    none: { shadowColor: string; shadowOffset: { width: number; height: number }; shadowOpacity: number; shadowRadius: number; elevation: number };
+    sm:   { shadowColor: string; shadowOffset: { width: number; height: number }; shadowOpacity: number; shadowRadius: number; elevation: number };
+    md:   { shadowColor: string; shadowOffset: { width: number; height: number }; shadowOpacity: number; shadowRadius: number; elevation: number };
+    lg:   { shadowColor: string; shadowOffset: { width: number; height: number }; shadowOpacity: number; shadowRadius: number; elevation: number };
+    xl:   { shadowColor: string; shadowOffset: { width: number; height: number }; shadowOpacity: number; shadowRadius: number; elevation: number };
   };
 }
 

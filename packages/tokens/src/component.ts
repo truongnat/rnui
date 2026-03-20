@@ -43,6 +43,17 @@ export function buttonTokens(t: SemanticTokens) {
         text: { color: t.color.error.text, fontWeight: t.fontWeight.semibold },
         pressed: { backgroundColor: t.color.error.border },
       },
+      // Accent/CTA — Amber, stands out from brand violet
+      accent: {
+        container: {
+          ...base,
+          backgroundColor: t.color.accent.default,
+          borderWidth: 0,
+          ...t.shadow.md,
+        },
+        text: { color: t.color.accent.onAccent, fontWeight: t.fontWeight.semibold },
+        pressed: { backgroundColor: t.color.accent.active, ...t.shadow.none },
+      },
     },
     size: {
       sm: { container: { height: 36, paddingHorizontal: t.spacing[4] }, text: { fontSize: t.fontSize.sm } },
@@ -60,13 +71,21 @@ export function inputTokens(t: SemanticTokens) {
   return {
     container: {
       borderWidth: 1,
-      borderColor: t.color.border.default,
+      borderColor: t.color.border.input,
       borderRadius: t.radius.md,
       backgroundColor: t.color.surface.default,
       flexDirection: "row" as const,
       alignItems: "center" as const,
       paddingHorizontal: t.spacing[3],
       gap: t.spacing[2],
+    },
+    hover: {
+      borderColor: t.color.border.strong,
+    },
+    disabled: {
+      backgroundColor: t.color.bg.disabled,
+      borderColor: t.color.border.default,
+      opacity: t.opacity[50],
     },
     size: {
       sm: { height: 32, fontSize: t.fontSize.sm },
@@ -184,6 +203,11 @@ export function avatarTokens(t: SemanticTokens) {
     },
     text: {
       color: t.color.brand.default,
+      fontWeight: t.fontWeight.semibold,
+    },
+    // Text on brand background (e.g. avatar with brand bg)
+    onBrand: {
+      color: t.color.text.onBrand,
       fontWeight: t.fontWeight.semibold,
     },
     presence: {
