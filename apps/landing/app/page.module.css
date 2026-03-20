@@ -3,7 +3,7 @@
 /* NAV */
 .nav { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 .navInner { max-width: 1160px; margin: 0 auto; padding: 0 32px; height: 52px; display: flex; align-items: center; gap: 16px; }
-.logo { font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+.logo { font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
 .logoDot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .navControls { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .navCta { display: inline-flex; align-items: center; padding: 6px 14px; background: var(--brand); color: #fff; font-size: 12px; font-weight: 600; border-radius: 4px; transition: background 0.15s; letter-spacing: 0.01em; flex-shrink: 0; }
@@ -13,8 +13,8 @@
 .hero { padding: 96px 32px 80px; border-bottom: 1px solid var(--border); }
 .heroInner { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .heroLeft { display: flex; flex-direction: column; gap: 28px; }
-.badge { display: inline-flex; align-items: center; padding: 4px 10px; border: 1px solid var(--border-strong); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-2); border-radius: 2px; width: fit-content; font-family: var(--font-mono); }
-.h1 { font-family: var(--font-serif); font-size: clamp(40px, 5.5vw, 68px); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; color: var(--text); }
+.badge { display: inline-flex; align-items: center; padding: 4px 10px; border: 1px solid var(--border-strong); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); border-radius: 2px; width: fit-content; font-family: var(--font-mono); }
+.h1 { font-family: var(--font-heading); font-size: clamp(38px, 5.5vw, 66px); font-weight: 800; line-height: 1.04; letter-spacing: -0.03em; color: var(--text); }
 .heroSub { font-size: 17px; color: var(--text-2); line-height: 1.7; max-width: 440px; }
 .heroCtas { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .ctaPrimary { display: inline-flex; align-items: center; padding: 11px 22px; background: var(--accent); color: #1C1917; font-size: 14px; font-weight: 600; border-radius: 4px; transition: opacity 0.12s; }
@@ -24,7 +24,7 @@
 .terminalCard { background: var(--text); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 60px rgba(26,26,24,0.12), 0 4px 16px rgba(26,26,24,0.08); }
 .terminalHeader { padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
 .terminalTitle { font-family: var(--font-mono); font-size: 11px; color: rgba(245,244,240,0.4); letter-spacing: 0.05em; }
-.terminalBody { padding: 24px; font-family: var(--font-mono); font-size: 13.5px; line-height: 1.8; color: var(--dark-text); white-space: pre; }
+.terminalBody { padding: 24px; font-family: var(--font-mono); font-size: 13px; line-height: 1.9; color: var(--dark-text); white-space: pre; }
 .cPrompt { color: #A78BFA; font-weight: 700; }
 .cMuted { color: rgba(245,244,240,0.4); }
 .cGreen { color: #86EFAC; }
@@ -33,7 +33,7 @@
 .stats { border-bottom: 1px solid var(--border); }
 .statsInner { max-width: 1160px; margin: 0 auto; padding: 0 32px; display: flex; align-items: stretch; }
 .statItem { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 40px 24px; }
-.statNum { font-family: var(--font-serif); font-size: clamp(26px, 3vw, 38px); font-weight: 700; color: var(--text); letter-spacing: -0.02em; line-height: 1; }
+.statNum { font-family: var(--font-heading); font-size: clamp(26px, 3vw, 38px); font-weight: 800; color: var(--text); letter-spacing: -0.02em; line-height: 1; }
 .statLabel { font-size: 11px; color: var(--text-3); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 .statDiv { width: 1px; background: var(--border); margin: 20px 0; flex-shrink: 0; }
 
@@ -42,7 +42,7 @@
 .sectionAlt { background: var(--surface-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .sectionInner { max-width: 1160px; margin: 0 auto; }
 .sectionHead { margin-bottom: 56px; }
-.h2 { font-family: var(--font-serif); font-size: clamp(28px, 4vw, 44px); font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 12px; line-height: 1.1; }
+.h2 { font-family: var(--font-heading); font-size: clamp(26px, 4vw, 42px); font-weight: 800; letter-spacing: -0.03em; color: var(--text); margin-bottom: 12px; line-height: 1.1; }
 .sectionSub { font-size: 17px; color: var(--text-2); max-width: 520px; line-height: 1.65; }
 
 /* CODE CARDS */
@@ -61,18 +61,18 @@
 /* FEATURES */
 .featGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 40px; }
 .featCard { padding: 32px 0; border-top: 2px solid var(--text); }
-.featNum { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--text-3); font-weight: 600; letter-spacing: 0.08em; margin-bottom: 16px; }
+.featNum { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--text-3); font-weight: 500; letter-spacing: 0.1em; margin-bottom: 16px; }
 .featTitle { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 10px; letter-spacing: -0.01em; }
 .featDesc { font-size: 14px; color: var(--text-2); line-height: 1.65; }
 
 /* COMPONENTS */
-.componentList { font-family: var(--font-mono); font-size: 14px; color: var(--text-2); line-height: 2.2; max-width: 960px; }
+.componentList { font-family: var(--font-mono); font-size: 13px; color: var(--text-2); line-height: 2.2; max-width: 960px; }
 
 /* STEPS */
 .steps { display: flex; flex-direction: column; }
 .step { display: flex; gap: 32px; padding: 36px 0; border-top: 1px solid var(--border); }
 .step:last-child { border-bottom: 1px solid var(--border); }
-.stepNum { font-family: var(--font-serif); font-size: 32px; font-weight: 700; color: var(--border-strong); line-height: 1; min-width: 32px; padding-top: 4px; }
+.stepNum { font-family: var(--font-heading); font-size: 30px; font-weight: 800; color: var(--border-strong); line-height: 1; min-width: 32px; padding-top: 4px; }
 .stepBody { flex: 1; min-width: 0; }
 .stepTitle { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: -0.01em; }
 .stepDesc { font-size: 14px; color: var(--text-2); margin-bottom: 16px; line-height: 1.6; }
@@ -81,7 +81,7 @@
 /* CTA */
 .ctaSection { background: var(--dark-bg); padding: 120px 32px; text-align: center; }
 .ctaInner { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-.ctaTitle { font-family: var(--font-serif); font-size: clamp(36px, 6vw, 64px); font-weight: 700; color: var(--dark-text); letter-spacing: -0.03em; line-height: 1.05; }
+.ctaTitle { font-family: var(--font-heading); font-size: clamp(34px, 6vw, 60px); font-weight: 800; color: var(--dark-text); letter-spacing: -0.03em; line-height: 1.05; }
 .ctaSub { font-size: 17px; color: var(--dark-text-2); }
 .ctaBtns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
 .ctaPrimaryDark { display: inline-flex; align-items: center; padding: 11px 24px; background: var(--dark-text); color: var(--dark-bg); font-size: 14px; font-weight: 600; border-radius: 4px; transition: opacity 0.12s; }
@@ -593,8 +593,9 @@
   transition: background 0.2s;
 }
 .brandTriggerName {
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 .brandChevron {
   color: var(--text-3);
@@ -664,9 +665,10 @@
   min-width: 0;
 }
 .brandMenuName {
+  font-family: var(--font-heading);
   font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   line-height: 1.2;
 }
 .brandMenuDesc {
