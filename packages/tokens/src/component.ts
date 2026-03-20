@@ -369,7 +369,88 @@ export function resolveComponentTokens(t: SemanticTokens) {
     chip: chipTokens(t),
     fab: fabTokens(t),
     dialog: dialogTokens(t),
-  };
+    tabs: tabsTokens(t),
+    select: selectTokens(t),
+    rating: ratingTokens(t),
+    pagination: paginationTokens(t),
+    timeline: timelineTokens(t),
+  } as const;
 }
 
 export type ComponentTokens = ReturnType<typeof resolveComponentTokens>;
+// ─── Tabs ────────────────────────────────────────────────────────
+export function tabsTokens(t: SemanticTokens) {
+  return {
+    indicator: { bg: t.color.brand.default, height: 2 },
+    tab: {
+      active: { color: t.color.brand.default, fontWeight: "600" },
+      inactive: { color: t.color.text.secondary },
+      hover: { bg: t.color.bg.hover },
+    },
+    container: { borderBottomColor: t.color.border.default },
+  } as const;
+}
+
+// ─── Select ──────────────────────────────────────────────────────
+export function selectTokens(t: SemanticTokens) {
+  return {
+    trigger: {
+      bg: t.color.bg.surface,
+      borderColor: t.color.border.default,
+      focusBorderColor: t.color.brand.default,
+      borderRadius: t.radius.md,
+      padding: { x: t.spacing[3], y: t.spacing[2] },
+    },
+    menu: {
+      bg: t.color.bg.surface,
+      borderColor: t.color.border.default,
+      borderRadius: t.radius.md,
+      shadow: t.shadow.md,
+    },
+    option: {
+      selected: { bg: t.color.brand.subtle, color: t.color.brand.default },
+      hover: { bg: t.color.bg.hover },
+      default: { color: t.color.text.primary },
+    },
+  } as const;
+}
+
+// ─── Rating ──────────────────────────────────────────────────────
+export function ratingTokens(t: SemanticTokens) {
+  return {
+    star: {
+      filled: { color: "#F59E0B" },
+      empty: { color: t.color.border.strong },
+      half: { color: "#F59E0B" },
+    },
+    size: { sm: 16, md: 20, lg: 28 },
+  } as const;
+}
+
+// ─── Pagination ──────────────────────────────────────────────────
+export function paginationTokens(t: SemanticTokens) {
+  return {
+    item: {
+      active: { bg: t.color.brand.default, color: "#fff", borderColor: t.color.brand.default },
+      default: { bg: "transparent", color: t.color.text.primary, borderColor: t.color.border.default },
+      hover: { bg: t.color.bg.hover },
+      disabled: { color: t.color.text.disabled, borderColor: t.color.border.subtle },
+    },
+    size: { sm: 28, md: 36, lg: 44 },
+    gap: t.spacing[1],
+  } as const;
+}
+
+// ─── Timeline ────────────────────────────────────────────────────
+export function timelineTokens(t: SemanticTokens) {
+  return {
+    connector: { color: t.color.border.default, width: 2 },
+    dot: {
+      completed: { bg: t.color.brand.default, borderColor: t.color.brand.default },
+      active: { bg: t.color.bg.surface, borderColor: t.color.brand.default },
+      pending: { bg: t.color.bg.surface, borderColor: t.color.border.strong },
+      size: 12,
+    },
+    content: { gap: t.spacing[2] },
+  } as const;
+}

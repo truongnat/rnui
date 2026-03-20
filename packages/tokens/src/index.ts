@@ -7,7 +7,7 @@ export { lightTokens, darkTokens, semanticTokens } from "./semantic";
 export type { SemanticTokens, ColorScheme } from "./semantic";
 
 // Component tokens — per-component recipes
-export { resolveComponentTokens, buttonTokens, inputTokens, cardTokens, badgeTokens, toastTokens } from "./component";
+export { resolveComponentTokens, buttonTokens, inputTokens, cardTokens, badgeTokens, toastTokens, tabsTokens, selectTokens, ratingTokens, paginationTokens, timelineTokens } from "./component";
 export type { ComponentTokens } from "./component";
 
 // Motion tokens — animation presets
