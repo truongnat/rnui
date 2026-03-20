@@ -434,7 +434,7 @@ export function paginationTokens(t: SemanticTokens) {
       active: { bg: t.color.brand.default, color: "#fff", borderColor: t.color.brand.default },
       default: { bg: "transparent", color: t.color.text.primary, borderColor: t.color.border.default },
       hover: { bg: t.color.bg.hover },
-      disabled: { color: t.color.text.disabled, borderColor: t.color.border.subtle },
+      disabled: { color: t.color.text.disabled, borderColor: t.color.border.default },
     },
     size: { sm: 28, md: 36, lg: 44 },
     gap: t.spacing[1],

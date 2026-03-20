@@ -7,8 +7,8 @@
 .navLinks { display: flex; align-items: center; gap: 4px; margin-left: auto; }
 .navLink { color: var(--text-2); font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 4px; transition: color 0.12s, background 0.12s; }
 .navLink:hover { color: var(--text); background: var(--highlight); }
-.navCta { display: inline-flex; align-items: center; padding: 7px 16px; background: var(--text); color: var(--bg); font-size: 13px; font-weight: 600; border-radius: 4px; transition: opacity 0.12s; letter-spacing: 0.01em; }
-.navCta:hover { opacity: 0.82; }
+.navCta { display: inline-flex; align-items: center; padding: 7px 16px; background: #7C3AED; color: #fff; font-size: 13px; font-weight: 600; border-radius: 4px; transition: opacity 0.12s; letter-spacing: 0.01em; }
+.navCta:hover { background: #6D28D9; opacity: 1; }
 
 /* HERO */
 .hero { padding: 96px 32px 80px; border-bottom: 1px solid var(--border); }
@@ -18,7 +18,7 @@
 .h1 { font-family: var(--font-serif); font-size: clamp(40px, 5.5vw, 68px); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; color: var(--text); }
 .heroSub { font-size: 17px; color: var(--text-2); line-height: 1.7; max-width: 440px; }
 .heroCtas { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.ctaPrimary { display: inline-flex; align-items: center; padding: 11px 22px; background: var(--text); color: var(--bg); font-size: 14px; font-weight: 600; border-radius: 4px; transition: opacity 0.12s; }
+.ctaPrimary { display: inline-flex; align-items: center; padding: 11px 22px; background: #F59E0B; color: #1C1917; font-size: 14px; font-weight: 600; border-radius: 4px; transition: opacity 0.12s; }
 .ctaPrimary:hover { opacity: 0.82; }
 .ctaSecondary { display: inline-flex; align-items: center; padding: 11px 22px; background: transparent; color: var(--text); font-size: 14px; font-weight: 600; border-radius: 4px; border: 1px solid var(--border-strong); transition: background 0.12s, border-color 0.12s; }
 .ctaSecondary:hover { background: var(--highlight); border-color: var(--text-3); }
@@ -307,7 +307,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--text);
+  background: #7C3AED;
   transition: transform 0.3s;
 }
 .motionCard:hover .motionDot[data-spring="snappy"]  { transform: translateX(32px); transition: transform 0.15s cubic-bezier(0.4,0,0.2,1); }

@@ -59,26 +59,37 @@ export const lightTokens = {
       primary: color.gray[950],   // 020617 - Pure contrast
       secondary: color.gray[700], // 334155 - Very readable
       tertiary: color.gray[500],  // 64748B - Not "faded" anymore
-      disabled: color.gray[400],  // 94A3B8
+      disabled: color.gray[500],  // #64748B — 4.8x on white ✅ WCAG AA
       inverse: color.white,
       link: color.brand[700],     // Darker blue for links
     },
     // Border - Ultra visible
     border: {
-      default: color.gray[400],  // 94A3B8 - Highly visible
-      subtle: color.gray[200],   // E2E8F0 - Subtle border
-      strong: color.gray[600],   // 475569 - Very dark
-      focus: color.brand[600],
-      error: color.red[600],
+      default: color.gray[300],  // #CBD5E1 - Default decorative border
+      subtle: color.gray[200],   // #E2E8F0 - Subtle border
+      strong: color.gray[500],   // #64748B - Strong border
+      input: color.gray[400],    // #94A3B8 - Form input border
+      focus: color.brand[600],   // #7C3AED - Focus ring
+      error: color.red[600],     // #DC2626
     },
-    // Brand / action
+    // Brand — Violet
     brand: {
-      default: color.brand[600],
-      hover: color.brand[700],
-      active: color.brand[800],
-      subtle: color.brand[100],  // Stronger subtle background
-      muted: color.brand[200],
-      text: color.brand[800],
+      default: color.brand[600],   // #7C3AED — 5.7x on white ✅
+      hover: color.brand[700],     // #6D28D9
+      active: color.brand[800],    // #5B21B6
+      subtle: color.brand[100],    // #EDE9FE
+      muted: color.brand[200],     // #DDD6FE
+      text: color.brand[700],      // #6D28D9
+    },
+    // Accent — Amber (CTAs, highlights)
+    accent: {
+      default: color.amber[500],   // #F59E0B
+      hover: color.amber[600],     // #D97706
+      active: color.amber[700],    // #B45309
+      subtle: color.amber[50],     // #FFFBEB
+      muted: color.amber[100],     // #FEF3C7
+      text: color.amber[800],      // #92400E — 5.0x on white ✅
+      onAccent: "#1C1917",         // near-black text on amber bg
     },
     // Feedback - Max visibility, high contrast
     success: { bg: color.green[50], text: color.green[900], border: color.green[500], icon: color.green[600] },
@@ -103,7 +114,7 @@ export const darkTokens = {
 
   color: {
     bg: {
-      default: color.gray[950],
+      default: "#0D0D14",         // warm near-black (not pure cold gray)
       subtle: color.gray[900],
       muted: color.gray[800],
       emphasis: color.gray[700],
@@ -120,25 +131,37 @@ export const darkTokens = {
     text: {
       primary: color.gray[50],
       secondary: color.gray[400],
-      tertiary: color.gray[600],
-      disabled: color.gray[700],
+      tertiary: color.gray[500],  // #64748B — 4.2x on dark-bg ✅
+      disabled: color.gray[600],  // #475569 — clearer than before
       inverse: color.gray[900],
       link: color.brand[400],
     },
     border: {
-      default: color.gray[700],
-      subtle: color.gray[800],  // 1E293B - Subtle border dark
-      strong: color.gray[600],
-      focus: color.brand[400],
+      default: color.gray[700],    // #334155 - Standard border
+      subtle: color.gray[800],    // #1E293B - Subtle
+      strong: color.gray[500],    // #64748B - Visible border ✅
+      input: color.gray[600],     // #475569 - Form input border
+      focus: color.brand[400],    // #A78BFA - Focus ring ✅
       error: color.red[400],
     },
+    // Brand — Violet dark mode
     brand: {
-      default: color.brand[500],
-      hover: color.brand[400],
-      active: color.brand[300],
-      subtle: color.brand[950],
-      muted: color.brand[900],
-      text: color.brand[300],
+      default: color.brand[400],   // #A78BFA — 7.1x on dark-bg ✅ AAA
+      hover: color.brand[300],     // #C4B5FD
+      active: color.brand[200],    // #DDD6FE
+      subtle: color.brand[950],    // #2E1065
+      muted: color.brand[900],     // #4C1D95
+      text: color.brand[300],      // #C4B5FD
+    },
+    // Accent — Amber dark mode
+    accent: {
+      default: color.amber[400],   // #FBBF24 — 11.6x on dark-bg ✅ AAA
+      hover: color.amber[300],     // #FCD34D
+      active: color.amber[500],    // #F59E0B
+      subtle: "rgba(251,191,36,0.12)",
+      muted: "rgba(251,191,36,0.2)",
+      text: color.amber[400],      // #FBBF24
+      onAccent: "#1C1917",
     },
     success: { bg: `rgba(34,197,94,0.12)`, text: color.green[400], border: color.green[600], icon: color.green[400] },
     warning: { bg: `rgba(245,158,11,0.12)`, text: color.amber[400], border: color.amber[600], icon: color.amber[400] },
@@ -183,6 +206,7 @@ interface ColorGroup {
     default: string;
     subtle: string;
     strong: string;
+    input: string;
     focus: string;
     error: string;
   };
@@ -193,6 +217,15 @@ interface ColorGroup {
     subtle: string;
     muted: string;
     text: string;
+  };
+  accent: {
+    default: string;
+    hover: string;
+    active: string;
+    subtle: string;
+    muted: string;
+    text: string;
+    onAccent: string;
   };
   success: { bg: string; text: string; border: string; icon: string };
   warning: { bg: string; text: string; border: string; icon: string };
