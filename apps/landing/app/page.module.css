@@ -467,3 +467,84 @@
   .semanticGrid  { grid-template-columns: 1fr; }
   .timingRow     { grid-template-columns: 1fr 1fr; }
 }
+
+/* ===== BRAND SWITCHER ===== */
+.brandGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.brandCard {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: default;
+}
+.brandCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.brandPreview {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 120px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.brandDotRow {
+  display: flex;
+  gap: 6px;
+}
+.brandDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.brandMockButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  width: fit-content;
+}
+.brandMockBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid;
+  width: fit-content;
+}
+.brandInfo {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: var(--surface);
+}
+.brandName {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.brandDesc {
+  font-size: 12px;
+  color: var(--text-2);
+}
+.brandPkg {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #7C3AED;
+  margin-top: 4px;
+}
+.brandCodeSnippet {
+  max-width: 480px;
+}
+@media (max-width: 768px) {
+  .brandGrid { grid-template-columns: 1fr 1fr; }
+}

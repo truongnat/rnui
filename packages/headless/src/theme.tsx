@@ -20,6 +20,8 @@ export interface Theme {
   colorScheme: ColorScheme;
   /** Toggle or force a color scheme */
   setColorScheme: (scheme: ColorScheme | "system") => void;
+  /** Optional brand name (for display / debugging) */
+  brandName?: string;
 }
 
 export type ThemeOverride = Partial<Record<ColorScheme, DeepPartial<SemanticTokens>>>;
@@ -30,6 +32,8 @@ export interface ThemeProviderProps {
   colorScheme?: ColorScheme | "system";
   /** Token overrides for brand customization */
   override?: ThemeOverride;
+  /** Brand preset — applied before override (brand < override) */
+  brand?: ThemeOverride;
 }
 
 /**
@@ -49,6 +53,7 @@ export function ThemeProvider({
   children,
   colorScheme: forcedScheme = "system",
   override,
+  brand,
 }: ThemeProviderProps) {
   const systemScheme = useColorScheme();
   const [manualScheme, setManualScheme] = React.useState<ColorScheme | "system">(forcedScheme);
@@ -60,10 +65,14 @@ export function ThemeProvider({
     // Base semantic tokens for the active scheme
     const baseTokens = semanticTokens[activeScheme];
 
-    // Apply override if provided (deep merge)
-    const tokens = override?.[activeScheme]
-      ? deepMerge(baseTokens, override[activeScheme]!)
-      : baseTokens;
+    // Apply brand first, then user override on top
+    let tokens = baseTokens;
+    if (brand?.[activeScheme]) {
+      tokens = deepMerge(tokens, brand[activeScheme]!);
+    }
+    if (override?.[activeScheme]) {
+      tokens = deepMerge(tokens as object as typeof baseTokens, override[activeScheme]!);
+    }
 
     // Derive component tokens from (possibly overridden) semantic tokens
     const components = resolveComponentTokens(tokens as SemanticTokens);
@@ -74,7 +83,7 @@ export function ThemeProvider({
       colorScheme: activeScheme,
       setColorScheme: setManualScheme,
     };
-  }, [activeScheme, override]);
+  }, [activeScheme, brand, override]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

@@ -147,6 +147,64 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* BRAND SWITCHER PREVIEW */}
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
+          <div className={styles.sectionHead}>
+            <h2 className={styles.h2}>Brand Presets.</h2>
+            <p className={styles.sectionSub}>6 ready-made brand themes. Swap with one line. Build your own with <code>createBrand()</code>.</p>
+          </div>
+
+          <div className={styles.brandGrid}>
+            {[
+              { name:"Default",  desc:"Violet & Amber",  primary:"#7C3AED", secondary:"#F59E0B", bg:"#FAFAF9",  pkg:"defaultBrand"  },
+              { name:"Love",     desc:"Rose & Blush",    primary:"#E11D48", secondary:"#FB7185", bg:"#FFF1F2",  pkg:"loveBrand"     },
+              { name:"Ocean",    desc:"Teal & Cyan",     primary:"#0D9488", secondary:"#06B6D4", bg:"#F0FDFA",  pkg:"oceanBrand"    },
+              { name:"Forest",   desc:"Emerald & Lime",  primary:"#059669", secondary:"#84CC16", bg:"#F0FDF4",  pkg:"forestBrand"   },
+              { name:"Sunset",   desc:"Orange & Amber",  primary:"#EA580C", secondary:"#F59E0B", bg:"#FFF7ED",  pkg:"sunsetBrand"   },
+              { name:"Midnight", desc:"Purple & Blue",   primary:"#7E22CE", secondary:"#3B82F6", bg:"#0D0D1A",  pkg:"midnightBrand" },
+            ].map((brand) => (
+              <div key={brand.name} className={styles.brandCard} style={{"--brand-primary": brand.primary, "--brand-secondary": brand.secondary} as React.CSSProperties}>
+                <div className={styles.brandPreview} style={{background: brand.bg}}>
+                  <div className={styles.brandDotRow}>
+                    <div className={styles.brandDot} style={{background: brand.primary}} />
+                    <div className={styles.brandDot} style={{background: brand.secondary, opacity: 0.7}} />
+                    <div className={styles.brandDot} style={{background: brand.primary, opacity: 0.3}} />
+                  </div>
+                  <div className={styles.brandMockButton} style={{background: brand.primary}}>
+                    <span style={{color: "#fff", fontSize: 11, fontWeight: 600}}>Button</span>
+                  </div>
+                  <div className={styles.brandMockBadge} style={{background: brand.secondary + "33", borderColor: brand.secondary}}>
+                    <span style={{color: brand.name === "Midnight" ? brand.secondary : brand.primary, fontSize: 10, fontWeight: 700}}>Badge</span>
+                  </div>
+                </div>
+                <div className={styles.brandInfo}>
+                  <span className={styles.brandName}>{brand.name}</span>
+                  <span className={styles.brandDesc}>{brand.desc}</span>
+                  <code className={styles.brandPkg}>{brand.pkg}</code>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.brandCodeSnippet}>
+            <pre className={styles.stepCode}>
+              <code>
+                <span className={styles.iRed}>import</span>{" { loveBrand } "}<span className={styles.iRed}>from</span>{" "}<span className={styles.iBrown}>&quot;@rnui/themes&quot;</span>{"
+
+"}
+                {"<"}<span className={styles.iBlue}>ThemeProvider</span>{" "}<span className={styles.iGreen}>brand</span>{"={loveBrand}>"}{"
+"}
+                {"  <App />"}{"
+"}
+                {"</"}<span className={styles.iBlue}>ThemeProvider</span>{">"}
+              </code>
+            </pre>
+          </div>
+        </div>
+      </section>
+
       {/* TOKEN PREVIEW */}
       <section className={styles.section}>
         <div className={styles.sectionInner}>
