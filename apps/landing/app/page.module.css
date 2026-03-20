@@ -7,8 +7,8 @@
 .navLinks { display: flex; align-items: center; gap: 4px; margin-left: auto; }
 .navLink { color: var(--text-2); font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 4px; transition: color 0.12s, background 0.12s; }
 .navLink:hover { color: var(--text); background: var(--highlight); }
-.navCta { display: inline-flex; align-items: center; padding: 7px 16px; background: #7C3AED; color: #fff; font-size: 13px; font-weight: 600; border-radius: 4px; transition: opacity 0.12s; letter-spacing: 0.01em; }
-.navCta:hover { background: #6D28D9; opacity: 1; }
+.navCta { display: inline-flex; align-items: center; padding: 7px 16px; background: var(--brand); color: #fff; font-size: 13px; font-weight: 600; border-radius: 4px; transition: opacity 0.12s; letter-spacing: 0.01em; }
+.navCta:hover { background: var(--brand-hover); opacity: 1; }
 
 /* HERO */
 .hero { padding: 96px 32px 80px; border-bottom: 1px solid var(--border); }
@@ -18,7 +18,7 @@
 .h1 { font-family: var(--font-serif); font-size: clamp(40px, 5.5vw, 68px); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; color: var(--text); }
 .heroSub { font-size: 17px; color: var(--text-2); line-height: 1.7; max-width: 440px; }
 .heroCtas { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.ctaPrimary { display: inline-flex; align-items: center; padding: 11px 22px; background: #F59E0B; color: #1C1917; font-size: 14px; font-weight: 600; border-radius: 4px; transition: opacity 0.12s; }
+.ctaPrimary { display: inline-flex; align-items: center; padding: 11px 22px; background: var(--accent); color: #1C1917; font-size: 14px; font-weight: 600; border-radius: 4px; transition: opacity 0.12s; }
 .ctaPrimary:hover { opacity: 0.82; }
 .ctaSecondary { display: inline-flex; align-items: center; padding: 11px 22px; background: transparent; color: var(--text); font-size: 14px; font-weight: 600; border-radius: 4px; border: 1px solid var(--border-strong); transition: background 0.12s, border-color 0.12s; }
 .ctaSecondary:hover { background: var(--highlight); border-color: var(--text-3); }
@@ -307,7 +307,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #7C3AED;
+  background: var(--brand);
   transition: transform 0.3s;
 }
 .motionCard:hover .motionDot[data-spring="snappy"]  { transform: translateX(32px); transition: transform 0.15s cubic-bezier(0.4,0,0.2,1); }
@@ -448,7 +448,7 @@
 .timingFill {
   height: 100%;
   width: 0%;
-  background: #7C3AED;
+  background: var(--brand);
   border-radius: 2px;
   animation: timingFillAnim 2s infinite;
 }
@@ -461,7 +461,7 @@
 .timingCard[data-timing="fadeIn"]  .timingFill { animation-duration: 1.2s; }
 .timingCard[data-timing="popIn"]   .timingFill { animation-duration: 1.5s; }
 .timingCard[data-timing="slideIn"] .timingFill { animation-duration: 2.2s; }
-.timingCard[data-timing="color"]   .timingFill { animation-duration: 1s; background: #F59E0B; }
+.timingCard[data-timing="color"]   .timingFill { animation-duration: 1s; background: var(--accent); }
 
 @media (max-width: 768px) {
   .semanticGrid  { grid-template-columns: 1fr; }
@@ -539,7 +539,7 @@
 .brandPkg {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: #7C3AED;
+  color: var(--brand);
   margin-top: 4px;
 }
 .brandCodeSnippet {
@@ -547,4 +547,97 @@
 }
 @media (max-width: 768px) {
   .brandGrid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ===== THEME BAR (brand switcher) ===== */
+.themeBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.themeBarInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.themeBarLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+.brandSelect {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.selectEl {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 28px 5px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  min-width: 200px;
+  outline: none;
+  font-family: var(--font-sans);
+}
+.selectEl:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 20%, transparent);
+}
+.selectChevron {
+  position: absolute;
+  right: 8px;
+  pointer-events: none;
+  font-size: 11px;
+  color: var(--text-3);
+}
+.darkToggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s;
+}
+.darkToggle:hover {
+  border-color: var(--brand);
+  color: var(--text);
+}
+.activeBrandDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.2s;
+  margin-left: auto;
+}
+
+/* Push page content below theme bar */
+.main {
+  padding-top: 44px;
 }

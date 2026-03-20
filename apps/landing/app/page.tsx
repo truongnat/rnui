@@ -367,19 +367,18 @@ export default function Home() {
                   {name:"bg.disabled",  color:"#F1F5F9",    label:"Disabled",border:true},
                   {name:"bg.inverse",   color:"#0F172A",    label:"Inverse"},
                 ]},
-                {group:"Brand — Violet", tokens:[
-                  {name:"brand.subtle", color:"#EDE9FE",    label:"Subtle",border:true},
-                  {name:"brand.muted",  color:"#DDD6FE",    label:"Muted", border:true},
-                  {name:"brand.default",color:"#7C3AED",    label:"Default"},
-                  {name:"brand.hover",  color:"#6D28D9",    label:"Hover"},
-                  {name:"brand.active", color:"#5B21B6",    label:"Active"},
+                {group:"Brand — Active", tokens:[
+                  {name:"brand.subtle",  color:"var(--brand-subtle)",  label:"Subtle",border:true, cssvar:true},
+                  {name:"brand.muted",   color:"var(--brand-subtle)",  label:"Muted", border:true, cssvar:true},
+                  {name:"brand.default", color:"var(--brand)",         label:"Default", cssvar:true},
+                  {name:"brand.hover",   color:"var(--brand-hover)",   label:"Hover", cssvar:true},
+                  {name:"brand.text",    color:"var(--brand-text)",    label:"Text", cssvar:true},
                 ]},
-                {group:"Accent — Amber", tokens:[
-                  {name:"accent.subtle", color:"#FFFBEB",   label:"Subtle",border:true},
-                  {name:"accent.default",color:"#F59E0B",   label:"Default"},
-                  {name:"accent.hover",  color:"#D97706",   label:"Hover"},
-                  {name:"accent.active", color:"#B45309",   label:"Active"},
-                  {name:"accent.text",   color:"#92400E",   label:"Text"},
+                {group:"Accent — Active", tokens:[
+                  {name:"accent.subtle", color:"var(--accent-subtle)", label:"Subtle",border:true, cssvar:true},
+                  {name:"accent.default",color:"var(--accent)",        label:"Default", cssvar:true},
+                  {name:"accent.hover",  color:"var(--accent-hover)",  label:"Hover", cssvar:true},
+                  {name:"accent.text",   color:"var(--accent-text)",   label:"Text", cssvar:true},
                 ]},
                 {group:"Text", tokens:[
                   {name:"text.primary",   color:"#020617",  label:"Primary"},
@@ -394,7 +393,7 @@ export default function Home() {
                   <div className={styles.semanticTokens}>
                     {tokens.map(({name,color,label,border})=>(
                       <div key={name} className={styles.semanticToken}>
-                        <div className={styles.semanticSwatch} style={{background:color,borderWidth:border?1:0,borderColor:"#E2E8F0",borderStyle:"solid"}} />
+                        <div className={styles.semanticSwatch} style={{background:color,borderWidth:border?1:0,borderColor:"var(--border)",borderStyle:"solid"}} />
                         <div className={styles.semanticInfo}>
                           <span className={styles.semanticName}>{name}</span>
                           <span className={styles.semanticHex}>{color}</span>

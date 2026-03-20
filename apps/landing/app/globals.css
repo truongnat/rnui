@@ -46,3 +46,38 @@ button { cursor: pointer; font-family: var(--font-sans); border: none; backgroun
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+/* ── Dynamic brand vars (set by ThemeShell) ── */
+:root {
+  --brand:         #7C3AED;
+  --brand-hover:   #6D28D9;
+  --brand-subtle:  #EDE9FE;
+  --brand-text:    #5B21B6;
+  --accent:        #F59E0B;
+  --accent-hover:  #D97706;
+  --accent-subtle: #FFFBEB;
+  --accent-text:   #92400E;
+}
+
+/* ── Dark mode base (overridden by ThemeShell inline styles) ── */
+[data-theme="dark"] {
+  --bg:           #0D0D14;
+  --surface:      #131320;
+  --surface-2:    #1A1A28;
+  --border:       #2A2A3E;
+  --border-strong:#404060;
+  --text:         #F0EFF5;
+  --text-2:       #9896A8;
+  --text-3:       #5C5A70;
+  --highlight:    #1E1E30;
+  --code-bg:      #181828;
+}
+
+/* ── Transitions for smooth brand/mode switching ── */
+*, *::before, *::after {
+  transition: background-color 0.2s ease, color 0.15s ease, border-color 0.15s ease;
+}
+/* But NOT for transforms (kills animations) */
+.timingFill, [class*="Dot"], [class*="dot"] {
+  transition: none;
+}
