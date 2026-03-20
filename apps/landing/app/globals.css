@@ -5,27 +5,42 @@
 }
 
 :root {
-  --bg: #FAFAF9;
-  --surface: #FFFFFF;
-  --surface-2: #F5F4F2;
-  --border: #E8E6E1;
-  --border-strong: #C8C5BE;
-  --text: #1A1A18;
-  --text-2: #6B6B63;
-  --text-3: #A8A89E;
-  --highlight: #F0F0E8;
-  --code-bg: #F5F4F0;
-  --ink-red: #D4380D;
-  --ink-brown: #7C5B3E;
-  --ink-blue: #1D4ED8;
-  --ink-green: #166534;
-  --dark-bg: #1A1A18;
-  --dark-text: #F5F4F0;
-  --dark-text-2: #9A9A90;
+  --bg:           #FAFAFA;
+  --surface:      #FFFFFF;
+  --surface-2:    #F4F4FF;
+  --border:       #E8E8F0;
+  --border-strong:#C4C4D8;
+  --text:         #0F0F1A;
+  --text-2:       #52526E;
+  --text-3:       #9494B0;
+  --highlight:    #F0EFFE;
+  --code-bg:      #F6F6FF;
+  --ink-red:      #C026D3;
+  --ink-brown:    #7C3AED;
+  --ink-blue:     #2563EB;
+  --ink-green:    #059669;
+  --dark-bg:      #0F0F1A;
+  --dark-text:    #F0EFF5;
+  --dark-text-2:  #9494B0;
+  --grad-brand:   linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+  --grad-accent:  linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+  --grad-subtle:  linear-gradient(135deg, #EDE9FE 0%, #E0E7FF 100%);
+  --grad-hero:    radial-gradient(ellipse 80% 60% at 60% 0%, rgba(124,58,237,0.12) 0%, rgba(79,70,229,0.06) 40%, transparent 70%);
   --font-heading: var(--font-syne), "Syne", system-ui, sans-serif;
-  --font-sans: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: var(--font-mono), "JetBrains Mono", "Fira Code", "SF Mono", Consolas, monospace;
-  --font-serif: Georgia, "Times New Roman", serif; /* kept for fallback */
+  --font-sans:    var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    var(--font-jetbrains), "JetBrains Mono", "Fira Code", "SF Mono", Consolas, monospace;
+}
+
+/* Dynamic brand vars (set by ThemeShell) */
+:root {
+  --brand:         #7C3AED;
+  --brand-hover:   #6D28D9;
+  --brand-subtle:  #EDE9FE;
+  --brand-text:    #5B21B6;
+  --accent:        #F59E0B;
+  --accent-hover:  #D97706;
+  --accent-subtle: #FFFBEB;
+  --accent-text:   #92400E;
 }
 
 html { scroll-behavior: smooth; }
@@ -38,7 +53,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11"; /* Inter stylistic sets */
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   overflow-x: hidden;
 }
 
@@ -47,92 +62,61 @@ button { cursor: pointer; font-family: var(--font-sans); border: none; backgroun
 
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--brand-subtle); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand); }
 
-/* ── Dynamic brand vars (set by ThemeShell) ── */
-:root {
-  --brand:         #7C3AED;
-  --brand-hover:   #6D28D9;
-  --brand-subtle:  #EDE9FE;
-  --brand-text:    #5B21B6;
-  --accent:        #F59E0B;
-  --accent-hover:  #D97706;
-  --accent-subtle: #FFFBEB;
-  --accent-text:   #92400E;
-}
-
-/* ── Dark mode base (overridden by ThemeShell inline styles) ── */
+/* Dark mode */
 [data-theme="dark"] {
-  --bg:           #0D0D14;
-  --surface:      #131320;
-  --surface-2:    #1A1A28;
-  --border:       #2A2A3E;
-  --border-strong:#404060;
-  --text:         #F0EFF5;
-  --text-2:       #9896A8;
-  --text-3:       #5C5A70;
-  --highlight:    #1E1E30;
-  --code-bg:      #131320;
-  --dark-bg:      #0D0D14;
-  --dark-text:    #F0EFF5;
-  --dark-text-2:  #9896A8;
-  --cta-bg:       #131320;
-  --cta-text:     #F0EFF5;
+  --bg:           #0A0A12;
+  --surface:      #12121E;
+  --surface-2:    #1A1A2E;
+  --border:       #252540;
+  --border-strong:#383860;
+  --text:         #F0EFF8;
+  --text-2:       #8A8AA8;
+  --text-3:       #55556A;
+  --highlight:    #1E1E38;
+  --code-bg:      #12121E;
+  --dark-bg:      #0A0A12;
+  --dark-text:    #F0EFF8;
+  --dark-text-2:  #8A8AA8;
+  --cta-bg:       #12121E;
+  --cta-text:     #F0EFF8;
+  --grad-hero:    radial-gradient(ellipse 80% 60% at 60% 0%, rgba(124,58,237,0.25) 0%, rgba(79,70,229,0.12) 40%, transparent 70%);
   color-scheme: dark;
 }
 
-/* ── Transitions for smooth brand/mode switching ── */
+/* Smooth transitions */
 *, *::before, *::after {
-  transition: background-color 0.2s ease, color 0.15s ease, border-color 0.15s ease;
+  transition: background-color 0.2s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.2s ease;
 }
-/* But NOT for transforms (kills animations) */
 .timingFill, [class*="Dot"], [class*="dot"] {
   transition: none;
 }
 
-/* ── Dark mode visual enhancements ─────────────────────────────── */
-[data-theme="dark"] .main {
-  background: var(--bg);
+/* Dark enhancements */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2 {
+  text-shadow: 0 0 80px color-mix(in srgb, var(--brand) 30%, transparent);
 }
-
-/* Subtle brand glow on hero heading */
-[data-theme="dark"] .h1,
-[data-theme="dark"] .h2 {
-  text-shadow: 0 0 60px color-mix(in srgb, var(--brand) 18%, transparent);
-}
-
-/* Featured cards get brand-tinted top border */
 [data-theme="dark"] .featCard {
   border-top-color: var(--brand);
 }
-
-/* Section dividers — more visible */
-[data-theme="dark"] .stats {
-  border-color: var(--border);
-}
-
-/* Token block — subtle left accent */
 [data-theme="dark"] .tokenBlock {
   border-left-color: var(--brand);
 }
-
-/* Shadow tokens preview — more contrast */
 [data-theme="dark"] .shadowBox {
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5) !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6) !important;
 }
-
-/* Code + terminal — slightly raised surface */
 [data-theme="dark"] .codeCard,
 [data-theme="dark"] .terminalCard {
-  box-shadow: 0 0 0 1px var(--border), 0 16px 48px rgba(0,0,0,0.35);
+  box-shadow: 0 0 0 1px var(--border), 0 16px 48px rgba(124,58,237,0.15);
 }
-
-/* Spacing + radius demo: use accent color */
 [data-theme="dark"] .spacingBar {
-  background: var(--accent);
-  opacity: 0.9;
+  background: var(--brand);
+  opacity: 0.8;
 }
 [data-theme="dark"] .radiusBox {
-  background: color-mix(in srgb, var(--brand) 60%, var(--accent));
+  background: linear-gradient(135deg, var(--brand), var(--accent));
   opacity: 1;
 }

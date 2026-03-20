@@ -28,7 +28,7 @@ export default function Home() {
         <div className={styles.heroInner}>
           <div className={styles.heroLeft}>
             <span className={styles.badge}>NEW ARCH READY</span>
-            <h1 className={styles.h1}>The React Native<br />UI Framework.</h1>
+            <h1 className={styles.h1}>The React Native<br /><span className={styles.h1Grad}>UI Framework.</span></h1>
             <p className={styles.heroSub}>Dual-layer design system for iOS &amp; Android. Use styled components out of the box, or take full control with zero-style headless hooks.</p>
             <div className={styles.heroCtas}>
               <a href="https://github.com/truongnat/rnui" target="_blank" rel="noopener noreferrer" className={styles.ctaPrimary}>Get Started →</a>
@@ -37,7 +37,7 @@ export default function Home() {
           </div>
           <div className={styles.heroRight}>
             <div className={styles.terminalCard}>
-              <div className={styles.terminalHeader}><span className={styles.terminalTitle}>terminal</span></div>
+              <div className={styles.terminalHeader}><div className={styles.terminalDots}><div className={styles.terminalDot}/><div className={styles.terminalDot}/><div className={styles.terminalDot}/></div><span className={styles.terminalTitle}>terminal</span></div>
               <pre className={styles.terminalBody}><code><span className={styles.cPrompt}>$</span>{" bun add @rnui/ui @rnui/tokens\n"}<span className={styles.cMuted}>{"  installing...\n\n"}</span><span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/tokens\n"}<span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/headless\n"}<span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/ui\n\n"}<span className={styles.cMuted}>{"  3 packages installed"}</span></code></pre>
             </div>
           </div>
