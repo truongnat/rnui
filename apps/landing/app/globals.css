@@ -5,29 +5,34 @@
 }
 
 :root {
-  --bg: #0A0A0A;
-  --surface-1: #111111;
-  --surface-2: #1A1A1A;
-  --border-1: #222222;
-  --border-2: #333333;
-  --text-primary: #FFFFFF;
-  --text-secondary: #888888;
-  --text-tertiary: #555555;
-  --accent: #7C3AED;
-  --accent-light: #8B5CF6;
-  --accent-dark: #4F46E5;
-  --code-bg: #0D0D0D;
-  --font: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --bg: #FAFAF9;
+  --surface: #FFFFFF;
+  --surface-2: #F5F4F2;
+  --border: #E8E6E1;
+  --border-strong: #C8C5BE;
+  --text: #1A1A18;
+  --text-2: #6B6B63;
+  --text-3: #A8A89E;
+  --highlight: #F0F0E8;
+  --code-bg: #F5F4F0;
+  --ink-red: #D4380D;
+  --ink-brown: #7C5B3E;
+  --ink-blue: #1D4ED8;
+  --ink-green: #166534;
+  --dark-bg: #1A1A18;
+  --dark-text: #F5F4F0;
+  --dark-text-2: #9A9A90;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", Consolas, monospace;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: var(--bg);
-  color: var(--text-primary);
-  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -35,28 +40,9 @@ body {
   overflow-x: hidden;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: var(--font-sans); border: none; background: none; }
 
-button {
-  cursor: pointer;
-  font-family: var(--font);
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-2);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-tertiary);
-}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
