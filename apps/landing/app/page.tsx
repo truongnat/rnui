@@ -50,7 +50,7 @@ export default function Home() {
           <div className={styles.statDiv} />
           <div className={styles.statItem}><span className={styles.statNum}>3</span><span className={styles.statLabel}>Packages</span></div>
           <div className={styles.statDiv} />
-          <div className={styles.statItem}><span className={styles.statNum}>iOS &amp; Android</span><span className={styles.statLabel}>New Architecture</span></div>
+          <div className={styles.statItem}><span className={`${styles.statNum} ${styles.statNumSm}`}>iOS &amp; Android</span><span className={styles.statLabel}>New Architecture</span></div>
         </div>
       </div>
 
