@@ -296,6 +296,80 @@ export default function Home() {
             </div>
           </div>
 
+          {/* SEMANTIC LAYER */}
+          <div className={styles.tokenBlock}>
+            <h3 className={styles.tokenBlockTitle}>Semantic Tokens — Light Mode</h3>
+            <div className={styles.semanticGrid}>
+              {[
+                {group:"Background", tokens:[
+                  {name:"bg.default",   color:"#FFFFFF",    label:"Default"},
+                  {name:"bg.subtle",    color:"#F8FAFC",    label:"Subtle"},
+                  {name:"bg.hover",     color:"#F1F5F9",    label:"Hover"},
+                  {name:"bg.disabled",  color:"#F1F5F9",    label:"Disabled",border:true},
+                  {name:"bg.inverse",   color:"#0F172A",    label:"Inverse"},
+                ]},
+                {group:"Brand — Violet", tokens:[
+                  {name:"brand.subtle", color:"#EDE9FE",    label:"Subtle",border:true},
+                  {name:"brand.muted",  color:"#DDD6FE",    label:"Muted", border:true},
+                  {name:"brand.default",color:"#7C3AED",    label:"Default"},
+                  {name:"brand.hover",  color:"#6D28D9",    label:"Hover"},
+                  {name:"brand.active", color:"#5B21B6",    label:"Active"},
+                ]},
+                {group:"Accent — Amber", tokens:[
+                  {name:"accent.subtle", color:"#FFFBEB",   label:"Subtle",border:true},
+                  {name:"accent.default",color:"#F59E0B",   label:"Default"},
+                  {name:"accent.hover",  color:"#D97706",   label:"Hover"},
+                  {name:"accent.active", color:"#B45309",   label:"Active"},
+                  {name:"accent.text",   color:"#92400E",   label:"Text"},
+                ]},
+                {group:"Text", tokens:[
+                  {name:"text.primary",   color:"#020617",  label:"Primary"},
+                  {name:"text.secondary", color:"#334155",  label:"Secondary"},
+                  {name:"text.tertiary",  color:"#64748B",  label:"Tertiary"},
+                  {name:"text.disabled",  color:"#64748B",  label:"Disabled"},
+                  {name:"text.onBrand",   color:"#FFFFFF",  label:"onBrand",border:true},
+                ]},
+              ].map(({group,tokens})=>(
+                <div key={group} className={styles.semanticGroup}>
+                  <span className={styles.semanticGroupTitle}>{group}</span>
+                  <div className={styles.semanticTokens}>
+                    {tokens.map(({name,color,label,border})=>(
+                      <div key={name} className={styles.semanticToken}>
+                        <div className={styles.semanticSwatch} style={{background:color,borderWidth:border?1:0,borderColor:"#E2E8F0",borderStyle:"solid"}} />
+                        <div className={styles.semanticInfo}>
+                          <span className={styles.semanticName}>{name}</span>
+                          <span className={styles.semanticHex}>{color}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* TIMING PRESETS */}
+          <div className={styles.tokenBlock}>
+            <h3 className={styles.tokenBlockTitle}>Timing Presets</h3>
+            <div className={styles.timingRow}>
+              {[
+                {name:"fadeIn",   dur:"100ms", easing:"easeOut", use:"Overlays, tooltips"},
+                {name:"popIn",    dur:"200ms", easing:"easeOut", use:"Micro interactions"},
+                {name:"slideIn",  dur:"300ms", easing:"easeOut", use:"Panels, sheets"},
+                {name:"color",    dur:"100ms", easing:"linear",  use:"Theme switch, hover"},
+              ].map((t)=>(
+                <div key={t.name} className={styles.timingCard}>
+                  <div className={styles.timingBar}>
+                    <div className={styles.timingFill} style={{animationDuration:t.dur}} data-timing={t.name} />
+                  </div>
+                  <span className={styles.motionName}>{t.name}</span>
+                  <span className={styles.motionDesc}>{t.dur} · {t.easing}</span>
+                  <span className={styles.motionSpec}>{t.use}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
