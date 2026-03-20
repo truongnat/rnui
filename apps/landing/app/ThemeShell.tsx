@@ -250,9 +250,22 @@ export function ThemeShell({ children }: { children: React.ReactNode }) {
     const vars = dark ? brand.dark : brand.light;
     const root = document.documentElement;
     Object.entries(vars).forEach(([k, v]) => root.style.setProperty(k, v));
-    // Also set fixed vars that don't change per brand
+    // Set fixed vars that don't change per brand
     root.style.setProperty("--border-strong", dark ? "#404060" : "#C8C5BE");
     root.style.setProperty("--text-inverse", dark ? "#0D0D14" : "#FFFFFF");
+    // Sync --dark-bg / --dark-text with active bg/text so CTA/terminal stay correct
+    const bgVar   = dark ? (brand.dark["--bg"]     || "#0D0D14")  : (brand.light["--bg"]     || "#FAFAF9");
+    const txtVar  = dark ? (brand.dark["--text"]    || "#F0EFF5")  : (brand.light["--text"]   || "#1A1A18");
+    const txt2Var = dark ? (brand.dark["--text-2"]  || "#9896A8")  : (brand.light["--text-2"] || "#6B6B63");
+    const sfcVar  = dark ? (brand.dark["--surface"] || "#131320")  : (brand.light["--surface"]|| "#FFFFFF");
+    root.style.setProperty("--dark-bg",    bgVar);
+    root.style.setProperty("--dark-text",  txtVar);
+    root.style.setProperty("--dark-text-2",txt2Var);
+    root.style.setProperty("--cta-bg",     dark ? sfcVar  : (brand.light["--text"]   || "#1A1A18"));
+    root.style.setProperty("--cta-text",   dark ? txtVar  : (brand.light["--bg"]     || "#FAFAF9"));
+    root.style.setProperty("--code-bg",    dark ? sfcVar  : "#F5F4F0");
+    root.style.setProperty("--highlight",  dark ? (brand.dark["--surface-2"]  || "#1E1E30") : "#F0F0E8");
+    root.style.colorScheme = dark ? "dark" : "light";
     root.setAttribute("data-theme", dark ? "dark" : "light");
     root.setAttribute("data-brand", brand.name.toLowerCase());
   }, []);

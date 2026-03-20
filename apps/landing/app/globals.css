@@ -72,7 +72,13 @@ button { cursor: pointer; font-family: var(--font-sans); border: none; backgroun
   --text-2:       #9896A8;
   --text-3:       #5C5A70;
   --highlight:    #1E1E30;
-  --code-bg:      #181828;
+  --code-bg:      #131320;
+  --dark-bg:      #0D0D14;
+  --dark-text:    #F0EFF5;
+  --dark-text-2:  #9896A8;
+  --cta-bg:       #131320;
+  --cta-text:     #F0EFF5;
+  color-scheme: dark;
 }
 
 /* ── Transitions for smooth brand/mode switching ── */
