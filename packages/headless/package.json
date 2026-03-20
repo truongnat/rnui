@@ -1,7 +1,8 @@
 {
   "name": "@rnui/headless",
   "version": "0.0.1",
-  "description": "Headless primitives for RNUI — logic, state, a11y. No styles.",
+  "type": "module",
+  "description": "Headless primitives for RNUI \u2014 logic, state, a11y. No styles.",
   "keywords": [
     "react-native",
     "headless",
@@ -9,7 +10,7 @@
     "accessibility"
   ],
   "license": "MIT",
-  "main": "./dist/index.js",
+  "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
