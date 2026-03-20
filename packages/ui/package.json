@@ -23,11 +23,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "jest --testPathPattern=\"__tests__(?!/perf)\"",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist dist-types",
     "test:perf": "jest --testPathPattern=perf"
   },
   "dependencies": {

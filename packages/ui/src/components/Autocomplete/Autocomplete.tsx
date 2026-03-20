@@ -145,7 +145,12 @@ export function Autocomplete<T = string>({
                 <Pressable
                   key={`${labelOf(option)}-${idx}`}
                   onPress={() => {
-                    selectOption(option);
+                    if (selected && !multiple) {
+                      // Deselect if already selected in single mode
+                      selectOption(undefined as any);
+                    } else {
+                      selectOption(option);
+                    }
                     if (!multiple) handleClose();
                   }}
                   style={({ pressed }) => ({

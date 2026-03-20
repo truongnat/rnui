@@ -19,6 +19,8 @@ export interface CarouselProps<T> {
     height?: number;
     showPagination?: boolean;
     loop?: boolean;
+    autoPlay?: boolean;
+    autoPlayInterval?: number;
 }
 
 export function Carousel<T>({
@@ -29,11 +31,14 @@ export function Carousel<T>({
     height = 200,
     showPagination = true,
     loop = false,
+    autoPlay = false,
+    autoPlayInterval = 3000,
 }: CarouselProps<T>) {
     const tokens = useTokens();
     const scrollX = useSharedValue(0);
     const scrollViewRef = useRef<ScrollView>(null);
     const isJumping = useRef(false);
+    const autoPlayTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const n = data.length;
 
@@ -59,8 +64,46 @@ export function Carousel<T>({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // Auto-play functionality
+    const goToNextSlide = React.useCallback(() => {
+        if (!loop || n < 2) {
+            // Non-loop mode: go to next or wrap to start
+            const currentIndex = Math.round(scrollX.value / itemStep);
+            const nextIndex = currentIndex >= n - 1 ? 0 : currentIndex + 1;
+            scrollViewRef.current?.scrollTo({ x: nextIndex * itemStep, animated: true });
+        } else {
+            // Loop mode: just scroll right, momentum will handle wrapping
+            const currentIndex = Math.round(scrollX.value / itemStep);
+            const nextX = (currentIndex + 1) * itemStep;
+            // Don't scroll if we're at the end (will be handled by momentum)
+            if (nextX < displayData.length * itemStep) {
+                scrollViewRef.current?.scrollTo({ x: nextX, animated: true });
+            }
+        }
+    }, [loop, n, itemStep, scrollX, displayData.length]);
+
+    React.useEffect(() => {
+        if (autoPlay) {
+            autoPlayTimer.current = setInterval(() => {
+                requestAnimationFrame(() => {
+                    goToNextSlide();
+                });
+            }, autoPlayInterval);
+        }
+        return () => {
+            if (autoPlayTimer.current) {
+                clearInterval(autoPlayTimer.current);
+            }
+        };
+    }, [autoPlay, autoPlayInterval, goToNextSlide]);
+
     const handleScroll = (e: any) => {
         scrollX.value = e.nativeEvent.contentOffset.x;
+        // Reset timer on manual scroll
+        if (autoPlayTimer.current) {
+            clearInterval(autoPlayTimer.current);
+            autoPlayTimer.current = setInterval(goToNextSlide, autoPlayInterval);
+        }
     };
 
     const handleMomentumScrollEnd = (e: any) => {

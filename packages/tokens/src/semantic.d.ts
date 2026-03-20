@@ -1,3 +1,4 @@
+import type { Brand } from "./brand";
 declare const shared: {
     readonly spacing: {
         readonly 0: 0;
@@ -97,6 +98,11 @@ declare const shared: {
         readonly lg: 8;
         readonly xl: 16;
     };
+    readonly focusRing: {
+        readonly width: 2;
+        readonly offset: 2;
+        readonly outlineWidth: 2;
+    };
     readonly text: {
         readonly xs: {
             readonly fontSize: 11;
@@ -144,34 +150,51 @@ export declare const lightTokens: {
             readonly emphasis: "#94A3B8";
             readonly inverse: "#0F172A";
             readonly overlay: "rgba(0,0,0,0.6)";
+            readonly hover: "#F1F5F9";
+            readonly disabled: "#F1F5F9";
         };
         readonly surface: {
             readonly default: "#FFFFFF";
             readonly raised: "#FFFFFF";
             readonly overlay: "#FFFFFF";
             readonly sunken: "#F1F5F9";
+            readonly hover: "#F8FAFC";
+            readonly disabled: "#F1F5F9";
         };
         readonly text: {
             readonly primary: "#020617";
             readonly secondary: "#334155";
             readonly tertiary: "#64748B";
-            readonly disabled: "#94A3B8";
+            readonly disabled: "#64748B";
             readonly inverse: "#FFFFFF";
-            readonly link: "#4338CA";
+            readonly link: "#6D28D9";
+            readonly onBrand: "#FFFFFF";
+            readonly onAccent: "#1C1917";
         };
         readonly border: {
-            readonly default: "#94A3B8";
-            readonly strong: "#475569";
-            readonly focus: "#4F46E5";
+            readonly default: "#CBD5E1";
+            readonly subtle: "#E2E8F0";
+            readonly strong: "#64748B";
+            readonly input: "#94A3B8";
+            readonly focus: "#7C3AED";
             readonly error: "#DC2626";
         };
         readonly brand: {
-            readonly default: "#4F46E5";
-            readonly hover: "#4338CA";
-            readonly active: "#3730A3";
-            readonly subtle: "#E0E7FF";
-            readonly muted: "#C7D2FE";
-            readonly text: "#3730A3";
+            readonly default: "#7C3AED";
+            readonly hover: "#6D28D9";
+            readonly active: "#5B21B6";
+            readonly subtle: "#EDE9FE";
+            readonly muted: "#DDD6FE";
+            readonly text: "#6D28D9";
+        };
+        readonly accent: {
+            readonly default: "#F59E0B";
+            readonly hover: "#D97706";
+            readonly active: "#B45309";
+            readonly subtle: "#FFFBEB";
+            readonly muted: "#FEF3C7";
+            readonly text: "#92400E";
+            readonly onAccent: "#1C1917";
         };
         readonly success: {
             readonly bg: "#F0FDF4";
@@ -199,42 +222,55 @@ export declare const lightTokens: {
         };
     };
     readonly shadow: {
-        readonly none: {};
+        readonly none: {
+            readonly shadowColor: "transparent";
+            readonly shadowOffset: {
+                readonly width: 0;
+                readonly height: 0;
+            };
+            readonly shadowOpacity: 0;
+            readonly shadowRadius: 0;
+            readonly elevation: 0;
+        };
         readonly sm: {
             readonly shadowColor: "#000000";
             readonly shadowOffset: {
                 readonly width: 0;
                 readonly height: 1;
             };
-            readonly shadowOpacity: 0.1;
-            readonly shadowRadius: 2;
+            readonly shadowOpacity: 0.08;
+            readonly shadowRadius: 3;
+            readonly elevation: 2;
         };
         readonly md: {
             readonly shadowColor: "#000000";
             readonly shadowOffset: {
                 readonly width: 0;
-                readonly height: 6;
+                readonly height: 4;
             };
-            readonly shadowOpacity: 0.2;
-            readonly shadowRadius: 12;
+            readonly shadowOpacity: 0.12;
+            readonly shadowRadius: 8;
+            readonly elevation: 4;
         };
         readonly lg: {
             readonly shadowColor: "#000000";
             readonly shadowOffset: {
                 readonly width: 0;
-                readonly height: 12;
+                readonly height: 8;
             };
-            readonly shadowOpacity: 0.25;
-            readonly shadowRadius: 24;
+            readonly shadowOpacity: 0.16;
+            readonly shadowRadius: 16;
+            readonly elevation: 8;
         };
         readonly xl: {
             readonly shadowColor: "#000000";
             readonly shadowOffset: {
                 readonly width: 0;
-                readonly height: 20;
+                readonly height: 16;
             };
-            readonly shadowOpacity: 0.3;
-            readonly shadowRadius: 40;
+            readonly shadowOpacity: 0.2;
+            readonly shadowRadius: 32;
+            readonly elevation: 16;
         };
     };
     readonly spacing: {
@@ -334,6 +370,11 @@ export declare const lightTokens: {
         readonly md: 4;
         readonly lg: 8;
         readonly xl: 16;
+    };
+    readonly focusRing: {
+        readonly width: 2;
+        readonly offset: 2;
+        readonly outlineWidth: 2;
     };
     readonly text: {
         readonly xs: {
@@ -376,40 +417,57 @@ export declare const lightTokens: {
 export declare const darkTokens: {
     readonly color: {
         readonly bg: {
-            readonly default: "#020617";
+            readonly default: "#0D0D14";
             readonly subtle: "#0F172A";
             readonly muted: "#1E293B";
             readonly emphasis: "#334155";
             readonly inverse: "#F8FAFC";
             readonly overlay: "rgba(0,0,0,0.6)";
+            readonly hover: "#1E293B";
+            readonly disabled: "#1E293B";
         };
         readonly surface: {
             readonly default: "#0F172A";
             readonly raised: "#1E293B";
             readonly overlay: "#1E293B";
             readonly sunken: "#020617";
+            readonly hover: "#1A1A28";
+            readonly disabled: "#0D0D14";
         };
         readonly text: {
             readonly primary: "#F8FAFC";
             readonly secondary: "#94A3B8";
-            readonly tertiary: "#475569";
-            readonly disabled: "#334155";
+            readonly tertiary: "#64748B";
+            readonly disabled: "#475569";
             readonly inverse: "#0F172A";
-            readonly link: "#818CF8";
+            readonly link: "#A78BFA";
+            readonly onBrand: "#FFFFFF";
+            readonly onAccent: "#1C1917";
         };
         readonly border: {
             readonly default: "#334155";
-            readonly strong: "#475569";
-            readonly focus: "#818CF8";
+            readonly subtle: "#1E293B";
+            readonly strong: "#64748B";
+            readonly input: "#475569";
+            readonly focus: "#A78BFA";
             readonly error: "#F87171";
         };
         readonly brand: {
-            readonly default: "#6366F1";
-            readonly hover: "#818CF8";
-            readonly active: "#A5B4FC";
-            readonly subtle: "#1E1B4B";
-            readonly muted: "#312E81";
-            readonly text: "#A5B4FC";
+            readonly default: "#A78BFA";
+            readonly hover: "#C4B5FD";
+            readonly active: "#DDD6FE";
+            readonly subtle: "#2E1065";
+            readonly muted: "#4C1D95";
+            readonly text: "#C4B5FD";
+        };
+        readonly accent: {
+            readonly default: "#FBBF24";
+            readonly hover: "#FCD34D";
+            readonly active: "#F59E0B";
+            readonly subtle: "rgba(251,191,36,0.12)";
+            readonly muted: "rgba(251,191,36,0.2)";
+            readonly text: "#FBBF24";
+            readonly onAccent: "#1C1917";
         };
         readonly success: {
             readonly bg: "rgba(34,197,94,0.12)";
@@ -437,42 +495,55 @@ export declare const darkTokens: {
         };
     };
     readonly shadow: {
-        readonly none: {};
+        readonly none: {
+            readonly shadowColor: "transparent";
+            readonly shadowOffset: {
+                readonly width: 0;
+                readonly height: 0;
+            };
+            readonly shadowOpacity: 0;
+            readonly shadowRadius: 0;
+            readonly elevation: 0;
+        };
         readonly sm: {
             readonly shadowColor: "#000000";
             readonly shadowOffset: {
                 readonly width: 0;
                 readonly height: 1;
             };
-            readonly shadowOpacity: 0.2;
-            readonly shadowRadius: 2;
+            readonly shadowOpacity: 0.25;
+            readonly shadowRadius: 4;
+            readonly elevation: 2;
         };
         readonly md: {
             readonly shadowColor: "#000000";
             readonly shadowOffset: {
                 readonly width: 0;
-                readonly height: 2;
+                readonly height: 4;
             };
-            readonly shadowOpacity: 0.3;
-            readonly shadowRadius: 8;
+            readonly shadowOpacity: 0.35;
+            readonly shadowRadius: 10;
+            readonly elevation: 4;
         };
         readonly lg: {
             readonly shadowColor: "#000000";
             readonly shadowOffset: {
                 readonly width: 0;
-                readonly height: 4;
+                readonly height: 8;
             };
-            readonly shadowOpacity: 0.4;
-            readonly shadowRadius: 16;
+            readonly shadowOpacity: 0.45;
+            readonly shadowRadius: 20;
+            readonly elevation: 8;
         };
         readonly xl: {
             readonly shadowColor: "#000000";
             readonly shadowOffset: {
                 readonly width: 0;
-                readonly height: 8;
+                readonly height: 16;
             };
-            readonly shadowOpacity: 0.5;
-            readonly shadowRadius: 24;
+            readonly shadowOpacity: 0.55;
+            readonly shadowRadius: 36;
+            readonly elevation: 16;
         };
     };
     readonly spacing: {
@@ -572,6 +643,11 @@ export declare const darkTokens: {
         readonly md: 4;
         readonly lg: 8;
         readonly xl: 16;
+    };
+    readonly focusRing: {
+        readonly width: 2;
+        readonly offset: 2;
+        readonly outlineWidth: 2;
     };
     readonly text: {
         readonly xs: {
@@ -619,12 +695,16 @@ interface ColorGroup {
         emphasis: string;
         inverse: string;
         overlay: string;
+        hover: string;
+        disabled: string;
     };
     surface: {
         default: string;
         raised: string;
         overlay: string;
         sunken: string;
+        hover: string;
+        disabled: string;
     };
     text: {
         primary: string;
@@ -633,10 +713,14 @@ interface ColorGroup {
         disabled: string;
         inverse: string;
         link: string;
+        onBrand: string;
+        onAccent: string;
     };
     border: {
         default: string;
+        subtle: string;
         strong: string;
+        input: string;
         focus: string;
         error: string;
     };
@@ -647,6 +731,15 @@ interface ColorGroup {
         subtle: string;
         muted: string;
         text: string;
+    };
+    accent: {
+        default: string;
+        hover: string;
+        active: string;
+        subtle: string;
+        muted: string;
+        text: string;
+        onAccent: string;
     };
     success: {
         bg: string;
@@ -683,17 +776,77 @@ export interface SemanticTokens {
     opacity: typeof shared.opacity;
     zIndex: typeof shared.zIndex;
     elevation: typeof shared.elevation;
+    focusRing: typeof shared.focusRing;
     text: typeof shared.text;
     color: ColorGroup;
     shadow: {
-        none: object;
-        sm: object;
-        md: object;
-        lg: object;
-        xl: object;
+        none: {
+            shadowColor: string;
+            shadowOffset: {
+                width: number;
+                height: number;
+            };
+            shadowOpacity: number;
+            shadowRadius: number;
+            elevation: number;
+        };
+        sm: {
+            shadowColor: string;
+            shadowOffset: {
+                width: number;
+                height: number;
+            };
+            shadowOpacity: number;
+            shadowRadius: number;
+            elevation: number;
+        };
+        md: {
+            shadowColor: string;
+            shadowOffset: {
+                width: number;
+                height: number;
+            };
+            shadowOpacity: number;
+            shadowRadius: number;
+            elevation: number;
+        };
+        lg: {
+            shadowColor: string;
+            shadowOffset: {
+                width: number;
+                height: number;
+            };
+            shadowOpacity: number;
+            shadowRadius: number;
+            elevation: number;
+        };
+        xl: {
+            shadowColor: string;
+            shadowOffset: {
+                width: number;
+                height: number;
+            };
+            shadowOpacity: number;
+            shadowRadius: number;
+            elevation: number;
+        };
     };
 }
 export type ColorScheme = "light" | "dark";
+/**
+ * Build a full SemanticTokens object from a Brand + color scheme.
+ *
+ * Architecture:
+ *   primitive scale (spacing, radius, type...)
+ *   + brand color group (bg, surface, text, border, brand, accent, states)
+ *   = SemanticTokens (what components consume)
+ *
+ * @example
+ * const tokens = buildSemanticTokens(loveBrand, "dark");
+ * <ThemeProvider brand={loveBrand}>...</ThemeProvider>  // automatic
+ */
+export declare function buildSemanticTokens(brand: Brand, scheme: ColorScheme): SemanticTokens;
+export type { Brand, BrandColorGroup } from "./brand";
+export { defineBrand, getBrandColors } from "./brand";
 export declare const semanticTokens: Record<ColorScheme, SemanticTokens>;
-export {};
 //# sourceMappingURL=semantic.d.ts.map

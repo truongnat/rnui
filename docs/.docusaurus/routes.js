@@ -4,15 +4,15 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '35a'),
+    component: ComponentCreator('/docs', '497'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '3b0'),
+        component: ComponentCreator('/docs', '4b5'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '860'),
+            component: ComponentCreator('/docs', '301'),
             routes: [
               {
                 path: '/docs/',
@@ -30,6 +30,11 @@ export default [
                 component: ComponentCreator('/docs/components/alert', 'ef7'),
                 exact: true,
                 sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/components/animated-list',
+                component: ComponentCreator('/docs/components/animated-list', 'ec1'),
+                exact: true
               },
               {
                 path: '/docs/components/app-bar',
@@ -98,6 +103,11 @@ export default [
                 sidebar: "tutorialSidebar"
               },
               {
+                path: '/docs/components/carousel',
+                component: ComponentCreator('/docs/components/carousel', 'b63'),
+                exact: true
+              },
+              {
                 path: '/docs/components/checkbox',
                 component: ComponentCreator('/docs/components/checkbox', '54f'),
                 exact: true,
@@ -114,6 +124,11 @@ export default [
                 component: ComponentCreator('/docs/components/circular-progress', '2fe'),
                 exact: true,
                 sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/components/date-picker',
+                component: ComponentCreator('/docs/components/date-picker', '501'),
+                exact: true
               },
               {
                 path: '/docs/components/dialog',
@@ -212,6 +227,11 @@ export default [
                 sidebar: "tutorialSidebar"
               },
               {
+                path: '/docs/components/otp-input',
+                component: ComponentCreator('/docs/components/otp-input', '50e'),
+                exact: true
+              },
+              {
                 path: '/docs/components/pagination',
                 component: ComponentCreator('/docs/components/pagination', '8ae'),
                 exact: true,
@@ -258,6 +278,11 @@ export default [
                 component: ComponentCreator('/docs/components/rating', '62c'),
                 exact: true,
                 sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/components/segmented-control',
+                component: ComponentCreator('/docs/components/segmented-control', '47b'),
+                exact: true
               },
               {
                 path: '/docs/components/select',

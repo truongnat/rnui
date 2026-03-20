@@ -4,3 +4,20 @@
 
 expo-env.d.ts
 # @end expo-cli
+
+# Build outputs
+dist
+.expo
+.webpack
+
+# Native builds
+ios/build
+android/app/build
+android/.gradle
+android/build
+
+# Logs
+*.log
+
+# Environment
+.env.local

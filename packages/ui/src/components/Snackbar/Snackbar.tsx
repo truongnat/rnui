@@ -32,17 +32,19 @@ export function Snackbar({
 
   // Slide direction: bottom → slides up, top → slides down
   const isBottom = anchorOrigin.vertical === "bottom";
-  const translateY = useSharedValue(isBottom ? 80 : -80);
+  const translateY = useSharedValue(isBottom ? 100 : -100);
   const opacity = useSharedValue(0);
+  const scale = useSharedValue(0.95);
 
   const animateIn = () => {
-    translateY.value = withSpring(0, { damping: 20, stiffness: 260 });
-    opacity.value = withTiming(1, { duration: 200, easing: Easing.out(Easing.cubic) });
+    translateY.value = withSpring(0, { damping: 25, stiffness: 300, mass: 1 });
+    opacity.value = withTiming(1, { duration: 200 });
+    scale.value = withSpring(1, { damping: 25, stiffness: 300 });
   };
 
   const animateOut = (onDone: () => void) => {
-    translateY.value = withTiming(isBottom ? 80 : -80, { duration: 220, easing: Easing.in(Easing.cubic) });
-    opacity.value = withTiming(0, { duration: 180 }, (done) => {
+    translateY.value = withTiming(isBottom ? 100 : -100, { duration: 200 });
+    opacity.value = withTiming(0, { duration: 150 }, (done) => {
       if (done) runOnJS(onDone)();
     });
   };
@@ -74,7 +76,7 @@ export function Snackbar({
 
   const animStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-    transform: [{ translateY: translateY.value }],
+    transform: [{ translateY: translateY.value }, { scale: scale.value }],
   }));
 
   if (!mounted) return null;

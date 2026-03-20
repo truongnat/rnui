@@ -1,0 +1,18 @@
+{
+  "id": "components/animated-list",
+  "title": "AnimatedList",
+  "description": "A performant animated list component built on top of FlashList with enter/exit animations powered by Reanimated 3.",
+  "source": "@site/docs/components/animated-list.md",
+  "sourceDirName": "components",
+  "slug": "/components/animated-list",
+  "permalink": "/docs/components/animated-list",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/animated-list.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 60,
+  "frontMatter": {
+    "sidebar_position": 60
+  }
+}

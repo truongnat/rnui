@@ -82,6 +82,52 @@ export declare const motionPreset: {
         readonly slideToRight: "SlideOutRight";
     };
 };
+export declare const timingPreset: {
+    readonly fadeIn: {
+        readonly duration: 100;
+        readonly easing: "cubic-bezier(0, 0, 0.2, 1)";
+    };
+    readonly fadeOut: {
+        readonly duration: 100;
+        readonly easing: "cubic-bezier(0.4, 0, 1, 1)";
+    };
+    readonly popIn: {
+        readonly duration: 200;
+        readonly easing: "cubic-bezier(0, 0, 0.2, 1)";
+    };
+    readonly popOut: {
+        readonly duration: 100;
+        readonly easing: "cubic-bezier(0.4, 0, 1, 1)";
+    };
+    readonly slideIn: {
+        readonly duration: 300;
+        readonly easing: "cubic-bezier(0, 0, 0.2, 1)";
+    };
+    readonly slideOut: {
+        readonly duration: 200;
+        readonly easing: "cubic-bezier(0.4, 0, 1, 1)";
+    };
+    readonly color: {
+        readonly duration: 100;
+        readonly easing: "linear";
+    };
+};
+export declare const focusRingAnimation: {
+    readonly in: {
+        readonly duration: 100;
+        readonly easing: "cubic-bezier(0, 0, 0.2, 1)";
+    };
+    readonly out: {
+        readonly duration: 100;
+        readonly easing: "cubic-bezier(0.4, 0, 1, 1)";
+    };
+};
+export type MotionPresetKey = keyof typeof motionPreset.enter;
+export type MotionExitKey = keyof typeof motionPreset.exit;
+export type TimingPresetKey = keyof typeof timingPreset;
+export type DurationKey = keyof typeof duration;
+export type EasingKey = keyof typeof easing;
 export type SpringConfig = typeof spring[keyof typeof spring];
 export type PressFeedback = typeof pressFeedback[keyof typeof pressFeedback];
+export type TimingPreset = typeof timingPreset[TimingPresetKey];
 //# sourceMappingURL=motion.d.ts.map

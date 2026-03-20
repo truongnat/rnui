@@ -22,10 +22,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist dist-types"
   },
   "devDependencies": {
     "tsup": "^8.4.0",

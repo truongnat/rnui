@@ -5,28 +5,31 @@ import { useComponentTokens, useIconStyle } from "@rnui/headless";
 // ─── Types ────────────────────────────────────────────────────────
 
 export type BadgeVariant = "default" | "brand" | "success" | "warning" | "error" | "info";
+export type BadgeSize = "sm" | "md" | "lg";
 
 export interface BadgeProps {
   label: string;
   variant?: BadgeVariant;
+  size?: BadgeSize;
   icon?: React.ReactNode;
 }
 
 // ─── Component ────────────────────────────────────────────────────
 
-export function Badge({ label, variant = "default", icon }: BadgeProps) {
+export function Badge({ label, variant = "default", size = "md", icon }: BadgeProps) {
   const { badge } = useComponentTokens();
-  const { size: iconSize } = useIconStyle("list"); // Use standard small icon size
+  const { size: iconSize } = useIconStyle("list");
 
   const containerStyle = useMemo(() => [
     badge.base,
+    badge.size[size],
     {
       backgroundColor: badge.variant[variant].bg,
       flexDirection: "row" as const,
       alignItems: "center" as const,
       gap: 4,
     },
-  ], [badge, variant]);
+  ], [badge, variant, size]);
 
   const textStyle = useMemo(() => [
     badge.text,

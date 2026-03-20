@@ -1,0 +1,19 @@
+# Build outputs
+dist
+dist-types
+
+# TypeScript
+*.tsbuildinfo
+
+# Dependencies
+node_modules
+
+# Logs
+*.log
+
+# IDE
+.idea
+.vscode
+
+# OS
+.DS_Store

@@ -5,8 +5,8 @@ export interface UseScrollHeaderOptions {
     headerMinHeight: number;
 }
 export declare function useScrollHeader({ headerMaxHeight, headerMinHeight }: UseScrollHeaderOptions): {
-    scrollY: import("node_modules/react-native-reanimated/lib/typescript").SharedValue<number>;
-    scrollHandler: import("node_modules/react-native-reanimated/lib/typescript").ScrollHandlerProcessed<Record<string, unknown>>;
+    scrollY: import("react-native-reanimated").SharedValue<number>;
+    scrollHandler: import("react-native-reanimated").ScrollHandlerProcessed<Record<string, unknown>>;
     headerStyle: {
         height: number;
     };

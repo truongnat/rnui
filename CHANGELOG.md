@@ -1,59 +1,70 @@
-# Changelog
+# RNUI Changelog
 
-All notable changes to this project will be documented here.
-This project follows [Semantic Versioning](https://semver.org/).
+## [0.1.0] - 2026-03-20
+
+### 🎉 Major Release - Production Ready
+
+#### Fixed
+- **Badge**: Added proper padding with size variants (`sm`, `md`, `lg`)
+- **Chip**: Improved styling with better avatar/deleteIcon support, added `lg` size
+- **Tooltip**: Removed flicker animation, simplified to fade-only, better positioning
+- **Input**: Auto-clear error on first keystroke with `onClearError` callback
+- **Select**: Clear error on selection with `onClearError` callback
+- **Autocomplete**: Fixed re-selection issue, toggle deselect in single mode
+- **Carousel**: Added auto-play mode with `autoPlay` and `autoPlayInterval` props
+- **Snackbar**: Smoother animation with scale + spring configuration
+- **TextField**: Added password type with show/hide toggle button
+- **Icon**: Expanded library from 20 to 120+ icons
+- **Timeline**: Enhanced design with status variants, better dots/connectors
+- **DatePicker**: Added preset buttons (Today, Last 7/30/90 days), clear button
+
+#### Added
+- **Carousel**: Auto-play functionality with customizable interval
+- **TextField**: `type` prop for password/email/number inputs
+- **Icon**: 100+ new icons from lucide-react-native
+  - Navigation & Actions (30 icons)
+  - Feedback & Status (15 icons)
+  - Commerce & Data (15 icons)
+  - Communication (10 icons)
+  - Media Controls (12 icons)
+  - Weather & Nature (10 icons)
+  - Locks & Security (8 icons)
+  - Arrows (10 icons)
+  - UI Elements (10 icons)
+  - Tools (10 icons)
+  - Social (6 icons)
+- **Timeline**: `status` prop (pending/active/completed/error), `variant` prop
+- **DatePicker**: Quick preset buttons, clearable option, `onPresetChange` callback
+
+#### Changed
+- **Tooltip**: Simplified animation pipeline, removed complex scale/translate
+- **Timeline**: Improved dot sizing (16px), added shadows, better spacing
+- **DatePicker**: Better UX with one-tap preset selection
+
+#### Technical
+- Fixed TypeScript build configuration for all packages
+- Updated tsup config for proper type generation
+- Added `tsconfig.types.json` for declaration files
+- Fixed component exports across all packages
 
 ---
 
-## [Unreleased]
+## [0.0.1] - 2026-03-20
 
-### Packages
+### Initial Release
 
-#### `@rnui/tokens` v0.0.1
-- Primitive token system: color palette (9 ramps × 7 stops), spacing (4px base), radius, typography, opacity, z-index, elevation
-- Semantic tokens: light + dark mode mappings for bg, surface, text, border, brand, feedback colors, shadows
-- Component tokens: Button, Input, Card, Badge, Toast — resolved per color scheme
-- Motion tokens: spring configs (snappy, bouncy, gentle, stiff), duration presets, easing curves, press feedback, enter/exit animation names
+#### Packages
+- **@rnui/tokens**: Design tokens (primitive, semantic, component, motion)
+- **@rnui/headless**: Headless hooks (ThemeProvider, usePressable, useDisclosure, etc.)
+- **@rnui/ui**: 62 UI components
+- **@rnui/themes**: Multi-brand plugin system
 
-#### `@rnui/headless` v0.0.1
-- `ThemeProvider` — React Context, deep-merge override, runtime scheme switching
-- `useTheme()` — full theme access
-- `useTokens()` — semantic tokens shorthand
-- `useComponentTokens()` — component tokens shorthand
-- `useIsDark()` — boolean dark mode check
-- `usePressable` — Reanimated 3 + Gesture Handler, UI-thread press/scale/opacity feedback, haptic, a11y
-- `useDisclosure` — open/close/toggle, controlled + uncontrolled, a11y props
-- `useField` — value, error, touched, sync/async validation, reset
-- `useCheckbox` — checked, indeterminate, disabled, controlled/uncontrolled
-- `useSwitch` — on/off, controlled/uncontrolled
-- `useSelect` — single + multi select, open/close, displayLabel
-- `useRadioGroup` — selected value, getItemProps
-- `useSlider` — UI-thread pan, step snapping, spring thumb
-- `useListItem` — swipe-to-reveal (leading + trailing), velocity snap/dismiss
-- `useToast` — singleton store via useSyncExternalStore, queue, auto-dismiss, persistent
-- `useBottomSheet` — snap points, pan gesture, backdrop opacity, velocity dismiss
-
-#### `@rnui/ui` v0.0.1
-**Primitive components**
-- `Button` — solid/outline/ghost/destructive, sm/md/lg, loading, disabled, leading/trailing icon slots
-- `Input` — sm/md/lg, label, error, helper text, leading/trailing element slots
-- `TextArea` — auto-grow, min/max lines, char counter, all Input states
-- `Card` — pressable (scale feedback) or static, padding presets
-- `Badge` — default/brand/success/warning/error/info variants
-- `Checkbox` — animated fill, indeterminate, sm/md/lg, label + description
-- `Switch` — animated thumb via interpolateColor, sm/md/lg
-- `RadioGroup` + `RadioItem` — vertical/horizontal, spring dot animation
-- `Slider` — track/fill/thumb, step marks, range labels, value label, disabled
-- `Avatar` — initials with deterministic color, image, status dot, xs–xl, circle/rounded
-- `AvatarGroup` — stacked with overflow count
-
-**Complex components**
-- `Select` — trigger + BottomSheet dropdown, searchable, single/multi, option disabled
-- `List` + `ListItem` + `SectionHeader` — FlashList wrapper, swipe actions, skeleton loading
-- `BottomSheet` — multi snap points, pan gesture, backdrop, `forwardRef` imperative API
-- `ToastContainer` + `ToastItem` — queue, auto-dismiss progress bar, enter/exit animation, action button
-
-**Testing**
-- Unit tests: `packages/tokens`, `packages/headless` (hooks + ThemeProvider)
-- Performance regression: Reassure tests for all interactive components
-- E2E: Detox test suite covering Button, Input, Checkbox, Switch, Toast, BottomSheet, Select, Theme switching
+#### Components (62)
+Accordion, Alert, AnimatedList, AppBar, Autocomplete, Avatar, Badge, BottomNavigation,
+BottomSheet, Box, Breadcrumbs, Button, ButtonGroup, Card, Carousel, Checkbox, Chip,
+CircularProgress, DatePicker, Dialog, Divider, Drawer, EmptyState, Fab, FormControl,
+FormField, Grid, Icon, Image, ImageList, Input, LinearProgress, Link, List, Menu,
+Modal, OTPInput, Pagination, Paper, Popover, Popper, Pressable, Radio, Rating,
+SegmentedControl, Select, Skeleton, Slider, Snackbar, SpeedDial, Stack, Stepper,
+Switch, Table, Tabs, TextArea, TextField, Timeline, Toast, ToggleButton, Tooltip,
+Typography

@@ -8,6 +8,7 @@
     "storybook": "STORYBOOK_ENABLED=true expo start"
   },
   "dependencies": {
+    "@floating-ui/react-native": "^0.10.9",
     "@react-native-async-storage/async-storage": "^3.0.1",
     "@rnui/ui": "workspace:*",
     "@storybook/addon-ondevice-controls": "^10.2.3",

@@ -11,6 +11,8 @@ export interface SelectProps<T = string> extends UseSelectOptions<T> {
   placeholder?: string;
   searchable?: boolean;
   error?: string;
+  /** Callback to clear error when selection changes */
+  onClearError?: () => void;
 }
 
 export function Select<T = string>({
@@ -18,6 +20,7 @@ export function Select<T = string>({
   placeholder = "Select…",
   searchable = false,
   error,
+  onClearError,
   options,
   ...hookOptions
 }: SelectProps<T>) {
@@ -43,6 +46,12 @@ export function Select<T = string>({
     )
     : options;
 
+  const handleSelectOption = (option: SelectOption<T>) => {
+    selectOption(option.value);
+    onClearError?.();
+    close();
+  };
+
   const handleOpen = () => {
     setQuery("");
     sheetRef.current?.open();
@@ -56,6 +65,7 @@ export function Select<T = string>({
 
   const handleSelect = (val: T) => {
     selectOption(val);
+    onClearError?.();
     if (!hookOptions.multiple) handleClose();
   };
 

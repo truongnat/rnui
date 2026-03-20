@@ -21,17 +21,29 @@ export declare const primitive: {
             readonly 950: "#020617";
         };
         readonly brand: {
-            readonly 50: "#EEF2FF";
-            readonly 100: "#E0E7FF";
-            readonly 200: "#C7D2FE";
-            readonly 300: "#A5B4FC";
-            readonly 400: "#818CF8";
-            readonly 500: "#6366F1";
-            readonly 600: "#4F46E5";
-            readonly 700: "#4338CA";
-            readonly 800: "#3730A3";
-            readonly 900: "#312E81";
-            readonly 950: "#1E1B4B";
+            readonly 50: "#F5F3FF";
+            readonly 100: "#EDE9FE";
+            readonly 200: "#DDD6FE";
+            readonly 300: "#C4B5FD";
+            readonly 400: "#A78BFA";
+            readonly 500: "#8B5CF6";
+            readonly 600: "#7C3AED";
+            readonly 700: "#6D28D9";
+            readonly 800: "#5B21B6";
+            readonly 900: "#4C1D95";
+            readonly 950: "#2E1065";
+        };
+        readonly amber: {
+            readonly 50: "#FFFBEB";
+            readonly 100: "#FEF3C7";
+            readonly 200: "#FDE68A";
+            readonly 300: "#FCD34D";
+            readonly 400: "#FBBF24";
+            readonly 500: "#F59E0B";
+            readonly 600: "#D97706";
+            readonly 700: "#B45309";
+            readonly 800: "#92400E";
+            readonly 900: "#78350F";
         };
         readonly red: {
             readonly 50: "#FEF2F2";
@@ -46,13 +58,6 @@ export declare const primitive: {
             readonly 500: "#22C55E";
             readonly 600: "#16A34A";
             readonly 900: "#14532D";
-        };
-        readonly amber: {
-            readonly 50: "#FFFBEB";
-            readonly 400: "#FBBF24";
-            readonly 500: "#F59E0B";
-            readonly 600: "#D97706";
-            readonly 900: "#78350F";
         };
         readonly blue: {
             readonly 50: "#EFF6FF";
@@ -151,6 +156,11 @@ export declare const primitive: {
         readonly modal: 400;
         readonly toast: 500;
         readonly tooltip: 600;
+    };
+    readonly focusRing: {
+        readonly width: 2;
+        readonly offset: 2;
+        readonly outlineWidth: 2;
     };
     readonly elevation: {
         readonly none: 0;

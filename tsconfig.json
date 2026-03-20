@@ -23,6 +23,9 @@
         },
         {
             "path": "packages/ui"
+        },
+        {
+            "path": "packages/themes"
         }
     ]
 }

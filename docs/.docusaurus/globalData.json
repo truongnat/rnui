@@ -21,6 +21,10 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "components/animated-list",
+              "path": "/docs/components/animated-list"
+            },
+            {
               "id": "components/app-bar",
               "path": "/docs/components/app-bar",
               "sidebar": "tutorialSidebar"
@@ -76,6 +80,10 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "components/carousel",
+              "path": "/docs/components/carousel"
+            },
+            {
               "id": "components/checkbox",
               "path": "/docs/components/checkbox",
               "sidebar": "tutorialSidebar"
@@ -89,6 +97,10 @@
               "id": "components/circular-progress",
               "path": "/docs/components/circular-progress",
               "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "components/date-picker",
+              "path": "/docs/components/date-picker"
             },
             {
               "id": "components/dialog",
@@ -171,6 +183,10 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "components/otp-input",
+              "path": "/docs/components/otp-input"
+            },
+            {
               "id": "components/pagination",
               "path": "/docs/components/pagination",
               "sidebar": "tutorialSidebar"
@@ -209,6 +225,10 @@
               "id": "components/rating",
               "path": "/docs/components/rating",
               "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "components/segmented-control",
+              "path": "/docs/components/segmented-control"
             },
             {
               "id": "components/select",

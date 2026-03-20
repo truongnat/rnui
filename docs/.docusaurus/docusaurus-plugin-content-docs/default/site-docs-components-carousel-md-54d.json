@@ -1,0 +1,18 @@
+{
+  "id": "components/carousel",
+  "title": "Carousel",
+  "description": "A swipeable carousel component with gesture support, auto-play, and customizable pagination indicators.",
+  "source": "@site/docs/components/carousel.md",
+  "sourceDirName": "components",
+  "slug": "/components/carousel",
+  "permalink": "/docs/components/carousel",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/carousel.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 61,
+  "frontMatter": {
+    "sidebar_position": 61
+  }
+}

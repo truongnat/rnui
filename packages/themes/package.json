@@ -3,17 +3,34 @@
   "version": "0.0.1",
   "private": false,
   "description": "Multi-brand plugin presets for @rnui/ui",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
-  "exports": {
-    ".": "./src/index.ts"
-  },
   "keywords": ["react-native", "ui", "theme", "brand", "dark-mode"],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist dist-types"
+  },
+  "dependencies": {
+    "@rnui/tokens": "workspace:*"
+  },
   "peerDependencies": {
-    "@rnui/tokens": "workspace:*",
     "@rnui/headless": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5"
+    "tsup": "^8.5.1",
+    "typescript": "^5.8.3"
   }
 }

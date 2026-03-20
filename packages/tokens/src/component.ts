@@ -438,14 +438,14 @@ export function tabsTokens(t: SemanticTokens) {
 export function selectTokens(t: SemanticTokens) {
   return {
     trigger: {
-      bg: t.color.bg.surface,
+      bg: t.color.surface.default,
       borderColor: t.color.border.default,
       focusBorderColor: t.color.border.focus,
       borderRadius: t.radius.md,
       padding: { x: t.spacing[3], y: t.spacing[2] },
     },
     menu: {
-      bg: t.color.bg.surface,
+      bg: t.color.surface.default,
       borderColor: t.color.border.default,
       borderRadius: t.radius.md,
       shadow: t.shadow.md,
@@ -490,8 +490,8 @@ export function timelineTokens(t: SemanticTokens) {
     connector: { color: t.color.border.default, width: 2 },
     dot: {
       completed: { bg: t.color.brand.default, borderColor: t.color.brand.default },
-      active: { bg: t.color.bg.surface, borderColor: t.color.brand.default },
-      pending: { bg: t.color.bg.surface, borderColor: t.color.border.strong },
+      active: { bg: t.color.surface.default, borderColor: t.color.brand.default },
+      pending: { bg: t.color.surface.default, borderColor: t.color.border.strong },
       size: 12,
     },
     content: { gap: t.spacing[2] },

@@ -1,4 +1,5 @@
 import { FadeInUp, FadeInDown, FadeIn, ZoomIn, SlideInDown, SlideInUp, SlideInRight, FadeOutDown, FadeOutUp, FadeOut, ZoomOut, SlideOutDown, SlideOutUp, SlideOutRight } from "react-native-reanimated";
+import { timingPreset, focusRingAnimation } from "@rnui/tokens";
 /**
  * Real Reanimated layout classes mapped from design tokens.
  * Use these for `entering` and `exiting` props.
@@ -28,9 +29,9 @@ export declare const motionPresets: {
  * Use these in `withTiming({ easing: ... })`.
  */
 export declare const motionEasing: {
-    readonly easeIn: import("node_modules/react-native-reanimated/lib/typescript").EasingFunctionFactory;
-    readonly easeOut: import("node_modules/react-native-reanimated/lib/typescript").EasingFunctionFactory;
-    readonly easeInOut: import("node_modules/react-native-reanimated/lib/typescript").EasingFunctionFactory;
+    readonly easeIn: import("react-native-reanimated").EasingFunctionFactory;
+    readonly easeOut: import("react-native-reanimated").EasingFunctionFactory;
+    readonly easeInOut: import("react-native-reanimated").EasingFunctionFactory;
     readonly linear: (t: number) => number;
 };
 /**
@@ -38,4 +39,5 @@ export declare const motionEasing: {
  * Usage: <Animated.View sharedTransitionTag="hero" sharedTransitionStyle={heroTransition} />
  */
 export declare const heroTransition: any;
+export { timingPreset, focusRingAnimation };
 //# sourceMappingURL=motion.d.ts.map

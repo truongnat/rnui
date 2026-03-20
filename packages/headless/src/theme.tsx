@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useMemo, type ReactNode } from "react";
 import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import type { Brand } from "@rnui/tokens";
 import {
   semanticTokens,
   buildSemanticTokens,
@@ -8,7 +9,6 @@ import {
   type SemanticTokens,
   type ComponentTokens,
   type ColorScheme,
-  type Brand,
 } from "@rnui/tokens";
 
 // ─── Types ────────────────────────────────────────────────────────

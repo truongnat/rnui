@@ -6,7 +6,7 @@ export interface ChipProps {
   label: React.ReactNode;
   variant?: "solid" | "outlined" | "subtle";
   color?: "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning";
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
   avatar?: React.ReactNode;
   icon?: React.ReactNode;
   deleteIcon?: React.ReactNode;
@@ -51,41 +51,74 @@ export function Chip({
   const customBorder = variant === "outlined" && color !== "default" ? colors.border : vStyle.border;
   const customText = color !== "default" ? colors.text : vStyle.text;
 
+  const sizeStyle = chip.size[size] || chip.size.md;
+  
   const container = {
     flexDirection: chip.container.flexDirection,
     alignItems: chip.container.alignItems,
     justifyContent: chip.container.justifyContent,
-    gap: chip.container.gap,
-    paddingHorizontal: chip.container.paddingHorizontal * (size === "sm" ? 0.75 : 1),
-    height: size === "sm" ? 28 : chip.container.height,
+    gap: tokens.spacing[2],
+    paddingHorizontal: sizeStyle.paddingHorizontal,
+    paddingVertical: tokens.spacing[1],
+    height: sizeStyle.height,
     borderRadius: chip.container.borderRadius,
     backgroundColor: customBg,
     borderWidth: variant === "outlined" ? 1 : 0,
     borderColor: customBorder,
     opacity: disabled ? tokens.opacity[60] : 1,
+    minHeight: size === "sm" ? 24 : size === "lg" ? 40 : 32,
   };
 
   const renderIcon = (node: React.ReactNode) => {
     if (!node) return null;
     if (React.isValidElement(node)) {
       return React.cloneElement(node as React.ReactElement, {
-        size: (node.props as any)?.size ?? iconSize,
+        size: (node.props as any)?.size ?? (size === "sm" ? 14 : 16),
         color: (node.props as any)?.color ?? iconColor,
       } as any);
     }
     return node;
   };
 
+  const avatarStyle = {
+    width: size === "sm" ? 20 : size === "lg" ? 28 : 24,
+    height: size === "sm" ? 20 : size === "lg" ? 28 : 24,
+    borderRadius: 12,
+    marginRight: tokens.spacing[1],
+  };
+
+  const deleteButtonStyle = {
+    padding: tokens.spacing[1],
+    marginLeft: tokens.spacing[1],
+    borderRadius: tokens.radius.full,
+  };
+
   const content = (
     <View style={container}>
-      {avatar}
+      {avatar && <View style={avatarStyle}>{avatar}</View>}
       {renderIcon(icon)}
-      <Text style={{ color: customText, fontSize: chip.text.fontSize, fontWeight: chip.text.fontWeight }}>
+      <Text style={{ 
+        color: customText, 
+        fontSize: sizeStyle.fontSize, 
+        fontWeight: tokens.fontWeight.medium,
+        lineHeight: sizeStyle.fontSize * 1.4,
+      }}>
         {label}
       </Text>
       {onDelete && (
-        <Pressable onPress={onDelete} hitSlop={8}>
-          {deleteIcon ?? <Text style={{ color: customText, fontSize: 12 }}>x</Text>}
+        <Pressable 
+          onPress={onDelete} 
+          hitSlop={8}
+          style={deleteButtonStyle}
+        >
+          {deleteIcon ?? (
+            <Text style={{ 
+              color: customText, 
+              fontSize: 14, 
+              fontWeight: tokens.fontWeight.bold,
+              opacity: 0.7,
+            }}>×</Text>
+          )}
         </Pressable>
       )}
     </View>
@@ -93,7 +126,11 @@ export function Chip({
 
   if (onClick || clickable) {
     return (
-      <Pressable onPress={onClick} disabled={disabled}>
+      <Pressable 
+        onPress={onClick} 
+        disabled={disabled}
+        style={{ opacity: disabled ? 0.5 : 1 }}
+      >
         {content}
       </Pressable>
     );

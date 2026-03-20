@@ -1,0 +1,18 @@
+{
+  "id": "components/otp-input",
+  "title": "OTPInput",
+  "description": "A one-time password (OTP) input component with auto-focus, paste support, and customizable cell styling.",
+  "source": "@site/docs/components/otp-input.md",
+  "sourceDirName": "components",
+  "slug": "/components/otp-input",
+  "permalink": "/docs/components/otp-input",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/otp-input.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 63,
+  "frontMatter": {
+    "sidebar_position": 63
+  }
+}

@@ -21,6 +21,8 @@ export interface InputProps extends Omit<RNTextInputProps, "style"> {
   trailingElement?: React.ReactNode;
   /** Disable input */
   disabled?: boolean;
+  /** Callback when error should be cleared (called on first keystroke) */
+  onClearError?: () => void;
 }
 
 // ─── Component ────────────────────────────────────────────────────
@@ -33,14 +35,27 @@ export function Input({
   leadingElement,
   trailingElement,
   disabled = false,
+  onClearError,
   onFocus,
   onBlur,
+  onChange,
   ...rest
 }: InputProps) {
   const { input } = useComponentTokens();
   const tokens = useTokens();
   const { size: iconSize, color: iconColor } = useIconStyle("input");
   const [isFocused, setIsFocused] = useState(false);
+  const [hasTyped, setHasTyped] = useState(false);
+
+  // Clear error when user starts typing
+  const handleChange = (e: any) => {
+    const text = e.nativeEvent.text;
+    if (!hasTyped && text.length > 0) {
+      setHasTyped(true);
+      onClearError?.();
+    }
+    onChange?.(text);
+  };
 
   const containerStyle = useMemo(() => [
     input.container,
@@ -83,6 +98,9 @@ export function Input({
           onBlur={(e) => {
             setIsFocused(false);
             onBlur?.(e);
+          }}
+          onChange={(e) => {
+            handleChange(e.nativeEvent.text);
           }}
           {...rest}
         />

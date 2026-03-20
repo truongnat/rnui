@@ -20,6 +20,8 @@ export interface UseFieldReturn<T> {
     reset: () => void;
     /** Programmatically set error */
     setError: (error: string | undefined) => void;
+    /** Run validation manually */
+    validate: () => Promise<string | undefined>;
     /** Spread onto native TextInput */
     inputProps: {
         value: string;

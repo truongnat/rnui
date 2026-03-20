@@ -1,0 +1,18 @@
+{
+  "id": "components/segmented-control",
+  "title": "SegmentedControl",
+  "description": "A horizontal segmented control for mutually exclusive option selection. Commonly used for tabs, filters, or view toggles.",
+  "source": "@site/docs/components/segmented-control.md",
+  "sourceDirName": "components",
+  "slug": "/components/segmented-control",
+  "permalink": "/docs/components/segmented-control",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/segmented-control.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 64,
+  "frontMatter": {
+    "sidebar_position": 64
+  }
+}

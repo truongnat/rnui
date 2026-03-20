@@ -1,7 +1,6 @@
 // Theme system
 export { ThemeProvider, useTheme, useTokens, useComponentTokens, useIsDark, useActiveBrand, useBrandSwitch, createTheme } from "./theme";
 export type { Theme, ThemeOverride, ThemeProviderProps, Brand } from "./theme";
-export type { Theme, ThemeOverride, ThemeProviderProps } from "./theme";
 
 // Motion
 export { motionPresets, motionEasing, heroTransition, timingPreset, focusRingAnimation } from "./motion";

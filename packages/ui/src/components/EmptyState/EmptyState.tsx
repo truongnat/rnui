@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { useTokens } from "@rnui/headless";
 import { Button } from "../Button";
+import { Icon } from "../Icon";
 
 export interface EmptyStateAction {
   label: string;
@@ -10,8 +11,8 @@ export interface EmptyStateAction {
 }
 
 export interface EmptyStateProps {
-  /** Large icon/illustration slot — pass an SVG or Image */
-  icon?: React.ReactNode;
+  /** Large icon/illustration slot — pass an SVG, Image, or icon name */
+  icon?: React.ReactNode | string;
   title: string;
   description?: string;
   /** Primary action button */
@@ -32,6 +33,13 @@ export function EmptyState({
 }: EmptyStateProps) {
   const tokens = useTokens();
 
+  const renderIcon = (iconNode: React.ReactNode | string) => {
+    if (typeof iconNode === "string") {
+      return <Icon size={compact ? 24 : 36} color={tokens.color.text.tertiary}>{iconNode}</Icon>;
+    }
+    return iconNode;
+  };
+
   return (
     <View
       style={{
@@ -50,13 +58,13 @@ export function EmptyState({
             width: compact ? 48 : 72,
             height: compact ? 48 : 72,
             borderRadius: compact ? 24 : 36,
-            backgroundColor: tokens.color.bg.muted, // Use darker background for icon visibility
+            backgroundColor: tokens.color.bg.muted,
             alignItems: "center",
             justifyContent: "center",
             marginBottom: tokens.spacing[1],
           }}
         >
-          {icon}
+          {renderIcon(icon)}
         </View>
       )}
 
@@ -67,7 +75,7 @@ export function EmptyState({
             width: compact ? 48 : 72,
             height: compact ? 48 : 72,
             borderRadius: compact ? 24 : 36,
-            backgroundColor: tokens.color.bg.muted, // Use darker background for icon visibility
+            backgroundColor: tokens.color.bg.muted,
             alignItems: "center",
             justifyContent: "center",
             marginBottom: tokens.spacing[1],

@@ -3,6 +3,8 @@ import { View, Text, Pressable, Platform, Modal } from "react-native";
 import { useTokens, useIconStyle } from "@rnui/headless";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
+export type DatePickerPreset = "today" | "yesterday" | "last7" | "last30" | "last90" | null;
+
 export interface DatePickerProps {
     label?: string;
     date: Date | null;
@@ -14,6 +16,9 @@ export interface DatePickerProps {
     minimumDate?: Date;
     maximumDate?: Date;
     mode?: "date" | "time" | "datetime";
+    presets?: DatePickerPreset[];
+    onPresetChange?: (preset: DatePickerPreset) => void;
+    clearable?: boolean;
 }
 
 export function DatePicker({
@@ -27,10 +32,14 @@ export function DatePicker({
     minimumDate,
     maximumDate,
     mode = "date",
+    presets = ["today", "last7", "last30"],
+    onPresetChange,
+    clearable = true,
 }: DatePickerProps) {
     const tokens = useTokens();
     const { size: iconSize, color: iconColor } = useIconStyle("input");
     const [showPicker, setShowPicker] = useState(false);
+    const [selectedPreset, setSelectedPreset] = useState<DatePickerPreset>(null);
 
     const formattedDate = date
         ? mode === "time"
@@ -42,16 +51,41 @@ export function DatePicker({
 
     const displayValue = date ? formattedDate : placeholder;
 
+    const getPresetDate = (preset: DatePickerPreset): Date => {
+        const now = new Date();
+        switch (preset) {
+            case "today": return now;
+            case "yesterday": return new Date(now.setDate(now.getDate() - 1));
+            case "last7": return new Date(now.setDate(now.getDate() - 7));
+            case "last30": return new Date(now.setDate(now.getDate() - 30));
+            case "last90": return new Date(now.setDate(now.getDate() - 90));
+            default: return now;
+        }
+    };
+
+    const handlePresetPress = (preset: DatePickerPreset) => {
+        if (!preset || disabled) return;
+        const presetDate = getPresetDate(preset);
+        onChange(presetDate);
+        setSelectedPreset(preset);
+        onPresetChange?.(preset);
+    };
+
+    const handleClear = () => {
+        setSelectedPreset(null);
+        onPresetChange?.(null);
+    };
+
     const handlePressTrigger = () => {
         if (!disabled) setShowPicker(true);
     };
 
     const handleChange = (_event: any, selectedDate?: Date) => {
         if (Platform.OS === "android") {
-            // Android: dismiss on any interaction
             setShowPicker(false);
         }
         if (selectedDate) {
+            setSelectedPreset(null);
             onChange(selectedDate);
         }
     };
@@ -79,7 +113,7 @@ export function DatePicker({
     ) : null;
 
     return (
-        <View style={{ gap: tokens.spacing[1], opacity: disabled ? tokens.opacity[60] : 1 }}>
+        <View style={{ gap: tokens.spacing[2], opacity: disabled ? tokens.opacity[60] : 1 }}>
             {label && (
                 <Text
                     style={{
@@ -92,6 +126,42 @@ export function DatePicker({
                 </Text>
             )}
 
+            {/* Quick presets */}
+            {presets && presets.length > 0 && (
+                <View style={{ flexDirection: "row", gap: tokens.spacing[2], flexWrap: "wrap" }}>
+                    {presets.map((preset) => (
+                        <Pressable
+                            key={preset}
+                            onPress={() => handlePresetPress(preset)}
+                            disabled={disabled}
+                            style={({ pressed }) => ({
+                                paddingHorizontal: tokens.spacing[3],
+                                paddingVertical: tokens.spacing[2],
+                                backgroundColor: selectedPreset === preset
+                                    ? tokens.color.brand.default
+                                    : tokens.color.bg.muted,
+                                borderRadius: tokens.radius.full,
+                                opacity: (disabled || pressed) ? tokens.opacity[60] : 1,
+                            })}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: tokens.fontSize.sm,
+                                    fontWeight: tokens.fontWeight.medium,
+                                    color: selectedPreset === preset
+                                        ? tokens.color.text.onBrand
+                                        : tokens.color.text.secondary,
+                                    textTransform: "capitalize",
+                                }}
+                            >
+                                {preset?.replace("last", "Last ").replace("today", "Today").replace("yesterday", "Yesterday")}
+                            </Text>
+                        </Pressable>
+                    ))}
+                </View>
+            )}
+
+            {/* Date input field */}
             <Pressable
                 onPress={handlePressTrigger}
                 disabled={disabled}
@@ -117,6 +187,12 @@ export function DatePicker({
                 >
                     {displayValue}
                 </Text>
+                {/* Clear button */}
+                {clearable && date && (
+                    <Pressable onPress={handleClear} hitSlop={8}>
+                        <Text style={{ fontSize: 18, color: tokens.color.text.tertiary }}>✕</Text>
+                    </Pressable>
+                )}
                 {/* Calendar icon indicator */}
                 <Text style={{ fontSize: 18, color: tokens.color.text.tertiary }}>📅</Text>
             </Pressable>

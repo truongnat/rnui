@@ -1,0 +1,21 @@
+# Build outputs
+dist
+.next
+out
+
+# Dependencies
+node_modules
+
+# Logs
+*.log
+
+# Environment
+.env.local
+.env.production
+
+# IDE
+.idea
+.vscode
+
+# OS
+.DS_Store
