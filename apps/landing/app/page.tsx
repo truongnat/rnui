@@ -147,6 +147,144 @@ export default function Home() {
         </div>
       </section>
 
+      {/* TOKEN PREVIEW */}
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
+          <div className={styles.sectionHead}>
+            <h2 className={styles.h2}>Design Tokens.</h2>
+            <p className={styles.sectionSub}>Every color, size, and motion value — all in one system.</p>
+          </div>
+
+          {/* COLORS */}
+          <div className={styles.tokenBlock}>
+            <h3 className={styles.tokenBlockTitle}>Brand</h3>
+            <div className={styles.swatchRow}>
+              {[["50","#EEF2FF"],["100","#E0E7FF"],["200","#C7D2FE"],["300","#A5B4FC"],["400","#818CF8"],["500","#6366F1"],["600","#4F46E5"],["700","#4338CA"],["800","#3730A3"],["900","#312E81"],["950","#1E1B4B"]].map(([n,c])=>(
+                <div key={n} className={styles.swatch}>
+                  <div className={styles.swatchColor} style={{background:c}} />
+                  <span className={styles.swatchLabel}>{n}</span>
+                  <span className={styles.swatchHex}>{c}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.tokenBlock}>
+            <h3 className={styles.tokenBlockTitle}>Neutrals</h3>
+            <div className={styles.swatchRow}>
+              {[["50","#F8FAFC"],["100","#F1F5F9"],["200","#E2E8F0"],["300","#CBD5E1"],["400","#94A3B8"],["500","#64748B"],["600","#475569"],["700","#334155"],["800","#1E293B"],["900","#0F172A"],["950","#020617"]].map(([n,c])=>(
+                <div key={n} className={styles.swatch}>
+                  <div className={styles.swatchColor} style={{background:c,border: parseInt(n)<200 ? "1px solid #E2E8F0":undefined}} />
+                  <span className={styles.swatchLabel}>{n}</span>
+                  <span className={styles.swatchHex}>{c}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.tokenBlock}>
+            <h3 className={styles.tokenBlockTitle}>Feedback</h3>
+            <div className={styles.feedbackRow}>
+              {[
+                {label:"Success",bg:"#F0FDF4",border:"#22C55E",text:"#14532D",dot:"#16A34A"},
+                {label:"Warning",bg:"#FFFBEB",border:"#F59E0B",text:"#78350F",dot:"#D97706"},
+                {label:"Error",bg:"#FEF2F2",border:"#EF4444",text:"#7F1D1D",dot:"#DC2626"},
+                {label:"Info",bg:"#EFF6FF",border:"#3B82F6",text:"#1E3A8A",dot:"#2563EB"},
+              ].map((f)=>(
+                <div key={f.label} className={styles.feedbackCard} style={{background:f.bg,borderColor:f.border}}>
+                  <span className={styles.feedbackDot} style={{background:f.dot}} />
+                  <span className={styles.feedbackCardLabel} style={{color:f.text}}>{f.label}</span>
+                  <span className={styles.feedbackCardBg} style={{color:f.text}}>{f.bg}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* TYPOGRAPHY */}
+          <div className={styles.tokenBlock}>
+            <h3 className={styles.tokenBlockTitle}>Typography</h3>
+            <div className={styles.typeScale}>
+              {[["xs","11px"],["sm","13px"],["md","15px"],["lg","17px"],["xl","20px"],["2xl","24px"],["3xl","30px"],["4xl","36px"]].map(([name,size])=>(
+                <div key={name} className={styles.typeRow}>
+                  <span className={styles.typeToken}>{name}</span>
+                  <span className={styles.typeSize}>{size}</span>
+                  <span className={styles.typeSample} style={{fontSize:size}}>The quick brown fox</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* SPACING */}
+          <div className={styles.tokenBlock}>
+            <h3 className={styles.tokenBlockTitle}>Spacing <span className={styles.tokenNote}>(4px base)</span></h3>
+            <div className={styles.spacingRow}>
+              {[[1,4],[2,8],[3,12],[4,16],[5,20],[6,24],[8,32],[10,40],[12,48],[16,64],[20,80],[24,96]].map(([t,v])=>(
+                <div key={t} className={styles.spacingItem}>
+                  <div className={styles.spacingBar} style={{width:Math.min(v,96),height:8}} />
+                  <span className={styles.spacingLabel}>{t} · {v}px</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RADIUS */}
+          <div className={styles.tokenBlock}>
+            <h3 className={styles.tokenBlockTitle}>Border Radius</h3>
+            <div className={styles.radiusRow}>
+              {[["none",0],["xs",2],["sm",4],["md",8],["lg",12],["xl",16],["2xl",24],["full",9999]].map(([n,v])=>(
+                <div key={n} className={styles.radiusItem}>
+                  <div className={styles.radiusBox} style={{borderRadius:v===9999?9999:v}} />
+                  <span className={styles.radiusLabel}>{n}</span>
+                  <span className={styles.radiusValue}>{v===9999?"∞":v+"px"}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* MOTION */}
+          <div className={styles.tokenBlock}>
+            <h3 className={styles.tokenBlockTitle}>Motion Presets</h3>
+            <div className={styles.motionRow}>
+              {[
+                {name:"snappy",desc:"Buttons, toggles",d:20,s:400,use:"damping: 20 · stiffness: 400"},
+                {name:"bouncy",desc:"FAB, badges",d:12,s:300,use:"damping: 12 · stiffness: 300"},
+                {name:"gentle",desc:"Modals, sheets",d:28,s:200,use:"damping: 28 · stiffness: 200"},
+                {name:"stiff",desc:"Tooltips, dropdowns",d:32,s:500,use:"damping: 32 · stiffness: 500"},
+              ].map((m)=>(
+                <div key={m.name} className={styles.motionCard}>
+                  <div className={styles.motionDot} data-spring={m.name} />
+                  <div className={styles.motionInfo}>
+                    <span className={styles.motionName}>{m.name}</span>
+                    <span className={styles.motionDesc}>{m.desc}</span>
+                    <span className={styles.motionSpec}>{m.use}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* SHADOWS */}
+          <div className={styles.tokenBlock}>
+            <h3 className={styles.tokenBlockTitle}>Shadows</h3>
+            <div className={styles.shadowRow}>
+              {[
+                {n:"none",s:"none"},
+                {n:"sm",s:"0 1px 2px rgba(0,0,0,0.1)"},
+                {n:"md",s:"0 6px 12px rgba(0,0,0,0.2)"},
+                {n:"lg",s:"0 12px 24px rgba(0,0,0,0.25)"},
+                {n:"xl",s:"0 20px 40px rgba(0,0,0,0.3)"},
+              ].map(({n,s})=>(
+                <div key={n} className={styles.shadowItem}>
+                  <div className={styles.shadowBox} style={{boxShadow:s}} />
+                  <span className={styles.shadowLabel}>{n}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       <section className={styles.ctaSection}>
         <div className={styles.ctaInner}>
           <h2 className={styles.ctaTitle}>&ldquo;Start building.&rdquo;</h2>
