@@ -23,7 +23,7 @@
 .ctaSecondary:hover { background: var(--highlight); border-color: var(--text-3); }
 .terminalCard { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.10); }
 .terminalHeader { padding: 10px 16px; background: var(--surface-2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 6px; }
-.terminalTitle { font-family: var(--font-mono); font-size: 11px; color: rgba(245,244,240,0.4); letter-spacing: 0.05em; }
+.terminalTitle { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); letter-spacing: 0.05em; }
 .terminalBody { padding: 20px 24px; font-family: var(--font-mono); font-size: 13px; line-height: 1.85; color: var(--text); white-space: pre; }
 .cPrompt { color: var(--brand); font-weight: 700; }
 .cMuted { color: var(--text-3); opacity: 0.7; }
@@ -120,6 +120,7 @@
 /* ===== TOKEN PREVIEW ===== */
 .tokenBlock {
   border-left: 2px solid var(--brand-subtle);
+  padding-left: 20px;
   margin-bottom: 56px;
 }
 .tokenBlockTitle {
