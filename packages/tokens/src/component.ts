@@ -92,6 +92,7 @@ export function inputTokens(t: SemanticTokens) {
       md: { height: 40, fontSize: t.fontSize.md },
       lg: { height: 48, fontSize: t.fontSize.lg },
     },
+    focusRing: { borderColor: t.color.border.focus, borderWidth: 2, outlineOffset: t.focusRing.offset },
     state: {
       default: { borderColor: t.color.border.default },
       focused: { borderColor: t.color.border.focus, borderWidth: 1.5 },
@@ -147,21 +148,28 @@ export function badgeTokens(t: SemanticTokens) {
   return {
     base: {
       borderRadius: t.radius.full,
-      paddingHorizontal: t.spacing[4],
-      paddingVertical: t.spacing[2],
       alignSelf: "flex-start" as const,
     },
+    size: {
+      sm: { paddingHorizontal: t.spacing[2],   paddingVertical: t.spacing[0.5], fontSize: t.fontSize.xs  },
+      md: { paddingHorizontal: t.spacing[2.5], paddingVertical: t.spacing[1],   fontSize: t.fontSize.xs  },
+      lg: { paddingHorizontal: t.spacing[3],   paddingVertical: t.spacing[1.5], fontSize: t.fontSize.sm  },
+    },
     variant: {
-      default: { bg: t.color.bg.emphasis, text: t.color.text.secondary },
-      brand: { bg: t.color.brand.subtle, text: t.color.brand.text },
-      success: { bg: t.color.success.bg, text: t.color.success.text },
-      warning: { bg: t.color.warning.bg, text: t.color.warning.text },
-      error: { bg: t.color.error.bg, text: t.color.error.text },
-      info: { bg: t.color.info.bg, text: t.color.info.text },
+      default: { bg: t.color.bg.emphasis,     text: t.color.text.secondary  },
+      brand:   { bg: t.color.brand.subtle,    text: t.color.brand.text      },
+      accent:  { bg: t.color.accent.subtle,   text: t.color.accent.text     },
+      success: { bg: t.color.success.bg,      text: t.color.success.text    },
+      warning: { bg: t.color.warning.bg,      text: t.color.warning.text    },
+      error:   { bg: t.color.error.bg,        text: t.color.error.text      },
+      info:    { bg: t.color.info.bg,         text: t.color.info.text       },
     },
     text: {
-      fontSize: t.fontSize.xs,
       fontWeight: t.fontWeight.semibold,
+    },
+    dot: {
+      size: 8,
+      offset: -2,
     },
   };
 }
@@ -201,6 +209,14 @@ export function avatarTokens(t: SemanticTokens) {
       alignItems: "center" as const,
       justifyContent: "center" as const,
     },
+    size: {
+      xs: { width: 24, height: 24, borderRadius: 12, fontSize: t.fontSize.xs },
+      sm: { width: 32, height: 32, borderRadius: 16, fontSize: t.fontSize.sm },
+      md: { width: 40, height: 40, borderRadius: 20, fontSize: t.fontSize.md },
+      lg: { width: 48, height: 48, borderRadius: 24, fontSize: t.fontSize.lg },
+      xl: { width: 64, height: 64, borderRadius: 32, fontSize: t.fontSize.xl },
+      "2xl": { width: 80, height: 80, borderRadius: 40, fontSize: t.fontSize["2xl"] },
+    },
     text: {
       color: t.color.brand.default,
       fontWeight: t.fontWeight.semibold,
@@ -220,14 +236,16 @@ export function avatarTokens(t: SemanticTokens) {
 // ─── Checkbox ────────────────────────────────────────────────────
 export function checkboxTokens(t: SemanticTokens) {
   return {
+    size: {
+      sm: { width: 16, height: 16, borderRadius: t.radius.xs, borderWidth: 1.5, iconSize: 10 },
+      md: { width: 20, height: 20, borderRadius: t.radius.xs, borderWidth: 2,   iconSize: 12 },
+      lg: { width: 24, height: 24, borderRadius: t.radius.sm, borderWidth: 2,   iconSize: 14 },
+    },
     container: {
-      width: 20,
-      height: 20,
-      borderRadius: t.radius.xs,
-      borderWidth: 2,
       alignItems: "center" as const,
       justifyContent: "center" as const,
     },
+    focusRing: { borderColor: t.color.border.focus, borderWidth: 2, outlineOffset: t.focusRing.offset },
     state: {
       default: { borderColor: t.color.border.strong, backgroundColor: "transparent" },
       checked: { borderColor: t.color.brand.default, backgroundColor: t.color.brand.default },
@@ -309,22 +327,23 @@ export function chipTokens(t: SemanticTokens) {
   return {
     container: {
       borderRadius: t.radius.full,
-      paddingHorizontal: t.spacing[3],
-      height: 32,
       flexDirection: "row" as const,
       alignItems: "center" as const,
       justifyContent: "center" as const,
       gap: t.spacing[1],
     },
-    text: {
-      fontSize: t.fontSize.sm,
-      fontWeight: t.fontWeight.medium,
+    size: {
+      sm: { height: 24, paddingHorizontal: t.spacing[2],   fontSize: t.fontSize.xs },
+      md: { height: 32, paddingHorizontal: t.spacing[3],   fontSize: t.fontSize.sm },
+      lg: { height: 40, paddingHorizontal: t.spacing[4],   fontSize: t.fontSize.md },
     },
     variant: {
-      solid: { bg: t.color.bg.emphasis, text: t.color.text.inverse, border: "transparent" },
-      outlined: { bg: "transparent", text: t.color.text.primary, border: t.color.border.default },
-      subtle: { bg: t.color.bg.subtle, text: t.color.text.primary, border: "transparent" },
+      solid:   { bg: t.color.bg.emphasis,   text: t.color.text.inverse,  border: "transparent" },
+      outlined:{ bg: "transparent",         text: t.color.text.primary,  border: t.color.border.default },
+      subtle:  { bg: t.color.brand.subtle,  text: t.color.brand.text,    border: "transparent" },
+      accent:  { bg: t.color.accent.subtle, text: t.color.accent.text,   border: "transparent" },
     },
+    deleteIcon: { color: t.color.text.tertiary, size: 16 },
   };
 }
 
@@ -421,7 +440,7 @@ export function selectTokens(t: SemanticTokens) {
     trigger: {
       bg: t.color.bg.surface,
       borderColor: t.color.border.default,
-      focusBorderColor: t.color.brand.default,
+      focusBorderColor: t.color.border.focus,
       borderRadius: t.radius.md,
       padding: { x: t.spacing[3], y: t.spacing[2] },
     },

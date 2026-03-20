@@ -10,7 +10,7 @@ export {
 export type { Theme, ThemeOverride, ThemeProviderProps } from "./theme";
 
 // Motion
-export { motionPresets, motionEasing, heroTransition } from "./motion";
+export { motionPresets, motionEasing, heroTransition, timingPreset, focusRingAnimation } from "./motion";
 
 
 // Hooks

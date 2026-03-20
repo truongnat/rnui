@@ -84,5 +84,35 @@ export const motionPreset = {
   },
 } as const;
 
+// ─── Duration-based animation presets ────────────────────────────
+// Use with withTiming() for non-spring animations
+export const timingPreset = {
+  // Fade in/out — opacity only
+  fadeIn:  { duration: duration.fast,   easing: easing.easeOut },
+  fadeOut: { duration: duration.fast,   easing: easing.easeIn },
+  // Scale up — micro interactions
+  popIn:   { duration: duration.normal, easing: easing.easeOut },
+  popOut:  { duration: duration.fast,   easing: easing.easeIn },
+  // Slide — panels, sheets
+  slideIn: { duration: duration.slow,   easing: easing.easeOut },
+  slideOut:{ duration: duration.normal, easing: easing.easeIn },
+  // Color transitions — theme switch, hover
+  color:   { duration: duration.fast,   easing: easing.linear },
+} as const;
+
+// ─── Focus ring animation ─────────────────────────────────────────
+export const focusRingAnimation = {
+  in:  { duration: duration.fast, easing: easing.easeOut },
+  out: { duration: duration.fast, easing: easing.easeIn },
+} as const;
+
+// ─── Typed animation token types ─────────────────────────────────
+export type MotionPresetKey = keyof typeof motionPreset.enter;
+export type MotionExitKey   = keyof typeof motionPreset.exit;
+export type TimingPresetKey = keyof typeof timingPreset;
+export type DurationKey     = keyof typeof duration;
+export type EasingKey       = keyof typeof easing;
+
 export type SpringConfig = typeof spring[keyof typeof spring];
 export type PressFeedback = typeof pressFeedback[keyof typeof pressFeedback];
+export type TimingPreset = typeof timingPreset[TimingPresetKey];

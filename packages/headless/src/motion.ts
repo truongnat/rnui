@@ -15,7 +15,7 @@ import {
     SlideOutUp,
     SlideOutRight,
 } from "react-native-reanimated";
-import { motionPreset, spring } from "@rnui/tokens";
+import { motionPreset, spring, timingPreset, focusRingAnimation } from "@rnui/tokens";
 
 /**
  * Real Reanimated layout classes mapped from design tokens.
@@ -69,3 +69,5 @@ export const heroTransition = (SharedTransition && (SharedTransition as any).cus
         };
     })
     : null;
+
+export { timingPreset, focusRingAnimation };

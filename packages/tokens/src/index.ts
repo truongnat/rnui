@@ -11,5 +11,5 @@ export { resolveComponentTokens, buttonTokens, inputTokens, cardTokens, badgeTok
 export type { ComponentTokens } from "./component";
 
 // Motion tokens — animation presets
-export { spring, duration, easing, pressFeedback, motionPreset } from "./motion";
-export type { SpringConfig, PressFeedback } from "./motion";
+export { spring, duration, easing, pressFeedback, motionPreset, timingPreset, focusRingAnimation } from "./motion";
+export type { SpringConfig, PressFeedback, TimingPreset, MotionPresetKey, MotionExitKey, TimingPresetKey, DurationKey, EasingKey } from "./motion";
