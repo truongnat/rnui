@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./page.module.css";
 
 const COMPONENTS = [
@@ -191,13 +192,13 @@ export default function Home() {
           <div className={styles.brandCodeSnippet}>
             <pre className={styles.stepCode}>
               <code>
-                <span className={styles.iRed}>import</span>{" { loveBrand } "}<span className={styles.iRed}>from</span>{" "}<span className={styles.iBrown}>&quot;@rnui/themes&quot;</span>{"
+                <span className={styles.iRed}>import</span>{" { loveBrand } "}<span className={styles.iRed}>from</span>{" "}<span className={styles.iBrown}>&quot;@rnui/themes&quot;</span>{`
 
-"}
-                {"<"}<span className={styles.iBlue}>ThemeProvider</span>{" "}<span className={styles.iGreen}>brand</span>{"={loveBrand}>"}{"
-"}
-                {"  <App />"}{"
-"}
+`}
+                {"<"}<span className={styles.iBlue}>ThemeProvider</span>{" "}<span className={styles.iGreen}>brand</span>{"={loveBrand}>"}{`
+`}
+                {"  <App />"}{`
+`}
                 {"</"}<span className={styles.iBlue}>ThemeProvider</span>{">"}
               </code>
             </pre>
