@@ -5,74 +5,68 @@
 }
 
 :root {
-  /* Dark-first palette */
-  --bg: #000000;
-  --bg-alt: #0a0a0a;
-  --surface: #111111;
-  --surface-2: #161616;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.15);
-  --text: #ededed;
-  --text-2: #888888;
-  --text-3: #555555;
-  --highlight: rgba(255, 255, 255, 0.04);
+  /* Geist / nextjs.org color system — Light mode (default) */
+  --background: #fff;
+  --foreground: #000;
+  --gray-100: #fafafa;
+  --gray-200: #eaeaea;
+  --gray-300: #999;
+  --gray-400: #888;
+  --gray-500: #666;
+  --gray-600: #444;
+  --gray-700: #333;
+  --gray-800: #222;
+  --gray-900: #111;
+  --gray-1000: #000;
+  --accent: #0070f3;
+  --border: rgba(0, 0, 0, 0.08);
 
-  /* Syntax / code colors */
-  --code-bg: #0d0d0d;
-  --c-purple: #a78bfa;
-  --c-green: #86efac;
-  --c-blue: #60a5fa;
-  --c-orange: #fb923c;
-  --c-string: #34d399;
-  --c-muted: rgba(255, 255, 255, 0.3);
-
-  /* Legacy ink (kept for syntax spans in page.tsx) */
-  --ink-red: #a78bfa;
-  --ink-brown: #34d399;
-  --ink-blue: #60a5fa;
-  --ink-green: #86efac;
+  /* Code syntax — light */
+  --c-keyword: #0070f3;
+  --c-string:  #067d17;
+  --c-prop:    #6f42c1;
+  --c-muted:   rgba(0, 0, 0, 0.4);
+  --c-prompt:  #0070f3;
+  --c-green:   #067d17;
 
   /* Fonts */
-  --font-sans: var(--font-geist-sans, "Inter"), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: var(--font-geist-mono, "JetBrains Mono"), "Fira Code", "SF Mono", Consolas, monospace;
+  --font-sans: var(--font-inter, "Inter"), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: var(--font-mono-custom, "JetBrains Mono"), "Fira Code", "SF Mono", Consolas, monospace;
 
-  /* Glow accent */
-  --glow: 0 0 80px rgba(167, 139, 250, 0.15);
+  color-scheme: light dark;
 }
 
-/* Light mode support (secondary) */
-@media (prefers-color-scheme: light) {
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
   :root {
-    --bg: #fafafa;
-    --bg-alt: #f4f4f5;
-    --surface: #ffffff;
-    --surface-2: #f0f0f0;
-    --border: rgba(0, 0, 0, 0.08);
-    --border-strong: rgba(0, 0, 0, 0.18);
-    --text: #111111;
-    --text-2: #555555;
-    --text-3: #999999;
-    --highlight: rgba(0, 0, 0, 0.04);
-    --code-bg: #f4f4f5;
-    --c-purple: #7c3aed;
-    --c-green: #059669;
-    --c-blue: #2563eb;
-    --c-orange: #ea580c;
-    --c-string: #047857;
-    --c-muted: rgba(0, 0, 0, 0.3);
-    --ink-red: #7c3aed;
-    --ink-brown: #047857;
-    --ink-blue: #2563eb;
-    --ink-green: #059669;
-    --glow: 0 0 80px rgba(124, 58, 237, 0.08);
+    --background: #000;
+    --foreground: #fff;
+    --gray-100: #111;
+    --gray-200: #222;
+    --gray-300: #444;
+    --gray-400: #555;
+    --gray-500: #666;
+    --gray-600: #888;
+    --gray-700: #999;
+    --gray-800: #aaa;
+    --gray-900: #eaeaea;
+    --gray-1000: #fff;
+    --border: rgba(255, 255, 255, 0.08);
+
+    --c-keyword: #60a5fa;
+    --c-string:  #86efac;
+    --c-prop:    #c4b5fd;
+    --c-muted:   rgba(255, 255, 255, 0.35);
+    --c-prompt:  #60a5fa;
+    --c-green:   #86efac;
   }
 }
 
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--bg);
-  color: var(--text);
+  background: var(--background);
+  color: var(--foreground);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
@@ -84,6 +78,6 @@ body {
 a { color: inherit; text-decoration: none; }
 button { cursor: pointer; font-family: var(--font-sans); border: none; background: none; }
 
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }

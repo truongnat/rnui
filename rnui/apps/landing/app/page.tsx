@@ -63,44 +63,44 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* HERO */}
+      {/* HERO — centered layout */}
       <section className={styles.hero}>
         <div className={styles.heroInner}>
-          <div className={styles.heroLeft}>
-            <span className={styles.badge}>NEW ARCH READY</span>
-            <h1 className={styles.h1}>
-              The React Native<br />UI Framework.
-            </h1>
-            <p className={styles.heroSub}>
-              Dual-layer design system for iOS &amp; Android.
-              Use styled components out of the box, or take full
-              control with zero-style headless hooks.
-            </p>
-            <div className={styles.heroCtas}>
-              <a href="https://github.com/truongnat/rnui" target="_blank" rel="noopener noreferrer" className={styles.ctaPrimary}>
-                Get Started →
-              </a>
-              <a href="https://github.com/truongnat/rnui" target="_blank" rel="noopener noreferrer" className={styles.ctaSecondary}>
-                View on GitHub
-              </a>
-            </div>
+          <span className={styles.badge}>New Architecture Ready</span>
+          <h1 className={styles.h1}>
+            The React Native<br />UI Framework.
+          </h1>
+          <p className={styles.heroSub}>
+            Dual-layer design system for iOS &amp; Android.
+            Use styled components out of the box, or take full
+            control with zero-style headless hooks.
+          </p>
+          <div className={styles.heroCtas}>
+            <a href="https://github.com/truongnat/rnui" target="_blank" rel="noopener noreferrer" className={styles.ctaPrimary}>
+              Get Started →
+            </a>
+            <a href="https://github.com/truongnat/rnui" target="_blank" rel="noopener noreferrer" className={styles.ctaSecondary}>
+              View on GitHub
+            </a>
           </div>
-          <div className={styles.heroRight}>
-            <div className={styles.terminalCard}>
-              <div className={styles.terminalHeader}>
-                <span className={styles.terminalTitle}>terminal</span>
-              </div>
-              <pre className={styles.terminalBody}>
-                <code>
-                  <span className={styles.cPrompt}>$</span>{" bun add @rnui/ui @rnui/tokens\n"}
-                  <span className={styles.cMuted}>{"  "}installing...</span>{"\n\n"}
-                  <span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/tokens\n"}
-                  <span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/headless\n"}
-                  <span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/ui\n\n"}
-                  <span className={styles.cMuted}>{"  "}3 packages installed</span>
-                </code>
-              </pre>
+          {/* Terminal card centered below hero text */}
+          <div className={styles.terminalCard}>
+            <div className={styles.terminalHeader}>
+              <span className={styles.terminalDot} />
+              <span className={styles.terminalDot} />
+              <span className={styles.terminalDot} />
+              <span className={styles.terminalTitle}>terminal</span>
             </div>
+            <pre className={styles.terminalBody}>
+              <code>
+                <span className={styles.cPrompt}>$</span>{" bun add @rnui/ui @rnui/tokens\n"}
+                <span className={styles.cMuted}>{"  "}installing...</span>{"\n\n"}
+                <span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/tokens\n"}
+                <span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/headless\n"}
+                <span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/ui\n\n"}
+                <span className={styles.cMuted}>{"  "}3 packages installed</span>
+              </code>
+            </pre>
           </div>
         </div>
       </section>
@@ -215,7 +215,7 @@ export default function Home() {
           </div>
           <div className={styles.steps}>
             <div className={styles.step}>
-              <div className={styles.stepNum}>1</div>
+              <div className={styles.stepNum}>01</div>
               <div className={styles.stepBody}>
                 <h3 className={styles.stepTitle}>Install packages</h3>
                 <p className={styles.stepDesc}>Add RNUI to your React Native project.</p>
@@ -225,7 +225,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.step}>
-              <div className={styles.stepNum}>2</div>
+              <div className={styles.stepNum}>02</div>
               <div className={styles.stepBody}>
                 <h3 className={styles.stepTitle}>Wrap your app</h3>
                 <p className={styles.stepDesc}>Add ThemeProvider at the root.</p>
@@ -240,7 +240,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.step}>
-              <div className={styles.stepNum}>3</div>
+              <div className={styles.stepNum}>03</div>
               <div className={styles.stepBody}>
                 <h3 className={styles.stepTitle}>Start building</h3>
                 <p className={styles.stepDesc}>Import and use components anywhere.</p>
@@ -263,7 +263,7 @@ export default function Home() {
       {/* CTA FINAL */}
       <section className={styles.ctaSection}>
         <div className={styles.ctaInner}>
-          <h2 className={styles.ctaTitle}>&ldquo;Start building.&rdquo;</h2>
+          <h2 className={styles.ctaTitle}>Start building.</h2>
           <p className={styles.ctaSub}>Open source. Free forever. No lock-in.</p>
           <div className={styles.ctaBtns}>
             <a href="https://github.com/truongnat/rnui" target="_blank" rel="noopener noreferrer" className={styles.ctaPrimaryDark}>
