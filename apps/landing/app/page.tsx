@@ -419,6 +419,82 @@ export default function Home() {
         </div>
       </section>
 
+      <section className={`${styles.section} ${styles.sectionAlt}`}>
+        <div className={styles.sectionInner}>
+          <div className={styles.sectionHead}>
+            <span className={styles.badge} style={{marginBottom:16}}>AI NATIVE</span>
+            <h2 className={styles.h2}>Built for the AI era.</h2>
+            <p className={styles.sectionSub}>Predictable APIs, typed contracts, and structured docs — so AI agents generate correct code on the first try.</p>
+          </div>
+          <div className={styles.aiGrid}>
+            {[
+              { icon:"🧠", title:"Typed Everything", desc:"Every component, prop, and token is fully typed. AI tools get accurate autocomplete and zero hallucinations." },
+              { icon:"📐", title:"Predictable Patterns", desc:"Consistent API surface across all 55+ components. One mental model — AI learns it once, applies everywhere." },
+              { icon:"📚", title:"Structured Docs", desc:"Machine-readable documentation with usage examples, prop tables, and token references for every component." },
+              { icon:"🔌", title:"MCP Integration", desc:"Connect any AI agent or IDE directly to RNUI's knowledge base via the Model Context Protocol." },
+            ].map((item) => (
+              <div key={item.title} className={styles.aiCard}>
+                <span className={styles.aiIcon}>{item.icon}</span>
+                <h3 className={styles.aiTitle}>{item.title}</h3>
+                <p className={styles.aiDesc}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
+          <div className={styles.sectionHead}>
+            <span className={styles.badge} style={{marginBottom:16}}>MCP SERVER</span>
+            <h2 className={styles.h2}>Your AI agent knows RNUI.</h2>
+            <p className={styles.sectionSub}>Install <code>@rnui/mcp</code> and connect any MCP-compatible client — Claude, Cursor, Copilot — to query components, tokens, and usage examples in real time.</p>
+          </div>
+          <div className={styles.mcpLayout}>
+            <div className={styles.mcpLeft}>
+              <div className={styles.mcpFeatureList}>
+                {[
+                  { label:"Component lookup", desc:"Ask about any component — props, variants, usage examples" },
+                  { label:"Token explorer", desc:"Query design tokens by name, category, or semantic meaning" },
+                  { label:"Code generation", desc:"Get ready-to-use component code with correct imports and types" },
+                  { label:"Migration guide", desc:"Get help updating between RNUI versions automatically" },
+                ].map((f) => (
+                  <div key={f.label} className={styles.mcpFeature}>
+                    <span className={styles.mcpFeatureDot} />
+                    <div>
+                      <span className={styles.mcpFeatureLabel}>{f.label}</span>
+                      <span className={styles.mcpFeatureDesc}>{f.desc}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={styles.mcpRight}>
+              <div className={styles.mcpCard}>
+                <div className={styles.mcpCardHeader}>
+                  <span className={styles.mcpCardTitle}>mcp config</span>
+                  <span className={styles.codeBadge}>JSON</span>
+                </div>
+                <pre className={styles.mcpCode}><code><span className={styles.iMuted}>{"// cursor / claude desktop / any mcp client\n"}</span>{"{"}<span className={styles.iBrown}>{`\n  "mcpServers"`}</span>{": {"}<span className={styles.iBrown}>{`\n    "rnui"`}</span>{": {"}<span className={styles.iBrown}>{`\n      "command"`}</span>{": "}<span className={styles.iGreen}>{`"npx"`}</span>{","}<span className={styles.iBrown}>{`\n      "args"`}</span>{": ["}<span className={styles.iGreen}>{`"-y", "@rnui/mcp"`}</span>{"]"}{`\n    }\n  }\n}`}</code></pre>
+                <div className={styles.mcpCardFooter}>
+                  <span className={styles.mcpStatus}><span className={styles.mcpStatusDot} />coming soon</span>
+                </div>
+              </div>
+              <div className={styles.mcpChatDemo}>
+                <div className={styles.mcpMsg} data-role="user">
+                  <span className={styles.mcpMsgRole}>you</span>
+                  <span className={styles.mcpMsgText}>How do I use the Button component with brand variant?</span>
+                </div>
+                <div className={styles.mcpMsg} data-role="agent">
+                  <span className={styles.mcpMsgRole}>rnui agent</span>
+                  <pre className={styles.mcpMsgCode}><code><span className={styles.iRed}>import</span>{" { Button } "}<span className={styles.iRed}>from</span>{" "}<span className={styles.iBrown}>{`"@rnui/ui"`}</span>{`\n\n<`}<span className={styles.iBlue}>Button</span>{`\n  `}<span className={styles.iGreen}>variant</span>{"="}<span className={styles.iBrown}>{`"brand"`}</span>{`\n  `}<span className={styles.iGreen}>label</span>{"="}<span className={styles.iBrown}>{`"Save"`}</span>{`\n/>`}</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.ctaSection}>
         <div className={styles.ctaInner}>
           <h2 className={styles.ctaTitle}>&ldquo;Start building.&rdquo;</h2>
