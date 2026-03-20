@@ -10,12 +10,12 @@
 .navCta:hover { background: var(--brand-hover); }
 
 /* HERO */
-.hero { padding: 72px 32px 64px; border-bottom: 1px solid var(--border); }
-.heroInner { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.heroLeft { display: flex; flex-direction: column; gap: 20px; }
+.hero { padding: 96px 32px 80px; border-bottom: 1px solid var(--border); }
+.heroInner { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.heroLeft { display: flex; flex-direction: column; gap: 28px; }
 .badge { display: inline-flex; align-items: center; padding: 4px 10px; border: 1px solid var(--border-strong); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); border-radius: 2px; width: fit-content; font-family: var(--font-mono); }
 .h1 { font-family: var(--font-heading); font-size: clamp(32px, 4.2vw, 56px); font-weight: 800; line-height: 1.06; letter-spacing: -0.025em; color: var(--text); }
-.heroSub { font-size: 16px; color: var(--text-2); line-height: 1.65; max-width: 420px; }
+.heroSub { font-size: 17px; color: var(--text-2); line-height: 1.7; max-width: 440px; }
 .heroCtas { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .ctaPrimary { display: inline-flex; align-items: center; padding: 11px 22px; background: var(--accent); color: #1C1917; font-size: 14px; font-weight: 600; border-radius: 4px; transition: opacity 0.12s; }
 .ctaPrimary:hover { opacity: 0.82; }
@@ -32,14 +32,14 @@
 /* STATS */
 .stats { border-bottom: 1px solid var(--border); }
 .statsInner { max-width: 1160px; margin: 0 auto; padding: 0 32px; display: flex; align-items: stretch; }
-.statItem { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 32px 24px; }
+.statItem { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 40px 24px; }
 .statNum { font-family: var(--font-heading); font-size: clamp(28px, 3vw, 40px); font-weight: 800; color: var(--text); letter-spacing: -0.025em; line-height: 1; }
 .statLabel { font-size: 11px; color: var(--text-3); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 .statNumSm { font-size: clamp(20px, 2.2vw, 28px); letter-spacing: -0.02em; }
 .statDiv { width: 1px; background: var(--border); margin: 20px 0; flex-shrink: 0; }
 
 /* SECTIONS */
-.section { padding: 80px 32px; }
+.section { padding: 96px 32px; }
 .sectionAlt { background: var(--surface-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); position: relative; }
 .sectionInner { max-width: 1160px; margin: 0 auto; }
 .sectionHead { margin-bottom: 56px; }
