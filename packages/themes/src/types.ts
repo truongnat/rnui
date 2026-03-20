@@ -1,11 +1,8 @@
-import type { ThemeOverride } from "@rnui/headless";
-
-export interface BrandPreset extends ThemeOverride {
-  name: string;
-  description: string;
-  preview: {
-    primary: string;    // main brand hex
-    secondary: string;  // accent hex
-    background: string; // bg hex
-  };
-}
+/**
+ * @rnui/themes — types
+ *
+ * Re-exports Brand from @rnui/tokens for use by theme consumers.
+ * Brand is the single unit of color identity in RNUI.
+ */
+export type { Brand, BrandColorGroup } from "@rnui/tokens";
+export { defineBrand } from "@rnui/tokens";

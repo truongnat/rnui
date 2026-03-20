@@ -3,10 +3,12 @@ import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   semanticTokens,
+  buildSemanticTokens,
   resolveComponentTokens,
   type SemanticTokens,
   type ComponentTokens,
   type ColorScheme,
+  type Brand,
 } from "@rnui/tokens";
 
 // ─── Types ────────────────────────────────────────────────────────
@@ -18,30 +20,54 @@ export interface Theme {
   components: ComponentTokens;
   /** Current color scheme */
   colorScheme: ColorScheme;
+  /** Active brand (if any) */
+  brand?: Brand;
   /** Toggle or force a color scheme */
   setColorScheme: (scheme: ColorScheme | "system") => void;
-  /** Optional brand name (for display / debugging) */
-  brandName?: string;
+  /** Swap brand at runtime */
+  setBrand: (brand: Brand | undefined) => void;
 }
 
+/**
+ * Partial token overrides — for one-off tweaks on top of a brand.
+ * Use a Brand for full color identity changes; use override for minor adjustments.
+ */
 export type ThemeOverride = Partial<Record<ColorScheme, DeepPartial<SemanticTokens>>>;
 
 export interface ThemeProviderProps {
   children: ReactNode;
-  /** Force a color scheme, ignoring system preference */
+  /**
+   * Force a color scheme, ignoring system preference.
+   * "system" (default) follows the device setting.
+   */
   colorScheme?: ColorScheme | "system";
-  /** Token overrides for brand customization */
+  /**
+   * Brand preset — defines the full color identity (bg, brand, accent, text…).
+   * Each brand carries its own light + dark token sets.
+   * Switch brands at runtime via the setBrand() method returned by useTheme().
+   *
+   * @example
+   * import { loveBrand } from "@rnui/themes"
+   * <ThemeProvider brand={loveBrand}>...</ThemeProvider>
+   */
+  brand?: Brand;
+  /**
+   * Fine-grained token overrides applied on top of the active brand.
+   * Use for one-off tweaks; prefer Brand for full color swaps.
+   */
   override?: ThemeOverride;
-  /** Brand preset — applied before override (brand < override) */
-  brand?: ThemeOverride;
 }
 
 /**
- * Utility to define a theme override with TypeScript autocomplete support.
+ * Utility to define a fine-grained theme override with TypeScript autocomplete.
+ * For full brand swaps, use defineBrand() from @rnui/tokens instead.
  */
 export function createTheme(override: ThemeOverride): ThemeOverride {
   return override;
 }
+
+// Re-export Brand type for convenience
+export type { Brand } from "@rnui/tokens";
 
 // ─── Context ──────────────────────────────────────────────────────
 
@@ -52,38 +78,41 @@ const ThemeContext = createContext<Theme | null>(null);
 export function ThemeProvider({
   children,
   colorScheme: forcedScheme = "system",
+  brand: initialBrand,
   override,
-  brand,
 }: ThemeProviderProps) {
   const systemScheme = useColorScheme();
   const [manualScheme, setManualScheme] = React.useState<ColorScheme | "system">(forcedScheme);
+  const [activeBrand, setActiveBrand] = React.useState<Brand | undefined>(initialBrand);
 
   const activeScheme: ColorScheme =
     manualScheme === "system" ? (systemScheme === "dark" ? "dark" : "light") : manualScheme;
 
   const theme = useMemo<Theme>(() => {
-    // Base semantic tokens for the active scheme
-    const baseTokens = semanticTokens[activeScheme];
+    // 1. Build base tokens:
+    //    - If brand provided → build full SemanticTokens from brand's color group for this scheme
+    //    - Otherwise → use default tokens for this scheme
+    let tokens: SemanticTokens = activeBrand
+      ? buildSemanticTokens(activeBrand, activeScheme)
+      : semanticTokens[activeScheme];
 
-    // Apply brand first, then user override on top
-    let tokens = baseTokens;
-    if (brand?.[activeScheme]) {
-      tokens = deepMerge(tokens, brand[activeScheme]!);
-    }
+    // 2. Apply fine-grained override on top (deep merge)
     if (override?.[activeScheme]) {
-      tokens = deepMerge(tokens as object as typeof baseTokens, override[activeScheme]!);
+      tokens = deepMerge(tokens, override[activeScheme]!);
     }
 
-    // Derive component tokens from (possibly overridden) semantic tokens
-    const components = resolveComponentTokens(tokens as SemanticTokens);
+    // 3. Derive component tokens from the resolved semantic tokens
+    const components = resolveComponentTokens(tokens);
 
     return {
-      tokens: tokens as SemanticTokens,
+      tokens,
       components,
       colorScheme: activeScheme,
+      brand: activeBrand,
       setColorScheme: setManualScheme,
+      setBrand: setActiveBrand,
     };
-  }, [activeScheme, brand, override]);
+  }, [activeScheme, activeBrand, override]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -97,7 +126,7 @@ export function ThemeProvider({
 // ─── Hooks ────────────────────────────────────────────────────────
 
 /**
- * Access the full theme (tokens + components + colorScheme).
+ * Access the full theme (tokens + components + colorScheme + brand).
  * Throws if used outside ThemeProvider.
  */
 export function useTheme(): Theme {
@@ -105,22 +134,22 @@ export function useTheme(): Theme {
   if (!ctx) {
     throw new Error(
       "[RNUI] useTheme must be used inside <ThemeProvider>. " +
-      "Wrap your app root with <ThemeProvider>."
+        "Wrap your app root with <ThemeProvider>."
     );
   }
   return ctx;
 }
 
 /**
- * Convenience hook — returns only semantic tokens.
- * Slightly cheaper than useTheme() when you don't need components or colorScheme.
+ * Returns only semantic tokens. Slightly cheaper when you don't need
+ * components, colorScheme, or brand.
  */
 export function useTokens(): SemanticTokens {
   return useTheme().tokens;
 }
 
 /**
- * Convenience hook — returns only component tokens.
+ * Returns only component tokens.
  */
 export function useComponentTokens(): ComponentTokens {
   return useTheme().components;
@@ -131,6 +160,25 @@ export function useComponentTokens(): ComponentTokens {
  */
 export function useIsDark(): boolean {
   return useTheme().colorScheme === "dark";
+}
+
+/**
+ * Returns the active brand (or undefined if using default tokens).
+ */
+export function useActiveBrand(): Brand | undefined {
+  return useTheme().brand;
+}
+
+/**
+ * Returns a function to swap the brand at runtime.
+ * Triggers a full re-render of all components consuming tokens.
+ *
+ * @example
+ * const switchBrand = useBrandSwitch();
+ * switchBrand(oceanBrand);
+ */
+export function useBrandSwitch(): (brand: Brand | undefined) => void {
+  return useTheme().setBrand;
 }
 
 // ─── Utilities ────────────────────────────────────────────────────

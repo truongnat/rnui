@@ -1,67 +1,176 @@
-import type { BrandPreset } from "../types";
+import { defineBrand } from "@rnui/tokens";
 
-export const midnightBrand: BrandPreset = {
+/**
+ * Midnight brand — Deep Purple & Electric Blue — mysterious, luxury, focus
+ *
+ * Light mode: #0D0D1A bg, #7E22CE primary
+ * Dark mode:  rich midnight night palette
+ */
+export const midnightBrand = defineBrand({
+  id: "midnight",
   name: "Midnight",
   description: "Deep Purple & Electric Blue — mysterious, luxury, focus",
   preview: {
-    primary: "#7E22CE",   // purple-700
-    secondary: "#3B82F6", // blue-500
+    primary:    "#7E22CE",
+    secondary:  "#3B82F6",
     background: "#0D0D1A",
   },
-  light: {
-    color: {
-      brand: {
-        default: "#7E22CE",  // purple-700 — 7.5x on white ✅
-        hover:   "#6B21A8",  // purple-800
-        active:  "#581C87",  // purple-900
-        subtle:  "#F3E8FF",  // purple-100
-        muted:   "#E9D5FF",  // purple-200
-        text:    "#581C87",  // purple-900
-      },
-      accent: {
-        default:  "#3B82F6", // blue-500
-        hover:    "#2563EB", // blue-600
-        active:   "#1D4ED8", // blue-700
-        subtle:   "#EFF6FF", // blue-50
-        muted:    "#DBEAFE", // blue-100
-        text:     "#1E3A8A", // blue-900
-        onAccent: "#FFFFFF",
-      },
-      border: {
-        focus: "#7E22CE",
-      },
+  light:   {
+    bg: {
+      default: "#FFFFFF",
+      subtle: "#FAFAFF",
+      muted: "#EDE9FE",
+      emphasis: "#C4B5FD",
+      inverse: "#0E0820",
+      overlay: "rgba(10,0,30,0.6)",
+      hover: "#F5F3FF",
+      disabled: "#F5F3FF",
+    },
+    surface: {
+      default: "#FFFFFF",
+      raised: "#FFFFFF",
+      overlay: "#FFFFFF",
+      sunken: "#F5F3FF",
+      hover: "#FAFAFF",
+      disabled: "#F5F3FF",
+    },
+    text: {
+      primary: "#0E0820",
+      secondary: "#3B1F6B",
+      tertiary: "#8060A8",
+      disabled: "#B8A8D8",
+      inverse: "#FFFFFF",
+      link: "#7E22CE",
+      onBrand: "#FFFFFF",
+      onAccent: "#FFFFFF",
+    },
+    border: {
+      default: "#E9D5FF",
+      subtle: "#F3E8FF",
+      strong: "#C4B5FD",
+      input: "#D8B4FE",
+      focus: "#7E22CE",
+      error: "#EF4444",
+    },
+    brand: {
+      default: "#7E22CE",
+      hover: "#6B21A8",
+      active: "#581C87",
+      subtle: "#F3E8FF",
+      muted: "#E9D5FF",
+      text: "#581C87",
+    },
+    accent: {
+      default: "#3B82F6",
+      hover: "#2563EB",
+      active: "#1D4ED8",
+      subtle: "#EFF6FF",
+      muted: "#DBEAFE",
+      text: "#1E3A8A",
+      onAccent: "#FFFFFF",
+    },
+    success: {
+      bg: "#F0FDF4",
+      text: "#166534",
+      border: "#22C55E",
+      icon: "#16A34A",
+    },
+    warning: {
+      bg: "#FFFBEB",
+      text: "#92400E",
+      border: "#F59E0B",
+      icon: "#D97706",
+    },
+    error: {
+      bg: "#FEF2F2",
+      text: "#991B1B",
+      border: "#EF4444",
+      icon: "#DC2626",
+    },
+    info: {
+      bg: "#EFF6FF",
+      text: "#1E3A8A",
+      border: "#3B82F6",
+      icon: "#2563EB",
     },
   },
-  dark: {
-    color: {
-      bg: {
-        default: "#0D0D1A",  // custom very dark purple-tinted
-        subtle:  "#12122A",
-      },
-      surface: {
-        default: "#16162E",
-        raised:  "#1E1E3A",
-      },
-      brand: {
-        default: "#C084FC",  // purple-400 — high contrast on dark
-        hover:   "#D8B4FE",  // purple-300
-        active:  "#E9D5FF",  // purple-200
-        subtle:  "#3B0764",  // purple-950
-        muted:   "#4A044E",  // purple-950 tint
-        text:    "#D8B4FE",  // purple-300
-      },
-      accent: {
-        default:  "#60A5FA", // blue-400
-        hover:    "#93C5FD", // blue-300
-        active:   "#BFDBFE", // blue-200
-        subtle:   "rgba(96,165,250,0.12)",
-        muted:    "rgba(96,165,250,0.2)",
-        text:     "#60A5FA",
-        onAccent: "#1E3A8A",
-      },
-      border: {
-        focus: "#C084FC",
-      },
+  dark:   {
+    bg: {
+      default: "#0D0D1A",
+      subtle: "#12122A",
+      muted: "#16163A",
+      emphasis: "#2A2060",
+      inverse: "#F0EEFF",
+      overlay: "rgba(0,0,0,0.9)",
+      hover: "#1A1838",
+      disabled: "#0F0F20",
+    },
+    surface: {
+      default: "#12122A",
+      raised: "#16163A",
+      overlay: "#14143A",
+      sunken: "#0A0A18",
+      hover: "#1A1838",
+      disabled: "#0D0D1A",
+    },
+    text: {
+      primary: "#F0EEFF",
+      secondary: "#C4B5FD",
+      tertiary: "#9080C8",
+      disabled: "#483878",
+      inverse: "#0D0D1A",
+      link: "#C084FC",
+      onBrand: "#FFFFFF",
+      onAccent: "#1E3A8A",
+    },
+    border: {
+      default: "#2A2060",
+      subtle: "#16163A",
+      strong: "#483878",
+      input: "#3D2E70",
+      focus: "#C084FC",
+      error: "#F87171",
+    },
+    brand: {
+      default: "#C084FC",
+      hover: "#D8B4FE",
+      active: "#E9D5FF",
+      subtle: "#3B0764",
+      muted: "#581C87",
+      text: "#D8B4FE",
+    },
+    accent: {
+      default: "#60A5FA",
+      hover: "#93C5FD",
+      active: "#BFDBFE",
+      subtle: "rgba(96,165,250,0.12)",
+      muted: "rgba(96,165,250,0.20)",
+      text: "#60A5FA",
+      onAccent: "#1E3A8A",
+    },
+    success: {
+      bg: "rgba(34,197,94,0.12)",
+      text: "#4ADE80",
+      border: "#16A34A",
+      icon: "#4ADE80",
+    },
+    warning: {
+      bg: "rgba(245,158,11,0.12)",
+      text: "#FBBF24",
+      border: "#D97706",
+      icon: "#FBBF24",
+    },
+    error: {
+      bg: "rgba(239,68,68,0.12)",
+      text: "#F87171",
+      border: "#DC2626",
+      icon: "#F87171",
+    },
+    info: {
+      bg: "rgba(96,165,250,0.12)",
+      text: "#60A5FA",
+      border: "#2563EB",
+      icon: "#60A5FA",
     },
   },
-};
+});

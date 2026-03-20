@@ -1,14 +1,176 @@
-import type { BrandPreset } from "../types";
+import { defineBrand } from "@rnui/tokens";
 
-export const defaultBrand: BrandPreset = {
+/**
+ * Default brand — Violet & Amber — premium, warm, developer-focused
+ *
+ * Light mode: #FAFAF9 bg, #7C3AED primary
+ * Dark mode:  rich default night palette
+ */
+export const defaultBrand = defineBrand({
+  id: "default",
   name: "Default",
   description: "Violet & Amber — premium, warm, developer-focused",
   preview: {
-    primary: "#7C3AED",
-    secondary: "#F59E0B",
+    primary:    "#7C3AED",
+    secondary:  "#F59E0B",
     background: "#FAFAF9",
   },
-  // No overrides needed — this IS the base theme
-  light: {},
-  dark: {},
-};
+  light:   {
+    bg: {
+      default: "#FFFFFF",
+      subtle: "#F8FAFC",
+      muted: "#E2E8F0",
+      emphasis: "#94A3B8",
+      inverse: "#0F172A",
+      overlay: "rgba(0,0,0,0.6)",
+      hover: "#F1F5F9",
+      disabled: "#F1F5F9",
+    },
+    surface: {
+      default: "#FFFFFF",
+      raised: "#FFFFFF",
+      overlay: "#FFFFFF",
+      sunken: "#F1F5F9",
+      hover: "#F8FAFC",
+      disabled: "#F1F5F9",
+    },
+    text: {
+      primary: "#020617",
+      secondary: "#334155",
+      tertiary: "#64748B",
+      disabled: "#94A3B8",
+      inverse: "#FFFFFF",
+      link: "#7C3AED",
+      onBrand: "#FFFFFF",
+      onAccent: "#1C1917",
+    },
+    border: {
+      default: "#E2E8F0",
+      subtle: "#F1F5F9",
+      strong: "#94A3B8",
+      input: "#CBD5E1",
+      focus: "#7C3AED",
+      error: "#EF4444",
+    },
+    brand: {
+      default: "#7C3AED",
+      hover: "#6D28D9",
+      active: "#5B21B6",
+      subtle: "#EDE9FE",
+      muted: "#DDD6FE",
+      text: "#5B21B6",
+    },
+    accent: {
+      default: "#F59E0B",
+      hover: "#D97706",
+      active: "#B45309",
+      subtle: "#FFFBEB",
+      muted: "#FEF3C7",
+      text: "#92400E",
+      onAccent: "#1C1917",
+    },
+    success: {
+      bg: "#F0FDF4",
+      text: "#166534",
+      border: "#22C55E",
+      icon: "#16A34A",
+    },
+    warning: {
+      bg: "#FFFBEB",
+      text: "#92400E",
+      border: "#F59E0B",
+      icon: "#D97706",
+    },
+    error: {
+      bg: "#FEF2F2",
+      text: "#991B1B",
+      border: "#EF4444",
+      icon: "#DC2626",
+    },
+    info: {
+      bg: "#EFF6FF",
+      text: "#1E3A8A",
+      border: "#3B82F6",
+      icon: "#2563EB",
+    },
+  },
+  dark:   {
+    bg: {
+      default: "#0D0D14",
+      subtle: "#131320",
+      muted: "#1E1E2E",
+      emphasis: "#3A3A50",
+      inverse: "#F0EFF5",
+      overlay: "rgba(0,0,0,0.8)",
+      hover: "#1A1A28",
+      disabled: "#16161F",
+    },
+    surface: {
+      default: "#131320",
+      raised: "#1A1A28",
+      overlay: "#16162A",
+      sunken: "#0A0A10",
+      hover: "#1A1A28",
+      disabled: "#0D0D14",
+    },
+    text: {
+      primary: "#F0EFF5",
+      secondary: "#C4C3D0",
+      tertiary: "#7C7A90",
+      disabled: "#4A485A",
+      inverse: "#0D0D14",
+      link: "#A78BFA",
+      onBrand: "#FFFFFF",
+      onAccent: "#1C1917",
+    },
+    border: {
+      default: "#2A2A3E",
+      subtle: "#1E1E2E",
+      strong: "#404058",
+      input: "#35354A",
+      focus: "#A78BFA",
+      error: "#F87171",
+    },
+    brand: {
+      default: "#A78BFA",
+      hover: "#C4B5FD",
+      active: "#DDD6FE",
+      subtle: "#2E1065",
+      muted: "#3B1585",
+      text: "#C4B5FD",
+    },
+    accent: {
+      default: "#FBBF24",
+      hover: "#FCD34D",
+      active: "#FDE68A",
+      subtle: "rgba(251,191,36,0.12)",
+      muted: "rgba(251,191,36,0.20)",
+      text: "#FBBF24",
+      onAccent: "#1C1917",
+    },
+    success: {
+      bg: "rgba(34,197,94,0.12)",
+      text: "#4ADE80",
+      border: "#16A34A",
+      icon: "#4ADE80",
+    },
+    warning: {
+      bg: "rgba(245,158,11,0.12)",
+      text: "#FBBF24",
+      border: "#D97706",
+      icon: "#FBBF24",
+    },
+    error: {
+      bg: "rgba(239,68,68,0.12)",
+      text: "#F87171",
+      border: "#DC2626",
+      icon: "#F87171",
+    },
+    info: {
+      bg: "rgba(59,130,246,0.12)",
+      text: "#60A5FA",
+      border: "#2563EB",
+      icon: "#60A5FA",
+    },
+  },
+});

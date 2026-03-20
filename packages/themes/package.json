@@ -2,10 +2,16 @@
   "name": "@rnui/themes",
   "version": "0.0.1",
   "private": false,
+  "description": "Multi-brand plugin presets for @rnui/ui",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "keywords": ["react-native", "ui", "theme", "brand", "dark-mode"],
   "peerDependencies": {
-    "@rnui/tokens": "workspace:*"
+    "@rnui/tokens": "workspace:*",
+    "@rnui/headless": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5"

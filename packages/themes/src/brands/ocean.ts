@@ -1,59 +1,176 @@
-import type { BrandPreset } from "../types";
+import { defineBrand } from "@rnui/tokens";
 
-export const oceanBrand: BrandPreset = {
+/**
+ * Ocean brand — Teal & Cyan — calm, deep, trustworthy
+ *
+ * Light mode: #F0FDFA bg, #0D9488 primary
+ * Dark mode:  rich ocean night palette
+ */
+export const oceanBrand = defineBrand({
+  id: "ocean",
   name: "Ocean",
   description: "Teal & Cyan — calm, deep, trustworthy",
   preview: {
-    primary: "#0D9488",   // teal-600
-    secondary: "#06B6D4", // cyan-500
+    primary:    "#0D9488",
+    secondary:  "#06B6D4",
     background: "#F0FDFA",
   },
-  light: {
-    color: {
-      brand: {
-        default: "#0D9488",  // teal-600 — 5.1x on white ✅
-        hover:   "#0F766E",  // teal-700
-        active:  "#115E59",  // teal-800
-        subtle:  "#CCFBF1",  // teal-100
-        muted:   "#99F6E4",  // teal-200
-        text:    "#115E59",  // teal-800
-      },
-      accent: {
-        default:  "#06B6D4", // cyan-500
-        hover:    "#0891B2", // cyan-600
-        active:   "#0E7490", // cyan-700
-        subtle:   "#CFFAFE", // cyan-100
-        muted:    "#A5F3FC", // cyan-200
-        text:     "#164E63", // cyan-900
-        onAccent: "#FFFFFF",
-      },
-      border: {
-        focus: "#0D9488",
-      },
+  light:   {
+    bg: {
+      default: "#FFFFFF",
+      subtle: "#F0FDFB",
+      muted: "#CCFBF1",
+      emphasis: "#5EEAD4",
+      inverse: "#042F2E",
+      overlay: "rgba(0,20,20,0.6)",
+      hover: "#E6FBF6",
+      disabled: "#E6FBF6",
+    },
+    surface: {
+      default: "#FFFFFF",
+      raised: "#FFFFFF",
+      overlay: "#FFFFFF",
+      sunken: "#E6FBF6",
+      hover: "#F0FDFB",
+      disabled: "#E6FBF6",
+    },
+    text: {
+      primary: "#042F2E",
+      secondary: "#134E4A",
+      tertiary: "#2DD4BF",
+      disabled: "#7ED8CE",
+      inverse: "#FFFFFF",
+      link: "#0D9488",
+      onBrand: "#FFFFFF",
+      onAccent: "#083344",
+    },
+    border: {
+      default: "#99F6E4",
+      subtle: "#CCFBF1",
+      strong: "#2DD4BF",
+      input: "#5EEAD4",
+      focus: "#0D9488",
+      error: "#EF4444",
+    },
+    brand: {
+      default: "#0D9488",
+      hover: "#0F766E",
+      active: "#115E59",
+      subtle: "#CCFBF1",
+      muted: "#99F6E4",
+      text: "#115E59",
+    },
+    accent: {
+      default: "#06B6D4",
+      hover: "#0891B2",
+      active: "#0E7490",
+      subtle: "#CFFAFE",
+      muted: "#A5F3FC",
+      text: "#164E63",
+      onAccent: "#FFFFFF",
+    },
+    success: {
+      bg: "#F0FDF4",
+      text: "#166534",
+      border: "#22C55E",
+      icon: "#16A34A",
+    },
+    warning: {
+      bg: "#FFFBEB",
+      text: "#92400E",
+      border: "#F59E0B",
+      icon: "#D97706",
+    },
+    error: {
+      bg: "#FEF2F2",
+      text: "#991B1B",
+      border: "#EF4444",
+      icon: "#DC2626",
+    },
+    info: {
+      bg: "#CFFAFE",
+      text: "#164E63",
+      border: "#06B6D4",
+      icon: "#0891B2",
     },
   },
-  dark: {
-    color: {
-      brand: {
-        default: "#2DD4BF",  // teal-400 — high contrast on dark
-        hover:   "#5EEAD4",  // teal-300
-        active:  "#99F6E4",  // teal-200
-        subtle:  "#042F2E",  // teal-950
-        muted:   "#134E4A",  // teal-900
-        text:    "#5EEAD4",  // teal-300
-      },
-      accent: {
-        default:  "#22D3EE", // cyan-400
-        hover:    "#67E8F9", // cyan-300
-        active:   "#A5F3FC", // cyan-200
-        subtle:   "rgba(34,211,238,0.12)",
-        muted:    "rgba(34,211,238,0.2)",
-        text:     "#22D3EE",
-        onAccent: "#083344",
-      },
-      border: {
-        focus: "#2DD4BF",
-      },
+  dark:   {
+    bg: {
+      default: "#030F0E",
+      subtle: "#071614",
+      muted: "#0D1F1D",
+      emphasis: "#134E4A",
+      inverse: "#ECFCF9",
+      overlay: "rgba(0,0,0,0.85)",
+      hover: "#0D1F1D",
+      disabled: "#071614",
+    },
+    surface: {
+      default: "#071614",
+      raised: "#0D1F1D",
+      overlay: "#0A1A18",
+      sunken: "#020B0A",
+      hover: "#0D1F1D",
+      disabled: "#030F0E",
+    },
+    text: {
+      primary: "#ECFCF9",
+      secondary: "#99F6E4",
+      tertiary: "#2DD4BF",
+      disabled: "#0F766E",
+      inverse: "#030F0E",
+      link: "#2DD4BF",
+      onBrand: "#FFFFFF",
+      onAccent: "#083344",
+    },
+    border: {
+      default: "#134E4A",
+      subtle: "#0D1F1D",
+      strong: "#0F766E",
+      input: "#0F766E",
+      focus: "#2DD4BF",
+      error: "#F87171",
+    },
+    brand: {
+      default: "#2DD4BF",
+      hover: "#5EEAD4",
+      active: "#99F6E4",
+      subtle: "#042F2E",
+      muted: "#134E4A",
+      text: "#5EEAD4",
+    },
+    accent: {
+      default: "#22D3EE",
+      hover: "#67E8F9",
+      active: "#A5F3FC",
+      subtle: "rgba(34,211,238,0.12)",
+      muted: "rgba(34,211,238,0.20)",
+      text: "#22D3EE",
+      onAccent: "#083344",
+    },
+    success: {
+      bg: "rgba(34,197,94,0.12)",
+      text: "#4ADE80",
+      border: "#16A34A",
+      icon: "#4ADE80",
+    },
+    warning: {
+      bg: "rgba(245,158,11,0.12)",
+      text: "#FBBF24",
+      border: "#D97706",
+      icon: "#FBBF24",
+    },
+    error: {
+      bg: "rgba(239,68,68,0.12)",
+      text: "#F87171",
+      border: "#DC2626",
+      icon: "#F87171",
+    },
+    info: {
+      bg: "rgba(34,211,238,0.12)",
+      text: "#22D3EE",
+      border: "#0891B2",
+      icon: "#22D3EE",
     },
   },
-};
+});

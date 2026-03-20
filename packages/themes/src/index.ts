@@ -1,45 +1,56 @@
-// Brand presets
+/**
+ * @rnui/themes — Multi-brand plugin system for RNUI
+ *
+ * Architecture:
+ *   Branch (primitive scale: spacing, radius, typography...)
+ *   └── Brand (color identity: bg, surface, text, border, brand, accent)
+ *         ├── light → full BrandColorGroup
+ *         └── dark  → full BrandColorGroup
+ *
+ * Usage:
+ *   import { loveBrand } from "@rnui/themes"
+ *   <ThemeProvider brand={loveBrand}>...</ThemeProvider>
+ *
+ *   // Swap at runtime:
+ *   const switchBrand = useBrandSwitch()
+ *   switchBrand(oceanBrand)
+ */
+
+// ── Brand presets ──────────────────────────────────────────────────
 export { defaultBrand } from "./brands/default";
 export { loveBrand }    from "./brands/love";
 export { oceanBrand }   from "./brands/ocean";
 export { forestBrand }  from "./brands/forest";
 export { sunsetBrand }  from "./brands/sunset";
-export { midnightBrand } from "./brands/midnight";
+export { midnightBrand }from "./brands/midnight";
 
-// Types
-export type { BrandPreset } from "./types";
+// ── Types (re-exported for convenience) ───────────────────────────
+export type { Brand, BrandColorGroup } from "@rnui/tokens";
+export { defineBrand } from "@rnui/tokens";
 
-// All brands as array (for brand picker UI)
+// ── All brands registry (for brand pickers, docs, etc.) ───────────
 import { defaultBrand } from "./brands/default";
 import { loveBrand }    from "./brands/love";
 import { oceanBrand }   from "./brands/ocean";
 import { forestBrand }  from "./brands/forest";
 import { sunsetBrand }  from "./brands/sunset";
-import { midnightBrand } from "./brands/midnight";
+import { midnightBrand }from "./brands/midnight";
+import type { Brand }   from "@rnui/tokens";
 
-export const allBrands = [
+export const allBrands: Brand[] = [
   defaultBrand,
   loveBrand,
   oceanBrand,
   forestBrand,
   sunsetBrand,
   midnightBrand,
-] as const;
+];
 
-export type BrandName = typeof allBrands[number]["name"];
+export type BrandId = "default" | "love" | "ocean" | "forest" | "sunset" | "midnight";
 
-// Helper: create a custom brand preset
-export function createBrand(
-  name: string,
-  description: string,
-  preview: { primary: string; secondary: string; background: string },
-  overrides: { light?: object; dark?: object }
-): import("./types").BrandPreset {
-  return {
-    name,
-    description,
-    preview,
-    light: overrides.light ?? {},
-    dark:  overrides.dark  ?? {},
-  } as import("./types").BrandPreset;
+/** Look up a brand by its id */
+export function getBrandById(id: BrandId): Brand {
+  const found = allBrands.find(b => b.id === id);
+  if (!found) throw new Error(`[RNUI] Unknown brand id: "${id}"`);
+  return found;
 }

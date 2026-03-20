@@ -1,4 +1,6 @@
 import { primitive } from "./primitive";
+import type { Brand, BrandColorGroup } from "./brand";
+import { getBrandColors } from "./brand";
 
 /**
  * Semantic tokens — maps raw primitives to design intent.
@@ -273,6 +275,37 @@ export interface SemanticTokens {
 }
 
 export type ColorScheme = "light" | "dark";
+
+// ─── Brand-aware token factory ────────────────────────────────────
+
+/**
+ * Build a full SemanticTokens object from a Brand + color scheme.
+ *
+ * Architecture:
+ *   primitive scale (spacing, radius, type...)
+ *   + brand color group (bg, surface, text, border, brand, accent, states)
+ *   = SemanticTokens (what components consume)
+ *
+ * @example
+ * const tokens = buildSemanticTokens(loveBrand, "dark");
+ * <ThemeProvider brand={loveBrand}>...</ThemeProvider>  // automatic
+ */
+export function buildSemanticTokens(brand: Brand, scheme: ColorScheme): SemanticTokens {
+  const colors = getBrandColors(brand, scheme);
+  const baseShadow = scheme === "dark"
+    ? (darkTokens as SemanticTokens).shadow
+    : (lightTokens as SemanticTokens).shadow;
+
+  return {
+    ...shared,
+    color: colors,
+    shadow: baseShadow,
+  } as SemanticTokens;
+}
+
+// ─── Re-export Brand types for consumers ─────────────────────────
+export type { Brand, BrandColorGroup } from "./brand";
+export { defineBrand, getBrandColors } from "./brand";
 
 export const semanticTokens: Record<ColorScheme, SemanticTokens> = {
   light: lightTokens as SemanticTokens,

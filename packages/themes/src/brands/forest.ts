@@ -1,59 +1,176 @@
-import type { BrandPreset } from "../types";
+import { defineBrand } from "@rnui/tokens";
 
-export const forestBrand: BrandPreset = {
+/**
+ * Forest brand — Emerald & Lime — fresh, natural, growth
+ *
+ * Light mode: #F0FDF4 bg, #059669 primary
+ * Dark mode:  rich forest night palette
+ */
+export const forestBrand = defineBrand({
+  id: "forest",
   name: "Forest",
   description: "Emerald & Lime — fresh, natural, growth",
   preview: {
-    primary: "#059669",   // emerald-600
-    secondary: "#84CC16", // lime-500
+    primary:    "#059669",
+    secondary:  "#84CC16",
     background: "#F0FDF4",
   },
-  light: {
-    color: {
-      brand: {
-        default: "#059669",  // emerald-600 — 4.7x on white ✅
-        hover:   "#047857",  // emerald-700
-        active:  "#065F46",  // emerald-800
-        subtle:  "#D1FAE5",  // emerald-100
-        muted:   "#A7F3D0",  // emerald-200
-        text:    "#065F46",  // emerald-800
-      },
-      accent: {
-        default:  "#84CC16", // lime-500
-        hover:    "#65A30D", // lime-600
-        active:   "#4D7C0F", // lime-700
-        subtle:   "#F7FEE7", // lime-50
-        muted:    "#ECFCCB", // lime-100
-        text:     "#3F6212", // lime-800
-        onAccent: "#1A2E05",
-      },
-      border: {
-        focus: "#059669",
-      },
+  light:   {
+    bg: {
+      default: "#FFFFFF",
+      subtle: "#F0FDF4",
+      muted: "#D1FAE5",
+      emphasis: "#6EE7B7",
+      inverse: "#022C22",
+      overlay: "rgba(0,20,10,0.6)",
+      hover: "#ECFDF5",
+      disabled: "#ECFDF5",
+    },
+    surface: {
+      default: "#FFFFFF",
+      raised: "#FFFFFF",
+      overlay: "#FFFFFF",
+      sunken: "#ECFDF5",
+      hover: "#F0FDF4",
+      disabled: "#ECFDF5",
+    },
+    text: {
+      primary: "#022C22",
+      secondary: "#065F46",
+      tertiary: "#34D399",
+      disabled: "#86EFAC",
+      inverse: "#FFFFFF",
+      link: "#059669",
+      onBrand: "#FFFFFF",
+      onAccent: "#1A2E05",
+    },
+    border: {
+      default: "#A7F3D0",
+      subtle: "#D1FAE5",
+      strong: "#34D399",
+      input: "#6EE7B7",
+      focus: "#059669",
+      error: "#EF4444",
+    },
+    brand: {
+      default: "#059669",
+      hover: "#047857",
+      active: "#065F46",
+      subtle: "#D1FAE5",
+      muted: "#A7F3D0",
+      text: "#065F46",
+    },
+    accent: {
+      default: "#84CC16",
+      hover: "#65A30D",
+      active: "#4D7C0F",
+      subtle: "#F7FEE7",
+      muted: "#ECFCCB",
+      text: "#3F6212",
+      onAccent: "#1A2E05",
+    },
+    success: {
+      bg: "#F0FDF4",
+      text: "#166534",
+      border: "#22C55E",
+      icon: "#16A34A",
+    },
+    warning: {
+      bg: "#FFFBEB",
+      text: "#92400E",
+      border: "#F59E0B",
+      icon: "#D97706",
+    },
+    error: {
+      bg: "#FEF2F2",
+      text: "#991B1B",
+      border: "#EF4444",
+      icon: "#DC2626",
+    },
+    info: {
+      bg: "#EFF6FF",
+      text: "#1E3A8A",
+      border: "#3B82F6",
+      icon: "#2563EB",
     },
   },
-  dark: {
-    color: {
-      brand: {
-        default: "#34D399",  // emerald-400
-        hover:   "#6EE7B7",  // emerald-300
-        active:  "#A7F3D0",  // emerald-200
-        subtle:  "#022C22",  // emerald-950
-        muted:   "#064E3B",  // emerald-900
-        text:    "#6EE7B7",  // emerald-300
-      },
-      accent: {
-        default:  "#A3E635", // lime-400
-        hover:    "#BEF264", // lime-300
-        active:   "#D9F99D", // lime-200
-        subtle:   "rgba(163,230,53,0.12)",
-        muted:    "rgba(163,230,53,0.2)",
-        text:     "#A3E635",
-        onAccent: "#1A2E05",
-      },
-      border: {
-        focus: "#34D399",
-      },
+  dark:   {
+    bg: {
+      default: "#030E09",
+      subtle: "#07160D",
+      muted: "#0D2016",
+      emphasis: "#064E3B",
+      inverse: "#ECFDF7",
+      overlay: "rgba(0,0,0,0.85)",
+      hover: "#0D2016",
+      disabled: "#07160D",
+    },
+    surface: {
+      default: "#07160D",
+      raised: "#0D2016",
+      overlay: "#0A1A10",
+      sunken: "#020B06",
+      hover: "#0D2016",
+      disabled: "#030E09",
+    },
+    text: {
+      primary: "#ECFDF7",
+      secondary: "#A7F3D0",
+      tertiary: "#34D399",
+      disabled: "#065F46",
+      inverse: "#030E09",
+      link: "#34D399",
+      onBrand: "#FFFFFF",
+      onAccent: "#1A2E05",
+    },
+    border: {
+      default: "#064E3B",
+      subtle: "#0D2016",
+      strong: "#047857",
+      input: "#047857",
+      focus: "#34D399",
+      error: "#F87171",
+    },
+    brand: {
+      default: "#34D399",
+      hover: "#6EE7B7",
+      active: "#A7F3D0",
+      subtle: "#022C22",
+      muted: "#064E3B",
+      text: "#6EE7B7",
+    },
+    accent: {
+      default: "#A3E635",
+      hover: "#BEF264",
+      active: "#D9F99D",
+      subtle: "rgba(163,230,53,0.12)",
+      muted: "rgba(163,230,53,0.20)",
+      text: "#A3E635",
+      onAccent: "#1A2E05",
+    },
+    success: {
+      bg: "rgba(34,197,94,0.12)",
+      text: "#4ADE80",
+      border: "#16A34A",
+      icon: "#4ADE80",
+    },
+    warning: {
+      bg: "rgba(245,158,11,0.12)",
+      text: "#FBBF24",
+      border: "#D97706",
+      icon: "#FBBF24",
+    },
+    error: {
+      bg: "rgba(239,68,68,0.12)",
+      text: "#F87171",
+      border: "#DC2626",
+      icon: "#F87171",
+    },
+    info: {
+      bg: "rgba(59,130,246,0.12)",
+      text: "#60A5FA",
+      border: "#2563EB",
+      icon: "#60A5FA",
     },
   },
-};
+});
