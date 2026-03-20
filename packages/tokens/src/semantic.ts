@@ -45,6 +45,7 @@ export const lightTokens = {
       emphasis: color.gray[400], // 94A3B8 - Highly visible for skeletons
       inverse: color.gray[900],  // 0F172A
       overlay: "rgba(0,0,0,0.6)",
+      hover: color.gray[100],  // F1F5F9 - hover state
     },
     // Surfaces (cards, sheets, modals)
     surface: {
@@ -65,6 +66,7 @@ export const lightTokens = {
     // Border - Ultra visible
     border: {
       default: color.gray[400],  // 94A3B8 - Highly visible
+      subtle: color.gray[200],   // E2E8F0 - Subtle border
       strong: color.gray[600],   // 475569 - Very dark
       focus: color.brand[600],
       error: color.red[600],
@@ -107,6 +109,7 @@ export const darkTokens = {
       emphasis: color.gray[700],
       inverse: color.gray[50],
       overlay: `rgba(0,0,0,0.6)`,
+      hover: color.gray[800],  // 1E293B - hover state dark
     },
     surface: {
       default: color.gray[900],
@@ -124,6 +127,7 @@ export const darkTokens = {
     },
     border: {
       default: color.gray[700],
+      subtle: color.gray[800],  // 1E293B - Subtle border dark
       strong: color.gray[600],
       focus: color.brand[400],
       error: color.red[400],
@@ -159,6 +163,7 @@ interface ColorGroup {
     emphasis: string;
     inverse: string;
     overlay: string;
+    hover: string;
   };
   surface: {
     default: string;
@@ -176,6 +181,7 @@ interface ColorGroup {
   };
   border: {
     default: string;
+    subtle: string;
     strong: string;
     focus: string;
     error: string;
