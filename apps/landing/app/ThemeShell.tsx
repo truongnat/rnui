@@ -265,42 +265,59 @@ export function ThemeShell({ children }: { children: React.ReactNode }) {
 
   const toggleDark = () => setIsDark(d => !d);
 
+  const activeBrandColor = isDark
+    ? BRANDS[brandIdx].dark["--brand"]
+    : BRANDS[brandIdx].light["--brand"];
+
   return (
     <>
-      {/* Floating theme controls bar */}
-      <div className={styles.themeBar}>
-        <div className={styles.themeBarInner}>
-          <span className={styles.themeBarLabel}>Theme</span>
-          <div className={styles.brandSelect}>
-            <select
-              value={brandIdx}
-              onChange={handleBrand}
-              className={styles.selectEl}
-              aria-label="Select brand"
+      {/* Unified nav — logo + brand switcher + dark toggle + GitHub */}
+      <nav className={styles.nav}>
+        <div className={styles.navInner}>
+          {/* Logo */}
+          <a href="/" className={styles.logo}>
+            <span className={styles.logoDot} style={{ background: activeBrandColor }} />
+            RNUI
+          </a>
+
+          {/* Brand + mode controls */}
+          <div className={styles.navControls}>
+            <div className={styles.brandSelect}>
+              <select
+                value={brandIdx}
+                onChange={handleBrand}
+                className={styles.selectEl}
+                aria-label="Select brand"
+              >
+                {BRANDS.map((b, i) => (
+                  <option key={b.name} value={i}>
+                    {b.emoji} {b.name} — {b.desc}
+                  </option>
+                ))}
+              </select>
+              <div className={styles.selectChevron}>▾</div>
+            </div>
+
+            <button
+              className={styles.darkToggle}
+              onClick={toggleDark}
+              aria-label="Toggle dark mode"
+              title={isDark ? "Switch to Light" : "Switch to Dark"}
             >
-              {BRANDS.map((b, i) => (
-                <option key={b.name} value={i}>
-                  {b.emoji} {b.name} — {b.desc}
-                </option>
-              ))}
-            </select>
-            <div className={styles.selectChevron}>▾</div>
+              {isDark ? "☀️" : "🌙"}
+            </button>
+
+            <a
+              href="https://github.com/truongnat/rnui"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.navCta}
+            >
+              GitHub →
+            </a>
           </div>
-          <button
-            className={styles.darkToggle}
-            onClick={toggleDark}
-            aria-label="Toggle dark mode"
-            title={isDark ? "Switch to Light" : "Switch to Dark"}
-          >
-            {isDark ? "☀️" : "🌙"}
-            <span>{isDark ? "Light" : "Dark"}</span>
-          </button>
-          <div
-            className={styles.activeBrandDot}
-            style={{ background: isDark ? BRANDS[brandIdx].dark["--brand"] : BRANDS[brandIdx].light["--brand"] }}
-          />
         </div>
-      </div>
+      </nav>
       {children}
     </>
   );

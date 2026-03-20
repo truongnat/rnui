@@ -24,18 +24,6 @@ const FEATURES = [
 export default function Home() {
   return (
     <main className={styles.main}>
-      <nav className={styles.nav}>
-        <div className={styles.navInner}>
-          <a href="/" className={styles.logo}>RNUI</a>
-          <div className={styles.navLinks}>
-            <a href="https://github.com/truongnat/rnui" className={styles.navLink}>Docs</a>
-            <a href="https://github.com/truongnat/rnui" className={styles.navLink}>Components</a>
-            <a href="https://github.com/truongnat/rnui" target="_blank" rel="noopener noreferrer" className={styles.navLink}>GitHub</a>
-          </div>
-          <a href="https://github.com/truongnat/rnui" target="_blank" rel="noopener noreferrer" className={styles.navCta}>Get Started →</a>
-        </div>
-      </nav>
-
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.heroLeft}>
