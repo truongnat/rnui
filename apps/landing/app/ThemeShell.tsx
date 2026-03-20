@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import styles from "./page.module.css";
 
 // ─── Brand definitions ────────────────────────────────────────────
@@ -242,6 +242,8 @@ export const BRANDS: BrandDef[] = [
 export function ThemeShell({ children }: { children: React.ReactNode }) {
   const [brandIdx, setBrandIdx] = useState(0);
   const [isDark, setIsDark] = useState(false);
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const applyTheme = useCallback((idx: number, dark: boolean) => {
     const brand = BRANDS[idx];
@@ -258,6 +260,17 @@ export function ThemeShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     applyTheme(brandIdx, isDark);
   }, [brandIdx, isDark, applyTheme]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   const handleBrand = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBrandIdx(Number(e.target.value));
@@ -282,22 +295,53 @@ export function ThemeShell({ children }: { children: React.ReactNode }) {
 
           {/* Brand + mode controls */}
           <div className={styles.navControls}>
-            <div className={styles.brandSelect}>
-              <select
-                value={brandIdx}
-                onChange={handleBrand}
-                className={styles.selectEl}
-                aria-label="Select brand"
+
+            {/* Custom brand dropdown */}
+            <div className={styles.brandDropdown} ref={dropdownRef}>
+              <button
+                className={styles.brandTrigger}
+                onClick={() => setOpen(o => !o)}
+                aria-haspopup="listbox"
+                aria-expanded={open}
               >
-                {BRANDS.map((b, i) => (
-                  <option key={b.name} value={i}>
-                    {b.emoji} {b.name} — {b.desc}
-                  </option>
-                ))}
-              </select>
-              <div className={styles.selectChevron}>▾</div>
+                <span className={styles.brandTriggerDot} style={{ background: activeBrandColor }} />
+                <span className={styles.brandTriggerName}>{BRANDS[brandIdx].name}</span>
+                <svg className={`${styles.brandChevron}${open ? " " + styles.brandChevronOpen : ""}`} width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+
+              {open && (
+                <div className={styles.brandMenu} role="listbox">
+                  {BRANDS.map((b, i) => {
+                    const isActive = i === brandIdx;
+                    const col = isDark ? b.dark["--brand"] : b.light["--brand"];
+                    return (
+                      <button
+                        key={b.name}
+                        role="option"
+                        aria-selected={isActive}
+                        className={`${styles.brandMenuItem}${isActive ? " " + styles.brandMenuItemActive : ""}`}
+                        onClick={() => { setBrandIdx(i); setOpen(false); }}
+                      >
+                        <span className={styles.brandMenuDot} style={{ background: col }} />
+                        <span className={styles.brandMenuText}>
+                          <span className={styles.brandMenuName}>{b.name}</span>
+                          <span className={styles.brandMenuDesc}>{b.desc}</span>
+                        </span>
+                        {isActive && (
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{marginLeft:"auto",flexShrink:0}}>
+                            <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
+            {/* Dark mode toggle */}
             <button
               className={styles.darkToggle}
               onClick={toggleDark}

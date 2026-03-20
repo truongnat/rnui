@@ -549,3 +549,160 @@
 }
 
 
+
+/* ===== NAV CONTROLS ===== */
+.navControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* ===== BRAND DROPDOWN ===== */
+.brandDropdown {
+  position: relative;
+}
+
+/* Trigger button */
+.brandTrigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px 0 10px;
+  height: 34px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  transition: border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.brandTrigger:hover {
+  border-color: var(--brand);
+  background: var(--surface);
+}
+.brandTriggerDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.brandTriggerName {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.brandChevron {
+  color: var(--text-3);
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+.brandChevronOpen {
+  transform: rotate(180deg);
+}
+
+/* Dropdown panel */
+.brandMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 220px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  padding: 4px;
+  z-index: 200;
+  animation: dropdownIn 0.12s ease;
+}
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Menu item */
+.brandMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  color: var(--text);
+  text-align: left;
+  transition: background 0.1s;
+}
+.brandMenuItem:hover {
+  background: var(--surface-2);
+}
+.brandMenuItemActive {
+  background: color-mix(in srgb, var(--brand) 8%, transparent);
+  color: var(--brand-text);
+}
+.brandMenuItemActive:hover {
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+}
+.brandMenuDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.brandMenuText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+.brandMenuName {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.brandMenuDesc {
+  font-size: 11px;
+  color: var(--text-3);
+  line-height: 1.2;
+}
+.brandMenuItemActive .brandMenuDesc {
+  color: var(--brand-text);
+  opacity: 0.7;
+}
+
+/* ===== DARK TOGGLE ===== */
+.darkToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  font-size: 15px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+.darkToggle:hover {
+  border-color: var(--brand);
+  background: var(--surface);
+}
+
+/* ===== LOGO DOT ===== */
+.logoDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
