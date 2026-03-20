@@ -1,0 +1,89 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Dark-first palette */
+  --bg: #000000;
+  --bg-alt: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #161616;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --text: #ededed;
+  --text-2: #888888;
+  --text-3: #555555;
+  --highlight: rgba(255, 255, 255, 0.04);
+
+  /* Syntax / code colors */
+  --code-bg: #0d0d0d;
+  --c-purple: #a78bfa;
+  --c-green: #86efac;
+  --c-blue: #60a5fa;
+  --c-orange: #fb923c;
+  --c-string: #34d399;
+  --c-muted: rgba(255, 255, 255, 0.3);
+
+  /* Legacy ink (kept for syntax spans in page.tsx) */
+  --ink-red: #a78bfa;
+  --ink-brown: #34d399;
+  --ink-blue: #60a5fa;
+  --ink-green: #86efac;
+
+  /* Fonts */
+  --font-sans: var(--font-geist-sans, "Inter"), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono, "JetBrains Mono"), "Fira Code", "SF Mono", Consolas, monospace;
+
+  /* Glow accent */
+  --glow: 0 0 80px rgba(167, 139, 250, 0.15);
+}
+
+/* Light mode support (secondary) */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #fafafa;
+    --bg-alt: #f4f4f5;
+    --surface: #ffffff;
+    --surface-2: #f0f0f0;
+    --border: rgba(0, 0, 0, 0.08);
+    --border-strong: rgba(0, 0, 0, 0.18);
+    --text: #111111;
+    --text-2: #555555;
+    --text-3: #999999;
+    --highlight: rgba(0, 0, 0, 0.04);
+    --code-bg: #f4f4f5;
+    --c-purple: #7c3aed;
+    --c-green: #059669;
+    --c-blue: #2563eb;
+    --c-orange: #ea580c;
+    --c-string: #047857;
+    --c-muted: rgba(0, 0, 0, 0.3);
+    --ink-red: #7c3aed;
+    --ink-brown: #047857;
+    --ink-blue: #2563eb;
+    --ink-green: #059669;
+    --glow: 0 0 80px rgba(124, 58, 237, 0.08);
+  }
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: var(--font-sans); border: none; background: none; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
