@@ -1,14 +1,15 @@
 {
   "name": "@rnui/tokens",
   "version": "0.0.1",
-  "description": "Design tokens for RNUI — primitive, semantic, component",
+  "type": "module",
+  "description": "Design tokens for RNUI \u2014 primitive, semantic, component",
   "keywords": [
     "react-native",
     "design-tokens",
     "theme"
   ],
   "license": "MIT",
-  "main": "./dist/index.js",
+  "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
