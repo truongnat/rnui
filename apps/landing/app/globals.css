@@ -89,3 +89,50 @@ button { cursor: pointer; font-family: var(--font-sans); border: none; backgroun
 .timingFill, [class*="Dot"], [class*="dot"] {
   transition: none;
 }
+
+/* ── Dark mode visual enhancements ─────────────────────────────── */
+[data-theme="dark"] .main {
+  background: var(--bg);
+}
+
+/* Subtle brand glow on hero heading */
+[data-theme="dark"] .h1,
+[data-theme="dark"] .h2 {
+  text-shadow: 0 0 60px color-mix(in srgb, var(--brand) 18%, transparent);
+}
+
+/* Featured cards get brand-tinted top border */
+[data-theme="dark"] .featCard {
+  border-top-color: var(--brand);
+}
+
+/* Section dividers — more visible */
+[data-theme="dark"] .stats {
+  border-color: var(--border);
+}
+
+/* Token block — subtle left accent */
+[data-theme="dark"] .tokenBlock {
+  border-left-color: var(--brand);
+}
+
+/* Shadow tokens preview — more contrast */
+[data-theme="dark"] .shadowBox {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5) !important;
+}
+
+/* Code + terminal — slightly raised surface */
+[data-theme="dark"] .codeCard,
+[data-theme="dark"] .terminalCard {
+  box-shadow: 0 0 0 1px var(--border), 0 16px 48px rgba(0,0,0,0.35);
+}
+
+/* Spacing + radius demo: use accent color */
+[data-theme="dark"] .spacingBar {
+  background: var(--accent);
+  opacity: 0.9;
+}
+[data-theme="dark"] .radiusBox {
+  background: color-mix(in srgb, var(--brand) 60%, var(--accent));
+  opacity: 1;
+}
