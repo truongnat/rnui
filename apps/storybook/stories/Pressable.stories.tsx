@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import { ThemeProvider, Pressable, useTheme } from "@rnui/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <View style={{ padding: 24 }}>
       {children}
     </View>
@@ -14,7 +14,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/Pressable",
   component: Pressable,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
 };
 
 export default meta;
@@ -25,8 +25,9 @@ export const Basic: Story = {
   render: () => {
     const { tokens } = useTheme();
     return (
-      <Pressable onPress={() => {}} feedbackMode="scale">
-        {({ isPressed }) => (
+      // @ts-ignore
+      <Pressable onPress={() => { }} feedbackMode="scale">
+        {({ isPressed }: any) => (
           <View
             style={{
               paddingVertical: tokens.spacing[3],

@@ -15,7 +15,7 @@ import {
 } from "@rnui/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>
       {children}
     </ScrollView>
@@ -25,7 +25,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/Feedback",
   component: View,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
   argTypes: {
     severity: {
       control: { type: "select" },
@@ -65,14 +65,14 @@ export const DialogStory: StoryObj = {
     const [open, setOpen] = useState(false);
     return (
       <View>
-        <Button 
-          label="Open Dialog" 
-          onPress={() => setOpen(true)} 
-          onLongPress={() => {}} 
-          leadingIcon={undefined} 
-          trailingIcon={undefined} 
-          accessibilityLabel="Open dialog" 
-          accessibilityHint="" 
+        <Button
+          label="Open Dialog"
+          onPress={() => setOpen(true)}
+          onLongPress={() => { }}
+          leadingIcon={undefined}
+          trailingIcon={undefined}
+          accessibilityLabel="Open dialog"
+          accessibilityHint=""
         />
         <Dialog open={open} onClose={() => setOpen(false)} maxWidth={400}>
           <DialogTitle>Confirm Action</DialogTitle>
@@ -80,24 +80,24 @@ export const DialogStory: StoryObj = {
             Are you sure you want to proceed with this action? This cannot be undone.
           </DialogContent>
           <DialogActions>
-            <Button 
-              label="Cancel" 
+            <Button
+              label="Cancel"
               variant="outline"
-              onPress={() => setOpen(false)} 
-              onLongPress={() => {}} 
-              leadingIcon={undefined} 
-              trailingIcon={undefined} 
-              accessibilityLabel="Cancel" 
-              accessibilityHint="" 
+              onPress={() => setOpen(false)}
+              onLongPress={() => { }}
+              leadingIcon={undefined}
+              trailingIcon={undefined}
+              accessibilityLabel="Cancel"
+              accessibilityHint=""
             />
-            <Button 
-              label="Confirm" 
-              onPress={() => setOpen(false)} 
-              onLongPress={() => {}} 
-              leadingIcon={undefined} 
-              trailingIcon={undefined} 
-              accessibilityLabel="Confirm" 
-              accessibilityHint="" 
+            <Button
+              label="Confirm"
+              onPress={() => setOpen(false)}
+              onLongPress={() => { }}
+              leadingIcon={undefined}
+              trailingIcon={undefined}
+              accessibilityLabel="Confirm"
+              accessibilityHint=""
             />
           </DialogActions>
         </Dialog>
@@ -112,7 +112,7 @@ export const SnackbarStory: StoryObj = {
     const [open, setOpen] = useState(true);
     return (
       <View>
-        <Button label="Show Snackbar" onPress={() => setOpen(true)} onLongPress={() => {}} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Show snackbar" accessibilityHint="" />
+        <Button label="Show Snackbar" onPress={() => setOpen(true)} onLongPress={() => { }} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Show snackbar" accessibilityHint="" />
         <Snackbar open={open} message="Saved" onClose={() => setOpen(false)} />
       </View>
     );

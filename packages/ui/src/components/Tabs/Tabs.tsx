@@ -90,7 +90,7 @@ export function Tab<T = string>({ value, label, icon, disabled = false }: TabPro
           },
           ctx.variant === "fullWidth" ? { flex: 1 } : null,
           animatedStyle,
-        ]}
+        ] as any}
         {...accessibilityProps}
       >
         {icon}

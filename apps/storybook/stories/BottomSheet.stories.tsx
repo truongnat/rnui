@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import { ThemeProvider, BottomSheet, Button, type BottomSheetRef } from "@rnui/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <View style={{ flex: 1, padding: 24 }}>
       {children}
     </View>
@@ -14,7 +14,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/BottomSheet",
   component: BottomSheet,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
 };
 
 export default meta;
@@ -24,17 +24,18 @@ type Story = StoryObj<typeof BottomSheet>;
 export const Basic: Story = {
   render: () => {
     const sheetRef = useRef<BottomSheetRef>(null);
+    const BottomSheetComponent = BottomSheet as any;
     return (
-      <View style={{ gap: 12 }}>
-        <Button label="Open sheet" onPress={() => sheetRef.current?.open()} />
-
-        <BottomSheet ref={sheetRef} snapPoints={["45%", "85%"]}>
-          <View style={{ flex: 1, padding: 24, gap: 12 }}>
-            <Text style={{ fontWeight: "600", fontSize: 16 }}>Bottom sheet</Text>
-            <Text>Drag down or tap outside to close.</Text>
-            <Button label="Close" variant="outline" onPress={() => sheetRef.current?.close()} />
+      <View style={{ flex: 1, padding: 20 }}>
+        <Button label="Open Bottom Sheet" onPress={() => sheetRef.current?.open()} />
+        <BottomSheetComponent ref={sheetRef} snapPoints={["25%", "50%", "90%"]}>
+          <View style={{ padding: 20 }}>
+            <Text style={{ fontSize: 18, fontWeight: "600" }}>Bottom Sheet Content</Text>
+            <Text style={{ color: "#666" }}>
+              This is a bottom sheet component using forwardRef.
+            </Text>
           </View>
-        </BottomSheet>
+        </BottomSheetComponent>
       </View>
     );
   },

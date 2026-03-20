@@ -4,7 +4,7 @@ import { ThemeProvider, Button } from "@rnui/ui";
 import { View } from "react-native";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <View style={{ padding: 24 }}>
       {children}
     </View>
@@ -13,10 +13,10 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 
 // Wrapper component that provides required props
 const ButtonWrapper = (props: any) => (
-  <Button 
-    {...props} 
-    onPress={props.onPress || (() => {})}
-    onLongPress={props.onLongPress || (() => {})}
+  <Button
+    {...props}
+    onPress={props.onPress || (() => { })}
+    onLongPress={props.onLongPress || (() => { })}
     accessibilityLabel={props.accessibilityLabel || props.label}
     accessibilityHint=""
   />
@@ -25,7 +25,7 @@ const ButtonWrapper = (props: any) => (
 const meta = {
   title: "Components/Button",
   component: ButtonWrapper,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
   argTypes: {
     variant: {
       control: { type: "select" },
@@ -78,7 +78,7 @@ export const Disabled: Story = {
 };
 
 export const AllVariants: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <View style={{ gap: 12 }}>
       <ButtonWrapper {...args} label="Solid" variant="solid" />
       <ButtonWrapper {...args} label="Outline" variant="outline" />
@@ -89,7 +89,7 @@ export const AllVariants: Story = {
 };
 
 export const AllSizes: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <View style={{ gap: 12 }}>
       <ButtonWrapper {...args} label="Small" size="sm" />
       <ButtonWrapper {...args} label="Medium" size="md" />

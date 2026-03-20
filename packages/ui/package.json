@@ -23,7 +23,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup && tsc --emitDeclarationOnly",
+    "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "jest --testPathPattern=\"__tests__(?!/perf)\"",
@@ -31,6 +31,7 @@
     "test:perf": "jest --testPathPattern=perf"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^9.1.0",
     "@rnui/headless": "workspace:*",
     "@rnui/tokens": "workspace:*",
     "@shopify/flash-list": "^2.0.2",

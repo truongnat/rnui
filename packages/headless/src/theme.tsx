@@ -22,11 +22,7 @@ export interface Theme {
   setColorScheme: (scheme: ColorScheme | "system") => void;
 }
 
-export interface ThemeOverride {
-  /** Deep partial override applied on top of default tokens */
-  light?: DeepPartial<SemanticTokens>;
-  dark?: DeepPartial<SemanticTokens>;
-}
+export type ThemeOverride = Partial<Record<ColorScheme, DeepPartial<SemanticTokens>>>;
 
 export interface ThemeProviderProps {
   children: ReactNode;
@@ -34,6 +30,13 @@ export interface ThemeProviderProps {
   colorScheme?: ColorScheme | "system";
   /** Token overrides for brand customization */
   override?: ThemeOverride;
+}
+
+/**
+ * Utility to define a theme override with TypeScript autocomplete support.
+ */
+export function createTheme(override: ThemeOverride): ThemeOverride {
+  return override;
 }
 
 // ─── Context ──────────────────────────────────────────────────────

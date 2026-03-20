@@ -14,10 +14,14 @@ import {
   Select,
   useTheme,
 } from "@rnui/ui";
-import { Mail, Search, Lock } from "lucide-react-native";
+import { Mail as LucideMail, Search as LucideSearch, Lock as LucideLock } from "lucide-react-native";
+
+const Mail = LucideMail as any;
+const Search = LucideSearch as any;
+const Lock = LucideLock as any;
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>{children}</ScrollView>
   </ThemeProvider>
 );
@@ -27,7 +31,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/FormControls",
   component: RadioGroup,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
 };
 export default meta;
 
@@ -77,7 +81,6 @@ export const SliderStory: StoryObj = {
     const [volume, setVolume] = useState(40);
     const [opacity, setOpacity] = useState(0.8);
     const [year, setYear] = useState(2020);
-    const { tokens } = useTheme();
     return (
       <View style={{ gap: 32 }}>
         <Slider
@@ -134,37 +137,37 @@ export const AvatarStory: StoryObj = {
   render: () => (
     <View style={{ gap: 20 }}>
       <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
-        <Avatar src={undefined} initials="AN" fallbackIcon={undefined} size="xs" status={undefined} accessibilityLabel="Avatar AN" />
-        <Avatar src={undefined} initials="BT" fallbackIcon={undefined} size="sm" status={undefined} accessibilityLabel="Avatar BT" />
-        <Avatar src={undefined} initials="CL" fallbackIcon={undefined} size="md" status={undefined} accessibilityLabel="Avatar CL" />
-        <Avatar src={undefined} initials="DP" fallbackIcon={undefined} size="lg" status={undefined} accessibilityLabel="Avatar DP" />
-        <Avatar src={undefined} initials="EH" fallbackIcon={undefined} size="xl" status={undefined} accessibilityLabel="Avatar EH" />
+        <Avatar initials="AN" size="xs" accessibilityLabel="Avatar AN" />
+        <Avatar initials="BT" size="sm" accessibilityLabel="Avatar BT" />
+        <Avatar initials="CL" size="md" accessibilityLabel="Avatar CL" />
+        <Avatar initials="DP" size="lg" accessibilityLabel="Avatar DP" />
+        <Avatar initials="EH" size="xl" accessibilityLabel="Avatar EH" />
       </View>
 
       <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
-        <Avatar src={undefined} initials="ON" fallbackIcon={undefined} size="md" status="online" accessibilityLabel="Avatar ON" />
-        <Avatar src={undefined} initials="OF" fallbackIcon={undefined} size="md" status="offline" accessibilityLabel="Avatar OF" />
-        <Avatar src={undefined} initials="BY" fallbackIcon={undefined} size="md" status="busy" accessibilityLabel="Avatar BY" />
-        <Avatar src={undefined} initials="AW" fallbackIcon={undefined} size="md" status="away" accessibilityLabel="Avatar AW" />
+        <Avatar initials="ON" size="md" status="online" accessibilityLabel="Avatar ON" />
+        <Avatar initials="OF" size="md" status="offline" accessibilityLabel="Avatar OF" />
+        <Avatar initials="BY" size="md" status="busy" accessibilityLabel="Avatar BY" />
+        <Avatar initials="AW" size="md" status="away" accessibilityLabel="Avatar AW" />
       </View>
 
       <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
-        <Avatar src={undefined} initials="RD" fallbackIcon={undefined} size="md" status={undefined} shape="rounded" accessibilityLabel="Avatar RD" />
-        <Avatar src={undefined} initials="" fallbackIcon={undefined} size="md" status={undefined} accessibilityLabel="Empty avatar" />
-        <Avatar src="https://i.pravatar.cc/150?img=1" initials={undefined} fallbackIcon={undefined} size="md" status={undefined} accessibilityLabel="Avatar 1" />
-        <Avatar src="https://i.pravatar.cc/150?img=2" initials={undefined} fallbackIcon={undefined} size="md" status="online" accessibilityLabel="Avatar 2" />
+        <Avatar initials="RD" size="md" shape="rounded" accessibilityLabel="Avatar RD" />
+        <Avatar initials="" size="md" accessibilityLabel="Empty avatar" />
+        <Avatar src="https://i.pravatar.cc/150?img=1" size="md" accessibilityLabel="Avatar 1" />
+        <Avatar src="https://i.pravatar.cc/150?img=2" size="md" status="online" accessibilityLabel="Avatar 2" />
       </View>
 
       <AvatarGroup
         size="md"
         avatars={[
-          { src: undefined, initials: "AN", fallbackIcon: undefined, status: undefined, accessibilityLabel: "AN" },
-          { src: undefined, initials: "BT", fallbackIcon: undefined, status: undefined, accessibilityLabel: "BT" },
-          { src: undefined, initials: "CL", fallbackIcon: undefined, status: undefined, accessibilityLabel: "CL" },
-          { src: undefined, initials: "DP", fallbackIcon: undefined, status: undefined, accessibilityLabel: "DP" },
-          { src: undefined, initials: "EH", fallbackIcon: undefined, status: undefined, accessibilityLabel: "EH" },
-          { src: undefined, initials: "FN", fallbackIcon: undefined, status: undefined, accessibilityLabel: "FN" },
-          { src: undefined, initials: "GX", fallbackIcon: undefined, status: undefined, accessibilityLabel: "GX" },
+          { initials: "AN", accessibilityLabel: "AN" },
+          { initials: "BT", accessibilityLabel: "BT" },
+          { initials: "CL", accessibilityLabel: "CL" },
+          { initials: "DP", accessibilityLabel: "DP" },
+          { initials: "EH", accessibilityLabel: "EH" },
+          { initials: "FN", accessibilityLabel: "FN" },
+          { initials: "GX", accessibilityLabel: "GX" },
         ]}
         max={4}
         overlap={12}
@@ -187,9 +190,6 @@ export const TextAreaStory: StoryObj = {
           placeholder="Tell us about yourself…"
           value={bio}
           onChangeText={setBio}
-          onBlur={() => {}}
-          onFocus={() => {}}
-          error={undefined}
           maxLength={200}
           helperText="Used on your public profile"
           accessibilityLabel="Bio"
@@ -199,10 +199,6 @@ export const TextAreaStory: StoryObj = {
           placeholder="Write your review…"
           value={review}
           onChangeText={setReview}
-          onBlur={() => {}}
-          onFocus={() => {}}
-          error={undefined}
-          helperText={undefined}
           minLines={4}
           maxLines={10}
           maxLength={500}
@@ -212,11 +208,8 @@ export const TextAreaStory: StoryObj = {
           label="With error"
           placeholder="Required field"
           value=""
-          onChangeText={() => {}}
-          onBlur={() => {}}
-          onFocus={() => {}}
+          onChangeText={() => { }}
           error="This field is required"
-          helperText={undefined}
           minLines={2}
           accessibilityLabel="With error"
         />
@@ -224,11 +217,7 @@ export const TextAreaStory: StoryObj = {
           label="Disabled"
           placeholder=""
           value="Cannot edit this content."
-          onChangeText={() => {}}
-          onBlur={() => {}}
-          onFocus={() => {}}
-          error={undefined}
-          helperText={undefined}
+          onChangeText={() => { }}
           disabled
           accessibilityLabel="Disabled"
         />
@@ -246,15 +235,15 @@ export const CheckboxStory: StoryObj = {
     const [b, setB] = useState(true);
     return (
       <View style={{ gap: 14 }}>
-        <Checkbox label="Unchecked" description="" checked={a} onChange={setA} />
+        <Checkbox label="Unchecked" checked={a} onChange={setA} />
         <Checkbox label="Checked" description="With description text" checked={b} onChange={setB} />
-        <Checkbox label="Indeterminate" description="" indeterminate />
-        <Checkbox label="Disabled unchecked" description="" disabled />
-        <Checkbox label="Disabled checked" description="" disabled defaultChecked />
+        <Checkbox label="Indeterminate" indeterminate />
+        <Checkbox label="Disabled unchecked" disabled />
+        <Checkbox label="Disabled checked" disabled checked={true} />
         <View style={{ flexDirection: "row", gap: 24 }}>
-          <Checkbox label="SM" description="" size="sm" defaultChecked />
-          <Checkbox label="MD" description="" size="md" defaultChecked />
-          <Checkbox label="LG" description="" size="lg" defaultChecked />
+          <Checkbox label="SM" size="sm" checked={true} />
+          <Checkbox label="MD" size="md" checked={true} />
+          <Checkbox label="LG" size="lg" checked={true} />
         </View>
       </View>
     );
@@ -271,13 +260,13 @@ export const SwitchStory: StoryObj = {
     return (
       <View style={{ gap: 16 }}>
         <Switch label="Push notifications" description="Get notified about activity" on={notifications} onChange={setNotifications} />
-        <Switch label="Analytics" description="" on={analytics} onChange={setAnalytics} />
-        <Switch label="Disabled (on)" description="" disabled defaultOn />
-        <Switch label="Disabled (off)" description="" disabled />
+        <Switch label="Analytics" on={analytics} onChange={setAnalytics} />
+        <Switch label="Disabled (on)" disabled on={true} />
+        <Switch label="Disabled (off)" disabled />
         <View style={{ flexDirection: "row", gap: 24, alignItems: "center" }}>
-          <Switch label="SM" description="" size="sm" defaultOn />
-          <Switch label="MD" description="" size="md" defaultOn />
-          <Switch label="LG" description="" size="lg" defaultOn />
+          <Switch label="SM" size="sm" on={true} />
+          <Switch label="MD" size="md" on={true} />
+          <Switch label="LG" size="lg" on={true} />
         </View>
       </View>
     );
@@ -297,20 +286,11 @@ export const InputStory: StoryObj = {
           placeholder="example@mail.com"
           value={v}
           onChangeText={setV}
-          onFocus={() => {}}
-          onBlur={() => {}}
-          error={undefined}
-          helperText={undefined}
           leadingElement={<Mail size={20} color="#666" />}
-          trailingElement={undefined}
         />
         <Input
           label="Search"
           placeholder="Search items..."
-          onFocus={() => {}}
-          onBlur={() => {}}
-          error={undefined}
-          helperText={undefined}
           leadingElement={<Search size={20} color="#666" />}
           trailingElement={<View style={{ backgroundColor: "#eee", padding: 4, borderRadius: 4 }}><Text style={{ fontSize: 10 }}>⌘K</Text></View>}
         />
@@ -318,29 +298,18 @@ export const InputStory: StoryObj = {
           label="With error"
           placeholder=""
           error="Invalid email address"
-          helperText={undefined}
           defaultValue="invalid-email"
-          leadingElement={undefined}
-          trailingElement={undefined}
-          onFocus={() => {}}
-          onBlur={() => {}}
         />
         <Input
           label="Disabled"
           placeholder=""
           disabled
           defaultValue="Fixed content"
-          error={undefined}
-          helperText={undefined}
-          leadingElement={undefined}
-          trailingElement={undefined}
-          onFocus={() => {}}
-          onBlur={() => {}}
         />
         <View style={{ gap: 8 }}>
-          <Input label="" placeholder="Small input" size="sm" error={undefined} helperText={undefined} leadingElement={undefined} trailingElement={undefined} onFocus={() => {}} onBlur={() => {}} />
-          <Input label="" placeholder="Medium input" size="md" error={undefined} helperText={undefined} leadingElement={undefined} trailingElement={undefined} onFocus={() => {}} onBlur={() => {}} />
-          <Input label="" placeholder="Large input" size="lg" error={undefined} helperText={undefined} leadingElement={undefined} trailingElement={undefined} onFocus={() => {}} onBlur={() => {}} />
+          <Input label="" placeholder="Small input" size="sm" />
+          <Input label="" placeholder="Medium input" size="md" />
+          <Input label="" placeholder="Large input" size="lg" />
         </View>
       </View>
     );
@@ -358,33 +327,29 @@ export const SelectStory: StoryObj = {
       <View style={{ gap: 20 }}>
         <Select
           label="Country"
-          placeholder={undefined}
           searchable
-          error={undefined}
           options={[
             { label: "Vietnam", value: "vn" },
             { label: "Japan", value: "jp" },
             { label: "Singapore", value: "sg" },
           ]}
           value={country}
-          onChange={(v) => setCountry(v as string)}
+          onChange={(v: any) => setCountry(v as string)}
         />
         <Select
           label="Tags"
           placeholder="Pick tags..."
           multiple
-          error={undefined}
           options={[
             { label: "Design", value: "design" },
             { label: "Engineering", value: "engineering" },
             { label: "Docs", value: "docs" },
           ]}
           value={tags}
-          onChange={(v) => setTags(v as string[])}
+          onChange={(v: any) => setTags(v as string[])}
         />
         <Select
           label="With error"
-          placeholder={undefined}
           error="Please choose a value"
           options={[
             { label: "Option A", value: "a" },
@@ -409,23 +374,13 @@ export const PasswordInputStory: StoryObj = {
           placeholder="Enter your password"
           value={v}
           onChangeText={setV}
-          onFocus={() => {}}
-          onBlur={() => {}}
-          error={undefined}
-          helperText={undefined}
           leadingElement={<Lock size={20} color="#666" />}
-          trailingElement={undefined}
           secureTextEntry
         />
         <Input
           label="Custom icon"
           placeholder="••••••••"
-          onFocus={() => {}}
-          onBlur={() => {}}
-          error={undefined}
-          helperText={undefined}
           leadingElement={<Search size={20} color="#666" />}
-          trailingElement={undefined}
           secureTextEntry
         />
       </View>

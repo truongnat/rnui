@@ -6,7 +6,7 @@ import Animated, {
   withSpring,
   interpolateColor,
 } from "react-native-reanimated";
-import { useSwitch, useTokens } from "@rnui/headless";
+import { useSwitch, useTokens, useComponentTokens } from "@rnui/headless";
 import { spring } from "@rnui/tokens";
 import type { UseSwitchOptions } from "@rnui/headless";
 
@@ -16,18 +16,14 @@ export interface SwitchProps extends UseSwitchOptions {
   size?: "sm" | "md" | "lg";
 }
 
-const TRACK = {
-  sm: { width: 36, height: 20, radius: 10, thumbSize: 16, thumbOffset: 2 },
-  md: { width: 46, height: 26, radius: 13, thumbSize: 22, thumbOffset: 2 },
-  lg: { width: 56, height: 30, radius: 15, thumbSize: 26, thumbOffset: 2 },
-};
-
 export function Switch({ label, description, size = "md", ...hookOptions }: SwitchProps) {
   const tokens = useTokens();
+  const { switch: switchT } = useComponentTokens();
   const { isOn, isDisabled, toggle, accessibilityProps } = useSwitch(hookOptions);
 
-  const t = TRACK[size];
-  const thumbTravel = t.width - t.thumbSize - t.thumbOffset * 2;
+  const tTrack = switchT.track[size];
+  const tThumb = switchT.thumb[size];
+  const thumbTravel = tTrack.width - tThumb.width - tTrack.padding * 2;
 
   // Shared value 0 = off, 1 = on
   const progress = useSharedValue(isOn ? 1 : 0);
@@ -40,7 +36,7 @@ export function Switch({ label, description, size = "md", ...hookOptions }: Swit
     backgroundColor: interpolateColor(
       progress.value,
       [0, 1],
-      [tokens.color.border.default, tokens.color.brand.default]
+      [switchT.colors.trackOff, switchT.colors.trackOn]
     ),
   }));
 
@@ -52,18 +48,18 @@ export function Switch({ label, description, size = "md", ...hookOptions }: Swit
     <Pressable
       onPress={toggle}
       disabled={isDisabled}
-      style={{ flexDirection: "row", alignItems: "center", gap: 12, opacity: isDisabled ? 0.4 : 1 }}
+      style={{ flexDirection: "row", alignItems: "center", gap: 12, opacity: isDisabled ? switchT.colors.disabledOpacity : 1 }}
       {...accessibilityProps}
     >
       {/* Track */}
       <Animated.View
         style={[
           {
-            width: t.width,
-            height: t.height,
-            borderRadius: t.radius,
+            width: tTrack.width,
+            height: tTrack.height,
+            borderRadius: tTrack.borderRadius,
             justifyContent: "center",
-            padding: t.thumbOffset,
+            padding: tTrack.padding,
           },
           trackStyle,
         ]}
@@ -72,10 +68,10 @@ export function Switch({ label, description, size = "md", ...hookOptions }: Swit
         <Animated.View
           style={[
             {
-              width: t.thumbSize,
-              height: t.thumbSize,
-              borderRadius: t.thumbSize / 2,
-              backgroundColor: "#fff",
+              width: tThumb.width,
+              height: tThumb.height,
+              borderRadius: tThumb.borderRadius,
+              backgroundColor: switchT.colors.thumb,
               shadowColor: "#000",
               shadowOffset: { width: 0, height: 1 },
               shadowOpacity: 0.15,

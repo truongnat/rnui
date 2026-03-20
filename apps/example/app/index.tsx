@@ -8,6 +8,7 @@ import {
   Divider, Skeleton, SkeletonCard, EmptyState,
   FormField, FormGroup, Pressable,
   ToastContainer, BottomSheet,
+  SegmentedControl, OTPInput, Carousel, AnimatedList, Image, DatePicker,
   useTheme, useField, useToast,
   type BottomSheetRef,
 } from "@rnui/ui";
@@ -275,6 +276,50 @@ export default function KitchenSink() {
               }]}
               showSeparator={i < CONTACTS.length - 1} />
           ))}
+        </View>
+
+        <Text style={section}>Animated List</Text>
+        <View style={{ height: 300, width: "100%", borderRadius: t.radius.lg, overflow: "hidden", borderWidth: 0.5, borderColor: t.color.border.default }}>
+          <AnimatedList
+            data={CONTACTS}
+            estimatedItemSize={60}
+            renderItem={({ item, index }: any) => (
+              <ListItem
+                title={item.name}
+                subtitle={item.role}
+                leading={<Avatar initials={item.initials} size="sm" />}
+                showSeparator={index < CONTACTS.length - 1}
+              />
+            )}
+          />
+        </View>
+
+        <Text style={section}>Segmented Control</Text>
+        <SegmentedControl
+          options={["Daily", "Weekly", "Monthly"]}
+          selectedIndex={0}
+          onChange={() => { }}
+        />
+
+        <Text style={section}>OTP Input</Text>
+        <View style={{ alignItems: "center", paddingVertical: 10 }}>
+          <OTPInput length={6} value="123" onChange={() => { }} onComplete={(code) => toast.success(`OTP: ${code}`)} />
+        </View>
+
+        <Text style={section}>Date Picker</Text>
+        <DatePicker label="Birth Date" placeholder="Select your birth date" date={new Date()} onPress={() => toast.info("Open DatePicker modal")} />
+
+        <Text style={section}>Carousel</Text>
+        <View style={{ height: 180, width: "100%", borderRadius: 12, overflow: "hidden" }}>
+          <Carousel
+            data={["#f87171", "#34d399", "#60a5fa"]}
+            renderItem={({ item }: any) => <View style={{ flex: 1, backgroundColor: item, alignItems: "center", justifyContent: "center" }}><Text style={{ color: "white", fontWeight: "bold" }}>Slide</Text></View>}
+          />
+        </View>
+
+        <Text style={section}>Image with Placeholder</Text>
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          <Image source={{ uri: "https://picsum.photos/200" }} style={{ width: 100, height: 100, borderRadius: 8 }} />
         </View>
 
         {/* Toast */}

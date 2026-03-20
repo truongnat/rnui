@@ -5,8 +5,13 @@ export {
   useTokens,
   useComponentTokens,
   useIsDark,
+  createTheme,
 } from "./theme";
 export type { Theme, ThemeOverride, ThemeProviderProps } from "./theme";
+
+// Motion
+export { motionPresets, motionEasing, heroTransition } from "./motion";
+
 
 // Hooks
 export { usePressable } from "./hooks/usePressable";
@@ -43,6 +48,11 @@ export type { UseSwitchOptions, UseSwitchReturn } from "./hooks/useSwitch";
 
 export { useSelect } from "./hooks/useSelect";
 export type { UseSelectOptions, UseSelectReturn, SelectOption } from "./hooks/useSelect";
+
+export { useScrollHeader } from "./hooks/useScrollHeader";
+export type { UseScrollHeaderOptions } from "./hooks/useScrollHeader";
+
+export { useMemoStyles } from "./hooks/useMemoStyles";
 
 export { useListItem } from "./hooks/useListItem";
 export type { UseListItemOptions, UseListItemReturn, SwipeAction } from "./hooks/useListItem";

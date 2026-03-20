@@ -73,7 +73,7 @@ export function ListItem({
               flexDirection: "row",
             },
             leadingActionsStyle,
-          ]}
+          ] as any}
         >
           {leadingActions.map((action, i) => (
             <Pressable
@@ -107,7 +107,7 @@ export function ListItem({
               justifyContent: "flex-end",
             },
             trailingActionsStyle,
-          ]}
+          ] as any}
         >
           {trailingActions.map((action, i) => (
             <Pressable
@@ -142,7 +142,7 @@ export function ListItem({
               opacity: disabled ? 0.4 : 1,
             },
             itemAnimatedStyle,
-          ]}
+          ] as any}
           {...accessibilityProps}
         >
           {leading && <View style={{ width: 24, alignItems: "center", justifyContent: "center" }}>{renderIcon(leading)}</View>}

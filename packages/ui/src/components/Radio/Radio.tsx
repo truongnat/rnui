@@ -5,7 +5,7 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
-import { useRadioGroup, useTokens } from "@rnui/headless";
+import { useRadioGroup, useTokens, useComponentTokens } from "@rnui/headless";
 import { spring } from "@rnui/tokens";
 import type { UseRadioGroupOptions } from "@rnui/headless";
 
@@ -21,9 +21,6 @@ export interface RadioItemProps<T = string> {
   size?: "sm" | "md" | "lg";
 }
 
-const OUTER = { sm: 18, md: 22, lg: 26 };
-const INNER = { sm: 8, md: 10, lg: 12 };
-
 export function RadioItem<T = string>({
   label,
   description,
@@ -33,8 +30,10 @@ export function RadioItem<T = string>({
   size = "md",
 }: RadioItemProps<T>) {
   const tokens = useTokens();
-  const outerSize = OUTER[size];
-  const innerSize = INNER[size];
+  const { radio } = useComponentTokens();
+
+  const outerSize = radio.container[size];
+  const innerSize = radio.dot[size];
   const snappySpring = spring.snappy;
 
   const scale = useSharedValue(isSelected ? 1 : 0);
@@ -66,7 +65,7 @@ export function RadioItem<T = string>({
         flexDirection: "row",
         alignItems: "flex-start",
         gap: 10,
-        opacity: disabled ? 0.4 : 1,
+        opacity: disabled ? radio.colors.disabledOpacity : 1,
       }}
       accessibilityRole="radio"
       accessibilityState={{ checked: isSelected, disabled }}
@@ -74,12 +73,12 @@ export function RadioItem<T = string>({
       {/* Outer ring */}
       <View
         style={{
-          width: outerSize,
-          height: outerSize,
-          borderRadius: outerSize / 2,
-          borderWidth: isSelected ? 0 : 1.5,
-          borderColor: isSelected ? "transparent" : tokens.color.border.default,
-          backgroundColor: isSelected ? tokens.color.brand.default : "transparent",
+          width: outerSize.width,
+          height: outerSize.height,
+          borderRadius: outerSize.borderRadius,
+          borderWidth: isSelected ? 0 : outerSize.borderWidth,
+          borderColor: isSelected ? "transparent" : radio.colors.borderOff,
+          backgroundColor: isSelected ? radio.colors.borderOn : radio.colors.bgOff,
           alignItems: "center",
           justifyContent: "center",
           marginTop: 2,
@@ -89,9 +88,9 @@ export function RadioItem<T = string>({
         <Animated.View
           style={[
             {
-              width: innerSize,
-              height: innerSize,
-              borderRadius: innerSize / 2,
+              width: innerSize.width,
+              height: innerSize.height,
+              borderRadius: innerSize.borderRadius,
               backgroundColor: "#fff",
             },
             dotStyle,

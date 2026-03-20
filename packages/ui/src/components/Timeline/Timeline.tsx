@@ -46,11 +46,14 @@ export function TimelineItem({ position, children }: TimelineItemProps) {
   const resolved = position ?? (ctx?.position === "left" || ctx?.position === "right" ? ctx.position : "right");
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
-      {resolved === "left" && <TimelineContent align="right">{extractOpposite(children)}</TimelineContent>}
+    <View style={{ flexDirection: "row", alignItems: "stretch", minHeight: 70 }}>
+      <View style={{ flex: 1 }}>
+        {resolved === "right" ? extractOpposite(children) : extractContent(children)}
+      </View>
       <TimelineSeparator>{extractSeparator(children)}</TimelineSeparator>
-      {resolved === "right" && <TimelineContent align="left">{extractOpposite(children)}</TimelineContent>}
-      <TimelineContent align={resolved === "left" ? "left" : "right"}>{extractContent(children)}</TimelineContent>
+      <View style={{ flex: 1 }}>
+        {resolved === "right" ? extractContent(children) : extractOpposite(children)}
+      </View>
     </View>
   );
 }

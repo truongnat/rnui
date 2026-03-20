@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
-import { View, Text, type LayoutChangeEvent } from "react-native";
+import { View, Text, Dimensions, type LayoutChangeEvent } from "react-native";
 import { useTokens } from "@rnui/headless";
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export type ImageListVariant = "standard" | "woven" | "masonry" | "quilted";
 
@@ -35,7 +37,7 @@ export function ImageList({
   variant = "standard",
   style,
 }: ImageListProps) {
-  const [width, setWidth] = useState(0);
+  const [width, setWidth] = useState(SCREEN_WIDTH);
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const nextWidth = event.nativeEvent.layout.width;

@@ -4,8 +4,8 @@ import { View, Text } from "react-native";
 import { ThemeProvider, Card, Button } from "@rnui/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
-    <View style={{ padding: 24, gap: 16 }}>
+  <ThemeProvider override={{}}>
+    <View style={{ padding: 24, gap: 12 }}>
       {children}
     </View>
   </ThemeProvider>
@@ -14,7 +14,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/Card",
   component: Card,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
   argTypes: {
     padding: {
       control: { type: "select" },
@@ -31,7 +31,7 @@ export default meta;
 type Story = StoryObj<typeof Card>;
 
 export const Basic: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <View style={{ gap: 16 }}>
       <Card {...args} style={{}}>
         <View style={{ gap: 6 }}>
@@ -40,11 +40,11 @@ export const Basic: Story = {
         </View>
       </Card>
 
-      <Card {...args} onPress={() => {}} accessibilityLabel="Open card" style={{}}>
+      <Card {...args} onPress={() => { }} accessibilityLabel="Open card" style={{}}>
         <View style={{ gap: 12 }}>
           <Text style={{ fontWeight: "600" }}>Pressable card</Text>
           <Text>Tap to trigger onPress.</Text>
-          <Button label="Primary action" size="sm" onPress={() => {}} onLongPress={() => {}} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Primary" accessibilityHint="" />
+          <Button label="Primary action" size="sm" onPress={() => { }} onLongPress={() => { }} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Primary" accessibilityHint="" />
         </View>
       </Card>
     </View>

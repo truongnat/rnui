@@ -7,22 +7,28 @@ import {
   Skeleton, SkeletonText, SkeletonCard, SkeletonListItem,
   EmptyState,
   FormField, FormGroup,
-  Input, TextArea, Select, Checkbox,
+  Input, TextArea, Select, Checkbox, Button,
   useField,
   useTheme,
 } from "@rnui/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>{children}</ScrollView>
   </ThemeProvider>
 );
+
+const meta = {
+  title: "Components/Utility",
+  decorators: [(S: React.ComponentType) => <Wrap><S /></Wrap>],
+};
+
+export default meta;
 
 // ─── Divider ──────────────────────────────────────────────────────
 
 export const DividerStory: StoryObj = {
   name: "Divider",
-  decorators: [(S) => <Wrap><S /></Wrap>],
   render: () => {
     const { tokens } = useTheme();
     return (
@@ -47,7 +53,6 @@ export const DividerStory: StoryObj = {
 
 export const SkeletonStory: StoryObj = {
   name: "Skeleton",
-  decorators: [(S) => <Wrap><S /></Wrap>],
   render: () => (
     <View style={{ gap: 20 }}>
       <Skeleton width="100%" height={20} />
@@ -65,20 +70,20 @@ export const SkeletonStory: StoryObj = {
 
 export const EmptyStateStory: StoryObj = {
   name: "EmptyState",
-  decorators: [(S) => <Wrap><S /></Wrap>],
   render: () => (
     <View style={{ gap: 32 }}>
       <EmptyState
         title="No messages yet"
-        description="When you receive a message it will appear here. Start a conversation!"
-        action={{ label: "Start chatting", onPress: () => {} }}
-        secondaryAction={{ label: "Learn more", onPress: () => {} }}
+        description="When you receive messages, they will appear here. Start a conversation now."
+        icon="mail"
+        action={{ label: "New Message", onPress: () => { } }}
+        secondaryAction={{ label: "Learn more", onPress: () => { } }}
       />
       <EmptyState
         title="Search returned no results"
-        description="Try adjusting your search terms."
-        compact
-        action={{ label: "Clear search", onPress: () => {}, variant: "outline" }}
+        description="Try adjusting your filters or searching for something else."
+        icon="search"
+        action={{ label: "Clear search", onPress: () => { }, variant: "outline" }}
       />
     </View>
   ),
@@ -86,25 +91,34 @@ export const EmptyStateStory: StoryObj = {
 
 // ─── FormField & FormGroup ────────────────────────────────────────
 
-function SignupForm() {
-  const name = useField({ defaultValue: "", validate: (v) => (!v ? "Required" : undefined) });
+const SignupForm = () => {
+  const [terms, setTerms] = useState(false);
+  const [country, setCountry] = useState<string>();
+
+  const name = useField({ defaultValue: "", validate: (v: string) => (!v ? "Required" : undefined) });
   const email = useField({
     defaultValue: "",
-    validate: (v) => (!v.includes("@") ? "Invalid email" : undefined),
+    validate: (v: string) => (!v.includes("@") ? "Invalid email" : undefined),
   });
-  const [terms, setTerms] = useState(false);
-  const [country, setCountry] = useState<string | undefined>();
+
+  const handleSubmit = async () => {
+    await name.validate();
+    await email.validate();
+    if (name.error || email.error || !terms) return;
+    console.log("Success:", { name: name.value, email: email.value, country, terms });
+  };
 
   return (
     <FormGroup gap="md">
       <FormField
         label="Full name"
-        required
+        helperText="As it appears on your ID"
         error={name.touched ? name.error : undefined}
       >
         <Input
           placeholder="Ada Lovelace"
-          {...name.inputProps}
+          value={name.value}
+          onChangeText={name.onChange}
           onBlur={name.onBlur}
         />
       </FormField>
@@ -117,10 +131,11 @@ function SignupForm() {
       >
         <Input
           placeholder="ada@example.com"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          {...email.inputProps}
+          value={email.value}
+          onChangeText={email.onChange}
           onBlur={email.onBlur}
+          autoCapitalize="none"
+          keyboardType="email-address"
         />
       </FormField>
 
@@ -132,7 +147,7 @@ function SignupForm() {
             { label: "Singapore", value: "sg" },
           ]}
           value={country}
-          onChange={(v) => setCountry(v as string)}
+          onChange={(v: any) => setCountry(v as string)}
           placeholder="Choose country…"
         />
       </FormField>
@@ -149,17 +164,18 @@ function SignupForm() {
         checked={terms}
         onChange={setTerms}
       />
+
+      <Button
+        label="Create Account"
+        onPress={handleSubmit}
+        variant="solid"
+        disabled={!terms}
+      />
     </FormGroup>
   );
-}
+};
 
-export const FormFieldStory: StoryObj = {
-  name: "FormField",
-  decorators: [(S) => <Wrap><S /></Wrap>],
+export const SignupStory: StoryObj = {
+  name: "Example: Signup Form",
   render: () => <SignupForm />,
 };
-
-const meta: Meta = {
-  title: "Components/Utility",
-};
-export default meta;

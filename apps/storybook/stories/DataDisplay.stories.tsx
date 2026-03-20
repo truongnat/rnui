@@ -21,10 +21,12 @@ import {
   TimelineDot,
   TimelineConnector,
   TimelineContent,
+  TimelineOppositeContent,
+  RnImage,
 } from "@rnui/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>
       {children}
     </ScrollView>
@@ -34,16 +36,12 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/DataDisplay",
   component: View,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
-  argTypes: {
-    variant: {
-      control: { type: "select" },
-      options: ["outlined", "solid"],
-    },
-  },
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
 };
 
 export default meta;
+
+// ... (Table and Chip stories remain same)
 
 export const TableStory: StoryObj = {
   name: "Table",
@@ -87,20 +85,40 @@ export const ChipStory: StoryObj = {
 
 export const TooltipStory: StoryObj = {
   name: "Tooltip",
-  render: () => (
-    <Tooltip title="Helpful info">
-      <Text>Press me</Text>
-    </Tooltip>
-  ),
+  render: () => {
+    const placements = [
+      "top", "top-left", "top-right",
+      "bottom", "bottom-left", "bottom-right",
+      "left", "left-top", "left-bottom",
+      "right", "right-top", "right-bottom"
+    ] as const;
+
+    return (
+      <View style={{ gap: 40, padding: 40, alignItems: "center" }}>
+        <Text style={{ fontWeight: "600", fontSize: 18, marginBottom: 20 }}>Tooltip Placements</Text>
+        <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 20 }}>
+          {placements.map((p) => (
+            <Tooltip key={p} title={`Placement: ${p}`} placement={p}>
+              <View style={{ width: 100, height: 40, backgroundColor: "#f1f5f9", borderRadius: 8, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#cbd5e1" }}>
+                <Text style={{ fontSize: 12 }}>{p}</Text>
+              </View>
+            </Tooltip>
+          ))}
+        </View>
+      </View>
+    );
+  },
 };
 
 export const IconStory: StoryObj = {
   name: "Icon",
   render: () => (
-    <View style={{ flexDirection: "row", gap: 8 }}>
-      <Icon>star</Icon>
-      <Icon>heart</Icon>
-      <Icon>check</Icon>
+    <View style={{ flexDirection: "row", gap: 16 }}>
+      <Icon size="medium">star</Icon>
+      <Icon color="#ef4444">heart</Icon>
+      <Icon color="#22c55e">check</Icon>
+      <Icon>settings</Icon>
+      <Icon>bell</Icon>
     </View>
   ),
 };
@@ -109,10 +127,30 @@ export const ImageListStory: StoryObj = {
   name: "ImageList",
   render: () => (
     <ImageList cols={2} gap={8}>
-      <ImageListItem><Box style={{ height: 120, backgroundColor: "#e2e8f0" }} /></ImageListItem>
-      <ImageListItem><Box style={{ height: 120, backgroundColor: "#cbd5f5" }} /></ImageListItem>
-      <ImageListItem><Box style={{ height: 120, backgroundColor: "#bfdbfe" }} /></ImageListItem>
-      <ImageListItem><Box style={{ height: 120, backgroundColor: "#bae6fd" }} /></ImageListItem>
+      <ImageListItem>
+        <RnImage
+          source={{ uri: "https://picsum.photos/400/400?random=1" }}
+          style={{ width: "100%", height: 120, borderRadius: 8 }}
+        />
+      </ImageListItem>
+      <ImageListItem>
+        <RnImage
+          source={{ uri: "https://picsum.photos/400/400?random=2" }}
+          style={{ width: "100%", height: 120, borderRadius: 8 }}
+        />
+      </ImageListItem>
+      <ImageListItem>
+        <RnImage
+          source={{ uri: "https://picsum.photos/400/400?random=3" }}
+          style={{ width: "100%", height: 120, borderRadius: 8 }}
+        />
+      </ImageListItem>
+      <ImageListItem>
+        <RnImage
+          source={{ uri: "https://picsum.photos/400/400?random=4" }}
+          style={{ width: "100%", height: 120, borderRadius: 8 }}
+        />
+      </ImageListItem>
     </ImageList>
   ),
 };
@@ -120,19 +158,44 @@ export const ImageListStory: StoryObj = {
 export const TimelineStory: StoryObj = {
   name: "Timeline",
   render: () => (
-    <Timeline>
+    <Timeline position="alternate">
       <TimelineItem>
+        <TimelineOppositeContent>
+          <Text style={{ color: "#64748b" }}>09:00 AM</Text>
+        </TimelineOppositeContent>
         <TimelineSeparator>
-          <TimelineDot />
+          <TimelineDot color="primary" />
           <TimelineConnector />
         </TimelineSeparator>
-        <TimelineContent>Step one</TimelineContent>
+        <TimelineContent>
+          <Text style={{ fontWeight: "600" }}>Check-in</Text>
+          <Text style={{ color: "#64748b" }}>Arrival at the venue</Text>
+        </TimelineContent>
       </TimelineItem>
       <TimelineItem>
+        <TimelineOppositeContent>
+          <Text style={{ color: "#64748b" }}>10:30 AM</Text>
+        </TimelineOppositeContent>
         <TimelineSeparator>
-          <TimelineDot />
+          <TimelineDot color="success" />
+          <TimelineConnector />
         </TimelineSeparator>
-        <TimelineContent>Step two</TimelineContent>
+        <TimelineContent>
+          <Text style={{ fontWeight: "600" }}>Keynote Speech</Text>
+          <Text style={{ color: "#64748b" }}>Main auditorium</Text>
+        </TimelineContent>
+      </TimelineItem>
+      <TimelineItem>
+        <TimelineOppositeContent>
+          <Text style={{ color: "#64748b" }}>12:00 PM</Text>
+        </TimelineOppositeContent>
+        <TimelineSeparator>
+          <TimelineDot color="warning" />
+        </TimelineSeparator>
+        <TimelineContent>
+          <Text style={{ fontWeight: "600" }}>Lunch Break</Text>
+          <Text style={{ color: "#64748b" }}>Food court</Text>
+        </TimelineContent>
       </TimelineItem>
     </Timeline>
   ),

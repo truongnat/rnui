@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { useTokens, useIconStyle } from "@rnui/headless";
+import { useTokens, useIconStyle, useComponentTokens } from "@rnui/headless";
 
 export interface ChipProps {
   label: React.ReactNode;
-  variant?: "filled" | "outlined";
+  variant?: "solid" | "outlined" | "subtle";
   color?: "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning";
   size?: "sm" | "md";
   avatar?: React.ReactNode;
@@ -18,7 +18,7 @@ export interface ChipProps {
 
 export function Chip({
   label,
-  variant = "filled",
+  variant = "solid",
   color = "default",
   size = "md",
   avatar,
@@ -30,6 +30,7 @@ export function Chip({
   clickable = false,
 }: ChipProps) {
   const tokens = useTokens();
+  const { chip } = useComponentTokens();
   const { size: iconSize, color: iconColor } = useIconStyle("list");
 
   const palette = {
@@ -43,17 +44,24 @@ export function Chip({
   } as const;
 
   const colors = palette[color];
+  const vStyle = chip.variant[variant];
+
+  // Map specific color overrides matching the palette to variant styling
+  const customBg = variant === "solid" && color !== "default" ? colors.bg : vStyle.bg;
+  const customBorder = variant === "outlined" && color !== "default" ? colors.border : vStyle.border;
+  const customText = color !== "default" ? colors.text : vStyle.text;
 
   const container = {
-    flexDirection: "row" as const,
-    alignItems: "center" as const,
-    gap: tokens.spacing[1],
-    paddingHorizontal: size === "sm" ? tokens.spacing[2] : tokens.spacing[3],
-    height: size === "sm" ? 28 : 34,
-    borderRadius: 999,
-    backgroundColor: variant === "filled" ? colors.bg : "transparent",
+    flexDirection: chip.container.flexDirection,
+    alignItems: chip.container.alignItems,
+    justifyContent: chip.container.justifyContent,
+    gap: chip.container.gap,
+    paddingHorizontal: chip.container.paddingHorizontal * (size === "sm" ? 0.75 : 1),
+    height: size === "sm" ? 28 : chip.container.height,
+    borderRadius: chip.container.borderRadius,
+    backgroundColor: customBg,
     borderWidth: variant === "outlined" ? 1 : 0,
-    borderColor: colors.border,
+    borderColor: customBorder,
     opacity: disabled ? tokens.opacity[60] : 1,
   };
 
@@ -72,12 +80,12 @@ export function Chip({
     <View style={container}>
       {avatar}
       {renderIcon(icon)}
-      <Text style={{ color: colors.text, fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium }}>
+      <Text style={{ color: customText, fontSize: chip.text.fontSize, fontWeight: chip.text.fontWeight }}>
         {label}
       </Text>
       {onDelete && (
         <Pressable onPress={onDelete} hitSlop={8}>
-          {deleteIcon ?? <Text style={{ color: colors.text, fontSize: 12 }}>x</Text>}
+          {deleteIcon ?? <Text style={{ color: customText, fontSize: 12 }}>x</Text>}
         </Pressable>
       )}
     </View>

@@ -1,9 +1,10 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useState } from "react";
 import {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
   withTiming,
+  runOnJS,
 } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import {
@@ -70,7 +71,7 @@ export function usePressable({
   accessibilityRole = "button",
   haptic = false,
 }: UsePressableOptions = {}): UsePressableReturn {
-  const isPressedRef = useRef(false);
+  const [isPressed, setIsPressed] = useState(false);
 
   // Shared values live on the UI thread
   const scale = useSharedValue(1);
@@ -88,6 +89,10 @@ export function usePressable({
     if (haptic) triggerHaptic("medium");
     onLongPress?.();
   }, [disabled, haptic, onLongPress]);
+
+  const setPressedState = useCallback((pressed: boolean) => {
+    setIsPressed(pressed);
+  }, []);
 
   // ── Animated style (UI thread) ────────────────────────────────
   const animatedStyle = useAnimatedStyle(() => {
@@ -112,6 +117,7 @@ export function usePressable({
     .enabled(!disabled)
     .onBegin(() => {
       "worklet";
+      runOnJS(setPressedState)(true);
       if (feedbackMode === "scale") {
         scale.value = withSpring(scaleDownPressed, snappySpring);
       } else if (feedbackMode === "scaleSubtle") {
@@ -122,6 +128,7 @@ export function usePressable({
     })
     .onFinalize((_event, success) => {
       "worklet";
+      runOnJS(setPressedState)(false);
       if (feedbackMode === "scale" || feedbackMode === "scaleSubtle") {
         scale.value = withSpring(1, snappySpring);
       } else if (feedbackMode === "opacity") {
@@ -155,7 +162,7 @@ export function usePressable({
     animatedStyle,
     gesture,
     accessibilityProps,
-    isPressed: isPressedRef.current,
+    isPressed,
   };
 }
 

@@ -4,7 +4,7 @@ import { View, Text, ScrollView } from "react-native";
 import { ThemeProvider, Box, Stack, Grid, Typography, Link, Paper, useTheme } from "@rnui/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>
       {children}
     </ScrollView>
@@ -14,7 +14,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/Layout",
   component: View,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
   argTypes: {
     variant: {
       control: { type: "select" },
@@ -37,7 +37,7 @@ export const BoxStory: StoryObj = {
 export const StackStory: StoryObj = {
   name: "Stack",
   render: () => (
-    <Stack spacing="md">
+    <Stack spacing={4}>
       <Box style={{ height: 32, backgroundColor: "#e2e8f0" }} />
       <Box style={{ height: 32, backgroundColor: "#cbd5f5" }} />
       <Box style={{ height: 32, backgroundColor: "#bfdbfe" }} />

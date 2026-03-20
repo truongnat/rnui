@@ -26,6 +26,8 @@ export interface UseFieldReturn<T> {
   reset: () => void;
   /** Programmatically set error */
   setError: (error: string | undefined) => void;
+  /** Run validation manually */
+  validate: () => Promise<string | undefined>;
   /** Spread onto native TextInput */
   inputProps: {
     value: string;
@@ -53,8 +55,11 @@ export function useField<T = string>({
       try {
         const result = await validate(val);
         setError(result);
+        return result;
       } catch {
-        setError("Validation failed");
+        const errorMsg = "Validation failed";
+        setError(errorMsg);
+        return errorMsg;
       } finally {
         setIsValidating(false);
       }
@@ -96,6 +101,7 @@ export function useField<T = string>({
     onBlur,
     reset,
     setError,
+    validate: () => runValidation(value),
     inputProps: {
       value: String(value),
       onChangeText: (text: string) => onChange(text as unknown as T),

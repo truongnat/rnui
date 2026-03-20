@@ -1,5 +1,12 @@
-import React from "react";
-import { View, Text, Pressable } from "react-native";
+import React, { useState, useRef } from "react";
+import { View, Text, Pressable, Modal, useWindowDimensions } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withSpring,
+  Easing,
+} from "react-native-reanimated";
 import { useAutocomplete, useTokens } from "@rnui/headless";
 import { Input } from "../Input/Input";
 
@@ -33,6 +40,14 @@ export function Autocomplete<T = string>({
   disabled = false,
 }: AutocompleteProps<T>) {
   const tokens = useTokens();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const inputRef = useRef<View>(null);
+  const [inputRect, setInputRect] = useState({ pageX: 0, pageY: 0, width: 0, height: 0 });
+  const [dropdownMounted, setDropdownMounted] = useState(false);
+
+  const opacity = useSharedValue(0);
+  const scale = useSharedValue(0.95);
+
   const {
     inputValue: query,
     setInputValue,
@@ -43,67 +58,116 @@ export function Autocomplete<T = string>({
     selectOption,
     filteredOptions,
   } = useAutocomplete({
-    options,
-    value,
-    defaultValue,
-    multiple,
-    getOptionLabel,
-    onChange,
-    inputValue,
-    onInputChange,
+    options, value, defaultValue, multiple, getOptionLabel,
+    onChange, inputValue, onInputChange,
   });
 
   const labelOf = getOptionLabel ?? ((o: T) => String(o));
+  const DROPDOWN_MAX_HEIGHT = 220;
+  const GAP = 4;
+
+  const measureAndOpen = () => {
+    if (!isOpen) {
+      inputRef.current?.measure((_x, _y, w, h, pageX, pageY) => {
+        setInputRect({ pageX, pageY, width: w, height: h });
+        open();
+        opacity.value = 0;
+        scale.value = 0.95;
+        setDropdownMounted(true);
+        requestAnimationFrame(() => {
+          opacity.value = withTiming(1, { duration: 160, easing: Easing.out(Easing.cubic) });
+          scale.value = withSpring(1, { damping: 18, stiffness: 300 });
+        });
+      });
+    }
+  };
+
+  const handleClose = () => {
+    opacity.value = withTiming(0, { duration: 120 });
+    scale.value = withTiming(0.96, { duration: 120 });
+    setTimeout(() => {
+      close();
+      setDropdownMounted(false);
+    }, 130);
+  };
+
+  const spaceBelow = windowHeight - (inputRect.pageY + inputRect.height);
+  const showAbove = spaceBelow < DROPDOWN_MAX_HEIGHT + 40;
+
+  const dropdownTop = showAbove
+    ? inputRect.pageY - DROPDOWN_MAX_HEIGHT - GAP
+    : inputRect.pageY + inputRect.height + GAP;
+
+  const dropdownAnimStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ scale: scale.value }],
+  }));
 
   return (
-    <View>
+    <View ref={inputRef as any}>
       <Input
         label={label}
         placeholder={placeholder}
         value={query}
         onChangeText={(val) => {
           setInputValue(val);
-          if (!isOpen) open();
+          measureAndOpen();
         }}
-        onFocus={open}
-        onBlur={close}
+        onFocus={measureAndOpen}
+        onBlur={() => setTimeout(handleClose, 150)}
         disabled={disabled}
       />
 
-      {isOpen && filteredOptions.length > 0 && (
-        <View
-          style={{
-            marginTop: tokens.spacing[2],
-            borderWidth: 1,
-            borderColor: tokens.color.border.default,
-            borderRadius: tokens.radius.md,
-            backgroundColor: tokens.color.surface.default,
-            overflow: "hidden",
-          }}
-        >
-          {filteredOptions.map((option, idx) => {
-            const selected = isSelected(option);
-            return (
-              <Pressable
-                key={`${labelOf(option)}-${idx}`}
-                onPress={() => selectOption(option)}
-                style={{
-                  paddingHorizontal: tokens.spacing[3],
-                  paddingVertical: tokens.spacing[2],
-                  backgroundColor: selected ? tokens.color.brand.subtle : "transparent",
-                }}
-              >
-                {renderOption ? (
-                  renderOption(option, selected)
-                ) : (
-                  <Text style={{ color: tokens.color.text.primary }}>
-                    {labelOf(option)}
-                  </Text>
-                )}
-              </Pressable>
-            );
-          })}
-        </View>
+      {dropdownMounted && filteredOptions.length > 0 && (
+        <Modal transparent animationType="none" visible={dropdownMounted} onRequestClose={handleClose}>
+          <Pressable style={{ flex: 1 }} onPress={handleClose} />
+          <Animated.View
+            style={[
+              {
+                position: "absolute",
+                top: dropdownTop,
+                left: inputRect.pageX,
+                width: inputRect.width,
+                maxHeight: DROPDOWN_MAX_HEIGHT,
+                borderWidth: 1,
+                borderColor: tokens.color.border.default,
+                borderRadius: tokens.radius.md,
+                backgroundColor: tokens.color.surface.default,
+                overflow: "hidden",
+                ...tokens.shadow.md,
+              },
+              dropdownAnimStyle,
+            ]}
+          >
+            {filteredOptions.map((option, idx) => {
+              const selected = isSelected(option);
+              return (
+                <Pressable
+                  key={`${labelOf(option)}-${idx}`}
+                  onPress={() => {
+                    selectOption(option);
+                    if (!multiple) handleClose();
+                  }}
+                  style={({ pressed }) => ({
+                    paddingHorizontal: tokens.spacing[3],
+                    paddingVertical: tokens.spacing[2],
+                    backgroundColor: pressed
+                      ? tokens.color.bg.subtle
+                      : selected
+                        ? tokens.color.brand.subtle
+                        : "transparent",
+                  })}
+                >
+                  {renderOption ? renderOption(option, selected) : (
+                    <Text style={{ color: selected ? tokens.color.brand.text : tokens.color.text.primary }}>
+                      {labelOf(option)}
+                    </Text>
+                  )}
+                </Pressable>
+              );
+            })}
+          </Animated.View>
+        </Modal>
       )}
     </View>
   );

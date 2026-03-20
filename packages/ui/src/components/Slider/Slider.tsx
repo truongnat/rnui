@@ -2,11 +2,8 @@ import React from "react";
 import { View, Text } from "react-native";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { useSlider, useTokens } from "@rnui/headless";
+import { useSlider, useTokens, useComponentTokens } from "@rnui/headless";
 import type { UseSliderOptions } from "@rnui/headless";
-
-const TRACK_HEIGHT = 4;
-const THUMB_SIZE = 22;
 
 export interface SliderProps extends UseSliderOptions {
   label?: string;
@@ -32,6 +29,7 @@ export function Slider({
   ...hookOptions
 }: SliderProps) {
   const tokens = useTokens();
+  const { slider } = useComponentTokens();
   const {
     currentValue,
     thumbAnimatedStyle,
@@ -48,7 +46,7 @@ export function Slider({
       : [];
 
   return (
-    <View>
+    <View style={{ opacity: hookOptions.disabled ? slider.disabledOpacity : 1 }}>
       {/* Label row */}
       {(label || showValue) && (
         <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[2] }}>
@@ -66,10 +64,10 @@ export function Slider({
       )}
 
       {/* Track area — extra vertical padding for hit area */}
-      <Animated.View style={[{ paddingVertical: 12 }, trackAnimatedStyle]}>
+      <Animated.View style={[{ paddingVertical: 12 }, trackAnimatedStyle] as any}>
         <GestureDetector gesture={panGesture}>
           <View
-            style={{ height: THUMB_SIZE, justifyContent: "center" }}
+            style={{ height: slider.thumb.height, justifyContent: "center" }}
             onLayout={(e) => onTrackLayout(e.nativeEvent.layout.width)}
           >
             {/* Track background */}
@@ -78,9 +76,9 @@ export function Slider({
                 position: "absolute",
                 left: 0,
                 right: 0,
-                height: TRACK_HEIGHT,
-                borderRadius: TRACK_HEIGHT / 2,
-                backgroundColor: tokens.color.bg.muted,
+                height: slider.track.height,
+                borderRadius: slider.track.borderRadius,
+                backgroundColor: slider.track.bgOff,
                 overflow: "hidden",
               }}
             >
@@ -88,12 +86,12 @@ export function Slider({
               <Animated.View
                 style={[
                   {
-                    height: TRACK_HEIGHT,
-                    backgroundColor: tokens.color.brand.default,
-                    borderRadius: TRACK_HEIGHT / 2,
+                    height: slider.track.height,
+                    backgroundColor: slider.track.bgOn,
+                    borderRadius: slider.track.borderRadius,
                   },
                   fillAnimatedStyle,
-                ]}
+                ] as any}
               />
             </View>
 
@@ -111,8 +109,8 @@ export function Slider({
                     height: 4,
                     borderRadius: 2,
                     marginLeft: -2,
-                    backgroundColor: isActive ? tokens.color.brand.default : tokens.color.border.strong,
-                    top: (THUMB_SIZE - 4) / 2,
+                    backgroundColor: isActive ? slider.track.bgOn : tokens.color.border.strong,
+                    top: (slider.thumb.height - 4) / 2,
                   }}
                 />
               );
@@ -123,22 +121,17 @@ export function Slider({
               style={[
                 {
                   position: "absolute",
-                  left: -(THUMB_SIZE / 2),
-                  width: THUMB_SIZE,
-                  height: THUMB_SIZE,
-                  borderRadius: THUMB_SIZE / 2,
-                  backgroundColor: tokens.color.surface.default,
-                  borderWidth: 2,
-                  borderColor: tokens.color.brand.default,
-                  // Shadow
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: 0.12,
-                  shadowRadius: 4,
-                  elevation: 3,
+                  left: -(slider.thumb.width / 2),
+                  width: slider.thumb.width,
+                  height: slider.thumb.height,
+                  borderRadius: slider.thumb.borderRadius,
+                  backgroundColor: slider.thumb.bg,
+                  borderWidth: slider.thumb.borderWidth,
+                  borderColor: slider.thumb.borderColor,
+                  ...(slider.thumb as any),
                 },
                 thumbAnimatedStyle,
-              ]}
+              ] as any}
             />
           </View>
         </GestureDetector>

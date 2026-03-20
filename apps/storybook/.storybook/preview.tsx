@@ -1,4 +1,4 @@
-import type { Preview } from "@storybook/react";
+import type { Preview } from "@storybook/react-native";
 
 const preview: Preview = {
   parameters: {
@@ -11,8 +11,6 @@ const preview: Preview = {
     // Disable storage to avoid AsyncStorage errors in Expo Go
     storybookStorage: undefined,
   },
-  // Disable persistence
-  shouldPersistSelection: false,
 };
 
 export default preview;

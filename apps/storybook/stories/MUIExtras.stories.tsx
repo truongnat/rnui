@@ -62,7 +62,7 @@ import {
 } from "@rnui/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>
       {children}
     </ScrollView>
@@ -72,7 +72,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/MUIExtras",
   component: View,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
 };
 
 export default meta;
@@ -86,7 +86,7 @@ export const Layout: Story = {
       <Box style={{ padding: 16, borderWidth: 1 }}>
         <Text>Box content</Text>
       </Box>
-      <Stack spacing="md">
+      <Stack spacing={4}>
         <Box style={{ height: 32, backgroundColor: "#e2e8f0" }} />
         <Box style={{ height: 32, backgroundColor: "#cbd5f5" }} />
       </Stack>
@@ -113,17 +113,17 @@ export const Inputs: Story = {
         <TextField label="Email" placeholder="name@example.com" />
         <Autocomplete options={["React", "Vue", "Svelte"]} />
         <Rating value={rating} onChange={setRating} />
-        <ToggleButtonGroup value={toggle} exclusive onChange={(val) => setToggle(val as string)}>
+        <ToggleButtonGroup value={toggle} exclusive onChange={(val: any) => setToggle(val as string)}>
           <ToggleButton value="left">Left</ToggleButton>
           <ToggleButton value="center">Center</ToggleButton>
           <ToggleButton value="right">Right</ToggleButton>
         </ToggleButtonGroup>
         <ButtonGroup variant="outlined">
-          <Button>Left</Button>
-          <Button>Center</Button>
-          <Button>Right</Button>
+          <Button label="Left" />
+          <Button label="Center" />
+          <Button label="Right" />
         </ButtonGroup>
-        <Fab label="Create" onPress={() => {}} />
+        <Fab label="Create" onPress={() => { }} />
       </View>
     );
   },
@@ -147,11 +147,11 @@ export const Navigation: Story = {
           <Tab value={0} label="Home" />
           <Tab value={1} label="Settings" />
         </Tabs>
-        <Button onPress={() => setDrawerOpen(true)}>Open Drawer</Button>
+        <Button label="Open Drawer" onPress={() => setDrawerOpen(true)} />
         <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
           <Text style={{ padding: 16 }}>Drawer content</Text>
         </Drawer>
-        <Button onPress={() => setMenuOpen(true)}>Open Menu</Button>
+        <Button label="Open Menu" onPress={() => setMenuOpen(true)} />
         <Menu open={menuOpen} onClose={() => setMenuOpen(false)}>
           <MenuItem>Profile</MenuItem>
           <MenuItem>Logout</MenuItem>

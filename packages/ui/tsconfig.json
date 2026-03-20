@@ -2,7 +2,7 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "outDir": "dist",
-        "rootDir": "..",
+        "rootDir": "src",
         "baseUrl": ".",
         "paths": {
             "@rnui/tokens": [
@@ -14,9 +14,7 @@
         }
     },
     "include": [
-        "src",
-        "../headless/src",
-        "../tokens/src"
+        "src/**/*"
     ],
     "exclude": [
         "node_modules",

@@ -25,7 +25,7 @@ import {
 } from "@rnui/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>
       {children}
     </ScrollView>
@@ -35,7 +35,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/Navigation",
   component: View,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
 };
 
 export default meta;
@@ -70,7 +70,7 @@ export const DrawerStory: StoryObj = {
     const [open, setOpen] = useState(false);
     return (
       <View>
-        <Button label="Open Drawer" onPress={() => setOpen(true)} onLongPress={() => {}} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Open drawer" accessibilityHint="" />
+        <Button label="Open Drawer" onPress={() => setOpen(true)} onLongPress={() => { }} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Open drawer" accessibilityHint="" />
         <Drawer open={open} onClose={() => setOpen(false)}>
           <Text style={{ padding: 16 }}>Drawer content</Text>
         </Drawer>
@@ -85,7 +85,7 @@ export const MenuStory: StoryObj = {
     const [open, setOpen] = useState(false);
     return (
       <View>
-        <Button label="Open Menu" onPress={() => setOpen(true)} onLongPress={() => {}} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Open menu" accessibilityHint="" />
+        <Button label="Open Menu" onPress={() => setOpen(true)} onLongPress={() => { }} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Open menu" accessibilityHint="" />
         <Menu open={open} onClose={() => setOpen(false)}>
           <MenuItem>Profile</MenuItem>
           <MenuItem>Settings</MenuItem>
@@ -100,8 +100,11 @@ export const StepperStory: StoryObj = {
   name: "Stepper",
   render: () => (
     <Stepper activeStep={1}>
+      {/* @ts-ignore */}
       <Step index={0} label="Account" />
+      {/* @ts-ignore */}
       <Step index={1} label="Billing" />
+      {/* @ts-ignore */}
       <Step index={2} label="Review" />
     </Stepper>
   ),

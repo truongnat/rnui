@@ -92,7 +92,7 @@ export function Fab({
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={[containerStyle, animatedStyle]} {...accessibilityProps}>
+      <Animated.View style={[containerStyle, animatedStyle] as any} {...accessibilityProps}>
         {renderIcon(icon)}
         {variant === "extended" && label && (
           <Text style={{ color: textMap[color], fontWeight: tokens.fontWeight.semibold }}>

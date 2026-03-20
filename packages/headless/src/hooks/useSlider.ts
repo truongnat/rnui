@@ -139,7 +139,7 @@ export function useSlider({
       transform: [
         { translateX: ratio * width },
         { scale: scale },
-      ],
+      ] as any,
     };
   });
 

@@ -1,6 +1,6 @@
 import type { StoryObj } from "@storybook/react-native";
 import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
 import {
   ThemeProvider,
   Button,
@@ -21,7 +21,7 @@ import {
 } from "@rnui/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>
       {children}
     </ScrollView>
@@ -31,7 +31,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/Inputs",
   component: View,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
 };
 
 export default meta;
@@ -40,9 +40,9 @@ export const ButtonGroupStory: StoryObj = {
   name: "ButtonGroup",
   render: () => (
     <ButtonGroup variant="outlined">
-      <Button label="Left" onPress={() => {}} onLongPress={() => {}} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Left" accessibilityHint="" />
-      <Button label="Center" onPress={() => {}} onLongPress={() => {}} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Center" accessibilityHint="" />
-      <Button label="Right" onPress={() => {}} onLongPress={() => {}} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Right" accessibilityHint="" />
+      <Button label="Left" onPress={() => { }} />
+      <Button label="Center" onPress={() => { }} />
+      <Button label="Right" onPress={() => { }} />
     </ButtonGroup>
   ),
 };
@@ -50,7 +50,7 @@ export const ButtonGroupStory: StoryObj = {
 export const FabStory: StoryObj = {
   name: "Fab",
   render: () => (
-    <Fab label="Create" onPress={() => {}} />
+    <Fab label="Create" onPress={() => { }} />
   ),
 };
 
@@ -85,7 +85,7 @@ export const ToggleButtonStory: StoryObj = {
   render: () => {
     const [value, setValue] = useState("left");
     return (
-      <ToggleButtonGroup value={value} exclusive onChange={(val) => setValue(val as string)}>
+      <ToggleButtonGroup value={value} exclusive onChange={(val: any) => setValue(val as string)}>
         <ToggleButton value="left">Left</ToggleButton>
         <ToggleButton value="center">Center</ToggleButton>
         <ToggleButton value="right">Right</ToggleButton>
@@ -96,24 +96,38 @@ export const ToggleButtonStory: StoryObj = {
 
 export const FormControlStory: StoryObj = {
   name: "FormControl",
-  render: () => (
-    <View style={{ gap: 12 }}>
-      <FormControl>
-        <FormLabel>Username</FormLabel>
-        <Input label="" placeholder="your name" error={undefined} helperText={undefined} leadingElement={undefined} trailingElement={undefined} onFocus={() => {}} onBlur={() => {}} />
-        <FormHelperText>Helper text</FormHelperText>
-      </FormControl>
-      <FormControl error required>
-        <FormLabel>Email</FormLabel>
-        <Input label="" placeholder="name@example.com" error="Invalid" helperText={undefined} leadingElement={undefined} trailingElement={undefined} onFocus={() => {}} onBlur={() => {}} />
-        <FormHelperText>Invalid email</FormHelperText>
-      </FormControl>
-      <FormControl>
-        <FormControlLabel label="Accept terms" control={<Checkbox label="Accept" description="" checked />} />
-      </FormControl>
-      <FormControl>
-        <FormControlLabel label="Enable notifications" control={<Switch label="Notifications" description="" on />} />
-      </FormControl>
-    </View>
-  ),
+  render: () => {
+    const [terms, setTerms] = useState(false);
+    const [notify, setNotify] = useState(true);
+
+    return (
+      <View style={{ gap: 12 }}>
+        <FormControl>
+          <FormLabel>Username</FormLabel>
+          <Input placeholder="your name" />
+          <FormHelperText>Helper text</FormHelperText>
+        </FormControl>
+
+        <FormControl error required>
+          <FormLabel>Email</FormLabel>
+          <Input placeholder="name@example.com" error="Invalid" />
+          <FormHelperText>Invalid email</FormHelperText>
+        </FormControl>
+
+        <FormControl>
+          <FormControlLabel
+            label="Accept terms"
+            control={<Checkbox checked={terms} onChange={setTerms} />}
+          />
+        </FormControl>
+
+        <FormControl>
+          <FormControlLabel
+            label="Enable notifications"
+            control={<Switch on={notify} onChange={setNotify} />}
+          />
+        </FormControl>
+      </View>
+    );
+  },
 };

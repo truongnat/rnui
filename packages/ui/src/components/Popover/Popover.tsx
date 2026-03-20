@@ -90,6 +90,8 @@ export function Popover({
             backgroundColor: tokens.color.surface.overlay,
             borderColor: tokens.color.border.default,
             shadowColor: tokens.color.text.primary,
+            // Hide until measured to prevent position flash
+            opacity: contentSize.width === 0 ? 0 : 1,
           },
           position,
           PaperProps?.style,

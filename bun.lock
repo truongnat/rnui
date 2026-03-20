@@ -118,6 +118,7 @@
       "name": "@rnui/ui",
       "version": "0.0.1",
       "dependencies": {
+        "@react-native-community/datetimepicker": "^9.1.0",
         "@rnui/headless": "workspace:*",
         "@rnui/tokens": "workspace:*",
         "@shopify/flash-list": "^2.0.2",

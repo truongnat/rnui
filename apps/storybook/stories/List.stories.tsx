@@ -2,10 +2,15 @@ import type { StoryObj } from "@storybook/react-native";
 import React from "react";
 import { View } from "react-native";
 import { ThemeProvider, List, ListItem, SectionHeader, Badge } from "@rnui/ui";
-import { Mail, Star, Archive, Trash2 } from "lucide-react-native";
+import { Mail as LucideMail, Star as LucideStar, Archive as LucideArchive, Trash2 as LucideTrash2 } from "lucide-react-native";
+
+const Mail = LucideMail as any;
+const Star = LucideStar as any;
+const Archive = LucideArchive as any;
+const Trash2 = LucideTrash2 as any;
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <View style={{ flex: 1, paddingVertical: 12 }}>
       {children}
     </View>
@@ -15,7 +20,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/List",
   component: List,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
 };
 
 export default meta;
@@ -31,40 +36,35 @@ const items = [
 export const Basic: Story = {
   render: () => (
     <View style={{ flex: 1 }}>
-      <SectionHeader title="Folders" trailing={undefined} />
+      <SectionHeader title="Folders" />
       <List
         data={items}
-        keyExtractor={(item) => item.id}
-        renderItem={(item) => (
+        keyExtractor={(item: any) => item.id}
+        renderItem={({ item }: any) => (
           <ListItem
             title={item.title}
             subtitle={item.subtitle}
             leading={item.icon}
             trailing={item.badge ? <Badge label={item.badge} variant="brand" /> : undefined}
-            trailingActions={item.id === "1" ? [{ label: "Delete", color: "#ef4444", onPress: () => {} }] : []}
-            onPress={() => {}}
-            onLongPress={() => {}}
+            trailingActions={item.id === "1" ? [{ label: "Delete", color: "#ef4444", onPress: () => { } }] : []}
+            onPress={() => { }}
           />
         )}
         estimatedItemSize={64}
-        emptyComponent={undefined}
       />
       <SectionHeader title="Actions" trailing={<Trash2 size={14} color="#666" />} />
       <List
         data={[{ id: "4", title: "Trash", subtitle: "12 items", icon: <Trash2 size={20} color="#666" /> }]}
-        keyExtractor={(item) => item.id}
-        renderItem={(item) => (
+        keyExtractor={(item: any) => item.id}
+        renderItem={({ item }: any) => (
           <ListItem
             title={item.title}
             subtitle={item.subtitle}
             leading={item.icon}
-            trailing={undefined}
-            onPress={() => {}}
-            onLongPress={() => {}}
+            onPress={() => { }}
           />
         )}
         estimatedItemSize={64}
-        emptyComponent={undefined}
       />
     </View>
   ),

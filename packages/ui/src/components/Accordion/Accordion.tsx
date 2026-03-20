@@ -1,5 +1,12 @@
 import React, { createContext, useContext } from "react";
 import { View, Text, Pressable } from "react-native";
+import Animated, {
+  useSharedValue,
+  withTiming,
+  useAnimatedStyle,
+  interpolate,
+  Extrapolation,
+} from "react-native-reanimated";
 import { useDisclosure, useTokens } from "@rnui/headless";
 
 export interface AccordionProps {
@@ -45,9 +52,11 @@ export function Accordion({
     onClose: () => onChange?.(false),
   });
 
+  const tokens = useTokens();
+
   return (
     <AccordionContext.Provider value={{ expanded: disclosure.isOpen, toggle: disclosure.toggle, disabled }}>
-      <View style={{ borderWidth: 1, borderColor: "#e2e8f0", borderRadius: 12, overflow: "hidden" }}>
+      <View style={{ borderWidth: 1, borderColor: tokens.color.border.default, borderRadius: tokens.radius.md, overflow: "hidden" }}>
         {children}
       </View>
     </AccordionContext.Provider>
@@ -58,6 +67,16 @@ export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps
   const tokens = useTokens();
   const ctx = useContext(AccordionContext);
   if (!ctx) return null;
+
+  // Rotate icon 180° when expanded
+  const rotation = useSharedValue(ctx.expanded ? 1 : 0);
+  React.useEffect(() => {
+    rotation.value = withTiming(ctx.expanded ? 1 : 0, { duration: 200 });
+  }, [ctx.expanded]);
+
+  const iconStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${interpolate(rotation.value, [0, 1], [0, 180], Extrapolation.CLAMP)}deg` }],
+  }));
 
   return (
     <Pressable
@@ -72,8 +91,14 @@ export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps
         backgroundColor: tokens.color.surface.default,
       }}
     >
-      <Text style={{ fontWeight: tokens.fontWeight.medium, color: tokens.color.text.primary }}>{children}</Text>
-      {expandIcon ?? <Text style={{ color: tokens.color.text.tertiary }}>{ctx.expanded ? "-" : "+"}</Text>}
+      <Text style={{ fontWeight: tokens.fontWeight.medium, color: tokens.color.text.primary, flex: 1 }}>
+        {children}
+      </Text>
+      <Animated.View style={iconStyle}>
+        {expandIcon ?? (
+          <Text style={{ color: tokens.color.text.tertiary, fontSize: 16 }}>▼</Text>
+        )}
+      </Animated.View>
     </Pressable>
   );
 }
@@ -81,12 +106,35 @@ export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps
 export function AccordionDetails({ children }: AccordionDetailsProps) {
   const tokens = useTokens();
   const ctx = useContext(AccordionContext);
-  if (!ctx?.expanded) return null;
+  const [contentHeight, setContentHeight] = React.useState(0);
+  const animHeight = useSharedValue(0);
+
+  React.useEffect(() => {
+    if (!ctx) return;
+    animHeight.value = withTiming(ctx.expanded ? contentHeight : 0, { duration: 250 });
+  }, [ctx?.expanded, contentHeight]);
+
+  const animStyle = useAnimatedStyle(() => ({
+    height: animHeight.value,
+    overflow: "hidden",
+  }));
 
   return (
-    <View style={{ paddingHorizontal: tokens.spacing[4], paddingVertical: tokens.spacing[3], backgroundColor: tokens.color.bg.subtle }}>
-      {children}
-    </View>
+    <Animated.View style={animStyle}>
+      <View
+        onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}
+        style={{
+          paddingHorizontal: tokens.spacing[4],
+          paddingVertical: tokens.spacing[3],
+          backgroundColor: tokens.color.bg.subtle,
+          position: "absolute",
+          left: 0,
+          right: 0,
+        }}
+      >
+        {children}
+      </View>
+    </Animated.View>
   );
 }
 
@@ -96,7 +144,13 @@ export function AccordionActions({ children }: AccordionActionsProps) {
   if (!ctx?.expanded) return null;
 
   return (
-    <View style={{ paddingHorizontal: tokens.spacing[4], paddingVertical: tokens.spacing[3], backgroundColor: tokens.color.bg.subtle, flexDirection: "row", gap: tokens.spacing[2] }}>
+    <View style={{
+      paddingHorizontal: tokens.spacing[4],
+      paddingVertical: tokens.spacing[3],
+      backgroundColor: tokens.color.bg.subtle,
+      flexDirection: "row",
+      gap: tokens.spacing[2],
+    }}>
       {children}
     </View>
   );

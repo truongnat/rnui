@@ -223,16 +223,16 @@ export function Button({
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View
-        style={[containerStyle, animatedStyle, { position: "relative" }]}
+        style={[containerStyle, animatedStyle, { position: "relative" }] as any}
         {...accessibilityProps}
       >
-        <View style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: button.variant[resolvedVariant].container.gap,
-          opacity: loading && loadingPosition === "center" ? 0 : 1,
-        }}>
+        <View style={[
+          styles.contentContainer,
+          {
+            gap: button.variant[resolvedVariant].container.gap,
+            opacity: loading && loadingPosition === "center" ? 0 : 1,
+          }
+        ]}>
           {loading && loadingPosition === "start" && (loadingIndicator ?? <ActivityIndicator size="small" color={iconColor} />)}
           {renderIcon(leading)}
           {isTextContent ? <Text style={textStyle}>{content}</Text> : content}
@@ -241,7 +241,7 @@ export function Button({
         </View>
 
         {loading && loadingPosition === "center" && (
-          <View style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}>
+          <View style={[StyleSheet.absoluteFill, styles.loadingWrapper]}>
             {loadingIndicator ?? <ActivityIndicator size="small" color={iconColor} />}
           </View>
         )}
@@ -249,3 +249,15 @@ export function Button({
     </GestureDetector>
   );
 }
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  loadingWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

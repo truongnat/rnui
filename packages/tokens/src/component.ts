@@ -212,6 +212,147 @@ export function checkboxTokens(t: SemanticTokens) {
   };
 }
 
+// ─── Switch ──────────────────────────────────────────────────────
+export function switchTokens(t: SemanticTokens) {
+  return {
+    track: {
+      sm: { width: 36, height: 20, borderRadius: 10, padding: 2 },
+      md: { width: 46, height: 26, borderRadius: 13, padding: 2 },
+      lg: { width: 56, height: 30, borderRadius: 15, padding: 2 },
+    },
+    thumb: {
+      sm: { width: 16, height: 16, borderRadius: 8 },
+      md: { width: 22, height: 22, borderRadius: 11 },
+      lg: { width: 26, height: 26, borderRadius: 13 },
+    },
+    colors: {
+      trackOff: t.color.border.default,
+      trackOn: t.color.brand.default,
+      thumb: "#FFFFFF",
+      disabledOpacity: t.opacity[40],
+    },
+  };
+}
+
+// ─── Radio ───────────────────────────────────────────────────────
+export function radioTokens(t: SemanticTokens) {
+  return {
+    container: {
+      sm: { width: 16, height: 16, borderRadius: 8, borderWidth: 2 },
+      md: { width: 20, height: 20, borderRadius: 10, borderWidth: 2 },
+      lg: { width: 24, height: 24, borderRadius: 12, borderWidth: 2 },
+    },
+    dot: {
+      sm: { width: 8, height: 8, borderRadius: 4 },
+      md: { width: 10, height: 10, borderRadius: 5 },
+      lg: { width: 12, height: 12, borderRadius: 6 },
+    },
+    colors: {
+      borderOff: t.color.border.strong,
+      borderOn: t.color.brand.default,
+      bgOff: "transparent",
+      bgOn: "transparent",
+      dot: t.color.brand.default,
+      disabledOpacity: t.opacity[40],
+    },
+  };
+}
+
+// ─── Slider ──────────────────────────────────────────────────────
+export function sliderTokens(t: SemanticTokens) {
+  return {
+    track: {
+      height: 4,
+      borderRadius: t.radius.full,
+      bgOff: t.color.bg.muted,
+      bgOn: t.color.brand.default,
+    },
+    thumb: {
+      width: 20,
+      height: 20,
+      borderRadius: 10,
+      bg: "#FFFFFF",
+      borderColor: t.color.border.default,
+      borderWidth: 1,
+      ...t.shadow.sm,
+    },
+    disabledOpacity: t.opacity[40],
+  };
+}
+
+// ─── Chip ────────────────────────────────────────────────────────
+export function chipTokens(t: SemanticTokens) {
+  return {
+    container: {
+      borderRadius: t.radius.full,
+      paddingHorizontal: t.spacing[3],
+      height: 32,
+      flexDirection: "row" as const,
+      alignItems: "center" as const,
+      justifyContent: "center" as const,
+      gap: t.spacing[1],
+    },
+    text: {
+      fontSize: t.fontSize.sm,
+      fontWeight: t.fontWeight.medium,
+    },
+    variant: {
+      solid: { bg: t.color.bg.emphasis, text: t.color.text.inverse, border: "transparent" },
+      outlined: { bg: "transparent", text: t.color.text.primary, border: t.color.border.default },
+      subtle: { bg: t.color.bg.subtle, text: t.color.text.primary, border: "transparent" },
+    },
+  };
+}
+
+// ─── Fab ─────────────────────────────────────────────────────────
+export function fabTokens(t: SemanticTokens) {
+  return {
+    container: {
+      alignItems: "center" as const,
+      justifyContent: "center" as const,
+      ...t.shadow.lg,
+    },
+    size: {
+      sm: { width: 40, height: 40, borderRadius: 20 },
+      md: { width: 56, height: 56, borderRadius: 28 },
+      lg: { width: 72, height: 72, borderRadius: 36 },
+    },
+    color: {
+      primary: { bg: t.color.brand.default, text: t.color.text.inverse },
+      secondary: { bg: t.color.surface.raised, text: t.color.brand.default },
+    },
+  };
+}
+
+// ─── Dialog ──────────────────────────────────────────────────────
+export function dialogTokens(t: SemanticTokens) {
+  return {
+    container: {
+      backgroundColor: t.color.surface.default,
+      borderRadius: t.radius.xl,
+      padding: t.spacing[6],
+      ...t.shadow.xl,
+    },
+    title: {
+      fontSize: t.fontSize.xl,
+      fontWeight: t.fontWeight.semibold,
+      color: t.color.text.primary,
+      marginBottom: t.spacing[2],
+    },
+    content: {
+      fontSize: t.fontSize.md,
+      color: t.color.text.secondary,
+      lineHeight: t.fontSize.md * 1.5,
+    },
+    actions: {
+      marginTop: t.spacing[6],
+      flexDirection: "row" as const,
+      justifyContent: "flex-end" as const,
+      gap: t.spacing[2],
+    },
+  };
+}
+
 // ─── Composite export ────────────────────────────────────────────
 export function resolveComponentTokens(t: SemanticTokens) {
   return {
@@ -222,6 +363,12 @@ export function resolveComponentTokens(t: SemanticTokens) {
     toast: toastTokens(t),
     avatar: avatarTokens(t),
     checkbox: checkboxTokens(t),
+    switch: switchTokens(t),
+    radio: radioTokens(t),
+    slider: sliderTokens(t),
+    chip: chipTokens(t),
+    fab: fabTokens(t),
+    dialog: dialogTokens(t),
   };
 }
 

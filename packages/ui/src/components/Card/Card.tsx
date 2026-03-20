@@ -47,7 +47,7 @@ export function Card({
 
     return (
       <GestureDetector gesture={gesture}>
-        <Animated.View style={[containerStyle, animatedStyle]} {...accessibilityProps}>
+        <Animated.View style={[containerStyle, animatedStyle] as any} {...accessibilityProps}>
           {children}
         </Animated.View>
       </GestureDetector>

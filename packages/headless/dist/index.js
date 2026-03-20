@@ -17,6 +17,9 @@ var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require
   if (typeof require !== "undefined") return require.apply(this, arguments);
   throw Error('Dynamic require of "' + x + '" is not supported');
 });
+function createTheme(override) {
+  return override;
+}
 var ThemeContext = React.createContext(null);
 function ThemeProvider({
   children,
@@ -73,6 +76,41 @@ function deepMerge(base, override) {
   }
   return result;
 }
+var motionPresets = {
+  enter: {
+    fadeUp: reactNativeReanimated.FadeInUp,
+    fadeDown: reactNativeReanimated.FadeInDown,
+    fadeIn: reactNativeReanimated.FadeIn,
+    scaleIn: reactNativeReanimated.ZoomIn,
+    slideFromBottom: reactNativeReanimated.SlideInDown,
+    slideFromTop: reactNativeReanimated.SlideInUp,
+    slideFromRight: reactNativeReanimated.SlideInRight
+  },
+  exit: {
+    fadeDown: reactNativeReanimated.FadeOutDown,
+    fadeUp: reactNativeReanimated.FadeOutUp,
+    fadeOut: reactNativeReanimated.FadeOut,
+    scaleOut: reactNativeReanimated.ZoomOut,
+    slideToBottom: reactNativeReanimated.SlideOutDown,
+    slideToTop: reactNativeReanimated.SlideOutUp,
+    slideToRight: reactNativeReanimated.SlideOutRight
+  }
+};
+var motionEasing = {
+  easeIn: reactNativeReanimated.Easing.bezier(0.4, 0, 1, 1),
+  easeOut: reactNativeReanimated.Easing.bezier(0, 0, 0.2, 1),
+  easeInOut: reactNativeReanimated.Easing.bezier(0.4, 0, 0.2, 1),
+  linear: reactNativeReanimated.Easing.linear
+};
+var heroTransition = reactNativeReanimated.SharedTransition && reactNativeReanimated.SharedTransition.custom ? reactNativeReanimated.SharedTransition.custom((values) => {
+  "worklet";
+  return {
+    height: reactNativeReanimated.withSpring(values.targetHeight, tokens.spring.snappy),
+    width: reactNativeReanimated.withSpring(values.targetWidth, tokens.spring.snappy),
+    originX: reactNativeReanimated.withSpring(values.targetGlobalOriginX, tokens.spring.snappy),
+    originY: reactNativeReanimated.withSpring(values.targetGlobalOriginY, tokens.spring.snappy)
+  };
+}) : null;
 function usePressable({
   onPress,
   onLongPress,
@@ -84,7 +122,7 @@ function usePressable({
   accessibilityRole = "button",
   haptic = false
 } = {}) {
-  const isPressedRef = React.useRef(false);
+  const [isPressed, setIsPressed] = React.useState(false);
   const scale = reactNativeReanimated.useSharedValue(1);
   const opacity = reactNativeReanimated.useSharedValue(1);
   const handlePress = React.useCallback(() => {
@@ -97,6 +135,9 @@ function usePressable({
     if (haptic) triggerHaptic("medium");
     onLongPress?.();
   }, [disabled, haptic, onLongPress]);
+  const setPressedState = React.useCallback((pressed) => {
+    setIsPressed(pressed);
+  }, []);
   const animatedStyle = reactNativeReanimated.useAnimatedStyle(() => {
     if (feedbackMode === "opacity") {
       return { opacity: opacity.value };
@@ -112,6 +153,7 @@ function usePressable({
   const snappySpring = tokens.spring.snappy;
   const tapGesture = reactNativeGestureHandler.Gesture.Tap().enabled(!disabled).onBegin(() => {
     "worklet";
+    reactNativeReanimated.runOnJS(setPressedState)(true);
     if (feedbackMode === "scale") {
       scale.value = reactNativeReanimated.withSpring(scaleDownPressed, snappySpring);
     } else if (feedbackMode === "scaleSubtle") {
@@ -121,6 +163,7 @@ function usePressable({
     }
   }).onFinalize((_event, success) => {
     "worklet";
+    reactNativeReanimated.runOnJS(setPressedState)(false);
     if (feedbackMode === "scale" || feedbackMode === "scaleSubtle") {
       scale.value = reactNativeReanimated.withSpring(1, snappySpring);
     } else if (feedbackMode === "opacity") {
@@ -146,7 +189,7 @@ function usePressable({
     animatedStyle,
     gesture,
     accessibilityProps,
-    isPressed: isPressedRef.current
+    isPressed
   };
 }
 function triggerHaptic(type) {
@@ -220,8 +263,11 @@ function useField({
       try {
         const result = await validate(val);
         setError(result);
+        return result;
       } catch {
-        setError("Validation failed");
+        const errorMsg = "Validation failed";
+        setError(errorMsg);
+        return errorMsg;
       } finally {
         setIsValidating(false);
       }
@@ -258,6 +304,7 @@ function useField({
     onBlur,
     reset,
     setError,
+    validate: () => runValidation(value),
     inputProps: {
       value: String(value),
       onChangeText: (text) => onChange(text),
@@ -594,6 +641,86 @@ function useSelect({
       accessibilityState: { expanded: disclosure.isOpen, disabled }
     }
   };
+}
+function useScrollHeader({ headerMaxHeight, headerMinHeight }) {
+  const scrollY = reactNativeReanimated.useSharedValue(0);
+  const scrollHandler = reactNativeReanimated.useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y;
+    }
+  });
+  const scrollDistance = headerMaxHeight - headerMinHeight;
+  const headerStyle = reactNativeReanimated.useAnimatedStyle(() => {
+    const height = reactNativeReanimated.interpolate(
+      scrollY.value,
+      [0, scrollDistance],
+      [headerMaxHeight, headerMinHeight],
+      reactNativeReanimated.Extrapolation.CLAMP
+    );
+    return { height };
+  });
+  const imageStyle = reactNativeReanimated.useAnimatedStyle(() => {
+    const translateY = reactNativeReanimated.interpolate(
+      scrollY.value,
+      [-headerMaxHeight, 0, scrollDistance],
+      [-headerMaxHeight / 2, 0, scrollDistance * 0.5],
+      // Moves at half speed relative to scroll
+      reactNativeReanimated.Extrapolation.CLAMP
+    );
+    const scale = reactNativeReanimated.interpolate(
+      scrollY.value,
+      [-headerMaxHeight, 0],
+      [2, 1],
+      { extrapolateLeft: reactNativeReanimated.Extrapolation.EXTEND, extrapolateRight: reactNativeReanimated.Extrapolation.CLAMP }
+    );
+    return {
+      transform: [{ translateY }, { scale }]
+    };
+  });
+  const titleStyle = reactNativeReanimated.useAnimatedStyle(() => {
+    const opacity = reactNativeReanimated.interpolate(
+      scrollY.value,
+      [scrollDistance * 0.6, scrollDistance * 0.9],
+      [0, 1],
+      reactNativeReanimated.Extrapolation.CLAMP
+    );
+    const translateY = reactNativeReanimated.interpolate(
+      scrollY.value,
+      [scrollDistance * 0.6, scrollDistance],
+      [10, 0],
+      reactNativeReanimated.Extrapolation.CLAMP
+    );
+    return {
+      opacity,
+      transform: [{ translateY }]
+    };
+  });
+  const headerBgStyle = reactNativeReanimated.useAnimatedStyle(() => {
+    const opacity = reactNativeReanimated.interpolate(
+      scrollY.value,
+      [0, scrollDistance],
+      [0, 1],
+      reactNativeReanimated.Extrapolation.CLAMP
+    );
+    return { opacity };
+  });
+  return {
+    scrollY,
+    scrollHandler,
+    headerStyle,
+    imageStyle,
+    titleStyle,
+    headerBgStyle
+  };
+}
+function useMemoStyles(styleFactory) {
+  const tokens = useTokens();
+  const factoryRef = React.useRef(styleFactory);
+  factoryRef.current = styleFactory;
+  return React.useMemo(() => {
+    const rawStyles = factoryRef.current(tokens);
+    return reactNative.StyleSheet.create(rawStyles);
+  }, [tokens]);
 }
 var ACTION_WIDTH = 80;
 function useListItem({
@@ -1071,8 +1198,12 @@ function useAutocomplete({
 }
 
 exports.ThemeProvider = ThemeProvider;
+exports.createTheme = createTheme;
 exports.dismissAllToasts = dismissAllToasts;
 exports.dismissToast = dismissToast;
+exports.heroTransition = heroTransition;
+exports.motionEasing = motionEasing;
+exports.motionPresets = motionPresets;
 exports.showToast = showToast;
 exports.useAutocomplete = useAutocomplete;
 exports.useBottomSheet = useBottomSheet;
@@ -1083,10 +1214,12 @@ exports.useField = useField;
 exports.useIconStyle = useIconStyle;
 exports.useIsDark = useIsDark;
 exports.useListItem = useListItem;
+exports.useMemoStyles = useMemoStyles;
 exports.usePagination = usePagination;
 exports.usePressable = usePressable;
 exports.useRadioGroup = useRadioGroup;
 exports.useRating = useRating;
+exports.useScrollHeader = useScrollHeader;
 exports.useSelect = useSelect;
 exports.useSlider = useSlider;
 exports.useSwitch = useSwitch;

@@ -1,8 +1,8 @@
-import React, { createContext, useMemo, useContext, useRef, useCallback, useState, useSyncExternalStore } from 'react';
-import { Dimensions, useColorScheme, Platform } from 'react-native';
+import React, { createContext, useMemo, useContext, useState, useCallback, useSyncExternalStore, useRef } from 'react';
+import { Dimensions, useColorScheme, Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView, Gesture } from 'react-native-gesture-handler';
-import { semanticTokens, resolveComponentTokens, pressFeedback, spring } from '@rnui/tokens';
-import { useSharedValue, useAnimatedStyle, withSpring, withTiming, interpolate, Extrapolation } from 'react-native-reanimated';
+import { spring, semanticTokens, resolveComponentTokens, pressFeedback } from '@rnui/tokens';
+import { Easing, SharedTransition, withSpring, SlideOutRight, SlideOutUp, SlideOutDown, ZoomOut, FadeOut, FadeOutUp, FadeOutDown, SlideInRight, SlideInUp, SlideInDown, ZoomIn, FadeIn, FadeInDown, FadeInUp, useSharedValue, useAnimatedStyle, runOnJS, withTiming, useAnimatedScrollHandler, interpolate, Extrapolation } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
@@ -11,6 +11,9 @@ var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require
   if (typeof require !== "undefined") return require.apply(this, arguments);
   throw Error('Dynamic require of "' + x + '" is not supported');
 });
+function createTheme(override) {
+  return override;
+}
 var ThemeContext = createContext(null);
 function ThemeProvider({
   children,
@@ -67,6 +70,41 @@ function deepMerge(base, override) {
   }
   return result;
 }
+var motionPresets = {
+  enter: {
+    fadeUp: FadeInUp,
+    fadeDown: FadeInDown,
+    fadeIn: FadeIn,
+    scaleIn: ZoomIn,
+    slideFromBottom: SlideInDown,
+    slideFromTop: SlideInUp,
+    slideFromRight: SlideInRight
+  },
+  exit: {
+    fadeDown: FadeOutDown,
+    fadeUp: FadeOutUp,
+    fadeOut: FadeOut,
+    scaleOut: ZoomOut,
+    slideToBottom: SlideOutDown,
+    slideToTop: SlideOutUp,
+    slideToRight: SlideOutRight
+  }
+};
+var motionEasing = {
+  easeIn: Easing.bezier(0.4, 0, 1, 1),
+  easeOut: Easing.bezier(0, 0, 0.2, 1),
+  easeInOut: Easing.bezier(0.4, 0, 0.2, 1),
+  linear: Easing.linear
+};
+var heroTransition = SharedTransition && SharedTransition.custom ? SharedTransition.custom((values) => {
+  "worklet";
+  return {
+    height: withSpring(values.targetHeight, spring.snappy),
+    width: withSpring(values.targetWidth, spring.snappy),
+    originX: withSpring(values.targetGlobalOriginX, spring.snappy),
+    originY: withSpring(values.targetGlobalOriginY, spring.snappy)
+  };
+}) : null;
 function usePressable({
   onPress,
   onLongPress,
@@ -78,7 +116,7 @@ function usePressable({
   accessibilityRole = "button",
   haptic = false
 } = {}) {
-  const isPressedRef = useRef(false);
+  const [isPressed, setIsPressed] = useState(false);
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
   const handlePress = useCallback(() => {
@@ -91,6 +129,9 @@ function usePressable({
     if (haptic) triggerHaptic("medium");
     onLongPress?.();
   }, [disabled, haptic, onLongPress]);
+  const setPressedState = useCallback((pressed) => {
+    setIsPressed(pressed);
+  }, []);
   const animatedStyle = useAnimatedStyle(() => {
     if (feedbackMode === "opacity") {
       return { opacity: opacity.value };
@@ -106,6 +147,7 @@ function usePressable({
   const snappySpring = spring.snappy;
   const tapGesture = Gesture.Tap().enabled(!disabled).onBegin(() => {
     "worklet";
+    runOnJS(setPressedState)(true);
     if (feedbackMode === "scale") {
       scale.value = withSpring(scaleDownPressed, snappySpring);
     } else if (feedbackMode === "scaleSubtle") {
@@ -115,6 +157,7 @@ function usePressable({
     }
   }).onFinalize((_event, success) => {
     "worklet";
+    runOnJS(setPressedState)(false);
     if (feedbackMode === "scale" || feedbackMode === "scaleSubtle") {
       scale.value = withSpring(1, snappySpring);
     } else if (feedbackMode === "opacity") {
@@ -140,7 +183,7 @@ function usePressable({
     animatedStyle,
     gesture,
     accessibilityProps,
-    isPressed: isPressedRef.current
+    isPressed
   };
 }
 function triggerHaptic(type) {
@@ -214,8 +257,11 @@ function useField({
       try {
         const result = await validate(val);
         setError(result);
+        return result;
       } catch {
-        setError("Validation failed");
+        const errorMsg = "Validation failed";
+        setError(errorMsg);
+        return errorMsg;
       } finally {
         setIsValidating(false);
       }
@@ -252,6 +298,7 @@ function useField({
     onBlur,
     reset,
     setError,
+    validate: () => runValidation(value),
     inputProps: {
       value: String(value),
       onChangeText: (text) => onChange(text),
@@ -588,6 +635,86 @@ function useSelect({
       accessibilityState: { expanded: disclosure.isOpen, disabled }
     }
   };
+}
+function useScrollHeader({ headerMaxHeight, headerMinHeight }) {
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y;
+    }
+  });
+  const scrollDistance = headerMaxHeight - headerMinHeight;
+  const headerStyle = useAnimatedStyle(() => {
+    const height = interpolate(
+      scrollY.value,
+      [0, scrollDistance],
+      [headerMaxHeight, headerMinHeight],
+      Extrapolation.CLAMP
+    );
+    return { height };
+  });
+  const imageStyle = useAnimatedStyle(() => {
+    const translateY = interpolate(
+      scrollY.value,
+      [-headerMaxHeight, 0, scrollDistance],
+      [-headerMaxHeight / 2, 0, scrollDistance * 0.5],
+      // Moves at half speed relative to scroll
+      Extrapolation.CLAMP
+    );
+    const scale = interpolate(
+      scrollY.value,
+      [-headerMaxHeight, 0],
+      [2, 1],
+      { extrapolateLeft: Extrapolation.EXTEND, extrapolateRight: Extrapolation.CLAMP }
+    );
+    return {
+      transform: [{ translateY }, { scale }]
+    };
+  });
+  const titleStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      scrollY.value,
+      [scrollDistance * 0.6, scrollDistance * 0.9],
+      [0, 1],
+      Extrapolation.CLAMP
+    );
+    const translateY = interpolate(
+      scrollY.value,
+      [scrollDistance * 0.6, scrollDistance],
+      [10, 0],
+      Extrapolation.CLAMP
+    );
+    return {
+      opacity,
+      transform: [{ translateY }]
+    };
+  });
+  const headerBgStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      scrollY.value,
+      [0, scrollDistance],
+      [0, 1],
+      Extrapolation.CLAMP
+    );
+    return { opacity };
+  });
+  return {
+    scrollY,
+    scrollHandler,
+    headerStyle,
+    imageStyle,
+    titleStyle,
+    headerBgStyle
+  };
+}
+function useMemoStyles(styleFactory) {
+  const tokens = useTokens();
+  const factoryRef = useRef(styleFactory);
+  factoryRef.current = styleFactory;
+  return useMemo(() => {
+    const rawStyles = factoryRef.current(tokens);
+    return StyleSheet.create(rawStyles);
+  }, [tokens]);
 }
 var ACTION_WIDTH = 80;
 function useListItem({
@@ -1064,6 +1191,6 @@ function useAutocomplete({
   };
 }
 
-export { ThemeProvider, dismissAllToasts, dismissToast, showToast, useAutocomplete, useBottomSheet, useCheckbox, useComponentTokens, useDisclosure, useField, useIconStyle, useIsDark, useListItem, usePagination, usePressable, useRadioGroup, useRating, useSelect, useSlider, useSwitch, useTabs, useTheme, useToast, useToggleGroup, useTokens };
+export { ThemeProvider, createTheme, dismissAllToasts, dismissToast, heroTransition, motionEasing, motionPresets, showToast, useAutocomplete, useBottomSheet, useCheckbox, useComponentTokens, useDisclosure, useField, useIconStyle, useIsDark, useListItem, useMemoStyles, usePagination, usePressable, useRadioGroup, useRating, useScrollHeader, useSelect, useSlider, useSwitch, useTabs, useTheme, useToast, useToggleGroup, useTokens };
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map

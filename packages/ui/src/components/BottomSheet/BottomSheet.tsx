@@ -88,7 +88,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
                   StyleSheet.absoluteFill,
                   { backgroundColor: "#000" },
                   backdropAnimatedStyle,
-                ]}
+                ] as any}
               />
             </GestureDetector>
           )}
@@ -111,7 +111,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
                 elevation: 12,
               },
               sheetAnimatedStyle,
-            ]}
+            ] as any}
           >
             {/* Drag handle area — full-width tap target */}
             <GestureDetector gesture={panGesture}>

@@ -39,7 +39,7 @@ interface StepInternalProps extends StepProps {
   orientation: "horizontal" | "vertical";
 }
 
-export function Step({ index, label, children, activeStep, orientation }: StepInternalProps) {
+export function Step({ index, label, children, activeStep = 0, orientation = "horizontal" }: Partial<StepInternalProps> & StepProps) {
   const tokens = useTokens();
   const isActive = index === activeStep;
   const isCompleted = index < activeStep;

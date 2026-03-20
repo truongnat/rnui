@@ -95,7 +95,7 @@ export function ToggleButton<T = string>({ value, disabled = false, children }: 
             opacity: isDisabled ? 0.5 : 1,
           },
           animatedStyle,
-        ]}
+        ] as any}
         {...accessibilityProps}
       >
         <Text style={{ fontSize: s.fontSize, fontWeight: tokens.fontWeight.medium, color: selected ? tokens.color.brand.text : tokens.color.text.primary }}>

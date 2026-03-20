@@ -45,6 +45,12 @@ export type { RadioGroupProps, RadioItemProps, RadioOption } from "./components/
 export { Slider } from "./components/Slider";
 export type { SliderProps } from "./components/Slider";
 
+export * from "./components/DatePicker";
+export * from "./components/AnimatedList";
+export * from "./components/SegmentedControl";
+export * from "./components/Carousel";
+export * from "./components/OTPInput";
+export * from "./components/Image";
 export { Avatar, AvatarGroup } from "./components/Avatar";
 export type { AvatarProps, AvatarGroupProps, AvatarSize, AvatarStatus } from "./components/Avatar";
 

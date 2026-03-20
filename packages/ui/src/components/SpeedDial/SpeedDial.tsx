@@ -43,7 +43,7 @@ export function SpeedDial({
   if (hidden) return null;
 
   const stackStyle = {
-    flexDirection: direction === "left" || direction === "right" ? "row" : "column",
+    flexDirection: (direction === "left" || direction === "right" ? "row" : "column") as "row" | "column",
     alignItems: "center" as const,
     gap: tokens.spacing[3],
   };

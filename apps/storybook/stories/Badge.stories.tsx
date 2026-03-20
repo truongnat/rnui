@@ -2,9 +2,10 @@ import type { StoryObj } from "@storybook/react-native";
 import React from "react";
 import { View } from "react-native";
 import { ThemeProvider, Badge } from "@rnui/ui";
+import { Check, AlertTriangle, AlertCircle, Info } from "lucide-react-native";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider>
+  <ThemeProvider override={{}}>
     <View style={{ padding: 24, gap: 12 }}>
       {children}
     </View>
@@ -14,7 +15,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: "Components/Badge",
   component: Badge,
-  decorators: [(Story) => <Wrap><Story /></Wrap>],
+  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
   argTypes: {
     label: { control: "text" },
     variant: {
@@ -33,7 +34,7 @@ export default meta;
 type Story = StoryObj<typeof Badge>;
 
 export const Variants: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <View style={{ gap: 10 }}>
       <Badge {...args} label="Default" variant="default" />
       <Badge {...args} label="Brand" variant="brand" />
@@ -46,12 +47,18 @@ export const Variants: Story = {
 };
 
 export const WithIcons: Story = {
-  render: (args) => (
-    <View style={{ gap: 10 }}>
-      <Badge {...args} label="Success" variant="success" />
-      <Badge {...args} label="Warning" variant="warning" />
-      <Badge {...args} label="Error" variant="error" />
-      <Badge {...args} label="Info" variant="info" />
-    </View>
-  ),
+  render: (args: any) => {
+    const CheckIcon = Check as any;
+    const WarningIcon = AlertTriangle as any;
+    const ErrorIcon = AlertCircle as any;
+    const InfoIcon = Info as any;
+    return (
+      <View style={{ gap: 10 }}>
+        <Badge {...args} label="Success" variant="success" icon={<CheckIcon />} />
+        <Badge {...args} label="Warning" variant="warning" icon={<WarningIcon />} />
+        <Badge {...args} label="Error" variant="error" icon={<ErrorIcon />} />
+        <Badge {...args} label="Info" variant="info" icon={<InfoIcon />} />
+      </View>
+    );
+  },
 };
