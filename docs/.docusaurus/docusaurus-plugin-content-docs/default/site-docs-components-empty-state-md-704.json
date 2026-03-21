@@ -8,17 +8,19 @@
   "permalink": "/docs/components/empty-state",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/empty-state.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/empty-state.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Toast",
-    "permalink": "/docs/components/toast"
+    "title": "Drawer",
+    "permalink": "/docs/components/drawer"
   },
   "next": {
-    "title": "Modal",
-    "permalink": "/docs/components/modal"
+    "title": "Fab",
+    "permalink": "/docs/components/fab"
   }
 }

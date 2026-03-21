@@ -8,17 +8,19 @@
   "permalink": "/docs/components/image-list",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/image-list.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/image-list.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Divider",
-    "permalink": "/docs/components/divider"
+    "title": "Icon",
+    "permalink": "/docs/components/icon"
   },
   "next": {
-    "title": "Timeline",
-    "permalink": "/docs/components/timeline"
+    "title": "Input",
+    "permalink": "/docs/components/input"
   }
 }

@@ -5,18 +5,19 @@
  */
 export default {
   "title": "RNUI",
-  "tagline": "Premium React Native UI components",
+  "tagline": "Premium React Native UI components for high-end applications.",
   "url": "https://rnui.dev",
   "baseUrl": "/",
+  "onBrokenLinks": "throw",
   "organizationName": "rnui",
   "projectName": "rnui",
   "markdown": {
+    "format": "mdx",
+    "mermaid": true,
     "hooks": {
       "onBrokenMarkdownLinks": "warn",
       "onBrokenMarkdownImages": "throw"
     },
-    "format": "mdx",
-    "mermaid": false,
     "emoji": true,
     "mdx1Compat": {
       "comments": true,
@@ -41,10 +42,15 @@ export default {
       {
         "docs": {
           "sidebarPath": "./sidebars.ts",
-          "editUrl": "https://github.com/facebook/rnui/tree/main/docs/"
+          "editUrl": "https://github.com/rnui/rnui/tree/main/docs/",
+          "showLastUpdateAuthor": true,
+          "showLastUpdateTime": true
         },
         "blog": {
-          "showReadingTime": true
+          "showReadingTime": true,
+          "postsPerPage": "ALL",
+          "blogSidebarTitle": "All posts",
+          "blogSidebarCount": "ALL"
         },
         "theme": {
           "customCss": "./src/css/custom.css"
@@ -52,33 +58,82 @@ export default {
       }
     ]
   ],
+  "plugins": [
+    [
+      "/Users/truongdq/tx/GitHub/rnui/node_modules/.bun/docusaurus-plugin-search-local@2.1.2+64a9eb667f53b2a2/node_modules/docusaurus-plugin-search-local/lib/server/index.js",
+      {
+        "hashed": true,
+        "indexDocs": true,
+        "indexBlog": true,
+        "indexPages": true
+      }
+    ]
+  ],
   "themeConfig": {
+    "metadata": [
+      {
+        "name": "keywords",
+        "content": "react native, ui kit, design system, headless ui, reanimated"
+      },
+      {
+        "name": "twitter:card",
+        "content": "summary_large_image"
+      }
+    ],
+    "image": "img/social-card.png",
+    "colorMode": {
+      "defaultMode": "light",
+      "disableSwitch": false,
+      "respectPrefersColorScheme": true
+    },
     "navbar": {
       "title": "RNUI",
+      "hideOnScroll": true,
       "items": [
         {
           "type": "docSidebar",
           "sidebarId": "tutorialSidebar",
           "position": "left",
-          "label": "Docs"
+          "label": "Documentation"
         },
         {
-          "href": "https://github.com/facebook/rnui",
-          "label": "GitHub",
-          "position": "right"
+          "href": "https://github.com/rnui/rnui",
+          "position": "right",
+          "className": "header-github-link",
+          "aria-label": "GitHub repository"
         }
-      ],
-      "hideOnScroll": false
+      ]
     },
     "footer": {
-      "style": "dark",
+      "style": "light",
       "links": [
         {
-          "title": "Docs",
+          "title": "Learn",
           "items": [
             {
-              "label": "Getting Started",
+              "label": "Introduction",
+              "to": "/docs/"
+            },
+            {
+              "label": "Installation",
               "to": "/docs/getting-started"
+            },
+            {
+              "label": "Theming",
+              "to": "/docs/theming"
+            }
+          ]
+        },
+        {
+          "title": "Advanced",
+          "items": [
+            {
+              "label": "Headless Hooks",
+              "to": "/docs/headless"
+            },
+            {
+              "label": "Tokens",
+              "to": "/docs/theming"
             }
           ]
         },
@@ -86,22 +141,17 @@ export default {
           "title": "Community",
           "items": [
             {
-              "label": "Twitter",
-              "href": "https://twitter.com/rnui"
-            }
-          ]
-        },
-        {
-          "title": "More",
-          "items": [
-            {
               "label": "GitHub",
-              "href": "https://github.com/facebook/rnui"
+              "href": "https://github.com/rnui/rnui"
+            },
+            {
+              "label": "Issues",
+              "href": "https://github.com/rnui/rnui/issues"
             }
           ]
         }
       ],
-      "copyright": "Copyright © 2026 RNUI Project. Built with Docusaurus."
+      "copyright": "Copyright © 2026 RNUI Project. Built with passion."
     },
     "prism": {
       "theme": {
@@ -295,7 +345,12 @@ export default {
           }
         ]
       },
-      "additionalLanguages": [],
+      "additionalLanguages": [
+        "bash",
+        "json",
+        "typescript",
+        "tsx"
+      ],
       "magicComments": [
         {
           "className": "theme-code-block-highlighted-line",
@@ -306,11 +361,6 @@ export default {
           }
         }
       ]
-    },
-    "colorMode": {
-      "defaultMode": "light",
-      "disableSwitch": false,
-      "respectPrefersColorScheme": false
     },
     "docs": {
       "versionPersistence": "localStorage",
@@ -324,7 +374,6 @@ export default {
         "groupByYear": true
       }
     },
-    "metadata": [],
     "tableOfContents": {
       "minHeadingLevel": 2,
       "maxHeadingLevel": 3
@@ -352,14 +401,12 @@ export default {
     },
     "experimental_router": "browser"
   },
-  "onBrokenLinks": "throw",
   "onBrokenAnchors": "warn",
   "onDuplicateRoutes": "warn",
   "staticDirectories": [
     "static"
   ],
   "customFields": {},
-  "plugins": [],
   "themes": [],
   "scripts": [],
   "headTags": [],

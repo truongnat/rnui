@@ -8,14 +8,16 @@
   "permalink": "/docs/components/popover",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/popover.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/popover.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Modal",
-    "permalink": "/docs/components/modal"
+    "title": "PasswordInput",
+    "permalink": "/docs/components/password-input"
   },
   "next": {
     "title": "Popper",

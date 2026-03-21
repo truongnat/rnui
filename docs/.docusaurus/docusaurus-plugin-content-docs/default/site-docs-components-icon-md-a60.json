@@ -8,17 +8,19 @@
   "permalink": "/docs/components/icon",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/icon.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/icon.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Timeline",
-    "permalink": "/docs/components/timeline"
+    "title": "Grid",
+    "permalink": "/docs/components/grid"
   },
   "next": {
-    "title": "Alert",
-    "permalink": "/docs/components/alert"
+    "title": "ImageList",
+    "permalink": "/docs/components/image-list"
   }
 }

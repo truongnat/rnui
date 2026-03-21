@@ -8,17 +8,19 @@
   "permalink": "/docs/components/menu",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/menu.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/menu.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Drawer",
-    "permalink": "/docs/components/drawer"
+    "title": "List",
+    "permalink": "/docs/components/list"
   },
   "next": {
-    "title": "Stepper",
-    "permalink": "/docs/components/stepper"
+    "title": "Modal",
+    "permalink": "/docs/components/modal"
   }
 }

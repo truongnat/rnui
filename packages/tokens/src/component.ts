@@ -515,7 +515,7 @@ export function appBarTokens(t: SemanticTokens) {
       alignItems: "center" as const,
       justifyContent: "space-between" as const,
       ...t.shadow.md,
-      zIndex: t.zIndex[40],
+      zIndex: t.zIndex.sticky,
     },
     title: {
       fontSize: t.fontSize.lg,
@@ -1025,7 +1025,7 @@ export function popperTokens(t: SemanticTokens) {
   return {
     // Popper is mostly positioning logic, but can have some basic tokens
     container: {
-      zIndex: t.zIndex[50],
+      zIndex: t.zIndex.dropdown,
     },
   } as const;
 }

@@ -8,17 +8,19 @@
   "permalink": "/docs/components/circular-progress",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/circular-progress.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/circular-progress.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Snackbar",
-    "permalink": "/docs/components/snackbar"
+    "title": "Chip",
+    "permalink": "/docs/components/chip"
   },
   "next": {
-    "title": "LinearProgress",
-    "permalink": "/docs/components/linear-progress"
+    "title": "Dialog",
+    "permalink": "/docs/components/dialog"
   }
 }

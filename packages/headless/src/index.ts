@@ -84,3 +84,6 @@ export type { UseDrawerOptions, UseDrawerReturn, DrawerSide } from "./hooks/useD
 
 export { useStepper } from "./hooks/useStepper";
 export type { UseStepperOptions, UseStepperReturn, Step } from "./hooks/useStepper";
+
+export { useCarousel } from "./hooks/useCarousel";
+export type { UseCarouselOptions } from "./hooks/useCarousel";

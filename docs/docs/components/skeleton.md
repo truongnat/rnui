@@ -17,7 +17,7 @@ import { Skeleton, SkeletonText, SkeletonCard, SkeletonListItem } from "@rnui/ui
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `width` | `number | "${number}%"` | `"100%"` | Width of the skeleton block |
+| `width` | `number \| string` | `"100%"` | Width of the skeleton block |
 | `height` | `number` | `16` | Height of the skeleton block |
 | `borderRadius` | `number` | - | Override corner radius |
 | `animate` | `boolean` | `true` | Enable shimmer animation |
@@ -27,4 +27,4 @@ import { Skeleton, SkeletonText, SkeletonCard, SkeletonListItem } from "@rnui/ui
 | Prop | Type | Default | Description |
 |---|---|---|---|
 | `lines` | `number` | `3` | Number of lines |
-| `lastLineWidth` | `"${number}%"` | `"60%"` | Width of the last line |
+| `lastLineWidth` | `string` | `"60%"` | Width of the last line |

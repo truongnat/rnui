@@ -8,17 +8,19 @@
   "permalink": "/docs/components/app-bar",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/app-bar.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/app-bar.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Grid",
-    "permalink": "/docs/components/grid"
+    "title": "Alert",
+    "permalink": "/docs/components/alert"
   },
   "next": {
-    "title": "Tabs",
-    "permalink": "/docs/components/tabs"
+    "title": "Autocomplete",
+    "permalink": "/docs/components/autocomplete"
   }
 }

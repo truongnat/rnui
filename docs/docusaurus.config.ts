@@ -18,6 +18,9 @@ const config: Config = {
         preprocessor: ({filePath, fileContent}) => {
             return fileContent;
         },
+        hooks: {
+            onBrokenMarkdownLinks: 'warn',
+        },
     },
 
     i18n: {
@@ -56,7 +59,6 @@ const config: Config = {
                 indexDocs: true,
                 indexBlog: true,
                 indexPages: true,
-                language: "en",
             },
         ],
     ],
@@ -83,7 +85,6 @@ const config: Config = {
                     position: 'left',
                     label: 'Documentation',
                 },
-                {to: '/blog', label: 'Blog', position: 'left'},
                 {
                     href: 'https://github.com/rnui/rnui',
                     position: 'right',

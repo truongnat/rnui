@@ -8,17 +8,19 @@
   "permalink": "/docs/components/link",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/link.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/link.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "SpeedDial",
-    "permalink": "/docs/components/speed-dial"
+    "title": "LinearProgress",
+    "permalink": "/docs/components/linear-progress"
   },
   "next": {
-    "title": "Paper",
-    "permalink": "/docs/components/paper"
+    "title": "List",
+    "permalink": "/docs/components/list"
   }
 }

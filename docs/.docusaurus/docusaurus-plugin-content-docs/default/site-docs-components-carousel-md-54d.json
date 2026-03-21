@@ -8,11 +8,22 @@
   "permalink": "/docs/components/carousel",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/carousel.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/carousel.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "truongnat",
+  "lastUpdatedAt": 1773982473000,
   "sidebarPosition": 61,
   "frontMatter": {
     "sidebar_position": 61
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "AnimatedList",
+    "permalink": "/docs/components/animated-list"
+  },
+  "next": {
+    "title": "DatePicker",
+    "permalink": "/docs/components/date-picker"
   }
 }

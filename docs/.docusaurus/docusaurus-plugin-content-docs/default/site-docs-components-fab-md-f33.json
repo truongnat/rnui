@@ -8,17 +8,19 @@
   "permalink": "/docs/components/fab",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/fab.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/fab.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "ButtonGroup",
-    "permalink": "/docs/components/button-group"
+    "title": "EmptyState",
+    "permalink": "/docs/components/empty-state"
   },
   "next": {
-    "title": "TextField",
-    "permalink": "/docs/components/text-field"
+    "title": "FormControl",
+    "permalink": "/docs/components/form-control"
   }
 }

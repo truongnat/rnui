@@ -8,17 +8,19 @@
   "permalink": "/docs/components/select",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/select.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/select.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "TextArea",
-    "permalink": "/docs/components/text-area"
+    "title": "Rating",
+    "permalink": "/docs/components/rating"
   },
   "next": {
-    "title": "Autocomplete",
-    "permalink": "/docs/components/autocomplete"
+    "title": "Skeleton",
+    "permalink": "/docs/components/skeleton"
   }
 }

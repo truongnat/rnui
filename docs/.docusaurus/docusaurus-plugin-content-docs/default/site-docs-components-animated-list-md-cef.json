@@ -8,11 +8,22 @@
   "permalink": "/docs/components/animated-list",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/animated-list.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/animated-list.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "truongnat",
+  "lastUpdatedAt": 1773982473000,
   "sidebarPosition": 60,
   "frontMatter": {
     "sidebar_position": 60
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Components",
+    "permalink": "/docs/components"
+  },
+  "next": {
+    "title": "Carousel",
+    "permalink": "/docs/components/carousel"
   }
 }

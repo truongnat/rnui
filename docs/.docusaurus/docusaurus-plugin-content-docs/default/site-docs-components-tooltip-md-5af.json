@@ -8,17 +8,19 @@
   "permalink": "/docs/components/tooltip",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/tooltip.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/tooltip.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Badge",
-    "permalink": "/docs/components/badge"
+    "title": "ToggleButton",
+    "permalink": "/docs/components/toggle-button"
   },
   "next": {
-    "title": "Divider",
-    "permalink": "/docs/components/divider"
+    "title": "Typography",
+    "permalink": "/docs/components/typography"
   }
 }

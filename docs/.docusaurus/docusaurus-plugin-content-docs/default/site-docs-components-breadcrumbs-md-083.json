@@ -8,17 +8,19 @@
   "permalink": "/docs/components/breadcrumbs",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/breadcrumbs.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/breadcrumbs.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "BottomNavigation",
-    "permalink": "/docs/components/bottom-navigation"
+    "title": "Box",
+    "permalink": "/docs/components/box"
   },
   "next": {
-    "title": "SpeedDial",
-    "permalink": "/docs/components/speed-dial"
+    "title": "ButtonGroup",
+    "permalink": "/docs/components/button-group"
   }
 }

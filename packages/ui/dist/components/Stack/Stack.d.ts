@@ -3,7 +3,7 @@ import { type ViewStyle } from "react-native";
 export interface StackProps {
     children?: React.ReactNode;
     direction?: "column" | "column-reverse" | "row" | "row-reverse";
-    spacing?: number;
+    spacing?: "xs" | "sm" | "md" | "lg" | "xl" | number;
     divider?: React.ReactNode;
     alignItems?: ViewStyle["alignItems"];
     justifyContent?: ViewStyle["justifyContent"];

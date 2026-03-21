@@ -8,17 +8,19 @@
   "permalink": "/docs/components/timeline",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/timeline.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/timeline.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "ImageList",
-    "permalink": "/docs/components/image-list"
+    "title": "TextField",
+    "permalink": "/docs/components/text-field"
   },
   "next": {
-    "title": "Icon",
-    "permalink": "/docs/components/icon"
+    "title": "Toast",
+    "permalink": "/docs/components/toast"
   }
 }

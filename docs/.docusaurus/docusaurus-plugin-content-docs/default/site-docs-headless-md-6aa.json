@@ -8,9 +8,11 @@
   "permalink": "/docs/headless",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/headless.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/headless.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773765454000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
@@ -18,7 +20,7 @@
     "permalink": "/docs/theming"
   },
   "next": {
-    "title": "Button",
-    "permalink": "/docs/components/button"
+    "title": "Components",
+    "permalink": "/docs/components"
   }
 }

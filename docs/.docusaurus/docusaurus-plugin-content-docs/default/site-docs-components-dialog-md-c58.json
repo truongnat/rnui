@@ -8,17 +8,19 @@
   "permalink": "/docs/components/dialog",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/dialog.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/dialog.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Alert",
-    "permalink": "/docs/components/alert"
+    "title": "CircularProgress",
+    "permalink": "/docs/components/circular-progress"
   },
   "next": {
-    "title": "Snackbar",
-    "permalink": "/docs/components/snackbar"
+    "title": "Divider",
+    "permalink": "/docs/components/divider"
   }
 }

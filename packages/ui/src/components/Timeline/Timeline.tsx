@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from "react";
 import { View, Text } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens } from "@rnui/headless";
 
 export type TimelinePosition = "left" | "right" | "alternate" | "alternate-reverse";
 

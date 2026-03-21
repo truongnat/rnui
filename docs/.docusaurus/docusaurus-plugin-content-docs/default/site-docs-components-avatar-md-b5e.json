@@ -8,14 +8,16 @@
   "permalink": "/docs/components/avatar",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/avatar.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/avatar.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Chip",
-    "permalink": "/docs/components/chip"
+    "title": "Autocomplete",
+    "permalink": "/docs/components/autocomplete"
   },
   "next": {
     "title": "Badge",

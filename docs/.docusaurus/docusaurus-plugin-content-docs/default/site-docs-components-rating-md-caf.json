@@ -8,17 +8,19 @@
   "permalink": "/docs/components/rating",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/rating.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/rating.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Slider",
-    "permalink": "/docs/components/slider"
+    "title": "RadioGroup",
+    "permalink": "/docs/components/radio-group"
   },
   "next": {
-    "title": "ToggleButton",
-    "permalink": "/docs/components/toggle-button"
+    "title": "Select",
+    "permalink": "/docs/components/select"
   }
 }

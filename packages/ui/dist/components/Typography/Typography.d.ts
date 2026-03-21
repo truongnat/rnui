@@ -5,7 +5,7 @@ export interface TypographyProps {
     children?: React.ReactNode;
     variant?: TypographyVariant;
     align?: "left" | "right" | "center" | "justify" | "inherit";
-    color?: string;
+    color?: "primary" | "secondary" | "tertiary" | "disabled" | "brand" | "error" | string;
     gutterBottom?: boolean;
     noWrap?: boolean;
     paragraph?: boolean;

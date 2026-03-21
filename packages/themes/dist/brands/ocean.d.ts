@@ -4,5 +4,5 @@
  * Light mode: #F0FDFA bg, #0D9488 primary
  * Dark mode:  rich ocean night palette
  */
-export declare const oceanBrand: import("@rnui/tokens").Brand;
+export declare const oceanBrand: any;
 //# sourceMappingURL=ocean.d.ts.map

@@ -2,7 +2,7 @@ import React, { createContext, useContext } from "react";
 import { View, Text } from "react-native";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { usePressable, useTabs, useTokens } from "@rnui/headless";
+import { useComponentTokens, usePressable, useTabs, useTokens } from "@rnui/headless";
 
 export interface TabsProps<T = string> {
   value?: T;

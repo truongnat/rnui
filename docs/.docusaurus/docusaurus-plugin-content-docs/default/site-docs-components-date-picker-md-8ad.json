@@ -8,11 +8,22 @@
   "permalink": "/docs/components/date-picker",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/date-picker.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/date-picker.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "truongnat",
+  "lastUpdatedAt": 1773982473000,
   "sidebarPosition": 62,
   "frontMatter": {
     "sidebar_position": 62
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Carousel",
+    "permalink": "/docs/components/carousel"
+  },
+  "next": {
+    "title": "OTPInput",
+    "permalink": "/docs/components/otp-input"
   }
 }

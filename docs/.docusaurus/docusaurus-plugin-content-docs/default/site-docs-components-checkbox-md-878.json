@@ -8,17 +8,19 @@
   "permalink": "/docs/components/checkbox",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/checkbox.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/checkbox.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Autocomplete",
-    "permalink": "/docs/components/autocomplete"
+    "title": "Card",
+    "permalink": "/docs/components/card"
   },
   "next": {
-    "title": "RadioGroup",
-    "permalink": "/docs/components/radio-group"
+    "title": "Chip",
+    "permalink": "/docs/components/chip"
   }
 }

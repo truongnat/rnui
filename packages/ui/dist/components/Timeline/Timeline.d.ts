@@ -22,9 +22,10 @@ export declare function TimelineSeparator({ status, variant, children }: Timelin
 export interface TimelineDotProps {
     variant?: "filled" | "outlined";
     color?: "primary" | "secondary" | "success" | "error" | "info" | "warning" | "inherit";
+    status?: "pending" | "active" | "completed" | "error";
     size?: number;
 }
-export declare function TimelineDot({ variant, color, size }: TimelineDotProps): React.JSX.Element;
+export declare function TimelineDot({ variant, color, status, size }: TimelineDotProps): React.JSX.Element;
 export interface TimelineConnectorProps {
     color?: string;
     width?: number;

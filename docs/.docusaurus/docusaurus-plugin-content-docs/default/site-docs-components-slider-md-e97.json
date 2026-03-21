@@ -8,17 +8,19 @@
   "permalink": "/docs/components/slider",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/slider.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/slider.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Switch",
-    "permalink": "/docs/components/switch"
+    "title": "Skeleton",
+    "permalink": "/docs/components/skeleton"
   },
   "next": {
-    "title": "Rating",
-    "permalink": "/docs/components/rating"
+    "title": "Snackbar",
+    "permalink": "/docs/components/snackbar"
   }
 }

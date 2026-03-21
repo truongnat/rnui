@@ -8,17 +8,19 @@
   "permalink": "/docs/components/grid",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/grid.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/grid.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Stack",
-    "permalink": "/docs/components/stack"
+    "title": "FormField",
+    "permalink": "/docs/components/form-field"
   },
   "next": {
-    "title": "AppBar",
-    "permalink": "/docs/components/app-bar"
+    "title": "Icon",
+    "permalink": "/docs/components/icon"
   }
 }

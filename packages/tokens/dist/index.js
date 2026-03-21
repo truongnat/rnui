@@ -1,61 +1,3 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
-// src/index.ts
-var index_exports = {};
-__export(index_exports, {
-  avatarTokens: () => avatarTokens,
-  badgeTokens: () => badgeTokens,
-  buildSemanticTokens: () => buildSemanticTokens,
-  buttonTokens: () => buttonTokens,
-  cardTokens: () => cardTokens,
-  checkboxTokens: () => checkboxTokens,
-  chipTokens: () => chipTokens,
-  darkTokens: () => darkTokens,
-  defineBrand: () => defineBrand,
-  dialogTokens: () => dialogTokens,
-  duration: () => duration,
-  easing: () => easing,
-  fabTokens: () => fabTokens,
-  focusRingAnimation: () => focusRingAnimation,
-  getBrandColors: () => getBrandColors,
-  inputTokens: () => inputTokens,
-  lightTokens: () => lightTokens,
-  motionPreset: () => motionPreset,
-  paginationTokens: () => paginationTokens,
-  pressFeedback: () => pressFeedback,
-  primitive: () => primitive,
-  radioTokens: () => radioTokens,
-  ratingTokens: () => ratingTokens,
-  resolveComponentTokens: () => resolveComponentTokens,
-  selectTokens: () => selectTokens,
-  semanticTokens: () => semanticTokens,
-  sliderTokens: () => sliderTokens,
-  spring: () => spring,
-  switchTokens: () => switchTokens,
-  tabsTokens: () => tabsTokens,
-  timelineTokens: () => timelineTokens,
-  timingPreset: () => timingPreset,
-  toastTokens: () => toastTokens
-});
-module.exports = __toCommonJS(index_exports);
-
 // src/primitive.ts
 var primitive = {
   // ─── Color palette ───────────────────────────────────────────
@@ -857,6 +799,806 @@ function dialogTokens(t) {
     }
   };
 }
+function accordionTokens(t) {
+  return {
+    container: {
+      borderWidth: 1,
+      borderColor: t.color.border.default,
+      borderRadius: t.radius.md,
+      backgroundColor: t.color.surface.default
+    },
+    summary: {
+      paddingHorizontal: t.spacing[4],
+      paddingVertical: t.spacing[3],
+      backgroundColor: t.color.surface.default,
+      gap: t.spacing[2]
+    },
+    details: {
+      paddingHorizontal: t.spacing[4],
+      paddingVertical: t.spacing[3],
+      backgroundColor: t.color.bg.subtle
+    },
+    title: {
+      fontSize: t.fontSize.md,
+      fontWeight: t.fontWeight.medium,
+      color: t.color.text.primary
+    },
+    icon: {
+      color: t.color.text.tertiary,
+      size: 16
+    }
+  };
+}
+function alertTokens(t) {
+  return {
+    container: {
+      padding: t.spacing[4],
+      borderRadius: t.radius.md,
+      borderWidth: 1,
+      flexDirection: "row",
+      gap: t.spacing[3]
+    },
+    variant: {
+      info: {
+        bg: t.color.info.bg,
+        border: t.color.info.border,
+        text: t.color.info.text,
+        icon: t.color.info.icon
+      },
+      success: {
+        bg: t.color.success.bg,
+        border: t.color.success.border,
+        text: t.color.success.text,
+        icon: t.color.success.icon
+      },
+      warning: {
+        bg: t.color.warning.bg,
+        border: t.color.warning.border,
+        text: t.color.warning.text,
+        icon: t.color.warning.icon
+      },
+      error: {
+        bg: t.color.error.bg,
+        border: t.color.error.border,
+        text: t.color.error.text,
+        icon: t.color.error.icon
+      }
+    },
+    title: {
+      fontSize: t.fontSize.md,
+      fontWeight: t.fontWeight.semibold,
+      marginBottom: t.spacing[0.5]
+    },
+    message: {
+      fontSize: t.fontSize.sm,
+      lineHeight: t.fontSize.sm * 1.4
+    }
+  };
+}
+function carouselTokens(t) {
+  return {
+    dot: {
+      active: { bg: t.color.brand.default, width: 20 },
+      inactive: { bg: t.color.brand.default, width: 8, opacity: 0.3 },
+      height: 8,
+      borderRadius: 4
+    },
+    pagination: {
+      marginTop: t.spacing[4],
+      gap: 6
+    }
+  };
+}
+function animatedListTokens(t) {
+  return {
+    container: {
+      flex: 1
+    },
+    item: {
+      paddingVertical: t.spacing[2]
+    }
+  };
+}
+function appBarTokens(t) {
+  return {
+    container: {
+      height: 64,
+      backgroundColor: t.color.surface.default,
+      paddingHorizontal: t.spacing[4],
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      ...t.shadow.md,
+      zIndex: t.zIndex.sticky
+    },
+    title: {
+      fontSize: t.fontSize.lg,
+      fontWeight: t.fontWeight.semibold,
+      color: t.color.text.primary
+    }
+  };
+}
+function autocompleteTokens(t) {
+  return {
+    container: {
+      width: "100%"
+    },
+    menu: {
+      backgroundColor: t.color.surface.overlay,
+      borderRadius: t.radius.md,
+      ...t.shadow.lg,
+      marginTop: t.spacing[1],
+      maxHeight: 250,
+      borderWidth: 1,
+      borderColor: t.color.border.default
+    },
+    item: {
+      padding: t.spacing[3],
+      hover: { backgroundColor: t.color.bg.hover },
+      active: { backgroundColor: t.color.brand.subtle }
+    }
+  };
+}
+function bottomNavigationTokens(t) {
+  return {
+    container: {
+      height: 56,
+      backgroundColor: t.color.surface.default,
+      flexDirection: "row",
+      borderTopWidth: 1,
+      borderTopColor: t.color.border.subtle,
+      paddingBottom: t.spacing[2]
+    },
+    item: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      active: { color: t.color.brand.default },
+      inactive: { color: t.color.text.tertiary }
+    },
+    label: {
+      fontSize: t.fontSize.xs,
+      marginTop: 4
+    }
+  };
+}
+function bottomSheetTokens(t) {
+  return {
+    container: {
+      backgroundColor: t.color.surface.overlay,
+      borderTopLeftRadius: t.radius.xl,
+      borderTopRightRadius: t.radius.xl,
+      ...t.shadow.xl
+    },
+    handle: {
+      width: 40,
+      height: 4,
+      borderRadius: 2,
+      backgroundColor: t.color.border.strong,
+      alignSelf: "center",
+      marginVertical: t.spacing[3]
+    },
+    backdrop: {
+      backgroundColor: t.color.bg.overlay
+    }
+  };
+}
+function boxTokens(t) {
+  return {
+    // Box is a layout primitive, usually just provides access to spacing/theme
+    defaults: {
+      backgroundColor: "transparent"
+    }
+  };
+}
+function breadcrumbsTokens(t) {
+  return {
+    container: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: t.spacing[2]
+    },
+    separator: {
+      color: t.color.text.tertiary,
+      fontSize: t.fontSize.sm
+    },
+    item: {
+      fontSize: t.fontSize.sm,
+      color: t.color.text.secondary,
+      active: { color: t.color.text.primary, fontWeight: t.fontWeight.medium }
+    }
+  };
+}
+function buttonGroupTokens(t) {
+  return {
+    container: {
+      flexDirection: "row",
+      borderRadius: t.radius.md,
+      overflow: "hidden",
+      borderWidth: 1,
+      borderColor: t.color.border.default
+    },
+    divider: {
+      width: 1,
+      backgroundColor: t.color.border.default
+    }
+  };
+}
+function circularProgressTokens(t) {
+  return {
+    color: t.color.brand.default,
+    trackColor: t.color.bg.muted,
+    size: {
+      sm: 24,
+      md: 40,
+      lg: 56
+    },
+    thickness: {
+      sm: 2,
+      md: 4,
+      lg: 6
+    }
+  };
+}
+function datePickerTokens(t) {
+  return {
+    container: {
+      backgroundColor: t.color.surface.default,
+      borderRadius: t.radius.lg,
+      padding: t.spacing[4],
+      ...t.shadow.lg
+    },
+    header: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: t.spacing[4]
+    },
+    day: {
+      width: 40,
+      height: 40,
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: t.radius.full,
+      selected: { backgroundColor: t.color.brand.default, color: "#FFFFFF" },
+      today: { borderColor: t.color.brand.default, borderWidth: 1 },
+      outside: { color: t.color.text.disabled }
+    }
+  };
+}
+function dividerTokens(t) {
+  return {
+    color: t.color.border.subtle,
+    thickness: 1,
+    margin: t.spacing[4]
+  };
+}
+function drawerTokens(t) {
+  return {
+    container: {
+      backgroundColor: t.color.surface.default,
+      width: 280,
+      height: "100%",
+      ...t.shadow.xl
+    },
+    overlay: {
+      backgroundColor: t.color.bg.overlay
+    }
+  };
+}
+function emptyStateTokens(t) {
+  return {
+    container: {
+      padding: t.spacing[8],
+      alignItems: "center",
+      justifyContent: "center",
+      gap: t.spacing[4]
+    },
+    icon: {
+      size: 64,
+      color: t.color.text.tertiary
+    },
+    title: {
+      fontSize: t.fontSize.xl,
+      fontWeight: t.fontWeight.semibold,
+      color: t.color.text.primary,
+      textAlign: "center"
+    },
+    description: {
+      fontSize: t.fontSize.md,
+      color: t.color.text.secondary,
+      textAlign: "center"
+    }
+  };
+}
+function formControlTokens(t) {
+  return {
+    container: {
+      width: "100%",
+      gap: t.spacing[1.5]
+    },
+    label: {
+      fontSize: t.fontSize.sm,
+      fontWeight: t.fontWeight.medium,
+      color: t.color.text.secondary
+    },
+    helperText: {
+      fontSize: t.fontSize.xs,
+      color: t.color.text.tertiary
+    },
+    errorText: {
+      fontSize: t.fontSize.xs,
+      color: t.color.error.text
+    }
+  };
+}
+function formFieldTokens(t) {
+  return {
+    // Usually a wrapper for FormControl + actual input
+    container: {
+      marginBottom: t.spacing[4]
+    }
+  };
+}
+function gridTokens(t) {
+  return {
+    container: {
+      flexDirection: "row",
+      flexWrap: "wrap"
+    },
+    gap: {
+      sm: t.spacing[2],
+      md: t.spacing[4],
+      lg: t.spacing[6]
+    }
+  };
+}
+function iconTokens(t) {
+  return {
+    size: {
+      xs: 12,
+      sm: 16,
+      md: 20,
+      lg: 24,
+      xl: 32,
+      "2xl": 48,
+      // Aliases for compatibility
+      small: 16,
+      medium: 20,
+      large: 24
+    },
+    color: {
+      primary: t.color.text.primary,
+      secondary: t.color.text.secondary,
+      brand: t.color.brand.default,
+      error: t.color.error.icon,
+      success: t.color.success.icon,
+      warning: t.color.warning.icon,
+      info: t.color.info.icon
+    }
+  };
+}
+function imageTokens(t) {
+  return {
+    borderRadius: t.radius.md,
+    placeholder: {
+      backgroundColor: t.color.bg.muted
+    }
+  };
+}
+function imageListTokens(t) {
+  return {
+    container: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: t.spacing[1]
+    },
+    item: {
+      borderRadius: t.radius.sm,
+      overflow: "hidden"
+    }
+  };
+}
+function linearProgressTokens(t) {
+  return {
+    track: {
+      height: 4,
+      backgroundColor: t.color.bg.muted,
+      borderRadius: t.radius.full,
+      overflow: "hidden"
+    },
+    indicator: {
+      height: "100%",
+      backgroundColor: t.color.brand.default
+    },
+    variant: {
+      brand: { indicator: { backgroundColor: t.color.brand.default } },
+      accent: { indicator: { backgroundColor: t.color.accent.default } },
+      success: { indicator: { backgroundColor: t.color.success.icon } },
+      error: { indicator: { backgroundColor: t.color.error.icon } }
+    }
+  };
+}
+function linkTokens(t) {
+  return {
+    text: {
+      color: t.color.text.link,
+      fontSize: t.fontSize.md,
+      textDecorationLine: "none"
+    },
+    hover: {
+      textDecorationLine: "underline"
+    },
+    pressed: {
+      opacity: t.opacity[70]
+    }
+  };
+}
+function listTokens(t) {
+  return {
+    container: {
+      backgroundColor: t.color.surface.default
+    },
+    item: {
+      padding: t.spacing[4],
+      flexDirection: "row",
+      alignItems: "center",
+      gap: t.spacing[3],
+      pressed: { backgroundColor: t.color.bg.hover }
+    },
+    itemText: {
+      fontSize: t.fontSize.md,
+      color: t.color.text.primary
+    },
+    subheader: {
+      paddingHorizontal: t.spacing[4],
+      paddingVertical: t.spacing[2],
+      fontSize: t.fontSize.sm,
+      fontWeight: t.fontWeight.semibold,
+      color: t.color.text.tertiary
+    }
+  };
+}
+function menuTokens(t) {
+  return {
+    container: {
+      backgroundColor: t.color.surface.overlay,
+      borderRadius: t.radius.md,
+      padding: t.spacing[1],
+      minWidth: 160,
+      ...t.shadow.lg,
+      borderWidth: 1,
+      borderColor: t.color.border.subtle
+    },
+    item: {
+      paddingHorizontal: t.spacing[3],
+      paddingVertical: t.spacing[2],
+      borderRadius: t.radius.sm,
+      flexDirection: "row",
+      alignItems: "center",
+      gap: t.spacing[2],
+      pressed: { backgroundColor: t.color.bg.hover }
+    },
+    itemText: {
+      fontSize: t.fontSize.sm,
+      color: t.color.text.primary
+    }
+  };
+}
+function modalTokens(t) {
+  return {
+    overlay: {
+      backgroundColor: t.color.bg.overlay,
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: t.spacing[4]
+    },
+    container: {
+      backgroundColor: t.color.surface.overlay,
+      borderRadius: t.radius.xl,
+      width: "100%",
+      maxWidth: 500,
+      ...t.shadow.xl,
+      overflow: "hidden"
+    }
+  };
+}
+function otpInputTokens(t) {
+  return {
+    container: {
+      flexDirection: "row",
+      gap: t.spacing[2],
+      justifyContent: "center"
+    },
+    cell: {
+      width: 48,
+      height: 56,
+      borderWidth: 1.5,
+      borderColor: t.color.border.input,
+      borderRadius: t.radius.md,
+      backgroundColor: t.color.surface.default,
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: t.fontSize.xl,
+      fontWeight: t.fontWeight.semibold,
+      color: t.color.text.primary,
+      focused: { borderColor: t.color.brand.default },
+      error: { borderColor: t.color.error.border }
+    }
+  };
+}
+function paperTokens(t) {
+  return {
+    container: {
+      backgroundColor: t.color.surface.default,
+      borderRadius: t.radius.md,
+      borderWidth: 0,
+      borderColor: t.color.border.default
+    },
+    elevation: {
+      none: { ...t.shadow.none },
+      sm: { ...t.shadow.sm },
+      md: { ...t.shadow.md },
+      lg: { ...t.shadow.lg }
+    },
+    variant: {
+      outlined: { borderWidth: 1 },
+      flat: { borderWidth: 0, ...t.shadow.none }
+    }
+  };
+}
+function popoverTokens(t) {
+  return {
+    container: {
+      backgroundColor: t.color.surface.overlay,
+      borderRadius: t.radius.md,
+      padding: t.spacing[4],
+      ...t.shadow.lg,
+      borderWidth: 1,
+      borderColor: t.color.border.subtle
+    },
+    arrow: {
+      backgroundColor: t.color.surface.overlay
+    }
+  };
+}
+function popperTokens(t) {
+  return {
+    // Popper is mostly positioning logic, but can have some basic tokens
+    container: {
+      zIndex: t.zIndex.dropdown
+    }
+  };
+}
+function pressableTokens(t) {
+  return {
+    opacity: t.opacity[70],
+    backgroundColor: "transparent",
+    hover: { backgroundColor: t.color.bg.hover }
+  };
+}
+function segmentedControlTokens(t) {
+  return {
+    container: {
+      flexDirection: "row",
+      backgroundColor: t.color.bg.muted,
+      borderRadius: t.radius.lg,
+      padding: 2
+    },
+    item: {
+      flex: 1,
+      paddingVertical: t.spacing[1.5],
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: t.radius.md,
+      active: { backgroundColor: t.color.surface.default, ...t.shadow.sm },
+      text: { fontSize: t.fontSize.sm, fontWeight: t.fontWeight.medium, color: t.color.text.primary },
+      activeText: { color: t.color.brand.default }
+    }
+  };
+}
+function skeletonTokens(t) {
+  return {
+    backgroundColor: t.color.bg.emphasis,
+    borderRadius: t.radius.sm,
+    opacity: {
+      start: 0.3,
+      end: 0.6
+    }
+  };
+}
+function snackbarTokens(t) {
+  return {
+    container: {
+      backgroundColor: t.color.bg.inverse,
+      borderRadius: t.radius.md,
+      paddingHorizontal: t.spacing[4],
+      paddingVertical: t.spacing[3],
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      ...t.shadow.lg,
+      minWidth: 280
+    },
+    text: {
+      color: t.color.text.inverse,
+      fontSize: t.fontSize.sm
+    },
+    action: {
+      color: t.color.brand.default,
+      fontWeight: t.fontWeight.bold,
+      marginLeft: t.spacing[4]
+    }
+  };
+}
+function speedDialTokens(t) {
+  return {
+    container: {
+      alignItems: "center",
+      gap: t.spacing[3]
+    },
+    action: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: t.color.surface.raised,
+      alignItems: "center",
+      justifyContent: "center",
+      ...t.shadow.md
+    }
+  };
+}
+function stackTokens(t) {
+  return {
+    gap: {
+      xs: t.spacing[1],
+      sm: t.spacing[2],
+      md: t.spacing[4],
+      lg: t.spacing[6],
+      xl: t.spacing[8]
+    }
+  };
+}
+function stepperTokens(t) {
+  return {
+    container: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: t.spacing[4]
+    },
+    step: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: t.spacing[2],
+      active: { color: t.color.brand.default },
+      completed: { color: t.color.success.icon },
+      pending: { color: t.color.text.tertiary }
+    },
+    line: {
+      flex: 1,
+      height: 2,
+      backgroundColor: t.color.border.default,
+      active: { backgroundColor: t.color.brand.default }
+    }
+  };
+}
+function tableTokens(t) {
+  return {
+    container: {
+      width: "100%",
+      borderWidth: 1,
+      borderColor: t.color.border.default,
+      borderRadius: t.radius.md,
+      overflow: "hidden"
+    },
+    header: {
+      backgroundColor: t.color.bg.subtle,
+      borderBottomWidth: 1,
+      borderBottomColor: t.color.border.default
+    },
+    row: {
+      flexDirection: "row",
+      borderBottomWidth: 1,
+      borderBottomColor: t.color.border.subtle,
+      hover: { backgroundColor: t.color.bg.hover }
+    },
+    cell: {
+      padding: t.spacing[3],
+      fontSize: t.fontSize.sm,
+      color: t.color.text.primary
+    }
+  };
+}
+function textAreaTokens(t) {
+  return {
+    ...inputTokens(t),
+    container: {
+      ...inputTokens(t).container,
+      height: "auto",
+      minHeight: 100,
+      paddingVertical: t.spacing[2],
+      textAlignVertical: "top"
+    }
+  };
+}
+function textFieldTokens(t) {
+  return {
+    ...inputTokens(t),
+    container: {
+      ...inputTokens(t).container
+      // Any specific TextField overrides
+    }
+  };
+}
+function toggleButtonTokens(t) {
+  return {
+    container: {
+      padding: t.spacing[2],
+      borderRadius: t.radius.md,
+      borderWidth: 1,
+      borderColor: t.color.border.default,
+      backgroundColor: t.color.surface.default,
+      alignItems: "center",
+      justifyContent: "center",
+      selected: {
+        backgroundColor: t.color.brand.subtle,
+        borderColor: t.color.brand.default
+      }
+    },
+    size: {
+      sm: { height: 32, paddingHorizontal: 12, fontSize: t.fontSize.sm },
+      md: { height: 40, paddingHorizontal: 16, fontSize: t.fontSize.md },
+      lg: { height: 48, paddingHorizontal: 20, fontSize: t.fontSize.lg }
+    },
+    icon: {
+      color: t.color.text.secondary,
+      selected: { color: t.color.brand.default }
+    }
+  };
+}
+function tooltipTokens(t) {
+  return {
+    container: {
+      backgroundColor: t.color.bg.inverse,
+      paddingHorizontal: t.spacing[2],
+      paddingVertical: t.spacing[1],
+      borderRadius: t.radius.xs,
+      ...t.shadow.sm
+    },
+    text: {
+      color: t.color.text.inverse,
+      fontSize: t.fontSize.xs
+    }
+  };
+}
+function typographyTokens(t) {
+  return {
+    variants: {
+      h1: { fontSize: t.fontSize["4xl"], fontWeight: t.fontWeight.semibold, lineHeight: t.fontSize["4xl"] * 1.1 },
+      h2: { fontSize: t.fontSize["3xl"], fontWeight: t.fontWeight.semibold, lineHeight: t.fontSize["3xl"] * 1.1 },
+      h3: { fontSize: t.fontSize["2xl"], fontWeight: t.fontWeight.semibold, lineHeight: t.fontSize["2xl"] * 1.2 },
+      h4: { fontSize: t.fontSize.xl, fontWeight: t.fontWeight.semibold, lineHeight: t.fontSize.xl * 1.2 },
+      h5: { fontSize: t.fontSize.lg, fontWeight: t.fontWeight.medium, lineHeight: t.fontSize.lg * 1.3 },
+      h6: { fontSize: t.fontSize.md, fontWeight: t.fontWeight.medium, lineHeight: t.fontSize.md * 1.4 },
+      subtitle1: { fontSize: t.fontSize.md, fontWeight: t.fontWeight.medium, lineHeight: t.fontSize.md * 1.4 },
+      subtitle2: { fontSize: t.fontSize.sm, fontWeight: t.fontWeight.medium, lineHeight: t.fontSize.sm * 1.4 },
+      body1: { fontSize: t.fontSize.md, fontWeight: t.fontWeight.regular, lineHeight: t.fontSize.md * 1.5 },
+      body2: { fontSize: t.fontSize.sm, fontWeight: t.fontWeight.regular, lineHeight: t.fontSize.sm * 1.5 },
+      caption: { fontSize: t.fontSize.xs, fontWeight: t.fontWeight.regular, lineHeight: t.fontSize.xs * 1.4 },
+      button: { fontSize: t.fontSize.sm, fontWeight: t.fontWeight.semibold, textTransform: "uppercase" },
+      overline: { fontSize: t.fontSize.xs, fontWeight: t.fontWeight.semibold, letterSpacing: 1.2, textTransform: "uppercase" }
+    },
+    colors: {
+      primary: t.color.text.primary,
+      secondary: t.color.text.secondary,
+      tertiary: t.color.text.tertiary,
+      disabled: t.color.text.disabled,
+      brand: t.color.brand.text,
+      error: t.color.error.text
+    }
+  };
+}
 function resolveComponentTokens(t) {
   return {
     button: buttonTokens(t),
@@ -876,7 +1618,51 @@ function resolveComponentTokens(t) {
     select: selectTokens(t),
     rating: ratingTokens(t),
     pagination: paginationTokens(t),
-    timeline: timelineTokens(t)
+    timeline: timelineTokens(t),
+    accordion: accordionTokens(t),
+    alert: alertTokens(t),
+    carousel: carouselTokens(t),
+    animatedList: animatedListTokens(t),
+    appBar: appBarTokens(t),
+    autocomplete: autocompleteTokens(t),
+    bottomNavigation: bottomNavigationTokens(t),
+    bottomSheet: bottomSheetTokens(t),
+    box: boxTokens(t),
+    breadcrumbs: breadcrumbsTokens(t),
+    buttonGroup: buttonGroupTokens(t),
+    circularProgress: circularProgressTokens(t),
+    datePicker: datePickerTokens(t),
+    divider: dividerTokens(t),
+    drawer: drawerTokens(t),
+    emptyState: emptyStateTokens(t),
+    formControl: formControlTokens(t),
+    formField: formFieldTokens(t),
+    grid: gridTokens(t),
+    icon: iconTokens(t),
+    image: imageTokens(t),
+    imageList: imageListTokens(t),
+    linearProgress: linearProgressTokens(t),
+    link: linkTokens(t),
+    list: listTokens(t),
+    menu: menuTokens(t),
+    modal: modalTokens(t),
+    otpInput: otpInputTokens(t),
+    paper: paperTokens(t),
+    popover: popoverTokens(t),
+    popper: popperTokens(t),
+    pressable: pressableTokens(t),
+    segmentedControl: segmentedControlTokens(t),
+    skeleton: skeletonTokens(t),
+    snackbar: snackbarTokens(t),
+    speedDial: speedDialTokens(t),
+    stack: stackTokens(t),
+    stepper: stepperTokens(t),
+    table: tableTokens(t),
+    textArea: textAreaTokens(t),
+    textField: textFieldTokens(t),
+    toggleButton: toggleButtonTokens(t),
+    tooltip: tooltipTokens(t),
+    typography: typographyTokens(t)
   };
 }
 function tabsTokens(t) {
@@ -1032,8 +1818,7 @@ var focusRingAnimation = {
   in: { duration: duration.fast, easing: easing.easeOut },
   out: { duration: duration.fast, easing: easing.easeIn }
 };
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
+export {
   avatarTokens,
   badgeTokens,
   buildSemanticTokens,
@@ -1067,5 +1852,5 @@ var focusRingAnimation = {
   timelineTokens,
   timingPreset,
   toastTokens
-});
+};
 //# sourceMappingURL=index.js.map

@@ -69,7 +69,7 @@ export function Carousel<T>({
                     gap,
                 }}
             >
-                {displayData.map((item, index) => {
+                {displayData.map((item: T, index: number) => {
                     return (
                         <View key={index} style={{ width: itemWidth, height }}>
                             {/* For loop mode, pass original data index */}

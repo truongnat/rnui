@@ -8,11 +8,22 @@
   "permalink": "/docs/components/segmented-control",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/segmented-control.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/segmented-control.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "truongnat",
+  "lastUpdatedAt": 1773982473000,
   "sidebarPosition": 64,
   "frontMatter": {
     "sidebar_position": 64
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "OTPInput",
+    "permalink": "/docs/components/otp-input"
+  },
+  "next": {
+    "title": "Accordion",
+    "permalink": "/docs/components/accordion"
   }
 }

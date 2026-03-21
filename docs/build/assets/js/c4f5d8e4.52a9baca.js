@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_rnui_docs=self.webpackChunk_rnui_docs||[]).push([[2634],{7713(s,u,r){r.r(u),r.d(u,{default:()=>n});r(7160);var c=r(3157),e=r(5316);function n(){return(0,e.jsx)(c.rd,{to:"/docs"})}}}]);

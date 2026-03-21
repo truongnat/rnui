@@ -8,17 +8,19 @@
   "permalink": "/docs/components/divider",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/divider.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/divider.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Tooltip",
-    "permalink": "/docs/components/tooltip"
+    "title": "Dialog",
+    "permalink": "/docs/components/dialog"
   },
   "next": {
-    "title": "ImageList",
-    "permalink": "/docs/components/image-list"
+    "title": "Drawer",
+    "permalink": "/docs/components/drawer"
   }
 }

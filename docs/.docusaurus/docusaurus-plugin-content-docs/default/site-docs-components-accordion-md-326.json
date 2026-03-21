@@ -8,17 +8,19 @@
   "permalink": "/docs/components/accordion",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/accordion.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/accordion.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Card",
-    "permalink": "/docs/components/card"
+    "title": "SegmentedControl",
+    "permalink": "/docs/components/segmented-control"
   },
   "next": {
-    "title": "Typography",
-    "permalink": "/docs/components/typography"
+    "title": "Alert",
+    "permalink": "/docs/components/alert"
   }
 }

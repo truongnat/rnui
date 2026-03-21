@@ -21,6 +21,13 @@ export interface UsePressableOptions {
     accessibilityRole?: AccessibilityRole;
     /** Haptic feedback — requires expo-haptics or react-native-haptic-feedback */
     haptic?: boolean;
+    /** Expand the touch target area without changing visual layout */
+    hitSlop?: number | {
+        top?: number;
+        left?: number;
+        bottom?: number;
+        right?: number;
+    };
 }
 export interface UsePressableReturn {
     /** Attach to Reanimated.View as animatedStyle */
@@ -40,5 +47,5 @@ export interface UsePressableReturn {
     /** True while finger is down */
     isPressed: boolean;
 }
-export declare function usePressable({ onPress, onLongPress, longPressMinDuration, disabled, feedbackMode, accessibilityLabel, accessibilityHint, accessibilityRole, haptic, }?: UsePressableOptions): UsePressableReturn;
+export declare function usePressable({ onPress, onLongPress, longPressMinDuration, disabled, feedbackMode, accessibilityLabel, accessibilityHint, accessibilityRole, haptic, hitSlop, }?: UsePressableOptions): UsePressableReturn;
 //# sourceMappingURL=usePressable.d.ts.map

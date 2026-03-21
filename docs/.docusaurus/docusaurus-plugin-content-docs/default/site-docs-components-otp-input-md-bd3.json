@@ -8,11 +8,22 @@
   "permalink": "/docs/components/otp-input",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/otp-input.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/otp-input.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "truongnat",
+  "lastUpdatedAt": 1773982473000,
   "sidebarPosition": 63,
   "frontMatter": {
     "sidebar_position": 63
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "DatePicker",
+    "permalink": "/docs/components/date-picker"
+  },
+  "next": {
+    "title": "SegmentedControl",
+    "permalink": "/docs/components/segmented-control"
   }
 }

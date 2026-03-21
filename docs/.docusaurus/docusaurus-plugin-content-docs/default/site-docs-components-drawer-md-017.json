@@ -8,17 +8,19 @@
   "permalink": "/docs/components/drawer",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/drawer.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/drawer.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Tabs",
-    "permalink": "/docs/components/tabs"
+    "title": "Divider",
+    "permalink": "/docs/components/divider"
   },
   "next": {
-    "title": "Menu",
-    "permalink": "/docs/components/menu"
+    "title": "EmptyState",
+    "permalink": "/docs/components/empty-state"
   }
 }

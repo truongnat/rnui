@@ -51,19 +51,19 @@ export function Alert({
         backgroundColor: severityTokens.icon,
         borderColor: "transparent",
         borderWidth: 0,
-      });
+      } as any);
     } else if (variant === "outlined") {
       base.push({
         backgroundColor: "transparent",
         borderColor: severityTokens.border,
         borderWidth: 1,
-      });
+      } as any);
     } else {
       base.push({
         backgroundColor: severityTokens.bg,
         borderColor: "transparent",
         borderWidth: 0,
-      });
+      } as any);
     }
     return base;
   }, [alert, severityTokens, variant]);

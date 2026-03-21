@@ -4,7 +4,7 @@ export interface BottomSheetProps extends UseBottomSheetOptions {
     children: React.ReactNode;
     /** Show the pill-shaped drag handle at top */
     showHandle?: boolean;
-    /** Horizontal border radius on the sheet */
+    /** Horizontal border radius on the sheet. If not provided, uses theme token. */
     borderRadius?: number;
 }
 export interface BottomSheetRef {

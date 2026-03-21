@@ -5,9 +5,9 @@ export interface GridProps {
     container?: boolean;
     size?: number | "auto" | "grow";
     columns?: number;
-    spacing?: number;
-    rowSpacing?: number;
-    columnSpacing?: number;
+    spacing?: "sm" | "md" | "lg" | number;
+    rowSpacing?: "sm" | "md" | "lg" | number;
+    columnSpacing?: "sm" | "md" | "lg" | number;
     direction?: ViewStyle["flexDirection"];
     wrap?: ViewStyle["flexWrap"];
     offset?: number;

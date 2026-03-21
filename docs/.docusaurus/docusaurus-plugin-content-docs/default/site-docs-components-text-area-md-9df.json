@@ -8,17 +8,19 @@
   "permalink": "/docs/components/text-area",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/text-area.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/text-area.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "PasswordInput",
-    "permalink": "/docs/components/password-input"
+    "title": "Tabs",
+    "permalink": "/docs/components/tabs"
   },
   "next": {
-    "title": "Select",
-    "permalink": "/docs/components/select"
+    "title": "TextField",
+    "permalink": "/docs/components/text-field"
   }
 }

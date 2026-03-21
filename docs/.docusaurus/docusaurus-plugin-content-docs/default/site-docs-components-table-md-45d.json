@@ -8,17 +8,19 @@
   "permalink": "/docs/components/table",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/table.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/table.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Typography",
-    "permalink": "/docs/components/typography"
+    "title": "Switch",
+    "permalink": "/docs/components/switch"
   },
   "next": {
-    "title": "List",
-    "permalink": "/docs/components/list"
+    "title": "Tabs",
+    "permalink": "/docs/components/tabs"
   }
 }

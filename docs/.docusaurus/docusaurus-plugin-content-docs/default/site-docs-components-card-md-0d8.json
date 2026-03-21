@@ -8,17 +8,19 @@
   "permalink": "/docs/components/card",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/card.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/card.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Paper",
-    "permalink": "/docs/components/paper"
+    "title": "Button",
+    "permalink": "/docs/components/button"
   },
   "next": {
-    "title": "Accordion",
-    "permalink": "/docs/components/accordion"
+    "title": "Checkbox",
+    "permalink": "/docs/components/checkbox"
   }
 }

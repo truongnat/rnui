@@ -8,17 +8,19 @@
   "permalink": "/docs/components/chip",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/chip.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/chip.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "List",
-    "permalink": "/docs/components/list"
+    "title": "Checkbox",
+    "permalink": "/docs/components/checkbox"
   },
   "next": {
-    "title": "Avatar",
-    "permalink": "/docs/components/avatar"
+    "title": "CircularProgress",
+    "permalink": "/docs/components/circular-progress"
   }
 }

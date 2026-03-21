@@ -2,8 +2,8 @@ import React from "react";
 import { type ViewStyle } from "react-native";
 export interface PaperProps {
     children?: React.ReactNode;
-    variant?: "elevation" | "outlined";
-    elevation?: 0 | 1 | 2 | 3 | 4;
+    variant?: "elevation" | "outlined" | "flat";
+    elevation?: "none" | "sm" | "md" | "lg";
     square?: boolean;
     style?: ViewStyle | ViewStyle[];
 }

@@ -8,17 +8,19 @@
   "permalink": "/docs/components/stack",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/stack.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/stack.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Box",
-    "permalink": "/docs/components/box"
+    "title": "SpeedDial",
+    "permalink": "/docs/components/speed-dial"
   },
   "next": {
-    "title": "Grid",
-    "permalink": "/docs/components/grid"
+    "title": "Stepper",
+    "permalink": "/docs/components/stepper"
   }
 }

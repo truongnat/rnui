@@ -8,17 +8,19 @@
   "permalink": "/docs/components/speed-dial",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/speed-dial.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/speed-dial.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Breadcrumbs",
-    "permalink": "/docs/components/breadcrumbs"
+    "title": "Snackbar",
+    "permalink": "/docs/components/snackbar"
   },
   "next": {
-    "title": "Link",
-    "permalink": "/docs/components/link"
+    "title": "Stack",
+    "permalink": "/docs/components/stack"
   }
 }

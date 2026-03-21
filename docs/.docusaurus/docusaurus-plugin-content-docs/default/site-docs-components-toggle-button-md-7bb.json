@@ -8,17 +8,19 @@
   "permalink": "/docs/components/toggle-button",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/toggle-button.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/toggle-button.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Rating",
-    "permalink": "/docs/components/rating"
+    "title": "Toast",
+    "permalink": "/docs/components/toast"
   },
   "next": {
-    "title": "Box",
-    "permalink": "/docs/components/box"
+    "title": "Tooltip",
+    "permalink": "/docs/components/tooltip"
   }
 }

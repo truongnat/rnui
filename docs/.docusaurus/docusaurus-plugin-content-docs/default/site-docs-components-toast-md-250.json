@@ -8,17 +8,19 @@
   "permalink": "/docs/components/toast",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/rnui/tree/main/docs/docs/components/toast.md",
+  "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/toast.md",
   "tags": [],
   "version": "current",
+  "lastUpdatedBy": "Peanut",
+  "lastUpdatedAt": 1773852209000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Skeleton",
-    "permalink": "/docs/components/skeleton"
+    "title": "Timeline",
+    "permalink": "/docs/components/timeline"
   },
   "next": {
-    "title": "EmptyState",
-    "permalink": "/docs/components/empty-state"
+    "title": "ToggleButton",
+    "permalink": "/docs/components/toggle-button"
   }
 }
