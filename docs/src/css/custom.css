@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  --ifm-color-primary: #1a1a18;
+  --ifm-color-primary-dark: #171715;
+  --ifm-color-primary-darker: #151514;
+  --ifm-color-primary-darkest: #121210;
+  --ifm-color-primary-light: #1d1d1b;
+  --ifm-color-primary-lighter: #1f1f1d;
+  --ifm-color-primary-lightest: #222220;
+  
+  --bg-anthropic: #f9f7f2;
+  --text-anthropic: #1a1a18;
+  --accent-anthropic: #d97706;
+  --border-anthropic: #e5e1d8;
+  
+  --font-serif: 'Bodoni Moda', serif;
+  --font-sans: 'Jost', sans-serif;
+}
+
+[data-theme='light'] {
+  --ifm-background-color: var(--bg-anthropic);
+  --ifm-navbar-background-color: rgba(249, 247, 242, 0.8);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #f9f7f2;
+  --ifm-background-color: #1a1a18;
+  --ifm-navbar-background-color: rgba(26, 26, 24, 0.8);
+  --border-anthropic: #2a2a28;
+}
+
+.navbar {
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-anthropic);
+  box-shadow: none;
+}
+
+.footer {
+  background-color: var(--ifm-background-color);
+  border-top: 1px solid var(--border-anthropic);
+}
+
+/* ─── Hero Styles ───────────────────────────────────────────────── */
+
+.heroSection {
+  padding: 120px 0 80px;
+  text-align: center;
+  background-color: var(--ifm-background-color);
+}
+
+.heroTitle {
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  color: var(--text-anthropic);
+}
+
+[data-theme='dark'] .heroTitle {
+  color: #f9f7f2;
+}
+
+.heroSubtitle {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  color: #6b6b64;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.8rem 2rem;
+  border-radius: 4px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btnPrimary {
+  background-color: var(--ifm-color-primary);
+  color: var(--ifm-background-color);
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+  color: var(--ifm-background-color);
+}
+
+.btnSecondary {
+  border: 1px solid var(--border-anthropic);
+  color: var(--text-anthropic);
+}
+
+[data-theme='dark'] .btnSecondary {
+  color: #f9f7f2;
+}
+
+/* ─── Feature Grid ──────────────────────────────────────────────── */
+
+.section {
+  padding: 100px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.bentoGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.5rem;
+}
+
+.bentoCard {
+  background-color: var(--ifm-background-color);
+  border: 1px solid var(--border-anthropic);
+  border-radius: 12px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+.bentoCard:hover {
+  border-color: var(--accent-anthropic);
+  transform: translateY(-4px);
+}
+
+.cardTitle {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.cardDesc {
+  font-family: var(--font-sans);
+  color: #6b6b64;
+  font-size: 1.1rem;
+}
+
+.span-8 { grid-column: span 8; }
+.span-4 { grid-column: span 4; }
+.span-6 { grid-column: span 6; }
+
+@media (max-width: 996px) {
+  .heroTitle { font-size: 3rem; }
+  .span-8, .span-4, .span-6 { grid-column: span 12; }
+}

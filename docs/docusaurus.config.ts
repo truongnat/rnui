@@ -4,30 +4,22 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
     title: 'RNUI',
-    tagline: 'Premium React Native UI components',
-    // favicon: 'img/favicon.ico',
-
-    // Set the production url of your site here
+    tagline: 'Premium React Native UI components for high-end applications.',
     url: 'https://rnui.dev',
-    // Set the /<baseUrl>/ pathname under which your site is served
-    // For GitHub pages deployment, it is often '/<projectName>/'
     baseUrl: '/',
+    onBrokenLinks: 'throw',
+    onBrokenMarkdownLinks: 'warn',
+    organizationName: 'rnui',
+    projectName: 'rnui',
 
-    // GitHub pages deployment config.
-    // If you aren't using GitHub pages, you don't need these.
-    organizationName: 'rnui', // Usually your GitHub org/user name.
-    projectName: 'rnui', // Usually your repo name.
-
-    // Markdown configuration
     markdown: {
-        hooks: {
-            onBrokenMarkdownLinks: 'warn',
+        format: 'mdx',
+        mermaid: true,
+        preprocessor: ({filePath, fileContent}) => {
+            return fileContent;
         },
     },
 
-    // Even if you don't use internalization, you can use this field to set useful
-    // metadata like html lang. For example, if your site is Chinese, you may want
-    // to replace "en" with "zh-Hans".
     i18n: {
         defaultLocale: 'en',
         locales: ['en'],
@@ -39,13 +31,15 @@ const config: Config = {
             {
                 docs: {
                     sidebarPath: './sidebars.ts',
-                    // Please change this to your repo.
-                    // Remove this to remove the "edit this page" links.
-                    editUrl:
-                        'https://github.com/facebook/rnui/tree/main/docs/',
+                    editUrl: 'https://github.com/rnui/rnui/tree/main/docs/',
+                    showLastUpdateAuthor: true,
+                    showLastUpdateTime: true,
                 },
                 blog: {
                     showReadingTime: true,
+                    postsPerPage: 'ALL',
+                    blogSidebarTitle: 'All posts',
+                    blogSidebarCount: 'ALL',
                 },
                 theme: {
                     customCss: './src/css/custom.css',
@@ -54,65 +48,82 @@ const config: Config = {
         ],
     ],
 
+    plugins: [
+        [
+            require.resolve("docusaurus-plugin-search-local"),
+            {
+                hashed: true,
+                indexDocs: true,
+                indexBlog: true,
+                indexPages: true,
+                language: "en",
+            },
+        ],
+    ],
+
     themeConfig: {
-        // Replace with your project's social card
-        // image: 'img/docusaurus-social-card.jpg',
+        // metadata for SEO
+        metadata: [
+            {name: 'keywords', content: 'react native, ui kit, design system, headless ui, reanimated'},
+            {name: 'twitter:card', content: 'summary_large_image'},
+        ],
+        image: 'img/social-card.png',
+        colorMode: {
+            defaultMode: 'light',
+            disableSwitch: false,
+            respectPrefersColorScheme: true,
+        },
         navbar: {
             title: 'RNUI',
-            /* logo: {
-                alt: 'RNUI Logo',
-                src: 'img/logo.svg',
-            }, */
+            hideOnScroll: true,
             items: [
                 {
                     type: 'docSidebar',
                     sidebarId: 'tutorialSidebar',
                     position: 'left',
-                    label: 'Docs',
+                    label: 'Documentation',
                 },
+                {to: '/blog', label: 'Blog', position: 'left'},
                 {
-                    href: 'https://github.com/facebook/rnui',
-                    label: 'GitHub',
+                    href: 'https://github.com/rnui/rnui',
                     position: 'right',
+                    className: 'header-github-link',
+                    'aria-label': 'GitHub repository',
                 },
             ],
         },
         footer: {
-            style: 'dark',
+            style: 'light',
             links: [
                 {
-                    title: 'Docs',
+                    title: 'Learn',
                     items: [
-                        {
-                            label: 'Getting Started',
-                            to: '/docs/getting-started',
-                        },
+                        {label: 'Introduction', to: '/docs/'},
+                        {label: 'Installation', to: '/docs/getting-started'},
+                        {label: 'Theming', to: '/docs/theming'},
+                    ],
+                },
+                {
+                    title: 'Advanced',
+                    items: [
+                        {label: 'Headless Hooks', to: '/docs/headless'},
+                        {label: 'Tokens', to: '/docs/theming'},
                     ],
                 },
                 {
                     title: 'Community',
                     items: [
-                        {
-                            label: 'Twitter',
-                            href: 'https://twitter.com/rnui',
-                        },
-                    ],
-                },
-                {
-                    title: 'More',
-                    items: [
-                        {
-                            label: 'GitHub',
-                            href: 'https://github.com/facebook/rnui',
-                        },
+                        {label: 'GitHub', href: 'https://github.com/rnui/rnui'},
+                        {label: 'Issues', href: 'https://github.com/rnui/rnui/issues'},
                     ],
                 },
             ],
-            copyright: `Copyright © ${new Date().getFullYear()} RNUI Project. Built with Docusaurus.`,
+            copyright: `Copyright © ${new Date().getFullYear()} RNUI Project. Built with passion.`,
         },
         prism: {
             theme: prismThemes.github,
             darkTheme: prismThemes.dracula,
+            additionalLanguages: ['bash', 'json', 'typescript', 'tsx'],
         },
     } satisfies Preset.ThemeConfig,
 };
