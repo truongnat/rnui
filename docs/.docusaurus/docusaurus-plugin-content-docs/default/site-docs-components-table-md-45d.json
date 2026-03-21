@@ -1,7 +1,7 @@
 {
   "id": "components/table",
   "title": "Table",
-  "description": "Structured data table.",
+  "description": "A flexible data table component with optional headless logic for sorting, pagination, and selection.",
   "source": "@site/docs/components/table.md",
   "sourceDirName": "components",
   "slug": "/components/table",

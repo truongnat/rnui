@@ -16,8 +16,8 @@
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Modal",
-    "permalink": "/docs/components/modal"
+    "title": "OTP Input",
+    "permalink": "/docs/components/otp-input"
   },
   "next": {
     "title": "Paper",

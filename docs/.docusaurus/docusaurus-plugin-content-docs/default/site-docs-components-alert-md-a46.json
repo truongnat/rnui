@@ -1,7 +1,7 @@
 {
   "id": "components/alert",
   "title": "Alert",
-  "description": "Feedback banner for status.",
+  "description": "Alerts provide contextual feedback messages for typical user actions.",
   "source": "@site/docs/components/alert.md",
   "sourceDirName": "components",
   "slug": "/components/alert",

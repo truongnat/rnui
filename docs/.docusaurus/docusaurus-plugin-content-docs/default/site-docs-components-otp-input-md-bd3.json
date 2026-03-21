@@ -1,7 +1,7 @@
 {
   "id": "components/otp-input",
-  "title": "OTPInput",
-  "description": "A one-time password (OTP) input component with auto-focus, paste support, and customizable cell styling.",
+  "title": "OTP Input",
+  "description": "A specialized input for One-Time Passwords with automatic focus management and numeric filtering.",
   "source": "@site/docs/components/otp-input.md",
   "sourceDirName": "components",
   "slug": "/components/otp-input",
@@ -13,17 +13,14 @@
   "version": "current",
   "lastUpdatedBy": "truongnat",
   "lastUpdatedAt": 1773982473000,
-  "sidebarPosition": 63,
-  "frontMatter": {
-    "sidebar_position": 63
-  },
+  "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "DatePicker",
-    "permalink": "/docs/components/date-picker"
+    "title": "Modal",
+    "permalink": "/docs/components/modal"
   },
   "next": {
-    "title": "SegmentedControl",
-    "permalink": "/docs/components/segmented-control"
+    "title": "Pagination",
+    "permalink": "/docs/components/pagination"
   }
 }

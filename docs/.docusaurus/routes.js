@@ -9,15 +9,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '823'),
+    component: ComponentCreator('/docs', 'ba9'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', 'a96'),
+        component: ComponentCreator('/docs', '284'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', 'b88'),
+            component: ComponentCreator('/docs', 'c06'),
             routes: [
               {
                 path: '/docs/',
@@ -410,7 +410,7 @@ export default [
               },
               {
                 path: '/docs/headless',
-                component: ComponentCreator('/docs/headless', '774'),
+                component: ComponentCreator('/docs/headless', '824'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },

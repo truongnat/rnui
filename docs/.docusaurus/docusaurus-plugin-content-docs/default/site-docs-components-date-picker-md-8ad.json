@@ -23,7 +23,7 @@
     "permalink": "/docs/components/carousel"
   },
   "next": {
-    "title": "OTPInput",
-    "permalink": "/docs/components/otp-input"
+    "title": "SegmentedControl",
+    "permalink": "/docs/components/segmented-control"
   }
 }

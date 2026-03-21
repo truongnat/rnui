@@ -19,8 +19,8 @@
   },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "OTPInput",
-    "permalink": "/docs/components/otp-input"
+    "title": "DatePicker",
+    "permalink": "/docs/components/date-picker"
   },
   "next": {
     "title": "Accordion",
