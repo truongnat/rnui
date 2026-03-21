@@ -1,21 +1,27 @@
-import React, { useEffect, useRef } from "react";
-import { View, Text, Pressable, Modal } from "react-native";
+import React, { useEffect, useMemo } from "react";
+import { View, Text, Pressable, Modal, StyleSheet } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   withSpring,
   runOnJS,
-  Easing,
 } from "react-native-reanimated";
-import { useTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@rnui/headless";
+import { Icon } from "../Icon";
 
 export interface SnackbarProps {
+  /** If true, the snackbar is shown */
   open: boolean;
+  /** The message to display */
   message: React.ReactNode;
+  /** Duration in ms before auto-hiding. Use null to disable. */
   autoHideDuration?: number | null;
+  /** Callback on close */
   onClose?: () => void;
+  /** Action element (e.g. Button) */
   action?: React.ReactNode;
+  /** Position on screen */
   anchorOrigin?: { vertical: "top" | "bottom"; horizontal: "left" | "center" | "right" };
 }
 
@@ -27,10 +33,10 @@ export function Snackbar({
   action,
   anchorOrigin = { vertical: "bottom", horizontal: "center" },
 }: SnackbarProps) {
+  const { snackbar } = useComponentTokens();
   const tokens = useTokens();
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = React.useState(open);
 
-  // Slide direction: bottom → slides up, top → slides down
   const isBottom = anchorOrigin.vertical === "bottom";
   const translateY = useSharedValue(isBottom ? 100 : -100);
   const opacity = useSharedValue(0);
@@ -51,9 +57,9 @@ export function Snackbar({
 
   useEffect(() => {
     if (open) {
+      setMounted(true);
       translateY.value = isBottom ? 80 : -80;
       opacity.value = 0;
-      setMounted(true);
       requestAnimationFrame(animateIn);
     } else if (mounted) {
       animateOut(() => setMounted(false));
@@ -67,48 +73,36 @@ export function Snackbar({
   }, [open, autoHideDuration, onClose]);
 
   const verticalStyle = isBottom ? { bottom: 32 } : { top: 48 };
-  const horizontalStyle =
-    anchorOrigin.horizontal === "center"
-      ? { alignSelf: "center" as const }
-      : anchorOrigin.horizontal === "left"
-        ? { left: 16 }
-        : { right: 16 };
+  const horizontalStyle = useMemo(() => {
+    if (anchorOrigin.horizontal === "center") return { alignSelf: "center" as const };
+    if (anchorOrigin.horizontal === "left") return { left: 16 };
+    return { right: 16 };
+  }, [anchorOrigin.horizontal]);
 
   const animStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
     transform: [{ translateY: translateY.value }, { scale: scale.value }],
   }));
 
-  if (!mounted) return null;
+  if (!mounted && !open) return null;
 
   return (
-    <Modal visible={mounted} transparent animationType="none" onRequestClose={onClose}>
-      <View pointerEvents="box-none" style={{ flex: 1 }}>
+    <Modal visible={mounted || open} transparent animationType="none" onRequestClose={onClose}>
+      <View pointerEvents="box-none" style={styles.overlay}>
         <Animated.View
           style={[
-            {
-              position: "absolute",
-              maxWidth: 400,
-              minWidth: 200,
-              backgroundColor: tokens.color.bg.inverse,
-              paddingHorizontal: tokens.spacing[4],
-              paddingVertical: tokens.spacing[3],
-              borderRadius: tokens.radius.md,
-              flexDirection: "row",
-              alignItems: "center",
-              gap: tokens.spacing[3],
-              ...tokens.shadow.lg,
-            },
+            snackbar.container,
             verticalStyle,
             horizontalStyle,
             animStyle,
+            { position: "absolute" },
           ]}
         >
-          <Text style={{ color: tokens.color.text.inverse, flex: 1 }}>{message}</Text>
+          <Text style={[snackbar.text, { flex: 1 }]}>{message}</Text>
           {action}
           {onClose && (
-            <Pressable onPress={onClose} hitSlop={8}>
-              <Text style={{ color: tokens.color.text.inverse, fontSize: 16 }}>✕</Text>
+            <Pressable onPress={onClose} hitSlop={8} style={{ marginLeft: 8 }}>
+              <Icon size={18} color={snackbar.text.color}>close</Icon>
             </Pressable>
           )}
         </Animated.View>
@@ -116,3 +110,9 @@ export function Snackbar({
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+  },
+});

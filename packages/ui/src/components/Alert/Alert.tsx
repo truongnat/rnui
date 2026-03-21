@@ -1,22 +1,36 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { View, Text, Pressable } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens } from "@rnui/headless";
+import { Icon } from "../Icon";
 
 export type AlertSeverity = "error" | "warning" | "info" | "success";
 export type AlertVariant = "standard" | "filled" | "outlined";
 
 export interface AlertProps {
+  /** Severity of the alert */
   severity?: AlertSeverity;
+  /** Visual variant */
   variant?: AlertVariant;
+  /** Custom icon or false to hide */
   icon?: React.ReactNode | false;
+  /** Action element (e.g. Button) */
   action?: React.ReactNode;
+  /** Callback on close button press */
   onClose?: () => void;
+  /** Content of the alert */
   children?: React.ReactNode;
 }
 
 export interface AlertTitleProps {
   children?: React.ReactNode;
 }
+
+const SEVERITY_ICONS: Record<AlertSeverity, string> = {
+  info: "info",
+  success: "checkCircle",
+  warning: "warning",
+  error: "error",
+};
 
 export function Alert({
   severity = "info",
@@ -26,39 +40,55 @@ export function Alert({
   onClose,
   children,
 }: AlertProps) {
+  const { alert } = useComponentTokens();
   const tokens = useTokens();
-  const colors = tokens.color[severity];
+  const severityTokens = alert.variant[severity];
 
-  const bg = variant === "filled" ? colors.icon : colors.bg;
-  const border = variant === "outlined" ? colors.border : "transparent";
-  const textColor = variant === "filled" ? "#fff" : colors.text;
+  const containerStyle = useMemo(() => {
+    const base = [alert.container];
+    if (variant === "filled") {
+      base.push({
+        backgroundColor: severityTokens.icon,
+        borderColor: "transparent",
+        borderWidth: 0,
+      });
+    } else if (variant === "outlined") {
+      base.push({
+        backgroundColor: "transparent",
+        borderColor: severityTokens.border,
+        borderWidth: 1,
+      });
+    } else {
+      base.push({
+        backgroundColor: severityTokens.bg,
+        borderColor: "transparent",
+        borderWidth: 0,
+      });
+    }
+    return base;
+  }, [alert, severityTokens, variant]);
+
+  const textColor = variant === "filled" ? "#FFFFFF" : severityTokens.text;
+  const iconColor = variant === "filled" ? "#FFFFFF" : severityTokens.icon;
 
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "flex-start",
-        gap: tokens.spacing[3],
-        paddingHorizontal: tokens.spacing[4],
-        paddingVertical: tokens.spacing[3],
-        borderRadius: tokens.radius.md,
-        backgroundColor: bg,
-        borderWidth: variant === "outlined" ? 1 : 0,
-        borderColor: border,
-      }}
-    >
+    <View style={containerStyle as any}>
       {icon !== false && (
-        <Text style={{ color: textColor, fontWeight: tokens.fontWeight.semibold }}>
-          i
-        </Text>
+        <View style={{ marginTop: 2 }}>
+          {icon ?? (
+            <Icon size={20} color={iconColor}>
+              {SEVERITY_ICONS[severity]}
+            </Icon>
+          )}
+        </View>
       )}
       <View style={{ flex: 1 }}>
-        <Text style={{ color: textColor }}>{children}</Text>
+        {children}
       </View>
       {action}
       {onClose && (
-        <Pressable onPress={onClose} hitSlop={8}>
-          <Text style={{ color: textColor }}>x</Text>
+        <Pressable onPress={onClose} hitSlop={8} style={{ marginTop: 2 }}>
+          <Icon size={18} color={textColor}>close</Icon>
         </Pressable>
       )}
     </View>
@@ -66,9 +96,12 @@ export function Alert({
 }
 
 export function AlertTitle({ children }: AlertTitleProps) {
-  const tokens = useTokens();
+  const { alert } = useComponentTokens();
+  // We can't easily get the parent Alert's severity here without context,
+  // but we can use a generic color or inherit from View style.
+  // For now, let's use a standard bold style.
   return (
-    <Text style={{ fontWeight: tokens.fontWeight.semibold, marginBottom: tokens.spacing[1] }}>
+    <Text style={alert.title}>
       {children}
     </Text>
   );

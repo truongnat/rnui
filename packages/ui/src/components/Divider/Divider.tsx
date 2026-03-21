@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens } from "@rnui/headless";
 
 export interface DividerProps {
   /** Label shown centered in the divider */
@@ -18,16 +18,17 @@ export function Divider({
   emphasis = false,
   spacing = "md",
 }: DividerProps) {
+  const { divider } = useComponentTokens();
   const tokens = useTokens();
 
   const lineColor = emphasis
     ? tokens.color.border.strong
-    : tokens.color.border.default;
+    : divider.color;
 
   const verticalMargin = {
     none: 0,
     sm: tokens.spacing[2],
-    md: tokens.spacing[4],
+    md: divider.margin,
     lg: tokens.spacing[6],
   }[spacing];
 
@@ -35,7 +36,7 @@ export function Divider({
     return (
       <View
         style={{
-          width: 1,
+          width: divider.thickness,
           alignSelf: "stretch",
           backgroundColor: lineColor,
           marginHorizontal: tokens.spacing[2],
@@ -54,7 +55,7 @@ export function Divider({
           marginVertical: verticalMargin,
         }}
       >
-        <View style={{ flex: 1, height: 1, backgroundColor: lineColor }} />
+        <View style={{ flex: 1, height: divider.thickness, backgroundColor: lineColor }} />
         <Text
           style={{
             fontSize: tokens.fontSize.xs,
@@ -66,7 +67,7 @@ export function Divider({
         >
           {label}
         </Text>
-        <View style={{ flex: 1, height: 1, backgroundColor: lineColor }} />
+        <View style={{ flex: 1, height: divider.thickness, backgroundColor: lineColor }} />
       </View>
     );
   }
@@ -74,7 +75,7 @@ export function Divider({
   return (
     <View
       style={{
-        height: 1,
+        height: divider.thickness,
         backgroundColor: lineColor,
         marginVertical: verticalMargin,
       }}

@@ -176,6 +176,15 @@ export function Button({
     };
   }, [href, onPress]);
 
+  const hitSlop = useMemo(() => {
+    const height = button.size[size].container.height;
+    const padding = Math.max(0, (44 - height) / 2);
+    // If it's an icon-only button, width might also be small
+    const isIconOnly = !label && !children;
+    const horizontalPadding = isIconOnly ? padding : 0;
+    return { top: padding, bottom: padding, left: horizontalPadding, right: horizontalPadding };
+  }, [button, size, label, children]);
+
   const { animatedStyle, gesture, accessibilityProps } = usePressable({
     onPress: handlePress,
     onLongPress,
@@ -184,6 +193,7 @@ export function Button({
     accessibilityLabel: accessibilityLabel ?? (typeof children === "string" ? children : label),
     accessibilityHint,
     accessibilityRole: "button",
+    hitSlop,
   });
 
   // Resolve styles from component tokens — only recomputes on theme change

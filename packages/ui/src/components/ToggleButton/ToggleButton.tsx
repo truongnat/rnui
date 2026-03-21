@@ -58,6 +58,7 @@ export function ToggleButtonGroup<T = string>({
 }
 
 export function ToggleButton<T = string>({ value, disabled = false, children }: ToggleButtonProps<T>) {
+  const { toggleButton } = useComponentTokens();
   const tokens = useTokens();
   const ctx = useContext(ToggleContext as React.Context<ToggleContextValue<T> | null>);
 
@@ -71,34 +72,37 @@ export function ToggleButton<T = string>({ value, disabled = false, children }: 
     accessibilityRole: "button",
   });
 
+  const size = ctx?.size ?? "md";
   const sizeMap = {
     sm: { height: 32, paddingHorizontal: 12, fontSize: tokens.fontSize.sm },
     md: { height: 40, paddingHorizontal: 16, fontSize: tokens.fontSize.md },
     lg: { height: 48, paddingHorizontal: 20, fontSize: tokens.fontSize.lg },
   };
 
-  const s = sizeMap[ctx?.size ?? "md"];
+  const s = sizeMap[size];
 
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View
         style={[
+          toggleButton.container,
+          selected && toggleButton.container.selected,
           {
             height: s.height,
             paddingHorizontal: s.paddingHorizontal,
-            borderRadius: tokens.radius.md,
-            borderWidth: 1,
-            borderColor: selected ? tokens.color.brand.default : tokens.color.border.default,
-            backgroundColor: selected ? tokens.color.brand.subtle : tokens.color.surface.default,
-            alignItems: "center",
-            justifyContent: "center",
             opacity: isDisabled ? 0.5 : 1,
           },
           animatedStyle,
         ] as any}
         {...accessibilityProps}
       >
-        <Text style={{ fontSize: s.fontSize, fontWeight: tokens.fontWeight.medium, color: selected ? tokens.color.brand.text : tokens.color.text.primary }}>
+        <Text
+          style={{
+            fontSize: s.fontSize,
+            fontWeight: tokens.fontWeight.medium,
+            color: selected ? toggleButton.icon.selected.color : toggleButton.icon.color,
+          }}
+        >
           {children}
         </Text>
       </Animated.View>

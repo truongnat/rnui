@@ -1,7 +1,8 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import { View, ScrollView, Text, Pressable } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens } from "@rnui/headless";
 import { Button } from "../Button/Button";
+import { Icon } from "../Icon";
 
 export type TableSize = "small" | "medium";
 export type TablePadding = "normal" | "checkbox" | "none";
@@ -33,7 +34,7 @@ export function Table({
   stickyHeader = false,
   style,
 }: TableProps) {
-  const ctx = { size, padding, stickyHeader };
+  const ctx = useMemo(() => ({ size, padding, stickyHeader }), [size, padding, stickyHeader]);
   return (
     <TableContext.Provider value={ctx}>
       <View style={style}>{children}</View>
@@ -47,16 +48,12 @@ export interface TableContainerProps {
 }
 
 export function TableContainer({ children, style }: TableContainerProps) {
-  const tokens = useTokens();
+  const { table } = useComponentTokens();
   return (
     <ScrollView
       horizontal
       style={[
-        {
-          borderWidth: 1,
-          borderColor: tokens.color.border.default,
-          borderRadius: tokens.radius.md,
-        },
+        table.container,
         style,
       ]}
     >
@@ -66,8 +63,8 @@ export function TableContainer({ children, style }: TableContainerProps) {
 }
 
 export function TableHead({ children }: { children?: React.ReactNode }) {
-  const tokens = useTokens();
-  return <View style={{ backgroundColor: tokens.color.bg.muted }}>{children}</View>;
+  const { table } = useComponentTokens();
+  return <View style={table.header}>{children}</View>;
 }
 
 export function TableBody({ children }: { children?: React.ReactNode }) {
@@ -75,8 +72,8 @@ export function TableBody({ children }: { children?: React.ReactNode }) {
 }
 
 export function TableFooter({ children }: { children?: React.ReactNode }) {
-  const tokens = useTokens();
-  return <View style={{ borderTopWidth: 1, borderTopColor: tokens.color.border.default }}>{children}</View>;
+  const { table } = useComponentTokens();
+  return <View style={{ borderTopWidth: 1, borderTopColor: table.container.borderColor }}>{children}</View>;
 }
 
 export interface TableRowProps {
@@ -86,17 +83,13 @@ export interface TableRowProps {
 }
 
 export function TableRow({ children, selected = false, style }: TableRowProps) {
+  const { table } = useComponentTokens();
   const tokens = useTokens();
   return (
     <View
       style={[
-        {
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: selected ? tokens.color.brand.subtle : "transparent",
-          borderBottomWidth: 1,
-          borderBottomColor: tokens.color.border.default,
-        },
+        table.row,
+        selected && { backgroundColor: tokens.color.brand.subtle },
         style,
       ]}
     >
@@ -122,28 +115,29 @@ export function TableCell({
   variant = "body",
   style,
 }: TableCellProps) {
-  const tokens = useTokens();
+  const { table } = useComponentTokens();
   const ctx = useTableContext();
+  const tokens = useTokens();
   const resolvedPadding = padding ?? ctx?.padding ?? "normal";
   const resolvedSize = size ?? ctx?.size ?? "medium";
 
-  const basePadding = {
+  const paddingX = {
     normal: tokens.spacing[4],
     checkbox: tokens.spacing[2],
     none: 0,
   }[resolvedPadding];
 
-  const verticalPadding = resolvedSize === "small" ? tokens.spacing[2] : tokens.spacing[3];
+  const paddingY = resolvedSize === "small" ? tokens.spacing[2] : tokens.spacing[3];
 
   return (
-    <View style={[{ paddingHorizontal: basePadding, paddingVertical: verticalPadding, flexShrink: 0 }, style]}>
+    <View style={[{ paddingHorizontal: paddingX, paddingVertical: paddingY, flexShrink: 0 }, style]}>
       <Text
-        style={{
-          color: tokens.color.text.primary,
-          textAlign: align,
-          fontWeight: variant === "head" ? tokens.fontWeight.semibold : tokens.fontWeight.regular,
-          fontSize: resolvedSize === "small" ? tokens.fontSize.sm : tokens.fontSize.md,
-        }}
+        style={[
+          table.cell,
+          { textAlign: align },
+          variant === "head" && { fontWeight: tokens.fontWeight.semibold },
+          resolvedSize === "small" && { fontSize: tokens.fontSize.sm },
+        ]}
       >
         {children}
       </Text>
@@ -191,6 +185,7 @@ export function TablePagination({
           variant="outlined"
           disabled={page <= 0}
           onPress={() => onPageChange?.(Math.max(0, page - 1))}
+          startIcon={<Icon size={16}>chevronLeft</Icon>}
         >
           Prev
         </Button>
@@ -199,6 +194,7 @@ export function TablePagination({
           variant="outlined"
           disabled={page >= totalPages - 1}
           onPress={() => onPageChange?.(Math.min(totalPages - 1, page + 1))}
+          endIcon={<Icon size={16}>chevronRight</Icon>}
         >
           Next
         </Button>
@@ -226,9 +222,13 @@ export function TableSortLabel({
       <Text style={{ color: tokens.color.text.primary, fontWeight: active ? tokens.fontWeight.semibold : tokens.fontWeight.regular }}>
         {children}
       </Text>
-      <Text style={{ color: tokens.color.text.tertiary, fontSize: tokens.fontSize.xs }}>
-        {active ? (direction === "asc" ? "^" : "v") : "-"}
-      </Text>
+      {active ? (
+        <Icon size={14} color={tokens.color.text.primary}>
+          {direction === "asc" ? "arrowUp" : "arrowDown"}
+        </Icon>
+      ) : (
+        <View style={{ width: 14 }} />
+      )}
     </Pressable>
   );
 }

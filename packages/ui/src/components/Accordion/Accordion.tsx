@@ -1,5 +1,5 @@
-import React, { createContext, useContext } from "react";
-import { View, Text, Pressable } from "react-native";
+import React, { createContext, useContext, useMemo } from "react";
+import { View, Text } from "react-native";
 import Animated, {
   useSharedValue,
   withTiming,
@@ -7,7 +7,9 @@ import Animated, {
   interpolate,
   Extrapolation,
 } from "react-native-reanimated";
-import { useDisclosure, useTokens } from "@rnui/headless";
+import { GestureDetector } from "react-native-gesture-handler";
+import { useDisclosure, useTokens, useComponentTokens, usePressable } from "@rnui/headless";
+import { Icon } from "../Icon";
 
 export interface AccordionProps {
   expanded?: boolean;
@@ -52,11 +54,11 @@ export function Accordion({
     onClose: () => onChange?.(false),
   });
 
-  const tokens = useTokens();
+  const { accordion } = useComponentTokens();
 
   return (
     <AccordionContext.Provider value={{ expanded: disclosure.isOpen, toggle: disclosure.toggle, disabled }}>
-      <View style={{ borderWidth: 1, borderColor: tokens.color.border.default, borderRadius: tokens.radius.md, overflow: "hidden" }}>
+      <View style={accordion.container}>
         {children}
       </View>
     </AccordionContext.Provider>
@@ -64,9 +66,15 @@ export function Accordion({
 }
 
 export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps) {
-  const tokens = useTokens();
+  const { accordion } = useComponentTokens();
   const ctx = useContext(AccordionContext);
   if (!ctx) return null;
+
+  const { gesture, animatedStyle, accessibilityProps } = usePressable({
+    onPress: ctx.toggle,
+    disabled: ctx.disabled,
+    feedbackMode: "opacity",
+  });
 
   // Rotate icon 180° when expanded
   const rotation = useSharedValue(ctx.expanded ? 1 : 0);
@@ -78,33 +86,32 @@ export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps
     transform: [{ rotate: `${interpolate(rotation.value, [0, 1], [0, 180], Extrapolation.CLAMP)}deg` }],
   }));
 
+  const containerStyle = useMemo(() => [
+    accordion.summary,
+    animatedStyle,
+  ], [accordion.summary, animatedStyle]);
+
   return (
-    <Pressable
-      onPress={ctx.toggle}
-      disabled={ctx.disabled}
-      style={{
-        paddingHorizontal: tokens.spacing[4],
-        paddingVertical: tokens.spacing[3],
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        backgroundColor: tokens.color.surface.default,
-      }}
-    >
-      <Text style={{ fontWeight: tokens.fontWeight.medium, color: tokens.color.text.primary, flex: 1 }}>
-        {children}
-      </Text>
-      <Animated.View style={iconStyle}>
-        {expandIcon ?? (
-          <Text style={{ color: tokens.color.text.tertiary, fontSize: 16 }}>▼</Text>
-        )}
+    <GestureDetector gesture={gesture}>
+      <Animated.View
+        style={containerStyle as any}
+        {...accessibilityProps}
+      >
+        <Text style={accordion.title}>
+          {children}
+        </Text>
+        <Animated.View style={iconStyle}>
+          {expandIcon ?? (
+            <Icon size={accordion.icon.size} color={accordion.icon.color}>chevronDown</Icon>
+          )}
+        </Animated.View>
       </Animated.View>
-    </Pressable>
+    </GestureDetector>
   );
 }
 
 export function AccordionDetails({ children }: AccordionDetailsProps) {
-  const tokens = useTokens();
+  const { accordion } = useComponentTokens();
   const ctx = useContext(AccordionContext);
   const [contentHeight, setContentHeight] = React.useState(0);
   const animHeight = useSharedValue(0);
@@ -123,14 +130,7 @@ export function AccordionDetails({ children }: AccordionDetailsProps) {
     <Animated.View style={animStyle}>
       <View
         onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}
-        style={{
-          paddingHorizontal: tokens.spacing[4],
-          paddingVertical: tokens.spacing[3],
-          backgroundColor: tokens.color.bg.subtle,
-          position: "absolute",
-          left: 0,
-          right: 0,
-        }}
+        style={[accordion.details, { position: "absolute", left: 0, right: 0 }]}
       >
         {children}
       </View>

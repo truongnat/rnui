@@ -43,16 +43,21 @@ export function Tabs<T = string>({
   orientation = "horizontal",
   children,
 }: TabsProps<T>) {
+  const { tabs } = useComponentTokens();
   const { getTabProps, isSelected } = useTabs<T>({ value, defaultValue, onChange });
 
   return (
     <TabsContext.Provider value={{ getTabProps, isSelected, orientation, variant }}>
       <View
-        style={{
-          flexDirection: orientation === "horizontal" ? "row" : "column",
-          justifyContent: centered ? "center" : "flex-start",
-          gap: 8,
-        }}
+        style={[
+          tabs.container,
+          {
+            flexDirection: orientation === "horizontal" ? "row" : "column",
+            justifyContent: centered ? "center" : "flex-start",
+            borderBottomWidth: orientation === "horizontal" ? 1 : 0,
+            borderLeftWidth: orientation === "vertical" ? 1 : 0,
+          }
+        ]}
       >
         {children}
       </View>
@@ -61,6 +66,7 @@ export function Tabs<T = string>({
 }
 
 export function Tab<T = string>({ value, label, icon, disabled = false }: TabProps<T>) {
+  const { tabs } = useComponentTokens();
   const tokens = useTokens();
   const ctx = useContext(TabsContext as React.Context<TabsContextValue<T> | null>);
   if (!ctx) return null;
@@ -78,24 +84,29 @@ export function Tab<T = string>({ value, label, icon, disabled = false }: TabPro
       <Animated.View
         style={[
           {
-            paddingVertical: tokens.spacing[2],
-            paddingHorizontal: tokens.spacing[3],
-            borderBottomWidth: ctx.orientation === "horizontal" ? 2 : 0,
-            borderLeftWidth: ctx.orientation === "vertical" ? 2 : 0,
-            borderColor: selected ? tokens.color.brand.default : "transparent",
+            paddingVertical: tokens.spacing[3],
+            paddingHorizontal: tokens.spacing[4],
+            borderBottomWidth: ctx.orientation === "horizontal" ? tabs.indicator.height : 0,
+            borderLeftWidth: ctx.orientation === "vertical" ? tabs.indicator.height : 0,
+            borderColor: selected ? tabs.indicator.bg : "transparent",
             opacity: disabled ? 0.5 : 1,
             alignItems: "center",
             flexDirection: "row",
             gap: tokens.spacing[2],
           },
-          ctx.variant === "fullWidth" ? { flex: 1 } : null,
+          ctx.variant === "fullWidth" ? { flex: 1, justifyContent: "center" } : null,
           animatedStyle,
         ] as any}
         {...accessibilityProps}
       >
         {icon}
         {label && (
-          <Text style={{ color: selected ? tokens.color.brand.default : tokens.color.text.secondary, fontWeight: tokens.fontWeight.medium }}>
+          <Text
+            style={[
+              selected ? tabs.tab.active : tabs.tab.inactive,
+              { fontSize: tokens.fontSize.md }
+            ]}
+          >
             {label}
           </Text>
         )}

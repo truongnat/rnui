@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, type TextStyle } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens } from "@rnui/headless";
 
 export type TypographyVariant =
   | "h1"
@@ -22,7 +22,7 @@ export interface TypographyProps {
   children?: React.ReactNode;
   variant?: TypographyVariant;
   align?: "left" | "right" | "center" | "justify" | "inherit";
-  color?: string;
+  color?: "primary" | "secondary" | "tertiary" | "disabled" | "brand" | "error" | string;
   gutterBottom?: boolean;
   noWrap?: boolean;
   paragraph?: boolean;
@@ -41,24 +41,14 @@ export function Typography({
   display,
   style,
 }: TypographyProps) {
+  const { typography } = useComponentTokens();
   const tokens = useTokens();
 
-  const variantStyles: Record<TypographyVariant, TextStyle> = {
-    h1: { fontSize: tokens.fontSize["4xl"], fontWeight: tokens.fontWeight.semibold, lineHeight: tokens.fontSize["4xl"] * tokens.lineHeight.tight },
-    h2: { fontSize: tokens.fontSize["3xl"], fontWeight: tokens.fontWeight.semibold, lineHeight: tokens.fontSize["3xl"] * tokens.lineHeight.tight },
-    h3: { fontSize: tokens.fontSize["2xl"], fontWeight: tokens.fontWeight.semibold, lineHeight: tokens.fontSize["2xl"] * tokens.lineHeight.snug },
-    h4: { fontSize: tokens.fontSize.xl, fontWeight: tokens.fontWeight.semibold, lineHeight: tokens.fontSize.xl * tokens.lineHeight.snug },
-    h5: { fontSize: tokens.fontSize.lg, fontWeight: tokens.fontWeight.medium, lineHeight: tokens.fontSize.lg * tokens.lineHeight.normal },
-    h6: { fontSize: tokens.fontSize.md, fontWeight: tokens.fontWeight.medium, lineHeight: tokens.fontSize.md * tokens.lineHeight.normal },
-    subtitle1: { fontSize: tokens.fontSize.md, fontWeight: tokens.fontWeight.medium, lineHeight: tokens.fontSize.md * tokens.lineHeight.normal },
-    subtitle2: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, lineHeight: tokens.fontSize.sm * tokens.lineHeight.normal },
-    body1: tokens.text.md,
-    body2: tokens.text.sm,
-    caption: tokens.text.xs,
-    button: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, textTransform: "uppercase" },
-    overline: { fontSize: tokens.fontSize.xs, fontWeight: tokens.fontWeight.semibold, textTransform: "uppercase", letterSpacing: tokens.letterSpacing.wide },
-    inherit: {},
-  };
+  const variantStyle = variant === "inherit" ? {} : typography.variants[variant as keyof typeof typography.variants] || {};
+  
+  const resolvedColor = color && (typography.colors as any)[color] 
+    ? (typography.colors as any)[color] 
+    : (color || typography.colors.primary);
 
   const resolvedDisplay =
     display === "block" || display === "inline" || display === "inline-flex"
@@ -69,8 +59,8 @@ export function Typography({
     <Text
       numberOfLines={noWrap ? 1 : undefined}
       style={[
-        { color: color ?? tokens.color.text.primary, textAlign: align === "inherit" ? undefined : align },
-        variantStyles[variant],
+        { color: resolvedColor, textAlign: align === "inherit" ? undefined : align },
+        variantStyle,
         paragraph && { marginBottom: tokens.spacing[4] },
         gutterBottom && { marginBottom: tokens.spacing[2] },
         resolvedDisplay ? { display: resolvedDisplay } : null,

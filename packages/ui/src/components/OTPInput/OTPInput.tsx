@@ -24,12 +24,10 @@ export function OTPInput({
     onComplete,
     disabled = false,
 }: OTPInputProps) {
+    const { otpInput } = useComponentTokens();
     const tokens = useTokens();
     const inputRef = useRef<TextInput>(null);
     const [isFocused, setIsFocused] = useState(false);
-
-    // Add focus pulse effect
-    const pulseScale = useSharedValue(1);
 
     const handlePress = () => {
         if (!disabled) {
@@ -38,7 +36,6 @@ export function OTPInput({
     };
 
     const handleChange = (text: string) => {
-        // Only keep numeric digits and up to `length`
         const numericVal = text.replace(/[^0-9]/g, "").slice(0, length);
         onChange(numericVal);
         if (numericVal.length === length && onComplete) {
@@ -48,7 +45,6 @@ export function OTPInput({
 
     return (
         <View style={{ width: "100%" }}>
-            {/* Hidden TextInput for keyboard interaction and auto-fill */}
             <TextInput
                 ref={inputRef}
                 value={value}
@@ -71,12 +67,7 @@ export function OTPInput({
 
             <Pressable
                 onPress={handlePress}
-                style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    width: "100%",
-                    gap: tokens.spacing[2],
-                }}
+                style={[otpInput.container, { width: "100%" }]}
             >
                 {Array.from({ length }).map((_, index) => {
                     const char = value[index] || "";
@@ -91,7 +82,6 @@ export function OTPInput({
                             char={char}
                             isFocused={hasFocusBorder}
                             isFilled={isFilled}
-                            tokens={tokens}
                         />
                     );
                 })}
@@ -104,13 +94,12 @@ function OTPCell({
     char,
     isFocused,
     isFilled,
-    tokens,
 }: {
     char: string;
     isFocused: boolean;
     isFilled: boolean;
-    tokens: any;
 }) {
+    const { otpInput } = useComponentTokens();
     const scale = useSharedValue(1);
 
     useEffect(() => {
@@ -129,30 +118,24 @@ function OTPCell({
     const animatedStyle = useAnimatedStyle(() => {
         return {
             transform: [{ scale: scale.value }],
-            borderColor: isFocused ? tokens.color.brand.default : (isFilled ? tokens.color.border.strong : tokens.color.border.default),
-            backgroundColor: isFilled ? tokens.color.surface.raised : tokens.color.surface.default,
+            borderColor: isFocused ? otpInput.cell.focused.borderColor : (isFilled ? otpInput.cell.borderColor : otpInput.cell.borderColor),
+            backgroundColor: isFilled ? otpInput.cell.backgroundColor : otpInput.cell.backgroundColor,
         };
     });
 
     return (
         <Animated.View
             style={[
-                {
-                    flex: 1,
-                    aspectRatio: 0.8,
-                    borderRadius: tokens.radius.md,
-                    borderWidth: 2,
-                    justifyContent: "center",
-                    alignItems: "center",
-                },
+                otpInput.cell,
+                { flex: 1, aspectRatio: 0.8 },
                 animatedStyle,
             ]}
         >
             <Text
                 style={{
-                    fontSize: tokens.fontSize["2xl"],
-                    fontWeight: tokens.fontWeight.bold,
-                    color: tokens.color.text.primary,
+                    fontSize: otpInput.cell.fontSize,
+                    fontWeight: otpInput.cell.fontWeight,
+                    color: otpInput.cell.color,
                 }}
             >
                 {char}

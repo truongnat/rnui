@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import { View, Text, TextInput, ScrollView, Pressable } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { useSelect, useTokens, useIconStyle } from "@rnui/headless";
+import { useSelect, useTokens, useComponentTokens } from "@rnui/headless";
 import { BottomSheet } from "../BottomSheet/BottomSheet";
 import type { BottomSheetRef } from "../BottomSheet/BottomSheet";
 import type { UseSelectOptions, SelectOption } from "@rnui/headless";
+import { Icon } from "../Icon";
 
 export interface SelectProps<T = string> extends UseSelectOptions<T> {
   label?: string;
@@ -24,6 +24,7 @@ export function Select<T = string>({
   options,
   ...hookOptions
 }: SelectProps<T>) {
+  const { select } = useComponentTokens();
   const tokens = useTokens();
   const sheetRef = useRef<BottomSheetRef>(null);
   const [query, setQuery] = useState("");
@@ -35,7 +36,6 @@ export function Select<T = string>({
     selectOption,
     isSelected,
     displayLabel,
-    triggerProps,
   } = useSelect({ options, ...hookOptions, placeholder });
 
   const hasSelection = displayLabel !== placeholder;
@@ -45,12 +45,6 @@ export function Select<T = string>({
       o.label.toLowerCase().includes(query.toLowerCase())
     )
     : options;
-
-  const handleSelectOption = (option: SelectOption<T>) => {
-    selectOption(option.value);
-    onClearError?.();
-    close();
-  };
 
   const handleOpen = () => {
     setQuery("");
@@ -69,8 +63,6 @@ export function Select<T = string>({
     if (!hookOptions.multiple) handleClose();
   };
 
-  const { size: searchIconSize, color: searchIconColor } = useIconStyle("input");
-
   return (
     <View>
       {label && (
@@ -87,11 +79,12 @@ export function Select<T = string>({
           alignItems: "center",
           justifyContent: "space-between",
           height: 44,
-          paddingHorizontal: tokens.spacing[3],
+          paddingHorizontal: select.trigger.padding.x,
+          paddingVertical: select.trigger.padding.y,
           borderWidth: 1,
-          borderColor: error ? tokens.color.border.error : isOpen ? tokens.color.border.focus : tokens.color.border.default,
-          borderRadius: tokens.radius.md,
-          backgroundColor: tokens.color.surface.default,
+          borderColor: error ? tokens.color.border.error : isOpen ? select.trigger.focusBorderColor : select.trigger.borderColor,
+          borderRadius: select.trigger.borderRadius,
+          backgroundColor: select.trigger.bg,
         }}
         accessibilityState={{ expanded: isOpen }}
       >
@@ -106,9 +99,9 @@ export function Select<T = string>({
           {displayLabel}
         </Text>
         {/* Chevron */}
-        <Text style={{ fontSize: 12, color: tokens.color.text.tertiary, marginLeft: 8 }}>
-          {isOpen ? "▲" : "▼"}
-        </Text>
+        <Icon size={16} color={tokens.color.text.tertiary}>
+          {isOpen ? "chevronUp" : "chevronDown"}
+        </Icon>
       </Pressable>
 
       {error && (
@@ -141,28 +134,8 @@ export function Select<T = string>({
                 backgroundColor: tokens.color.bg.subtle,
               }}
             >
-              {/* Custom Magnifying Glass Icon — Standardized */}
-              <View style={{ width: searchIconSize, height: searchIconSize, marginRight: 8, alignItems: "center", justifyContent: "center" }}>
-                <View style={{
-                  width: searchIconSize * 0.7,
-                  height: searchIconSize * 0.7,
-                  borderRadius: searchIconSize * 0.35,
-                  borderWidth: 2,
-                  borderColor: searchIconColor,
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                }} />
-                <View style={{
-                  width: 2,
-                  height: searchIconSize * 0.4,
-                  backgroundColor: searchIconColor,
-                  borderRadius: 1,
-                  position: "absolute",
-                  bottom: 0,
-                  right: 0,
-                  transform: [{ rotate: "-45deg" }],
-                }} />
+              <View style={{ marginRight: 8 }}>
+                <Icon size={20} color={tokens.color.text.tertiary}>search</Icon>
               </View>
               <TextInput
                 value={query}
@@ -174,7 +147,7 @@ export function Select<T = string>({
               />
               {query.length > 0 && (
                 <Pressable onPress={() => setQuery("")} hitSlop={8}>
-                  <Text style={{ fontSize: 14, color: tokens.color.text.tertiary }}>✕</Text>
+                  <Icon size={18} color={tokens.color.text.tertiary}>close</Icon>
                 </Pressable>
               )}
             </View>
@@ -200,7 +173,7 @@ export function Select<T = string>({
                       paddingVertical: tokens.spacing[3],
                       paddingHorizontal: tokens.spacing[2],
                       borderRadius: tokens.radius.md,
-                      backgroundColor: selected ? tokens.color.brand.subtle : "transparent",
+                      backgroundColor: selected ? select.option.selected.bg : "transparent",
                       marginBottom: 2,
                       opacity: option.disabled ? 0.4 : 1,
                     }}
@@ -208,14 +181,14 @@ export function Select<T = string>({
                     <Text
                       style={{
                         fontSize: tokens.fontSize.md,
-                        color: selected ? tokens.color.brand.text : tokens.color.text.primary,
+                        color: selected ? select.option.selected.color : select.option.default.color,
                         fontWeight: selected ? tokens.fontWeight.medium : tokens.fontWeight.regular,
                       }}
                     >
                       {option.label}
                     </Text>
                     {selected && (
-                      <Text style={{ fontSize: 14, color: tokens.color.brand.default }}>✓</Text>
+                      <Icon size={16} color={select.option.selected.color}>check</Icon>
                     )}
                   </Pressable>
                 );

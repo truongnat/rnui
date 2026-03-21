@@ -39,6 +39,8 @@ export interface UsePressableOptions {
   accessibilityRole?: AccessibilityRole;
   /** Haptic feedback — requires expo-haptics or react-native-haptic-feedback */
   haptic?: boolean;
+  /** Expand the touch target area without changing visual layout */
+  hitSlop?: number | { top?: number; left?: number; bottom?: number; right?: number };
 }
 
 export interface UsePressableReturn {
@@ -70,6 +72,7 @@ export function usePressable({
   accessibilityHint,
   accessibilityRole = "button",
   haptic = false,
+  hitSlop,
 }: UsePressableOptions = {}): UsePressableReturn {
   const [isPressed, setIsPressed] = useState(false);
 
@@ -115,6 +118,7 @@ export function usePressable({
 
   const tapGesture = Gesture.Tap()
     .enabled(!disabled)
+    .hitSlop(hitSlop ?? 0)
     .onBegin(() => {
       "worklet";
       runOnJS(setPressedState)(true);

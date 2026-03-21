@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, type TextStyle, Linking } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useComponentTokens } from "@rnui/headless";
 
 export interface LinkProps {
   children?: React.ReactNode;
@@ -19,7 +19,7 @@ export function Link({
   underline = "always",
   style,
 }: LinkProps) {
-  const tokens = useTokens();
+  const { link } = useComponentTokens();
   const decoration = underline === "none" ? "none" : "underline";
 
   return (
@@ -35,7 +35,8 @@ export function Link({
         }
       }}
       style={[
-        { color: color ?? tokens.color.text.link, textDecorationLine: decoration },
+        link.text,
+        { color: color ?? link.text.color, textDecorationLine: decoration },
         style,
       ]}
     >

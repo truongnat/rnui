@@ -22,9 +22,10 @@ export interface TimelineProps {
 }
 
 export function Timeline({ position = "right", itemVariant = "filled", children }: TimelineProps) {
+  const { timeline } = useComponentTokens();
   return (
     <TimelineContext.Provider value={{ position, itemVariant }}>
-      <View style={{ gap: 24 }}>{React.Children.map(children, (child, index) => {
+      <View style={timeline.content}>{React.Children.map(children, (child, index) => {
         if (!React.isValidElement(child)) return child;
         const element = child as React.ReactElement<any>;
         if (position === "alternate" || position === "alternate-reverse") {
@@ -102,16 +103,9 @@ export interface TimelineSeparatorProps {
 }
 
 export function TimelineSeparator({ status = "pending", variant = "filled", children }: TimelineSeparatorProps) {
-  const tokens = useTokens();
+  const { timeline } = useComponentTokens();
   
-  const dotColors = {
-    pending: tokens.color.border.default,
-    active: tokens.color.brand.default,
-    completed: tokens.color.success.icon,
-    error: tokens.color.error.icon,
-  };
-
-  const connectorColor = status === "completed" ? tokens.color.success.border : tokens.color.border.default;
+  const connectorColor = status === "completed" ? timeline.dot.completed.borderColor : timeline.connector.color;
 
   return (
     <View style={{ alignItems: "center", width: 48, paddingHorizontal: 8 }}>
@@ -119,7 +113,7 @@ export function TimelineSeparator({ status = "pending", variant = "filled", chil
         <>
           <TimelineDot 
             variant={variant} 
-            color={status === "completed" ? "success" : status === "error" ? "error" : status === "active" ? "primary" : "secondary"}
+            status={status}
           />
           <TimelineConnector color={connectorColor} />
         </>
@@ -131,30 +125,28 @@ export function TimelineSeparator({ status = "pending", variant = "filled", chil
 export interface TimelineDotProps {
   variant?: "filled" | "outlined";
   color?: "primary" | "secondary" | "success" | "error" | "info" | "warning" | "inherit";
+  status?: "pending" | "active" | "completed" | "error";
   size?: number;
 }
 
-export function TimelineDot({ variant = "filled", color = "primary", size = 16 }: TimelineDotProps) {
+export function TimelineDot({ variant = "filled", color = "primary", status, size }: TimelineDotProps) {
+  const { timeline } = useComponentTokens();
   const tokens = useTokens();
-  const fill = {
-    primary: tokens.color.brand.default,
-    secondary: tokens.color.text.secondary,
-    success: tokens.color.success.icon,
-    error: tokens.color.error.icon,
-    info: tokens.color.info.icon,
-    warning: tokens.color.warning.icon,
-    inherit: tokens.color.text.primary,
-  }[color];
+  
+  const resolvedStatus = status || (color === "success" ? "completed" : color === "error" ? "error" : color === "primary" ? "active" : "pending");
+  const statusTokens = (timeline.dot as any)[resolvedStatus] || timeline.dot.pending;
+  
+  const dotSize = size || timeline.dot.size || 16;
 
   return (
     <View
       style={{
-        width: size,
-        height: size,
-        borderRadius: size / 2,
-        backgroundColor: variant === "filled" ? fill : "transparent",
-        borderWidth: 2.5,
-        borderColor: fill,
+        width: dotSize,
+        height: dotSize,
+        borderRadius: dotSize / 2,
+        backgroundColor: variant === "filled" ? statusTokens.bg : "transparent",
+        borderWidth: 2,
+        borderColor: statusTokens.borderColor,
         ...tokens.shadow.sm,
       }}
     />
@@ -166,9 +158,10 @@ export interface TimelineConnectorProps {
   width?: number;
 }
 
-export function TimelineConnector({ color, width = 2 }: TimelineConnectorProps) {
-  const tokens = useTokens();
-  return <View style={{ width, flex: 1, backgroundColor: color ?? tokens.color.border.default, marginVertical: 4, borderRadius: width }} />;
+export function TimelineConnector({ color, width }: TimelineConnectorProps) {
+  const { timeline } = useComponentTokens();
+  const resolvedWidth = width || timeline.connector.width;
+  return <View style={{ width: resolvedWidth, flex: 1, backgroundColor: color || timeline.connector.color, marginVertical: 4, borderRadius: resolvedWidth }} />;
 }
 
 export interface TimelineContentProps {

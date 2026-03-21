@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
   interpolate,
 } from "react-native-reanimated";
-import { useTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@rnui/headless";
 
 // ─── Base Skeleton ────────────────────────────────────────────────
 
@@ -26,6 +26,7 @@ export function Skeleton({
   animate = true,
 }: SkeletonProps) {
   const tokens = useTokens();
+  const { skeleton } = useComponentTokens();
   const shimmer = useSharedValue(0);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export function Skeleton({
   }, [animate]);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(shimmer.value, [0, 1], [0.6, 1.0]), // Increased visibility
+    opacity: interpolate(shimmer.value, [0, 1], [skeleton.opacity.start, skeleton.opacity.end]),
   }));
 
   return (
@@ -47,8 +48,8 @@ export function Skeleton({
         {
           width: width as any,
           height,
-          borderRadius: borderRadius ?? tokens.radius.sm,
-          backgroundColor: tokens.color.bg.emphasis,
+          borderRadius: borderRadius ?? skeleton.borderRadius,
+          backgroundColor: skeleton.backgroundColor,
         },
         animate && animatedStyle,
       ]}

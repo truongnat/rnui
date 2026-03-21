@@ -1,15 +1,15 @@
 import React from "react";
 import { View, type ViewStyle } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useComponentTokens } from "@rnui/headless";
 
 export interface GridProps {
   children?: React.ReactNode;
   container?: boolean;
   size?: number | "auto" | "grow";
   columns?: number;
-  spacing?: number;
-  rowSpacing?: number;
-  columnSpacing?: number;
+  spacing?: "sm" | "md" | "lg" | number;
+  rowSpacing?: "sm" | "md" | "lg" | number;
+  columnSpacing?: "sm" | "md" | "lg" | number;
   direction?: ViewStyle["flexDirection"];
   wrap?: ViewStyle["flexWrap"];
   offset?: number;
@@ -29,19 +29,22 @@ export function Grid({
   offset,
   style,
 }: GridProps) {
-  const tokens = useTokens();
-  const gap = tokens.spacing[spacing as keyof typeof tokens.spacing] ?? spacing;
-  const rowGap = rowSpacing !== undefined
-    ? tokens.spacing[rowSpacing as keyof typeof tokens.spacing] ?? rowSpacing
-    : gap;
-  const colGap = columnSpacing !== undefined
-    ? tokens.spacing[columnSpacing as keyof typeof tokens.spacing] ?? columnSpacing
-    : gap;
+  const { grid } = useComponentTokens();
+
+  const resolveGap = (s: "sm" | "md" | "lg" | number | undefined) => {
+    if (s === undefined) return undefined;
+    return typeof s === "number" ? s : grid.gap[s];
+  };
+
+  const gap = resolveGap(spacing) ?? 0;
+  const rowGap = resolveGap(rowSpacing) ?? gap;
+  const colGap = resolveGap(columnSpacing) ?? gap;
 
   if (container) {
     return (
       <View
         style={[
+          grid.container,
           {
             flexDirection: direction,
             flexWrap: wrap,

@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal as RNModal, View, Pressable, StyleSheet } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useComponentTokens } from "@rnui/headless";
 
 export interface ModalProps {
   open: boolean;
@@ -26,7 +26,7 @@ export function Modal({
   BackdropProps,
   contentStyle,
 }: ModalProps) {
-  const tokens = useTokens();
+  const { modal } = useComponentTokens();
 
   if (!open && !keepMounted) return null;
 
@@ -43,18 +43,18 @@ export function Modal({
       animationType="fade"
       onRequestClose={handleRequestClose}
     >
-      <View style={styles.container}>
+      <View style={[styles.overlay, modal.overlay]}>
         {!hideBackdrop && (
           BackdropComponent ? (
             <BackdropComponent {...BackdropProps} />
           ) : (
             <Pressable
-              style={[StyleSheet.absoluteFill, { backgroundColor: tokens.color.bg.overlay }]}
+              style={[StyleSheet.absoluteFill, { backgroundColor: modal.overlay.backgroundColor }]}
               onPress={onClose}
             />
           )
         )}
-        <View style={[styles.content, { backgroundColor: tokens.color.surface.overlay }, contentStyle]}>
+        <View style={[styles.content, modal.container, contentStyle]}>
           {children}
         </View>
       </View>
@@ -63,7 +63,7 @@ export function Modal({
 }
 
 const styles = StyleSheet.create({
-  container: {
+  overlay: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
@@ -71,7 +71,5 @@ const styles = StyleSheet.create({
   content: {
     minWidth: 280,
     maxWidth: "90%",
-    borderRadius: 16,
-    padding: 16,
   },
 });

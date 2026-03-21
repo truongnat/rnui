@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { usePagination, type PaginationItem, useTokens } from "@rnui/headless";
+import { usePagination, type PaginationItem, useTokens, useComponentTokens } from "@rnui/headless";
 
 export interface PaginationProps {
   count: number;
@@ -22,15 +22,10 @@ export function Pagination({
   size = "md",
 }: PaginationProps) {
   const tokens = useTokens();
+  const { pagination } = useComponentTokens();
   const { page: current, setPage, items } = usePagination({ count, page, defaultPage, onChange });
 
-  const sizeMap = {
-    sm: { height: 28, minWidth: 28, fontSize: tokens.fontSize.sm },
-    md: { height: 34, minWidth: 34, fontSize: tokens.fontSize.md },
-    lg: { height: 40, minWidth: 40, fontSize: tokens.fontSize.lg },
-  };
-
-  const s = sizeMap[size];
+  const s = pagination.size[size];
 
   const renderItem = (item: PaginationItem, idx: number) => {
     if (typeof item !== "number") {
@@ -42,23 +37,25 @@ export function Pagination({
     }
 
     const selected = item === current;
+    const itemTokens = selected ? pagination.item.active : pagination.item.default;
+
     return (
       <Pressable
         key={item}
         onPress={() => setPage(item)}
         style={{
-          height: s.height,
-          minWidth: s.minWidth,
+          height: s,
+          minWidth: s,
           paddingHorizontal: 8,
-          borderRadius: shape === "circular" ? s.height / 2 : tokens.radius.md,
+          borderRadius: shape === "circular" ? s / 2 : tokens.radius.md,
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: selected ? tokens.color.brand.subtle : "transparent",
+          backgroundColor: itemTokens.bg,
           borderWidth: variant === "outlined" ? 1 : 0,
-          borderColor: tokens.color.border.default,
+          borderColor: itemTokens.borderColor,
         }}
       >
-        <Text style={{ fontSize: s.fontSize, color: selected ? tokens.color.brand.default : tokens.color.text.primary }}>
+        <Text style={{ fontSize: tokens.fontSize[size], color: itemTokens.color }}>
           {item}
         </Text>
       </Pressable>
@@ -66,7 +63,7 @@ export function Pagination({
   };
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+    <View style={{ flexDirection: "row", alignItems: "center", gap: pagination.gap }}>
       {items.map(renderItem)}
     </View>
   );

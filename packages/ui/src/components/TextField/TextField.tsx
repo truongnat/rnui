@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Input, type InputProps } from "../Input/Input";
 import { TextArea } from "../TextArea/TextArea";
 import { Select, type SelectProps } from "../Select/Select";
-import { Pressable, View } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { Pressable } from "react-native";
+import { useComponentTokens } from "@rnui/headless";
+import { Icon } from "../Icon";
 
 export interface TextFieldProps extends Omit<InputProps, "error"> {
   variant?: "outlined" | "filled" | "standard";
@@ -34,7 +35,7 @@ export function TextField({
   label,
   ...rest
 }: TextFieldProps) {
-  const tokens = useTokens();
+  const { textField } = useComponentTokens();
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
   
@@ -45,22 +46,11 @@ export function TextField({
     <Pressable 
       onPress={() => setShowPassword(!showPassword)}
       style={{ padding: 4 }}
+      hitSlop={8}
     >
-      <View style={{ 
-        width: 20, 
-        height: 20, 
-        borderRadius: 10, 
-        backgroundColor: tokens.color.bg.muted,
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <View style={{
-          width: showPassword ? 12 : 8,
-          height: 2,
-          backgroundColor: tokens.color.text.secondary,
-          borderRadius: 1,
-        }} />
-      </View>
+      <Icon size={20} color={textField.text.placeholderColor}>
+        {showPassword ? "eyeOff" : "eye"}
+      </Icon>
     </Pressable>
   ) : rest.trailingElement;
 

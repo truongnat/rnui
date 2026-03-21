@@ -7,7 +7,7 @@ import Animated, {
   withSpring,
   Easing,
 } from "react-native-reanimated";
-import { useAutocomplete, useTokens } from "@rnui/headless";
+import { useAutocomplete, useTokens, useComponentTokens } from "@rnui/headless";
 import { Input } from "../Input/Input";
 
 export interface AutocompleteProps<T = string> {
@@ -40,6 +40,7 @@ export function Autocomplete<T = string>({
   disabled = false,
 }: AutocompleteProps<T>) {
   const tokens = useTokens();
+  const { autocomplete } = useComponentTokens();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const inputRef = useRef<View>(null);
   const [inputRect, setInputRect] = useState({ pageX: 0, pageY: 0, width: 0, height: 0 });
@@ -63,8 +64,8 @@ export function Autocomplete<T = string>({
   });
 
   const labelOf = getOptionLabel ?? ((o: T) => String(o));
-  const DROPDOWN_MAX_HEIGHT = 220;
-  const GAP = 4;
+  const DROPDOWN_MAX_HEIGHT = autocomplete.menu.maxHeight;
+  const GAP = (autocomplete.menu as any).marginTop ?? 4;
 
   const measureAndOpen = () => {
     if (!isOpen) {
@@ -128,13 +129,9 @@ export function Autocomplete<T = string>({
                 top: dropdownTop,
                 left: inputRect.pageX,
                 width: inputRect.width,
+                ...autocomplete.menu,
+                marginTop: undefined, // remove marginTop as it's used for calculation
                 maxHeight: DROPDOWN_MAX_HEIGHT,
-                borderWidth: 1,
-                borderColor: tokens.color.border.default,
-                borderRadius: tokens.radius.md,
-                backgroundColor: tokens.color.surface.default,
-                overflow: "hidden",
-                ...tokens.shadow.md,
               },
               dropdownAnimStyle,
             ]}
@@ -154,12 +151,11 @@ export function Autocomplete<T = string>({
                     if (!multiple) handleClose();
                   }}
                   style={({ pressed }) => ({
-                    paddingHorizontal: tokens.spacing[3],
-                    paddingVertical: tokens.spacing[2],
+                    padding: autocomplete.item.padding,
                     backgroundColor: pressed
-                      ? tokens.color.bg.subtle
+                      ? autocomplete.item.hover.backgroundColor
                       : selected
-                        ? tokens.color.brand.subtle
+                        ? autocomplete.item.active.backgroundColor
                         : "transparent",
                   })}
                 >

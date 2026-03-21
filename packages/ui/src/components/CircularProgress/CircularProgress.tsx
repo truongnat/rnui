@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@rnui/headless";
 
 export type CircularProgressVariant = "indeterminate" | "determinate";
 export type CircularProgressColor =
@@ -13,39 +13,43 @@ export type CircularProgressColor =
   | "inherit";
 
 export interface CircularProgressProps {
-  size?: number | "small" | "medium" | "large";
+  size?: number | "sm" | "md" | "lg" | "small" | "medium" | "large";
   color?: CircularProgressColor;
   thickness?: number;
   value?: number;
   variant?: CircularProgressVariant;
   showLabel?: boolean;
-  style?: object;
+  style?: any;
 }
-
-const sizeMap: Record<"small" | "medium" | "large", number> = {
-  small: 20,
-  medium: 32,
-  large: 48,
-};
 
 function clamp(value: number, min = 0, max = 100) {
   return Math.max(min, Math.min(max, value));
 }
 
 export function CircularProgress({
-  size = "medium",
+  size = "md",
   color = "primary",
-  thickness: _thickness,
+  thickness,
   value = 0,
   variant = "indeterminate",
   showLabel = false,
   style,
 }: CircularProgressProps) {
   const tokens = useTokens();
+  const { circularProgress } = useComponentTokens();
 
-  const resolvedSize = typeof size === "number" ? size : sizeMap[size];
+  const sizeMap: Record<string, number> = {
+    sm: circularProgress.size.sm,
+    md: circularProgress.size.md,
+    lg: circularProgress.size.lg,
+    small: circularProgress.size.sm,
+    medium: circularProgress.size.md,
+    large: circularProgress.size.lg,
+  };
+
+  const resolvedSize = typeof size === "number" ? size : sizeMap[size] || circularProgress.size.md;
   const resolvedColor = {
-    primary: tokens.color.brand.default,
+    primary: circularProgress.color,
     secondary: tokens.color.text.secondary,
     success: tokens.color.success.icon,
     error: tokens.color.error.icon,

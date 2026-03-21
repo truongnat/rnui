@@ -3,7 +3,7 @@ import { View, StyleSheet, Dimensions, Modal } from "react-native";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useBottomSheet, useTokens } from "@rnui/headless";
+import { useBottomSheet, useTokens, useComponentTokens } from "@rnui/headless";
 import type { UseBottomSheetOptions, SnapPoint } from "@rnui/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
@@ -12,7 +12,7 @@ export interface BottomSheetProps extends UseBottomSheetOptions {
   children: React.ReactNode;
   /** Show the pill-shaped drag handle at top */
   showHandle?: boolean;
-  /** Horizontal border radius on the sheet */
+  /** Horizontal border radius on the sheet. If not provided, uses theme token. */
   borderRadius?: number;
 }
 
@@ -37,11 +37,11 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       enableDismissOnSwipe = true,
       enableBackdrop = true,
       showHandle = true,
-      borderRadius = 20,
+      borderRadius,
     },
     ref
   ) {
-    const tokens = useTokens();
+    const { bottomSheet } = useComponentTokens();
     const insets = useSafeAreaInsets();
     const [mounted, setMounted] = useState(false);
 
@@ -86,7 +86,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
               <Animated.View
                 style={[
                   StyleSheet.absoluteFill,
-                  { backgroundColor: "#000" },
+                  bottomSheet.backdrop,
                   backdropAnimatedStyle,
                 ] as any}
               />
@@ -97,18 +97,11 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
           <Animated.View
             style={[
               styles.sheet,
+              bottomSheet.container,
               {
-                backgroundColor: tokens.color.surface.overlay,
-                borderTopLeftRadius: borderRadius,
-                borderTopRightRadius: borderRadius,
+                borderTopLeftRadius: borderRadius ?? bottomSheet.container.borderTopLeftRadius,
+                borderTopRightRadius: borderRadius ?? bottomSheet.container.borderTopRightRadius,
                 paddingBottom: insets.bottom + 8,
-                // iOS shadow
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: -4 },
-                shadowOpacity: 0.12,
-                shadowRadius: 20,
-                // Android elevation
-                elevation: 12,
               },
               sheetAnimatedStyle,
             ] as any}
@@ -120,7 +113,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
                   <View
                     style={[
                       styles.handle,
-                      { backgroundColor: tokens.color.border.strong },
+                      bottomSheet.handle,
                     ]}
                   />
                 )}
