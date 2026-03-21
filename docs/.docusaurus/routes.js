@@ -9,15 +9,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', 'ba9'),
+    component: ComponentCreator('/docs', '4d6'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '284'),
+        component: ComponentCreator('/docs', '3f5'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', 'c06'),
+            component: ComponentCreator('/docs', '323'),
             routes: [
               {
                 path: '/docs/',
@@ -38,7 +38,7 @@ export default [
               },
               {
                 path: '/docs/components/alert',
-                component: ComponentCreator('/docs/components/alert', '825'),
+                component: ComponentCreator('/docs/components/alert', '1f9'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
@@ -242,7 +242,7 @@ export default [
               },
               {
                 path: '/docs/components/otp-input',
-                component: ComponentCreator('/docs/components/otp-input', '264'),
+                component: ComponentCreator('/docs/components/otp-input', '4ce'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
@@ -350,7 +350,7 @@ export default [
               },
               {
                 path: '/docs/components/table',
-                component: ComponentCreator('/docs/components/table', 'a0c'),
+                component: ComponentCreator('/docs/components/table', '524'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
