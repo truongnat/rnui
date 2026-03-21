@@ -1,5 +1,6 @@
 import React from "react";
-export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
+import { type ViewStyle } from "react-native";
+export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 export type AvatarStatus = "online" | "offline" | "busy" | "away";
 export interface AvatarProps {
     /** Image URI */
@@ -13,8 +14,9 @@ export interface AvatarProps {
     shape?: "circle" | "rounded";
     /** Accessible label */
     accessibilityLabel?: string;
+    style?: ViewStyle | ViewStyle[];
 }
-export declare function Avatar({ src, initials, fallbackIcon, size, status, shape, accessibilityLabel, }: AvatarProps): React.JSX.Element;
+export declare function Avatar({ src, initials, fallbackIcon, size, status, shape, accessibilityLabel, style, }: AvatarProps): React.JSX.Element;
 export interface AvatarGroupProps {
     avatars: AvatarProps[];
     max?: number;

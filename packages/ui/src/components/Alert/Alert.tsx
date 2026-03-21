@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { View, Text, Pressable } from "react-native";
-import { useComponentTokens, useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens, useAlert } from "@rnui/headless";
 import { Icon } from "../Icon";
 
 export type AlertSeverity = "error" | "warning" | "info" | "success";
@@ -42,7 +42,10 @@ export function Alert({
 }: AlertProps) {
   const { alert } = useComponentTokens();
   const tokens = useTokens();
+  const { isOpen, getAlertProps, getCloseButtonProps } = useAlert({ onClose });
   const severityTokens = alert.variant[severity];
+
+  if (!isOpen) return null;
 
   const containerStyle = useMemo(() => {
     const base = [alert.container];
@@ -72,7 +75,7 @@ export function Alert({
   const iconColor = variant === "filled" ? "#FFFFFF" : severityTokens.icon;
 
   return (
-    <View style={containerStyle as any}>
+    <View style={containerStyle as any} {...getAlertProps()}>
       {icon !== false && (
         <View style={{ marginTop: 2 }}>
           {icon ?? (
@@ -87,8 +90,8 @@ export function Alert({
       </View>
       {action}
       {onClose && (
-        <Pressable onPress={onClose} hitSlop={8} style={{ marginTop: 2 }}>
-          <Icon size={18} color={textColor}>close</Icon>
+        <Pressable hitSlop={8} style={{ marginTop: 2 }} {...getCloseButtonProps()}>
+          <Icon size={18} color={textColor} name={"close" as any} />
         </Pressable>
       )}
     </View>

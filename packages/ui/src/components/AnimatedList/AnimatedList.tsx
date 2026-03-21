@@ -1,7 +1,8 @@
-import React, { forwardRef } from "react";
-import { View, StyleProp, ViewStyle, LayoutChangeEvent, StyleSheet, ListRenderItemInfo } from "react-native";
+import React, { forwardRef, useMemo } from "react";
+import { View, StyleProp, ViewStyle, StyleSheet, ListRenderItemInfo } from "react-native";
 import { FlashList, FlashListProps } from "@shopify/flash-list";
 import Animated, { FadeInDown, Layout } from "react-native-reanimated";
+import { useComponentTokens } from "@rnui/headless";
 
 // Wrapping FlashList with Reanimated to allow layout animations and entering/exiting
 const ReanimatedFlashList = Animated.createAnimatedComponent(FlashList);
@@ -49,6 +50,7 @@ export const AnimatedList = forwardRef(<T extends any>(
     }: AnimatedListProps<T>,
     ref: any
 ) => {
+    const { animatedList } = useComponentTokens();
 
     const AnimatedCell = ({ item, index, target, ...props }: any) => {
         // If staggering, delay the entering animation by index * staggerDelay
@@ -61,7 +63,7 @@ export const AnimatedList = forwardRef(<T extends any>(
                 entering={enteringAnim}
                 exiting={itemExiting}
                 layout={itemLayout}
-                style={[itemContainerStyle, styles.itemWrapper]}
+                style={[animatedList.item, itemContainerStyle, styles.itemWrapper]}
             >
                 {renderItem({ item, index, target, separators: {} as any } as unknown as ListRenderItemInfo<T>)}
             </Animated.View>
@@ -74,14 +76,15 @@ export const AnimatedList = forwardRef(<T extends any>(
             data={data}
             renderItem={(info) => <AnimatedCell {...info} />}
             {...(flashListProps as any)}
+            contentContainerStyle={useMemo(() => [
+                animatedList.container,
+                flashListProps.contentContainerStyle
+            ], [animatedList.container, flashListProps.contentContainerStyle])}
         />
     );
 }) as <T>(props: AnimatedListProps<T> & { ref?: React.Ref<any> }) => React.ReactElement;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
     itemWrapper: {
         overflow: "hidden",
     },

@@ -135,7 +135,7 @@ export function Select<T = string>({
               }}
             >
               <View style={{ marginRight: 8 }}>
-                <Icon size={20} color={tokens.color.text.tertiary}>search</Icon>
+                <Icon size={20} color={tokens.color.text.tertiary} name={"search" as any} />
               </View>
               <TextInput
                 value={query}
@@ -147,7 +147,7 @@ export function Select<T = string>({
               />
               {query.length > 0 && (
                 <Pressable onPress={() => setQuery("")} hitSlop={8}>
-                  <Icon size={18} color={tokens.color.text.tertiary}>close</Icon>
+                  <Icon size={18} color={tokens.color.text.tertiary} name={"close" as any} />
                 </Pressable>
               )}
             </View>
@@ -188,7 +188,7 @@ export function Select<T = string>({
                       {option.label}
                     </Text>
                     {selected && (
-                      <Icon size={16} color={select.option.selected.color}>check</Icon>
+                      <Icon size={16} color={select.option.selected.color} name={"check" as any} />
                     )}
                   </Pressable>
                 );

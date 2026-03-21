@@ -4,10 +4,8 @@ import Animated, {
     useAnimatedStyle,
     withSpring,
     useSharedValue,
-    withTiming,
-    interpolateColor,
 } from "react-native-reanimated";
-import { useTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens, useSegmentedControl } from "@rnui/headless";
 import { spring } from "@rnui/tokens";
 
 export interface SegmentedControlProps {
@@ -26,8 +24,14 @@ export function SegmentedControl({
     disabled = false,
 }: SegmentedControlProps) {
     const tokens = useTokens();
-    const [containerWidth, setContainerWidth] = useState(0);
+    const { segmentedControl } = useComponentTokens();
+    const { isSelected, setSelectedIndex, getTabProps } = useSegmentedControl({
+        value: selectedIndex,
+        onChange: (val) => onChange(val as number),
+        disabled,
+    });
 
+    const [containerWidth, setContainerWidth] = useState(0);
     const segmentWidth = containerWidth / options.length;
     const translateX = useSharedValue(selectedIndex * segmentWidth);
 
@@ -41,50 +45,36 @@ export function SegmentedControl({
         setContainerWidth(e.nativeEvent.layout.width);
     };
 
-    const indicatorStyle = useAnimatedStyle(() => {
-        return {
-            transform: [{ translateX: translateX.value }],
-            width: segmentWidth,
-        };
-    });
+    const indicatorStyle = useAnimatedStyle(() => ({
+        transform: [{ translateX: translateX.value }],
+        width: segmentWidth,
+    }));
 
     return (
         <View
             onLayout={onLayout}
-            style={{
-                flexDirection: "row",
-                height,
-                backgroundColor: tokens.color.bg.subtle,
-                borderRadius: height / 2,
-                padding: 2,
-                position: "relative",
-                opacity: disabled ? tokens.opacity[60] : 1,
-            }}
+            style={[
+                segmentedControl.container,
+                { height, borderRadius: height / 2, opacity: disabled ? 0.6 : 1 }
+            ]}
         >
             {containerWidth > 0 && (
                 <Animated.View
                     style={[
-                        {
-                            position: "absolute",
-                            top: 2,
-                            bottom: 2,
-                            left: 2,
-                            backgroundColor: tokens.color.surface.default,
-                            borderRadius: (height - 4) / 2,
-                            ...tokens.shadow.sm,
-                        },
+                        segmentedControl.item.active,
+                        { borderRadius: (height - 4) / 2 },
                         indicatorStyle,
                     ]}
                 />
             )}
 
             {options.map((option, index) => {
-                const isSelected = selectedIndex === index;
+                const selected = isSelected(index as any);
                 return (
                     <Pressable
                         key={option}
                         disabled={disabled}
-                        onPress={() => onChange(index)}
+                        {...getTabProps(index as any, index)}
                         style={{
                             flex: 1,
                             justifyContent: "center",
@@ -95,8 +85,8 @@ export function SegmentedControl({
                         <Text
                             style={{
                                 fontSize: tokens.fontSize.sm,
-                                fontWeight: isSelected ? tokens.fontWeight.semibold : tokens.fontWeight.medium,
-                                color: isSelected ? tokens.color.text.primary : tokens.color.text.secondary,
+                                fontWeight: selected ? tokens.fontWeight.semibold : tokens.fontWeight.medium,
+                                color: selected ? segmentedControl.item.activeText.color : segmentedControl.item.text.color,
                             }}
                         >
                             {option}

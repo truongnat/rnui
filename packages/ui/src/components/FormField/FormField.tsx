@@ -1,21 +1,13 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useTokens } from "@rnui/headless";
-
-// ─── FormField ────────────────────────────────────────────────────
-// Wraps any input component with consistent label/error/helper layout.
-// Use when you need to compose custom inputs with the design system's
-// typography and error handling.
+import { useComponentTokens, useTokens } from "@rnui/headless";
 
 export interface FormFieldProps {
   label?: string;
-  /** Required indicator (*) */
   required?: boolean;
   error?: string;
   helperText?: string;
-  /** Optional trailing slot next to label — e.g. "Forgot password?" link */
   labelTrailing?: React.ReactNode;
-  /** The actual input component */
   children: React.ReactNode;
 }
 
@@ -27,10 +19,11 @@ export function FormField({
   labelTrailing,
   children,
 }: FormFieldProps) {
+  const { formField, formControl } = useComponentTokens();
   const tokens = useTokens();
 
   return (
-    <View style={{ gap: tokens.spacing[1] }}>
+    <View style={formField.container as any}>
       {/* Label row */}
       {(label || labelTrailing) && (
         <View
@@ -38,27 +31,16 @@ export function FormField({
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
+            marginBottom: tokens.spacing[1],
           }}
         >
           {label && (
             <View style={{ flexDirection: "row", gap: 3 }}>
-              <Text
-                style={{
-                  fontSize: tokens.fontSize.sm,
-                  fontWeight: tokens.fontWeight.medium,
-                  color: tokens.color.text.secondary,
-                }}
-              >
+              <Text style={formControl.label as any}>
                 {label}
               </Text>
               {required && (
-                <Text
-                  style={{
-                    fontSize: tokens.fontSize.sm,
-                    color: tokens.color.error.text,
-                    fontWeight: tokens.fontWeight.medium,
-                  }}
-                >
+                <Text style={formControl.errorText as any}>
                   *
                 </Text>
               )}
@@ -74,10 +56,7 @@ export function FormField({
       {/* Error or helper */}
       {error ? (
         <Text
-          style={{
-            fontSize: tokens.fontSize.xs,
-            color: tokens.color.error.text,
-          }}
+          style={[formControl.errorText, { marginTop: tokens.spacing[1] }] as any}
           accessibilityRole="alert"
           accessibilityLiveRegion="polite"
         >
@@ -85,10 +64,7 @@ export function FormField({
         </Text>
       ) : helperText ? (
         <Text
-          style={{
-            fontSize: tokens.fontSize.xs,
-            color: tokens.color.text.tertiary,
-          }}
+          style={[formControl.helperText, { marginTop: tokens.spacing[1] }] as any}
         >
           {helperText}
         </Text>
@@ -96,9 +72,6 @@ export function FormField({
     </View>
   );
 }
-
-// ─── FormGroup ────────────────────────────────────────────────────
-// Groups multiple FormFields with consistent spacing.
 
 export interface FormGroupProps {
   children: React.ReactNode;

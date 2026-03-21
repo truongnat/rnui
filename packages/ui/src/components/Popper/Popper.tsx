@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Modal, View, Pressable, StyleSheet, Dimensions, type LayoutChangeEvent } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@rnui/headless";
 
 export type PopperPlacement =
   | "top"
@@ -80,6 +80,7 @@ export function Popper({
   onClose,
   children,
 }: PopperProps) {
+  const { popper } = useComponentTokens();
   const tokens = useTokens();
   const [contentSize, setContentSize] = useState({ width: 0, height: 0 });
 
@@ -114,14 +115,9 @@ export function Popper({
       <View
         onLayout={handleLayout}
         style={[
-          styles.popper,
-          {
-            backgroundColor: tokens.color.surface.overlay,
-            borderColor: tokens.color.border.default,
-            shadowColor: tokens.color.text.primary,
-          },
+          popper.container,
           position,
-        ]}
+        ] as any}
       >
         {children}
       </View>

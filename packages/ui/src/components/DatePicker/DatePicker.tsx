@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { View, Text, Pressable, Platform, Modal } from "react-native";
-import { useTokens, useIconStyle } from "@rnui/headless";
+import { useTokens, useComponentTokens, useIconStyle } from "@rnui/headless";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Icon } from "../Icon";
 
 export type DatePickerPreset = "today" | "yesterday" | "last7" | "last30" | "last90" | null;
 
@@ -36,6 +37,7 @@ export function DatePicker({
     onPresetChange,
     clearable = true,
 }: DatePickerProps) {
+    const { datePicker, input } = useComponentTokens();
     const tokens = useTokens();
     const { size: iconSize, color: iconColor } = useIconStyle("input");
     const [showPicker, setShowPicker] = useState(false);
@@ -113,15 +115,9 @@ export function DatePicker({
     ) : null;
 
     return (
-        <View style={{ gap: tokens.spacing[2], opacity: disabled ? tokens.opacity[60] : 1 }}>
+        <View style={{ gap: tokens.spacing[2], opacity: disabled ? 0.6 : 1 }}>
             {label && (
-                <Text
-                    style={{
-                        fontSize: tokens.fontSize.sm,
-                        fontWeight: tokens.fontWeight.medium,
-                        color: tokens.color.text.secondary,
-                    }}
-                >
+                <Text style={input.label as any}>
                     {label}
                 </Text>
             )}
@@ -134,15 +130,17 @@ export function DatePicker({
                             key={preset}
                             onPress={() => handlePresetPress(preset)}
                             disabled={disabled}
-                            style={({ pressed }) => ({
-                                paddingHorizontal: tokens.spacing[3],
-                                paddingVertical: tokens.spacing[2],
-                                backgroundColor: selectedPreset === preset
-                                    ? tokens.color.brand.default
-                                    : tokens.color.bg.muted,
-                                borderRadius: tokens.radius.full,
-                                opacity: (disabled || pressed) ? tokens.opacity[60] : 1,
-                            })}
+                            style={({ pressed }) => [
+                                {
+                                    paddingHorizontal: tokens.spacing[3],
+                                    paddingVertical: tokens.spacing[2],
+                                    backgroundColor: selectedPreset === preset
+                                        ? tokens.color.brand.default
+                                        : tokens.color.bg.muted,
+                                    borderRadius: tokens.radius.full,
+                                },
+                                { opacity: (disabled || pressed) ? 0.6 : 1 }
+                            ]}
                         >
                             <Text
                                 style={{
@@ -165,17 +163,12 @@ export function DatePicker({
             <Pressable
                 onPress={handlePressTrigger}
                 disabled={disabled}
-                style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    height: 48,
-                    paddingHorizontal: tokens.spacing[3],
-                    backgroundColor: tokens.color.surface.raised,
-                    borderRadius: tokens.radius.md,
-                    borderWidth: 1,
-                    borderColor: error ? tokens.color.error.border : tokens.color.border.default,
-                    gap: tokens.spacing[2],
-                }}
+                style={[
+                    input.container,
+                    { height: 48 },
+                    error && input.state.error,
+                    { opacity: disabled ? 0.6 : 1 }
+                ] as any}
             >
                 {icon && renderIcon(icon)}
                 <Text
@@ -190,15 +183,15 @@ export function DatePicker({
                 {/* Clear button */}
                 {clearable && date && (
                     <Pressable onPress={handleClear} hitSlop={8}>
-                        <Text style={{ fontSize: 18, color: tokens.color.text.tertiary }}>✕</Text>
+                        <Icon size={18} color={tokens.color.text.tertiary} name={"close" as any} />
                     </Pressable>
                 )}
                 {/* Calendar icon indicator */}
-                <Text style={{ fontSize: 18, color: tokens.color.text.tertiary }}>📅</Text>
+                <Icon size={18} color={tokens.color.text.tertiary} name={"calendar" as any} />
             </Pressable>
 
             {error && (
-                <Text style={{ fontSize: tokens.fontSize.sm, color: tokens.color.error.text }}>
+                <Text style={input.errorText as any}>
                     {error}
                 </Text>
             )}

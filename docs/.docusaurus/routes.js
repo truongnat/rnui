@@ -9,15 +9,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '07b'),
+    component: ComponentCreator('/docs', '823'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '00a'),
+        component: ComponentCreator('/docs', 'a96'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', 'c90'),
+            component: ComponentCreator('/docs', 'b88'),
             routes: [
               {
                 path: '/docs/',
@@ -308,7 +308,7 @@ export default [
               },
               {
                 path: '/docs/components/skeleton',
-                component: ComponentCreator('/docs/components/skeleton', '501'),
+                component: ComponentCreator('/docs/components/skeleton', 'db6'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },

@@ -1,105 +1,97 @@
-import React, { useMemo } from "react";
-import { View, Text, type ViewStyle } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { usePressable, useTokens, useIconStyle } from "@rnui/headless";
+import { usePressable, useComponentTokens } from "@rnui/headless";
+import { Icon } from "../Icon";
 
 export interface FabProps {
-  variant?: "circular" | "extended";
-  size?: "sm" | "md" | "lg";
-  color?: "default" | "primary" | "secondary" | "success" | "error" | "info" | "warning";
-  disabled?: boolean;
-  label?: string;
   icon?: React.ReactNode;
+  label?: string;
   onPress?: () => void;
+  disabled?: boolean;
+  color?: "primary" | "secondary" | "success" | "error" | "info" | "warning";
+  size?: "sm" | "md" | "lg";
+  variant?: "circular" | "extended";
   accessibilityLabel?: string;
 }
 
-const SIZE = {
-  sm: 40,
-  md: 56,
-  lg: 64,
-};
-
 export function Fab({
-  variant = "circular",
-  size = "md",
-  color = "primary",
-  disabled = false,
-  label,
   icon,
+  label,
   onPress,
+  disabled = false,
+  color = "primary",
+  size = "md",
+  variant = "circular",
   accessibilityLabel,
 }: FabProps) {
-  const tokens = useTokens();
-  const { size: iconSize } = useIconStyle("button");
-
-  const bgMap: Record<string, string> = {
-    default: tokens.color.bg.emphasis,
-    primary: tokens.color.brand.default,
-    secondary: tokens.color.brand.muted,
-    success: tokens.color.success.bg,
-    error: tokens.color.error.bg,
-    info: tokens.color.info.bg,
-    warning: tokens.color.warning.bg,
-  };
-
-  const textMap: Record<string, string> = {
-    default: tokens.color.text.primary,
-    primary: "#fff",
-    secondary: tokens.color.brand.text,
-    success: tokens.color.success.text,
-    error: tokens.color.error.text,
-    info: tokens.color.info.text,
-    warning: tokens.color.warning.text,
-  };
-
-  const { animatedStyle, gesture, accessibilityProps } = usePressable({
+  const { fab } = useComponentTokens();
+  const { gesture, animatedStyle, accessibilityProps } = usePressable({
     onPress,
     disabled,
     feedbackMode: "scale",
-    accessibilityLabel: accessibilityLabel ?? label,
+    accessibilityLabel: accessibilityLabel ?? label ?? (typeof icon === "string" ? icon : "FAB"),
     accessibilityRole: "button",
   });
 
-  const containerStyle = useMemo<ViewStyle>(() => {
-    const dim = SIZE[size];
-    return {
-      height: dim,
-      borderRadius: variant === "circular" ? dim / 2 : dim / 2,
-      paddingHorizontal: variant === "extended" ? tokens.spacing[5] : 0,
-      minWidth: variant === "extended" ? dim + tokens.spacing[6] : dim,
-      backgroundColor: bgMap[color],
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
-      flexDirection: "row" as const,
-      gap: tokens.spacing[2],
-      opacity: disabled ? tokens.opacity[60] : 1,
-      ...tokens.shadow.md,
-    };
-  }, [size, variant, tokens, color, disabled]);
+  const isExtended = variant === "extended" && !!label;
+  
+  // Base color from tokens
+  const baseColor = (fab as any).variant[color]?.backgroundColor ?? (fab as any).variant.primary.backgroundColor;
+  const textColor = "#FFFFFF";
 
-  const renderIcon = (el: React.ReactNode) => {
-    if (!el) return null;
-    if (React.isValidElement(el)) {
-      return React.cloneElement(el as React.ReactElement, {
-        size: (el.props as any)?.size ?? iconSize,
-        color: (el.props as any)?.color ?? textMap[color],
-      } as any);
-    }
-    return el;
+  const sizeMap = {
+    sm: { size: 40, iconSize: 20 },
+    md: { size: 56, iconSize: 24 },
+    lg: { size: 72, iconSize: 28 },
   };
+
+  const s = sizeMap[size];
+
+  const containerStyle = [
+    fab.container,
+    {
+      backgroundColor: baseColor,
+      height: s.size,
+      minWidth: s.size,
+      borderRadius: s.size / 2,
+      paddingHorizontal: isExtended ? 20 : 0,
+    },
+    disabled && { opacity: 0.5 },
+    animatedStyle,
+  ];
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={[containerStyle, animatedStyle] as any} {...accessibilityProps}>
-        {renderIcon(icon)}
-        {variant === "extended" && label && (
-          <Text style={{ color: textMap[color], fontWeight: tokens.fontWeight.semibold }}>
-            {label}
-          </Text>
-        )}
+      <Animated.View style={containerStyle as any} {...accessibilityProps}>
+        <View style={styles.content}>
+          {icon && (
+            <Icon size={s.iconSize} color={textColor}>
+              {icon}
+            </Icon>
+          )}
+          {isExtended && (
+            <Text style={[styles.label, { marginLeft: icon ? 8 : 0 }]}>
+              {label}
+            </Text>
+          )}
+        </View>
       </Animated.View>
     </GestureDetector>
   );
 }
+
+const styles = StyleSheet.create({
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  label: {
+    color: "#FFFFFF",
+    fontWeight: "600",
+    fontSize: 14,
+    textTransform: "uppercase",
+  },
+});

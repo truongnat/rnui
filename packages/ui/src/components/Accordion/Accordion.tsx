@@ -102,7 +102,7 @@ export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps
         </Text>
         <Animated.View style={iconStyle}>
           {expandIcon ?? (
-            <Icon size={accordion.icon.size} color={accordion.icon.color}>chevronDown</Icon>
+            <Icon size={accordion.icon.size} color={accordion.icon.color} name={"chevronDown" as any} />
           )}
         </Animated.View>
       </Animated.View>

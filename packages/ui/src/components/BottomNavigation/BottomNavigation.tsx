@@ -1,6 +1,6 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import { View, Text, Pressable } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens, useBottomNavigation } from "@rnui/headless";
 
 export interface BottomNavigationProps<T = string> {
   value?: T;
@@ -18,7 +18,8 @@ export interface BottomNavigationActionProps<T = string> {
 
 interface BottomNavContextValue<T = string> {
   value?: T;
-  setValue: (value: T) => void;
+  isSelected: (value: T) => boolean;
+  getItemProps: (value: T) => any;
   showLabels: boolean;
 }
 
@@ -31,17 +32,18 @@ export function BottomNavigation<T = string>({
   showLabels = false,
   children,
 }: BottomNavigationProps<T>) {
-  const [internalValue, setInternalValue] = React.useState<T | undefined>(defaultValue);
-  const value = controlledValue !== undefined ? controlledValue : internalValue;
+  const { bottomNavigation } = useComponentTokens();
+  const { value, isSelected, getItemProps } = useBottomNavigation<T>({
+    value: controlledValue,
+    defaultValue,
+    onChange,
+  });
 
-  const setValue = (next: T) => {
-    if (controlledValue === undefined) setInternalValue(next);
-    onChange?.(next);
-  };
+  const ctx = useMemo(() => ({ value, isSelected, getItemProps, showLabels }), [value, isSelected, getItemProps, showLabels]);
 
   return (
-    <BottomNavContext.Provider value={{ value, setValue, showLabels }}>
-      <View style={{ flexDirection: "row", justifyContent: "space-around", paddingVertical: 8 }}>
+    <BottomNavContext.Provider value={ctx}>
+      <View style={[bottomNavigation.container, { flexDirection: "row", justifyContent: "space-around" }]}>
         {children}
       </View>
     </BottomNavContext.Provider>
@@ -49,17 +51,18 @@ export function BottomNavigation<T = string>({
 }
 
 export function BottomNavigationAction<T = string>({ value, label, icon }: BottomNavigationActionProps<T>) {
+  const { bottomNavigation } = useComponentTokens();
   const tokens = useTokens();
   const ctx = useContext(BottomNavContext as React.Context<BottomNavContextValue<T> | null>);
   if (!ctx) return null;
 
-  const selected = ctx.value === value;
+  const selected = ctx.isSelected(value);
 
   return (
-    <Pressable onPress={() => ctx.setValue(value)} style={{ alignItems: "center", gap: 4, paddingHorizontal: 12, paddingVertical: 6 }}>
+    <Pressable {...ctx.getItemProps(value)} style={{ alignItems: "center", gap: 4, paddingHorizontal: 12, paddingVertical: 6 }}>
       {icon}
       {(ctx.showLabels || selected) && label && (
-        <Text style={{ fontSize: tokens.fontSize.xs, color: selected ? tokens.color.brand.default : tokens.color.text.secondary }}>
+        <Text style={{ fontSize: tokens.fontSize.xs, color: selected ? bottomNavigation.item.active.color : bottomNavigation.item.inactive.color }}>
           {label}
         </Text>
       )}

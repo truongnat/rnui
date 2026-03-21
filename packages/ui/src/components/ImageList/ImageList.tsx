@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { View, Text, Dimensions, type LayoutChangeEvent } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@rnui/headless";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -98,28 +98,25 @@ export function ImageListItemBar({
   position = "bottom",
   style,
 }: ImageListItemBarProps) {
+  const { imageList } = useComponentTokens();
   const tokens = useTokens();
 
   return (
     <View
       style={[
+        (imageList as any).bar,
         {
           position: "absolute",
           left: 0,
           right: 0,
-          padding: tokens.spacing[3],
-          backgroundColor: "rgba(0,0,0,0.55)",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
         },
         position === "top" ? { top: 0 } : { bottom: 0 },
         style,
       ]}
     >
       <View style={{ flex: 1 }}>
-        {title ? <Text style={{ color: "#FFFFFF", fontWeight: tokens.fontWeight.semibold }}>{title}</Text> : null}
-        {subtitle ? <Text style={{ color: "#FFFFFF", fontSize: tokens.fontSize.xs }}>{subtitle}</Text> : null}
+        {title ? <Text style={(imageList as any).bar.title as any}>{title}</Text> : null}
+        {subtitle ? <Text style={(imageList as any).bar.subtitle as any}>{subtitle}</Text> : null}
       </View>
       {actionIcon}
     </View>

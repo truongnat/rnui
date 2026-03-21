@@ -1617,6 +1617,240 @@ function useCarousel({
     n
   };
 }
+
+// src/hooks/useOTPInput.ts
+import { useState as useState17, useCallback as useCallback22, useRef as useRef7 } from "react";
+function useOTPInput({
+  length,
+  value,
+  onChange,
+  onComplete,
+  disabled = false
+}) {
+  const [isFocused, setIsFocused] = useState17(false);
+  const inputRef = useRef7(null);
+  const handlePress = useCallback22(() => {
+    if (!disabled) {
+      inputRef.current?.focus();
+    }
+  }, [disabled]);
+  const handleChange = useCallback22((text) => {
+    const numericVal = text.replace(/[^0-9]/g, "").slice(0, length);
+    onChange(numericVal);
+    if (numericVal.length === length && onComplete) {
+      onComplete(numericVal);
+    }
+  }, [length, onChange, onComplete]);
+  return {
+    inputRef,
+    isFocused,
+    onFocus: () => setIsFocused(true),
+    onBlur: () => setIsFocused(false),
+    handlePress,
+    handleChange,
+    getOtpProps: () => ({
+      value,
+      onChangeText: handleChange,
+      onFocus: () => setIsFocused(true),
+      onBlur: () => setIsFocused(false),
+      keyboardType: "number-pad",
+      textContentType: "oneTimeCode",
+      autoComplete: "one-time-code",
+      maxLength: length,
+      editable: !disabled
+    })
+  };
+}
+
+// src/hooks/useSegmentedControl.ts
+import { useState as useState18, useCallback as useCallback23 } from "react";
+function useSegmentedControl({
+  value: controlledValue,
+  defaultValue,
+  onChange,
+  disabled = false
+}) {
+  const [internalValue, setInternalValue] = useState18(defaultValue);
+  const isControlled = controlledValue !== void 0;
+  const value = isControlled ? controlledValue : internalValue;
+  const isSelected = useCallback23((val) => value === val, [value]);
+  const selectValue = useCallback23((val) => {
+    if (disabled) return;
+    if (!isControlled) setInternalValue(val);
+    onChange?.(val);
+  }, [disabled, isControlled, onChange]);
+  return {
+    value,
+    setSelectedIndex: (index, options) => selectValue(options[index]),
+    isSelected,
+    getTabProps: (val, index) => ({
+      onPress: () => selectValue(val),
+      accessibilityRole: "tab",
+      accessibilityState: { selected: isSelected(val), disabled }
+    })
+  };
+}
+
+// src/hooks/useTable.ts
+import { useState as useState19, useCallback as useCallback24, useMemo as useMemo6 } from "react";
+function useTable({
+  data,
+  rowsPerPage: initialRowsPerPage = 10,
+  initialPage = 0,
+  initialSort = null
+}) {
+  const [page, setPage] = useState19(initialPage);
+  const [rowsPerPage, setRowsPerPage] = useState19(initialRowsPerPage);
+  const [sort, setSort] = useState19(initialSort);
+  const [selected, setSelected] = useState19(/* @__PURE__ */ new Set());
+  const processedData = useMemo6(() => {
+    if (!sort) return data;
+    const { key, direction } = sort;
+    return [...data].sort((a, b) => {
+      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [data, sort]);
+  const totalPages = Math.ceil(processedData.length / rowsPerPage);
+  const paginatedData = useMemo6(() => {
+    const start = page * rowsPerPage;
+    return processedData.slice(start, start + rowsPerPage);
+  }, [processedData, page, rowsPerPage]);
+  const handleSort = useCallback24((key) => {
+    setSort((prev) => {
+      if (prev?.key === key) {
+        return { key, direction: prev.direction === "asc" ? "desc" : "asc" };
+      }
+      return { key, direction: "asc" };
+    });
+  }, []);
+  const toggleSelect = useCallback24((id) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+  const toggleSelectAll = useCallback24((ids) => {
+    setSelected((prev) => {
+      if (prev.size === ids.length) return /* @__PURE__ */ new Set();
+      return new Set(ids);
+    });
+  }, []);
+  const isSelected = useCallback24((id) => selected.has(id), [selected]);
+  return {
+    page,
+    rowsPerPage,
+    sort,
+    selected,
+    processedData,
+    paginatedData,
+    totalPages,
+    setPage,
+    setRowsPerPage,
+    handleSort,
+    toggleSelect,
+    toggleSelectAll,
+    isSelected
+  };
+}
+
+// src/hooks/useAlert.ts
+import { useState as useState20, useCallback as useCallback25 } from "react";
+function useAlert({
+  defaultOpen = true,
+  onClose
+} = {}) {
+  const [isOpen, setIsOpen] = useState20(defaultOpen);
+  const close = useCallback25(() => {
+    setIsOpen(false);
+    onClose?.();
+  }, [onClose]);
+  return {
+    isOpen,
+    close,
+    getAlertProps: () => ({
+      role: "alert",
+      accessibilityRole: "alert"
+    }),
+    getCloseButtonProps: () => ({
+      onPress: close,
+      accessibilityLabel: "Close alert",
+      accessibilityRole: "button"
+    })
+  };
+}
+
+// src/hooks/useBottomNavigation.ts
+import { useState as useState21, useCallback as useCallback26 } from "react";
+function useBottomNavigation({
+  value: controlledValue,
+  defaultValue,
+  onChange
+}) {
+  const [internalValue, setInternalValue] = useState21(defaultValue);
+  const isControlled = controlledValue !== void 0;
+  const value = isControlled ? controlledValue : internalValue;
+  const isSelected = useCallback26((val) => value === val, [value]);
+  const selectValue = useCallback26((val) => {
+    if (!isControlled) setInternalValue(val);
+    onChange?.(val);
+  }, [isControlled, onChange]);
+  return {
+    value,
+    selectValue,
+    isSelected,
+    getItemProps: (val) => ({
+      onPress: () => selectValue(val),
+      accessibilityRole: "tab",
+      accessibilityState: { selected: isSelected(val) }
+    })
+  };
+}
+
+// src/hooks/useMenu.ts
+import { useState as useState22, useCallback as useCallback27 } from "react";
+function useMenu({
+  onClose,
+  onOpen
+} = {}) {
+  const [isOpen, setIsOpen] = useState22(false);
+  const open = useCallback27(() => {
+    setIsOpen(true);
+    onOpen?.();
+  }, [onOpen]);
+  const close = useCallback27(() => {
+    setIsOpen(false);
+    onClose?.();
+  }, [onClose]);
+  const toggle = useCallback27(() => {
+    if (isOpen) close();
+    else open();
+  }, [isOpen, open, close]);
+  return {
+    isOpen,
+    open,
+    close,
+    toggle,
+    getTriggerProps: () => ({
+      onPress: toggle,
+      accessibilityRole: "button",
+      accessibilityHasPopup: "menu",
+      accessibilityState: { expanded: isOpen }
+    }),
+    getItemProps: (options = {}) => ({
+      onPress: () => {
+        if (options.disabled) return;
+        options.onClick?.();
+        close();
+      },
+      accessibilityRole: "menuitem",
+      accessibilityState: { disabled: options.disabled }
+    })
+  };
+}
 export {
   ThemeProvider,
   createTheme,
@@ -1630,7 +1864,9 @@ export {
   timingPreset,
   useAccordion,
   useActiveBrand,
+  useAlert,
   useAutocomplete,
+  useBottomNavigation,
   useBottomSheet,
   useBrandSwitch,
   useCarousel,
@@ -1643,16 +1879,20 @@ export {
   useIsDark,
   useListItem,
   useMemoStyles,
+  useMenu,
   useModal,
+  useOTPInput,
   usePagination,
   usePressable,
   useRadioGroup,
   useRating,
   useScrollHeader,
+  useSegmentedControl,
   useSelect,
   useSlider,
   useStepper,
   useSwitch,
+  useTable,
   useTabs,
   useTheme,
   useToast,

@@ -1,38 +1,37 @@
 import React from "react";
-import { type FlashListProps } from "@shopify/flash-list";
-import type { SwipeAction } from "@rnui/headless";
+import { type StyleProp, type ViewStyle } from "react-native";
+import { type ListRenderItem } from "@shopify/flash-list";
+export interface ListProps {
+    children?: React.ReactNode;
+    dense?: boolean;
+    disablePadding?: boolean;
+    subheader?: React.ReactNode;
+    style?: StyleProp<ViewStyle>;
+}
+export declare function List({ children, dense, disablePadding, subheader, style }: ListProps): React.JSX.Element;
 export interface ListItemProps {
-    title: string;
-    subtitle?: string;
-    /** Leading element — avatar, icon, etc. */
-    leading?: React.ReactNode;
-    /** Trailing element — badge, chevron, value */
-    trailing?: React.ReactNode;
+    children?: React.ReactNode;
+    secondaryAction?: React.ReactNode;
     onPress?: () => void;
-    onLongPress?: () => void;
-    trailingActions?: SwipeAction[];
-    leadingActions?: SwipeAction[];
     disabled?: boolean;
-    /** Show bottom separator */
-    showSeparator?: boolean;
+    selected?: boolean;
+    divider?: boolean;
+    style?: StyleProp<ViewStyle>;
 }
-export declare function ListItem({ title, subtitle, leading, trailing, onPress, onLongPress, trailingActions, leadingActions, disabled, showSeparator, }: ListItemProps): React.JSX.Element;
-export interface SectionHeaderProps {
-    title: string;
-    trailing?: React.ReactNode;
+export declare function ListItem({ children, secondaryAction, onPress, disabled, selected, divider, style, }: ListItemProps): React.JSX.Element;
+export interface ListItemTextProps {
+    primary: React.ReactNode;
+    secondary?: React.ReactNode;
 }
-export declare function SectionHeader({ title, trailing }: SectionHeaderProps): React.JSX.Element;
-export interface ListProps<T> extends Omit<FlashListProps<T>, "renderItem" | "estimatedItemSize"> {
+export declare function ListItemText({ primary, secondary }: ListItemTextProps): React.JSX.Element;
+export declare function ListItemIcon({ children }: {
+    children: React.ReactNode;
+}): React.JSX.Element;
+export interface ListDataProps<T> extends Omit<ListProps, "children"> {
     data: T[];
-    renderItem: (item: T, index: number) => React.ReactElement;
-    estimatedItemSize?: number;
-    /** Show divider between items */
-    separator?: boolean;
-    /** Empty state element */
-    emptyComponent?: React.ReactElement;
-    /** Loading skeleton count */
-    loadingCount?: number;
-    isLoading?: boolean;
+    renderItem: ListRenderItem<T>;
+    estimatedItemSize: number;
+    keyExtractor?: (item: T, index: number) => string;
 }
-export declare function List<T>({ data, renderItem, estimatedItemSize, separator, emptyComponent, isLoading, loadingCount, ...rest }: ListProps<T>): React.JSX.Element;
+export declare function ListData<T>({ data, renderItem, estimatedItemSize, keyExtractor, ...listProps }: ListDataProps<T>): React.JSX.Element;
 //# sourceMappingURL=List.d.ts.map

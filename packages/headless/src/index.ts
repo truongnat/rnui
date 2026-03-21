@@ -87,3 +87,21 @@ export type { UseStepperOptions, UseStepperReturn, Step } from "./hooks/useStepp
 
 export { useCarousel } from "./hooks/useCarousel";
 export type { UseCarouselOptions } from "./hooks/useCarousel";
+
+export { useOTPInput } from "./hooks/useOTPInput";
+export type { UseOTPInputOptions, UseOTPInputReturn } from "./hooks/useOTPInput";
+
+export { useSegmentedControl } from "./hooks/useSegmentedControl";
+export type { UseSegmentedControlOptions, UseSegmentedControlReturn } from "./hooks/useSegmentedControl";
+
+export { useTable } from "./hooks/useTable";
+export type { UseTableOptions, UseTableReturn } from "./hooks/useTable";
+
+export { useAlert } from "./hooks/useAlert";
+export type { UseAlertOptions, UseAlertReturn } from "./hooks/useAlert";
+
+export { useBottomNavigation } from "./hooks/useBottomNavigation";
+export type { UseBottomNavigationOptions, UseBottomNavigationReturn } from "./hooks/useBottomNavigation";
+
+export { useMenu } from "./hooks/useMenu";
+export type { UseMenuOptions, UseMenuReturn } from "./hooks/useMenu";

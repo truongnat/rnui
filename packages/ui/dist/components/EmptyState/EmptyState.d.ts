@@ -1,20 +1,9 @@
 import React from "react";
-export interface EmptyStateAction {
-    label: string;
-    onPress: () => void;
-    variant?: "solid" | "outline" | "ghost";
-}
 export interface EmptyStateProps {
-    /** Large icon/illustration slot — pass an SVG, Image, or icon name */
-    icon?: React.ReactNode | string;
-    title: string;
+    title?: string;
     description?: string;
-    /** Primary action button */
-    action?: EmptyStateAction;
-    /** Secondary action link */
-    secondaryAction?: EmptyStateAction;
-    /** Compact variant for inline empty states inside lists */
-    compact?: boolean;
+    icon?: React.ReactNode;
+    action?: React.ReactNode;
 }
-export declare function EmptyState({ icon, title, description, action, secondaryAction, compact, }: EmptyStateProps): React.JSX.Element;
+export declare function EmptyState({ title, description, icon, action }: EmptyStateProps): React.JSX.Element;
 //# sourceMappingURL=EmptyState.d.ts.map

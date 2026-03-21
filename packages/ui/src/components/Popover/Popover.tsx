@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Modal, View, Pressable, StyleSheet, Dimensions, type LayoutChangeEvent } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@rnui/headless";
 
 export type PopoverOriginVertical = "top" | "center" | "bottom" | number;
 export type PopoverOriginHorizontal = "left" | "center" | "right" | number;
@@ -44,6 +44,7 @@ export function Popover({
   marginThreshold = 12,
   children,
 }: PopoverProps) {
+  const { popover } = useComponentTokens();
   const tokens = useTokens();
   const [contentSize, setContentSize] = useState({ width: 0, height: 0 });
 
@@ -85,17 +86,14 @@ export function Popover({
       <View
         onLayout={handleLayout}
         style={[
-          styles.paper,
+          popover.container,
           {
-            backgroundColor: tokens.color.surface.overlay,
-            borderColor: tokens.color.border.default,
-            shadowColor: tokens.color.text.primary,
             // Hide until measured to prevent position flash
             opacity: contentSize.width === 0 ? 0 : 1,
           },
           position,
           PaperProps?.style,
-        ]}
+        ] as any}
       >
         {children}
       </View>

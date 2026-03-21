@@ -102,7 +102,7 @@ export function Snackbar({
           {action}
           {onClose && (
             <Pressable onPress={onClose} hitSlop={8} style={{ marginLeft: 8 }}>
-              <Icon size={18} color={snackbar.text.color}>close</Icon>
+              <Icon size={18} color={snackbar.text.color} name={"close" as any} />
             </Pressable>
           )}
         </Animated.View>

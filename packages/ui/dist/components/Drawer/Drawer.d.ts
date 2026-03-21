@@ -1,13 +1,10 @@
 import React from "react";
-import { type ViewStyle } from "react-native";
+export type DrawerAnchor = "left" | "right" | "top" | "bottom";
 export interface DrawerProps {
     open: boolean;
     onClose?: () => void;
-    anchor?: "left" | "right" | "top" | "bottom";
-    variant?: "temporary" | "persistent" | "permanent";
-    width?: number;
+    anchor?: DrawerAnchor;
     children?: React.ReactNode;
-    style?: ViewStyle | ViewStyle[];
 }
-export declare function Drawer({ open, onClose, anchor, variant, width, children, style, }: DrawerProps): React.JSX.Element | null;
+export declare function Drawer({ open, onClose, anchor, children, }: DrawerProps): React.JSX.Element | null;
 //# sourceMappingURL=Drawer.d.ts.map

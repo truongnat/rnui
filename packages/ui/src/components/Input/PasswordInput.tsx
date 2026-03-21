@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Pressable } from "react-native";
 import { useIconStyle } from "@rnui/headless";
-import { Eye, EyeOff } from "lucide-react-native";
 import { Input, type InputProps } from "./Input";
+import { Icon } from "../Icon";
 
 export interface PasswordInputProps extends InputProps { }
 
@@ -28,11 +28,7 @@ export function PasswordInput(props: PasswordInputProps) {
                     accessibilityLabel={show ? "Hide password" : "Show password"}
                     accessibilityRole="button"
                 >
-                    {show ? (
-                        <EyeOff size={size} color={color} />
-                    ) : (
-                        <Eye size={size} color={color} />
-                    )}
+                    <Icon size={size} color={color} name={(show ? "eyeOff" : "eye") as any} />
                 </Pressable>
             }
         />

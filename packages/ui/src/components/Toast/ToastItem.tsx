@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
   withTiming,
   runOnJS,
   FadeInUp,
@@ -12,51 +11,21 @@ import Animated, {
 } from "react-native-reanimated";
 import { View, Text, Pressable } from "react-native";
 import { useComponentTokens, useTokens } from "@rnui/headless";
-import { spring } from "@rnui/tokens";
+import { Icon } from "../Icon";
 import type { ToastItem as ToastItemType, ToastPosition } from "@rnui/headless";
 
-function VariantIcon({ variant, color }: { variant: ToastItemType["variant"]; color: string }) {
-  const size = 20;
-  if (variant === "success") {
-    return (
-      <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ color: "#fff", fontSize: 12, fontWeight: "800", marginTop: -1 }}>✓</Text>
-      </View>
-    );
-  }
-  if (variant === "error") {
-    return (
-      <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ color: "#fff", fontSize: 13, fontWeight: "800", marginTop: -1 }}>✕</Text>
-      </View>
-    );
-  }
-  if (variant === "warning") {
-    return (
-      <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ color: "#fff", fontSize: 13, fontWeight: "900" }}>!</Text>
-      </View>
-    );
-  }
-  if (variant === "info") {
-    return (
-      <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ color: "#fff", fontSize: 13, fontWeight: "900" }}>i</Text>
-      </View>
-    );
-  }
-  return null;
-}
-
-// ─── Props ────────────────────────────────────────────────────────
+const VARIANT_ICONS: Record<string, string> = {
+  success: "checkCircle",
+  error: "error",
+  warning: "warning",
+  info: "info",
+};
 
 interface ToastItemProps {
   item: ToastItemType;
   position: ToastPosition;
   onDismiss: (id: string) => void;
 }
-
-// ─── Component ────────────────────────────────────────────────────
 
 export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
   const { toast } = useComponentTokens();
@@ -81,14 +50,14 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
 
   // Pick variant colors
   const variantMap = {
-    default: { icon: null, iconColor: tokens.color.text.tertiary, progressColor: tokens.color.border.strong },
-    success: { icon: "success", iconColor: tokens.color.success.icon, progressColor: tokens.color.success.icon },
-    warning: { icon: "warning", iconColor: tokens.color.warning.icon, progressColor: tokens.color.warning.icon },
-    error: { icon: "error", iconColor: tokens.color.error.icon, progressColor: tokens.color.error.icon },
-    info: { icon: "info", iconColor: tokens.color.info.icon, progressColor: tokens.color.info.icon },
+    default: { iconColor: tokens.color.text.tertiary, progressColor: tokens.color.border.strong },
+    success: { iconColor: tokens.color.success.icon, progressColor: tokens.color.success.icon },
+    warning: { iconColor: tokens.color.warning.icon, progressColor: tokens.color.warning.icon },
+    error: { iconColor: tokens.color.error.icon, progressColor: tokens.color.error.icon },
+    info: { iconColor: tokens.color.info.icon, progressColor: tokens.color.info.icon },
   } as const;
 
-  const v = variantMap[item.variant];
+  const v = variantMap[item.variant] || variantMap.default;
 
   const entering = position === "top" ? FadeInDown.springify().damping(18).stiffness(280) : FadeInUp.springify().damping(18).stiffness(280);
   const exiting = position === "top" ? FadeOutUp.duration(200) : FadeOutDown.duration(200);
@@ -99,7 +68,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
       exiting={exiting}
       style={[
         toast.container,
-        toast.variant[item.variant],
+        toast.variant[item.variant] as any,
         { overflow: "hidden", marginBottom: 8 },
       ]}
     >
@@ -114,7 +83,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
             : item.icon}
         </View>
       ) : item.variant !== "default" && (
-        <VariantIcon variant={item.variant} color={v.iconColor} />
+        <Icon size={20} color={v.iconColor} name={"VARIANT_ICONS[item.variant]" as any} />
       )}
 
       {/* Message */}
@@ -139,7 +108,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
 
       {/* Dismiss button */}
       <Pressable onPress={() => onDismiss(item.id)} hitSlop={8}>
-        <Text style={{ fontSize: 16, color: tokens.color.text.inverse, opacity: 0.7, lineHeight: 18 }}>✕</Text>
+        <Icon size={18} color={tokens.color.text.inverse} name={"close" as any} />
       </Pressable>
 
       {/* Progress bar */}

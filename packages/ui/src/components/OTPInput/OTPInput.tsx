@@ -7,7 +7,7 @@ import Animated, {
     withTiming,
     withSequence,
 } from "react-native-reanimated";
-import { useComponentTokens, useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens, useOTPInput } from "@rnui/headless";
 
 export interface OTPInputProps {
     length?: number;
@@ -25,34 +25,18 @@ export function OTPInput({
     disabled = false,
 }: OTPInputProps) {
     const { otpInput } = useComponentTokens();
-    const tokens = useTokens();
-    const inputRef = useRef<TextInput>(null);
-    const [isFocused, setIsFocused] = useState(false);
-
-    const handlePress = () => {
-        if (!disabled) {
-            inputRef.current?.focus();
-        }
-    };
-
-    const handleChange = (text: string) => {
-        const numericVal = text.replace(/[^0-9]/g, "").slice(0, length);
-        onChange(numericVal);
-        if (numericVal.length === length && onComplete) {
-            onComplete(numericVal);
-        }
-    };
+    const { inputRef, isFocused, handlePress, getOtpProps } = useOTPInput({
+        length,
+        value,
+        onChange,
+        onComplete,
+        disabled,
+    });
 
     return (
         <View style={{ width: "100%" }}>
             <TextInput
-                ref={inputRef}
-                value={value}
-                onChangeText={handleChange}
-                keyboardType="number-pad"
-                textContentType="oneTimeCode"
-                autoComplete="one-time-code"
-                maxLength={length}
+                ref={inputRef as any}
                 caretHidden
                 style={{
                     position: "absolute",
@@ -60,9 +44,7 @@ export function OTPInput({
                     height: 0,
                     opacity: 0,
                 }}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                editable={!disabled}
+                {...getOtpProps()}
             />
 
             <Pressable

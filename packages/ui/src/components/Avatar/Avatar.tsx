@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { View, Text, Image, type ViewStyle } from "react-native";
+import { useComponentTokens, useTokens } from "@rnui/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
 
-export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 export type AvatarStatus = "online" | "offline" | "busy" | "away";
 
 export interface AvatarProps {
@@ -19,23 +19,8 @@ export interface AvatarProps {
   shape?: "circle" | "rounded";
   /** Accessible label */
   accessibilityLabel?: string;
+  style?: ViewStyle | ViewStyle[];
 }
-
-const SIZES: Record<AvatarSize, number> = {
-  xs: 24,
-  sm: 32,
-  md: 40,
-  lg: 52,
-  xl: 68,
-};
-
-const FONT_SIZES: Record<AvatarSize, number> = {
-  xs: 10,
-  sm: 12,
-  md: 15,
-  lg: 18,
-  xl: 24,
-};
 
 const STATUS_COLORS = {
   online:  "#22C55E",
@@ -44,12 +29,13 @@ const STATUS_COLORS = {
   away:    "#F59E0B",
 };
 
-const STATUS_DOT: Record<AvatarSize, number> = {
+const STATUS_DOT_SIZE: Record<AvatarSize, number> = {
   xs: 6,
   sm: 8,
   md: 10,
   lg: 12,
   xl: 14,
+  "2xl": 16,
 };
 
 // Deterministic color from initials string
@@ -88,37 +74,43 @@ export function Avatar({
   status,
   shape = "circle",
   accessibilityLabel,
+  style,
 }: AvatarProps) {
+  const { avatar } = useComponentTokens();
   const tokens = useTokens();
-  const dim = SIZES[size];
-  const radius = shape === "circle" ? dim / 2 : tokens.radius.md;
+  const sizeConfig = avatar.size[size];
+  const radius = shape === "circle" ? sizeConfig.borderRadius : tokens.radius.md;
   const colorIdx = initials ? getColorIndex(initials) : 0;
 
-  const dotSize = status ? STATUS_DOT[size] : 0;
+  const dotSize = status ? STATUS_DOT_SIZE[size] : 0;
 
   return (
-    <View style={{ width: dim, height: dim }} accessible={!!accessibilityLabel} accessibilityLabel={accessibilityLabel}>
+    <View
+      style={[{ width: sizeConfig.width, height: sizeConfig.height }, style]}
+      accessible={!!accessibilityLabel}
+      accessibilityLabel={accessibilityLabel}
+    >
       {src ? (
         <Image
           source={{ uri: src }}
-          style={{ width: dim, height: dim, borderRadius: radius }}
+          style={{ width: sizeConfig.width, height: sizeConfig.height, borderRadius: radius }}
           accessibilityLabel={accessibilityLabel}
         />
       ) : initials ? (
         <View
           style={{
-            width: dim,
-            height: dim,
+            width: sizeConfig.width,
+            height: sizeConfig.height,
             borderRadius: radius,
             backgroundColor: BG_PALETTE[colorIdx],
-            alignItems: "center",
-            justifyContent: "center",
+            alignItems: avatar.container.alignItems as any,
+            justifyContent: avatar.container.justifyContent as any,
           }}
         >
           <Text
             style={{
-              fontSize: FONT_SIZES[size],
-              fontWeight: "600",
+              fontSize: sizeConfig.fontSize,
+              fontWeight: avatar.text.fontWeight as any,
               color: TEXT_PALETTE[colorIdx],
               letterSpacing: 0.5,
             }}
@@ -130,16 +122,16 @@ export function Avatar({
         // Generic fallback
         <View
           style={{
-            width: dim,
-            height: dim,
+            width: sizeConfig.width,
+            height: sizeConfig.height,
             borderRadius: radius,
-            backgroundColor: tokens.color.bg.muted,
-            alignItems: "center",
-            justifyContent: "center",
+            backgroundColor: avatar.container.backgroundColor,
+            alignItems: avatar.container.alignItems as any,
+            justifyContent: avatar.container.justifyContent as any,
           }}
         >
           {fallbackIcon ?? (
-            <Text style={{ fontSize: FONT_SIZES[size], color: tokens.color.text.tertiary }}>
+            <Text style={{ fontSize: sizeConfig.fontSize, color: tokens.color.text.tertiary }}>
               ?
             </Text>
           )}
@@ -157,8 +149,8 @@ export function Avatar({
             height: dotSize,
             borderRadius: dotSize / 2,
             backgroundColor: STATUS_COLORS[status],
-            borderWidth: 1.5,
-            borderColor: tokens.color.surface.default,
+            borderWidth: avatar.presence.borderWidth,
+            borderColor: avatar.presence.borderColor,
           }}
         />
       )}
@@ -181,8 +173,10 @@ export function AvatarGroup({
   size = "md",
   overlap,
 }: AvatarGroupProps) {
+  const { avatar: avatarTokens } = useComponentTokens();
   const tokens = useTokens();
-  const dim = SIZES[size];
+  const sizeConfig = avatarTokens.size[size];
+  const dim = sizeConfig.width;
   const gap = overlap ?? Math.round(dim * 0.3);
 
   const visible = avatars.slice(0, max);
@@ -204,8 +198,8 @@ export function AvatarGroup({
             position: "absolute",
             left: i * (dim - gap),
             zIndex: visible.length - i,
-            borderWidth: 2,
-            borderColor: tokens.color.surface.default,
+            borderWidth: avatarTokens.presence.borderWidth,
+            borderColor: avatarTokens.presence.borderColor,
             borderRadius: dim / 2 + 2,
           }}
         >
@@ -221,19 +215,19 @@ export function AvatarGroup({
             width: dim,
             height: dim,
             borderRadius: dim / 2,
-            backgroundColor: tokens.color.bg.muted,
-            alignItems: "center",
-            justifyContent: "center",
-            borderWidth: 2,
-            borderColor: tokens.color.surface.default,
+            backgroundColor: avatarTokens.container.backgroundColor,
+            alignItems: avatarTokens.container.alignItems as any,
+            justifyContent: avatarTokens.container.justifyContent as any,
+            borderWidth: avatarTokens.presence.borderWidth,
+            borderColor: avatarTokens.presence.borderColor,
             zIndex: 0,
           }}
         >
           <Text
             style={{
-              fontSize: FONT_SIZES[size],
+              fontSize: sizeConfig.fontSize,
               color: tokens.color.text.secondary,
-              fontWeight: "600",
+              fontWeight: avatarTokens.text.fontWeight as any,
             }}
           >
             +{overflow}

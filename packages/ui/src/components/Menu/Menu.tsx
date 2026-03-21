@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Modal, View, Pressable, Text, useWindowDimensions } from "react-native";
 import Animated, {
   useSharedValue,
@@ -8,7 +8,7 @@ import Animated, {
   runOnJS,
   Easing,
 } from "react-native-reanimated";
-import { useTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens, useMenu } from "@rnui/headless";
 
 export interface MenuProps {
   open: boolean;
@@ -24,11 +24,15 @@ export interface MenuItemProps {
   selected?: boolean;
 }
 
+const MenuContext = React.createContext<{ getItemProps: (o: any) => any } | null>(null);
+
 export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
-  const tokens = useTokens();
+  const { menu } = useComponentTokens();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [menuSize, setMenuSize] = React.useState({ width: 0, height: 0 });
   const [mounted, setMounted] = React.useState(false);
+
+  const { close, getItemProps } = useMenu({ onClose });
 
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.9);
@@ -80,51 +84,48 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
   if (!mounted) return null;
 
   return (
-    <Modal visible={mounted} transparent animationType="none" onRequestClose={onClose}>
-      <Pressable style={{ flex: 1 }} onPress={onClose} />
+    <Modal visible={mounted} transparent animationType="none" onRequestClose={close}>
+      <Pressable style={{ flex: 1 }} onPress={close} />
       <Animated.View
         onLayout={(e) => {
           const { width, height } = e.nativeEvent.layout;
           setMenuSize({ width, height });
         }}
         style={[
+          menu.container,
           {
             position: "absolute",
             top,
             left,
             minWidth: MENU_MIN_WIDTH,
-            backgroundColor: tokens.color.surface.default,
-            borderRadius: tokens.radius.md,
-            borderWidth: 1,
-            borderColor: tokens.color.border.default,
-            overflow: "hidden",
-            ...tokens.shadow.md,
           },
           animStyle,
         ]}
       >
-        {children}
+        <MenuContext.Provider value={{ getItemProps }}>
+          {children}
+        </MenuContext.Provider>
       </Animated.View>
     </Modal>
   );
 }
 
 export function MenuItem({ children, onPress, disabled = false, selected = false }: MenuItemProps) {
+  const { menu } = useComponentTokens();
   const tokens = useTokens();
+  const ctx = React.useContext(MenuContext);
+
+  const itemProps = ctx?.getItemProps({ onClick: onPress, disabled }) ?? { onPress, disabled };
+
   return (
     <Pressable
-      onPress={onPress}
-      disabled={disabled}
-      style={({ pressed }) => ({
-        paddingHorizontal: tokens.spacing[4],
-        paddingVertical: tokens.spacing[3],
-        backgroundColor: pressed
-          ? tokens.color.bg.subtle
-          : selected
-            ? tokens.color.brand.subtle
-            : "transparent",
-        opacity: disabled ? 0.5 : 1,
-      })}
+      {...itemProps}
+      style={({ pressed }) => [
+        menu.item,
+        pressed && { backgroundColor: tokens.color.bg.subtle },
+        selected && { backgroundColor: tokens.color.brand.subtle },
+        disabled && { opacity: 0.5 },
+      ]}
     >
       <Text style={{
         color: selected ? tokens.color.brand.text : tokens.color.text.primary,

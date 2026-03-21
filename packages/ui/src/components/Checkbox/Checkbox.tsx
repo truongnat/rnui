@@ -4,10 +4,9 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  withTiming,
   interpolate,
 } from "react-native-reanimated";
-import { useCheckbox, useTokens } from "@rnui/headless";
+import { useCheckbox, useComponentTokens, useTokens } from "@rnui/headless";
 import { spring } from "@rnui/tokens";
 import type { UseCheckboxOptions } from "@rnui/headless";
 
@@ -17,21 +16,18 @@ export interface CheckboxProps extends UseCheckboxOptions {
   size?: "sm" | "md" | "lg";
 }
 
-const SIZE = { sm: 18, md: 22, lg: 26 };
-const ICON_SIZE = { sm: 10, md: 13, lg: 16 };
-
 export function Checkbox({
   label,
   description,
   size = "md",
   ...hookOptions
 }: CheckboxProps) {
+  const { checkbox } = useComponentTokens();
   const tokens = useTokens();
   const { isChecked, isIndeterminate, isDisabled, toggle, accessibilityProps } =
     useCheckbox(hookOptions);
 
-  const boxSize = SIZE[size];
-  const iconSize = ICON_SIZE[size];
+  const sizeConfig = checkbox.size[size];
 
   // Animated values
   const scale = useSharedValue(1);
@@ -47,11 +43,11 @@ export function Checkbox({
       [0, 1],
       [0, 1]
     ) > 0.5
-      ? tokens.color.brand.default
-      : "transparent",
+      ? checkbox.state.checked.backgroundColor
+      : checkbox.state.default.backgroundColor,
     borderColor: fillProgress.value > 0.5
-      ? tokens.color.brand.default
-      : tokens.color.border.default,
+      ? checkbox.state.checked.borderColor
+      : checkbox.state.default.borderColor,
     transform: [{ scale: scale.value }],
   }));
 
@@ -71,18 +67,18 @@ export function Checkbox({
     <Pressable
       onPress={handlePress}
       disabled={isDisabled}
-      style={{ flexDirection: "row", alignItems: "flex-start", gap: 10, opacity: isDisabled ? 0.4 : 1 }}
+      style={{ flexDirection: "row", alignItems: "flex-start", gap: 10, opacity: isDisabled ? checkbox.state.disabled.opacity : 1 }}
       {...accessibilityProps}
     >
       <Animated.View
         style={[
           {
-            width: boxSize,
-            height: boxSize,
-            borderRadius: 5,
-            borderWidth: 1.5,
-            alignItems: "center",
-            justifyContent: "center",
+            width: sizeConfig.width,
+            height: sizeConfig.height,
+            borderRadius: sizeConfig.borderRadius,
+            borderWidth: sizeConfig.borderWidth,
+            alignItems: checkbox.container.alignItems as any,
+            justifyContent: checkbox.container.justifyContent as any,
             marginTop: 1,
           },
           boxStyle,
@@ -90,9 +86,9 @@ export function Checkbox({
       >
         <Animated.View style={checkStyle}>
           {isIndeterminate ? (
-            <View style={{ width: iconSize, height: 2, backgroundColor: "#fff", borderRadius: 1 }} />
+            <View style={{ width: sizeConfig.iconSize, height: 2, backgroundColor: "#fff", borderRadius: 1 }} />
           ) : (
-            <Text style={{ color: "#fff", fontSize: iconSize, fontWeight: "700", lineHeight: iconSize + 2 }}>
+            <Text style={{ color: "#fff", fontSize: sizeConfig.iconSize, fontWeight: "700", lineHeight: sizeConfig.iconSize + 2 }}>
               ✓
             </Text>
           )}

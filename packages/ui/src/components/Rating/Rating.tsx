@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, Pressable } from "react-native";
-import { useRating, useTokens } from "@rnui/headless";
+import { View, Pressable } from "react-native";
+import { useRating, useTokens, useComponentTokens } from "@rnui/headless";
+import { Icon } from "../Icon";
 
 export interface RatingProps {
   value?: number;
@@ -13,8 +14,6 @@ export interface RatingProps {
   onChange?: (value: number) => void;
 }
 
-const SIZE_MAP = { sm: 18, md: 24, lg: 32 } as const;
-
 export function Rating({
   value,
   defaultValue,
@@ -25,6 +24,7 @@ export function Rating({
   size = "md",
   onChange,
 }: RatingProps) {
+  const { rating } = useComponentTokens();
   const tokens = useTokens();
   const { value: ratingValue, setValue } = useRating({
     value,
@@ -36,9 +36,9 @@ export function Rating({
     onChange,
   });
 
-  const fontSize = SIZE_MAP[size];
-  const activeColor = tokens.color.brand.default;
-  const inactiveColor = tokens.color.border.default;
+  const iconSize = (rating.size as any)[size];
+  const activeColor = (rating as any).star.filled.color;
+  const inactiveColor = (rating as any).star.empty.color;
 
   const handlePress = (index: number) => {
     if (disabled || readOnly) return;
@@ -49,7 +49,7 @@ export function Rating({
   };
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
+    <View style={(rating as any).container}>
       {Array.from({ length: max }).map((_, i) => {
         const starNumber = i + 1;
         const filled = ratingValue >= starNumber;
@@ -62,9 +62,12 @@ export function Rating({
             disabled={disabled || readOnly}
             style={{ opacity: disabled ? 0.5 : 1 }}
           >
-            <Text style={{ fontSize, color: filled || halfFilled ? activeColor : inactiveColor, lineHeight: fontSize * 1.2 }}>
-              {filled ? "★" : halfFilled ? "⯨" : "☆"}
-            </Text>
+            <Icon 
+              size={iconSize} 
+              color={filled || halfFilled ? activeColor : inactiveColor}
+            >
+              {filled ? "star" : halfFilled ? "star" : "star"} 
+            </Icon>
           </Pressable>
         );
       })}

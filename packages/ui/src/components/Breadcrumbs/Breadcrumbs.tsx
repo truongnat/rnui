@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useTokens } from "@rnui/headless";
+import { useComponentTokens } from "@rnui/headless";
 
 export interface BreadcrumbsProps {
   children?: React.ReactNode;
@@ -17,25 +17,25 @@ export function Breadcrumbs({
   itemsBeforeCollapse = 1,
   itemsAfterCollapse = 1,
 }: BreadcrumbsProps) {
-  const tokens = useTokens();
+  const { breadcrumbs } = useComponentTokens();
   const items = React.Children.toArray(children);
 
   let displayItems = items;
   if (items.length > maxItems) {
     displayItems = [
       ...items.slice(0, itemsBeforeCollapse),
-      <Text key="ellipsis" style={{ color: tokens.color.text.tertiary }}>...</Text>,
+      <Text key="ellipsis" style={{ color: breadcrumbs.separator.color }}>...</Text>,
       ...items.slice(items.length - itemsAfterCollapse),
     ];
   }
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "center", flexWrap: "wrap" }}>
+    <View style={breadcrumbs.container}>
       {displayItems.map((child, idx) => (
         <React.Fragment key={idx}>
           {child}
           {idx < displayItems.length - 1 && (
-            <Text style={{ marginHorizontal: 6, color: tokens.color.text.tertiary }}>{separator}</Text>
+            <Text style={{ marginHorizontal: breadcrumbs.container.gap, color: breadcrumbs.separator.color, fontSize: breadcrumbs.separator.fontSize }}>{separator}</Text>
           )}
         </React.Fragment>
       ))}

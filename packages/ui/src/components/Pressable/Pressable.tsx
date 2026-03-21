@@ -1,7 +1,7 @@
 import React from "react";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { usePressable } from "@rnui/headless";
+import { usePressable, useComponentTokens } from "@rnui/headless";
 import type { UsePressableOptions } from "@rnui/headless";
 
 export interface PressableProps extends UsePressableOptions {
@@ -10,11 +10,12 @@ export interface PressableProps extends UsePressableOptions {
 }
 
 export function Pressable({ children, style, ...hookOptions }: PressableProps) {
+  const { pressable } = useComponentTokens();
   const { gesture, animatedStyle, accessibilityProps, isPressed } = usePressable(hookOptions);
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={[style, animatedStyle]} {...accessibilityProps}>
+      <Animated.View style={[(pressable as any).container, style, animatedStyle] as any} {...accessibilityProps}>
         {typeof children === "function" ? children({ isPressed }) : children}
       </Animated.View>
     </GestureDetector>

@@ -37,6 +37,67 @@ const { gesture, animatedStyle, accessibilityProps, isPressed } = usePressable({
   accessibilityHint: "Saves changes",
   accessibilityRole: "button",
   haptic: true,
+  hitSlop: 8,                    // auto-expands touch target to min 44px
+});
+```
+
+## useTable
+
+```tsx
+const { 
+  page, rowsPerPage, sort, selected, 
+  paginatedData, totalPages, 
+  setPage, handleSort, toggleSelect 
+} = useTable({
+  data: myData,
+  rowsPerPage: 10,
+  initialSort: { key: 'name', direction: 'asc' }
+});
+```
+
+## useAlert
+
+```tsx
+const { isOpen, close, getAlertProps, getCloseButtonProps } = useAlert({
+  defaultOpen: true,
+  onClose: () => console.log("Closed")
+});
+```
+
+## useOTPInput
+
+```tsx
+const { inputRef, isFocused, getOtpProps, handlePress } = useOTPInput({
+  length: 6,
+  value: otp,
+  onChange: setOtp,
+  onComplete: (val) => verify(val)
+});
+```
+
+## useSegmentedControl
+
+```tsx
+const { value, isSelected, getTabProps } = useSegmentedControl({
+  value: activeIndex,
+  onChange: (i) => setActiveIndex(i)
+});
+```
+
+## useBottomNavigation
+
+```tsx
+const { value, isSelected, getItemProps } = useBottomNavigation({
+  value: currentRoute,
+  onChange: (val) => router.push(val)
+});
+```
+
+## useMenu
+
+```tsx
+const { isOpen, open, close, getTriggerProps, getItemProps } = useMenu({
+  onClose: () => console.log("Menu closed")
 });
 ```
 

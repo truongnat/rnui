@@ -18,6 +18,6 @@ export interface AlertProps {
 export interface AlertTitleProps {
     children?: React.ReactNode;
 }
-export declare function Alert({ severity, variant, icon, action, onClose, children, }: AlertProps): React.JSX.Element;
+export declare function Alert({ severity, variant, icon, action, onClose, children, }: AlertProps): React.JSX.Element | null;
 export declare function AlertTitle({ children }: AlertTitleProps): React.JSX.Element;
 //# sourceMappingURL=Alert.d.ts.map

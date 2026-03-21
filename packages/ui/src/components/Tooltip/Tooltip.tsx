@@ -6,7 +6,7 @@ import Animated, {
   withTiming,
   runOnJS,
 } from "react-native-reanimated";
-import { useTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@rnui/headless";
 
 export type TooltipPlacement =
   | "top" | "top-start" | "top-end"
@@ -38,6 +38,7 @@ export function Tooltip({
   onClose,
   placement = "top",
 }: TooltipProps) {
+  const { tooltip } = useComponentTokens();
   const tokens = useTokens();
   const [internalOpen, setInternalOpen] = useState(false);
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
@@ -143,23 +144,17 @@ export function Tooltip({
             }}
             onStartShouldSetResponder={() => true}
             style={[
+              tooltip.container,
               {
                 position: "absolute",
                 top: safeTop,
                 left: safeLeft,
-                maxWidth: 240,
-                backgroundColor: tokens.color.bg.inverse,
-                paddingHorizontal: tokens.spacing[3],
-                paddingVertical: tokens.spacing[2],
-                borderRadius: tokens.radius.md,
-                ...tokens.shadow.lg,
-                zIndex: 9999,
               },
               animStyle,
-            ]}
+            ] as any}
           >
             {typeof title === "string" ? (
-              <Text style={{ color: tokens.color.text.inverse, fontSize: tokens.fontSize.sm, lineHeight: tokens.fontSize.sm * 1.4 }}>
+              <Text style={tooltip.text as any}>
                 {title}
               </Text>
             ) : title}

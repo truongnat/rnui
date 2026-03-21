@@ -1,145 +1,46 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useTokens } from "@rnui/headless";
-import { Button } from "../Button";
-import { Icon } from "../Icon";
-
-export interface EmptyStateAction {
-  label: string;
-  onPress: () => void;
-  variant?: "solid" | "outline" | "ghost";
-}
+import { useComponentTokens, useTokens } from "@rnui/headless";
 
 export interface EmptyStateProps {
-  /** Large icon/illustration slot — pass an SVG, Image, or icon name */
-  icon?: React.ReactNode | string;
-  title: string;
+  title?: string;
   description?: string;
-  /** Primary action button */
-  action?: EmptyStateAction;
-  /** Secondary action link */
-  secondaryAction?: EmptyStateAction;
-  /** Compact variant for inline empty states inside lists */
-  compact?: boolean;
+  icon?: React.ReactNode;
+  action?: React.ReactNode;
 }
 
-export function EmptyState({
-  icon,
-  title,
-  description,
-  action,
-  secondaryAction,
-  compact = false,
-}: EmptyStateProps) {
+export function EmptyState({ title, description, icon, action }: EmptyStateProps) {
+  const { emptyState } = useComponentTokens();
   const tokens = useTokens();
 
-  const renderIcon = (iconNode: React.ReactNode | string) => {
-    if (typeof iconNode === "string") {
-      return <Icon size={compact ? 24 : 36} color={tokens.color.text.tertiary}>{iconNode}</Icon>;
-    }
-    return iconNode;
-  };
-
   return (
-    <View
-      style={{
-        flex: compact ? undefined : 1,
-        alignItems: "center",
-        justifyContent: "center",
-        paddingHorizontal: tokens.spacing[6],
-        paddingVertical: compact ? tokens.spacing[8] : tokens.spacing[16],
-        gap: tokens.spacing[3],
-      }}
-    >
-      {/* Icon slot */}
+    <View style={emptyState.container as any}>
       {icon && (
-        <View
-          style={{
-            width: compact ? 48 : 72,
-            height: compact ? 48 : 72,
-            borderRadius: compact ? 24 : 36,
-            backgroundColor: tokens.color.bg.muted,
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: tokens.spacing[1],
-          }}
-        >
-          {renderIcon(icon)}
+        <View style={{ marginBottom: tokens.spacing[2] }}>
+          {React.isValidElement(icon)
+            ? React.cloneElement(icon as React.ReactElement, {
+                size: (icon.props as any)?.size ?? emptyState.icon.size,
+                color: (icon.props as any)?.color ?? emptyState.icon.color,
+              } as any)
+            : icon}
         </View>
       )}
-
-      {/* Default icon when none provided */}
-      {!icon && (
-        <View
-          style={{
-            width: compact ? 48 : 72,
-            height: compact ? 48 : 72,
-            borderRadius: compact ? 24 : 36,
-            backgroundColor: tokens.color.bg.muted,
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: tokens.spacing[1],
-          }}
-        >
-          <Text style={{ fontSize: compact ? 20 : 32, color: tokens.color.text.tertiary }}>
-            ○
-          </Text>
-        </View>
+      
+      {title && (
+        <Text style={emptyState.title as any}>
+          {title}
+        </Text>
       )}
-
-      {/* Text */}
-      <Text
-        style={{
-          fontSize: compact ? tokens.fontSize.md : tokens.fontSize.lg,
-          fontWeight: tokens.fontWeight.semibold,
-          color: tokens.color.text.primary,
-          textAlign: "center",
-        }}
-      >
-        {title}
-      </Text>
-
+      
       {description && (
-        <Text
-          style={{
-            fontSize: tokens.fontSize.sm,
-            color: tokens.color.text.secondary,
-            textAlign: "center",
-            lineHeight: tokens.fontSize.sm * tokens.lineHeight.relaxed,
-            maxWidth: 280,
-          }}
-        >
+        <Text style={emptyState.description as any}>
           {description}
         </Text>
       )}
-
-      {/* Actions */}
-      {(action || secondaryAction) && (
-        <View
-          style={{
-            marginTop: tokens.spacing[2],
-            gap: tokens.spacing[2],
-            alignItems: "center",
-            width: "100%",
-          }}
-        >
-          {action && (
-            <Button
-              label={action.label}
-              variant={action.variant ?? "solid"}
-              onPress={action.onPress}
-              size={compact ? "sm" : "md"}
-              fullWidth
-            />
-          )}
-          {secondaryAction && (
-            <Button
-              label={secondaryAction.label}
-              variant={secondaryAction.variant ?? "ghost"}
-              onPress={secondaryAction.onPress}
-              size={compact ? "sm" : "md"}
-            />
-          )}
+      
+      {action && (
+        <View style={{ marginTop: tokens.spacing[4] }}>
+          {action}
         </View>
       )}
     </View>

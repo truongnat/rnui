@@ -66,7 +66,7 @@ export function Step({ index, label, children, activeStep = 0, orientation = "ho
         }}
       >
         {isCompleted ? (
-          <Icon size={14} color="#FFFFFF">check</Icon>
+          <Icon size={14} color="#FFFFFF" name={"check" as any} />
         ) : (
           <Text style={{ fontSize: 12, fontWeight: "600", color: isActive ? color : color }}>
             {index + 1}

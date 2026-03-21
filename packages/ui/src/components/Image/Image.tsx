@@ -5,7 +5,7 @@ import Animated, {
     withTiming,
     useSharedValue,
 } from "react-native-reanimated";
-import { useTokens } from "@rnui/headless";
+import { useComponentTokens } from "@rnui/headless";
 
 const AnimatedImage = Animated.createAnimatedComponent(RNImage);
 
@@ -18,7 +18,7 @@ export interface RnImageProps extends RNImageProps {
 }
 
 export function RnImage({ showPlaceholder = true, style, onLoad, ...props }: RnImageProps) {
-    const tokens = useTokens();
+    const { image } = useComponentTokens();
     const [isLoaded, setIsLoaded] = useState(false);
     const opacity = useSharedValue(0);
 
@@ -33,7 +33,7 @@ export function RnImage({ showPlaceholder = true, style, onLoad, ...props }: RnI
     }));
 
     return (
-        <View style={[styles.container, style, { backgroundColor: showPlaceholder && !isLoaded ? tokens.color.bg.muted : "transparent" }]}>
+        <View style={[styles.container, style, { backgroundColor: showPlaceholder && !isLoaded ? image.placeholder.backgroundColor : "transparent" }]}>
             <AnimatedImage
                 {...props}
                 onLoad={handleLoad}
