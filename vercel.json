@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd docs && bun run build",
-  "outputDirectory": "docs/build",
-  "installCommand": "cd docs && bun install --frozen-lockfile"
+  "buildCommand": "cd docs && bun run build && cd .. && mkdir -p public && cp -r docs/build/* public/",
+  "outputDirectory": "public",
+  "installCommand": "bun install --frozen-lockfile"
 }
