@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@rnui/ui";
+import { ThemeProvider } from "@rnui/headless";
 import { Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 

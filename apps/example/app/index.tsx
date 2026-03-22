@@ -9,8 +9,10 @@ import {
   FormField, FormGroup, Pressable,
   ToastContainer, BottomSheet,
   SegmentedControl, OTPInput, Carousel, AnimatedList, RnImage, DatePicker,
+  Typography,
   type BottomSheetRef,
 } from "@rnui/ui";
+import { useTokens, useToast, useField } from "@rnui/headless";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Search,
@@ -55,7 +57,19 @@ export default function KitchenSink() {
   const [loading, setLoading] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [showEmpty, setShowEmpty] = useState(false);
-  const email = "";
+  
+  const t = useTokens();
+  const toast = useToast();
+  
+  const emailField = useField({
+    defaultValue: "",
+    validate: (value) => {
+      if (!value) return "Email is required";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Invalid email format";
+      return undefined;
+    },
+    validateOnChange: true,
+  });
 
   const section = {
     fontSize: 11, fontWeight: "600" as const,
@@ -187,20 +201,18 @@ export default function KitchenSink() {
 
         {/* Avatar */}
         <Text style={section}>Avatar</Text>
-        <View style={{ gap: 10 }}>
-          <View style={row}>
-            {(["xs", "sm", "md", "lg", "xl"] as const).map(size => (
-              <Avatar key={size} initials="AN" size={size} />
-            ))}
-          </View>
-          <View style={row}>
-            <Avatar initials="ON" size="md" status="online" />
-            <Avatar initials="BY" size="md" status="busy" />
-            <Avatar initials="AW" size="md" status="away" />
-          </View>
-          <AvatarGroup size="sm" max={4}
-            avatars={CONTACTS.map(c => ({ initials: c.initials }))} />
+        <View style={row}>
+          {(["xs", "sm", "md", "lg", "xl"] as const).map(size => (
+            <Avatar key={size} initials="AN" size={size} />
+          ))}
         </View>
+        <View style={row}>
+          <Avatar initials="ON" size="md" status="online" />
+          <Avatar initials="BY" size="md" status="busy" />
+          <Avatar initials="AW" size="md" status="away" />
+        </View>
+        <AvatarGroup size="sm" max={4}
+          avatars={CONTACTS.map(c => ({ initials: c.initials }))} />
 
         {/* Badges */}
         <Text style={section}>Badges</Text>
@@ -253,18 +265,18 @@ export default function KitchenSink() {
           borderRadius: t.radius.lg, overflow: "hidden",
           borderWidth: 0.5, borderColor: t.color.border.default
         }}>
-          <Typography variant="h6">Team</Typography>
+          <Typography variant="h6" style={{ padding: t.spacing[3] }}>Team</Typography>
           {CONTACTS.map((c, i) => (
             <ListItem key={c.id}
-              leading={<Avatar initials={c.initials} size="sm" />}
-              trailing={<ChevronRight size={16} color={t.color.text.tertiary} />}
               onPress={() => toast.info(`Opening ${c.name}`)}
-              showSeparator={i < CONTACTS.length - 1}
+              divider={i < CONTACTS.length - 1}
             >
-              <View style={{ flex: 1 }}>
+              <Avatar initials={c.initials} size="sm" />
+              <View style={{ flex: 1, marginLeft: t.spacing[3] }}>
                 <Text style={{ fontWeight: 600, color: t.color.text.primary }}>{c.name}</Text>
                 <Text style={{ fontSize: 13, color: t.color.text.secondary }}>{c.role}</Text>
               </View>
+              <ChevronRight size={16} color={t.color.text.tertiary} />
             </ListItem>
           ))}
         </View>
@@ -276,11 +288,14 @@ export default function KitchenSink() {
             estimatedItemSize={60}
             renderItem={({ item, index }: any) => (
               <ListItem
-                title={item.name}
-                subtitle={item.role}
-                leading={<Avatar initials={item.initials} size="sm" />}
-                showSeparator={index < CONTACTS.length - 1}
-              />
+                divider={index < CONTACTS.length - 1}
+              >
+                <Avatar initials={item.initials} size="sm" />
+                <View style={{ flex: 1, marginLeft: t.spacing[3] }}>
+                  <Text style={{ fontWeight: 600, color: t.color.text.primary }}>{item.name}</Text>
+                  <Text style={{ fontSize: 13, color: t.color.text.secondary }}>{item.role}</Text>
+                </View>
+              </ListItem>
             )}
           />
         </View>
