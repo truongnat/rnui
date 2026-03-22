@@ -9,7 +9,6 @@ import {
   FormField, FormGroup, Pressable,
   ToastContainer, BottomSheet,
   SegmentedControl, OTPInput, Carousel, AnimatedList, RnImage, DatePicker,
-  useToast,
   type BottomSheetRef,
 } from "@rnui/ui";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -46,7 +45,6 @@ const CONTACTS = [
 ];
 
 export default function KitchenSink() {
-  const toast = useToast();
   const sheetRef = useRef<BottomSheetRef>(null);
   const [agree, setAgree] = useState(false);
   const [notifications, setNotifications] = useState(true);
@@ -57,17 +55,13 @@ export default function KitchenSink() {
   const [loading, setLoading] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [showEmpty, setShowEmpty] = useState(false);
-  const emailField = useField({
-    defaultValue: "",
-    validate: (v) => (!v.includes("@") ? "Invalid email" : undefined),
-  });
+  const email = "";
 
-  const t = tokens;
   const section = {
     fontSize: 11, fontWeight: "600" as const,
     textTransform: "uppercase" as const,
     letterSpacing: 0.8, marginTop: 16,
-    color: t.color.text.tertiary,
+    color: "#64748B",
   };
   const row = { flexDirection: "row" as const, flexWrap: "wrap" as const, gap: 8, alignItems: "center" as const };
 
@@ -245,7 +239,7 @@ export default function KitchenSink() {
         </View>
         {showEmpty && (
           <Card>
-            <EmptyState compact
+            <EmptyState
               title="No results found"
               description="Try adjusting your filters or search terms."
               action={<Button label="Clear filters" variant="outline" size="sm" onPress={() => setShowEmpty(false)} />}
@@ -316,7 +310,7 @@ export default function KitchenSink() {
 
         <Text style={section}>Image with Placeholder</Text>
         <View style={{ flexDirection: "row", gap: 10 }}>
-          <Image source={{ uri: "https://picsum.photos/200" }} style={{ width: 100, height: 100, borderRadius: 8 }} />
+          <RnImage source={{ uri: "https://picsum.photos/200" }} style={{ width: 100, height: 100, borderRadius: 8 }} />
         </View>
 
         {/* Toast */}
