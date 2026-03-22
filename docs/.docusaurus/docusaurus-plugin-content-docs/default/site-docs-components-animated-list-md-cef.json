@@ -19,8 +19,8 @@
   },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Components",
-    "permalink": "/docs/components"
+    "title": "Tooltip",
+    "permalink": "/docs/components/tooltip"
   },
   "next": {
     "title": "Carousel",

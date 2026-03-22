@@ -1,7 +1,7 @@
 {
   "id": "components/icon",
   "title": "Icon",
-  "description": "Render icon glyphs or SVGs.",
+  "description": "Standardized icon component using Lucide React Native with 70+ icons available.",
   "source": "@site/docs/components/icon.md",
   "sourceDirName": "components",
   "slug": "/components/icon",
@@ -13,14 +13,17 @@
   "version": "current",
   "lastUpdatedBy": "Peanut",
   "lastUpdatedAt": 1773852209000,
-  "frontMatter": {},
+  "sidebarPosition": 35,
+  "frontMatter": {
+    "sidebar_position": 35
+  },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Grid",
-    "permalink": "/docs/components/grid"
+    "title": "Image",
+    "permalink": "/docs/components/image"
   },
   "next": {
-    "title": "ImageList",
-    "permalink": "/docs/components/image-list"
+    "title": "Modal",
+    "permalink": "/docs/components/modal"
   }
 }

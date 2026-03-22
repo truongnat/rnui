@@ -16,8 +16,8 @@
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Modal",
-    "permalink": "/docs/components/modal"
+    "title": "Menu",
+    "permalink": "/docs/components/menu"
   },
   "next": {
     "title": "Pagination",

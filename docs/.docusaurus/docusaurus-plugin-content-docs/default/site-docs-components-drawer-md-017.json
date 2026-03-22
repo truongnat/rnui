@@ -1,7 +1,7 @@
 {
   "id": "components/drawer",
   "title": "Drawer",
-  "description": "Side panel that slides in.",
+  "description": "Drawers are side panels that slide in from the screen edges, commonly used for navigation menus.",
   "source": "@site/docs/components/drawer.md",
   "sourceDirName": "components",
   "slug": "/components/drawer",
@@ -13,14 +13,17 @@
   "version": "current",
   "lastUpdatedBy": "Peanut",
   "lastUpdatedAt": 1773852209000,
-  "frontMatter": {},
+  "sidebarPosition": 48,
+  "frontMatter": {
+    "sidebar_position": 48
+  },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Divider",
-    "permalink": "/docs/components/divider"
+    "title": "Modal",
+    "permalink": "/docs/components/modal"
   },
   "next": {
-    "title": "EmptyState",
-    "permalink": "/docs/components/empty-state"
+    "title": "Tooltip",
+    "permalink": "/docs/components/tooltip"
   }
 }

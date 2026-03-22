@@ -1,7 +1,7 @@
 {
   "id": "components/tooltip",
   "title": "Tooltip",
-  "description": "Hover or press helper text.",
+  "description": "Tooltips display informative text when users interact with the trigger element. They appear on hover or long-press.",
   "source": "@site/docs/components/tooltip.md",
   "sourceDirName": "components",
   "slug": "/components/tooltip",
@@ -13,14 +13,17 @@
   "version": "current",
   "lastUpdatedBy": "Peanut",
   "lastUpdatedAt": 1773852209000,
-  "frontMatter": {},
+  "sidebarPosition": 55,
+  "frontMatter": {
+    "sidebar_position": 55
+  },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "ToggleButton",
-    "permalink": "/docs/components/toggle-button"
+    "title": "Drawer",
+    "permalink": "/docs/components/drawer"
   },
   "next": {
-    "title": "Typography",
-    "permalink": "/docs/components/typography"
+    "title": "AnimatedList",
+    "permalink": "/docs/components/animated-list"
   }
 }

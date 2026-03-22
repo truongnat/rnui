@@ -16,8 +16,8 @@
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Chip",
-    "permalink": "/docs/components/chip"
+    "title": "Checkbox",
+    "permalink": "/docs/components/checkbox"
   },
   "next": {
     "title": "Dialog",

@@ -1,7 +1,7 @@
 {
   "id": "components/chip",
   "title": "Chip",
-  "description": "Compact tags and filters.",
+  "description": "Chips are compact elements that represent an input, attribute, or action. They can display icons, avatars, and delete actions.",
   "source": "@site/docs/components/chip.md",
   "sourceDirName": "components",
   "slug": "/components/chip",
@@ -13,14 +13,17 @@
   "version": "current",
   "lastUpdatedBy": "Peanut",
   "lastUpdatedAt": 1773852209000,
-  "frontMatter": {},
+  "sidebarPosition": 25,
+  "frontMatter": {
+    "sidebar_position": 25
+  },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Checkbox",
-    "permalink": "/docs/components/checkbox"
+    "title": "Accordion",
+    "permalink": "/docs/components/accordion"
   },
   "next": {
-    "title": "CircularProgress",
-    "permalink": "/docs/components/circular-progress"
+    "title": "Image",
+    "permalink": "/docs/components/image"
   }
 }

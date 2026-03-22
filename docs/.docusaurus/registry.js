@@ -40,6 +40,7 @@ export default {
   "87878b99": [() => import(/* webpackChunkName: "87878b99" */ "@site/docs/components/checkbox.md"), "@site/docs/components/checkbox.md", require.resolveWeak("@site/docs/components/checkbox.md")],
   "8a09c53d": [() => import(/* webpackChunkName: "8a09c53d" */ "@site/docs/components/box.md"), "@site/docs/components/box.md", require.resolveWeak("@site/docs/components/box.md")],
   "8ad3fe1f": [() => import(/* webpackChunkName: "8ad3fe1f" */ "@site/docs/components/date-picker.md"), "@site/docs/components/date-picker.md", require.resolveWeak("@site/docs/components/date-picker.md")],
+  "8ba32bd9": [() => import(/* webpackChunkName: "8ba32bd9" */ "@site/docs/components/image.md"), "@site/docs/components/image.md", require.resolveWeak("@site/docs/components/image.md")],
   "8ea2467a": [() => import(/* webpackChunkName: "8ea2467a" */ "@site/docs/components/badge.md"), "@site/docs/components/badge.md", require.resolveWeak("@site/docs/components/badge.md")],
   "92d9a6d0": [() => import(/* webpackChunkName: "92d9a6d0" */ "@site/docs/components/stepper.md"), "@site/docs/components/stepper.md", require.resolveWeak("@site/docs/components/stepper.md")],
   "9c9eb4db": [() => import(/* webpackChunkName: "9c9eb4db" */ "@site/docs/components/circular-progress.md"), "@site/docs/components/circular-progress.md", require.resolveWeak("@site/docs/components/circular-progress.md")],

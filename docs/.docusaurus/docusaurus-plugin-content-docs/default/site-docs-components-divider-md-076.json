@@ -20,7 +20,7 @@
     "permalink": "/docs/components/dialog"
   },
   "next": {
-    "title": "Drawer",
-    "permalink": "/docs/components/drawer"
+    "title": "EmptyState",
+    "permalink": "/docs/components/empty-state"
   }
 }

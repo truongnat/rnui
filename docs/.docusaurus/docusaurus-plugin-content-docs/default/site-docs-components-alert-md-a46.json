@@ -16,8 +16,8 @@
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Accordion",
-    "permalink": "/docs/components/accordion"
+    "title": "SegmentedControl",
+    "permalink": "/docs/components/segmented-control"
   },
   "next": {
     "title": "AppBar",

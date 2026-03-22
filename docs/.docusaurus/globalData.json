@@ -151,6 +151,11 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "components/image",
+              "path": "/docs/components/image",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "components/image-list",
               "path": "/docs/components/image-list",
               "sidebar": "tutorialSidebar"

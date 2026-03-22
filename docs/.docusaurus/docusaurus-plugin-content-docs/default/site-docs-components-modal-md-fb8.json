@@ -1,7 +1,7 @@
 {
   "id": "components/modal",
   "title": "Modal",
-  "description": "Base modal overlay.",
+  "description": "Modals are overlay containers for focused tasks and important content that requires user attention.",
   "source": "@site/docs/components/modal.md",
   "sourceDirName": "components",
   "slug": "/components/modal",
@@ -13,14 +13,17 @@
   "version": "current",
   "lastUpdatedBy": "Peanut",
   "lastUpdatedAt": 1773852209000,
-  "frontMatter": {},
+  "sidebarPosition": 47,
+  "frontMatter": {
+    "sidebar_position": 47
+  },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Menu",
-    "permalink": "/docs/components/menu"
+    "title": "Icon",
+    "permalink": "/docs/components/icon"
   },
   "next": {
-    "title": "OTP Input",
-    "permalink": "/docs/components/otp-input"
+    "title": "Drawer",
+    "permalink": "/docs/components/drawer"
   }
 }

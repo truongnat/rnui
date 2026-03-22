@@ -1,7 +1,7 @@
 {
   "id": "components/typography",
   "title": "Typography",
-  "description": "Text styles with semantic variants.",
+  "description": "Typography component for consistent text styling with predefined variants.",
   "source": "@site/docs/components/typography.md",
   "sourceDirName": "components",
   "slug": "/components/typography",
@@ -13,10 +13,17 @@
   "version": "current",
   "lastUpdatedBy": "Peanut",
   "lastUpdatedAt": 1773852209000,
-  "frontMatter": {},
+  "sidebarPosition": 15,
+  "frontMatter": {
+    "sidebar_position": 15
+  },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Tooltip",
-    "permalink": "/docs/components/tooltip"
+    "title": "Components",
+    "permalink": "/docs/components"
+  },
+  "next": {
+    "title": "Accordion",
+    "permalink": "/docs/components/accordion"
   }
 }

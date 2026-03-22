@@ -16,8 +16,8 @@
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Drawer",
-    "permalink": "/docs/components/drawer"
+    "title": "Divider",
+    "permalink": "/docs/components/divider"
   },
   "next": {
     "title": "Fab",
