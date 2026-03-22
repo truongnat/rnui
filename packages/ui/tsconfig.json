@@ -11,7 +11,8 @@
             "@rnui/headless": [
                 "../headless/src"
             ]
-        }
+        },
+        "skipLibCheck": true
     },
     "include": [
         "src/**/*"
@@ -19,8 +20,8 @@
     "exclude": [
         "node_modules",
         "dist",
-        "src/__tests__",
-        "../headless/src/__tests__",
-        "../tokens/src/__tests__"
+        "**/__tests__/**/*",
+        "**/*.test.ts",
+        "**/*.test.tsx"
     ]
 }
