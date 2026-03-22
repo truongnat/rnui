@@ -16,7 +16,7 @@ export interface BadgeProps {
 
 // ─── Component ────────────────────────────────────────────────────
 
-export function Badge({ label, variant = "default", size = "md", icon }: BadgeProps) {
+export const Badge = React.memo(({ label, variant = "default", size = "md", icon }: BadgeProps) => {
   const { badge } = useComponentTokens();
   const { size: iconSize } = useIconStyle("list");
 
@@ -56,4 +56,4 @@ export function Badge({ label, variant = "default", size = "md", icon }: BadgePr
       <Text style={textStyle}>{label}</Text>
     </View>
   );
-}
+});

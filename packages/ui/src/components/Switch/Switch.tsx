@@ -16,7 +16,7 @@ export interface SwitchProps extends UseSwitchOptions {
   size?: "sm" | "md" | "lg";
 }
 
-export function Switch({ label, description, size = "md", ...hookOptions }: SwitchProps) {
+export const Switch = React.memo(({ label, description, size = "md", ...hookOptions }: SwitchProps) => {
   const tokens = useTokens();
   const { switch: switchT } = useComponentTokens();
   const { isOn, isDisabled, toggle, accessibilityProps } = useSwitch(hookOptions);
@@ -99,4 +99,4 @@ export function Switch({ label, description, size = "md", ...hookOptions }: Swit
       )}
     </Pressable>
   );
-}
+});

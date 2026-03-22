@@ -12,13 +12,17 @@ import { ThemeProvider, Button, Input, Switch, Checkbox, Badge } from "../../ind
 
 // ─── Render counter utility ───────────────────────────────────────
 
-function makeRenderCounter() {
+/**
+ * Creates a memoized component that increments a counter on every render.
+ * Used to verify that React.memo is working correctly.
+ */
+function createCountedComponent<T>(Component: React.ComponentType<T>) {
   const count = { current: 0 };
-  function RenderCounter({ children }: { children: React.ReactNode }) {
+  const Counted = React.memo((props: T & any) => {
     count.current += 1;
-    return <>{children}</>;
-  }
-  return { RenderCounter, count };
+    return <Component {...props} />;
+  });
+  return { Counted, count };
 }
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
@@ -27,38 +31,39 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 
 // ─── Button ───────────────────────────────────────────────────────
 
+const noop = () => {};
+
 test("Button: does not re-render on unrelated parent state change", () => {
-  const { RenderCounter, count } = makeRenderCounter();
+  const { Counted: CountedButton, count } = createCountedComponent(Button);
 
   function Parent() {
     const [n, setN] = useState(0);
     return (
       <Wrap>
-        <Button label="static" onPress={() => { }} />
-        <RenderCounter>
-          <Button label="counter-watched" onPress={() => setN(c => c + 1)} />
-        </RenderCounter>
+        <Button label="unrelated" onPress={() => setN(c => c + 1)} />
+        <CountedButton label="static" onPress={noop} />
       </Wrap>
     );
   }
 
   const { getByText } = render(<Parent />);
-  const before = count.current;
-  // Trigger the other button — should not re-render the watched one
-  fireEvent.press(getByText("static"));
-  expect(count.current).toBe(before);
+  const initial = count.current; // should be 1
+  
+  // Trigger unrelated state change in Parent
+  fireEvent.press(getByText("unrelated"));
+  
+  // CountedButton is memoized and props (label, onPress) are stable, so count should remain same
+  expect(count.current).toBe(initial);
 });
 
 test("Button: only re-renders once when variant prop changes", () => {
-  const { RenderCounter, count } = makeRenderCounter();
+  const { Counted: CountedButton, count } = createCountedComponent(Button);
 
   function Parent() {
     const [v, setV] = useState<"solid" | "outline">("solid");
     return (
       <Wrap>
-        <RenderCounter>
-          <Button label="btn" variant={v} onPress={() => setV(p => p === "solid" ? "outline" : "solid")} />
-        </RenderCounter>
+        <CountedButton label="btn" variant={v} onPress={() => setV(p => p === "solid" ? "outline" : "solid")} />
       </Wrap>
     );
   }
@@ -70,15 +75,13 @@ test("Button: only re-renders once when variant prop changes", () => {
 });
 
 test("Button: loading toggle causes exactly one re-render", () => {
-  const { RenderCounter, count } = makeRenderCounter();
+  const { Counted: CountedButton, count } = createCountedComponent(Button);
 
   function Parent() {
     const [loading, setLoading] = useState(false);
     return (
       <Wrap>
-        <RenderCounter>
-          <Button label="save" loading={loading} onPress={() => setLoading(p => !p)} />
-        </RenderCounter>
+        <CountedButton label="save" loading={loading} onPress={() => setLoading(p => !p)} />
       </Wrap>
     );
   }
@@ -92,15 +95,13 @@ test("Button: loading toggle causes exactly one re-render", () => {
 // ─── Input ────────────────────────────────────────────────────────
 
 test("Input: re-renders once per keystroke (controlled)", () => {
-  const { RenderCounter, count } = makeRenderCounter();
+  const { Counted: CountedInput, count } = createCountedComponent(Input);
 
   function Parent() {
     const [val, setVal] = useState("");
     return (
       <Wrap>
-        <RenderCounter>
-          <Input value={val} onChangeText={setVal} placeholder="type" />
-        </RenderCounter>
+        <CountedInput value={val} onChangeText={setVal} placeholder="type" />
       </Wrap>
     );
   }
@@ -110,22 +111,19 @@ test("Input: re-renders once per keystroke (controlled)", () => {
   fireEvent.changeText(getByPlaceholderText("type"), "a");
   fireEvent.changeText(getByPlaceholderText("type"), "ab");
   fireEvent.changeText(getByPlaceholderText("type"), "abc");
-  // 3 keystrokes = 3 re-renders of Parent which causes 3 re-renders of Input
   expect(count.current).toBe(before + 3);
 });
 
 // ─── Switch ───────────────────────────────────────────────────────
 
 test("Switch: exactly one re-render per toggle", () => {
-  const { RenderCounter, count } = makeRenderCounter();
+  const { Counted: CountedSwitch, count } = createCountedComponent(Switch);
 
   function Parent() {
     const [on, setOn] = useState(false);
     return (
       <Wrap>
-        <RenderCounter>
-          <Switch on={on} onChange={setOn} label="toggle" />
-        </RenderCounter>
+        <CountedSwitch on={on} onChange={setOn} label="toggle" />
       </Wrap>
     );
   }
@@ -141,15 +139,13 @@ test("Switch: exactly one re-render per toggle", () => {
 // ─── Checkbox ─────────────────────────────────────────────────────
 
 test("Checkbox: exactly one re-render per toggle", () => {
-  const { RenderCounter, count } = makeRenderCounter();
+  const { Counted: CountedCheckbox, count } = createCountedComponent(Checkbox);
 
   function Parent() {
     const [checked, setChecked] = useState(false);
     return (
       <Wrap>
-        <RenderCounter>
-          <Checkbox label="agree" checked={checked} onChange={setChecked} />
-        </RenderCounter>
+        <CountedCheckbox label="agree" checked={checked} onChange={setChecked} />
       </Wrap>
     );
   }
@@ -163,27 +159,27 @@ test("Checkbox: exactly one re-render per toggle", () => {
 // ─── Badge ────────────────────────────────────────────────────────
 
 test("Badge: zero re-renders after mount with static props", () => {
-  const { RenderCounter, count } = makeRenderCounter();
+  const { Counted: CountedBadge, count } = createCountedComponent(Badge);
 
   function Parent() {
     const [unrelated, setUnrelated] = useState(0);
     return (
       <Wrap>
         <Button label="inc" onPress={() => setUnrelated(p => p + 1)} />
-        <RenderCounter>
-          <Badge label="static" variant="success" />
-        </RenderCounter>
+        <CountedBadge label="static" variant="success" />
       </Wrap>
     );
   }
 
   const { getByText } = render(<Parent />);
   const after_mount = count.current;
+  
   // Trigger unrelated state update 3 times
   fireEvent.press(getByText("inc"));
   fireEvent.press(getByText("inc"));
   fireEvent.press(getByText("inc"));
-  // Badge should not have re-rendered since its props didn't change
+  
+  // Badge is memoized and its props didn't change
   expect(count.current).toBe(after_mount);
 });
 

@@ -75,7 +75,7 @@ export interface ButtonProps {
 
 // ─── Component ────────────────────────────────────────────────────
 
-export function Button({
+export const Button = React.memo(({
   variant = "solid",
   color = "primary",
   size = "md",
@@ -98,7 +98,7 @@ export function Button({
   style,
   accessibilityLabel,
   accessibilityHint,
-}: ButtonProps) {
+}: ButtonProps) => {
   const { button } = useComponentTokens();
   const tokens = useTokens();
   const { size: iconSize } = useIconStyle("button");
@@ -266,7 +266,7 @@ export function Button({
       </Animated.View>
     </GestureDetector>
   );
-}
+});
 
 const styles = StyleSheet.create({
   contentContainer: {

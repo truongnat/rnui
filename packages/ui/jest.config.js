@@ -1,19 +1,18 @@
-import type { Config } from "jest";
-
-const config: Config = {
+/** @type {import('jest').Config} */
+module.exports = {
   displayName: "@rnui/ui",
   preset: "react-native",
   testEnvironment: "node",
   testMatch: ["**/__tests__/**/*.{test,perf}.{ts,tsx}"],
-  setupFilesAfterFramework: ["<rootDir>/jest.setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   transform: {
-    "^.+\\.(ts|tsx)$": [
+    "^.+\\.(js|jsx|ts|tsx)$": [
       "babel-jest",
-      { presets: ["module:metro-react-native-babel-preset"] },
+      { presets: ["babel-preset-expo"] },
     ],
   },
   transformIgnorePatterns: [
-    "node_modules/(?!(react-native|@react-native|react-native-reanimated|react-native-gesture-handler|@shopify/flash-list|@rnui)/)",
+    "node_modules/(?!(react-native|@react-native|@react-native-community|react-native-reanimated|react-native-gesture-handler|react-native-worklets|@shopify/flash-list|@rnui|\\.bun)/)",
   ],
   moduleNameMapper: {
     "^@rnui/tokens$": "<rootDir>/../tokens/src/index.ts",
@@ -21,5 +20,3 @@ const config: Config = {
     "^@rnui/ui$": "<rootDir>/src/index.ts",
   },
 };
-
-export default config;
