@@ -8,7 +8,7 @@ export default {
   "0831a3b9": [() => import(/* webpackChunkName: "0831a3b9" */ "@site/docs/components/breadcrumbs.md"), "@site/docs/components/breadcrumbs.md", require.resolveWeak("@site/docs/components/breadcrumbs.md")],
   "08505ac5": [() => import(/* webpackChunkName: "08505ac5" */ "@site/docs/components/stack.md"), "@site/docs/components/stack.md", require.resolveWeak("@site/docs/components/stack.md")],
   "0d8bf7e4": [() => import(/* webpackChunkName: "0d8bf7e4" */ "@site/docs/components/card.md"), "@site/docs/components/card.md", require.resolveWeak("@site/docs/components/card.md")],
-  "136aa404": [() => import(/* webpackChunkName: "136aa404" */ "@generated/docusaurus-plugin-search-local/default/__plugin.json"), "@generated/docusaurus-plugin-search-local/default/__plugin.json", require.resolveWeak("@generated/docusaurus-plugin-search-local/default/__plugin.json")],
+  "138e0e15": [() => import(/* webpackChunkName: "138e0e15" */ "@generated/@easyops-cn/docusaurus-search-local/default/__plugin.json"), "@generated/@easyops-cn/docusaurus-search-local/default/__plugin.json", require.resolveWeak("@generated/@easyops-cn/docusaurus-search-local/default/__plugin.json")],
   "14eb3368": [() => import(/* webpackChunkName: "14eb3368" */ "@theme/DocCategoryGeneratedIndexPage"), "@theme/DocCategoryGeneratedIndexPage", require.resolveWeak("@theme/DocCategoryGeneratedIndexPage")],
   "17896441": [() => import(/* webpackChunkName: "17896441" */ "@theme/DocItem"), "@theme/DocItem", require.resolveWeak("@theme/DocItem")],
   "1a4e3797": [() => import(/* webpackChunkName: "1a4e3797" */ "@theme/SearchPage"), "@theme/SearchPage", require.resolveWeak("@theme/SearchPage")],

@@ -53,12 +53,14 @@ const config: Config = {
 
     plugins: [
         [
-            require.resolve("docusaurus-plugin-search-local"),
+            require.resolve("@easyops-cn/docusaurus-search-local"),
             {
                 hashed: true,
                 indexDocs: true,
                 indexBlog: true,
                 indexPages: true,
+                language: ["en"],
+                docsRouteBasePath: "/docs",
             },
         ],
     ],
@@ -84,6 +86,10 @@ const config: Config = {
                     sidebarId: 'tutorialSidebar',
                     position: 'left',
                     label: 'Documentation',
+                },
+                {
+                    type: 'search',
+                    position: 'right',
                 },
                 {
                     href: 'https://github.com/rnui/rnui',

@@ -32,10 +32,10 @@
       "name": "@docusaurus/theme-classic",
       "version": "3.9.2"
     },
-    "docusaurus-plugin-search-local": {
+    "@easyops-cn/docusaurus-search-local": {
       "type": "package",
-      "name": "docusaurus-plugin-search-local",
-      "version": "2.1.2"
+      "name": "@easyops-cn/docusaurus-search-local",
+      "version": "0.55.1"
     }
   }
 }

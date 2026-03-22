@@ -60,12 +60,16 @@ export default {
   ],
   "plugins": [
     [
-      "/Users/truongdq/tx/GitHub/rnui/node_modules/.bun/docusaurus-plugin-search-local@2.1.2+64a9eb667f53b2a2/node_modules/docusaurus-plugin-search-local/lib/server/index.js",
+      "/Users/truongdq/tx/GitHub/rnui/node_modules/.bun/@easyops-cn+docusaurus-search-local@0.55.1+a859023f690234c4/node_modules/@easyops-cn/docusaurus-search-local/dist/server/server/index.js",
       {
         "hashed": true,
         "indexDocs": true,
         "indexBlog": true,
-        "indexPages": true
+        "indexPages": true,
+        "language": [
+          "en"
+        ],
+        "docsRouteBasePath": "/docs"
       }
     ]
   ],
@@ -95,6 +99,10 @@ export default {
           "sidebarId": "tutorialSidebar",
           "position": "left",
           "label": "Documentation"
+        },
+        {
+          "type": "search",
+          "position": "right"
         },
         {
           "href": "https://github.com/rnui/rnui",
