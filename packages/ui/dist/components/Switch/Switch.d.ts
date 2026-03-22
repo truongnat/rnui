@@ -5,5 +5,5 @@ export interface SwitchProps extends UseSwitchOptions {
     description?: string;
     size?: "sm" | "md" | "lg";
 }
-export declare function Switch({ label, description, size, ...hookOptions }: SwitchProps): React.JSX.Element;
+export declare const Switch: React.MemoExoticComponent<({ label, description, size, ...hookOptions }: SwitchProps) => React.JSX.Element>;
 //# sourceMappingURL=Switch.d.ts.map

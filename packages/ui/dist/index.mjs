@@ -1,3 +1,6 @@
+// src/index.ts
+import { ThemeProvider, useTheme, useTokens as useTokens48, useComponentTokens as useComponentTokens63, useIsDark, useActiveBrand, useBrandSwitch, createTheme } from "@rnui/headless";
+
 // src/components/Accordion/Accordion.tsx
 import React2, { createContext, useContext, useMemo } from "react";
 import { View as View2, Text as Text2 } from "react-native";
@@ -841,7 +844,7 @@ function AvatarGroup({
 import React9, { useMemo as useMemo5 } from "react";
 import { View as View9, Text as Text7 } from "react-native";
 import { useComponentTokens as useComponentTokens9, useIconStyle as useIconStyle2 } from "@rnui/headless";
-function Badge({ label, variant = "default", size = "md", icon }) {
+var Badge = React9.memo(({ label, variant = "default", size = "md", icon }) => {
   const { badge } = useComponentTokens9();
   const { size: iconSize } = useIconStyle2("list");
   const containerStyle = useMemo5(() => [
@@ -870,7 +873,7 @@ function Badge({ label, variant = "default", size = "md", icon }) {
     return el;
   };
   return /* @__PURE__ */ React9.createElement(View9, { style: containerStyle }, renderIcon(icon), /* @__PURE__ */ React9.createElement(Text7, { style: textStyle }, label));
-}
+});
 
 // src/components/BottomNavigation/BottomNavigation.tsx
 import React10, { createContext as createContext2, useContext as useContext2, useMemo as useMemo6 } from "react";
@@ -1054,7 +1057,7 @@ import Animated5 from "react-native-reanimated";
 import { GestureDetector as GestureDetector3 } from "react-native-gesture-handler";
 import { ActivityIndicator, Text as Text10, View as View14, StyleSheet as StyleSheet3, Linking } from "react-native";
 import { usePressable as usePressable2, useComponentTokens as useComponentTokens14, useIconStyle as useIconStyle3, useTokens as useTokens10 } from "@rnui/headless";
-function Button({
+var Button = React14.memo(({
   variant = "solid",
   color = "primary",
   size = "md",
@@ -1077,7 +1080,7 @@ function Button({
   style,
   accessibilityLabel,
   accessibilityHint
-}) {
+}) => {
   const { button } = useComponentTokens14();
   const tokens = useTokens10();
   const { size: iconSize } = useIconStyle3("button");
@@ -1219,7 +1222,7 @@ function Button({
     ] }, loading && loadingPosition === "start" && (loadingIndicator ?? /* @__PURE__ */ React14.createElement(ActivityIndicator, { size: "small", color: iconColor })), renderIcon(leading), isTextContent ? /* @__PURE__ */ React14.createElement(Text10, { style: textStyle }, content) : content, renderIcon(trailing), loading && loadingPosition === "end" && (loadingIndicator ?? /* @__PURE__ */ React14.createElement(ActivityIndicator, { size: "small", color: iconColor }))),
     loading && loadingPosition === "center" && /* @__PURE__ */ React14.createElement(View14, { style: [StyleSheet3.absoluteFill, styles3.loadingWrapper] }, loadingIndicator ?? /* @__PURE__ */ React14.createElement(ActivityIndicator, { size: "small", color: iconColor }))
   ));
-}
+});
 var styles3 = StyleSheet3.create({
   contentContainer: {
     flexDirection: "row",
@@ -4007,7 +4010,7 @@ import Animated21, {
 } from "react-native-reanimated";
 import { useSwitch, useTokens as useTokens39, useComponentTokens as useComponentTokens53 } from "@rnui/headless";
 import { spring as spring5 } from "@rnui/tokens";
-function Switch({ label, description, size = "md", ...hookOptions }) {
+var Switch = React54.memo(({ label, description, size = "md", ...hookOptions }) => {
   const tokens = useTokens39();
   const { switch: switchT } = useComponentTokens53();
   const { isOn, isDisabled, toggle, accessibilityProps } = useSwitch(hookOptions);
@@ -4072,7 +4075,7 @@ function Switch({ label, description, size = "md", ...hookOptions }) {
     ),
     (label || description) && /* @__PURE__ */ React54.createElement(View51, { style: { flex: 1 } }, label && /* @__PURE__ */ React54.createElement(Text34, { style: { fontSize: tokens.fontSize.md, color: tokens.color.text.primary, fontWeight: tokens.fontWeight.medium } }, label), description && /* @__PURE__ */ React54.createElement(Text34, { style: { fontSize: tokens.fontSize.sm, color: tokens.color.text.secondary, marginTop: 2 } }, description))
   );
-}
+});
 
 // src/components/Table/Table.tsx
 import React55, { createContext as createContext7, useContext as useContext7, useMemo as useMemo18 } from "react";
@@ -4993,6 +4996,7 @@ export {
   Tabs,
   TextArea,
   TextField,
+  ThemeProvider,
   Timeline,
   TimelineConnector,
   TimelineContent,
@@ -5007,6 +5011,13 @@ export {
   Toolbar,
   Tooltip,
   Typography,
-  useFormControl
+  createTheme,
+  useActiveBrand,
+  useBrandSwitch,
+  useComponentTokens63 as useComponentTokens,
+  useFormControl,
+  useIsDark,
+  useTheme,
+  useTokens48 as useTokens
 };
 //# sourceMappingURL=index.mjs.map

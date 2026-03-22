@@ -7,5 +7,5 @@ export interface BadgeProps {
     size?: BadgeSize;
     icon?: React.ReactNode;
 }
-export declare function Badge({ label, variant, size, icon }: BadgeProps): React.JSX.Element;
+export declare const Badge: React.MemoExoticComponent<({ label, variant, size, icon }: BadgeProps) => React.JSX.Element>;
 //# sourceMappingURL=Badge.d.ts.map

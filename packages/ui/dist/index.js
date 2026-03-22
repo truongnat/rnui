@@ -124,6 +124,7 @@ __export(index_exports, {
   Tabs: () => Tabs,
   TextArea: () => TextArea,
   TextField: () => TextField,
+  ThemeProvider: () => import_headless65.ThemeProvider,
   Timeline: () => Timeline,
   TimelineConnector: () => TimelineConnector,
   TimelineContent: () => TimelineContent,
@@ -138,9 +139,17 @@ __export(index_exports, {
   Toolbar: () => Toolbar,
   Tooltip: () => Tooltip,
   Typography: () => Typography,
-  useFormControl: () => useFormControl
+  createTheme: () => import_headless65.createTheme,
+  useActiveBrand: () => import_headless65.useActiveBrand,
+  useBrandSwitch: () => import_headless65.useBrandSwitch,
+  useComponentTokens: () => import_headless65.useComponentTokens,
+  useFormControl: () => useFormControl,
+  useIsDark: () => import_headless65.useIsDark,
+  useTheme: () => import_headless65.useTheme,
+  useTokens: () => import_headless65.useTokens
 });
 module.exports = __toCommonJS(index_exports);
+var import_headless65 = require("@rnui/headless");
 
 // src/components/Accordion/Accordion.tsx
 var import_react2 = __toESM(require("react"));
@@ -909,7 +918,7 @@ function AvatarGroup({
 var import_react9 = __toESM(require("react"));
 var import_react_native9 = require("react-native");
 var import_headless9 = require("@rnui/headless");
-function Badge({ label, variant = "default", size = "md", icon }) {
+var Badge = import_react9.default.memo(({ label, variant = "default", size = "md", icon }) => {
   const { badge } = (0, import_headless9.useComponentTokens)();
   const { size: iconSize } = (0, import_headless9.useIconStyle)("list");
   const containerStyle = (0, import_react9.useMemo)(() => [
@@ -938,7 +947,7 @@ function Badge({ label, variant = "default", size = "md", icon }) {
     return el;
   };
   return /* @__PURE__ */ import_react9.default.createElement(import_react_native9.View, { style: containerStyle }, renderIcon(icon), /* @__PURE__ */ import_react9.default.createElement(import_react_native9.Text, { style: textStyle }, label));
-}
+});
 
 // src/components/BottomNavigation/BottomNavigation.tsx
 var import_react10 = __toESM(require("react"));
@@ -1122,7 +1131,7 @@ var import_react_native_reanimated5 = __toESM(require("react-native-reanimated")
 var import_react_native_gesture_handler3 = require("react-native-gesture-handler");
 var import_react_native14 = require("react-native");
 var import_headless14 = require("@rnui/headless");
-function Button({
+var Button = import_react14.default.memo(({
   variant = "solid",
   color = "primary",
   size = "md",
@@ -1145,7 +1154,7 @@ function Button({
   style,
   accessibilityLabel,
   accessibilityHint
-}) {
+}) => {
   const { button } = (0, import_headless14.useComponentTokens)();
   const tokens = (0, import_headless14.useTokens)();
   const { size: iconSize } = (0, import_headless14.useIconStyle)("button");
@@ -1287,7 +1296,7 @@ function Button({
     ] }, loading && loadingPosition === "start" && (loadingIndicator ?? /* @__PURE__ */ import_react14.default.createElement(import_react_native14.ActivityIndicator, { size: "small", color: iconColor })), renderIcon(leading), isTextContent ? /* @__PURE__ */ import_react14.default.createElement(import_react_native14.Text, { style: textStyle }, content) : content, renderIcon(trailing), loading && loadingPosition === "end" && (loadingIndicator ?? /* @__PURE__ */ import_react14.default.createElement(import_react_native14.ActivityIndicator, { size: "small", color: iconColor }))),
     loading && loadingPosition === "center" && /* @__PURE__ */ import_react14.default.createElement(import_react_native14.View, { style: [import_react_native14.StyleSheet.absoluteFill, styles3.loadingWrapper] }, loadingIndicator ?? /* @__PURE__ */ import_react14.default.createElement(import_react_native14.ActivityIndicator, { size: "small", color: iconColor }))
   ));
-}
+});
 var styles3 = import_react_native14.StyleSheet.create({
   contentContainer: {
     flexDirection: "row",
@@ -4019,7 +4028,7 @@ var import_react_native53 = require("react-native");
 var import_react_native_reanimated21 = __toESM(require("react-native-reanimated"));
 var import_headless54 = require("@rnui/headless");
 var import_tokens5 = require("@rnui/tokens");
-function Switch({ label, description, size = "md", ...hookOptions }) {
+var Switch = import_react54.default.memo(({ label, description, size = "md", ...hookOptions }) => {
   const tokens = (0, import_headless54.useTokens)();
   const { switch: switchT } = (0, import_headless54.useComponentTokens)();
   const { isOn, isDisabled, toggle, accessibilityProps } = (0, import_headless54.useSwitch)(hookOptions);
@@ -4084,7 +4093,7 @@ function Switch({ label, description, size = "md", ...hookOptions }) {
     ),
     (label || description) && /* @__PURE__ */ import_react54.default.createElement(import_react_native53.View, { style: { flex: 1 } }, label && /* @__PURE__ */ import_react54.default.createElement(import_react_native53.Text, { style: { fontSize: tokens.fontSize.md, color: tokens.color.text.primary, fontWeight: tokens.fontWeight.medium } }, label), description && /* @__PURE__ */ import_react54.default.createElement(import_react_native53.Text, { style: { fontSize: tokens.fontSize.sm, color: tokens.color.text.secondary, marginTop: 2 } }, description))
   );
-}
+});
 
 // src/components/Table/Table.tsx
 var import_react55 = __toESM(require("react"));
@@ -4988,6 +4997,7 @@ var import_react_native64 = require("react-native");
   Tabs,
   TextArea,
   TextField,
+  ThemeProvider,
   Timeline,
   TimelineConnector,
   TimelineContent,
@@ -5002,6 +5012,13 @@ var import_react_native64 = require("react-native");
   Toolbar,
   Tooltip,
   Typography,
-  useFormControl
+  createTheme,
+  useActiveBrand,
+  useBrandSwitch,
+  useComponentTokens,
+  useFormControl,
+  useIsDark,
+  useTheme,
+  useTokens
 });
 //# sourceMappingURL=index.js.map

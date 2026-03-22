@@ -49,5 +49,5 @@ export interface ButtonProps {
     /** Accessibility hint */
     accessibilityHint?: string;
 }
-export declare function Button({ variant, color, size, label, children, onPress, onLongPress, disabled, loading, loadingIndicator, loadingPosition, leadingIcon, trailingIcon, startIcon, endIcon, feedbackMode, fullWidth, href, disableElevation, style, accessibilityLabel, accessibilityHint, }: ButtonProps): React.JSX.Element;
+export declare const Button: React.MemoExoticComponent<({ variant, color, size, label, children, onPress, onLongPress, disabled, loading, loadingIndicator, loadingPosition, leadingIcon, trailingIcon, startIcon, endIcon, feedbackMode, fullWidth, href, disableElevation, style, accessibilityLabel, accessibilityHint, }: ButtonProps) => React.JSX.Element>;
 //# sourceMappingURL=Button.d.ts.map
