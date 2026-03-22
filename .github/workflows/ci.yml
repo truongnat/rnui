@@ -90,7 +90,7 @@ jobs:
           bun-version: latest
       - run: bun install --frozen-lockfile
       - name: Build docs site
-        run: cd docs && bun build
+        run: cd docs && bun run build
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v4
