@@ -3,7 +3,7 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-// Inline SVG Icons
+// Simple SVG Icons
 const Icons = {
   Github: () => (
     <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
@@ -11,7 +11,7 @@ const Icons = {
     </svg>
   ),
   Palette: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="28" height="28">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
       <circle cx="13.5" cy="6.5" r="2.5"/>
       <circle cx="17.5" cy="10.5" r="2.5"/>
       <circle cx="8.5" cy="7.5" r="2.5"/>
@@ -19,39 +19,46 @@ const Icons = {
       <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
     </svg>
   ),
-  Code: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="28" height="28">
-      <polyline points="16 18 22 12 16 6"/>
-      <polyline points="8 6 2 12 8 18"/>
-    </svg>
-  ),
-  Bolt: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="28" height="28">
+  Zap: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
     </svg>
   ),
   Layers: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="28" height="28">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
       <polygon points="12 2 2 7 12 12 22 7 12 2"/>
       <polyline points="2 17 12 22 22 17"/>
       <polyline points="2 12 12 17 22 12"/>
     </svg>
   ),
-  Mobile: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="28" height="28">
+  Smartphone: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
       <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
       <line x1="12" y1="18" x2="12.01" y2="18"/>
     </svg>
   ),
   Check: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" width="18" height="18">
       <polyline points="20 6 9 17 4 12"/>
     </svg>
   ),
   ArrowRight: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
       <line x1="5" y1="12" x2="19" y2="12"/>
       <polyline points="12 5 19 12 12 19"/>
+    </svg>
+  ),
+  Box: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+      <line x1="12" y1="22.08" x2="12" y2="12"/>
+    </svg>
+  ),
+  Code: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
+      <polyline points="16 18 22 12 16 6"/>
+      <polyline points="8 6 2 12 8 18"/>
     </svg>
   ),
 };
@@ -60,303 +67,302 @@ const FEATURES = [
   {
     icon: <Icons.Palette />,
     title: 'Design Tokens',
-    desc: 'A systematic approach to styling. Primitive → semantic → component tokens. Override everything.',
+    desc: 'Primitive → semantic → component tokens. Systematic styling with full override control.',
+    color: '#6366f1',
   },
   {
     icon: <Icons.Code />,
     title: '62+ Components',
-    desc: 'Crafted for production apps. From basic buttons to complex data displays.',
+    desc: 'Production-ready components from basic buttons to complex data displays.',
+    color: '#8b5cf6',
   },
   {
-    icon: <Icons.Bolt />,
-    title: 'Headless Logic',
-    desc: 'Take the logic, bring your own styles. Full control over accessibility and interaction state.',
+    icon: <Icons.Zap />,
+    title: 'Headless Hooks',
+    desc: 'Logic without styles. Complete control over accessibility and interactions.',
+    color: '#a855f7',
   },
   {
     icon: <Icons.Layers />,
-    title: 'Dual-Layer',
-    desc: 'Styled components for speed, headless hooks for total freedom. Choose your path.',
+    title: 'Dual Architecture',
+    desc: 'Styled components for speed or headless hooks for total customization.',
+    color: '#d946ef',
   },
   {
-    icon: <Icons.Mobile />,
-    title: 'Native Performance',
-    desc: 'Built with Reanimated 3 and FlashList. 60fps animations on the UI thread.',
+    icon: <Icons.Smartphone />,
+    title: '60fps Performance',
+    desc: 'Reanimated 3 and FlashList for buttery smooth animations.',
+    color: '#ec4899',
   },
   {
-    icon: <Icons.Check />,
-    title: 'Multi-Brand',
-    desc: 'Switch themes with a single prop. Perfect for white-label applications.',
+    icon: <Icons.Box />,
+    title: 'Multi-Brand Ready',
+    desc: 'Switch themes instantly. Perfect for white-label applications.',
+    color: '#f43f5e',
   },
 ];
 
-const COMPONENTS_SHOWCASE = [
-  { category: 'Forms', items: ['Button', 'Input', 'Select', 'DatePicker', 'Checkbox', 'Switch'] },
-  { category: 'Navigation', items: ['Tabs', 'Bottom Sheet', 'Drawer', 'Menu', 'AppBar'] },
-  { category: 'Feedback', items: ['Alert', 'Dialog', 'Snackbar', 'Toast', 'Progress'] },
-  { category: 'Data Display', items: ['Table', 'List', 'Card', 'Badge', 'Avatar', 'Timeline'] },
-];
-
-const CODE_EXAMPLE = `import { ThemeProvider } from "@rnui/ui";
+const CODE_EXAMPLE = `// Simple and intuitive
 import { Button, Input, Card } from "@rnui/ui";
 
 function MyForm() {
   return (
     <Card>
       <Input label="Email" placeholder="name@example.com" />
-      <Button 
-        label="Submit" 
-        variant="solid" 
-        onPress={handleSubmit} 
-      />
+      <Button label="Submit" onPress={handleSubmit} />
     </Card>
   );
 }`;
-
-const STATS = [
-  { value: '62+', label: 'Components' },
-  { value: '120+', label: 'Icons' },
-  { value: '5', label: 'Brand Themes' },
-  { value: '60fps', label: 'Performance' },
-];
 
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
   
   return (
     <Layout
-      title={`${siteConfig.title} - Premium React Native UI Components`}
-      description="Sophisticated UI framework for React Native with 62+ components, headless hooks, and multi-brand theming.">
+      title={`${siteConfig.title}`}
+      description="Premium React Native UI components">
 
-      {/* Hero Section */}
-      <header className="heroSection">
-        <div className="hero-bg-decoration">
-          <div className="gradient-orb orb-1"></div>
-          <div className="gradient-orb orb-2"></div>
-          <div className="gradient-orb orb-3"></div>
-        </div>
+      {/* Hero Section - Modern Gradient */}
+      <header className="hero-modern">
+        <div className="hero-gradient-bg"></div>
+        <div className="hero-grid-bg"></div>
         
-        <div className="container">
-          <div className="hero-badge">
-            <span className="badge-dot"></span>
-            v0.1.0 Now Available — Production Ready
-          </div>
-          
-          <h1 className="heroTitle">
-            The sophisticated UI<br />
-            <span className="hero-title-accent">framework</span> for React Native
-          </h1>
-          
-          <p className="heroSubtitle">
-            A dual-layer design system crafted for clarity and performance.
-            <br />
-            Styled components for speed, headless hooks for total freedom.
-          </p>
-          
-          <div className="heroButtons">
-            <Link className="btn btnPrimary" to="/docs/getting-started">
-              Get Started
-              <Icons.ArrowRight />
-            </Link>
-            <Link className="btn btnSecondary" to="https://github.com/rnui/rnui">
-              <Icons.Github />
-              View on GitHub
-            </Link>
-          </div>
-          
-          {/* Stats */}
-          <div className="heroStats">
-            {STATS.map((stat, idx) => (
-              <div key={idx} className="stat-item">
-                <div className="stat-value">{stat.value}</div>
-                <div className="stat-label">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </header>
-
-      {/* Components Showcase */}
-      <section className="section components-showcase">
-        <div className="container">
-          <div className="section-header">
-            <span className="section-tag">Components</span>
-            <h2 className="section-title">Everything you need</h2>
-            <p className="section-subtitle">
-              62+ beautifully crafted components ready for production
-            </p>
-          </div>
-          
-          <div className="components-grid">
-            {COMPONENTS_SHOWCASE.map((group, idx) => (
-              <div key={idx} className="component-card">
-                <div className="component-card-header">
-                  <div className="component-icon">
-                    <Icons.Layers />
-                  </div>
-                  <h3 className="component-category">{group.category}</h3>
-                </div>
-                <div className="component-list">
-                  {group.items.map((item, i) => (
-                    <div key={i} className="component-item">
-                      <Icons.Check />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Code Example Section */}
-      <section className="section code-section">
-        <div className="container">
-          <div className="code-layout">
-            <div className="code-content">
-              <span className="section-tag">Developer Experience</span>
-              <h2 className="section-title">Simple by default,<br />powerful when needed</h2>
-              <p className="section-subtitle">
-                Get started in minutes with intuitive defaults. 
-                Customize every detail when you need to.
-              </p>
-              
-              <div className="code-features">
-                <div className="code-feature">
-                  <Icons.Check />
-                  <span>TypeScript support out of the box</span>
-                </div>
-                <div className="code-feature">
-                  <Icons.Check />
-                  <span>Accessible by default (WCAG 2.1 AA)</span>
-                </div>
-                <div className="code-feature">
-                  <Icons.Check />
-                  <span>Dark mode ready</span>
-                </div>
-                <div className="code-feature">
-                  <Icons.Check />
-                  <span>Hot reload friendly</span>
-                </div>
-              </div>
+        <div className="container hero-container">
+          <div className="hero-content">
+            <div className="hero-badge">
+              <span className="badge-pulse"></span>
+              v0.1.0 — Production Ready
             </div>
             
-            <div className="code-preview">
-              <div className="code-header">
-                <div className="code-dots">
-                  <span className="dot red"></span>
-                  <span className="dot yellow"></span>
-                  <span className="dot green"></span>
-                </div>
-                <span className="code-filename">MyForm.tsx</span>
+            <h1 className="hero-title">
+              Build beautiful React Native apps <span className="gradient-text">faster</span>
+            </h1>
+            
+            <p className="hero-description">
+              A complete UI toolkit with 62+ components, headless hooks, 
+              and design tokens. Everything you need to ship stunning apps.
+            </p>
+            
+            <div className="hero-cta">
+              <Link className="btn btn-primary" to="/docs/getting-started">
+                Start Building Free
+                <Icons.ArrowRight />
+              </Link>
+              <Link className="btn btn-ghost" to="https://github.com/rnui/rnui">
+                <Icons.Github />
+                Star on GitHub
+              </Link>
+            </div>
+            
+            <div className="hero-stats">
+              <div className="stat">
+                <div className="stat-number">62+</div>
+                <div className="stat-label">Components</div>
               </div>
-              <pre className="code-block">
+              <div className="stat-divider"></div>
+              <div className="stat">
+                <div className="stat-number">120+</div>
+                <div className="stat-label">Icons</div>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat">
+                <div className="stat-number">5</div>
+                <div className="stat-label">Themes</div>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat">
+                <div className="stat-number">60fps</div>
+                <div className="stat-label">Performance</div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Hero Visual */}
+          <div className="hero-visual">
+            <div className="code-window">
+              <div className="code-window-header">
+                <div className="code-dots">
+                  <span className="dot dot-red"></span>
+                  <span className="dot dot-yellow"></span>
+                  <span className="dot dot-green"></span>
+                </div>
+                <span className="code-title">App.tsx</span>
+              </div>
+              <pre className="code-window-content">
                 <code>{CODE_EXAMPLE}</code>
               </pre>
             </div>
           </div>
         </div>
-      </section>
+      </header>
 
-      {/* Features Grid */}
+      {/* Features Section */}
       <section className="section features-section">
         <div className="container">
           <div className="section-header">
-            <span className="section-tag">Features</span>
-            <h2 className="section-title">Built for modern apps</h2>
+            <span className="section-label">Features</span>
+            <h2 className="section-title">Everything you need</h2>
             <p className="section-subtitle">
-              Every feature designed to accelerate your development
+              Powerful features to accelerate your development workflow
             </p>
           </div>
           
-          <div className="features-grid">
+          <div className="features-grid-modern">
             {FEATURES.map((feature, idx) => (
-              <div key={idx} className="feature-card">
-                <div className="feature-icon">{feature.icon}</div>
-                <h3 className="feature-title">{feature.title}</h3>
-                <p className="feature-desc">{feature.desc}</p>
+              <div key={idx} className="feature-card-modern" style={{ '--feature-color': feature.color }}>
+                <div className="feature-icon-wrapper">
+                  {feature.icon}
+                </div>
+                <h3 className="feature-card-title">{feature.title}</h3>
+                <p className="feature-card-desc">{feature.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Architecture Section */}
-      <section className="section architecture-section">
+      {/* Components Preview */}
+      <section className="section components-section">
         <div className="container">
           <div className="section-header">
-            <span className="section-tag">Architecture</span>
-            <h2 className="section-title">Dual-layer design</h2>
+            <span className="section-label">Components</span>
+            <h2 className="section-title">62+ Ready to use</h2>
             <p className="section-subtitle">
-              Choose your level of abstraction
+              From simple buttons to complex forms - we've got you covered
             </p>
           </div>
           
-          <div className="architecture-grid">
-            <div className="arch-card styled">
-              <div className="arch-badge">Option A</div>
-              <h3>Styled Components</h3>
-              <p>Use pre-built components out of the box. Perfect for rapid development.</p>
-              <div className="arch-code">
-                <code>{`import { Button } from "@rnui/ui";
-<Button label="Save" />`}</code>
+          <div className="components-showcase-modern">
+            <div className="component-group">
+              <h4>Forms & Input</h4>
+              <div className="component-tags">
+                {['Button', 'Input', 'Select', 'Checkbox', 'Switch', 'Slider', 'DatePicker'].map(item => (
+                  <span key={item} className="component-tag">{item}</span>
+                ))}
               </div>
             </div>
-            
-            <div className="arch-card headless">
-              <div className="arch-badge">Option B</div>
-              <h3>Headless Hooks</h3>
-              <p>Bring your own styles. Complete control over appearance and behavior.</p>
-              <div className="arch-code">
-                <code>{`import { usePressable } from "@rnui/headless";
-const { gesture, animatedStyle } = usePressable({ onPress });`}</code>
+            <div className="component-group">
+              <h4>Navigation</h4>
+              <div className="component-tags">
+                {['Tabs', 'Bottom Sheet', 'Drawer', 'Menu', 'AppBar', 'Pagination'].map(item => (
+                  <span key={item} className="component-tag">{item}</span>
+                ))}
               </div>
+            </div>
+            <div className="component-group">
+              <h4>Feedback</h4>
+              <div className="component-tags">
+                {['Alert', 'Dialog', 'Snackbar', 'Toast', 'Progress', 'Skeleton'].map(item => (
+                  <span key={item} className="component-tag">{item}</span>
+                ))}
+              </div>
+            </div>
+            <div className="component-group">
+              <h4>Data Display</h4>
+              <div className="component-tags">
+                {['Table', 'List', 'Card', 'Badge', 'Avatar', 'Timeline', 'Chip'].map(item => (
+                  <span key={item} className="component-tag">{item}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Architecture Section */}
+      <section className="section architecture-section-modern">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-label">Architecture</span>
+            <h2 className="section-title">Two ways to build</h2>
+            <p className="section-subtitle">
+              Choose the approach that fits your needs
+            </p>
+          </div>
+          
+          <div className="architecture-cards">
+            <div className="arch-card-modern">
+              <div className="arch-card-header">
+                <div className="arch-icon" style={{ background: 'rgba(99, 102, 241, 0.1)' }}>
+                  <Icons.Layers />
+                </div>
+                <h3>Styled Components</h3>
+              </div>
+              <p>Pre-built, beautifully styled components ready to use out of the box.</p>
+              <div className="arch-code-block">
+                <code>{`import { Button } from "@rnui/ui";
+<Button variant="primary" />`}</code>
+              </div>
+              <ul className="arch-list">
+                <li><Icons.Check /> Quick setup</li>
+                <li><Icons.Check /> Consistent design</li>
+                <li><Icons.Check /> Theme support</li>
+              </ul>
+            </div>
+            
+            <div className="arch-card-modern">
+              <div className="arch-card-header">
+                <div className="arch-icon" style={{ background: 'rgba(16, 185, 129, 0.1)' }}>
+                  <Icons.Zap />
+                </div>
+                <h3>Headless Hooks</h3>
+              </div>
+              <p>Logic and state management with complete styling freedom.</p>
+              <div className="arch-code-block">
+                <code>{`import { usePressable } from "@rnui/headless";
+const { gesture, style } = usePressable();`}</code>
+              </div>
+              <ul className="arch-list">
+                <li><Icons.Check /> Full control</li>
+                <li><Icons.Check /> Custom designs</li>
+                <li><Icons.Check /> Accessibility built-in</li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="section cta-section">
+      <section className="section cta-section-modern">
         <div className="container">
-          <div className="cta-content">
-            <h2 className="cta-title">Ready to build something amazing?</h2>
-            <p className="cta-subtitle">
-              Join developers building beautiful, performant React Native apps with RNUI.
+          <div className="cta-box">
+            <h2 className="cta-title">Ready to get started?</h2>
+            <p className="cta-text">
+              Join developers building amazing React Native apps with RNUI
             </p>
-            <div className="cta-buttons">
-              <Link className="btn btnPrimary btn-large" to="/docs/getting-started">
-                Start Building
+            <div className="cta-actions">
+              <Link className="btn btn-primary btn-large" to="/docs/getting-started">
+                Get Started
                 <Icons.ArrowRight />
               </Link>
-              <Link className="btn btnSecondary btn-large" to="https://github.com/rnui/rnui">
+              <Link className="btn btn-outline btn-large" to="https://github.com/rnui/rnui">
                 <Icons.Github />
-                Star on GitHub
+                View on GitHub
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer CTA */}
-      <footer className="landing-footer">
+      {/* Footer */}
+      <footer className="landing-footer-modern">
         <div className="container">
-          <div className="footer-content">
+          <div className="footer-grid">
             <div className="footer-brand">
               <h3>RNUI</h3>
-              <p>Premium React Native UI components for high-end applications.</p>
+              <p>Premium React Native UI components for modern applications.</p>
             </div>
-            <div className="footer-links">
+            <div className="footer-links-grid">
               <div className="footer-col">
-                <h4>Learn</h4>
-                <Link to="/docs/">Introduction</Link>
+                <h4>Docs</h4>
+                <Link to="/docs/">Getting Started</Link>
                 <Link to="/docs/getting-started">Installation</Link>
                 <Link to="/docs/theming">Theming</Link>
               </div>
               <div className="footer-col">
-                <h4>Advanced</h4>
-                <Link to="/docs/headless">Headless Hooks</Link>
-                <Link to="/docs/theming">Design Tokens</Link>
+                <h4>Components</h4>
+                <Link to="/docs/headless">Headless</Link>
+                <Link to="/docs/components/button">UI Kit</Link>
               </div>
               <div className="footer-col">
                 <h4>Community</h4>
@@ -365,8 +371,8 @@ const { gesture, animatedStyle } = usePressable({ onPress });`}</code>
               </div>
             </div>
           </div>
-          <div className="footer-bottom">
-            <p>Copyright © {new Date().getFullYear()} RNUI Project. Built with passion.</p>
+          <div className="footer-bottom-modern">
+            <p>© {new Date().getFullYear()} RNUI. Open source under MIT license.</p>
           </div>
         </div>
       </footer>
