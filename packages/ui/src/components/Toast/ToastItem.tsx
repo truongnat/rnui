@@ -21,7 +21,7 @@ const VARIANT_ICONS: Record<string, string> = {
   info: "info",
 };
 
-interface ToastItemProps {
+export interface ToastItemProps {
   item: ToastItemType;
   position: ToastPosition;
   onDismiss: (id: string) => void;
