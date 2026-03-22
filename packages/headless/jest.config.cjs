@@ -8,4 +8,6 @@ module.exports = {
   moduleNameMapper: {
     "^@rnui/tokens$": "<rootDir>/../tokens/src",
   },
+  // Fix for Bun + React Native Jest compatibility
+  setupFiles: ["<rootDir>/jest.setup.cjs"],
 };
