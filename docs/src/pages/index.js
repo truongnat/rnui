@@ -17,25 +17,25 @@ const Icons = {
     </svg>
   ),
   Code: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
       <polyline points="16 18 22 12 16 6"/>
       <polyline points="8 6 2 12 8 18"/>
     </svg>
   ),
   Zap: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
     </svg>
   ),
   Layers: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
       <polygon points="12 2 2 7 12 12 22 7 12 2"/>
       <polyline points="2 17 12 22 22 17"/>
       <polyline points="2 12 12 17 22 12"/>
     </svg>
   ),
   Palette: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
       <circle cx="13.5" cy="6.5" r="2.5"/>
       <circle cx="17.5" cy="10.5" r="2.5"/>
       <circle cx="8.5" cy="7.5" r="2.5"/>
@@ -44,7 +44,7 @@ const Icons = {
     </svg>
   ),
   Smartphone: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
       <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
       <line x1="12" y1="18" x2="12.01" y2="18"/>
     </svg>
@@ -55,10 +55,16 @@ const Icons = {
     </svg>
   ),
   Box: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32">
       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
       <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
       <line x1="12" y1="22.08" x2="12" y2="12"/>
+    </svg>
+  ),
+  Copy: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
     </svg>
   ),
 };
@@ -108,6 +114,8 @@ function MyForm() {
   );
 }`;
 
+const INSTALL_COMMAND = `bun add @rnui/ui @rnui/headless`;
+
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
   
@@ -121,7 +129,6 @@ export default function Home() {
         <div className="hero-background">
           <div className="gradient-orb orb-1"></div>
           <div className="gradient-orb orb-2"></div>
-          <div className="gradient-orb orb-3"></div>
         </div>
         
         <div className="container hero-container">
@@ -149,6 +156,17 @@ export default function Home() {
                 <Icons.Github />
                 GitHub
               </Link>
+            </div>
+            
+            {/* Install Command */}
+            <div className="install-section">
+              <code className="install-command">
+                <span className="command-prompt">$</span>
+                {INSTALL_COMMAND}
+              </code>
+              <button className="copy-button" aria-label="Copy command">
+                <Icons.Copy />
+              </button>
             </div>
             
             <div className="hero-stats">
