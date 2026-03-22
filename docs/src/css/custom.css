@@ -329,12 +329,39 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--bg-tertiary);
   border-color: var(--border-light);
   color: var(--text-primary);
+  transform: translateY(-2px);
 }
 
 .btn-large {
   padding: 1.2rem 2.5rem;
   font-size: 16px;
   min-height: 56px;
+}
+
+/* Navbar GitHub Link */
+.header-github-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all var(--transition-base);
+  color: var(--text-primary);
+}
+
+.header-github-link:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--border-color);
+  transform: translateY(-2px);
+}
+
+.header-github-link svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 /* Install Command */
@@ -834,22 +861,28 @@ h1, h2, h3, h4, h5, h6 {
 .cta-buttons .btn-primary {
   background: white;
   color: var(--text-inverse);
+  box-shadow: var(--shadow-md);
 }
 
 .cta-buttons .btn-primary:hover {
   background: var(--bg-secondary);
   color: var(--text-inverse);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
 }
 
 .cta-buttons .btn-outline {
   border-color: rgba(255, 255, 255, 0.3);
   color: white;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .cta-buttons .btn-outline:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.5);
   color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 /* ─── Footer ────────────────────────────────────────────────────── */
