@@ -11,8 +11,8 @@
   "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/accordion.md",
   "tags": [],
   "version": "current",
-  "lastUpdatedBy": "Peanut",
-  "lastUpdatedAt": 1773852209000,
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
   "sidebarPosition": 20,
   "frontMatter": {
     "sidebar_position": 20
@@ -23,7 +23,7 @@
     "permalink": "/docs/components/typography"
   },
   "next": {
-    "title": "Chip",
-    "permalink": "/docs/components/chip"
+    "title": "Box",
+    "permalink": "/docs/components/box"
   }
 }

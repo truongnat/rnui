@@ -11,8 +11,8 @@
   "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/bottom-sheet.md",
   "tags": [],
   "version": "current",
-  "lastUpdatedBy": "Peanut",
-  "lastUpdatedAt": 1773765454000,
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
@@ -20,7 +20,7 @@
     "permalink": "/docs/components/bottom-navigation"
   },
   "next": {
-    "title": "Box",
-    "permalink": "/docs/components/box"
+    "title": "Breadcrumbs",
+    "permalink": "/docs/components/breadcrumbs"
   }
 }

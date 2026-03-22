@@ -11,13 +11,13 @@
   "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/stepper.md",
   "tags": [],
   "version": "current",
-  "lastUpdatedBy": "Peanut",
-  "lastUpdatedAt": 1773852209000,
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Stack",
-    "permalink": "/docs/components/stack"
+    "title": "SpeedDial",
+    "permalink": "/docs/components/speed-dial"
   },
   "next": {
     "title": "Switch",

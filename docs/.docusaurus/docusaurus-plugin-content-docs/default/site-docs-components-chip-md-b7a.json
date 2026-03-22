@@ -11,16 +11,16 @@
   "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/chip.md",
   "tags": [],
   "version": "current",
-  "lastUpdatedBy": "Peanut",
-  "lastUpdatedAt": 1773852209000,
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
   "sidebarPosition": 25,
   "frontMatter": {
     "sidebar_position": 25
   },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Accordion",
-    "permalink": "/docs/components/accordion"
+    "title": "Stack",
+    "permalink": "/docs/components/stack"
   },
   "next": {
     "title": "Image",

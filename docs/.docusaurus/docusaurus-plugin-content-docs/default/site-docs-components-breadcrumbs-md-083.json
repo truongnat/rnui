@@ -11,13 +11,13 @@
   "editUrl": "https://github.com/rnui/rnui/tree/main/docs/docs/components/breadcrumbs.md",
   "tags": [],
   "version": "current",
-  "lastUpdatedBy": "Peanut",
-  "lastUpdatedAt": 1773852209000,
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
   "frontMatter": {},
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Box",
-    "permalink": "/docs/components/box"
+    "title": "BottomSheet",
+    "permalink": "/docs/components/bottom-sheet"
   },
   "next": {
     "title": "ButtonGroup",
