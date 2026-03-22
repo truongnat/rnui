@@ -42,14 +42,14 @@ export interface BrandColorGroup {
     disabled: string;
     inverse: string;
     link: string;
-    visited: string;
-    selected: string;
+    visited?: string;
+    selected?: string;
     onBrand: string;
     onAccent: string;
-    success: string;
-    warning: string;
-    error: string;
-    info: string;
+    success?: string;
+    warning?: string;
+    error?: string;
+    info?: string;
   };
   border: {
     default: string;
@@ -58,9 +58,9 @@ export interface BrandColorGroup {
     input: string;
     focus: string;
     error: string;
-    success: string;
-    warning: string;
-    info: string;
+    success?: string;
+    warning?: string;
+    info?: string;
   };
   brand: {
     default: string;
