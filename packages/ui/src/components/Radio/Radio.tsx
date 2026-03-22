@@ -91,7 +91,7 @@ export function RadioItem<T = string>({
               width: innerSize.width,
               height: innerSize.height,
               borderRadius: innerSize.borderRadius,
-              backgroundColor: "#fff",
+              backgroundColor: tokens.color.text.inverse,
             },
             dotStyle,
           ]}

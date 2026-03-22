@@ -9,15 +9,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '3f6'),
+    component: ComponentCreator('/docs', 'b27'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', 'f08'),
+        component: ComponentCreator('/docs', '42d'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '656'),
+            component: ComponentCreator('/docs', '148'),
             routes: [
               {
                 path: '/docs/',
@@ -32,7 +32,7 @@ export default [
               },
               {
                 path: '/docs/components/accordion',
-                component: ComponentCreator('/docs/components/accordion', '716'),
+                component: ComponentCreator('/docs/components/accordion', 'fc8'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
@@ -86,7 +86,7 @@ export default [
               },
               {
                 path: '/docs/components/box',
-                component: ComponentCreator('/docs/components/box', '7ca'),
+                component: ComponentCreator('/docs/components/box', '3f1'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
@@ -128,7 +128,7 @@ export default [
               },
               {
                 path: '/docs/components/chip',
-                component: ComponentCreator('/docs/components/chip', '6aa'),
+                component: ComponentCreator('/docs/components/chip', 'ffb'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
@@ -158,7 +158,7 @@ export default [
               },
               {
                 path: '/docs/components/drawer',
-                component: ComponentCreator('/docs/components/drawer', '9b1'),
+                component: ComponentCreator('/docs/components/drawer', 'dd5'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
@@ -194,13 +194,13 @@ export default [
               },
               {
                 path: '/docs/components/icon',
-                component: ComponentCreator('/docs/components/icon', 'bdf'),
+                component: ComponentCreator('/docs/components/icon', '3bb'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
                 path: '/docs/components/image',
-                component: ComponentCreator('/docs/components/image', 'b49'),
+                component: ComponentCreator('/docs/components/image', 'a0b'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
@@ -242,7 +242,7 @@ export default [
               },
               {
                 path: '/docs/components/modal',
-                component: ComponentCreator('/docs/components/modal', '10e'),
+                component: ComponentCreator('/docs/components/modal', '5bd'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
@@ -338,7 +338,7 @@ export default [
               },
               {
                 path: '/docs/components/stack',
-                component: ComponentCreator('/docs/components/stack', 'f62'),
+                component: ComponentCreator('/docs/components/stack', 'b44'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
@@ -398,13 +398,13 @@ export default [
               },
               {
                 path: '/docs/components/tooltip',
-                component: ComponentCreator('/docs/components/tooltip', '7be'),
+                component: ComponentCreator('/docs/components/tooltip', '019'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
                 path: '/docs/components/typography',
-                component: ComponentCreator('/docs/components/typography', '28d'),
+                component: ComponentCreator('/docs/components/typography', '86f'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },

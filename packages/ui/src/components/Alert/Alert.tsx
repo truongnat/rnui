@@ -91,7 +91,7 @@ export function Alert({
       {action}
       {onClose && (
         <Pressable hitSlop={8} style={{ marginTop: 2 }} {...getCloseButtonProps()}>
-          <Icon size={18} color={textColor} name={"close" as any} />
+          <Icon size={18} color={textColor || tokens.color.text.inverse} name={"close" as any} />
         </Pressable>
       )}
     </View>

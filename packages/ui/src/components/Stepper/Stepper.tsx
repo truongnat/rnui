@@ -45,10 +45,10 @@ export function Step({ index, label, children, activeStep = 0, orientation = "ho
   const isActive = index === activeStep;
   const isCompleted = index < activeStep;
 
-  const color = isCompleted 
-    ? stepper.step.completed.color 
-    : isActive 
-      ? stepper.step.active.color 
+  const color = isCompleted
+    ? stepper.step.completed.color
+    : isActive
+      ? stepper.step.active.color
       : stepper.step.pending.color;
 
   return (
@@ -66,7 +66,7 @@ export function Step({ index, label, children, activeStep = 0, orientation = "ho
         }}
       >
         {isCompleted ? (
-          <Icon size={14} color="#FFFFFF" name={"check" as any} />
+          <Icon size={14} color={stepper.step.completed.color} name={"check" as any} />
         ) : (
           <Text style={{ fontSize: 12, fontWeight: "600", color: isActive ? color : color }}>
             {index + 1}

@@ -266,7 +266,7 @@ var loveBrand = (0, import_tokens2.defineBrand)({
       subtle: "#FFF1F2",
       muted: "#FFE4E6",
       text: "#9F1239",
-      onAccent: "#FFFFFF"
+      onAccent: "#1C1917"
     },
     success: {
       bg: "#F0FDF4",

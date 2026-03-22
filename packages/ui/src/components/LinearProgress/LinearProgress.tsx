@@ -83,7 +83,7 @@ export function LinearProgress({
       ) : (
         <>
           {variant === "buffer" && (
-            <View style={[styles.bufferBar, { width: `${bufferValue}%`, backgroundColor: trackColor ?? "rgba(0,0,0,0.1)" }]} />
+            <View style={[styles.bufferBar, { width: `${bufferValue}%`, backgroundColor: trackColor ?? tokens.color.bg.muted }]} />
           )}
           <Animated.View
             style={[

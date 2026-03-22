@@ -294,7 +294,7 @@ function Alert({
   }, [alert, severityTokens, variant]);
   const textColor = variant === "filled" ? "#FFFFFF" : severityTokens.text;
   const iconColor = variant === "filled" ? "#FFFFFF" : severityTokens.icon;
-  return /* @__PURE__ */ React3.createElement(View3, { style: containerStyle, ...getAlertProps() }, icon !== false && /* @__PURE__ */ React3.createElement(View3, { style: { marginTop: 2 } }, icon ?? /* @__PURE__ */ React3.createElement(Icon, { size: 20, color: iconColor }, SEVERITY_ICONS[severity])), /* @__PURE__ */ React3.createElement(View3, { style: { flex: 1 } }, children), action, onClose && /* @__PURE__ */ React3.createElement(Pressable, { hitSlop: 8, style: { marginTop: 2 }, ...getCloseButtonProps() }, /* @__PURE__ */ React3.createElement(Icon, { size: 18, color: textColor, name: "close" })));
+  return /* @__PURE__ */ React3.createElement(View3, { style: containerStyle, ...getAlertProps() }, icon !== false && /* @__PURE__ */ React3.createElement(View3, { style: { marginTop: 2 } }, icon ?? /* @__PURE__ */ React3.createElement(Icon, { size: 20, color: iconColor }, SEVERITY_ICONS[severity])), /* @__PURE__ */ React3.createElement(View3, { style: { flex: 1 } }, children), action, onClose && /* @__PURE__ */ React3.createElement(Pressable, { hitSlop: 8, style: { marginTop: 2 }, ...getCloseButtonProps() }, /* @__PURE__ */ React3.createElement(Icon, { size: 18, color: textColor || tokens.color.text.inverse, name: "close" })));
 }
 function AlertTitle({ children }) {
   const { alert } = useComponentTokens3();
@@ -1184,7 +1184,7 @@ function Button({
   const textStyle = useMemo7(() => [
     button.variant[resolvedVariant].text,
     button.size[size].text,
-    resolvedVariant === "solid" && { color: resolvedColor.textOn },
+    resolvedVariant === "solid" && { color: resolvedColor.textOn || tokens.color.text.inverse },
     resolvedVariant === "outline" && { color: resolvedColor.main },
     resolvedVariant === "ghost" && { color: resolvedColor.main },
     resolvedVariant === "destructive" && { color: tokens.color.error.text }
@@ -1509,7 +1509,7 @@ function Checkbox({
           boxStyle
         ]
       },
-      /* @__PURE__ */ React18.createElement(Animated8.View, { style: checkStyle }, isIndeterminate ? /* @__PURE__ */ React18.createElement(View18, { style: { width: sizeConfig.iconSize, height: 2, backgroundColor: "#fff", borderRadius: 1 } }) : /* @__PURE__ */ React18.createElement(Text11, { style: { color: "#fff", fontSize: sizeConfig.iconSize, fontWeight: "700", lineHeight: sizeConfig.iconSize + 2 } }, "\u2713"))
+      /* @__PURE__ */ React18.createElement(Animated8.View, { style: checkStyle }, isIndeterminate ? /* @__PURE__ */ React18.createElement(View18, { style: { width: sizeConfig.iconSize, height: 2, backgroundColor: tokens.color.text.inverse, borderRadius: 1 } }) : /* @__PURE__ */ React18.createElement(Text11, { style: { color: tokens.color.text.inverse, fontSize: sizeConfig.iconSize, fontWeight: "700", lineHeight: sizeConfig.iconSize + 2 } }, "\u2713"))
     ),
     (label || description) && /* @__PURE__ */ React18.createElement(View18, { style: { flex: 1, paddingTop: 1 } }, label && /* @__PURE__ */ React18.createElement(Text11, { style: { fontSize: tokens.fontSize.md, color: tokens.color.text.primary, fontWeight: tokens.fontWeight.medium } }, label), description && /* @__PURE__ */ React18.createElement(Text11, { style: { fontSize: tokens.fontSize.sm, color: tokens.color.text.secondary, marginTop: 2 } }, description))
   );
@@ -2033,7 +2033,7 @@ function Fab({
     accessibilityRole: "button"
   });
   const isExtended = variant === "extended" && !!label;
-  const baseColor = fab.variant[color]?.backgroundColor ?? fab.variant.primary.backgroundColor;
+  const baseColor = color === "primary" ? fab.color.primary.bg : fab.color.secondary.bg;
   const textColor = "#FFFFFF";
   const sizeMap = {
     sm: { size: 40, iconSize: 20 },
@@ -2062,7 +2062,6 @@ var styles5 = StyleSheet7.create({
     justifyContent: "center"
   },
   label: {
-    color: "#FFFFFF",
     fontWeight: "600",
     fontSize: 14,
     textTransform: "uppercase"
@@ -2442,7 +2441,7 @@ function LinearProgress({
         }
       ]
     }
-  ) : /* @__PURE__ */ React33.createElement(React33.Fragment, null, variant === "buffer" && /* @__PURE__ */ React33.createElement(View32, { style: [styles7.bufferBar, { width: `${bufferValue}%`, backgroundColor: trackColor ?? "rgba(0,0,0,0.1)" }] }), /* @__PURE__ */ React33.createElement(
+  ) : /* @__PURE__ */ React33.createElement(React33.Fragment, null, variant === "buffer" && /* @__PURE__ */ React33.createElement(View32, { style: [styles7.bufferBar, { width: `${bufferValue}%`, backgroundColor: trackColor ?? tokens.color.bg.muted }] }), /* @__PURE__ */ React33.createElement(
     Animated12.View,
     {
       style: [
@@ -3199,7 +3198,7 @@ function RadioItem({
               width: innerSize.width,
               height: innerSize.height,
               borderRadius: innerSize.borderRadius,
-              backgroundColor: "#fff"
+              backgroundColor: tokens.color.text.inverse
             },
             dotStyle
           ]
@@ -3989,7 +3988,7 @@ function Step({ index, label, children, activeStep = 0, orientation = "horizonta
         borderColor: color
       }
     },
-    isCompleted ? /* @__PURE__ */ React53.createElement(Icon, { size: 14, color: "#FFFFFF", name: "check" }) : /* @__PURE__ */ React53.createElement(Text33, { style: { fontSize: 12, fontWeight: "600", color: isActive ? color : color } }, index + 1)
+    isCompleted ? /* @__PURE__ */ React53.createElement(Icon, { size: 14, color: stepper.step.completed.color, name: "check" }) : /* @__PURE__ */ React53.createElement(Text33, { style: { fontSize: 12, fontWeight: "600", color: isActive ? color : color } }, index + 1)
   ), label && /* @__PURE__ */ React53.createElement(Text33, { style: { color: isActive ? stepper.step.active.color : stepper.step.pending.color, fontSize: 14 } }, label), children);
 }
 function StepLabel({ children, style }) {

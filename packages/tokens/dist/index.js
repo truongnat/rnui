@@ -66,6 +66,76 @@ var primitive = {
       500: "#3B82F6",
       600: "#2563EB",
       900: "#1E3A8A"
+    },
+    // Orange — for sunset theme
+    orange: {
+      50: "#FFF7ED",
+      100: "#FFEDD5",
+      200: "#FED7AA",
+      300: "#FDBA74",
+      400: "#FB923C",
+      500: "#F97316",
+      600: "#EA580C",
+      700: "#C2410C",
+      800: "#9A3412",
+      900: "#7C2D12",
+      950: "#431407"
+    },
+    // Teal — for ocean theme
+    teal: {
+      50: "#F0FDFA",
+      100: "#CCFBF1",
+      200: "#99F6E4",
+      300: "#5EEAD4",
+      400: "#2DD4BF",
+      500: "#14B8A6",
+      600: "#0D9488",
+      700: "#0F766E",
+      800: "#115E59",
+      900: "#134E4A",
+      950: "#042F2E"
+    },
+    // Rose — for love theme
+    rose: {
+      50: "#FFF1F2",
+      100: "#FFE4E6",
+      200: "#FECDD3",
+      300: "#FDA4AF",
+      400: "#FB7185",
+      500: "#F43F5E",
+      600: "#E11D48",
+      700: "#BE123C",
+      800: "#9F1239",
+      900: "#881337",
+      950: "#4C0519"
+    },
+    // Emerald — for forest theme
+    emerald: {
+      50: "#ECFDF5",
+      100: "#D1FAE5",
+      200: "#A7F3D0",
+      300: "#6EE7B7",
+      400: "#34D399",
+      500: "#10B981",
+      600: "#059669",
+      700: "#047857",
+      800: "#065F46",
+      900: "#064E3B",
+      950: "#022C22"
+    },
+    // Indigo — for midnight theme
+    indigo: {
+      50: "#EEF2FF",
+      100: "#E0E7FF",
+      200: "#C7D2FE",
+      300: "#A5B4FC",
+      400: "#818CF8",
+      500: "#6366F1",
+      600: "#4F46E5",
+      700: "#4338CA",
+      800: "#3730A3",
+      900: "#312E81",
+      950: "#1E1B4B"
     }
   },
   // ─── Spacing scale (4px base) ────────────────────────────────
@@ -256,10 +326,18 @@ var lightTokens = {
       inverse: color.white,
       link: color.brand[700],
       // #6D28D9
+      visited: color.brand[900],
+      // #4C1D95
+      selected: color.brand[800],
+      // #5B21B6
       onBrand: color.white,
       // text on violet backgrounds
-      onAccent: "#1C1917"
+      onAccent: "#1C1917",
       // text on amber backgrounds
+      success: color.green[900],
+      warning: color.amber[900],
+      error: color.red[900],
+      info: color.blue[900]
     },
     // Border - Ultra visible
     border: {
@@ -273,8 +351,11 @@ var lightTokens = {
       // #94A3B8 - Form input border
       focus: color.brand[600],
       // #7C3AED - Focus ring
-      error: color.red[600]
+      error: color.red[600],
       // #DC2626
+      success: color.green[500],
+      warning: color.amber[500],
+      info: color.blue[500]
     },
     // Brand — Violet
     brand: {
@@ -359,10 +440,18 @@ var darkTokens = {
       inverse: color.gray[900],
       link: color.brand[400],
       // #A78BFA
+      visited: color.brand[300],
+      // #C4B5FD
+      selected: color.brand[200],
+      // #DDD6FE
       onBrand: color.white,
       // text on violet backgrounds
-      onAccent: "#1C1917"
+      onAccent: "#1C1917",
       // text on amber backgrounds
+      success: color.green[400],
+      warning: color.amber[400],
+      error: color.red[400],
+      info: color.blue[400]
     },
     border: {
       default: color.gray[700],
@@ -375,7 +464,10 @@ var darkTokens = {
       // #475569 - Form input border
       focus: color.brand[400],
       // #A78BFA - Focus ring ✅
-      error: color.red[400]
+      error: color.red[400],
+      success: color.green[400],
+      warning: color.amber[400],
+      info: color.blue[400]
     },
     // Brand — Violet dark mode
     brand: {

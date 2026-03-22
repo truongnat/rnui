@@ -38,6 +38,13 @@ const STATUS_DOT_SIZE: Record<AvatarSize, number> = {
   "2xl": 16,
 };
 
+const STATUS_DOT_COLORS = {
+  online: "#22C55E",  // success
+  away: "#F59E0B",    // warning
+  offline: "#9CA3AF", // muted
+  busy: "#EF4444",    // error
+} as const;
+
 // Deterministic color from initials string
 const BG_PALETTE = [
   "#EEEDFE", // purple-50

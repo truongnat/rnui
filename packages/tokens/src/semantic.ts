@@ -68,8 +68,14 @@ export const lightTokens = {
       disabled: color.gray[500],  // #64748B — 4.8x on white ✅ WCAG AA
       inverse: color.white,
       link: color.brand[700],     // #6D28D9
+      visited: color.brand[900],  // #4C1D95
+      selected: color.brand[800], // #5B21B6
       onBrand: color.white,         // text on violet backgrounds
       onAccent: "#1C1917",          // text on amber backgrounds
+      success: color.green[900],
+      warning: color.amber[900],
+      error: color.red[900],
+      info: color.blue[900],
     },
     // Border - Ultra visible
     border: {
@@ -79,6 +85,9 @@ export const lightTokens = {
       input: color.gray[400],    // #94A3B8 - Form input border
       focus: color.brand[600],   // #7C3AED - Focus ring
       error: color.red[600],     // #DC2626
+      success: color.green[500],
+      warning: color.amber[500],
+      info: color.blue[500],
     },
     // Brand — Violet
     brand: {
@@ -146,8 +155,14 @@ export const darkTokens = {
       disabled: color.gray[600],  // #475569 — clearer than before
       inverse: color.gray[900],
       link: color.brand[400],      // #A78BFA
+      visited: color.brand[300],   // #C4B5FD
+      selected: color.brand[200],  // #DDD6FE
       onBrand: color.white,         // text on violet backgrounds
       onAccent: "#1C1917",          // text on amber backgrounds
+      success: color.green[400],
+      warning: color.amber[400],
+      error: color.red[400],
+      info: color.blue[400],
     },
     border: {
       default: color.gray[700],    // #334155 - Standard border
@@ -156,6 +171,9 @@ export const darkTokens = {
       input: color.gray[600],     // #475569 - Form input border
       focus: color.brand[400],    // #A78BFA - Focus ring ✅
       error: color.red[400],
+      success: color.green[400],
+      warning: color.amber[400],
+      info: color.blue[400],
     },
     // Brand — Violet dark mode
     brand: {

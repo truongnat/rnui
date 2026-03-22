@@ -168,8 +168,14 @@ export declare const lightTokens: {
             readonly disabled: "#64748B";
             readonly inverse: "#FFFFFF";
             readonly link: "#6D28D9";
+            readonly visited: "#4C1D95";
+            readonly selected: "#5B21B6";
             readonly onBrand: "#FFFFFF";
             readonly onAccent: "#1C1917";
+            readonly success: "#14532D";
+            readonly warning: "#78350F";
+            readonly error: "#7F1D1D";
+            readonly info: "#1E3A8A";
         };
         readonly border: {
             readonly default: "#CBD5E1";
@@ -178,6 +184,9 @@ export declare const lightTokens: {
             readonly input: "#94A3B8";
             readonly focus: "#7C3AED";
             readonly error: "#DC2626";
+            readonly success: "#22C55E";
+            readonly warning: "#F59E0B";
+            readonly info: "#3B82F6";
         };
         readonly brand: {
             readonly default: "#7C3AED";
@@ -441,8 +450,14 @@ export declare const darkTokens: {
             readonly disabled: "#475569";
             readonly inverse: "#0F172A";
             readonly link: "#A78BFA";
+            readonly visited: "#C4B5FD";
+            readonly selected: "#DDD6FE";
             readonly onBrand: "#FFFFFF";
             readonly onAccent: "#1C1917";
+            readonly success: "#4ADE80";
+            readonly warning: "#FBBF24";
+            readonly error: "#F87171";
+            readonly info: "#60A5FA";
         };
         readonly border: {
             readonly default: "#334155";
@@ -451,6 +466,9 @@ export declare const darkTokens: {
             readonly input: "#475569";
             readonly focus: "#A78BFA";
             readonly error: "#F87171";
+            readonly success: "#4ADE80";
+            readonly warning: "#FBBF24";
+            readonly info: "#60A5FA";
         };
         readonly brand: {
             readonly default: "#A78BFA";

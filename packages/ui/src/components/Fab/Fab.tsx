@@ -37,8 +37,8 @@ export function Fab({
 
   const isExtended = variant === "extended" && !!label;
   
-  // Base color from tokens
-  const baseColor = (fab as any).variant[color]?.backgroundColor ?? (fab as any).variant.primary.backgroundColor;
+  // Base color from component tokens - Fab only has primary/secondary in tokens
+  const baseColor = color === "primary" ? fab.color.primary.bg : fab.color.secondary.bg;
   const textColor = "#FFFFFF";
 
   const sizeMap = {
@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   label: {
-    color: "#FFFFFF",
     fontWeight: "600",
     fontSize: 14,
     textTransform: "uppercase",

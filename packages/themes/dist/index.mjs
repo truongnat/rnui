@@ -232,7 +232,7 @@ var loveBrand = defineBrand2({
       subtle: "#FFF1F2",
       muted: "#FFE4E6",
       text: "#9F1239",
-      onAccent: "#FFFFFF"
+      onAccent: "#1C1917"
     },
     success: {
       bg: "#F0FDF4",

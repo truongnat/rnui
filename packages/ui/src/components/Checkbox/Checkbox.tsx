@@ -86,9 +86,9 @@ export function Checkbox({
       >
         <Animated.View style={checkStyle}>
           {isIndeterminate ? (
-            <View style={{ width: sizeConfig.iconSize, height: 2, backgroundColor: "#fff", borderRadius: 1 }} />
+            <View style={{ width: sizeConfig.iconSize, height: 2, backgroundColor: tokens.color.text.inverse, borderRadius: 1 }} />
           ) : (
-            <Text style={{ color: "#fff", fontSize: sizeConfig.iconSize, fontWeight: "700", lineHeight: sizeConfig.iconSize + 2 }}>
+            <Text style={{ color: tokens.color.text.inverse, fontSize: sizeConfig.iconSize, fontWeight: "700", lineHeight: sizeConfig.iconSize + 2 }}>
               ✓
             </Text>
           )}

@@ -368,7 +368,7 @@ function Alert({
   }, [alert, severityTokens, variant]);
   const textColor = variant === "filled" ? "#FFFFFF" : severityTokens.text;
   const iconColor = variant === "filled" ? "#FFFFFF" : severityTokens.icon;
-  return /* @__PURE__ */ import_react3.default.createElement(import_react_native3.View, { style: containerStyle, ...getAlertProps() }, icon !== false && /* @__PURE__ */ import_react3.default.createElement(import_react_native3.View, { style: { marginTop: 2 } }, icon ?? /* @__PURE__ */ import_react3.default.createElement(Icon, { size: 20, color: iconColor }, SEVERITY_ICONS[severity])), /* @__PURE__ */ import_react3.default.createElement(import_react_native3.View, { style: { flex: 1 } }, children), action, onClose && /* @__PURE__ */ import_react3.default.createElement(import_react_native3.Pressable, { hitSlop: 8, style: { marginTop: 2 }, ...getCloseButtonProps() }, /* @__PURE__ */ import_react3.default.createElement(Icon, { size: 18, color: textColor, name: "close" })));
+  return /* @__PURE__ */ import_react3.default.createElement(import_react_native3.View, { style: containerStyle, ...getAlertProps() }, icon !== false && /* @__PURE__ */ import_react3.default.createElement(import_react_native3.View, { style: { marginTop: 2 } }, icon ?? /* @__PURE__ */ import_react3.default.createElement(Icon, { size: 20, color: iconColor }, SEVERITY_ICONS[severity])), /* @__PURE__ */ import_react3.default.createElement(import_react_native3.View, { style: { flex: 1 } }, children), action, onClose && /* @__PURE__ */ import_react3.default.createElement(import_react_native3.Pressable, { hitSlop: 8, style: { marginTop: 2 }, ...getCloseButtonProps() }, /* @__PURE__ */ import_react3.default.createElement(Icon, { size: 18, color: textColor || tokens.color.text.inverse, name: "close" })));
 }
 function AlertTitle({ children }) {
   const { alert } = (0, import_headless3.useComponentTokens)();
@@ -1252,7 +1252,7 @@ function Button({
   const textStyle = (0, import_react14.useMemo)(() => [
     button.variant[resolvedVariant].text,
     button.size[size].text,
-    resolvedVariant === "solid" && { color: resolvedColor.textOn },
+    resolvedVariant === "solid" && { color: resolvedColor.textOn || tokens.color.text.inverse },
     resolvedVariant === "outline" && { color: resolvedColor.main },
     resolvedVariant === "ghost" && { color: resolvedColor.main },
     resolvedVariant === "destructive" && { color: tokens.color.error.text }
@@ -1568,7 +1568,7 @@ function Checkbox({
           boxStyle
         ]
       },
-      /* @__PURE__ */ import_react18.default.createElement(import_react_native_reanimated8.default.View, { style: checkStyle }, isIndeterminate ? /* @__PURE__ */ import_react18.default.createElement(import_react_native18.View, { style: { width: sizeConfig.iconSize, height: 2, backgroundColor: "#fff", borderRadius: 1 } }) : /* @__PURE__ */ import_react18.default.createElement(import_react_native18.Text, { style: { color: "#fff", fontSize: sizeConfig.iconSize, fontWeight: "700", lineHeight: sizeConfig.iconSize + 2 } }, "\u2713"))
+      /* @__PURE__ */ import_react18.default.createElement(import_react_native_reanimated8.default.View, { style: checkStyle }, isIndeterminate ? /* @__PURE__ */ import_react18.default.createElement(import_react_native18.View, { style: { width: sizeConfig.iconSize, height: 2, backgroundColor: tokens.color.text.inverse, borderRadius: 1 } }) : /* @__PURE__ */ import_react18.default.createElement(import_react_native18.Text, { style: { color: tokens.color.text.inverse, fontSize: sizeConfig.iconSize, fontWeight: "700", lineHeight: sizeConfig.iconSize + 2 } }, "\u2713"))
     ),
     (label || description) && /* @__PURE__ */ import_react18.default.createElement(import_react_native18.View, { style: { flex: 1, paddingTop: 1 } }, label && /* @__PURE__ */ import_react18.default.createElement(import_react_native18.Text, { style: { fontSize: tokens.fontSize.md, color: tokens.color.text.primary, fontWeight: tokens.fontWeight.medium } }, label), description && /* @__PURE__ */ import_react18.default.createElement(import_react_native18.Text, { style: { fontSize: tokens.fontSize.sm, color: tokens.color.text.secondary, marginTop: 2 } }, description))
   );
@@ -2087,7 +2087,7 @@ function Fab({
     accessibilityRole: "button"
   });
   const isExtended = variant === "extended" && !!label;
-  const baseColor = fab.variant[color]?.backgroundColor ?? fab.variant.primary.backgroundColor;
+  const baseColor = color === "primary" ? fab.color.primary.bg : fab.color.secondary.bg;
   const textColor = "#FFFFFF";
   const sizeMap = {
     sm: { size: 40, iconSize: 20 },
@@ -2116,7 +2116,6 @@ var styles5 = import_react_native26.StyleSheet.create({
     justifyContent: "center"
   },
   label: {
-    color: "#FFFFFF",
     fontWeight: "600",
     fontSize: 14,
     textTransform: "uppercase"
@@ -2492,7 +2491,7 @@ function LinearProgress({
         }
       ]
     }
-  ) : /* @__PURE__ */ import_react33.default.createElement(import_react33.default.Fragment, null, variant === "buffer" && /* @__PURE__ */ import_react33.default.createElement(import_react_native33.View, { style: [styles7.bufferBar, { width: `${bufferValue}%`, backgroundColor: trackColor ?? "rgba(0,0,0,0.1)" }] }), /* @__PURE__ */ import_react33.default.createElement(
+  ) : /* @__PURE__ */ import_react33.default.createElement(import_react33.default.Fragment, null, variant === "buffer" && /* @__PURE__ */ import_react33.default.createElement(import_react_native33.View, { style: [styles7.bufferBar, { width: `${bufferValue}%`, backgroundColor: trackColor ?? tokens.color.bg.muted }] }), /* @__PURE__ */ import_react33.default.createElement(
     import_react_native_reanimated12.default.View,
     {
       style: [
@@ -3232,7 +3231,7 @@ function RadioItem({
               width: innerSize.width,
               height: innerSize.height,
               borderRadius: innerSize.borderRadius,
-              backgroundColor: "#fff"
+              backgroundColor: tokens.color.text.inverse
             },
             dotStyle
           ]
@@ -4006,7 +4005,7 @@ function Step({ index, label, children, activeStep = 0, orientation = "horizonta
         borderColor: color
       }
     },
-    isCompleted ? /* @__PURE__ */ import_react53.default.createElement(Icon, { size: 14, color: "#FFFFFF", name: "check" }) : /* @__PURE__ */ import_react53.default.createElement(import_react_native52.Text, { style: { fontSize: 12, fontWeight: "600", color: isActive ? color : color } }, index + 1)
+    isCompleted ? /* @__PURE__ */ import_react53.default.createElement(Icon, { size: 14, color: stepper.step.completed.color, name: "check" }) : /* @__PURE__ */ import_react53.default.createElement(import_react_native52.Text, { style: { fontSize: 12, fontWeight: "600", color: isActive ? color : color } }, index + 1)
   ), label && /* @__PURE__ */ import_react53.default.createElement(import_react_native52.Text, { style: { color: isActive ? stepper.step.active.color : stepper.step.pending.color, fontSize: 14 } }, label), children);
 }
 function StepLabel({ children, style }) {

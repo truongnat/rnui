@@ -214,7 +214,7 @@ export function Button({
   const textStyle = useMemo(() => [
     button.variant[resolvedVariant].text,
     button.size[size].text,
-    resolvedVariant === "solid" && { color: resolvedColor.textOn },
+    resolvedVariant === "solid" && { color: resolvedColor.textOn || tokens.color.text.inverse },
     resolvedVariant === "outline" && { color: resolvedColor.main },
     resolvedVariant === "ghost" && { color: resolvedColor.main },
     resolvedVariant === "destructive" && { color: tokens.color.error.text },
