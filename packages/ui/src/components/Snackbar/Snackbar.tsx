@@ -94,7 +94,7 @@ export function Snackbar({
             snackbar.container,
             verticalStyle,
             horizontalStyle,
-            animStyle,
+            animStyle as any,
             { position: "absolute" },
           ]}
         >

@@ -2,7 +2,6 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "outDir": "dist",
-        "rootDir": "src",
         "baseUrl": ".",
         "paths": {
             "@rnui/tokens": [
@@ -12,7 +11,10 @@
                 "../headless/src"
             ]
         },
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "composite": false,
+        "declaration": true,
+        "declarationMap": true
     },
     "include": [
         "src/**/*"
