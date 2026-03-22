@@ -81,7 +81,7 @@ export function Snackbar({
 
   const animStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-    transform: [{ translateY: translateY.value }, { scale: scale.value }],
+    transform: [{ translateY: translateY.value }, { scale: scale.value }] as any,
   }));
 
   if (!mounted && !open) return null;

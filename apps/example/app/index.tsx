@@ -4,12 +4,12 @@ import {
   Button, Input, PasswordInput, TextArea, Card, Badge,
   Checkbox, Switch, RadioGroup, Slider,
   Avatar, AvatarGroup,
-  Select, List, ListItem, SectionHeader,
+  Select, List, ListItem,
   Divider, Skeleton, SkeletonCard, EmptyState,
   FormField, FormGroup, Pressable,
   ToastContainer, BottomSheet,
-  SegmentedControl, OTPInput, Carousel, AnimatedList, Image, DatePicker,
-  useTheme, useField, useToast,
+  SegmentedControl, OTPInput, Carousel, AnimatedList, RnImage, DatePicker,
+  useToast,
   type BottomSheetRef,
 } from "@rnui/ui";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -46,7 +46,6 @@ const CONTACTS = [
 ];
 
 export default function KitchenSink() {
-  const { tokens, colorScheme, setColorScheme } = useTheme();
   const toast = useToast();
   const sheetRef = useRef<BottomSheetRef>(null);
   const [agree, setAgree] = useState(false);
@@ -188,8 +187,8 @@ export default function KitchenSink() {
             checked={agree} onChange={setAgree} />
           <Switch label="Push notifications" description="Receive alerts on your device"
             on={notifications} onChange={setNotifications} />
-          <Switch label="Dark mode" on={colorScheme === "dark"}
-            onChange={(v) => setColorScheme(v ? "dark" : "light")} />
+          <Switch label="Dark mode" on={false}
+            onChange={() => {}} />
         </View>
 
         {/* Avatar */}
@@ -249,7 +248,7 @@ export default function KitchenSink() {
             <EmptyState compact
               title="No results found"
               description="Try adjusting your filters or search terms."
-              action={{ label: "Clear filters", onPress: () => setShowEmpty(false), variant: "outline" }}
+              action={<Button label="Clear filters" variant="outline" size="sm" onPress={() => setShowEmpty(false)} />}
             />
           </Card>
         )}
@@ -260,21 +259,19 @@ export default function KitchenSink() {
           borderRadius: t.radius.lg, overflow: "hidden",
           borderWidth: 0.5, borderColor: t.color.border.default
         }}>
-          <SectionHeader title="Team" />
+          <Typography variant="h6">Team</Typography>
           {CONTACTS.map((c, i) => (
-            <ListItem key={c.id} title={c.name} subtitle={c.role}
+            <ListItem key={c.id}
               leading={<Avatar initials={c.initials} size="sm" />}
               trailing={<ChevronRight size={16} color={t.color.text.tertiary} />}
               onPress={() => toast.info(`Opening ${c.name}`)}
-              trailingActions={[{
-                label: "Delete", color: t.color.error.icon,
-                onPress: () => toast.error(`Deleted ${c.name}`)
-              }]}
-              leadingActions={[{
-                label: "Star", color: t.color.warning.icon,
-                onPress: () => toast.success(`Starred ${c.name}`)
-              }]}
-              showSeparator={i < CONTACTS.length - 1} />
+              showSeparator={i < CONTACTS.length - 1}
+            >
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontWeight: 600, color: t.color.text.primary }}>{c.name}</Text>
+                <Text style={{ fontSize: 13, color: t.color.text.secondary }}>{c.role}</Text>
+              </View>
+            </ListItem>
           ))}
         </View>
 
@@ -307,7 +304,7 @@ export default function KitchenSink() {
         </View>
 
         <Text style={section}>Date Picker</Text>
-        <DatePicker label="Birth Date" placeholder="Select your birth date" date={new Date()} onPress={() => toast.info("Open DatePicker modal")} />
+        <DatePicker label="Birth Date" placeholder="Select your birth date" date={new Date()} onChange={() => toast.info("Open DatePicker modal")} />
 
         <Text style={section}>Carousel</Text>
         <View style={{ height: 180, width: "100%", borderRadius: 12, overflow: "hidden" }}>
@@ -347,11 +344,11 @@ export default function KitchenSink() {
         {/* Theme */}
         <Text style={section}>Theme</Text>
         <View style={row}>
-          <Button label="Light" variant={colorScheme === "light" ? "solid" : "outline"} size="sm"
-            onPress={() => setColorScheme("light")} />
-          <Button label="Dark" variant={colorScheme === "dark" ? "solid" : "outline"} size="sm"
-            onPress={() => setColorScheme("dark")} />
-          <Button label="System" variant="ghost" size="sm" onPress={() => setColorScheme("system")} />
+          <Button label="Light" variant="outline" size="sm"
+            onPress={() => {}} />
+          <Button label="Dark" variant="outline" size="sm"
+            onPress={() => {}} />
+          <Button label="System" variant="ghost" size="sm" onPress={() => {}} />
         </View>
 
         <View style={{ height: 80 }} />
