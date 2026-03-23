@@ -81,6 +81,12 @@ jobs:
       - name: Build packages
         run: bun turbo build
 
+      - name: Setup Node.js for npm publish
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
       - name: Setup .npmrc for publishing
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
@@ -89,12 +95,10 @@ jobs:
 
       - name: Publish packages to npm
         run: |
-          cd packages/tokens && bun publish --access public
-          cd ../headless && bun publish --access public
-          cd ../themes && bun publish --access public
-          cd ../ui && bun publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          cd packages/tokens && npm publish --access public
+          cd ../headless && npm publish --access public
+          cd ../themes && npm publish --access public
+          cd ../ui && npm publish --access public
 
       - name: Create and push tags
         run: |
