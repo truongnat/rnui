@@ -78,24 +78,30 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
+      - name: Build packages
+        run: bun turbo build
+
       - name: Setup .npmrc for publishing
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
           echo "@rnui:registry=https://registry.npmjs.org/" >> ~/.npmrc
+          cat ~/.npmrc
 
-      - name: Create release PR or publish
-        uses: changesets/action@v1
-        with:
-          publish: bun run release
+      - name: Publish packages to npm
+        run: |
+          cd packages/tokens && bun publish --access public
+          cd ../headless && bun publish --access public
+          cd ../themes && bun publish --access public
+          cd ../ui && bun publish --access public
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Push tags and version commits
+      - name: Create and push tags
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git push --follow-tags
+          git tag -a v1.0.0 -m "Release v1.0.0" || true
+          git push --tags
 
   docs:
     name: Build docs
