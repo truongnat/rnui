@@ -91,7 +91,10 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
           echo "@rnui:registry=https://registry.npmjs.org/" >> ~/.npmrc
+          echo "=== .npmrc content ==="
           cat ~/.npmrc
+          echo "=== Testing npm whoami ==="
+          npm whoami
 
       - name: Publish packages to npm
         run: |
