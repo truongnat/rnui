@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { Card } from "../Card";
 import { Text } from "react-native";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 
 test("Card renders content and handles press", () => {
   const onPress = jest.fn();

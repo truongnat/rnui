@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { Radio, RadioGroup } from "../Radio";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 
 test("RadioGroup renders options", () => {
   const { getByText } = render(

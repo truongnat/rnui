@@ -17,13 +17,13 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@truongnat/ui": [
+      "@truongdq01/ui": [
         "../../packages/ui/src"
       ],
-      "@truongnat/headless": [
+      "@truongdq01/headless": [
         "../../packages/headless/src"
       ],
-      "@truongnat/tokens": [
+      "@truongdq01/tokens": [
         "../../packages/tokens/src"
       ]
     }

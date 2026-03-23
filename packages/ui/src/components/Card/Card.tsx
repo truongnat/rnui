@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
 import { View } from "react-native";
-import { usePressable, useComponentTokens } from "@truongnat/headless";
+import { usePressable, useComponentTokens } from "@truongdq01/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
 

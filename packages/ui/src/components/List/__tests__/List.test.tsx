@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { List, ListItem, ListItemText } from "../List";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 
 test("List renders items and text", () => {
   const { getByText } = render(

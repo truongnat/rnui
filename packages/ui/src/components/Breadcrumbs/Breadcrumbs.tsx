@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useComponentTokens } from "@truongnat/headless";
+import { useComponentTokens } from "@truongdq01/headless";
 
 export interface BreadcrumbsProps {
   children?: React.ReactNode;

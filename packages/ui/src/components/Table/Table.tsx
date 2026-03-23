@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo } from "react";
 import { View, ScrollView, Text, Pressable } from "react-native";
-import { useComponentTokens, useTokens } from "@truongnat/headless";
+import { useComponentTokens, useTokens } from "@truongdq01/headless";
 import { Button } from "../Button/Button";
 import { Icon } from "../Icon";
 

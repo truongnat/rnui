@@ -1,4 +1,4 @@
-import { primitive, lightTokens, darkTokens, resolveComponentTokens } from "@truongnat/tokens";
+import { primitive, lightTokens, darkTokens, resolveComponentTokens } from "@truongdq01/tokens";
 
 describe("primitive tokens", () => {
   test("spacing scale follows 4px base", () => {

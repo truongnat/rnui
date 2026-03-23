@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { useTokens, useIconStyle, useComponentTokens } from "@truongnat/headless";
+import { useTokens, useIconStyle, useComponentTokens } from "@truongdq01/headless";
 
 export interface ChipProps {
   label: React.ReactNode;

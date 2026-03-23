@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 import { Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 

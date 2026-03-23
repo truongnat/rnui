@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { Tabs, Tab } from "../Tabs";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 
 test("Tabs handles change", () => {
   const onChange = jest.fn();

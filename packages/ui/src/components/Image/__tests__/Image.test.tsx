@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { RnImage } from "../Image";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 
 test("RnImage renders", () => {
   const { toJSON } = render(

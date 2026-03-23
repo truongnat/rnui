@@ -5,7 +5,7 @@ const react_1 = require("react");
 const react_native_reanimated_1 = require("react-native-reanimated");
 const react_native_worklets_1 = require("react-native-worklets");
 const react_native_gesture_handler_1 = require("react-native-gesture-handler");
-const tokens_1 = require("@truongnat/tokens");
+const tokens_1 = require("@truongdq01/tokens");
 function snapToStep(value, min, max, step) {
     const snapped = Math.round((value - min) / step) * step + min;
     return Math.max(min, Math.min(max, snapped));

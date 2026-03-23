@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { Carousel } from "../Carousel";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 import { Text } from "react-native";
 
 test("Carousel renders current item", () => {

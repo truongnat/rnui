@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { Skeleton, SkeletonText } from "../Skeleton";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 
 test("Skeleton renders", () => {
   const { toJSON } = render(

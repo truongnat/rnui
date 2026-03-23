@@ -6,7 +6,7 @@ const react_native_reanimated_1 = require("react-native-reanimated");
 const react_native_worklets_1 = require("react-native-worklets");
 const react_native_gesture_handler_1 = require("react-native-gesture-handler");
 const react_native_1 = require("react-native");
-const tokens_1 = require("@truongnat/tokens");
+const tokens_1 = require("@truongdq01/tokens");
 // ─── Helpers ─────────────────────────────────────────────────────
 const SCREEN_HEIGHT = react_native_1.Dimensions.get("window").height;
 function resolveSnapPoint(point) {

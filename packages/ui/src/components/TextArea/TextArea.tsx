@@ -6,7 +6,7 @@ import {
   type NativeSyntheticEvent,
   type TextInputContentSizeChangeEventData,
 } from "react-native";
-import { useComponentTokens, useTokens } from "@truongnat/headless";
+import { useComponentTokens, useTokens } from "@truongdq01/headless";
 
 export interface TextAreaProps {
   label?: string;

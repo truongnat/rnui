@@ -59,8 +59,8 @@ exports.pressFeedback = {
 };
 // ─── Enter/exit presets (Reanimated Layout animations) ────────────
 // Import these as: entering={motionPreset.enter.fadeUp}
-// Actual Reanimated imports happen in @truongnat/headless to avoid
-// @truongnat/tokens depending on react-native-reanimated.
+// Actual Reanimated imports happen in @truongdq01/headless to avoid
+// @truongdq01/tokens depending on react-native-reanimated.
 exports.motionPreset = {
     enter: {
         fadeUp: "FadeInUp",

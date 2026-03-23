@@ -7,7 +7,7 @@ import Animated, {
     withTiming,
     withSequence,
 } from "react-native-reanimated";
-import { useComponentTokens, useTokens, useOTPInput } from "@truongnat/headless";
+import { useComponentTokens, useTokens, useOTPInput } from "@truongdq01/headless";
 
 export interface OTPInputProps {
     length?: number;

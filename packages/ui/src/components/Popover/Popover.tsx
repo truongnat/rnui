@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Modal, View, Pressable, StyleSheet, Dimensions, type LayoutChangeEvent } from "react-native";
-import { useTokens, useComponentTokens } from "@truongnat/headless";
+import { useTokens, useComponentTokens } from "@truongdq01/headless";
 
 export type PopoverOriginVertical = "top" | "center" | "bottom" | number;
 export type PopoverOriginHorizontal = "left" | "center" | "right" | number;

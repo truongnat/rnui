@@ -15,7 +15,7 @@ import {
     SlideOutUp,
     SlideOutRight,
 } from "react-native-reanimated";
-import { spring, timingPreset, focusRingAnimation } from "@truongnat/tokens";
+import { spring, timingPreset, focusRingAnimation } from "@truongdq01/tokens";
 
 /**
  * Real Reanimated layout classes mapped from design tokens.

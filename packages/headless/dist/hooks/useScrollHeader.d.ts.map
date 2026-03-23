@@ -1,1 +1,0 @@
-{"version":3,"file":"useScrollHeader.d.ts","sourceRoot":"","sources":["../../src/hooks/useScrollHeader.ts"],"names":[],"mappings":"AAQA,MAAM,WAAW,sBAAsB;IACnC,uDAAuD;IACvD,eAAe,EAAE,MAAM,CAAC;IACxB,2GAA2G;IAC3G,eAAe,EAAE,MAAM,CAAC;CAC3B;AAED,wBAAgB,eAAe,CAAC,EAAE,eAAe,EAAE,eAAe,EAAE,EAAE,sBAAsB;;;;;;;mBAqCtC,GAAG;;;;;;;;;;;EA2CxD"}

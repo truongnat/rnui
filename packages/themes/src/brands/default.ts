@@ -1,4 +1,4 @@
-import { defineBrand } from "@truongnat/tokens";
+import { defineBrand } from "@truongdq01/tokens";
 
 /**
  * Default brand — Violet & Amber — premium, warm, developer-focused

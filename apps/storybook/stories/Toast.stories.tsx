@@ -2,7 +2,7 @@ import type { StoryObj } from "@storybook/react-native";
 import React from "react";
 import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { ThemeProvider, ToastContainer, useToast, Button } from "@truongnat/ui";
+import { ThemeProvider, ToastContainer, useToast, Button } from "@truongdq01/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>

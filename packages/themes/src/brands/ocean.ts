@@ -1,4 +1,4 @@
-import { defineBrand } from "@truongnat/tokens";
+import { defineBrand } from "@truongdq01/tokens";
 
 /**
  * Ocean brand — Teal & Cyan — calm, deep, trustworthy

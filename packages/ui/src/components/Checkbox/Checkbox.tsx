@@ -6,9 +6,9 @@ import Animated, {
   withSpring,
   interpolate,
 } from "react-native-reanimated";
-import { useCheckbox, useComponentTokens, useTokens } from "@truongnat/headless";
-import { spring } from "@truongnat/tokens";
-import type { UseCheckboxOptions } from "@truongnat/headless";
+import { useCheckbox, useComponentTokens, useTokens } from "@truongdq01/headless";
+import { spring } from "@truongdq01/tokens";
+import type { UseCheckboxOptions } from "@truongdq01/headless";
 
 export interface CheckboxProps extends UseCheckboxOptions {
   label?: string;

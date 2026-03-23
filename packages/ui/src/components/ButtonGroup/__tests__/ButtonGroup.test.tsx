@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 import { ButtonGroup } from "../ButtonGroup";
 import { Button } from "../../Button";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 
 test("ButtonGroup renders children", () => {
   const { getByText } = render(

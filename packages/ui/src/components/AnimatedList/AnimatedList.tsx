@@ -2,7 +2,7 @@ import React, { forwardRef, useMemo } from "react";
 import { View, StyleProp, ViewStyle, StyleSheet, ListRenderItemInfo } from "react-native";
 import { FlashList, FlashListProps } from "@shopify/flash-list";
 import Animated, { FadeInDown, Layout } from "react-native-reanimated";
-import { useComponentTokens } from "@truongnat/headless";
+import { useComponentTokens } from "@truongdq01/headless";
 
 // Wrapping FlashList with Reanimated to allow layout animations and entering/exiting
 const ReanimatedFlashList = Animated.createAnimatedComponent(FlashList);

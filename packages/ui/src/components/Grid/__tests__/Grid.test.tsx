@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 import { Grid } from "../Grid";
 import { Text } from "react-native";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 
 test("Grid renders children", () => {
   const { getByText } = render(

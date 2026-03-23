@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useToast, dismissToast } from "@truongnat/headless";
-import type { ToastPosition } from "@truongnat/headless";
+import { useToast, dismissToast } from "@truongdq01/headless";
+import type { ToastPosition } from "@truongdq01/headless";
 import { ToastItem } from "./ToastItem";
 
 // ─── Props ────────────────────────────────────────────────────────

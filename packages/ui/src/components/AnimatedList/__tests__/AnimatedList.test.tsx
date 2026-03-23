@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { AnimatedList } from "../AnimatedList";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 import { Text } from "react-native";
 
 test("AnimatedList renders items", () => {

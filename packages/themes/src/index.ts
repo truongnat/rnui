@@ -1,5 +1,5 @@
 /**
- * @truongnat/themes — Multi-brand plugin system for RNUI
+ * @truongdq01/themes — Multi-brand plugin system for RNUI
  *
  * Architecture:
  *   Branch (primitive scale: spacing, radius, typography...)
@@ -8,7 +8,7 @@
  *         └── dark  → full BrandColorGroup
  *
  * Usage:
- *   import { loveBrand } from "@truongnat/themes"
+ *   import { loveBrand } from "@truongdq01/themes"
  *   <ThemeProvider brand={loveBrand}>...</ThemeProvider>
  *
  *   // Swap at runtime:
@@ -25,8 +25,8 @@ export { sunsetBrand }  from "./brands/sunset";
 export { midnightBrand }from "./brands/midnight";
 
 // ── Types (re-exported for convenience) ───────────────────────────
-export type { Brand, BrandColorGroup } from "@truongnat/tokens";
-export { defineBrand } from "@truongnat/tokens";
+export type { Brand, BrandColorGroup } from "@truongdq01/tokens";
+export { defineBrand } from "@truongdq01/tokens";
 
 // ── All brands registry (for brand pickers, docs, etc.) ───────────
 import { defaultBrand } from "./brands/default";
@@ -35,7 +35,7 @@ import { oceanBrand }   from "./brands/ocean";
 import { forestBrand }  from "./brands/forest";
 import { sunsetBrand }  from "./brands/sunset";
 import { midnightBrand }from "./brands/midnight";
-import type { Brand }   from "@truongnat/tokens";
+import type { Brand }   from "@truongdq01/tokens";
 
 export const allBrands: Brand[] = [
   defaultBrand,

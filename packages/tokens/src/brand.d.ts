@@ -1,5 +1,5 @@
 /**
- * @truongnat/tokens — brand.ts
+ * @truongdq01/tokens — brand.ts
  *
  * A Brand defines a complete color identity:
  *   - Two full ColorGroup objects (light + dark)

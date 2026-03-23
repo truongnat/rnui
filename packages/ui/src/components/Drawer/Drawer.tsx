@@ -6,8 +6,8 @@ import Animated, {
   withSpring,
   runOnJS,
 } from "react-native-reanimated";
-import { useComponentTokens, useTokens } from "@truongnat/headless";
-import { spring } from "@truongnat/tokens";
+import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import { spring } from "@truongdq01/tokens";
 
 export type DrawerAnchor = "left" | "right" | "top" | "bottom";
 

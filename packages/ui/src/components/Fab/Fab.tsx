@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { usePressable, useComponentTokens } from "@truongnat/headless";
+import { usePressable, useComponentTokens } from "@truongdq01/headless";
 import { Icon } from "../Icon";
 
 export interface FabProps {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal as RNModal, View, Pressable, StyleSheet } from "react-native";
-import { useComponentTokens } from "@truongnat/headless";
+import { useComponentTokens } from "@truongdq01/headless";
 
 export interface ModalProps {
   open: boolean;

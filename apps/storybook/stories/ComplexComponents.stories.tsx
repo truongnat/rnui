@@ -23,7 +23,7 @@ import {
   DatePicker,
   OTPInput,
   useTable,
-} from "@truongnat/ui";
+} from "@truongdq01/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider>

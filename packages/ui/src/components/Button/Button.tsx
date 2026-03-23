@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
 import { ActivityIndicator, Text, View, StyleSheet, Linking } from "react-native";
-import { usePressable, useComponentTokens, useIconStyle, useTokens } from "@truongnat/headless";
-import type { PressFeedbackMode } from "@truongnat/headless";
+import { usePressable, useComponentTokens, useIconStyle, useTokens } from "@truongdq01/headless";
+import type { PressFeedbackMode } from "@truongdq01/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Pressable } from "react-native";
-import { useRating, useTokens, useComponentTokens } from "@truongnat/headless";
+import { useRating, useTokens, useComponentTokens } from "@truongdq01/headless";
 import { Icon } from "../Icon";
 
 export interface RatingProps {

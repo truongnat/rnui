@@ -10,9 +10,9 @@ import Animated, {
   FadeOutDown,
 } from "react-native-reanimated";
 import { View, Text, Pressable } from "react-native";
-import { useComponentTokens, useTokens } from "@truongnat/headless";
+import { useComponentTokens, useTokens } from "@truongdq01/headless";
 import { Icon } from "../Icon";
-import type { ToastItem as ToastItemType, ToastPosition } from "@truongnat/headless";
+import type { ToastItem as ToastItemType, ToastPosition } from "@truongdq01/headless";
 
 const VARIANT_ICONS: Record<string, string> = {
   success: "checkCircle",

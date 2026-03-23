@@ -10,7 +10,7 @@ import {
 import { scheduleOnRN } from "react-native-worklets";
 import { Gesture } from "react-native-gesture-handler";
 import { Dimensions } from "react-native";
-import { spring } from "@truongnat/tokens";
+import { spring } from "@truongdq01/tokens";
 
 // ─── Types ────────────────────────────────────────────────────────
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useComponentTokens, useTokens } from "@truongnat/headless";
+import { useComponentTokens, useTokens } from "@truongdq01/headless";
 
 export interface DividerProps {
   /** Label shown centered in the divider */

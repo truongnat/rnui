@@ -1,4 +1,4 @@
-import { defineBrand } from "@truongnat/tokens";
+import { defineBrand } from "@truongdq01/tokens";
 
 /**
  * Midnight brand — Deep Purple & Electric Blue — mysterious, luxury, focus

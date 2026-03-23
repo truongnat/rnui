@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { View, Text } from "react-native";
-import { useComponentTokens, useIconStyle } from "@truongnat/headless";
+import { useComponentTokens, useIconStyle } from "@truongdq01/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
 

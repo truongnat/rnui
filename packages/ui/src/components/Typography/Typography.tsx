@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, type TextStyle } from "react-native";
-import { useComponentTokens, useTokens } from "@truongnat/headless";
+import { useComponentTokens, useTokens } from "@truongdq01/headless";
 
 export type TypographyVariant =
   | "h1"

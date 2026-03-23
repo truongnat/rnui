@@ -7,7 +7,7 @@ import Animated, {
   withSpring,
   runOnJS,
 } from "react-native-reanimated";
-import { useTokens, useComponentTokens } from "@truongnat/headless";
+import { useTokens, useComponentTokens } from "@truongdq01/headless";
 import { Icon } from "../Icon";
 
 export interface SnackbarProps {

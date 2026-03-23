@@ -3,7 +3,7 @@ import { Input, type InputProps } from "../Input/Input";
 import { TextArea } from "../TextArea/TextArea";
 import { Select, type SelectProps } from "../Select/Select";
 import { Pressable } from "react-native";
-import { useComponentTokens } from "@truongnat/headless";
+import { useComponentTokens } from "@truongdq01/headless";
 import { Icon } from "../Icon";
 
 export interface TextFieldProps extends Omit<InputProps, "error"> {

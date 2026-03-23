@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { BottomNavigation, BottomNavigationAction } from "../BottomNavigation";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 import { Text } from "react-native";
 
 test("BottomNavigation handles item selection", () => {

@@ -5,7 +5,7 @@ const react_1 = require("react");
 const react_native_reanimated_1 = require("react-native-reanimated");
 const react_native_worklets_1 = require("react-native-worklets");
 const react_native_gesture_handler_1 = require("react-native-gesture-handler");
-const tokens_1 = require("@truongnat/tokens");
+const tokens_1 = require("@truongdq01/tokens");
 const ACTION_WIDTH = 80;
 function useListItem({ onPress, onLongPress, trailingActions = [], leadingActions = [], disabled = false, } = {}) {
     const translateX = (0, react_native_reanimated_1.useSharedValue)(0);

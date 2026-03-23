@@ -1,12 +1,12 @@
 import type { Config } from "jest";
 
 const config: Config = {
-  displayName: "@truongnat/tokens",
+  displayName: "@truongdq01/tokens",
   preset: "ts-jest",
   testEnvironment: "node",
   testMatch: ["**/__tests__/**/*.test.ts"],
   moduleNameMapper: {
-    "^@truongnat/tokens$": "<rootDir>/src/index.ts",
+    "^@truongdq01/tokens$": "<rootDir>/src/index.ts",
   },
 };
 

@@ -9,7 +9,7 @@ import {
 } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import { Gesture } from "react-native-gesture-handler";
-import { spring } from "@truongnat/tokens";
+import { spring } from "@truongdq01/tokens";
 
 export interface SwipeAction {
   label: string;

@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { Alert } from "../Alert";
 import { Text } from "react-native";
-import { ThemeProvider } from "@truongnat/headless";
+import { ThemeProvider } from "@truongdq01/headless";
 
 test("Alert renders and handles close press", () => {
   const onClose = jest.fn();
