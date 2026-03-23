@@ -1,6 +1,6 @@
 {
   "name": "@rnui/headless",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "type": "module",
   "description": "Headless primitives for RNUI — logic, state, a11y. No styles.",
   "keywords": [
