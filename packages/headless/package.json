@@ -1,5 +1,5 @@
 {
-  "name": "@truongnat/headless",
+  "name": "@truongdq01/headless",
   "version": "1.0.0",
   "type": "module",
   "description": "Headless primitives for RNUI — logic, state, a11y. No styles.",
@@ -32,7 +32,7 @@
     "clean": "rm -rf dist dist-types"
   },
   "dependencies": {
-    "@truongnat/tokens": "workspace:*"
+    "@truongdq01/tokens": "workspace:*"
   },
   "peerDependencies": {
     "react": ">=19.2.0",

@@ -1,8 +1,8 @@
 {
-  "name": "@truongnat/themes",
+  "name": "@truongdq01/themes",
   "version": "1.0.0",
   "private": false,
-  "description": "Multi-brand plugin presets for @truongnat/ui",
+  "description": "Multi-brand plugin presets for @truongdq01/ui",
   "keywords": [
     "react-native",
     "ui",
@@ -30,10 +30,10 @@
     "clean": "rm -rf dist dist-types"
   },
   "dependencies": {
-    "@truongnat/tokens": "workspace:*"
+    "@truongdq01/tokens": "workspace:*"
   },
   "peerDependencies": {
-    "@truongnat/headless": "workspace:*"
+    "@truongdq01/headless": "workspace:*"
   },
   "devDependencies": {
     "tsup": "^8.5.1",
