@@ -56,7 +56,7 @@ jobs:
       - run: bun install --frozen-lockfile
 
       - name: Build packages
-        run: bun turbo build --filter=@rnui/ui...
+        run: bun turbo build --filter=@truongnat/ui...
 
       - name: Run render-count performance tests
         run: cd packages/ui && bun test:perf
@@ -90,7 +90,7 @@ jobs:
       - name: Setup .npmrc for publishing
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          echo "@rnui:registry=https://registry.npmjs.org/" >> ~/.npmrc
+          echo "@truongnat:registry=https://registry.npmjs.org/" >> ~/.npmrc
           echo "=== .npmrc content ==="
           cat ~/.npmrc
           echo "=== Testing npm whoami ==="
