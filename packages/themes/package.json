@@ -1,9 +1,15 @@
 {
   "name": "@rnui/themes",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": false,
   "description": "Multi-brand plugin presets for @rnui/ui",
-  "keywords": ["react-native", "ui", "theme", "brand", "dark-mode"],
+  "keywords": [
+    "react-native",
+    "ui",
+    "theme",
+    "brand",
+    "dark-mode"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
