@@ -1,8 +1,8 @@
 {
   "name": "@rnui/tokens",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "type": "module",
-  "description": "Design tokens for RNUI \u2014 primitive, semantic, component",
+  "description": "Design tokens for RNUI — primitive, semantic, component",
   "keywords": [
     "react-native",
     "design-tokens",
