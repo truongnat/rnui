@@ -1,5 +1,5 @@
 import { useTokens } from "../theme";
-import { type SemanticTokens } from "@rnui/tokens";
+import { type SemanticTokens } from "@truongnat/tokens";
 
 /**
  * Hook to apply default icon styles (size, color) based on component context.

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { usePagination, type PaginationItem, useTokens, useComponentTokens } from "@rnui/headless";
+import { usePagination, type PaginationItem, useTokens, useComponentTokens } from "@truongnat/headless";
 
 export interface PaginationProps {
   count: number;

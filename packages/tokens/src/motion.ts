@@ -61,8 +61,8 @@ export const pressFeedback = {
 
 // ─── Enter/exit presets (Reanimated Layout animations) ────────────
 // Import these as: entering={motionPreset.enter.fadeUp}
-// Actual Reanimated imports happen in @rnui/headless to avoid
-// @rnui/tokens depending on react-native-reanimated.
+// Actual Reanimated imports happen in @truongnat/headless to avoid
+// @truongnat/tokens depending on react-native-reanimated.
 export const motionPreset = {
   enter: {
     fadeUp: "FadeInUp",

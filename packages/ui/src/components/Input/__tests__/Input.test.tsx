@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { Input } from "../Input";
-import { ThemeProvider } from "@rnui/headless";
+import { ThemeProvider } from "@truongnat/headless";
 
 test("Input renders and handles text change", () => {
   const onChange = jest.fn();

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { TextInput as RNTextInput, View, Text, type TextInputProps as RNTextInputProps } from "react-native";
-import { useComponentTokens, useTokens, useIconStyle } from "@rnui/headless";
+import { useComponentTokens, useTokens, useIconStyle } from "@truongnat/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
 

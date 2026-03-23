@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { Checkbox } from "../Checkbox";
-import { ThemeProvider } from "@rnui/headless";
+import { ThemeProvider } from "@truongnat/headless";
 
 test("Checkbox handles press", () => {
   const onPress = jest.fn();

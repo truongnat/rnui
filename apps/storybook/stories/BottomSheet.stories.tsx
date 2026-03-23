@@ -1,7 +1,7 @@
 import type { StoryObj } from "@storybook/react-native";
 import React, { useRef } from "react";
 import { View, Text } from "react-native";
-import { ThemeProvider, BottomSheet, Button, type BottomSheetRef } from "@rnui/ui";
+import { ThemeProvider, BottomSheet, Button, type BottomSheetRef } from "@truongnat/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>

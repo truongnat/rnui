@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 import { Paper } from "../Paper";
 import { Text } from "react-native";
-import { ThemeProvider } from "@rnui/headless";
+import { ThemeProvider } from "@truongnat/headless";
 
 test("Paper renders visual surface", () => {
   const { getByText } = render(

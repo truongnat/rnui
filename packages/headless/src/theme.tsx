@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo, type ReactNode } from "react";
 import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import type { Brand } from "@rnui/tokens";
+import type { Brand } from "@truongnat/tokens";
 import {
   semanticTokens,
   buildSemanticTokens,
@@ -9,7 +9,7 @@ import {
   type SemanticTokens,
   type ComponentTokens,
   type ColorScheme,
-} from "@rnui/tokens";
+} from "@truongnat/tokens";
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -47,7 +47,7 @@ export interface ThemeProviderProps {
    * Switch brands at runtime via the setBrand() method returned by useTheme().
    *
    * @example
-   * import { loveBrand } from "@rnui/themes"
+   * import { loveBrand } from "@truongnat/themes"
    * <ThemeProvider brand={loveBrand}>...</ThemeProvider>
    */
   brand?: Brand;
@@ -60,14 +60,14 @@ export interface ThemeProviderProps {
 
 /**
  * Utility to define a fine-grained theme override with TypeScript autocomplete.
- * For full brand swaps, use defineBrand() from @rnui/tokens instead.
+ * For full brand swaps, use defineBrand() from @truongnat/tokens instead.
  */
 export function createTheme(override: ThemeOverride): ThemeOverride {
   return override;
 }
 
 // Re-export Brand type for convenience
-export type { Brand } from "@rnui/tokens";
+export type { Brand } from "@truongnat/tokens";
 
 // ─── Context ──────────────────────────────────────────────────────
 

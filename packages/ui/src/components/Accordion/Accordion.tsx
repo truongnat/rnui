@@ -8,7 +8,7 @@ import Animated, {
   Extrapolation,
 } from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { useDisclosure, useTokens, useComponentTokens, usePressable } from "@rnui/headless";
+import { useDisclosure, useTokens, useComponentTokens, usePressable } from "@truongnat/headless";
 import { Icon } from "../Icon";
 
 export interface AccordionProps {

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Modal, View, Pressable, StyleSheet, Dimensions, type LayoutChangeEvent } from "react-native";
-import { useTokens, useComponentTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@truongnat/headless";
 
 export type PopperPlacement =
   | "top"

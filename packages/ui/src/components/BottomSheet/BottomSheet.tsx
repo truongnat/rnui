@@ -3,8 +3,8 @@ import { View, StyleSheet, Dimensions, Modal } from "react-native";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useBottomSheet, useTokens, useComponentTokens } from "@rnui/headless";
-import type { UseBottomSheetOptions, SnapPoint } from "@rnui/headless";
+import { useBottomSheet, useTokens, useComponentTokens } from "@truongnat/headless";
+import type { UseBottomSheetOptions, SnapPoint } from "@truongnat/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
 

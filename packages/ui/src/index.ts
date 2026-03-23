@@ -1,5 +1,5 @@
-export { ThemeProvider, useTheme, useTokens, useComponentTokens, useIsDark, useActiveBrand, useBrandSwitch, createTheme } from "@rnui/headless";
-export type { Theme, ThemeOverride, ThemeProviderProps, Brand } from "@rnui/headless";
+export { ThemeProvider, useTheme, useTokens, useComponentTokens, useIsDark, useActiveBrand, useBrandSwitch, createTheme } from "@truongnat/headless";
+export type { Theme, ThemeOverride, ThemeProviderProps, Brand } from "@truongnat/headless";
 
 export * from "./components/Accordion";
 export * from "./components/Alert";

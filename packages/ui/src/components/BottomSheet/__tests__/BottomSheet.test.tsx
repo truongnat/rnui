@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { BottomSheet } from "../BottomSheet";
-import { ThemeProvider } from "@rnui/headless";
+import { ThemeProvider } from "@truongnat/headless";
 import { Text } from "react-native";
 
 test("BottomSheet renders children when open", () => {

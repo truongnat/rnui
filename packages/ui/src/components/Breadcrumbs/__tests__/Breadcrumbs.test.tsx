@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 import { Breadcrumbs } from "../Breadcrumbs";
 import { Link } from "../../Link";
-import { ThemeProvider } from "@rnui/headless";
+import { ThemeProvider } from "@truongnat/headless";
 
 test("Breadcrumbs renders links and separators", () => {
   const { getByText } = render(

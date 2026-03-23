@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { View, Text, Pressable } from "react-native";
-import { useComponentTokens, useTokens, useAlert } from "@rnui/headless";
+import { useComponentTokens, useTokens, useAlert } from "@truongnat/headless";
 import { Icon } from "../Icon";
 
 export type AlertSeverity = "error" | "warning" | "info" | "success";

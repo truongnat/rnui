@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, type ViewStyle } from "react-native";
-import { useComponentTokens, useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens } from "@truongnat/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
 

@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text } from "react-native";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { useSlider, useTokens, useComponentTokens } from "@rnui/headless";
-import type { UseSliderOptions } from "@rnui/headless";
+import { useSlider, useTokens, useComponentTokens } from "@truongnat/headless";
+import type { UseSliderOptions } from "@truongnat/headless";
 
 export interface SliderProps extends UseSliderOptions {
   label?: string;

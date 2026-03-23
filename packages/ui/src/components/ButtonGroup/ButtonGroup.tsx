@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { useTokens, useComponentTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@truongnat/headless";
 
 export interface ButtonGroupProps {
   children?: React.ReactNode;

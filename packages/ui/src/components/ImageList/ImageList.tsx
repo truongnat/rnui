@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { View, Text, Dimensions, type LayoutChangeEvent } from "react-native";
-import { useTokens, useComponentTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@truongnat/headless";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 

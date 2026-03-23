@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo } from "react";
 import { View, Text, Pressable } from "react-native";
-import { useComponentTokens, useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens } from "@truongnat/headless";
 
 export type FormControlVariant = "filled" | "outlined" | "standard";
 export type FormControlMargin = "dense" | "none" | "normal";

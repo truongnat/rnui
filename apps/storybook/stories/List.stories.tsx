@@ -1,7 +1,7 @@
 import type { StoryObj } from "@storybook/react-native";
 import React from "react";
 import { View } from "react-native";
-import { ThemeProvider, List, ListItem, SectionHeader, Badge } from "@rnui/ui";
+import { ThemeProvider, List, ListItem, SectionHeader, Badge } from "@truongnat/ui";
 import { Mail as LucideMail, Star as LucideStar, Archive as LucideArchive, Trash2 as LucideTrash2 } from "lucide-react-native";
 
 const Mail = LucideMail as any;

@@ -1,4 +1,4 @@
-import { defineBrand } from "@rnui/tokens";
+import { defineBrand } from "@truongnat/tokens";
 
 /**
  * Love brand — Rose & Blush — romantic, warm, tender

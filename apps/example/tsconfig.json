@@ -2,13 +2,13 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@rnui/ui": [
+      "@truongnat/ui": [
         "../../packages/ui/src/index.ts"
       ],
-      "@rnui/tokens": [
+      "@truongnat/tokens": [
         "../../packages/tokens/src/index.ts"
       ],
-      "@rnui/headless": [
+      "@truongnat/headless": [
         "../../packages/headless/src/index.ts"
       ]
     }

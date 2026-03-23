@@ -11,8 +11,8 @@ import {
   SegmentedControl, OTPInput, Carousel, AnimatedList, RnImage, DatePicker,
   Typography,
   type BottomSheetRef,
-} from "@rnui/ui";
-import { useTokens, useToast, useField } from "@rnui/headless";
+} from "@truongnat/ui";
+import { useTokens, useToast, useField } from "@truongnat/headless";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Search,

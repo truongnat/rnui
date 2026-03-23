@@ -5,7 +5,7 @@ import Animated, {
     withTiming,
     useSharedValue,
 } from "react-native-reanimated";
-import { useComponentTokens } from "@rnui/headless";
+import { useComponentTokens } from "@truongnat/headless";
 
 const AnimatedImage = Animated.createAnimatedComponent(RNImage);
 

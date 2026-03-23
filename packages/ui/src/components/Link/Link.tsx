@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, type TextStyle, Linking } from "react-native";
-import { useComponentTokens } from "@rnui/headless";
+import { useComponentTokens } from "@truongnat/headless";
 
 export interface LinkProps {
   children?: React.ReactNode;

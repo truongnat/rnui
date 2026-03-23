@@ -1,4 +1,4 @@
-import { primitive, lightTokens, darkTokens, resolveComponentTokens } from "@rnui/tokens";
+import { primitive, lightTokens, darkTokens, resolveComponentTokens } from "@truongnat/tokens";
 
 describe("primitive tokens", () => {
   test("spacing scale follows 4px base", () => {

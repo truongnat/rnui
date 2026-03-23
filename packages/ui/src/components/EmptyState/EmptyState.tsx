@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useComponentTokens, useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens } from "@truongnat/headless";
 
 export interface EmptyStateProps {
   title?: string;

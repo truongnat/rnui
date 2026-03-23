@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useTokens, useComponentTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@truongnat/headless";
 import {
   // Navigation & Actions
   Star,

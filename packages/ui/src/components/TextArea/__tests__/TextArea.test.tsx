@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { TextArea } from "../TextArea";
-import { ThemeProvider } from "@rnui/headless";
+import { ThemeProvider } from "@truongnat/headless";
 
 test("TextArea renders placeholder", () => {
   const { getByPlaceholderText } = render(

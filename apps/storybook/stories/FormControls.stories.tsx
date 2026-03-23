@@ -13,7 +13,7 @@ import {
   Input,
   Select,
   useTheme,
-} from "@rnui/ui";
+} from "@truongnat/ui";
 import { Mail as LucideMail, Search as LucideSearch, Lock as LucideLock } from "lucide-react-native";
 
 const Mail = LucideMail as any;

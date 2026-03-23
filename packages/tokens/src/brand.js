@@ -1,6 +1,6 @@
 "use strict";
 /**
- * @rnui/tokens — brand.ts
+ * @truongnat/tokens — brand.ts
  *
  * A Brand defines a complete color identity:
  *   - Two full ColorGroup objects (light + dark)

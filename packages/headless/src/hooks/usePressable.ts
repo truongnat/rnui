@@ -14,7 +14,7 @@ import {
   type LongPressGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { AccessibilityInfo, Platform, type AccessibilityRole } from "react-native";
-import { spring, pressFeedback } from "@rnui/tokens";
+import { spring, pressFeedback } from "@truongnat/tokens";
 
 // ─── Types ────────────────────────────────────────────────────────
 

@@ -6,7 +6,7 @@ import Animated, {
     Extrapolation,
     SharedValue,
 } from "react-native-reanimated";
-import { useCarousel, useComponentTokens } from "@rnui/headless";
+import { useCarousel, useComponentTokens } from "@truongnat/headless";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 

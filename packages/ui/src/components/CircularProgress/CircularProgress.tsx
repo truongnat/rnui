@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
-import { useTokens, useComponentTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@truongnat/headless";
 
 export type CircularProgressVariant = "indeterminate" | "determinate";
 export type CircularProgressColor =

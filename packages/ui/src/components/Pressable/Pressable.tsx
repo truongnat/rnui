@@ -1,8 +1,8 @@
 import React from "react";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { usePressable, useComponentTokens } from "@rnui/headless";
-import type { UsePressableOptions } from "@rnui/headless";
+import { usePressable, useComponentTokens } from "@truongnat/headless";
+import type { UsePressableOptions } from "@truongnat/headless";
 
 export interface PressableProps extends UsePressableOptions {
   children: React.ReactNode | ((state: { isPressed: boolean }) => React.ReactNode);

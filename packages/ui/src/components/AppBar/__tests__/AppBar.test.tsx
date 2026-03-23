@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { AppBar, Toolbar } from "../AppBar";
-import { ThemeProvider } from "@rnui/headless";
+import { ThemeProvider } from "@truongnat/headless";
 import { Text } from "react-native";
 
 describe("AppBar", () => {

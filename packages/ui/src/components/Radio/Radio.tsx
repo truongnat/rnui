@@ -5,9 +5,9 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
-import { useRadioGroup, useTokens, useComponentTokens } from "@rnui/headless";
-import { spring } from "@rnui/tokens";
-import type { UseRadioGroupOptions } from "@rnui/headless";
+import { useRadioGroup, useTokens, useComponentTokens } from "@truongnat/headless";
+import { spring } from "@truongnat/tokens";
+import type { UseRadioGroupOptions } from "@truongnat/headless";
 
 // ─── RadioItem ────────────────────────────────────────────────────
 

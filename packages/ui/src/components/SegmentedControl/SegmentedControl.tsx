@@ -5,8 +5,8 @@ import Animated, {
     withSpring,
     useSharedValue,
 } from "react-native-reanimated";
-import { useTokens, useComponentTokens, useSegmentedControl } from "@rnui/headless";
-import { spring } from "@rnui/tokens";
+import { useTokens, useComponentTokens, useSegmentedControl } from "@truongnat/headless";
+import { spring } from "@truongnat/tokens";
 
 export interface SegmentedControlProps {
     options: string[];

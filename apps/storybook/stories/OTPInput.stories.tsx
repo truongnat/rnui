@@ -1,7 +1,7 @@
 import type { StoryObj } from "@storybook/react-native";
 import React from "react";
 import { View } from "react-native";
-import { ThemeProvider, OTPInput } from "@rnui/ui";
+import { ThemeProvider, OTPInput } from "@truongnat/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
     <ThemeProvider override={{}}>

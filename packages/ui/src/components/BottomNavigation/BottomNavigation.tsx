@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo } from "react";
 import { View, Text, Pressable } from "react-native";
-import { useTokens, useComponentTokens, useBottomNavigation } from "@rnui/headless";
+import { useTokens, useComponentTokens, useBottomNavigation } from "@truongnat/headless";
 
 export interface BottomNavigationProps<T = string> {
   value?: T;

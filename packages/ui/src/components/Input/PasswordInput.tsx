@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Pressable } from "react-native";
-import { useIconStyle } from "@rnui/headless";
+import { useIconStyle } from "@truongnat/headless";
 import { Input, type InputProps } from "./Input";
 import { Icon } from "../Icon";
 

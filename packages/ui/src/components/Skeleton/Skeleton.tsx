@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
   interpolate,
 } from "react-native-reanimated";
-import { useTokens, useComponentTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@truongnat/headless";
 
 // ─── Base Skeleton ────────────────────────────────────────────────
 

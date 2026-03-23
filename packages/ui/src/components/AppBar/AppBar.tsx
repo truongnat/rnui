@@ -1,6 +1,6 @@
 import React from "react";
 import { View, type ViewStyle } from "react-native";
-import { useComponentTokens, useTokens } from "@rnui/headless";
+import { useComponentTokens, useTokens } from "@truongnat/headless";
 
 export interface AppBarProps {
   children?: React.ReactNode;

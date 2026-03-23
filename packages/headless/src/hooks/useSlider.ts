@@ -6,7 +6,7 @@ import {
 } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import { Gesture } from "react-native-gesture-handler";
-import { spring } from "@rnui/tokens";
+import { spring } from "@truongnat/tokens";
 
 export interface UseSliderOptions {
   min?: number;

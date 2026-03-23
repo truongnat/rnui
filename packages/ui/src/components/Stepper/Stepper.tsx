@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useComponentTokens } from "@rnui/headless";
+import { useComponentTokens } from "@truongnat/headless";
 import { Icon } from "../Icon";
 
 export interface StepperProps {

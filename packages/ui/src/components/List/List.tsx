@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo } from "react";
 import { View, Text, Pressable, type StyleProp, type ViewStyle } from "react-native";
 import { FlashList, type ListRenderItem } from "@shopify/flash-list";
-import { useTokens, useComponentTokens } from "@rnui/headless";
+import { useTokens, useComponentTokens } from "@truongnat/headless";
 
 // ─── List Context ────────────────────────────────────────────────
 

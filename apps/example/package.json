@@ -1,5 +1,5 @@
 {
-  "name": "@rnui/example",
+  "name": "@truongnat/example",
   "version": "0.0.2",
   "private": true,
   "main": "expo-router/entry",
@@ -13,7 +13,7 @@
     "e2e:build:ios": "detox build --configuration ios.sim.debug"
   },
   "dependencies": {
-    "@rnui/ui": "workspace:*",
+    "@truongnat/ui": "workspace:*",
     "babel-preset-expo": "^55.0.11",
     "expo": "~55.0.0",
     "expo-haptics": "~55.0.8",

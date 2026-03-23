@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { ImageList, ImageListItem } from "../ImageList";
-import { ThemeProvider } from "@rnui/headless";
+import { ThemeProvider } from "@truongnat/headless";
 import { View } from "react-native";
 
 test("ImageList renders items", () => {

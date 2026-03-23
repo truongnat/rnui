@@ -1,7 +1,7 @@
 import { useMemo, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { useTokens } from "../theme";
-import type { SemanticTokens } from "@rnui/tokens";
+import type { SemanticTokens } from "@truongnat/tokens";
 
 export function useMemoStyles<T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>>(
     styleFactory: (tokens: SemanticTokens) => T

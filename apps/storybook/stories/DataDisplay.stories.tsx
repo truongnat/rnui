@@ -23,7 +23,7 @@ import {
   TimelineContent,
   TimelineOppositeContent,
   RnImage,
-} from "@rnui/ui";
+} from "@truongnat/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>

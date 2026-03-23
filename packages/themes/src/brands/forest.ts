@@ -1,4 +1,4 @@
-import { defineBrand } from "@rnui/tokens";
+import { defineBrand } from "@truongnat/tokens";
 
 /**
  * Forest brand — Emerald & Lime — fresh, natural, growth

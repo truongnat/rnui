@@ -1,6 +1,6 @@
 import type { StoryObj } from "@storybook/react-native";
 import React from "react";
-import { ThemeProvider, Button } from "@rnui/ui";
+import { ThemeProvider, Button } from "@truongnat/ui";
 import { View } from "react-native";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (

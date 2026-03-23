@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { FormControl, FormLabel, FormHelperText } from "../FormControl";
-import { ThemeProvider } from "@rnui/headless";
+import { ThemeProvider } from "@truongnat/headless";
 
 test("FormControl renders label and helper", () => {
   const { getByText } = render(

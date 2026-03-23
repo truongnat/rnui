@@ -6,9 +6,9 @@ import Animated, {
   withSpring,
   interpolateColor,
 } from "react-native-reanimated";
-import { useSwitch, useTokens, useComponentTokens } from "@rnui/headless";
-import { spring } from "@rnui/tokens";
-import type { UseSwitchOptions } from "@rnui/headless";
+import { useSwitch, useTokens, useComponentTokens } from "@truongnat/headless";
+import { spring } from "@truongnat/tokens";
+import type { UseSwitchOptions } from "@truongnat/headless";
 
 export interface SwitchProps extends UseSwitchOptions {
   label?: string;

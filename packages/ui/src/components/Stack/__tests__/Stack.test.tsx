@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 import { Stack } from "../Stack";
 import { Text } from "react-native";
-import { ThemeProvider } from "@rnui/headless";
+import { ThemeProvider } from "@truongnat/headless";
 
 test("Stack renders children with gap", () => {
   const { getByText } = render(

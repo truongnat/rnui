@@ -1,5 +1,5 @@
 {
-  "name": "@rnui/tokens",
+  "name": "@truongnat/tokens",
   "version": "1.0.0",
   "type": "module",
   "description": "Design tokens for RNUI — primitive, semantic, component",

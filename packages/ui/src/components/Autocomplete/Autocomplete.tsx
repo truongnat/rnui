@@ -7,7 +7,7 @@ import Animated, {
   withSpring,
   Easing,
 } from "react-native-reanimated";
-import { useAutocomplete, useTokens, useComponentTokens } from "@rnui/headless";
+import { useAutocomplete, useTokens, useComponentTokens } from "@truongnat/headless";
 import { Input } from "../Input/Input";
 
 export interface AutocompleteProps<T = string> {

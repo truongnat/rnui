@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import { View, Text, TextInput, ScrollView, Pressable } from "react-native";
-import { useSelect, useTokens, useComponentTokens } from "@rnui/headless";
+import { useSelect, useTokens, useComponentTokens } from "@truongnat/headless";
 import { BottomSheet } from "../BottomSheet/BottomSheet";
 import type { BottomSheetRef } from "../BottomSheet/BottomSheet";
-import type { UseSelectOptions, SelectOption } from "@rnui/headless";
+import type { UseSelectOptions, SelectOption } from "@truongnat/headless";
 import { Icon } from "../Icon";
 
 export interface SelectProps<T = string> extends UseSelectOptions<T> {

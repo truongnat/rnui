@@ -1,6 +1,6 @@
 import React from "react";
 import { View, type ViewStyle } from "react-native";
-import { useComponentTokens } from "@rnui/headless";
+import { useComponentTokens } from "@truongnat/headless";
 
 export interface GridProps {
   children?: React.ReactNode;

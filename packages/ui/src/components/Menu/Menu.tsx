@@ -8,7 +8,7 @@ import Animated, {
   runOnJS,
   Easing,
 } from "react-native-reanimated";
-import { useTokens, useComponentTokens, useMenu } from "@rnui/headless";
+import { useTokens, useComponentTokens, useMenu } from "@truongnat/headless";
 
 export interface MenuProps {
   open: boolean;
