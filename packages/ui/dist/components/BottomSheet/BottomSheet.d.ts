@@ -1,5 +1,5 @@
 import React from "react";
-import type { UseBottomSheetOptions } from "@rnui/headless";
+import type { UseBottomSheetOptions } from "@truongnat/headless";
 export interface BottomSheetProps extends UseBottomSheetOptions {
     children: React.ReactNode;
     /** Show the pill-shaped drag handle at top */

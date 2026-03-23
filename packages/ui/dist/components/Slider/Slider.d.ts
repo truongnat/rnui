@@ -1,5 +1,5 @@
 import React from "react";
-import type { UseSliderOptions } from "@rnui/headless";
+import type { UseSliderOptions } from "@truongnat/headless";
 export interface SliderProps extends UseSliderOptions {
     label?: string;
     /** Show current value as tooltip above thumb */

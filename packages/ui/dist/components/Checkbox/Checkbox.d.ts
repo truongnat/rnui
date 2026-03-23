@@ -1,5 +1,5 @@
 import React from "react";
-import type { UseCheckboxOptions } from "@rnui/headless";
+import type { UseCheckboxOptions } from "@truongnat/headless";
 export interface CheckboxProps extends UseCheckboxOptions {
     label?: string;
     description?: string;

@@ -1,5 +1,5 @@
 import { FadeInUp, FadeInDown, FadeIn, ZoomIn, SlideInDown, SlideInUp, SlideInRight, FadeOutDown, FadeOutUp, FadeOut, ZoomOut, SlideOutDown, SlideOutUp, SlideOutRight } from "react-native-reanimated";
-import { timingPreset, focusRingAnimation } from "@rnui/tokens";
+import { timingPreset, focusRingAnimation } from "@truongnat/tokens";
 /**
  * Real Reanimated layout classes mapped from design tokens.
  * Use these for `entering` and `exiting` props.

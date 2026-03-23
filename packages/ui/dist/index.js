@@ -149,19 +149,19 @@ __export(index_exports, {
   useTokens: () => import_headless65.useTokens
 });
 module.exports = __toCommonJS(index_exports);
-var import_headless65 = require("@rnui/headless");
+var import_headless65 = require("@truongnat/headless");
 
 // src/components/Accordion/Accordion.tsx
 var import_react2 = __toESM(require("react"));
 var import_react_native2 = require("react-native");
 var import_react_native_reanimated = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler = require("react-native-gesture-handler");
-var import_headless2 = require("@rnui/headless");
+var import_headless2 = require("@truongnat/headless");
 
 // src/components/Icon/Icon.tsx
 var import_react = __toESM(require("react"));
 var import_react_native = require("react-native");
-var import_headless = require("@rnui/headless");
+var import_headless = require("@truongnat/headless");
 var import_lucide_react_native = require("lucide-react-native");
 var ICON_MAP = {
   star: import_lucide_react_native.Star,
@@ -332,7 +332,7 @@ function AccordionActions({ children }) {
 // src/components/Alert/Alert.tsx
 var import_react3 = __toESM(require("react"));
 var import_react_native3 = require("react-native");
-var import_headless3 = require("@rnui/headless");
+var import_headless3 = require("@truongnat/headless");
 var SEVERITY_ICONS = {
   info: "info",
   success: "checkCircle",
@@ -389,7 +389,7 @@ var import_react4 = __toESM(require("react"));
 var import_react_native4 = require("react-native");
 var import_flash_list = require("@shopify/flash-list");
 var import_react_native_reanimated2 = __toESM(require("react-native-reanimated"));
-var import_headless4 = require("@rnui/headless");
+var import_headless4 = require("@truongnat/headless");
 var ReanimatedFlashList = import_react_native_reanimated2.default.createAnimatedComponent(import_flash_list.FlashList);
 var AnimatedList = (0, import_react4.forwardRef)(({
   data,
@@ -439,7 +439,7 @@ var styles = import_react_native4.StyleSheet.create({
 // src/components/AppBar/AppBar.tsx
 var import_react5 = __toESM(require("react"));
 var import_react_native5 = require("react-native");
-var import_headless5 = require("@rnui/headless");
+var import_headless5 = require("@truongnat/headless");
 function AppBar({
   children,
   color = "primary",
@@ -501,12 +501,12 @@ function Toolbar({ children, style }) {
 var import_react7 = __toESM(require("react"));
 var import_react_native7 = require("react-native");
 var import_react_native_reanimated3 = __toESM(require("react-native-reanimated"));
-var import_headless7 = require("@rnui/headless");
+var import_headless7 = require("@truongnat/headless");
 
 // src/components/Input/Input.tsx
 var import_react6 = __toESM(require("react"));
 var import_react_native6 = require("react-native");
-var import_headless6 = require("@rnui/headless");
+var import_headless6 = require("@truongnat/headless");
 function Input({
   label,
   error,
@@ -709,7 +709,7 @@ function Autocomplete({
 // src/components/Avatar/Avatar.tsx
 var import_react8 = __toESM(require("react"));
 var import_react_native8 = require("react-native");
-var import_headless8 = require("@rnui/headless");
+var import_headless8 = require("@truongnat/headless");
 var STATUS_COLORS = {
   online: "#22C55E",
   offline: "#9CA3AF",
@@ -917,7 +917,7 @@ function AvatarGroup({
 // src/components/Badge/Badge.tsx
 var import_react9 = __toESM(require("react"));
 var import_react_native9 = require("react-native");
-var import_headless9 = require("@rnui/headless");
+var import_headless9 = require("@truongnat/headless");
 var Badge = import_react9.default.memo(({ label, variant = "default", size = "md", icon }) => {
   const { badge } = (0, import_headless9.useComponentTokens)();
   const { size: iconSize } = (0, import_headless9.useIconStyle)("list");
@@ -952,7 +952,7 @@ var Badge = import_react9.default.memo(({ label, variant = "default", size = "md
 // src/components/BottomNavigation/BottomNavigation.tsx
 var import_react10 = __toESM(require("react"));
 var import_react_native10 = require("react-native");
-var import_headless10 = require("@rnui/headless");
+var import_headless10 = require("@truongnat/headless");
 var BottomNavContext = (0, import_react10.createContext)(null);
 function BottomNavigation({
   value: controlledValue,
@@ -985,7 +985,7 @@ var import_react_native11 = require("react-native");
 var import_react_native_reanimated4 = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler2 = require("react-native-gesture-handler");
 var import_react_native_safe_area_context = require("react-native-safe-area-context");
-var import_headless11 = require("@rnui/headless");
+var import_headless11 = require("@truongnat/headless");
 var SCREEN_HEIGHT = import_react_native11.Dimensions.get("window").height;
 var BottomSheet = (0, import_react11.forwardRef)(
   function BottomSheet2({
@@ -1089,7 +1089,7 @@ var styles2 = import_react_native11.StyleSheet.create({
 // src/components/Box/Box.tsx
 var import_react12 = __toESM(require("react"));
 var import_react_native12 = require("react-native");
-var import_headless12 = require("@rnui/headless");
+var import_headless12 = require("@truongnat/headless");
 function Box2({ children, style, sx, flex }) {
   const { box } = (0, import_headless12.useComponentTokens)();
   const merged = [
@@ -1104,7 +1104,7 @@ function Box2({ children, style, sx, flex }) {
 // src/components/Breadcrumbs/Breadcrumbs.tsx
 var import_react13 = __toESM(require("react"));
 var import_react_native13 = require("react-native");
-var import_headless13 = require("@rnui/headless");
+var import_headless13 = require("@truongnat/headless");
 function Breadcrumbs({
   children,
   separator = "/",
@@ -1130,7 +1130,7 @@ var import_react14 = __toESM(require("react"));
 var import_react_native_reanimated5 = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler3 = require("react-native-gesture-handler");
 var import_react_native14 = require("react-native");
-var import_headless14 = require("@rnui/headless");
+var import_headless14 = require("@truongnat/headless");
 var Button = import_react14.default.memo(({
   variant = "solid",
   color = "primary",
@@ -1312,7 +1312,7 @@ var styles3 = import_react_native14.StyleSheet.create({
 // src/components/ButtonGroup/ButtonGroup.tsx
 var import_react15 = __toESM(require("react"));
 var import_react_native15 = require("react-native");
-var import_headless15 = require("@rnui/headless");
+var import_headless15 = require("@truongnat/headless");
 function ButtonGroup({
   children,
   variant = "outlined",
@@ -1368,7 +1368,7 @@ var import_react16 = __toESM(require("react"));
 var import_react_native_reanimated6 = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler4 = require("react-native-gesture-handler");
 var import_react_native16 = require("react-native");
-var import_headless16 = require("@rnui/headless");
+var import_headless16 = require("@truongnat/headless");
 function Card({
   children,
   onPress,
@@ -1398,7 +1398,7 @@ function Card({
 var import_react17 = __toESM(require("react"));
 var import_react_native17 = require("react-native");
 var import_react_native_reanimated7 = __toESM(require("react-native-reanimated"));
-var import_headless17 = require("@rnui/headless");
+var import_headless17 = require("@truongnat/headless");
 var { width: SCREEN_WIDTH } = import_react_native17.Dimensions.get("window");
 function Carousel({
   data,
@@ -1517,8 +1517,8 @@ function PaginationDot({
 var import_react18 = __toESM(require("react"));
 var import_react_native18 = require("react-native");
 var import_react_native_reanimated8 = __toESM(require("react-native-reanimated"));
-var import_headless18 = require("@rnui/headless");
-var import_tokens = require("@rnui/tokens");
+var import_headless18 = require("@truongnat/headless");
+var import_tokens = require("@truongnat/tokens");
 function Checkbox({
   label,
   description,
@@ -1586,7 +1586,7 @@ function Checkbox({
 // src/components/Chip/Chip.tsx
 var import_react19 = __toESM(require("react"));
 var import_react_native19 = require("react-native");
-var import_headless19 = require("@rnui/headless");
+var import_headless19 = require("@truongnat/headless");
 function Chip({
   label,
   variant = "solid",
@@ -1690,7 +1690,7 @@ function Chip({
 // src/components/CircularProgress/CircularProgress.tsx
 var import_react20 = __toESM(require("react"));
 var import_react_native20 = require("react-native");
-var import_headless20 = require("@rnui/headless");
+var import_headless20 = require("@truongnat/headless");
 function clamp(value, min = 0, max = 100) {
   return Math.max(min, Math.min(max, value));
 }
@@ -1748,7 +1748,7 @@ var styles4 = import_react_native20.StyleSheet.create({
 // src/components/DatePicker/DatePicker.tsx
 var import_react21 = __toESM(require("react"));
 var import_react_native21 = require("react-native");
-var import_headless21 = require("@rnui/headless");
+var import_headless21 = require("@truongnat/headless");
 var import_datetimepicker = __toESM(require("@react-native-community/datetimepicker"));
 function DatePicker({
   label,
@@ -1893,7 +1893,7 @@ function DatePicker({
 // src/components/Dialog/Dialog.tsx
 var import_react22 = __toESM(require("react"));
 var import_react_native22 = require("react-native");
-var import_headless22 = require("@rnui/headless");
+var import_headless22 = require("@truongnat/headless");
 function Dialog({
   open,
   onClose,
@@ -1925,7 +1925,7 @@ function Dialog({
 // src/components/Divider/Divider.tsx
 var import_react23 = __toESM(require("react"));
 var import_react_native23 = require("react-native");
-var import_headless23 = require("@rnui/headless");
+var import_headless23 = require("@truongnat/headless");
 function Divider({
   label,
   orientation = "horizontal",
@@ -1998,8 +1998,8 @@ function Divider({
 var import_react24 = __toESM(require("react"));
 var import_react_native24 = require("react-native");
 var import_react_native_reanimated9 = __toESM(require("react-native-reanimated"));
-var import_headless24 = require("@rnui/headless");
-var import_tokens2 = require("@rnui/tokens");
+var import_headless24 = require("@truongnat/headless");
+var import_tokens2 = require("@truongnat/tokens");
 function Drawer({
   open,
   onClose,
@@ -2061,7 +2061,7 @@ function Drawer({
 // src/components/EmptyState/EmptyState.tsx
 var import_react25 = __toESM(require("react"));
 var import_react_native25 = require("react-native");
-var import_headless25 = require("@rnui/headless");
+var import_headless25 = require("@truongnat/headless");
 function EmptyState({ title, description, icon, action }) {
   const { emptyState } = (0, import_headless25.useComponentTokens)();
   const tokens = (0, import_headless25.useTokens)();
@@ -2076,7 +2076,7 @@ var import_react26 = __toESM(require("react"));
 var import_react_native26 = require("react-native");
 var import_react_native_reanimated10 = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler5 = require("react-native-gesture-handler");
-var import_headless26 = require("@rnui/headless");
+var import_headless26 = require("@truongnat/headless");
 function Fab({
   icon,
   label,
@@ -2134,7 +2134,7 @@ var styles5 = import_react_native26.StyleSheet.create({
 // src/components/FormControl/FormControl.tsx
 var import_react27 = __toESM(require("react"));
 var import_react_native27 = require("react-native");
-var import_headless27 = require("@rnui/headless");
+var import_headless27 = require("@truongnat/headless");
 var FormControlContext = (0, import_react27.createContext)(null);
 function useFormControl() {
   return (0, import_react27.useContext)(FormControlContext);
@@ -2213,7 +2213,7 @@ function FormControlLabel({
 // src/components/FormField/FormField.tsx
 var import_react28 = __toESM(require("react"));
 var import_react_native28 = require("react-native");
-var import_headless28 = require("@rnui/headless");
+var import_headless28 = require("@truongnat/headless");
 function FormField({
   label,
   required = false,
@@ -2261,7 +2261,7 @@ function FormGroup({ children, gap = "md" }) {
 // src/components/Grid/Grid.tsx
 var import_react29 = __toESM(require("react"));
 var import_react_native29 = require("react-native");
-var import_headless29 = require("@rnui/headless");
+var import_headless29 = require("@truongnat/headless");
 function Grid2({
   children,
   container = false,
@@ -2322,7 +2322,7 @@ function Grid2({
 var import_react30 = __toESM(require("react"));
 var import_react_native30 = require("react-native");
 var import_react_native_reanimated11 = __toESM(require("react-native-reanimated"));
-var import_headless30 = require("@rnui/headless");
+var import_headless30 = require("@truongnat/headless");
 var AnimatedImage = import_react_native_reanimated11.default.createAnimatedComponent(import_react_native30.Image);
 function RnImage({ showPlaceholder = true, style, onLoad, ...props }) {
   const { image } = (0, import_headless30.useComponentTokens)();
@@ -2355,7 +2355,7 @@ var styles6 = import_react_native30.StyleSheet.create({
 // src/components/ImageList/ImageList.tsx
 var import_react31 = __toESM(require("react"));
 var import_react_native31 = require("react-native");
-var import_headless31 = require("@rnui/headless");
+var import_headless31 = require("@truongnat/headless");
 var { width: SCREEN_WIDTH2 } = import_react_native31.Dimensions.get("window");
 var ImageListContext = (0, import_react31.createContext)(null);
 function useImageListContext() {
@@ -2421,7 +2421,7 @@ function ImageListItemBar({
 // src/components/Input/PasswordInput.tsx
 var import_react32 = __toESM(require("react"));
 var import_react_native32 = require("react-native");
-var import_headless32 = require("@rnui/headless");
+var import_headless32 = require("@truongnat/headless");
 function PasswordInput(props) {
   const [show, setShow] = (0, import_react32.useState)(false);
   const { size, color } = (0, import_headless32.useIconStyle)("input");
@@ -2451,7 +2451,7 @@ function PasswordInput(props) {
 var import_react33 = __toESM(require("react"));
 var import_react_native33 = require("react-native");
 var import_react_native_reanimated12 = __toESM(require("react-native-reanimated"));
-var import_headless33 = require("@rnui/headless");
+var import_headless33 = require("@truongnat/headless");
 function clamp2(value, min = 0, max = 100) {
   return Math.max(min, Math.min(max, value));
 }
@@ -2535,7 +2535,7 @@ var styles7 = import_react_native33.StyleSheet.create({
 // src/components/Link/Link.tsx
 var import_react34 = __toESM(require("react"));
 var import_react_native34 = require("react-native");
-var import_headless34 = require("@rnui/headless");
+var import_headless34 = require("@truongnat/headless");
 function Link({
   children,
   href,
@@ -2572,7 +2572,7 @@ function Link({
 var import_react35 = __toESM(require("react"));
 var import_react_native35 = require("react-native");
 var import_flash_list2 = require("@shopify/flash-list");
-var import_headless35 = require("@rnui/headless");
+var import_headless35 = require("@truongnat/headless");
 var ListContext = (0, import_react35.createContext)(null);
 function useListContext() {
   return (0, import_react35.useContext)(ListContext);
@@ -2650,7 +2650,7 @@ function ListData({
 var import_react36 = __toESM(require("react"));
 var import_react_native36 = require("react-native");
 var import_react_native_reanimated13 = __toESM(require("react-native-reanimated"));
-var import_headless36 = require("@rnui/headless");
+var import_headless36 = require("@truongnat/headless");
 var MenuContext = import_react36.default.createContext(null);
 function Menu2({ open, onClose, anchorEl, children }) {
   const { menu } = (0, import_headless36.useComponentTokens)();
@@ -2745,7 +2745,7 @@ function MenuItem({ children, onPress, disabled = false, selected = false }) {
 // src/components/Modal/Modal.tsx
 var import_react37 = __toESM(require("react"));
 var import_react_native37 = require("react-native");
-var import_headless37 = require("@rnui/headless");
+var import_headless37 = require("@truongnat/headless");
 function Modal7({
   open,
   onClose,
@@ -2797,7 +2797,7 @@ var styles8 = import_react_native37.StyleSheet.create({
 var import_react38 = __toESM(require("react"));
 var import_react_native38 = require("react-native");
 var import_react_native_reanimated14 = __toESM(require("react-native-reanimated"));
-var import_headless38 = require("@rnui/headless");
+var import_headless38 = require("@truongnat/headless");
 function OTPInput({
   length = 6,
   value,
@@ -2902,7 +2902,7 @@ function OTPCell({
 // src/components/Pagination/Pagination.tsx
 var import_react39 = __toESM(require("react"));
 var import_react_native39 = require("react-native");
-var import_headless39 = require("@rnui/headless");
+var import_headless39 = require("@truongnat/headless");
 function Pagination({
   count,
   page,
@@ -2948,7 +2948,7 @@ function Pagination({
 // src/components/Paper/Paper.tsx
 var import_react40 = __toESM(require("react"));
 var import_react_native40 = require("react-native");
-var import_headless40 = require("@rnui/headless");
+var import_headless40 = require("@truongnat/headless");
 function Paper({
   children,
   variant = "elevation",
@@ -2977,7 +2977,7 @@ function Paper({
 // src/components/Popover/Popover.tsx
 var import_react41 = __toESM(require("react"));
 var import_react_native41 = require("react-native");
-var import_headless41 = require("@rnui/headless");
+var import_headless41 = require("@truongnat/headless");
 var defaultOrigin = { vertical: "bottom", horizontal: "left" };
 var defaultTransform = { vertical: "top", horizontal: "left" };
 function resolveOrigin(value, size) {
@@ -3059,7 +3059,7 @@ var styles9 = import_react_native41.StyleSheet.create({
 // src/components/Popper/Popper.tsx
 var import_react42 = __toESM(require("react"));
 var import_react_native42 = require("react-native");
-var import_headless42 = require("@rnui/headless");
+var import_headless42 = require("@truongnat/headless");
 function resolvePlacement(placement, anchor, content) {
   const baseX = anchor.x;
   const baseY = anchor.y;
@@ -3160,7 +3160,7 @@ var styles10 = import_react_native42.StyleSheet.create({
 var import_react43 = __toESM(require("react"));
 var import_react_native_reanimated15 = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler6 = require("react-native-gesture-handler");
-var import_headless43 = require("@rnui/headless");
+var import_headless43 = require("@truongnat/headless");
 function Pressable18({ children, style, ...hookOptions }) {
   const { pressable } = (0, import_headless43.useComponentTokens)();
   const { gesture, animatedStyle, accessibilityProps, isPressed } = (0, import_headless43.usePressable)(hookOptions);
@@ -3171,8 +3171,8 @@ function Pressable18({ children, style, ...hookOptions }) {
 var import_react44 = __toESM(require("react"));
 var import_react_native43 = require("react-native");
 var import_react_native_reanimated16 = __toESM(require("react-native-reanimated"));
-var import_headless44 = require("@rnui/headless");
-var import_tokens3 = require("@rnui/tokens");
+var import_headless44 = require("@truongnat/headless");
+var import_tokens3 = require("@truongnat/tokens");
 function RadioItem({
   label,
   description,
@@ -3321,7 +3321,7 @@ function RadioGroup({
 // src/components/Rating/Rating.tsx
 var import_react45 = __toESM(require("react"));
 var import_react_native44 = require("react-native");
-var import_headless45 = require("@rnui/headless");
+var import_headless45 = require("@truongnat/headless");
 function Rating({
   value,
   defaultValue,
@@ -3380,8 +3380,8 @@ function Rating({
 var import_react46 = __toESM(require("react"));
 var import_react_native45 = require("react-native");
 var import_react_native_reanimated17 = __toESM(require("react-native-reanimated"));
-var import_headless46 = require("@rnui/headless");
-var import_tokens4 = require("@rnui/tokens");
+var import_headless46 = require("@truongnat/headless");
+var import_tokens4 = require("@truongnat/tokens");
 function SegmentedControl({
   options,
   selectedIndex,
@@ -3464,7 +3464,7 @@ function SegmentedControl({
 // src/components/Select/Select.tsx
 var import_react47 = __toESM(require("react"));
 var import_react_native46 = require("react-native");
-var import_headless47 = require("@rnui/headless");
+var import_headless47 = require("@truongnat/headless");
 function Select({
   label,
   placeholder = "Select\u2026",
@@ -3612,7 +3612,7 @@ function Select({
 var import_react48 = __toESM(require("react"));
 var import_react_native47 = require("react-native");
 var import_react_native_reanimated18 = __toESM(require("react-native-reanimated"));
-var import_headless48 = require("@rnui/headless");
+var import_headless48 = require("@truongnat/headless");
 function Skeleton({
   width = "100%",
   height = 16,
@@ -3705,7 +3705,7 @@ var import_react49 = __toESM(require("react"));
 var import_react_native48 = require("react-native");
 var import_react_native_reanimated19 = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler7 = require("react-native-gesture-handler");
-var import_headless49 = require("@rnui/headless");
+var import_headless49 = require("@truongnat/headless");
 function Slider({
   label,
   showValue = false,
@@ -3808,7 +3808,7 @@ function Slider({
 var import_react50 = __toESM(require("react"));
 var import_react_native49 = require("react-native");
 var import_react_native_reanimated20 = __toESM(require("react-native-reanimated"));
-var import_headless50 = require("@rnui/headless");
+var import_headless50 = require("@truongnat/headless");
 function Snackbar({
   open,
   message,
@@ -3886,7 +3886,7 @@ var styles11 = import_react_native49.StyleSheet.create({
 // src/components/SpeedDial/SpeedDial.tsx
 var import_react51 = __toESM(require("react"));
 var import_react_native50 = require("react-native");
-var import_headless51 = require("@rnui/headless");
+var import_headless51 = require("@truongnat/headless");
 var SpeedDialContext = (0, import_react51.createContext)(null);
 function SpeedDial({
   ariaLabel,
@@ -3949,7 +3949,7 @@ function SpeedDialAction({ icon, tooltipTitle, onPress }) {
 // src/components/Stack/Stack.tsx
 var import_react52 = __toESM(require("react"));
 var import_react_native51 = require("react-native");
-var import_headless52 = require("@rnui/headless");
+var import_headless52 = require("@truongnat/headless");
 function Stack({
   children,
   direction = "column",
@@ -3985,7 +3985,7 @@ function Stack({
 // src/components/Stepper/Stepper.tsx
 var import_react53 = __toESM(require("react"));
 var import_react_native52 = require("react-native");
-var import_headless53 = require("@rnui/headless");
+var import_headless53 = require("@truongnat/headless");
 function Stepper({ activeStep = 0, orientation = "horizontal", children }) {
   const { stepper } = (0, import_headless53.useComponentTokens)();
   const items = import_react53.default.Children.toArray(children);
@@ -4026,8 +4026,8 @@ function StepLabel({ children, style }) {
 var import_react54 = __toESM(require("react"));
 var import_react_native53 = require("react-native");
 var import_react_native_reanimated21 = __toESM(require("react-native-reanimated"));
-var import_headless54 = require("@rnui/headless");
-var import_tokens5 = require("@rnui/tokens");
+var import_headless54 = require("@truongnat/headless");
+var import_tokens5 = require("@truongnat/tokens");
 var Switch = import_react54.default.memo(({ label, description, size = "md", ...hookOptions }) => {
   const tokens = (0, import_headless54.useTokens)();
   const { switch: switchT } = (0, import_headless54.useComponentTokens)();
@@ -4098,7 +4098,7 @@ var Switch = import_react54.default.memo(({ label, description, size = "md", ...
 // src/components/Table/Table.tsx
 var import_react55 = __toESM(require("react"));
 var import_react_native54 = require("react-native");
-var import_headless55 = require("@rnui/headless");
+var import_headless55 = require("@truongnat/headless");
 var TableContext = (0, import_react55.createContext)(null);
 function useTableContext() {
   return (0, import_react55.useContext)(TableContext);
@@ -4243,7 +4243,7 @@ var import_react56 = __toESM(require("react"));
 var import_react_native55 = require("react-native");
 var import_react_native_reanimated22 = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler8 = require("react-native-gesture-handler");
-var import_headless56 = require("@rnui/headless");
+var import_headless56 = require("@truongnat/headless");
 var TabsContext = (0, import_react56.createContext)(null);
 function Tabs({
   value,
@@ -4321,7 +4321,7 @@ function Tab({ value, label, icon, disabled = false }) {
 // src/components/TextArea/TextArea.tsx
 var import_react57 = __toESM(require("react"));
 var import_react_native56 = require("react-native");
-var import_headless57 = require("@rnui/headless");
+var import_headless57 = require("@truongnat/headless");
 function TextArea({
   label,
   placeholder,
@@ -4411,7 +4411,7 @@ function TextArea({
 // src/components/TextField/TextField.tsx
 var import_react58 = __toESM(require("react"));
 var import_react_native57 = require("react-native");
-var import_headless58 = require("@rnui/headless");
+var import_headless58 = require("@truongnat/headless");
 function TextField({
   variant = "outlined",
   multiline = false,
@@ -4480,7 +4480,7 @@ function TextField({
 // src/components/Timeline/Timeline.tsx
 var import_react59 = __toESM(require("react"));
 var import_react_native58 = require("react-native");
-var import_headless59 = require("@rnui/headless");
+var import_headless59 = require("@truongnat/headless");
 var TimelineContext = (0, import_react59.createContext)(null);
 function useTimelineContext() {
   return (0, import_react59.useContext)(TimelineContext);
@@ -4575,13 +4575,13 @@ function TimelineOppositeContent({ children, align = "right" }) {
 var import_react61 = __toESM(require("react"));
 var import_react_native60 = require("react-native");
 var import_react_native_safe_area_context2 = require("react-native-safe-area-context");
-var import_headless61 = require("@rnui/headless");
+var import_headless61 = require("@truongnat/headless");
 
 // src/components/Toast/ToastItem.tsx
 var import_react60 = __toESM(require("react"));
 var import_react_native_reanimated23 = __toESM(require("react-native-reanimated"));
 var import_react_native59 = require("react-native");
-var import_headless60 = require("@rnui/headless");
+var import_headless60 = require("@truongnat/headless");
 function ToastItem({ item, position, onDismiss }) {
   const { toast } = (0, import_headless60.useComponentTokens)();
   const tokens = (0, import_headless60.useTokens)();
@@ -4671,7 +4671,7 @@ var import_react62 = __toESM(require("react"));
 var import_react_native61 = require("react-native");
 var import_react_native_reanimated24 = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler9 = require("react-native-gesture-handler");
-var import_headless62 = require("@rnui/headless");
+var import_headless62 = require("@truongnat/headless");
 var ToggleContext = (0, import_react62.createContext)(null);
 function ToggleButtonGroup({
   value,
@@ -4744,7 +4744,7 @@ function ToggleButton({ value, disabled = false, children }) {
 var import_react63 = __toESM(require("react"));
 var import_react_native62 = require("react-native");
 var import_react_native_reanimated25 = __toESM(require("react-native-reanimated"));
-var import_headless63 = require("@rnui/headless");
+var import_headless63 = require("@truongnat/headless");
 function Tooltip({
   title,
   children,
@@ -4865,7 +4865,7 @@ function Tooltip({
 // src/components/Typography/Typography.tsx
 var import_react64 = __toESM(require("react"));
 var import_react_native63 = require("react-native");
-var import_headless64 = require("@rnui/headless");
+var import_headless64 = require("@truongnat/headless");
 function Typography({
   children,
   variant = "body1",

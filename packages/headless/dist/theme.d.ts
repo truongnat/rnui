@@ -1,6 +1,6 @@
 import React, { type ReactNode } from "react";
-import type { Brand } from "@rnui/tokens";
-import { type SemanticTokens, type ComponentTokens, type ColorScheme } from "@rnui/tokens";
+import type { Brand } from "@truongnat/tokens";
+import { type SemanticTokens, type ComponentTokens, type ColorScheme } from "@truongnat/tokens";
 export interface Theme {
     /** Resolved semantic tokens for current color scheme */
     tokens: SemanticTokens;
@@ -33,7 +33,7 @@ export interface ThemeProviderProps {
      * Switch brands at runtime via the setBrand() method returned by useTheme().
      *
      * @example
-     * import { loveBrand } from "@rnui/themes"
+     * import { loveBrand } from "@truongnat/themes"
      * <ThemeProvider brand={loveBrand}>...</ThemeProvider>
      */
     brand?: Brand;
@@ -45,10 +45,10 @@ export interface ThemeProviderProps {
 }
 /**
  * Utility to define a fine-grained theme override with TypeScript autocomplete.
- * For full brand swaps, use defineBrand() from @rnui/tokens instead.
+ * For full brand swaps, use defineBrand() from @truongnat/tokens instead.
  */
 export declare function createTheme(override: ThemeOverride): ThemeOverride;
-export type { Brand } from "@rnui/tokens";
+export type { Brand } from "@truongnat/tokens";
 export declare function ThemeProvider({ children, colorScheme: forcedScheme, brand: initialBrand, override, }: ThemeProviderProps): React.JSX.Element;
 /**
  * Access the full theme (tokens + components + colorScheme + brand).

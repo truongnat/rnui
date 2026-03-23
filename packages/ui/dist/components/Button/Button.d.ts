@@ -1,5 +1,5 @@
 import React from "react";
-import type { PressFeedbackMode } from "@rnui/headless";
+import type { PressFeedbackMode } from "@truongnat/headless";
 export type ButtonVariant = "solid" | "outline" | "ghost" | "destructive" | "text" | "contained" | "outlined";
 export type ButtonSize = "sm" | "md" | "lg";
 export type ButtonColor = "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "accent";

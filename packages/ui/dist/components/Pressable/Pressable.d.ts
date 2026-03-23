@@ -1,5 +1,5 @@
 import React from "react";
-import type { UsePressableOptions } from "@rnui/headless";
+import type { UsePressableOptions } from "@truongnat/headless";
 export interface PressableProps extends UsePressableOptions {
     children: React.ReactNode | ((state: {
         isPressed: boolean;
