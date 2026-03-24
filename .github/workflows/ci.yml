@@ -91,14 +91,13 @@ jobs:
 
       - name: Setup .npmrc for publishing
         run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          echo "@truongdq01:registry=https://registry.npmjs.org/" >> ~/.npmrc
-          echo "=== .npmrc content ==="
-          cat ~/.npmrc
-          echo "=== Testing npm whoami ==="
-          npm whoami
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ${{ github.workspace }}/.npmrc
+          echo "@truongdq01:registry=https://registry.npmjs.org/" >> ${{ github.workspace }}/.npmrc
+          cat ${{ github.workspace }}/.npmrc
 
       - name: Publish packages to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           cd packages/tokens && npm publish --access public
           cd ../headless && npm publish --access public
