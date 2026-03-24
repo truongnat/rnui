@@ -1,6 +1,6 @@
 {
   "name": "@truongdq01/ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Styled components for RNUI — batteries-included, fully themeable",
   "keywords": [
     "react-native",
