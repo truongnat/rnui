@@ -1,5 +1,5 @@
 import React from "react";
-import type { ToastItem as ToastItemType, ToastPosition } from "@truongnat/headless";
+import type { ToastItem as ToastItemType, ToastPosition } from "@truongdq01/headless";
 export interface ToastItemProps {
     item: ToastItemType;
     position: ToastPosition;

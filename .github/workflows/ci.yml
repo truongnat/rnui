@@ -56,7 +56,7 @@ jobs:
       - run: bun install --frozen-lockfile
 
       - name: Build packages
-        run: bun turbo build --filter=@truongnat/ui...
+        run: bun turbo build --filter=@truongdq01/ui...
 
       # Note: Perf tests skipped due to react-native-gesture-handler incompatibility with Jest
       # See: https://github.com/reactwg/react-native-reanimated/discussions/1889

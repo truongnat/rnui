@@ -1,5 +1,5 @@
 import React from "react";
-import type { UseSwitchOptions } from "@truongnat/headless";
+import type { UseSwitchOptions } from "@truongdq01/headless";
 export interface SwitchProps extends UseSwitchOptions {
     label?: string;
     description?: string;

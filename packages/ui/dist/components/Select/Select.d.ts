@@ -1,5 +1,5 @@
 import React from "react";
-import type { UseSelectOptions } from "@truongnat/headless";
+import type { UseSelectOptions } from "@truongdq01/headless";
 export interface SelectProps<T = string> extends UseSelectOptions<T> {
     label?: string;
     placeholder?: string;

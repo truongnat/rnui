@@ -1,5 +1,5 @@
 import React from "react";
-import type { ToastPosition } from "@truongnat/headless";
+import type { ToastPosition } from "@truongdq01/headless";
 export interface ToastContainerProps {
     position?: ToastPosition;
     /** Horizontal offset from screen edges */

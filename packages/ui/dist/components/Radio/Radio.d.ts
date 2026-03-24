@@ -1,5 +1,5 @@
 import React from "react";
-import type { UseRadioGroupOptions } from "@truongnat/headless";
+import type { UseRadioGroupOptions } from "@truongdq01/headless";
 export interface RadioItemProps<T = string> {
     value: T;
     label: string;
