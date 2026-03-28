@@ -3766,7 +3766,11 @@ function Slider({
             backgroundColor: slider.thumb.bg,
             borderWidth: slider.thumb.borderWidth,
             borderColor: slider.thumb.borderColor,
-            ...slider.thumb
+            shadowColor: slider.thumb.shadowColor,
+            shadowOffset: slider.thumb.shadowOffset,
+            shadowOpacity: slider.thumb.shadowOpacity,
+            shadowRadius: slider.thumb.shadowRadius,
+            elevation: slider.thumb.elevation
           },
           thumbAnimatedStyle
         ]
