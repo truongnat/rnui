@@ -96,10 +96,14 @@
       "name": "@truongdq01/headless",
       "version": "1.0.3",
       "dependencies": {
-        "@truongdq01/tokens": "workspace:*",
+        "@truongdq01/tokens": "^1.0.3",
       },
       "devDependencies": {
         "@babel/core": "^7.27.0",
+        "@babel/plugin-transform-class-properties": "^7.28.6",
+        "@babel/plugin-transform-flow-strip-types": "^7.27.1",
+        "@babel/plugin-transform-private-methods": "^7.28.6",
+        "@babel/plugin-transform-private-property-in-object": "^7.28.6",
         "@testing-library/react-native": "^12.9.0",
         "@types/jest": "^30.0.0",
         "@types/react": "^19.1.0",
