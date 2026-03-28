@@ -52,7 +52,8 @@ export const AnimatedList = forwardRef(<T extends any>(
 ) => {
     const { animatedList } = useComponentTokens();
 
-    const AnimatedCell = ({ item, index, target, ...props }: any) => {
+    const AnimatedCell = (info: any) => {
+        const { index } = info;
         // If staggering, delay the entering animation by index * staggerDelay
         const enteringAnim = staggerEntering && itemEntering?.delay
             ? itemEntering.delay(Math.min(index * staggerDelay, 500))
@@ -65,7 +66,7 @@ export const AnimatedList = forwardRef(<T extends any>(
                 layout={itemLayout}
                 style={[animatedList.item, itemContainerStyle, styles.itemWrapper]}
             >
-                {renderItem({ item, index, target, separators: {} as any } as unknown as ListRenderItemInfo<T>)}
+                {renderItem(info as unknown as ListRenderItemInfo<T>)}
             </Animated.View>
         );
     };
