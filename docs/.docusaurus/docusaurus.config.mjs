@@ -60,7 +60,7 @@ export default {
   ],
   "plugins": [
     [
-      "/Users/truongdq/tx/GitHub/rnui/node_modules/.bun/@easyops-cn+docusaurus-search-local@0.55.1+a859023f690234c4/node_modules/@easyops-cn/docusaurus-search-local/dist/server/server/index.js",
+      "/app/node_modules/@easyops-cn/docusaurus-search-local/dist/server/server/index.js",
       {
         "hashed": true,
         "indexDocs": true,
