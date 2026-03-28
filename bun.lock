@@ -93,7 +93,7 @@
     },
     "packages/headless": {
       "name": "@truongdq01/headless",
-      "version": "1.0.0",
+      "version": "1.0.3",
       "dependencies": {
         "@truongdq01/tokens": "workspace:*",
       },
@@ -117,7 +117,7 @@
     },
     "packages/themes": {
       "name": "@truongdq01/themes",
-      "version": "1.0.0",
+      "version": "1.0.3",
       "dependencies": {
         "@truongdq01/tokens": "workspace:*",
       },
@@ -131,7 +131,7 @@
     },
     "packages/tokens": {
       "name": "@truongdq01/tokens",
-      "version": "1.0.0",
+      "version": "1.0.3",
       "devDependencies": {
         "jest": "^29.7.0",
         "ts-jest": "^29.3.2",
@@ -141,7 +141,7 @@
     },
     "packages/ui": {
       "name": "@truongdq01/ui",
-      "version": "1.0.0",
+      "version": "1.0.3",
       "dependencies": {
         "@react-native-community/datetimepicker": "^9.1.0",
         "@shopify/flash-list": "^2.0.2",
