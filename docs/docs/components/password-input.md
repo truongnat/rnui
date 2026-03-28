@@ -5,7 +5,7 @@ The `PasswordInput` component extends the base `Input` and includes a built-in v
 ## Usage
 
 ```tsx
-import { PasswordInput } from "@rnui/ui";
+import { PasswordInput } from "@truongdq01/ui";
 
 <PasswordInput
   label="Password"

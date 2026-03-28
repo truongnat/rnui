@@ -5,7 +5,7 @@ Floating overlay anchored to a position.
 ## Usage
 
 ```tsx
-import { Popover } from "@rnui/ui";
+import { Popover } from "@truongdq01/ui";
 
 <Popover open anchorPosition={{ top: 100, left: 120 }} onClose={() => {}}>Content</Popover>
 ```

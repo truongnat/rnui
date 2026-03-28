@@ -5,7 +5,7 @@ The `Avatar` component displays a user image, initials, or a fallback icon. Use 
 ## Usage
 
 ```tsx
-import { Avatar, AvatarGroup } from "@rnui/ui";
+import { Avatar, AvatarGroup } from "@truongdq01/ui";
 
 <Avatar initials="AN" />
 <Avatar src="https://i.pravatar.cc/150?img=1" size="lg" status="online" />

@@ -1,4 +1,4 @@
-# @rnui/storybook
+# @truongdq01/storybook
 
 ## 0.0.2
 
@@ -6,4 +6,4 @@
 
 - Updated dependencies [62ce838]
 - Updated dependencies [adf3203]
-  - @rnui/ui@1.0.0
+  - @truongdq01/ui@1.0.0

@@ -5,7 +5,7 @@ Circular loading indicator.
 ## Usage
 
 ```tsx
-import { CircularProgress } from "@rnui/ui";
+import { CircularProgress } from "@truongdq01/ui";
 
 <CircularProgress />
 ```

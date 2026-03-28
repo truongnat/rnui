@@ -9,7 +9,7 @@ Chips are compact elements that represent an input, attribute, or action. They c
 ## Usage
 
 ```tsx
-import { Chip } from "@rnui/ui";
+import { Chip } from "@truongdq01/ui";
 
 <Chip label="React Native" variant="solid" />
 ```
@@ -61,7 +61,7 @@ import { Chip } from "@rnui/ui";
 ## With Avatar
 
 ```tsx
-import { Avatar } from "@rnui/ui";
+import { Avatar } from "@truongdq01/ui";
 
 <Chip
   label="John Doe"

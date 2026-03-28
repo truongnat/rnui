@@ -7,11 +7,11 @@
 ## 🚨 Critical
 
 ### 1. Packages chưa publish lên npm
-- `@rnui/tokens` — NOT PUBLISHED
-- `@rnui/headless` — NOT PUBLISHED
-- `@rnui/ui` — NOT PUBLISHED
+- `@truongdq01/tokens` — NOT PUBLISHED
+- `@truongdq01/headless` — NOT PUBLISHED
+- `@truongdq01/ui` — NOT PUBLISHED
 
-Landing page quảng cáo `bun add @rnui/ui` nhưng package chưa tồn tại trên npm.
+Landing page quảng cáo `bun add @truongdq01/ui` nhưng package chưa tồn tại trên npm.
 
 **Fix:**
 1. Tạo NPM account + API token
@@ -48,7 +48,7 @@ on:
 
 ### 3. 49/62 components thiếu dedicated token functions
 
-Chỉ 13 components có token function trong `@rnui/tokens`:
+Chỉ 13 components có token function trong `@truongdq01/tokens`:
 `Button, Input, Card, Badge, Toast, Avatar, Checkbox, Switch, Radio, Slider, Chip, Fab, Dialog`
 
 **49 components thiếu tokens:**

@@ -6,7 +6,7 @@ module.exports = {
     "node_modules/(?!(react-native|@react-native|react-native-reanimated|react-native-gesture-handler)/)",
   ],
   moduleNameMapper: {
-    "^@rnui/tokens$": "<rootDir>/../tokens/src",
+    "^@truongdq01/tokens$": "<rootDir>/../tokens/src",
   },
   // Fix for Bun + React Native Jest compatibility
   setupFiles: ["<rootDir>/jest.setup.cjs"],

@@ -5,7 +5,7 @@ Context wrapper for form inputs.
 ## Usage
 
 ```tsx
-import { FormControl, FormLabel, FormHelperText } from "@rnui/ui";
+import { FormControl, FormLabel, FormHelperText } from "@truongdq01/ui";
 
 <FormControl error>
   <FormLabel>Email</FormLabel>

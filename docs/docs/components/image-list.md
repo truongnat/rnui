@@ -5,7 +5,7 @@ Responsive image grid.
 ## Usage
 
 ```tsx
-import { ImageList, ImageListItem, Box } from "@rnui/ui";
+import { ImageList, ImageListItem, Box } from "@truongdq01/ui";
 
 <ImageList cols={2}>
   <ImageListItem><Box style={{ height: 120, backgroundColor: "#e2e8f0" }} /></ImageListItem>

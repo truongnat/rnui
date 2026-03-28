@@ -1,11 +1,11 @@
 # Headless API
 
-All hooks live in `@rnui/headless`. `@rnui/ui` re-exports everything, so you only need one install.
+All hooks live in `@truongdq01/headless`. `@truongdq01/ui` re-exports everything, so you only need one install.
 
 ## ThemeProvider
 
 ```tsx
-import { ThemeProvider } from "@rnui/ui";
+import { ThemeProvider } from "@truongdq01/ui";
 
 <ThemeProvider
   colorScheme="system"          // "light" | "dark" | "system"
@@ -210,7 +210,7 @@ const { itemAnimatedStyle, trailingActionsStyle, leadingActionsStyle, gesture, a
 const { toasts, show, dismiss, dismissAll, success, error, warning, info } = useToast();
 
 // Imperative (works outside React):
-import { showToast, dismissToast, dismissAllToasts } from "@rnui/headless";
+import { showToast, dismissToast, dismissAllToasts } from "@truongdq01/headless";
 showToast({ message: "Saved!", variant: "success", duration: 3500 });
 ```
 

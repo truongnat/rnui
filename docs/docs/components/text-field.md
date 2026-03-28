@@ -5,7 +5,7 @@ Full featured input with label and helper text.
 ## Usage
 
 ```tsx
-import { TextField } from "@rnui/ui";
+import { TextField } from "@truongdq01/ui";
 
 <TextField label="Email" placeholder="name@example.com" />
 ```

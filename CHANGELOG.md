@@ -54,10 +54,10 @@
 ### Initial Release
 
 #### Packages
-- **@rnui/tokens**: Design tokens (primitive, semantic, component, motion)
-- **@rnui/headless**: Headless hooks (ThemeProvider, usePressable, useDisclosure, etc.)
-- **@rnui/ui**: 62 UI components
-- **@rnui/themes**: Multi-brand plugin system
+- **@truongdq01/tokens**: Design tokens (primitive, semantic, component, motion)
+- **@truongdq01/headless**: Headless hooks (ThemeProvider, usePressable, useDisclosure, etc.)
+- **@truongdq01/ui**: 62 UI components
+- **@truongdq01/themes**: Multi-brand plugin system
 
 #### Components (62)
 Accordion, Alert, AnimatedList, AppBar, Autocomplete, Avatar, Badge, BottomNavigation,

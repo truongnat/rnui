@@ -12,13 +12,13 @@
 
 ```bash
 # In your React Native / Expo project
-bun add @rnui/ui react-native-reanimated react-native-gesture-handler react-native-safe-area-context
+bun add @truongdq01/ui react-native-reanimated react-native-gesture-handler react-native-safe-area-context
 ```
 
 ## Wrap your app
 
 ```tsx title="app/_layout.tsx"
-import { ThemeProvider } from "@rnui/ui";
+import { ThemeProvider } from "@truongdq01/ui";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
 ## Use a component
 
 ```tsx
-import { Button, Input, Card } from "@rnui/ui";
+import { Button, Input, Card } from "@truongdq01/ui";
 
 export default function Screen() {
   return (
@@ -52,10 +52,10 @@ export default function Screen() {
 
 ## Use headless only
 
-If you want full control over styling, import from `@rnui/headless`:
+If you want full control over styling, import from `@truongdq01/headless`:
 
 ```tsx
-import { usePressable, useTheme } from "@rnui/headless";
+import { usePressable, useTheme } from "@truongdq01/headless";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
 

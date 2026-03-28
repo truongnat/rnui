@@ -9,13 +9,13 @@ A horizontal segmented control for mutually exclusive option selection. Commonly
 ## Import
 
 ```tsx
-import { SegmentedControl } from "@rnui/ui";
+import { SegmentedControl } from "@truongdq01/ui";
 ```
 
 ## Usage
 
 ```tsx
-import { SegmentedControl } from "@rnui/ui";
+import { SegmentedControl } from "@truongdq01/ui";
 import { useState } from "react";
 
 export function ViewToggle() {

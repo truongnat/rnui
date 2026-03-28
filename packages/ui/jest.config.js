@@ -1,6 +1,6 @@
 /** @type {import('jest').Config} */
 module.exports = {
-  displayName: "@rnui/ui",
+  displayName: "@truongdq01/ui",
   preset: "react-native",
   testEnvironment: "node",
   testMatch: ["**/__tests__/**/*.{test,perf}.{ts,tsx}"],
@@ -12,11 +12,11 @@ module.exports = {
     ],
   },
   transformIgnorePatterns: [
-    "node_modules/(?!(react-native|@react-native|@react-native-community|react-native-reanimated|react-native-gesture-handler|react-native-worklets|@shopify/flash-list|@rnui|\\.bun)/)",
+    "node_modules/(?!(react-native|@react-native|@react-native-community|react-native-reanimated|react-native-gesture-handler|react-native-worklets|@shopify/flash-list|@truongdq01|\\.bun)/)",
   ],
   moduleNameMapper: {
-    "^@rnui/tokens$": "<rootDir>/../tokens/src/index.ts",
-    "^@rnui/headless$": "<rootDir>/../headless/src/index.ts",
-    "^@rnui/ui$": "<rootDir>/src/index.ts",
+    "^@truongdq01/tokens$": "<rootDir>/../tokens/src/index.ts",
+    "^@truongdq01/headless$": "<rootDir>/../headless/src/index.ts",
+    "^@truongdq01/ui$": "<rootDir>/src/index.ts",
   },
 };

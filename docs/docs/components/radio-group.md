@@ -5,7 +5,7 @@
 ## Usage
 
 ```tsx
-import { RadioGroup } from "@rnui/ui";
+import { RadioGroup } from "@truongdq01/ui";
 
 <RadioGroup
   label="Plan"

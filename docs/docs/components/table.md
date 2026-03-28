@@ -5,7 +5,7 @@ A flexible data table component with optional headless logic for sorting, pagina
 ## Basic Usage
 
 ```tsx
-import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell } from "@rnui/ui";
+import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell } from "@truongdq01/ui";
 
 <TableContainer>
   <Table>
@@ -33,7 +33,7 @@ Use the `useTable` hook to manage complex state like sorting and pagination auto
 import { 
   Table, TableContainer, TableHead, TableRow, TableCell, TableBody, 
   TablePagination, TableSortLabel, useTable 
-} from "@rnui/ui";
+} from "@truongdq01/ui";
 
 const MyTable = ({ data }) => {
   const {

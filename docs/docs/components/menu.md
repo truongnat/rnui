@@ -5,7 +5,7 @@ Popup menu list.
 ## Usage
 
 ```tsx
-import { Menu, MenuItem } from "@rnui/ui";
+import { Menu, MenuItem } from "@truongdq01/ui";
 
 <Menu open onClose={() => {}}>
   <MenuItem>Profile</MenuItem>

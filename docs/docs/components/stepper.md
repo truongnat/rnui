@@ -5,7 +5,7 @@ Progress through steps.
 ## Usage
 
 ```tsx
-import { Stepper, Step } from "@rnui/ui";
+import { Stepper, Step } from "@truongdq01/ui";
 
 <Stepper activeStep={1}>
   <Step index={0} label="Account" />

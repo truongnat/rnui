@@ -6,7 +6,7 @@ Gesture-driven sheet with multi snap points, velocity-based dismiss, and an impe
 
 ```tsx
 import { useRef } from "react";
-import { BottomSheet, Button, type BottomSheetRef } from "@rnui/ui";
+import { BottomSheet, Button, type BottomSheetRef } from "@truongdq01/ui";
 
 function Screen() {
   const sheetRef = useRef<BottomSheetRef>(null);
@@ -65,7 +65,7 @@ sheetRef.current?.close();       // animate closed
 ## Headless usage
 
 ```tsx
-import { useBottomSheet } from "@rnui/headless";
+import { useBottomSheet } from "@truongdq01/headless";
 
 const {
   open, close, snapTo,

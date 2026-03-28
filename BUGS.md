@@ -24,10 +24,10 @@
 ## 📦 Build Status
 
 ```
-✅ @rnui/tokens    - Built successfully (28.65 KB)
-✅ @rnui/headless  - Built successfully (46.52 KB)
-✅ @rnui/ui        - Built successfully (214.68 KB)
-✅ @rnui/themes    - Built successfully (21.86 KB)
+✅ @truongdq01/tokens    - Built successfully (28.65 KB)
+✅ @truongdq01/headless  - Built successfully (46.52 KB)
+✅ @truongdq01/ui        - Built successfully (214.68 KB)
+✅ @truongdq01/themes    - Built successfully (21.86 KB)
 ```
 
 **Total bundle size:** ~311 KB (ESM)
@@ -277,10 +277,10 @@ The library now includes:
 | **TOTAL** | **20** | **✅ 100%** |
 
 **Build Status:** ✅ PASSED
-- @rnui/tokens: ✅ Built successfully
-- @rnui/headless: ✅ Built successfully  
-- @rnui/ui: ✅ Built successfully
-- @rnui/themes: ✅ Built successfully
+- @truongdq01/tokens: ✅ Built successfully
+- @truongdq01/headless: ✅ Built successfully  
+- @truongdq01/ui: ✅ Built successfully
+- @truongdq01/themes: ✅ Built successfully
 
 **Demo Stories:** ✅ Created
 - `NewFeatures.stories.tsx` - Demo for Icon, Timeline, DatePicker, Carousel

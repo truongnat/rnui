@@ -9,7 +9,7 @@ Drawers are side panels that slide in from the screen edges, commonly used for n
 ## Usage
 
 ```tsx
-import { Drawer } from "@rnui/ui";
+import { Drawer } from "@truongdq01/ui";
 
 <Drawer open={isOpen} onClose={() => setIsOpen(false)}>
   <Text>Drawer content</Text>

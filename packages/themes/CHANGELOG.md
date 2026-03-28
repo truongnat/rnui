@@ -1,4 +1,4 @@
-# @rnui/themes
+# @truongdq01/themes
 
 ## 1.0.0
 
@@ -10,5 +10,5 @@
 
 - Updated dependencies [62ce838]
 - Updated dependencies [adf3203]
-  - @rnui/tokens@1.0.0
-  - @rnui/headless@1.0.0
+  - @truongdq01/tokens@1.0.0
+  - @truongdq01/headless@1.0.0

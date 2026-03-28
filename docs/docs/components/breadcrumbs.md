@@ -5,7 +5,7 @@ Navigation breadcrumbs.
 ## Usage
 
 ```tsx
-import { Breadcrumbs, Link, Typography } from "@rnui/ui";
+import { Breadcrumbs, Link, Typography } from "@truongdq01/ui";
 
 <Breadcrumbs>
   <Link href="https://example.com">Home</Link>

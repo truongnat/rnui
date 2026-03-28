@@ -9,13 +9,13 @@ A swipeable carousel component with gesture support, auto-play, and customizable
 ## Import
 
 ```tsx
-import { Carousel } from "@rnui/ui";
+import { Carousel } from "@truongdq01/ui";
 ```
 
 ## Usage
 
 ```tsx
-import { Carousel } from "@rnui/ui";
+import { Carousel } from "@truongdq01/ui";
 
 const slides = [
   { id: "1", image: require("./slide1.png"), title: "Slide One" },

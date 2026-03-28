@@ -5,7 +5,7 @@ Checkboxes support controlled or uncontrolled state, indeterminate state, and op
 ## Usage
 
 ```tsx
-import { Checkbox } from "@rnui/ui";
+import { Checkbox } from "@truongdq01/ui";
 
 <Checkbox label="Accept terms" defaultChecked />
 ```

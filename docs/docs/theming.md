@@ -23,7 +23,7 @@ Component tokens
 ## Accessing tokens in custom components
 
 ```tsx
-import { useTokens, useComponentTokens, useIsDark } from "@rnui/ui";
+import { useTokens, useComponentTokens, useIsDark } from "@truongdq01/ui";
 
 function MyComponent() {
   const tokens = useTokens();         // semantic tokens
@@ -84,7 +84,7 @@ const brandTheme = {
 ## Motion tokens
 
 ```tsx
-import { spring, duration, pressFeedback } from "@rnui/tokens";
+import { spring, duration, pressFeedback } from "@truongdq01/tokens";
 
 // Use in custom Reanimated animations
 const style = useAnimatedStyle(() => ({

@@ -5,7 +5,7 @@ Switches toggle a boolean state and support optional label/description.
 ## Usage
 
 ```tsx
-import { Switch } from "@rnui/ui";
+import { Switch } from "@truongdq01/ui";
 
 <Switch label="Notifications" defaultOn />
 ```

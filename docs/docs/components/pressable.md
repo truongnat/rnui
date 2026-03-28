@@ -5,7 +5,7 @@
 ## Usage
 
 ```tsx
-import { Pressable } from "@rnui/ui";
+import { Pressable } from "@truongdq01/ui";
 import { Text, View } from "react-native";
 
 <Pressable onPress={() => {}} feedbackMode="scale">
