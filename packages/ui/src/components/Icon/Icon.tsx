@@ -163,7 +163,9 @@ export function Icon({ name, children, size, color, style }: IconProps) {
     ? size 
     : (iconTokens.size as any)[size ?? "md"] ?? 20;
     
-  const resolvedColor = (iconTokens.color as any)[color as any] ?? color ?? tokens.color.text.primary;
+  const resolvedColor = color && color in iconTokens.color
+    ? iconTokens.color[color as keyof typeof iconTokens.color]
+    : color ?? tokens.color.text.primary;
 
   const IconComp = (ICON_MAP as any)[iconNameString] || Info;
 
