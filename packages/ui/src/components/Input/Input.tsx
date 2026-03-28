@@ -77,11 +77,11 @@ export function Input({
   // Helper to clone icon with standardized props
   const renderIcon = (icon: React.ReactNode) => {
     if (!icon) return null;
-    if (React.isValidElement(icon)) {
-      return React.cloneElement(icon as React.ReactElement, {
-        size: (icon.props as any)?.size ?? (size === "sm" ? tokens.fontSize.md : iconSize),
-        color: (icon.props as any)?.color ?? iconColor,
-      } as any);
+    if (React.isValidElement<{ size?: number | string; color?: string }>(icon)) {
+      return React.cloneElement(icon, {
+        size: icon.props.size ?? (size === "sm" ? tokens.fontSize.md : iconSize),
+        color: icon.props.color ?? iconColor,
+      });
     }
     return icon;
   };
