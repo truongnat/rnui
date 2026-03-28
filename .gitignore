@@ -8,6 +8,7 @@ docs/node_modules
 dist
 dist-types
 packages/*/dist
+packages/**/dist
 apps/*/dist
 
 # Cache

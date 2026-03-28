@@ -127,9 +127,9 @@ export function FormControlLabel({
   const ctx = useFormControl();
   const isDisabled = disabled ?? ctx?.disabled ?? false;
 
-  const controlElement = React.cloneElement(control, {
+  const controlElement = React.cloneElement<any>(control, {
     disabled: isDisabled,
-  } as any);
+  });
 
   const isRow = labelPlacement === "start" || labelPlacement === "end";
   const rowReverse = labelPlacement === "start";
