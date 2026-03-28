@@ -9,13 +9,20 @@ export interface PressableProps extends UsePressableOptions {
   style?: object | object[];
 }
 
-export function Pressable({ children, style, ...hookOptions }: PressableProps) {
+export function Pressable({ children, style, testID, ...hookOptions }: PressableProps) {
   const { pressable } = useComponentTokens();
-  const { gesture, animatedStyle, accessibilityProps, isPressed } = usePressable(hookOptions);
+  const { gesture, animatedStyle, accessibilityProps, isPressed, onPress } = usePressable({
+    ...hookOptions,
+    testID,
+  });
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={[(pressable as any).container, style, animatedStyle] as any} {...accessibilityProps}>
+      <Animated.View
+        style={[(pressable as any).container, style, animatedStyle] as any}
+        {...accessibilityProps}
+        onPress={onPress}
+      >
         {typeof children === "function" ? children({ isPressed }) : children}
       </Animated.View>
     </GestureDetector>
