@@ -9,7 +9,7 @@ A layout component for arranging items vertically or horizontally with consisten
 ## Usage
 
 ```tsx
-import { Stack } from "@rnui/ui";
+import { Stack } from "@truongdq01/ui";
 
 <Stack direction="vertical" gap={16}>
   <Button label="Item 1" />

@@ -21,9 +21,9 @@ bun turbo build
 
 ## Rules
 
-**No primitive tokens in components.** ESLint will fail if you import `primitive` directly from `@rnui/tokens` inside a component. Always go through `useTokens()` or `useComponentTokens()`.
+**No primitive tokens in components.** ESLint will fail if you import `primitive` directly from `@truongdq01/tokens` inside a component. Always go through `useTokens()` or `useComponentTokens()`.
 
-**Every styled component must wrap a headless hook.** If the component has any interactive state (press, focus, toggle, open/close), it should use the corresponding `use*` hook from `@rnui/headless`.
+**Every styled component must wrap a headless hook.** If the component has any interactive state (press, focus, toggle, open/close), it should use the corresponding `use*` hook from `@truongdq01/headless`.
 
 **All animation runs on the UI thread.** Use Reanimated 3 worklets. Never use the legacy `Animated` API or `setTimeout` for transitions.
 

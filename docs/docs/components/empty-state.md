@@ -5,7 +5,7 @@ Empty states provide a consistent layout for blank screens or empty lists.
 ## Usage
 
 ```tsx
-import { EmptyState } from "@rnui/ui";
+import { EmptyState } from "@truongdq01/ui";
 
 <EmptyState
   title="No messages"

@@ -5,7 +5,7 @@ Top application bar.
 ## Usage
 
 ```tsx
-import { AppBar, Toolbar, Typography } from "@rnui/ui";
+import { AppBar, Toolbar, Typography } from "@truongdq01/ui";
 
 <AppBar>
   <Toolbar>

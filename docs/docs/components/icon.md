@@ -9,7 +9,7 @@ Standardized icon component using Lucide React Native with 70+ icons available.
 ## Usage
 
 ```tsx
-import { Icon } from "@rnui/ui";
+import { Icon } from "@truongdq01/ui";
 
 <Icon name="star" />
 <Icon name="heart" size={24} color="#FF6B6B" />
@@ -168,7 +168,7 @@ import { Icon } from "@rnui/ui";
 ### With Buttons
 
 ```tsx
-import { Icon, Button } from "@rnui/ui";
+import { Icon, Button } from "@truongdq01/ui";
 
 <Button 
   label="Save" 
@@ -185,7 +185,7 @@ import { Icon, Button } from "@rnui/ui";
 ### Icon Buttons
 
 ```tsx
-import { Icon, Pressable } from "@rnui/ui";
+import { Icon, Pressable } from "@truongdq01/ui";
 
 <Pressable>
   <Icon name="settings" size={24} />

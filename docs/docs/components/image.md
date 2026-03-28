@@ -9,7 +9,7 @@ The `Image` component provides a performant image loading experience with built-
 ## Usage
 
 ```tsx
-import { Image } from "@rnui/ui";
+import { Image } from "@truongdq01/ui";
 
 <Image
   source={{ uri: "https://example.com/image.jpg" }}

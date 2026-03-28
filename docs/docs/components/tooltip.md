@@ -9,7 +9,7 @@ Tooltips display informative text when users interact with the trigger element. 
 ## Usage
 
 ```tsx
-import { Tooltip, Button } from "@rnui/ui";
+import { Tooltip, Button } from "@truongdq01/ui";
 
 <Tooltip title="Save your changes">
   <Button label="Save" />

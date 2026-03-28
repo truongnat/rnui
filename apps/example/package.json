@@ -13,7 +13,7 @@
     "e2e:build:ios": "detox build --configuration ios.sim.debug"
   },
   "dependencies": {
-    "@truongdq01/ui": "workspace:*",
+    "@truongdq01/ui": "^1.0.1",
     "babel-preset-expo": "^55.0.11",
     "expo": "~55.0.0",
     "expo-haptics": "~55.0.8",

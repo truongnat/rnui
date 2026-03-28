@@ -9,7 +9,7 @@ Accordions display content in expandable/collapsible sections, perfect for FAQs 
 ## Usage
 
 ```tsx
-import { Accordion, AccordionSummary, AccordionDetails } from "@rnui/ui";
+import { Accordion, AccordionSummary, AccordionDetails } from "@truongdq01/ui";
 
 <Accordion>
   <AccordionSummary>Section Title</AccordionSummary>
@@ -66,7 +66,7 @@ function FAQ() {
       <Accordion>
         <AccordionSummary>How do I install?</AccordionSummary>
         <AccordionDetails>
-          <Text>Run: bun add @rnui/ui</Text>
+          <Text>Run: bun add @truongdq01/ui</Text>
         </AccordionDetails>
       </Accordion>
       
@@ -122,7 +122,7 @@ function ControlledAccordion() {
 ### Custom Expand Icon
 
 ```tsx
-import { Icon } from "@rnui/ui";
+import { Icon } from "@truongdq01/ui";
 
 <Accordion>
   <AccordionSummary expandIcon={<Icon name="plus" size={16} />}>

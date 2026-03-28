@@ -5,7 +5,7 @@ Dividers separate content vertically or horizontally, with optional label text.
 ## Usage
 
 ```tsx
-import { Divider } from "@rnui/ui";
+import { Divider } from "@truongdq01/ui";
 
 <Divider />
 <Divider label="OR" />

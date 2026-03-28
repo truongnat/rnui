@@ -5,7 +5,7 @@ Transient feedback at bottom of screen.
 ## Usage
 
 ```tsx
-import { Snackbar } from "@rnui/ui";
+import { Snackbar } from "@truongdq01/ui";
 
 <Snackbar open message="Saved" onClose={() => {}} />
 ```

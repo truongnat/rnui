@@ -1,10 +1,10 @@
 # Quy trình Publish Package cho RNUI
 
-Tài liệu này hướng dẫn chi tiết các bước để quản lý phiên bản và publish các package (`@rnui/ui`, `@rnui/headless`, `@rnui/tokens`, `@rnui/themes`) lên NPM hoặc Package Manager khác sử dụng **Changesets**, **Turbo** và **Bun**.
+Tài liệu này hướng dẫn chi tiết các bước để quản lý phiên bản và publish các package (`@truongdq01/ui`, `@truongdq01/headless`, `@truongdq01/tokens`, `@truongdq01/themes`) lên NPM hoặc Package Manager khác sử dụng **Changesets**, **Turbo** và **Bun**.
 
 ## 1. Yêu cầu tiên quyết (Prerequisites)
 
-- **Tài khoản NPM:** Bạn cần có quyền truy cập vào tổ chức `@rnui` trên [npmjs.com](https://www.npmjs.com/).
+- **Tài khoản NPM:** Bạn cần có quyền truy cập vào tổ chức `@truongdq01` trên [npmjs.com](https://www.npmjs.com/).
 - **GitHub Secrets:** Trong repository trên GitHub, hãy đảm bảo đã cấu hình các Secrets sau (Settings > Secrets and variables > Actions):
   - `NPM_TOKEN`: Token của NPM có quyền publish (loại `Automation`).
 - **Git Branch:** Nhánh chính của dự án hiện tại là `master`.

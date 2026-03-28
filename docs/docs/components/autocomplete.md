@@ -5,7 +5,7 @@ Searchable select with suggestion list.
 ## Usage
 
 ```tsx
-import { Autocomplete } from "@rnui/ui";
+import { Autocomplete } from "@truongdq01/ui";
 
 <Autocomplete options={["React", "Vue", "Svelte"]} />
 ```

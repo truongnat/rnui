@@ -5,7 +5,7 @@ Cards are surface containers with consistent padding, radius, and optional press
 ## Usage
 
 ```tsx
-import { Card } from "@rnui/ui";
+import { Card } from "@truongdq01/ui";
 import { Text, View } from "react-native";
 
 <Card>

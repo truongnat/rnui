@@ -5,7 +5,7 @@ Horizontal progress bar.
 ## Usage
 
 ```tsx
-import { LinearProgress } from "@rnui/ui";
+import { LinearProgress } from "@truongdq01/ui";
 
 <LinearProgress value={40} variant="determinate" />
 ```

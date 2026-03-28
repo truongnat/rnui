@@ -46,10 +46,10 @@ All user-reported issues have been resolved. The RNUI library is now **productio
 ## 📦 Build Results
 
 ```
-✅ @rnui/tokens    - Built successfully (28.65 KB)
-✅ @rnui/headless  - Built successfully (46.52 KB)
-✅ @rnui/ui        - Built successfully (185.52 KB)
-✅ @rnui/themes    - Built successfully (21.86 KB)
+✅ @truongdq01/tokens    - Built successfully (28.65 KB)
+✅ @truongdq01/headless  - Built successfully (46.52 KB)
+✅ @truongdq01/ui        - Built successfully (185.52 KB)
+✅ @truongdq01/themes    - Built successfully (21.86 KB)
 ```
 
 **Total bundle size:** ~282 KB (ESM)

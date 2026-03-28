@@ -9,13 +9,13 @@ A performant animated list component built on top of FlashList with enter/exit a
 ## Import
 
 ```tsx
-import { AnimatedList } from "@rnui/ui";
+import { AnimatedList } from "@truongdq01/ui";
 ```
 
 ## Usage
 
 ```tsx
-import { AnimatedList } from "@rnui/ui";
+import { AnimatedList } from "@truongdq01/ui";
 
 const data = [
   { id: "1", title: "Item One" },

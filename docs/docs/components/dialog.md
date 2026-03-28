@@ -5,7 +5,7 @@ Modal dialog surface.
 ## Usage
 
 ```tsx
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@rnui/ui";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@truongdq01/ui";
 
 <Dialog open onClose={() => {}}>
   <DialogTitle>Confirm</DialogTitle>

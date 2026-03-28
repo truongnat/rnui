@@ -9,7 +9,7 @@ Modals are overlay containers for focused tasks and important content that requi
 ## Usage
 
 ```tsx
-import { Modal } from "@rnui/ui";
+import { Modal } from "@truongdq01/ui";
 
 <Modal open={isOpen} onClose={() => setIsOpen(false)}>
   <Text>Modal content</Text>

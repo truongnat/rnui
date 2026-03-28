@@ -5,7 +5,7 @@ Bottom-sheet select with optional search and multi-select.
 ## Usage
 
 ```tsx
-import { Select } from "@rnui/ui";
+import { Select } from "@truongdq01/ui";
 
 const options = [
   { label: "React Native", value: "rn" },

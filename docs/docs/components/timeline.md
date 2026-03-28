@@ -5,7 +5,7 @@ Chronological event list.
 ## Usage
 
 ```tsx
-import { Timeline, TimelineItem, TimelineSeparator, TimelineDot, TimelineConnector, TimelineContent } from "@rnui/ui";
+import { Timeline, TimelineItem, TimelineSeparator, TimelineDot, TimelineConnector, TimelineContent } from "@truongdq01/ui";
 
 <Timeline>
   <TimelineItem>

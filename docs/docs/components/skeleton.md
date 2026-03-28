@@ -5,7 +5,7 @@ Skeletons provide loading placeholders with optional shimmer.
 ## Usage
 
 ```tsx
-import { Skeleton, SkeletonText, SkeletonCard, SkeletonListItem } from "@rnui/ui";
+import { Skeleton, SkeletonText, SkeletonCard, SkeletonListItem } from "@truongdq01/ui";
 
 <Skeleton width="100%" height={16} />
 <SkeletonText lines={3} />

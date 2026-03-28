@@ -5,7 +5,7 @@ Bottom navigation actions.
 ## Usage
 
 ```tsx
-import { BottomNavigation, BottomNavigationAction } from "@rnui/ui";
+import { BottomNavigation, BottomNavigationAction } from "@truongdq01/ui";
 
 <BottomNavigation defaultValue="home">
   <BottomNavigationAction value="home" label="Home" />

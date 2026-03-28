@@ -103,7 +103,7 @@ const FEATURES = [
 ];
 
 const CODE_EXAMPLE = `// Simple and intuitive
-import { Button, Input, Card } from "@rnui/ui";
+import { Button, Input, Card } from "@truongdq01/ui";
 
 function MyForm() {
   return (
@@ -290,7 +290,7 @@ export default function Home() {
               </div>
               <p>Pre-built, beautifully styled components ready to use out of the box.</p>
               <div className="arch-code-block">
-                <code>{`import { Button } from "@rnui/ui";
+                <code>{`import { Button } from "@truongdq01/ui";
 <Button variant="primary" />`}</code>
               </div>
               <ul className="arch-list">
@@ -309,7 +309,7 @@ export default function Home() {
               </div>
               <p>Logic and state management with complete styling freedom.</p>
               <div className="arch-code-block">
-                <code>{`import { usePressable } from "@rnui/headless";
+                <code>{`import { usePressable } from "@truongdq01/headless";
 const { gesture, style } = usePressable();`}</code>
               </div>
               <ul className="arch-list">

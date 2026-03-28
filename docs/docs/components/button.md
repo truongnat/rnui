@@ -5,7 +5,7 @@ The `Button` component wraps `usePressable` from the headless layer. All animati
 ## Usage
 
 ```tsx
-import { Button } from "@rnui/ui";
+import { Button } from "@truongdq01/ui";
 
 <Button label="Save changes" variant="solid" onPress={handleSave} />
 ```
@@ -77,7 +77,7 @@ import { Plus, Send, Mail } from "lucide-react-native";
 ## Headless usage
 
 ```tsx
-import { usePressable } from "@rnui/headless";
+import { usePressable } from "@truongdq01/headless";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
 

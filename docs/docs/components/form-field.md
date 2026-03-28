@@ -5,7 +5,7 @@
 ## Usage
 
 ```tsx
-import { FormField, FormGroup, Input, TextArea } from "@rnui/ui";
+import { FormField, FormGroup, Input, TextArea } from "@truongdq01/ui";
 
 <FormGroup gap="md">
   <FormField label="Email" required>

@@ -9,7 +9,7 @@ A versatile container component with MUI-style `sx` prop for rapid styling.
 ## Usage
 
 ```tsx
-import { Box } from "@rnui/ui";
+import { Box } from "@truongdq01/ui";
 
 <Box style={{ padding: 16, backgroundColor: '#f5f5f5' }}>
   <Text>Content</Text>

@@ -5,7 +5,7 @@ Multi-line text input with label, helper text, error state, and auto-resizing.
 ## Usage
 
 ```tsx
-import { TextArea } from "@rnui/ui";
+import { TextArea } from "@truongdq01/ui";
 
 <TextArea
   label="Bio"

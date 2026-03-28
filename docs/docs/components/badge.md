@@ -5,7 +5,7 @@ Compact status label with variants and an optional icon.
 ## Usage
 
 ```tsx
-import { Badge } from "@rnui/ui";
+import { Badge } from "@truongdq01/ui";
 import { Check } from "lucide-react-native";
 
 <Badge label="Active" variant="success" />

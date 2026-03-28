@@ -32,7 +32,7 @@
     "clean": "rm -rf dist dist-types"
   },
   "dependencies": {
-    "@truongdq01/tokens": "workspace:*"
+    "@truongdq01/tokens": "^1.0.1"
   },
   "peerDependencies": {
     "react": ">=19.2.0",

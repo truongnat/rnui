@@ -5,7 +5,7 @@ Transient notifications powered by `useToast` and rendered by `ToastContainer`.
 ## Usage
 
 ```tsx
-import { ToastContainer, useToast, Button } from "@rnui/ui";
+import { ToastContainer, useToast, Button } from "@truongdq01/ui";
 
 function Example() {
   const toast = useToast();

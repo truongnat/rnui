@@ -93,11 +93,11 @@ export default function Home() {
             </div>
             <pre className={styles.terminalBody}>
               <code>
-                <span className={styles.cPrompt}>$</span>{" bun add @rnui/ui @rnui/tokens\n"}
+                <span className={styles.cPrompt}>$</span>{" bun add @truongdq01/ui @truongdq01/tokens\n"}
                 <span className={styles.cMuted}>{"  "}installing...</span>{"\n\n"}
-                <span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/tokens\n"}
-                <span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/headless\n"}
-                <span className={styles.cGreen}>{"  ✓"}</span>{" @rnui/ui\n\n"}
+                <span className={styles.cGreen}>{"  ✓"}</span>{" @truongdq01/tokens\n"}
+                <span className={styles.cGreen}>{"  ✓"}</span>{" @truongdq01/headless\n"}
+                <span className={styles.cGreen}>{"  ✓"}</span>{" @truongdq01/ui\n\n"}
                 <span className={styles.cMuted}>{"  "}3 packages installed</span>
               </code>
             </pre>
@@ -137,12 +137,12 @@ export default function Home() {
           <div className={styles.codeGrid}>
             <div className={styles.codeCard}>
               <div className={styles.codeCardTop}>
-                <span className={styles.codeFile}>@rnui/ui</span>
+                <span className={styles.codeFile}>@truongdq01/ui</span>
                 <span className={styles.codeBadge}>Styled</span>
               </div>
               <pre className={styles.codeBlock}>
                 <code>
-                  <span className={styles.iRed}>import</span>{" { Button } "}<span className={styles.iRed}>from</span>{" "}<span className={styles.iBrown}>&quot;@rnui/ui&quot;</span>{"\n\n"}
+                  <span className={styles.iRed}>import</span>{" { Button } "}<span className={styles.iRed}>from</span>{" "}<span className={styles.iBrown}>&quot;@truongdq01/ui&quot;</span>{"\n\n"}
                   <span className={styles.iMuted}>{"// Full-featured, themed"}</span>{"\n"}
                   {"<"}<span className={styles.iBlue}>Button</span>{"\n"}
                   {"  "}<span className={styles.iGreen}>label</span>{"="}<span className={styles.iBrown}>&quot;Save changes&quot;</span>{"\n"}
@@ -154,13 +154,13 @@ export default function Home() {
             </div>
             <div className={styles.codeCard}>
               <div className={styles.codeCardTop}>
-                <span className={styles.codeFile}>@rnui/headless</span>
+                <span className={styles.codeFile}>@truongdq01/headless</span>
                 <span className={styles.codeBadge}>Headless</span>
               </div>
               <pre className={styles.codeBlock}>
                 <code>
                   <span className={styles.iRed}>import</span>{" { usePressable } "}<span className={styles.iRed}>from</span>{"\n"}
-                  {"  "}<span className={styles.iBrown}>&quot;@rnui/headless&quot;</span>{"\n\n"}
+                  {"  "}<span className={styles.iBrown}>&quot;@truongdq01/headless&quot;</span>{"\n\n"}
                   <span className={styles.iMuted}>{"// Zero styles, full control"}</span>{"\n"}
                   <span className={styles.iRed}>const</span>{" { gesture, animatedStyle } ="}{"\n"}
                   {"  usePressable({"}{"\n"}
@@ -220,7 +220,7 @@ export default function Home() {
                 <h3 className={styles.stepTitle}>Install packages</h3>
                 <p className={styles.stepDesc}>Add RNUI to your React Native project.</p>
                 <pre className={styles.stepCode}>
-                  <code><span className={styles.cPrompt}>$</span>{" bun add @rnui/ui @rnui/tokens"}</code>
+                  <code><span className={styles.cPrompt}>$</span>{" bun add @truongdq01/ui @truongdq01/tokens"}</code>
                 </pre>
               </div>
             </div>
@@ -231,7 +231,7 @@ export default function Home() {
                 <p className={styles.stepDesc}>Add ThemeProvider at the root.</p>
                 <pre className={styles.stepCode}>
                   <code>
-                    <span className={styles.iRed}>import</span>{" { ThemeProvider } "}<span className={styles.iRed}>from</span>{" "}<span className={styles.iBrown}>&quot;@rnui/ui&quot;</span>{"\n\n"}
+                    <span className={styles.iRed}>import</span>{" { ThemeProvider } "}<span className={styles.iRed}>from</span>{" "}<span className={styles.iBrown}>&quot;@truongdq01/ui&quot;</span>{"\n\n"}
                     {"<"}<span className={styles.iBlue}>ThemeProvider</span>{" "}<span className={styles.iGreen}>colorScheme</span>{"="}<span className={styles.iBrown}>&quot;system&quot;</span>{">"}{"\n"}
                     {"  <YourApp />"}{"\n"}
                     {"</"}<span className={styles.iBlue}>ThemeProvider</span>{">"}
@@ -247,7 +247,7 @@ export default function Home() {
                 <pre className={styles.stepCode}>
                   <code>
                     <span className={styles.iRed}>import</span>{" { Button, Input, Card }"}{"\n"}
-                    {"  "}<span className={styles.iRed}>from</span>{" "}<span className={styles.iBrown}>&quot;@rnui/ui&quot;</span>{"\n\n"}
+                    {"  "}<span className={styles.iRed}>from</span>{" "}<span className={styles.iBrown}>&quot;@truongdq01/ui&quot;</span>{"\n\n"}
                     {"<"}<span className={styles.iBlue}>Card</span>{">"}{"\n"}
                     {"  <"}<span className={styles.iBlue}>Input</span>{" "}<span className={styles.iGreen}>placeholder</span>{"="}<span className={styles.iBrown}>&quot;Email&quot;</span>{" />"}{"\n"}
                     {"  <"}<span className={styles.iBlue}>Button</span>{" "}<span className={styles.iGreen}>label</span>{"="}<span className={styles.iBrown}>&quot;Sign in&quot;</span>{" />"}{"\n"}

@@ -14,21 +14,21 @@ A high-performance, dual-layer UI design system for React Native (iOS + Android)
 ## Architecture
 
 ```
-@rnui/tokens      Raw → semantic → component design tokens + motion presets
-@rnui/headless    Logic, state, accessibility hooks. Zero styles.
-@rnui/ui          Styled components. Wraps headless. Uses tokens.
-@rnui/themes      Multi-brand plugin presets
+@truongdq01/tokens      Raw → semantic → component design tokens + motion presets
+@truongdq01/headless    Logic, state, accessibility hooks. Zero styles.
+@truongdq01/ui          Styled components. Wraps headless. Uses tokens.
+@truongdq01/themes      Multi-brand plugin presets
 ```
 
 **Dual-layer** means you choose your level:
 
 ```tsx
 // Option A — use styled components out of the box
-import { Button } from "@rnui/ui";
+import { Button } from "@truongdq01/ui";
 <Button label="Save" variant="solid" onPress={save} />
 
 // Option B — headless only, bring your own styles
-import { usePressable } from "@rnui/headless";
+import { usePressable } from "@truongdq01/headless";
 const { gesture, animatedStyle, accessibilityProps } = usePressable({ onPress: save });
 ```
 
@@ -74,7 +74,7 @@ bun storybook
 Wrap your app root in `ThemeProvider`:
 
 ```tsx
-import { ThemeProvider } from "@rnui/ui";
+import { ThemeProvider } from "@truongdq01/ui";
 
 export default function App() {
   return (
@@ -88,7 +88,7 @@ export default function App() {
 ### 2. Basic Components
 
 ```tsx
-import { Button, Input, Card, Badge } from "@rnui/ui";
+import { Button, Input, Card, Badge } from "@truongdq01/ui";
 
 function MyForm() {
   return (
@@ -104,8 +104,8 @@ function MyForm() {
 ### 3. Theme Override (Brand Customization)
 
 ```tsx
-import { ThemeProvider } from "@rnui/ui";
-import { loveBrand } from "@rnui/themes";
+import { ThemeProvider } from "@truongdq01/ui";
+import { loveBrand } from "@truongdq01/themes";
 
 const brandOverride = {
   light: {
@@ -127,7 +127,7 @@ const brandOverride = {
 ### 4. Headless Example
 
 ```tsx
-import { usePressable, useTheme } from "@rnui/headless";
+import { usePressable, useTheme } from "@truongdq01/headless";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
 
@@ -217,10 +217,10 @@ bun run changeset      # Create a new changeset for release
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| `@rnui/tokens` | 0.1.0 | Design tokens: primitive, semantic, component, motion |
-| `@rnui/headless` | 0.1.0 | ThemeProvider, hooks (usePressable, useDisclosure, etc.) |
-| `@rnui/ui` | 0.1.0 | 62+ styled components + all headless re-exports |
-| `@rnui/themes` | 0.1.0 | Multi-brand presets (love, ocean, forest, sunset, midnight) |
+| `@truongdq01/tokens` | 0.1.0 | Design tokens: primitive, semantic, component, motion |
+| `@truongdq01/headless` | 0.1.0 | ThemeProvider, hooks (usePressable, useDisclosure, etc.) |
+| `@truongdq01/ui` | 0.1.0 | 62+ styled components + all headless re-exports |
+| `@truongdq01/themes` | 0.1.0 | Multi-brand presets (love, ocean, forest, sunset, midnight) |
 
 ---
 
@@ -229,7 +229,7 @@ bun run changeset      # Create a new changeset for release
 **120+ icons** available from lucide-react-native:
 
 ```tsx
-import { Icon } from "@rnui/ui";
+import { Icon } from "@truongdq01/ui";
 
 // Usage
 <Icon>star</Icon>

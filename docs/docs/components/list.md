@@ -5,7 +5,7 @@ High-performance list built on FlashList, with optional swipe actions and sectio
 ## Usage
 
 ```tsx
-import { List, ListItem, SectionHeader } from "@rnui/ui";
+import { List, ListItem, SectionHeader } from "@truongdq01/ui";
 import { Mail, ChevronRight } from "lucide-react-native";
 
 const items = [

@@ -5,7 +5,7 @@ Switch between sections.
 ## Usage
 
 ```tsx
-import { Tabs, Tab } from "@rnui/ui";
+import { Tabs, Tab } from "@truongdq01/ui";
 
 <Tabs value={0}>
   <Tab value={0} label="Overview" />

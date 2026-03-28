@@ -5,7 +5,7 @@ A specialized input for One-Time Passwords with automatic focus management and n
 ## Basic Usage
 
 ```tsx
-import { OTPInput } from "@rnui/ui";
+import { OTPInput } from "@truongdq01/ui";
 
 const MyForm = () => {
   const [otp, setOtp] = useState("");
@@ -26,7 +26,7 @@ const MyForm = () => {
 Use the `useOTPInput` hook to wire up your own custom OTP cells while keeping the core logic (focus jumping, numeric-only, clipboard support).
 
 ```tsx
-import { useOTPInput } from "@rnui/ui";
+import { useOTPInput } from "@truongdq01/ui";
 import { TextInput, View } from "react-native";
 
 const CustomOTP = () => {

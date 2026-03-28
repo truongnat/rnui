@@ -1,7 +1,7 @@
 {
   "id": "headless",
   "title": "Headless API",
-  "description": "All hooks live in @rnui/headless. @rnui/ui re-exports everything, so you only need one install.",
+  "description": "All hooks live in @truongdq01/headless. @truongdq01/ui re-exports everything, so you only need one install.",
   "source": "@site/docs/headless.md",
   "sourceDirName": ".",
   "slug": "/headless",

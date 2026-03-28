@@ -9,7 +9,7 @@ Typography component for consistent text styling with predefined variants.
 ## Usage
 
 ```tsx
-import { Typography } from "@rnui/ui";
+import { Typography } from "@truongdq01/ui";
 
 <Typography variant="h1">Heading 1</Typography>
 ```

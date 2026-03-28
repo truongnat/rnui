@@ -5,7 +5,7 @@ Alerts provide contextual feedback messages for typical user actions.
 ## Basic Usage
 
 ```tsx
-import { Alert, AlertTitle } from "@rnui/ui";
+import { Alert, AlertTitle } from "@truongdq01/ui";
 
 <Alert severity="success">
   <AlertTitle>Success</AlertTitle>
@@ -26,7 +26,7 @@ import { Alert, AlertTitle } from "@rnui/ui";
 Use the `useAlert` hook to manage the open state and accessibility properties automatically.
 
 ```tsx
-import { Alert, Button, useAlert } from "@rnui/ui";
+import { Alert, Button, useAlert } from "@truongdq01/ui";
 
 const MyAlert = () => {
   const { isOpen, close, getAlertProps, getCloseButtonProps } = useAlert({

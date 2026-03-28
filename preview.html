@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RNUI Design System Preview - Refined</title>
+    <style>
+        :root {
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 40px;
+            background: #F8FAFC;
+            color: #1E293B;
+            line-height: 1.5;
+        }
+        h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+        .subtitle { color: #64748B; margin-bottom: 32px; font-size: 18px; }
+        
+        .section {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            margin-bottom: 48px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+            border: 1px solid #E2E8F0;
+        }
+        h2 { font-size: 24px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .color-card {
+            border-radius: 16px;
+            overflow: hidden;
+            background: white;
+            border: 1px solid #F1F5F9;
+            transition: transform 0.2s;
+        }
+        .color-card:hover { transform: translateY(-4px); }
+        .color-swatch { height: 80px; width: 100%; }
+        .color-info { padding: 12px; font-size: 13px; }
+        .color-name { font-weight: 600; margin-bottom: 2px; }
+        .color-hex { color: #94A3B8; font-family: monospace; font-size: 11px; }
+
+        /* Brand Comparison */
+        .brand-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 24px;
+        }
+        .mode-preview {
+            padding: 32px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+            min-height: 400px;
+        }
+        .mode-label {
+            font-weight: 800;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* Mock UI Elements */
+        .mock-ui { display: flex; flex-direction: column; gap: 20px; }
+        .mock-button {
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            font-size: 15px;
+            transition: filter 0.2s;
+        }
+        .mock-button:active { filter: brightness(0.9); }
+        .mock-card {
+            padding: 24px;
+            border-radius: 16px;
+            border-width: 1px;
+            border-style: solid;
+        }
+        .mock-text-primary { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+        .mock-text-secondary { font-size: 15px; opacity: 0.7; line-height: 1.6; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            overflow-x: auto;
+            padding: 4px;
+        }
+        .tab {
+            padding: 10px 24px;
+            background: white;
+            border-radius: 100px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 600;
+            font-size: 15px;
+            border: 1px solid #E2E8F0;
+            transition: all 0.2s;
+            color: #64748B;
+        }
+        .tab:hover { border-color: #CBD5E1; color: #1E293B; }
+        .tab.active {
+            background: #1E293B;
+            color: white;
+            border-color: #1E293B;
+            box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2);
+        }
+
+        @media (max-width: 900px) {
+            .brand-comparison { grid-template-columns: 1fr; }
+            body { padding: 20px; }
+            .section { padding: 24px; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <h1>RNUI Design System</h1>
+    <p class="subtitle">Đã cập nhật bảng màu "Exaggerated Minimalism" chuyên nghiệp & hiện đại.</p>
+
+    <div class="tabs" id="brandTabs">
+        <div class="tab active" onclick="showBrand('default')">Default</div>
+        <div class="tab" onclick="showBrand('love')">Love</div>
+        <div class="tab" onclick="showBrand('ocean')">Ocean</div>
+        <div class="tab" onclick="showBrand('forest')">Forest</div>
+        <div class="tab" onclick="showBrand('midnight')">Midnight</div>
+        <div class="tab" onclick="showBrand('sunset')">Sunset</div>
+    </div>
+
+    <div id="brandContent"></div>
+
+    <div class="section">
+        <h2>Primitive Palettes</h2>
+        <div class="grid" id="primitive-grid"></div>
+    </div>
+
+    <script>
+        const brands = {
+            default: {
+                name: "Default",
+                description: "Indigo & Amber — premium, clean, modern",
+                light: { bg: "#FFFFFF", surface: "#FFFFFF", text: "#0F172A", secondary: "#475569", border: "#E2E8F0", brand: "#4F46E5", accent: "#F59E0B", onBrand: "#FFFFFF", onAccent: "#FFFFFF" },
+                dark: { bg: "#020617", surface: "#0F172A", text: "#F8FAFC", secondary: "#CBD5E1", border: "#1E293B", brand: "#6366F1", accent: "#FBBF24", onBrand: "#FFFFFF", onAccent: "#0F172A" }
+            },
+            love: {
+                name: "Love",
+                description: "Rose & Blossom — romantic, vibrant, tender",
+                light: { bg: "#FFFFFF", surface: "#FFFFFF", text: "#4C0519", secondary: "#881337", border: "#FECDD3", brand: "#F43F5E", accent: "#FB7185", onBrand: "#FFFFFF", onAccent: "#FFFFFF" },
+                dark: { bg: "#0F0205", surface: "#190408", text: "#FFF1F2", secondary: "#FDA4AF", border: "#4C0519", brand: "#FB7185", accent: "#FDA4AF", onBrand: "#FFFFFF", onAccent: "#0F0205" }
+            },
+            ocean: {
+                name: "Ocean",
+                description: "Teal & Cyan — calm, deep, professional",
+                light: { bg: "#FFFFFF", surface: "#FFFFFF", text: "#042F2E", secondary: "#134E4A", border: "#CCFBF1", brand: "#0D9488", accent: "#06B6D4", onBrand: "#FFFFFF", onAccent: "#FFFFFF" },
+                dark: { bg: "#020A0A", surface: "#041414", text: "#F0FDFA", secondary: "#99F6E4", border: "#081F1F", brand: "#2DD4BF", accent: "#22D3EE", onBrand: "#FFFFFF", onAccent: "#020A0A" }
+            },
+            forest: {
+                name: "Forest",
+                description: "Emerald & Lime — fresh, natural, professional",
+                light: { bg: "#FFFFFF", surface: "#FFFFFF", text: "#064E3B", secondary: "#065F46", border: "#D1FAE5", brand: "#059669", accent: "#84CC16", onBrand: "#FFFFFF", onAccent: "#FFFFFF" },
+                dark: { bg: "#020806", surface: "#041610", text: "#ECFDF5", secondary: "#A7F3D0", border: "#06241B", brand: "#10B981", accent: "#A3E635", onBrand: "#FFFFFF", onAccent: "#020806" }
+            },
+            midnight: {
+                name: "Midnight",
+                description: "Indigo & Violet — mysterious, luxury, focused",
+                light: { bg: "#FFFFFF", surface: "#FFFFFF", text: "#0F172A", secondary: "#334155", border: "#E2E8F0", brand: "#6366F1", accent: "#8B5CF6", onBrand: "#FFFFFF", onAccent: "#FFFFFF" },
+                dark: { bg: "#020617", surface: "#0F172A", text: "#EEF2FF", secondary: "#C7D2FE", border: "#1E1B4B", brand: "#818CF8", accent: "#A78BFA", onBrand: "#FFFFFF", onAccent: "#020617" }
+            },
+            sunset: {
+                name: "Sunset",
+                description: "Orange & Amber — warm, energetic, creative",
+                light: { bg: "#FFFFFF", surface: "#FFFFFF", text: "#431407", secondary: "#9A3412", border: "#FFEDD5", brand: "#F97316", accent: "#F59E0B", onBrand: "#FFFFFF", onAccent: "#FFFFFF" },
+                dark: { bg: "#0C0502", surface: "#1F0C05", text: "#FFF7ED", secondary: "#FED7AA", border: "#431407", brand: "#FB923C", accent: "#FBBF24", onBrand: "#FFFFFF", onAccent: "#0C0502" }
+            }
+        };
+
+        function showBrand(id) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            const activeTab = Array.from(document.querySelectorAll('.tab')).find(t => t.innerText.toLowerCase() === id);
+            if (activeTab) activeTab.classList.add('active');
+
+            const brand = brands[id];
+            const content = `
+                <div class="section">
+                    <h2>Brand: ${brand.name}</h2>
+                    <p class="subtitle">${brand.description}</p>
+                    
+                    <div class="brand-comparison">
+                        <div class="mode-preview" style="background: ${brand.light.bg}; color: ${brand.light.text}; border-color: ${brand.light.border};">
+                            <div class="mode-label" style="color: ${brand.light.secondary};">Light Mode</div>
+                            <div class="mock-ui">
+                                <button class="mock-button" style="background: ${brand.brand}; color: ${brand.light.onBrand};">Primary Action</button>
+                                <button class="mock-button" style="background: ${brand.accent}; color: ${brand.light.onAccent};">Secondary Action</button>
+                                <div class="mock-card" style="background: ${brand.light.surface}; border-color: ${brand.light.border};">
+                                    <div class="mock-text-primary">Clean Interface</div>
+                                    <div class="mock-text-secondary">Using ${brand.name} palette for a professional mobile experience. Focus on legibility and hierarchy.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mode-preview" style="background: ${brand.dark.bg}; color: ${brand.dark.text}; border-color: ${brand.dark.border};">
+                            <div class="mode-label" style="color: ${brand.dark.secondary};">Dark Mode</div>
+                            <div class="mock-ui">
+                                <button class="mock-button" style="background: ${brand.brand}; color: ${brand.dark.onBrand};">Primary Action</button>
+                                <button class="mock-button" style="background: ${brand.accent}; color: ${brand.dark.onAccent};">Secondary Action</button>
+                                <div class="mock-card" style="background: ${brand.dark.surface}; border-color: ${brand.dark.border};">
+                                    <div class="mock-text-primary">Dark Depth</div>
+                                    <div class="mock-text-secondary">High contrast accessibility for low-light environments. Refined surface layering.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('brandContent').innerHTML = content;
+        }
+
+        const primitives = [
+            { name: "Indigo", hex: "#4F46E5" }, { name: "Rose", hex: "#F43F5E" },
+            { name: "Teal", hex: "#0D9488" }, { name: "Emerald", hex: "#10B981" },
+            { name: "Orange", hex: "#F97316" }, { name: "Amber", hex: "#F59E0B" },
+            { name: "Slate-900", hex: "#0F172A" }, { name: "Slate-50", hex: "#F8FAFC" }
+        ];
+
+        const grid = document.getElementById('primitive-grid');
+        primitives.forEach(p => {
+            grid.innerHTML += `
+                <div class="color-card">
+                    <div class="color-swatch" style="background: ${p.hex}"></div>
+                    <div class="color-info">
+                        <div class="color-name">${p.name}</div>
+                        <div class="color-hex">${p.hex}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        showBrand('default');
+    </script>
+</body>
+</html>

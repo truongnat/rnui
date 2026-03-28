@@ -4,10 +4,10 @@
         "outDir": "dist",
         "baseUrl": ".",
         "paths": {
-            "@rnui/tokens": [
+            "@truongdq01/tokens": [
                 "../tokens/src"
             ],
-            "@rnui/headless": [
+            "@truongdq01/headless": [
                 "../headless/src"
             ]
         },

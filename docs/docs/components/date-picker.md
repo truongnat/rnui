@@ -9,7 +9,7 @@ A fully customizable date picker with calendar view, range selection, and theme 
 ## Import
 
 ```tsx
-import { DatePicker } from "@rnui/ui";
+import { DatePicker } from "@truongdq01/ui";
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ import { DatePicker } from "@rnui/ui";
 ### Single date
 
 ```tsx
-import { DatePicker } from "@rnui/ui";
+import { DatePicker } from "@truongdq01/ui";
 import { useState } from "react";
 
 export function MyDatePicker() {
@@ -36,7 +36,7 @@ export function MyDatePicker() {
 ### Date range
 
 ```tsx
-import { DatePicker } from "@rnui/ui";
+import { DatePicker } from "@truongdq01/ui";
 import { useState } from "react";
 
 export function MyRangePicker() {

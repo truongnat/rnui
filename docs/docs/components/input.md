@@ -5,7 +5,7 @@ The `Input` component provides a styled text input with support for labels, erro
 ## Usage
 
 ```tsx
-import { Input } from "@rnui/ui";
+import { Input } from "@truongdq01/ui";
 import { Mail } from "lucide-react-native";
 
 <Input

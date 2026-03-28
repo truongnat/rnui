@@ -5,7 +5,7 @@ A gesture-driven slider with optional value display, range labels, and step mark
 ## Usage
 
 ```tsx
-import { Slider } from "@rnui/ui";
+import { Slider } from "@truongdq01/ui";
 
 <Slider label="Volume" defaultValue={40} showValue showRange />
 ```
