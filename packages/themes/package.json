@@ -1,6 +1,6 @@
 {
   "name": "@truongdq01/themes",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": false,
   "description": "Multi-brand plugin presets for @truongdq01/ui",
   "keywords": [
@@ -30,10 +30,10 @@
     "clean": "rm -rf dist dist-types"
   },
   "dependencies": {
-    "@truongdq01/tokens": "^1.0.2"
+    "@truongdq01/tokens": "^1.0.3"
   },
   "peerDependencies": {
-    "@truongdq01/headless": "^1.0.2"
+    "@truongdq01/headless": "^1.0.3"
   },
   "devDependencies": {
     "tsup": "^8.5.1",

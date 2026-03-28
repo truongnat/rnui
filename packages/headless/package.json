@@ -1,7 +1,6 @@
 {
   "name": "@truongdq01/headless",
-  "version": "1.0.2",
-  "type": "module",
+  "version": "1.0.3",
   "description": "Headless primitives for RNUI — logic, state, a11y. No styles.",
   "keywords": [
     "react-native",
@@ -10,7 +9,7 @@
     "accessibility"
   ],
   "license": "MIT",
-  "main": "./dist/index.mjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -27,12 +26,12 @@
     "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "test": "bunx jest --passWithNoTests",
+    "test": "bunx item --passWithNoTests",
     "test:bun": "bun test",
     "clean": "rm -rf dist dist-types"
   },
   "dependencies": {
-    "@truongdq01/tokens": "^1.0.2"
+    "@truongdq01/tokens": "^1.0.3"
   },
   "peerDependencies": {
     "react": ">=19.2.0",
