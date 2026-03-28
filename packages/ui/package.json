@@ -1,6 +1,6 @@
 {
   "name": "@truongdq01/ui",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Styled components for RNUI — batteries-included, fully themeable",
   "keywords": [
     "react-native",
@@ -32,8 +32,8 @@
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^9.1.0",
-    "@truongdq01/headless": "^1.0.1",
-    "@truongdq01/tokens": "^1.0.1",
+    "@truongdq01/headless": "^1.0.2",
+    "@truongdq01/tokens": "^1.0.2",
     "@shopify/flash-list": "^2.0.2",
     "lucide-react-native": "^0.577.0"
   },
