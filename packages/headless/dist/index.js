@@ -1,39 +1,109 @@
-var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
-  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
-}) : x)(function(x) {
-  if (typeof require !== "undefined") return require.apply(this, arguments);
-  throw Error('Dynamic require of "' + x + '" is not supported');
+"use strict";
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/index.ts
+var index_exports = {};
+__export(index_exports, {
+  ThemeProvider: () => ThemeProvider,
+  createTheme: () => createTheme,
+  dismissAllToasts: () => dismissAllToasts,
+  dismissToast: () => dismissToast,
+  focusRingAnimation: () => import_tokens2.focusRingAnimation,
+  heroTransition: () => heroTransition,
+  motionEasing: () => motionEasing,
+  motionPresets: () => motionPresets,
+  showToast: () => showToast,
+  timingPreset: () => import_tokens2.timingPreset,
+  useAccordion: () => useAccordion,
+  useActiveBrand: () => useActiveBrand,
+  useAlert: () => useAlert,
+  useAutocomplete: () => useAutocomplete,
+  useBottomNavigation: () => useBottomNavigation,
+  useBottomSheet: () => useBottomSheet,
+  useBrandSwitch: () => useBrandSwitch,
+  useCarousel: () => useCarousel,
+  useCheckbox: () => useCheckbox,
+  useComponentTokens: () => useComponentTokens,
+  useDisclosure: () => useDisclosure,
+  useDrawer: () => useDrawer,
+  useField: () => useField,
+  useIconStyle: () => useIconStyle,
+  useIsDark: () => useIsDark,
+  useListItem: () => useListItem,
+  useMemoStyles: () => useMemoStyles,
+  useMenu: () => useMenu,
+  useModal: () => useModal,
+  useOTPInput: () => useOTPInput,
+  usePagination: () => usePagination,
+  usePressable: () => usePressable,
+  useRadioGroup: () => useRadioGroup,
+  useRating: () => useRating,
+  useScrollHeader: () => useScrollHeader,
+  useSegmentedControl: () => useSegmentedControl,
+  useSelect: () => useSelect,
+  useSlider: () => useSlider,
+  useStepper: () => useStepper,
+  useSwitch: () => useSwitch,
+  useTable: () => useTable,
+  useTabs: () => useTabs,
+  useTheme: () => useTheme,
+  useToast: () => useToast,
+  useToggleGroup: () => useToggleGroup,
+  useTokens: () => useTokens
 });
+module.exports = __toCommonJS(index_exports);
 
 // src/theme.tsx
-import React, { createContext, useContext, useMemo } from "react";
-import { useColorScheme } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import {
-  semanticTokens,
-  buildSemanticTokens,
-  resolveComponentTokens
-} from "@truongdq01/tokens";
+var import_react = __toESM(require("react"));
+var import_react_native = require("react-native");
+var import_react_native_gesture_handler = require("react-native-gesture-handler");
+var import_tokens = require("@truongdq01/tokens");
 function createTheme(override) {
   return override;
 }
-var ThemeContext = createContext(null);
+var ThemeContext = (0, import_react.createContext)(null);
 function ThemeProvider({
   children,
   colorScheme: forcedScheme = "system",
   brand: initialBrand,
   override
 }) {
-  const systemScheme = useColorScheme();
-  const [manualScheme, setManualScheme] = React.useState(forcedScheme);
-  const [activeBrand, setActiveBrand] = React.useState(initialBrand);
+  const systemScheme = (0, import_react_native.useColorScheme)();
+  const [manualScheme, setManualScheme] = import_react.default.useState(forcedScheme);
+  const [activeBrand, setActiveBrand] = import_react.default.useState(initialBrand);
   const activeScheme = manualScheme === "system" ? systemScheme === "dark" ? "dark" : "light" : manualScheme;
-  const theme = useMemo(() => {
-    let tokens = activeBrand ? buildSemanticTokens(activeBrand, activeScheme) : semanticTokens[activeScheme];
+  const theme = (0, import_react.useMemo)(() => {
+    let tokens = activeBrand ? (0, import_tokens.buildSemanticTokens)(activeBrand, activeScheme) : import_tokens.semanticTokens[activeScheme];
     if (override?.[activeScheme]) {
       tokens = deepMerge(tokens, override[activeScheme]);
     }
-    const components = resolveComponentTokens(tokens);
+    const components = (0, import_tokens.resolveComponentTokens)(tokens);
     return {
       tokens,
       components,
@@ -43,10 +113,10 @@ function ThemeProvider({
       setBrand: setActiveBrand
     };
   }, [activeScheme, activeBrand, override]);
-  return /* @__PURE__ */ React.createElement(GestureHandlerRootView, { style: { flex: 1 } }, /* @__PURE__ */ React.createElement(ThemeContext.Provider, { value: theme }, children));
+  return /* @__PURE__ */ import_react.default.createElement(import_react_native_gesture_handler.GestureHandlerRootView, { style: { flex: 1 } }, /* @__PURE__ */ import_react.default.createElement(ThemeContext.Provider, { value: theme }, children));
 }
 function useTheme() {
-  const ctx = useContext(ThemeContext);
+  const ctx = (0, import_react.useContext)(ThemeContext);
   if (!ctx) {
     throw new Error(
       "[RNUI] useTheme must be used inside <ThemeProvider>. Wrap your app root with <ThemeProvider>."
@@ -87,75 +157,52 @@ function deepMerge(base, override) {
 }
 
 // src/motion.ts
-import { Easing, SharedTransition, withSpring } from "react-native-reanimated";
-import {
-  FadeInUp,
-  FadeInDown,
-  FadeIn,
-  ZoomIn,
-  SlideInDown,
-  SlideInUp,
-  SlideInRight,
-  FadeOutDown,
-  FadeOutUp,
-  FadeOut,
-  ZoomOut,
-  SlideOutDown,
-  SlideOutUp,
-  SlideOutRight
-} from "react-native-reanimated";
-import { spring, timingPreset, focusRingAnimation } from "@truongdq01/tokens";
+var import_react_native_reanimated = require("react-native-reanimated");
+var import_react_native_reanimated2 = require("react-native-reanimated");
+var import_tokens2 = require("@truongdq01/tokens");
 var motionPresets = {
   enter: {
-    fadeUp: FadeInUp,
-    fadeDown: FadeInDown,
-    fadeIn: FadeIn,
-    scaleIn: ZoomIn,
-    slideFromBottom: SlideInDown,
-    slideFromTop: SlideInUp,
-    slideFromRight: SlideInRight
+    fadeUp: import_react_native_reanimated2.FadeInUp,
+    fadeDown: import_react_native_reanimated2.FadeInDown,
+    fadeIn: import_react_native_reanimated2.FadeIn,
+    scaleIn: import_react_native_reanimated2.ZoomIn,
+    slideFromBottom: import_react_native_reanimated2.SlideInDown,
+    slideFromTop: import_react_native_reanimated2.SlideInUp,
+    slideFromRight: import_react_native_reanimated2.SlideInRight
   },
   exit: {
-    fadeDown: FadeOutDown,
-    fadeUp: FadeOutUp,
-    fadeOut: FadeOut,
-    scaleOut: ZoomOut,
-    slideToBottom: SlideOutDown,
-    slideToTop: SlideOutUp,
-    slideToRight: SlideOutRight
+    fadeDown: import_react_native_reanimated2.FadeOutDown,
+    fadeUp: import_react_native_reanimated2.FadeOutUp,
+    fadeOut: import_react_native_reanimated2.FadeOut,
+    scaleOut: import_react_native_reanimated2.ZoomOut,
+    slideToBottom: import_react_native_reanimated2.SlideOutDown,
+    slideToTop: import_react_native_reanimated2.SlideOutUp,
+    slideToRight: import_react_native_reanimated2.SlideOutRight
   }
 };
 var motionEasing = {
-  easeIn: Easing.bezier(0.4, 0, 1, 1),
-  easeOut: Easing.bezier(0, 0, 0.2, 1),
-  easeInOut: Easing.bezier(0.4, 0, 0.2, 1),
-  linear: Easing.linear
+  easeIn: import_react_native_reanimated.Easing.bezier(0.4, 0, 1, 1),
+  easeOut: import_react_native_reanimated.Easing.bezier(0, 0, 0.2, 1),
+  easeInOut: import_react_native_reanimated.Easing.bezier(0.4, 0, 0.2, 1),
+  linear: import_react_native_reanimated.Easing.linear
 };
-var heroTransition = SharedTransition && SharedTransition.custom ? SharedTransition.custom((values) => {
+var heroTransition = import_react_native_reanimated.SharedTransition && import_react_native_reanimated.SharedTransition.custom ? import_react_native_reanimated.SharedTransition.custom((values) => {
   "worklet";
   return {
-    height: withSpring(values.targetHeight, spring.snappy),
-    width: withSpring(values.targetWidth, spring.snappy),
-    originX: withSpring(values.targetGlobalOriginX, spring.snappy),
-    originY: withSpring(values.targetGlobalOriginY, spring.snappy)
+    height: (0, import_react_native_reanimated.withSpring)(values.targetHeight, import_tokens2.spring.snappy),
+    width: (0, import_react_native_reanimated.withSpring)(values.targetWidth, import_tokens2.spring.snappy),
+    originX: (0, import_react_native_reanimated.withSpring)(values.targetGlobalOriginX, import_tokens2.spring.snappy),
+    originY: (0, import_react_native_reanimated.withSpring)(values.targetGlobalOriginY, import_tokens2.spring.snappy)
   };
 }) : null;
 
 // src/hooks/usePressable.ts
-import { useCallback, useState } from "react";
-import {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring as withSpring2,
-  withTiming as withTiming2,
-  runOnJS
-} from "react-native-reanimated";
-import { scheduleOnRN } from "react-native-worklets";
-import {
-  Gesture
-} from "react-native-gesture-handler";
-import { Platform } from "react-native";
-import { spring as spring2, pressFeedback } from "@truongdq01/tokens";
+var import_react2 = require("react");
+var import_react_native_reanimated3 = require("react-native-reanimated");
+var import_react_native_worklets = require("react-native-worklets");
+var import_react_native_gesture_handler2 = require("react-native-gesture-handler");
+var import_react_native2 = require("react-native");
+var import_tokens3 = require("@truongdq01/tokens");
 function usePressable({
   onPress,
   onLongPress,
@@ -168,23 +215,23 @@ function usePressable({
   haptic = false,
   hitSlop
 } = {}) {
-  const [isPressed, setIsPressed] = useState(false);
-  const scale = useSharedValue(1);
-  const opacity = useSharedValue(1);
-  const handlePress = useCallback(() => {
+  const [isPressed, setIsPressed] = (0, import_react2.useState)(false);
+  const scale = (0, import_react_native_reanimated3.useSharedValue)(1);
+  const opacity = (0, import_react_native_reanimated3.useSharedValue)(1);
+  const handlePress = (0, import_react2.useCallback)(() => {
     if (disabled) return;
     if (haptic) triggerHaptic("light");
     onPress?.();
   }, [disabled, haptic, onPress]);
-  const handleLongPress = useCallback(() => {
+  const handleLongPress = (0, import_react2.useCallback)(() => {
     if (disabled) return;
     if (haptic) triggerHaptic("medium");
     onLongPress?.();
   }, [disabled, haptic, onLongPress]);
-  const setPressedState = useCallback((pressed) => {
+  const setPressedState = (0, import_react2.useCallback)((pressed) => {
     setIsPressed(pressed);
   }, []);
-  const animatedStyle = useAnimatedStyle(() => {
+  const animatedStyle = (0, import_react_native_reanimated3.useAnimatedStyle)(() => {
     if (feedbackMode === "opacity") {
       return { opacity: opacity.value };
     }
@@ -193,37 +240,37 @@ function usePressable({
     }
     return { transform: [{ scale: scale.value }] };
   });
-  const scaleDownPressed = pressFeedback.scaleDown.pressed;
-  const scaleSubtlePressed = pressFeedback.scaleDownSubtle.pressed;
-  const opacityOnlyPressed = pressFeedback.opacityOnly.pressed;
-  const snappySpring = spring2.snappy;
-  const tapGesture = Gesture.Tap().enabled(!disabled).hitSlop(hitSlop ?? 0).onBegin(() => {
+  const scaleDownPressed = import_tokens3.pressFeedback.scaleDown.pressed;
+  const scaleSubtlePressed = import_tokens3.pressFeedback.scaleDownSubtle.pressed;
+  const opacityOnlyPressed = import_tokens3.pressFeedback.opacityOnly.pressed;
+  const snappySpring = import_tokens3.spring.snappy;
+  const tapGesture = import_react_native_gesture_handler2.Gesture.Tap().enabled(!disabled).hitSlop(hitSlop ?? 0).onBegin(() => {
     "worklet";
-    runOnJS(setPressedState)(true);
+    (0, import_react_native_reanimated3.runOnJS)(setPressedState)(true);
     if (feedbackMode === "scale") {
-      scale.value = withSpring2(scaleDownPressed, snappySpring);
+      scale.value = (0, import_react_native_reanimated3.withSpring)(scaleDownPressed, snappySpring);
     } else if (feedbackMode === "scaleSubtle") {
-      scale.value = withSpring2(scaleSubtlePressed, snappySpring);
+      scale.value = (0, import_react_native_reanimated3.withSpring)(scaleSubtlePressed, snappySpring);
     } else if (feedbackMode === "opacity") {
-      opacity.value = withTiming2(opacityOnlyPressed, { duration: 60 });
+      opacity.value = (0, import_react_native_reanimated3.withTiming)(opacityOnlyPressed, { duration: 60 });
     }
   }).onFinalize((_event, success) => {
     "worklet";
-    runOnJS(setPressedState)(false);
+    (0, import_react_native_reanimated3.runOnJS)(setPressedState)(false);
     if (feedbackMode === "scale" || feedbackMode === "scaleSubtle") {
-      scale.value = withSpring2(1, snappySpring);
+      scale.value = (0, import_react_native_reanimated3.withSpring)(1, snappySpring);
     } else if (feedbackMode === "opacity") {
-      opacity.value = withTiming2(1, { duration: 100 });
+      opacity.value = (0, import_react_native_reanimated3.withTiming)(1, { duration: 100 });
     }
     if (success) {
-      scheduleOnRN(handlePress);
+      (0, import_react_native_worklets.scheduleOnRN)(handlePress);
     }
   });
-  const longPressGesture = Gesture.LongPress().enabled(!disabled && !!onLongPress).minDuration(longPressMinDuration).onStart(() => {
+  const longPressGesture = import_react_native_gesture_handler2.Gesture.LongPress().enabled(!disabled && !!onLongPress).minDuration(longPressMinDuration).onStart(() => {
     "worklet";
-    scheduleOnRN(handleLongPress);
+    (0, import_react_native_worklets.scheduleOnRN)(handleLongPress);
   });
-  const gesture = Gesture.Simultaneous(tapGesture, longPressGesture);
+  const gesture = import_react_native_gesture_handler2.Gesture.Simultaneous(tapGesture, longPressGesture);
   const accessibilityProps = {
     accessible: true,
     accessibilityRole,
@@ -240,7 +287,7 @@ function usePressable({
 }
 function triggerHaptic(type) {
   try {
-    const Haptics = __require("expo-haptics");
+    const Haptics = require("expo-haptics");
     const map = {
       light: Haptics.ImpactFeedbackStyle.Light,
       medium: Haptics.ImpactFeedbackStyle.Medium,
@@ -251,9 +298,9 @@ function triggerHaptic(type) {
   } catch {
   }
   try {
-    const HapticFeedback = __require("react-native-haptic-feedback").default;
+    const HapticFeedback = require("react-native-haptic-feedback").default;
     HapticFeedback.trigger(
-      Platform.OS === "ios" ? "impactLight" : "notificationSuccess",
+      import_react_native2.Platform.OS === "ios" ? "impactLight" : "notificationSuccess",
       { enableVibrateFallback: true, ignoreAndroidSystemSettings: false }
     );
   } catch {
@@ -261,24 +308,24 @@ function triggerHaptic(type) {
 }
 
 // src/hooks/useDisclosure.ts
-import { useCallback as useCallback2, useState as useState2 } from "react";
+var import_react3 = require("react");
 function useDisclosure({
   defaultOpen = false,
   isOpen: controlledOpen,
   onOpen,
   onClose
 } = {}) {
-  const [internalOpen, setInternalOpen] = useState2(defaultOpen);
+  const [internalOpen, setInternalOpen] = (0, import_react3.useState)(defaultOpen);
   const isOpen = controlledOpen !== void 0 ? controlledOpen : internalOpen;
-  const open = useCallback2(() => {
+  const open = (0, import_react3.useCallback)(() => {
     if (controlledOpen === void 0) setInternalOpen(true);
     onOpen?.();
   }, [controlledOpen, onOpen]);
-  const close = useCallback2(() => {
+  const close = (0, import_react3.useCallback)(() => {
     if (controlledOpen === void 0) setInternalOpen(false);
     onClose?.();
   }, [controlledOpen, onClose]);
-  const toggle = useCallback2(() => {
+  const toggle = (0, import_react3.useCallback)(() => {
     if (isOpen) close();
     else open();
   }, [isOpen, open, close]);
@@ -298,17 +345,17 @@ function useDisclosure({
 }
 
 // src/hooks/useField.ts
-import { useCallback as useCallback3, useState as useState3 } from "react";
+var import_react4 = require("react");
 function useField({
   defaultValue,
   validate,
   validateOnChange = false
 }) {
-  const [value, setValue] = useState3(defaultValue);
-  const [error, setError] = useState3(void 0);
-  const [touched, setTouched] = useState3(false);
-  const [isValidating, setIsValidating] = useState3(false);
-  const runValidation = useCallback3(
+  const [value, setValue] = (0, import_react4.useState)(defaultValue);
+  const [error, setError] = (0, import_react4.useState)(void 0);
+  const [touched, setTouched] = (0, import_react4.useState)(false);
+  const [isValidating, setIsValidating] = (0, import_react4.useState)(false);
+  const runValidation = (0, import_react4.useCallback)(
     async (val) => {
       if (!validate) return;
       setIsValidating(true);
@@ -326,7 +373,7 @@ function useField({
     },
     [validate]
   );
-  const onChange = useCallback3(
+  const onChange = (0, import_react4.useCallback)(
     (val) => {
       setValue(val);
       if (validateOnChange && touched) {
@@ -337,11 +384,11 @@ function useField({
     },
     [validateOnChange, touched, error, runValidation]
   );
-  const onBlur = useCallback3(() => {
+  const onBlur = (0, import_react4.useCallback)(() => {
     setTouched(true);
     runValidation(value);
   }, [value, runValidation]);
-  const reset = useCallback3(() => {
+  const reset = (0, import_react4.useCallback)(() => {
     setValue(defaultValue);
     setError(void 0);
     setTouched(false);
@@ -366,7 +413,7 @@ function useField({
 }
 
 // src/hooks/useToast.ts
-import { useCallback as useCallback4, useSyncExternalStore } from "react";
+var import_react5 = require("react");
 var store = {
   queue: [],
   listeners: /* @__PURE__ */ new Set()
@@ -406,23 +453,23 @@ function dismissAllToasts() {
   notify();
 }
 function useToast() {
-  const toasts = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
-  const show = useCallback4((options) => showToast(options), []);
-  const dismiss = useCallback4((id) => dismissToast(id), []);
-  const dismissAll = useCallback4(() => dismissAllToasts(), []);
-  const success = useCallback4(
+  const toasts = (0, import_react5.useSyncExternalStore)(subscribe, getSnapshot, getSnapshot);
+  const show = (0, import_react5.useCallback)((options) => showToast(options), []);
+  const dismiss = (0, import_react5.useCallback)((id) => dismissToast(id), []);
+  const dismissAll = (0, import_react5.useCallback)(() => dismissAllToasts(), []);
+  const success = (0, import_react5.useCallback)(
     (message, opts) => showToast({ ...opts, message, variant: "success" }),
     []
   );
-  const error = useCallback4(
+  const error = (0, import_react5.useCallback)(
     (message, opts) => showToast({ ...opts, message, variant: "error" }),
     []
   );
-  const warning = useCallback4(
+  const warning = (0, import_react5.useCallback)(
     (message, opts) => showToast({ ...opts, message, variant: "warning" }),
     []
   );
-  const info = useCallback4(
+  const info = (0, import_react5.useCallback)(
     (message, opts) => showToast({ ...opts, message, variant: "info" }),
     []
   );
@@ -430,18 +477,13 @@ function useToast() {
 }
 
 // src/hooks/useBottomSheet.ts
-import { useCallback as useCallback5, useRef as useRef2 } from "react";
-import {
-  useSharedValue as useSharedValue2,
-  useAnimatedStyle as useAnimatedStyle2,
-  withSpring as withSpring3,
-  withTiming as withTiming3
-} from "react-native-reanimated";
-import { scheduleOnRN as scheduleOnRN2 } from "react-native-worklets";
-import { Gesture as Gesture2 } from "react-native-gesture-handler";
-import { Dimensions } from "react-native";
-import { spring as spring3 } from "@truongdq01/tokens";
-var SCREEN_HEIGHT = Dimensions.get("window").height;
+var import_react6 = require("react");
+var import_react_native_reanimated4 = require("react-native-reanimated");
+var import_react_native_worklets2 = require("react-native-worklets");
+var import_react_native_gesture_handler3 = require("react-native-gesture-handler");
+var import_react_native3 = require("react-native");
+var import_tokens4 = require("@truongdq01/tokens");
+var SCREEN_HEIGHT = import_react_native3.Dimensions.get("window").height;
 function resolveSnapPoint(point) {
   if (typeof point === "number") return point;
   const pct = parseFloat(point) / 100;
@@ -457,29 +499,29 @@ function useBottomSheet({
 } = {}) {
   const snapPoints = rawSnapPoints.map(resolveSnapPoint);
   const defaultSnapIndex = initialSnapIndex ?? snapPoints.length - 1;
-  const isOpenRef = useRef2(false);
-  const currentIndexRef = useRef2(defaultSnapIndex);
-  const translateY = useSharedValue2(SCREEN_HEIGHT);
-  const backdropOpacity = useSharedValue2(0);
-  const dragStartY = useSharedValue2(0);
-  const gentleSpring = spring3.gentle;
-  const animateToSnap = useCallback5(
+  const isOpenRef = (0, import_react6.useRef)(false);
+  const currentIndexRef = (0, import_react6.useRef)(defaultSnapIndex);
+  const translateY = (0, import_react_native_reanimated4.useSharedValue)(SCREEN_HEIGHT);
+  const backdropOpacity = (0, import_react_native_reanimated4.useSharedValue)(0);
+  const dragStartY = (0, import_react_native_reanimated4.useSharedValue)(0);
+  const gentleSpring = import_tokens4.spring.gentle;
+  const animateToSnap = (0, import_react6.useCallback)(
     (index, onDone) => {
       "worklet";
       const targetHeight = snapPoints[index] ?? snapPoints[snapPoints.length - 1];
       const targetY = SCREEN_HEIGHT - targetHeight;
-      translateY.value = withSpring3(targetY, gentleSpring, (finished) => {
-        if (finished && onDone) scheduleOnRN2(onDone);
+      translateY.value = (0, import_react_native_reanimated4.withSpring)(targetY, gentleSpring, (finished) => {
+        if (finished && onDone) (0, import_react_native_worklets2.scheduleOnRN)(onDone);
       });
       const maxHeight = Math.max(...snapPoints);
-      backdropOpacity.value = withTiming3(
+      backdropOpacity.value = (0, import_react_native_reanimated4.withTiming)(
         enableBackdrop ? targetHeight / maxHeight * 0.6 : 0,
         { duration: 250 }
       );
     },
     [snapPoints, translateY, backdropOpacity, enableBackdrop, gentleSpring]
   );
-  const open = useCallback5(
+  const open = (0, import_react6.useCallback)(
     (snapIndex) => {
       const idx = snapIndex ?? defaultSnapIndex;
       isOpenRef.current = true;
@@ -490,9 +532,9 @@ function useBottomSheet({
         console.warn("Invalid targetY calculated for open:", targetY);
         return;
       }
-      translateY.value = withSpring3(targetY, gentleSpring);
+      translateY.value = (0, import_react_native_reanimated4.withSpring)(targetY, gentleSpring);
       const maxHeight = Math.max(...snapPoints);
-      backdropOpacity.value = withTiming3(
+      backdropOpacity.value = (0, import_react_native_reanimated4.withTiming)(
         enableBackdrop ? targetHeight / maxHeight * 0.6 : 0,
         { duration: 250 }
       );
@@ -500,19 +542,19 @@ function useBottomSheet({
     },
     [snapPoints, defaultSnapIndex, translateY, backdropOpacity, enableBackdrop, onSnapChange, gentleSpring]
   );
-  const handleCloseEnd = useCallback5(() => {
+  const handleCloseEnd = (0, import_react6.useCallback)(() => {
     isOpenRef.current = false;
     onClose?.();
   }, [onClose]);
-  const close = useCallback5(() => {
-    translateY.value = withSpring3(SCREEN_HEIGHT, gentleSpring, (finished) => {
+  const close = (0, import_react6.useCallback)(() => {
+    translateY.value = (0, import_react_native_reanimated4.withSpring)(SCREEN_HEIGHT, gentleSpring, (finished) => {
       if (finished) {
-        scheduleOnRN2(handleCloseEnd);
+        (0, import_react_native_worklets2.scheduleOnRN)(handleCloseEnd);
       }
     });
-    backdropOpacity.value = withTiming3(0, { duration: 200 });
+    backdropOpacity.value = (0, import_react_native_reanimated4.withTiming)(0, { duration: 200 });
   }, [translateY, backdropOpacity, handleCloseEnd, gentleSpring]);
-  const snapTo = useCallback5(
+  const snapTo = (0, import_react6.useCallback)(
     (index) => {
       if (index < 0 || index >= snapPoints.length) return;
       currentIndexRef.current = index;
@@ -522,9 +564,9 @@ function useBottomSheet({
         console.warn("Invalid targetY calculated for snapTo:", targetY);
         return;
       }
-      translateY.value = withSpring3(targetY, gentleSpring);
+      translateY.value = (0, import_react_native_reanimated4.withSpring)(targetY, gentleSpring);
       const maxHeight = Math.max(...snapPoints);
-      backdropOpacity.value = withTiming3(
+      backdropOpacity.value = (0, import_react_native_reanimated4.withTiming)(
         enableBackdrop ? targetHeight / maxHeight * 0.6 : 0,
         { duration: 200 }
       );
@@ -532,7 +574,7 @@ function useBottomSheet({
     },
     [snapPoints, translateY, backdropOpacity, enableBackdrop, onSnapChange, gentleSpring]
   );
-  const panGesture = Gesture2.Pan().onStart(() => {
+  const panGesture = import_react_native_gesture_handler3.Gesture.Pan().onStart(() => {
     "worklet";
     dragStartY.value = translateY.value;
   }).onUpdate((e) => {
@@ -552,7 +594,7 @@ function useBottomSheet({
     const velocity = e.velocityY;
     const currentHeight = SCREEN_HEIGHT - translateY.value;
     if (velocity > 800 && enableDismissOnSwipe) {
-      scheduleOnRN2(close);
+      (0, import_react_native_worklets2.scheduleOnRN)(close);
       return;
     }
     let bestIndex = 0;
@@ -564,16 +606,16 @@ function useBottomSheet({
         bestIndex = i;
       }
     }
-    scheduleOnRN2(snapTo, bestIndex);
+    (0, import_react_native_worklets2.scheduleOnRN)(snapTo, bestIndex);
   });
-  const backdropTapGesture = Gesture2.Tap().onEnd(() => {
+  const backdropTapGesture = import_react_native_gesture_handler3.Gesture.Tap().onEnd(() => {
     "worklet";
-    scheduleOnRN2(close);
+    (0, import_react_native_worklets2.scheduleOnRN)(close);
   });
-  const sheetAnimatedStyle = useAnimatedStyle2(() => ({
+  const sheetAnimatedStyle = (0, import_react_native_reanimated4.useAnimatedStyle)(() => ({
     transform: [{ translateY: translateY.value }]
   }));
-  const backdropAnimatedStyle = useAnimatedStyle2(() => ({
+  const backdropAnimatedStyle = (0, import_react_native_reanimated4.useAnimatedStyle)(() => ({
     opacity: backdropOpacity.value,
     pointerEvents: backdropOpacity.value > 0 ? "auto" : "none"
   }));
@@ -591,7 +633,7 @@ function useBottomSheet({
 }
 
 // src/hooks/useCheckbox.ts
-import { useCallback as useCallback6, useState as useState4 } from "react";
+var import_react7 = require("react");
 function useCheckbox({
   defaultChecked = false,
   checked: controlledChecked,
@@ -599,9 +641,9 @@ function useCheckbox({
   disabled = false,
   indeterminate = false
 } = {}) {
-  const [internalChecked, setInternalChecked] = useState4(defaultChecked);
+  const [internalChecked, setInternalChecked] = (0, import_react7.useState)(defaultChecked);
   const isChecked = controlledChecked !== void 0 ? controlledChecked : internalChecked;
-  const toggle = useCallback6(() => {
+  const toggle = (0, import_react7.useCallback)(() => {
     if (disabled) return;
     const next = !isChecked;
     if (controlledChecked === void 0) setInternalChecked(next);
@@ -624,16 +666,16 @@ function useCheckbox({
 }
 
 // src/hooks/useSwitch.ts
-import { useCallback as useCallback7, useState as useState5 } from "react";
+var import_react8 = require("react");
 function useSwitch({
   defaultOn = false,
   on: controlledOn,
   onChange,
   disabled = false
 } = {}) {
-  const [internalOn, setInternalOn] = useState5(defaultOn);
+  const [internalOn, setInternalOn] = (0, import_react8.useState)(defaultOn);
   const isOn = controlledOn !== void 0 ? controlledOn : internalOn;
-  const toggle = useCallback7(() => {
+  const toggle = (0, import_react8.useCallback)(() => {
     if (disabled) return;
     const next = !isOn;
     if (controlledOn === void 0) setInternalOn(next);
@@ -652,7 +694,7 @@ function useSwitch({
 }
 
 // src/hooks/useSelect.ts
-import { useCallback as useCallback8, useState as useState6 } from "react";
+var import_react9 = require("react");
 function useSelect({
   options,
   defaultValue,
@@ -662,10 +704,10 @@ function useSelect({
   disabled = false,
   placeholder = "Select\u2026"
 }) {
-  const [internalValue, setInternalValue] = useState6(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react9.useState)(defaultValue);
   const disclosure = useDisclosure();
   const selected = controlledValue !== void 0 ? controlledValue : internalValue;
-  const selectOption = useCallback8(
+  const selectOption = (0, import_react9.useCallback)(
     (val) => {
       if (disabled) return;
       let next;
@@ -681,12 +723,12 @@ function useSelect({
     },
     [disabled, multiple, selected, controlledValue, onChange, disclosure]
   );
-  const clearSelection = useCallback8(() => {
+  const clearSelection = (0, import_react9.useCallback)(() => {
     const next = multiple ? [] : void 0;
     if (controlledValue === void 0) setInternalValue(next);
     if (next !== void 0) onChange?.(next);
   }, [multiple, controlledValue, onChange]);
-  const isSelected = useCallback8(
+  const isSelected = (0, import_react9.useCallback)(
     (val) => {
       if (!selected) return false;
       if (Array.isArray(selected)) return selected.includes(val);
@@ -721,72 +763,66 @@ function useSelect({
 }
 
 // src/hooks/useScrollHeader.ts
-import {
-  useSharedValue as useSharedValue3,
-  useAnimatedScrollHandler,
-  useAnimatedStyle as useAnimatedStyle3,
-  interpolate as interpolate2,
-  Extrapolation as Extrapolation2
-} from "react-native-reanimated";
+var import_react_native_reanimated5 = require("react-native-reanimated");
 function useScrollHeader({ headerMaxHeight, headerMinHeight }) {
-  const scrollY = useSharedValue3(0);
-  const scrollHandler = useAnimatedScrollHandler({
+  const scrollY = (0, import_react_native_reanimated5.useSharedValue)(0);
+  const scrollHandler = (0, import_react_native_reanimated5.useAnimatedScrollHandler)({
     onScroll: (event) => {
       scrollY.value = event.contentOffset.y;
     }
   });
   const scrollDistance = headerMaxHeight - headerMinHeight;
-  const headerStyle = useAnimatedStyle3(() => {
-    const height = interpolate2(
+  const headerStyle = (0, import_react_native_reanimated5.useAnimatedStyle)(() => {
+    const height = (0, import_react_native_reanimated5.interpolate)(
       scrollY.value,
       [0, scrollDistance],
       [headerMaxHeight, headerMinHeight],
-      Extrapolation2.CLAMP
+      import_react_native_reanimated5.Extrapolation.CLAMP
     );
     return { height };
   });
-  const imageStyle = useAnimatedStyle3(() => {
-    const translateY = interpolate2(
+  const imageStyle = (0, import_react_native_reanimated5.useAnimatedStyle)(() => {
+    const translateY = (0, import_react_native_reanimated5.interpolate)(
       scrollY.value,
       [-headerMaxHeight, 0, scrollDistance],
       [-headerMaxHeight / 2, 0, scrollDistance * 0.5],
       // Moves at half speed relative to scroll
-      Extrapolation2.CLAMP
+      import_react_native_reanimated5.Extrapolation.CLAMP
     );
-    const scale = interpolate2(
+    const scale = (0, import_react_native_reanimated5.interpolate)(
       scrollY.value,
       [-headerMaxHeight, 0],
       [2, 1],
-      { extrapolateLeft: Extrapolation2.EXTEND, extrapolateRight: Extrapolation2.CLAMP }
+      { extrapolateLeft: import_react_native_reanimated5.Extrapolation.EXTEND, extrapolateRight: import_react_native_reanimated5.Extrapolation.CLAMP }
     );
     return {
       transform: [{ translateY }, { scale }]
     };
   });
-  const titleStyle = useAnimatedStyle3(() => {
-    const opacity = interpolate2(
+  const titleStyle = (0, import_react_native_reanimated5.useAnimatedStyle)(() => {
+    const opacity = (0, import_react_native_reanimated5.interpolate)(
       scrollY.value,
       [scrollDistance * 0.6, scrollDistance * 0.9],
       [0, 1],
-      Extrapolation2.CLAMP
+      import_react_native_reanimated5.Extrapolation.CLAMP
     );
-    const translateY = interpolate2(
+    const translateY = (0, import_react_native_reanimated5.interpolate)(
       scrollY.value,
       [scrollDistance * 0.6, scrollDistance],
       [10, 0],
-      Extrapolation2.CLAMP
+      import_react_native_reanimated5.Extrapolation.CLAMP
     );
     return {
       opacity,
       transform: [{ translateY }]
     };
   });
-  const headerBgStyle = useAnimatedStyle3(() => {
-    const opacity = interpolate2(
+  const headerBgStyle = (0, import_react_native_reanimated5.useAnimatedStyle)(() => {
+    const opacity = (0, import_react_native_reanimated5.interpolate)(
       scrollY.value,
       [0, scrollDistance],
       [0, 1],
-      Extrapolation2.CLAMP
+      import_react_native_reanimated5.Extrapolation.CLAMP
     );
     return { opacity };
   });
@@ -801,30 +837,24 @@ function useScrollHeader({ headerMaxHeight, headerMinHeight }) {
 }
 
 // src/hooks/useMemoStyles.ts
-import { useMemo as useMemo2, useRef as useRef3 } from "react";
-import { StyleSheet } from "react-native";
+var import_react10 = require("react");
+var import_react_native4 = require("react-native");
 function useMemoStyles(styleFactory) {
   const tokens = useTokens();
-  const factoryRef = useRef3(styleFactory);
+  const factoryRef = (0, import_react10.useRef)(styleFactory);
   factoryRef.current = styleFactory;
-  return useMemo2(() => {
+  return (0, import_react10.useMemo)(() => {
     const rawStyles = factoryRef.current(tokens);
-    return StyleSheet.create(rawStyles);
+    return import_react_native4.StyleSheet.create(rawStyles);
   }, [tokens]);
 }
 
 // src/hooks/useListItem.ts
-import { useCallback as useCallback9 } from "react";
-import {
-  useSharedValue as useSharedValue4,
-  useAnimatedStyle as useAnimatedStyle4,
-  withSpring as withSpring4,
-  interpolate as interpolate3,
-  Extrapolation as Extrapolation3
-} from "react-native-reanimated";
-import { scheduleOnRN as scheduleOnRN3 } from "react-native-worklets";
-import { Gesture as Gesture3 } from "react-native-gesture-handler";
-import { spring as spring4 } from "@truongdq01/tokens";
+var import_react11 = require("react");
+var import_react_native_reanimated6 = require("react-native-reanimated");
+var import_react_native_worklets3 = require("react-native-worklets");
+var import_react_native_gesture_handler4 = require("react-native-gesture-handler");
+var import_tokens5 = require("@truongdq01/tokens");
 var ACTION_WIDTH = 80;
 function useListItem({
   onPress,
@@ -833,30 +863,30 @@ function useListItem({
   leadingActions = [],
   disabled = false
 } = {}) {
-  const translateX = useSharedValue4(0);
-  const isRevealedValue = useSharedValue4(false);
+  const translateX = (0, import_react_native_reanimated6.useSharedValue)(0);
+  const isRevealedValue = (0, import_react_native_reanimated6.useSharedValue)(false);
   const trailingMax = trailingActions.length * ACTION_WIDTH;
   const leadingMax = leadingActions.length * ACTION_WIDTH;
-  const snappySpring = spring4.snappy;
-  const close = useCallback9(() => {
-    translateX.value = withSpring4(0, snappySpring);
+  const snappySpring = import_tokens5.spring.snappy;
+  const close = (0, import_react11.useCallback)(() => {
+    translateX.value = (0, import_react_native_reanimated6.withSpring)(0, snappySpring);
     isRevealedValue.value = false;
   }, [translateX, isRevealedValue, snappySpring]);
-  const tapGesture = Gesture3.Tap().enabled(!disabled).onEnd((_, success) => {
+  const tapGesture = import_react_native_gesture_handler4.Gesture.Tap().enabled(!disabled).onEnd((_, success) => {
     "worklet";
     if (!success) return;
     if (isRevealedValue.value) {
-      translateX.value = withSpring4(0, snappySpring);
+      translateX.value = (0, import_react_native_reanimated6.withSpring)(0, snappySpring);
       isRevealedValue.value = false;
       return;
     }
-    if (onPress) scheduleOnRN3(onPress);
+    if (onPress) (0, import_react_native_worklets3.scheduleOnRN)(onPress);
   });
-  const longPressGesture = Gesture3.LongPress().enabled(!disabled && !!onLongPress).minDuration(500).onStart(() => {
+  const longPressGesture = import_react_native_gesture_handler4.Gesture.LongPress().enabled(!disabled && !!onLongPress).minDuration(500).onStart(() => {
     "worklet";
-    if (onLongPress) scheduleOnRN3(onLongPress);
+    if (onLongPress) (0, import_react_native_worklets3.scheduleOnRN)(onLongPress);
   });
-  const panGesture = Gesture3.Pan().activeOffsetX([-8, 8]).failOffsetY([-5, 5]).onUpdate((e) => {
+  const panGesture = import_react_native_gesture_handler4.Gesture.Pan().activeOffsetX([-8, 8]).failOffsetY([-5, 5]).onUpdate((e) => {
     "worklet";
     const raw = e.translationX;
     if (raw < 0 && trailingMax > 0) {
@@ -870,31 +900,31 @@ function useListItem({
     const tx = translateX.value;
     if (tx < 0 && trailingMax > 0) {
       const snap = tx < -trailingMax / 2 || vel < -300;
-      translateX.value = withSpring4(snap ? -trailingMax : 0, snappySpring);
+      translateX.value = (0, import_react_native_reanimated6.withSpring)(snap ? -trailingMax : 0, snappySpring);
       isRevealedValue.value = snap;
     } else if (tx > 0 && leadingMax > 0) {
       const snap = tx > leadingMax / 2 || vel > 300;
-      translateX.value = withSpring4(snap ? leadingMax : 0, snappySpring);
+      translateX.value = (0, import_react_native_reanimated6.withSpring)(snap ? leadingMax : 0, snappySpring);
       isRevealedValue.value = snap;
     } else {
-      translateX.value = withSpring4(0, snappySpring);
+      translateX.value = (0, import_react_native_reanimated6.withSpring)(0, snappySpring);
       isRevealedValue.value = false;
     }
   });
-  const gesture = Gesture3.Simultaneous(
-    Gesture3.Race(panGesture, tapGesture),
+  const gesture = import_react_native_gesture_handler4.Gesture.Simultaneous(
+    import_react_native_gesture_handler4.Gesture.Race(panGesture, tapGesture),
     longPressGesture
   );
-  const itemAnimatedStyle = useAnimatedStyle4(() => ({
+  const itemAnimatedStyle = (0, import_react_native_reanimated6.useAnimatedStyle)(() => ({
     transform: [{ translateX: translateX.value }]
   }));
-  const trailingActionsStyle = useAnimatedStyle4(() => ({
+  const trailingActionsStyle = (0, import_react_native_reanimated6.useAnimatedStyle)(() => ({
     width: Math.abs(Math.min(translateX.value, 0)),
-    opacity: interpolate3(translateX.value, [-trailingMax, -20, 0], [1, 0.6, 0], Extrapolation3.CLAMP)
+    opacity: (0, import_react_native_reanimated6.interpolate)(translateX.value, [-trailingMax, -20, 0], [1, 0.6, 0], import_react_native_reanimated6.Extrapolation.CLAMP)
   }));
-  const leadingActionsStyle = useAnimatedStyle4(() => ({
+  const leadingActionsStyle = (0, import_react_native_reanimated6.useAnimatedStyle)(() => ({
     width: Math.max(translateX.value, 0),
-    opacity: interpolate3(translateX.value, [0, 20, leadingMax], [0, 0.6, 1], Extrapolation3.CLAMP)
+    opacity: (0, import_react_native_reanimated6.interpolate)(translateX.value, [0, 20, leadingMax], [0, 0.6, 1], import_react_native_reanimated6.Extrapolation.CLAMP)
   }));
   return {
     itemAnimatedStyle,
@@ -911,16 +941,16 @@ function useListItem({
 }
 
 // src/hooks/useRadioGroup.ts
-import { useCallback as useCallback10, useState as useState7 } from "react";
+var import_react12 = require("react");
 function useRadioGroup({
   defaultValue,
   value: controlledValue,
   onChange,
   disabled = false
 } = {}) {
-  const [internalValue, setInternalValue] = useState7(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react12.useState)(defaultValue);
   const selectedValue = controlledValue !== void 0 ? controlledValue : internalValue;
-  const select = useCallback10(
+  const select = (0, import_react12.useCallback)(
     (val) => {
       if (disabled) return;
       if (controlledValue === void 0) setInternalValue(val);
@@ -928,11 +958,11 @@ function useRadioGroup({
     },
     [disabled, controlledValue, onChange]
   );
-  const isSelected = useCallback10(
+  const isSelected = (0, import_react12.useCallback)(
     (val) => selectedValue === val,
     [selectedValue]
   );
-  const getItemProps = useCallback10(
+  const getItemProps = (0, import_react12.useCallback)(
     (val, itemDisabled = false) => ({
       onPress: () => !itemDisabled && !disabled && select(val),
       accessibilityRole: "radio",
@@ -947,15 +977,11 @@ function useRadioGroup({
 }
 
 // src/hooks/useSlider.ts
-import { useCallback as useCallback11, useRef as useRef4 } from "react";
-import {
-  useSharedValue as useSharedValue5,
-  useAnimatedStyle as useAnimatedStyle5,
-  withSpring as withSpring5
-} from "react-native-reanimated";
-import { scheduleOnRN as scheduleOnRN4 } from "react-native-worklets";
-import { Gesture as Gesture4 } from "react-native-gesture-handler";
-import { spring as spring5 } from "@truongdq01/tokens";
+var import_react13 = require("react");
+var import_react_native_reanimated7 = require("react-native-reanimated");
+var import_react_native_worklets4 = require("react-native-worklets");
+var import_react_native_gesture_handler5 = require("react-native-gesture-handler");
+var import_tokens6 = require("@truongdq01/tokens");
 function snapToStep(value, min, max, step) {
   const snapped = Math.round((value - min) / step) * step + min;
   return Math.max(min, Math.min(max, snapped));
@@ -970,21 +996,21 @@ function useSlider({
   onChangeEnd,
   disabled = false
 } = {}) {
-  const trackWidth = useSharedValue5(0);
-  const internalValue = useRef4(controlledValue ?? defaultValue);
+  const trackWidth = (0, import_react_native_reanimated7.useSharedValue)(0);
+  const internalValue = (0, import_react13.useRef)(controlledValue ?? defaultValue);
   const currentValue = controlledValue ?? internalValue.current;
   const percentage = (currentValue - min) / (max - min);
-  const thumbRatio = useSharedValue5(percentage);
-  const isDragging = useSharedValue5(false);
-  const dragStartRatio = useSharedValue5(0);
-  const thumbScale = useSharedValue5(1);
-  const onTrackLayout = useCallback11(
+  const thumbRatio = (0, import_react_native_reanimated7.useSharedValue)(percentage);
+  const isDragging = (0, import_react_native_reanimated7.useSharedValue)(false);
+  const dragStartRatio = (0, import_react_native_reanimated7.useSharedValue)(0);
+  const thumbScale = (0, import_react_native_reanimated7.useSharedValue)(1);
+  const onTrackLayout = (0, import_react13.useCallback)(
     (width) => {
       trackWidth.value = width;
     },
     [trackWidth]
   );
-  const emitChange = useCallback11(
+  const emitChange = (0, import_react13.useCallback)(
     (ratio) => {
       const raw = ratio * (max - min) + min;
       const snapped = snapToStep(raw, min, max, step);
@@ -993,7 +1019,7 @@ function useSlider({
     },
     [min, max, step, onChange]
   );
-  const emitChangeEnd = useCallback11(
+  const emitChangeEnd = (0, import_react13.useCallback)(
     (ratio) => {
       const raw = ratio * (max - min) + min;
       const snapped = snapToStep(raw, min, max, step);
@@ -1001,12 +1027,12 @@ function useSlider({
     },
     [min, max, step, onChangeEnd]
   );
-  const snappySpringConfig = spring5.snappy;
-  const lastEmittedValue = useSharedValue5(currentValue);
-  const panGesture = Gesture4.Pan().enabled(!disabled).onStart(() => {
+  const snappySpringConfig = import_tokens6.spring.snappy;
+  const lastEmittedValue = (0, import_react_native_reanimated7.useSharedValue)(currentValue);
+  const panGesture = import_react_native_gesture_handler5.Gesture.Pan().enabled(!disabled).onStart(() => {
     "worklet";
     isDragging.value = true;
-    thumbScale.value = withSpring5(1.2, snappySpringConfig);
+    thumbScale.value = (0, import_react_native_reanimated7.withSpring)(1.2, snappySpringConfig);
     dragStartRatio.value = thumbRatio.value;
   }).onUpdate((e) => {
     "worklet";
@@ -1019,20 +1045,20 @@ function useSlider({
     const finalSnapped = Math.max(min, Math.min(max, snapped));
     if (finalSnapped !== lastEmittedValue.value) {
       lastEmittedValue.value = finalSnapped;
-      scheduleOnRN4(emitChange, next);
+      (0, import_react_native_worklets4.scheduleOnRN)(emitChange, next);
     }
   }).onEnd(() => {
     "worklet";
     isDragging.value = false;
-    thumbScale.value = withSpring5(1, snappySpringConfig);
+    thumbScale.value = (0, import_react_native_reanimated7.withSpring)(1, snappySpringConfig);
     const raw = thumbRatio.value * (max - min) + min;
     const snapped = Math.round((raw - min) / step) * step + min;
     const finalSnapped = Math.max(min, Math.min(max, snapped));
     const targetRatio = (finalSnapped - min) / (max - min);
-    thumbRatio.value = withSpring5(targetRatio, snappySpringConfig);
-    scheduleOnRN4(emitChangeEnd, targetRatio);
+    thumbRatio.value = (0, import_react_native_reanimated7.withSpring)(targetRatio, snappySpringConfig);
+    (0, import_react_native_worklets4.scheduleOnRN)(emitChangeEnd, targetRatio);
   });
-  const thumbAnimatedStyle = useAnimatedStyle5(() => {
+  const thumbAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
     const width = trackWidth.value;
     const ratio = thumbRatio.value;
     const scale = thumbScale.value;
@@ -1043,13 +1069,13 @@ function useSlider({
       ]
     };
   });
-  const fillAnimatedStyle = useAnimatedStyle5(() => {
+  const fillAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
     const ratio = thumbRatio.value;
     return {
       width: `${ratio * 100}%`
     };
   });
-  const trackAnimatedStyle = useAnimatedStyle5(() => ({
+  const trackAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => ({
     opacity: disabled ? 0.4 : 1
   }));
   return {
@@ -1093,26 +1119,26 @@ function useIconStyle(context) {
 }
 
 // src/hooks/useTabs.ts
-import { useCallback as useCallback12, useState as useState8 } from "react";
+var import_react14 = require("react");
 function useTabs({
   defaultValue,
   value: controlledValue,
   onChange
 } = {}) {
-  const [internalValue, setInternalValue] = useState8(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react14.useState)(defaultValue);
   const value = controlledValue !== void 0 ? controlledValue : internalValue;
-  const setValue = useCallback12(
+  const setValue = (0, import_react14.useCallback)(
     (next) => {
       if (controlledValue === void 0) setInternalValue(next);
       onChange?.(next);
     },
     [controlledValue, onChange]
   );
-  const isSelected = useCallback12(
+  const isSelected = (0, import_react14.useCallback)(
     (v) => value === v,
     [value]
   );
-  const getTabProps = useCallback12(
+  const getTabProps = (0, import_react14.useCallback)(
     (v, disabled = false) => ({
       onPress: () => {
         if (disabled) return;
@@ -1127,7 +1153,7 @@ function useTabs({
 }
 
 // src/hooks/useToggleGroup.ts
-import { useCallback as useCallback13, useState as useState9 } from "react";
+var import_react15 = require("react");
 function useToggleGroup({
   value: controlledValue,
   defaultValue,
@@ -1135,16 +1161,16 @@ function useToggleGroup({
   exclusive = false,
   disabled = false
 } = {}) {
-  const [internalValue, setInternalValue] = useState9(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react15.useState)(defaultValue);
   const value = controlledValue !== void 0 ? controlledValue : internalValue;
-  const isSelected = useCallback13(
+  const isSelected = (0, import_react15.useCallback)(
     (v) => {
       if (Array.isArray(value)) return value.includes(v);
       return value === v;
     },
     [value]
   );
-  const toggle = useCallback13(
+  const toggle = (0, import_react15.useCallback)(
     (v) => {
       if (disabled) return;
       let next;
@@ -1163,7 +1189,7 @@ function useToggleGroup({
 }
 
 // src/hooks/useRating.ts
-import { useCallback as useCallback14, useState as useState10 } from "react";
+var import_react16 = require("react");
 function useRating({
   value: controlledValue,
   defaultValue = 0,
@@ -1173,9 +1199,9 @@ function useRating({
   readOnly = false,
   onChange
 } = {}) {
-  const [internalValue, setInternalValue] = useState10(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react16.useState)(defaultValue);
   const value = controlledValue !== void 0 ? controlledValue : internalValue;
-  const setValue = useCallback14(
+  const setValue = (0, import_react16.useCallback)(
     (next) => {
       if (disabled || readOnly) return;
       if (controlledValue === void 0) setInternalValue(next);
@@ -1187,7 +1213,7 @@ function useRating({
 }
 
 // src/hooks/usePagination.ts
-import { useCallback as useCallback15, useMemo as useMemo3, useState as useState11 } from "react";
+var import_react17 = require("react");
 function range(start, end) {
   const arr = [];
   for (let i = start; i <= end; i++) arr.push(i);
@@ -1201,9 +1227,9 @@ function usePagination({
   boundaryCount = 1,
   onChange
 }) {
-  const [internalPage, setInternalPage] = useState11(defaultPage);
+  const [internalPage, setInternalPage] = (0, import_react17.useState)(defaultPage);
   const page = controlledPage ?? internalPage;
-  const setPage = useCallback15(
+  const setPage = (0, import_react17.useCallback)(
     (next) => {
       const clamped = Math.max(1, Math.min(count, next));
       if (controlledPage === void 0) setInternalPage(clamped);
@@ -1211,7 +1237,7 @@ function usePagination({
     },
     [count, controlledPage, onChange]
   );
-  const items = useMemo3(() => {
+  const items = (0, import_react17.useMemo)(() => {
     if (count <= 0) return [];
     const startPages = range(1, Math.min(boundaryCount, count));
     const endPages = range(Math.max(count - boundaryCount + 1, boundaryCount + 1), count);
@@ -1246,7 +1272,7 @@ function usePagination({
 }
 
 // src/hooks/useAutocomplete.ts
-import { useCallback as useCallback16, useMemo as useMemo4, useState as useState12 } from "react";
+var import_react18 = require("react");
 function useAutocomplete({
   options,
   value: controlledValue,
@@ -1262,8 +1288,8 @@ function useAutocomplete({
   onOpen,
   onClose
 }) {
-  const [internalValue, setInternalValue] = useState12(defaultValue);
-  const [internalInput, setInternalInput] = useState12(defaultInputValue);
+  const [internalValue, setInternalValue] = (0, import_react18.useState)(defaultValue);
+  const [internalInput, setInternalInput] = (0, import_react18.useState)(defaultInputValue);
   const disclosure = useDisclosure({
     isOpen: controlledOpen,
     onOpen,
@@ -1271,21 +1297,21 @@ function useAutocomplete({
   });
   const value = controlledValue !== void 0 ? controlledValue : internalValue;
   const inputValue = controlledInput !== void 0 ? controlledInput : internalInput;
-  const setInputValue = useCallback16(
+  const setInputValue = (0, import_react18.useCallback)(
     (next) => {
       if (controlledInput === void 0) setInternalInput(next);
       onInputChange?.(next);
     },
     [controlledInput, onInputChange]
   );
-  const isSelected = useCallback16(
+  const isSelected = (0, import_react18.useCallback)(
     (v) => {
       if (Array.isArray(value)) return value.includes(v);
       return value === v;
     },
     [value]
   );
-  const selectOption = useCallback16(
+  const selectOption = (0, import_react18.useCallback)(
     (v) => {
       let next;
       if (multiple) {
@@ -1304,12 +1330,12 @@ function useAutocomplete({
     },
     [multiple, value, controlledValue, onChange, disclosure, getOptionLabel, setInputValue]
   );
-  const clear = useCallback16(() => {
+  const clear = (0, import_react18.useCallback)(() => {
     if (controlledValue === void 0) setInternalValue(multiple ? [] : void 0);
     onChange?.(multiple ? [] : void 0);
     setInputValue("");
   }, [controlledValue, multiple, onChange, setInputValue]);
-  const filteredOptions = useMemo4(() => {
+  const filteredOptions = (0, import_react18.useMemo)(() => {
     const base = filterOptions ? filterOptions(options, inputValue) : options;
     if (!inputValue) return base;
     const labelOf = getOptionLabel ?? ((o) => String(o));
@@ -1330,7 +1356,7 @@ function useAutocomplete({
 }
 
 // src/hooks/useAccordion.ts
-import { useState as useState13, useCallback as useCallback17 } from "react";
+var import_react19 = require("react");
 function useAccordion(options = {}) {
   const {
     defaultExpanded = [],
@@ -1338,36 +1364,36 @@ function useAccordion(options = {}) {
     onChange,
     multiple = false
   } = options;
-  const [internalExpanded, setInternalExpanded] = useState13(defaultExpanded);
+  const [internalExpanded, setInternalExpanded] = (0, import_react19.useState)(defaultExpanded);
   const isControlled = controlledExpanded !== void 0;
   const expanded = isControlled ? controlledExpanded : internalExpanded;
-  const setExpanded = useCallback17((next) => {
+  const setExpanded = (0, import_react19.useCallback)((next) => {
     if (!isControlled) setInternalExpanded(next);
     onChange?.(next);
   }, [isControlled, onChange]);
-  const isExpanded = useCallback17((id) => expanded.includes(id), [expanded]);
-  const toggle = useCallback17((id) => {
+  const isExpanded = (0, import_react19.useCallback)((id) => expanded.includes(id), [expanded]);
+  const toggle = (0, import_react19.useCallback)((id) => {
     if (isExpanded(id)) {
       setExpanded(expanded.filter((e) => e !== id));
     } else {
       setExpanded(multiple ? [...expanded, id] : [id]);
     }
   }, [expanded, isExpanded, multiple, setExpanded]);
-  const expand = useCallback17((id) => {
+  const expand = (0, import_react19.useCallback)((id) => {
     if (!isExpanded(id)) setExpanded(multiple ? [...expanded, id] : [id]);
   }, [expanded, isExpanded, multiple, setExpanded]);
-  const collapse = useCallback17((id) => {
+  const collapse = (0, import_react19.useCallback)((id) => {
     setExpanded(expanded.filter((e) => e !== id));
   }, [expanded, setExpanded]);
-  const expandAll = useCallback17((ids) => {
+  const expandAll = (0, import_react19.useCallback)((ids) => {
     if (multiple) setExpanded(ids);
   }, [multiple, setExpanded]);
-  const collapseAll = useCallback17(() => setExpanded([]), [setExpanded]);
+  const collapseAll = (0, import_react19.useCallback)(() => setExpanded([]), [setExpanded]);
   return { expanded, isExpanded, toggle, expand, collapse, expandAll, collapseAll };
 }
 
 // src/hooks/useModal.ts
-import { useState as useState14, useCallback as useCallback18 } from "react";
+var import_react20 = require("react");
 function useModal(options = {}) {
   const {
     defaultOpen = false,
@@ -1376,17 +1402,17 @@ function useModal(options = {}) {
     onClose,
     closeOnBackdrop = true
   } = options;
-  const [internalOpen, setInternalOpen] = useState14(defaultOpen);
+  const [internalOpen, setInternalOpen] = (0, import_react20.useState)(defaultOpen);
   const isControlled = controlledOpen !== void 0;
   const isOpen = isControlled ? controlledOpen : internalOpen;
-  const setOpen = useCallback18((next) => {
+  const setOpen = (0, import_react20.useCallback)((next) => {
     if (!isControlled) setInternalOpen(next);
     if (next) onOpen?.();
     else onClose?.();
   }, [isControlled, onOpen, onClose]);
-  const open = useCallback18(() => setOpen(true), [setOpen]);
-  const close = useCallback18(() => setOpen(false), [setOpen]);
-  const toggle = useCallback18(() => setOpen(!isOpen), [isOpen, setOpen]);
+  const open = (0, import_react20.useCallback)(() => setOpen(true), [setOpen]);
+  const close = (0, import_react20.useCallback)(() => setOpen(false), [setOpen]);
+  const toggle = (0, import_react20.useCallback)(() => setOpen(!isOpen), [isOpen, setOpen]);
   return {
     isOpen,
     open,
@@ -1408,7 +1434,7 @@ function useModal(options = {}) {
 }
 
 // src/hooks/useDrawer.ts
-import { useState as useState15, useCallback as useCallback19 } from "react";
+var import_react21 = require("react");
 function useDrawer(options = {}) {
   const {
     defaultOpen = false,
@@ -1418,17 +1444,17 @@ function useDrawer(options = {}) {
     side = "left",
     closeOnBackdrop = true
   } = options;
-  const [internalOpen, setInternalOpen] = useState15(defaultOpen);
+  const [internalOpen, setInternalOpen] = (0, import_react21.useState)(defaultOpen);
   const isControlled = controlledOpen !== void 0;
   const isOpen = isControlled ? controlledOpen : internalOpen;
-  const setOpen = useCallback19((next) => {
+  const setOpen = (0, import_react21.useCallback)((next) => {
     if (!isControlled) setInternalOpen(next);
     if (next) onOpen?.();
     else onClose?.();
   }, [isControlled, onOpen, onClose]);
-  const open = useCallback19(() => setOpen(true), [setOpen]);
-  const close = useCallback19(() => setOpen(false), [setOpen]);
-  const toggle = useCallback19(() => setOpen(!isOpen), [isOpen, setOpen]);
+  const open = (0, import_react21.useCallback)(() => setOpen(true), [setOpen]);
+  const close = (0, import_react21.useCallback)(() => setOpen(false), [setOpen]);
+  const toggle = (0, import_react21.useCallback)(() => setOpen(!isOpen), [isOpen, setOpen]);
   return {
     isOpen,
     side,
@@ -1450,15 +1476,15 @@ function useDrawer(options = {}) {
 }
 
 // src/hooks/useStepper.ts
-import { useState as useState16, useCallback as useCallback20 } from "react";
+var import_react22 = require("react");
 function useStepper(options) {
   const { steps, initialStep = 0, onChange, onComplete, linear = true } = options;
-  const [currentStep, setCurrentStep] = useState16(initialStep);
-  const [completedSteps, setCompletedSteps] = useState16(/* @__PURE__ */ new Set());
+  const [currentStep, setCurrentStep] = (0, import_react22.useState)(initialStep);
+  const [completedSteps, setCompletedSteps] = (0, import_react22.useState)(/* @__PURE__ */ new Set());
   const totalSteps = steps.length;
   const isFirst = currentStep === 0;
   const isLast = currentStep === totalSteps - 1;
-  const next = useCallback20(async () => {
+  const next = (0, import_react22.useCallback)(async () => {
     const step = steps[currentStep];
     if (step.validate) {
       const valid = await step.validate();
@@ -1472,28 +1498,28 @@ function useStepper(options) {
     }
     return true;
   }, [currentStep, isLast, steps, onChange]);
-  const prev = useCallback20(() => {
+  const prev = (0, import_react22.useCallback)(() => {
     if (!isFirst) {
       const prev2 = currentStep - 1;
       setCurrentStep(prev2);
       onChange?.(prev2);
     }
   }, [currentStep, isFirst, onChange]);
-  const goTo = useCallback20((index) => {
+  const goTo = (0, import_react22.useCallback)((index) => {
     if (index < 0 || index >= totalSteps) return;
     if (linear && index > currentStep && !completedSteps.has(index - 1)) return;
     setCurrentStep(index);
     onChange?.(index);
   }, [totalSteps, linear, currentStep, completedSteps, onChange]);
-  const complete = useCallback20(() => {
+  const complete = (0, import_react22.useCallback)(() => {
     setCompletedSteps((prev2) => /* @__PURE__ */ new Set([...prev2, currentStep]));
     onComplete?.();
   }, [currentStep, onComplete]);
-  const reset = useCallback20(() => {
+  const reset = (0, import_react22.useCallback)(() => {
     setCurrentStep(initialStep);
     setCompletedSteps(/* @__PURE__ */ new Set());
   }, [initialStep]);
-  const getStepProps = useCallback20((index) => ({
+  const getStepProps = (0, import_react22.useCallback)((index) => ({
     active: index === currentStep,
     completed: completedSteps.has(index),
     accessible: true,
@@ -1505,10 +1531,10 @@ function useStepper(options) {
 }
 
 // src/hooks/useCarousel.ts
-import { useRef as useRef6, useMemo as useMemo5, useCallback as useCallback21, useEffect as useEffect2 } from "react";
-import { Dimensions as Dimensions2 } from "react-native";
-import { useSharedValue as useSharedValue6 } from "react-native-reanimated";
-var { width: SCREEN_WIDTH } = Dimensions2.get("window");
+var import_react23 = require("react");
+var import_react_native5 = require("react-native");
+var import_react_native_reanimated8 = require("react-native-reanimated");
+var { width: SCREEN_WIDTH } = import_react_native5.Dimensions.get("window");
 function useCarousel({
   data,
   itemWidth = SCREEN_WIDTH,
@@ -1517,20 +1543,20 @@ function useCarousel({
   autoPlay = false,
   autoPlayInterval = 3e3
 }) {
-  const scrollX = useSharedValue6(0);
-  const scrollViewRef = useRef6(null);
-  const isJumping = useRef6(false);
-  const autoPlayTimer = useRef6(null);
+  const scrollX = (0, import_react_native_reanimated8.useSharedValue)(0);
+  const scrollViewRef = (0, import_react23.useRef)(null);
+  const isJumping = (0, import_react23.useRef)(false);
+  const autoPlayTimer = (0, import_react23.useRef)(null);
   const n = data.length;
   const itemStep = itemWidth + gap;
-  const displayData = useMemo5(() => {
+  const displayData = (0, import_react23.useMemo)(() => {
     if (!loop || n < 2) return data;
     return [data[n - 1], ...data, data[0]];
   }, [data, loop, n]);
-  const snapToOffsets = useMemo5(() => {
+  const snapToOffsets = (0, import_react23.useMemo)(() => {
     return displayData.map((_, i) => i * itemStep);
   }, [displayData, itemStep]);
-  useEffect2(() => {
+  (0, import_react23.useEffect)(() => {
     if (loop && n >= 2) {
       requestAnimationFrame(() => {
         scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
@@ -1538,7 +1564,7 @@ function useCarousel({
       });
     }
   }, []);
-  const goToNextSlide = useCallback21(() => {
+  const goToNextSlide = (0, import_react23.useCallback)(() => {
     if (!loop || n < 2) {
       const currentIndex = Math.round(scrollX.value / itemStep);
       const nextIndex = currentIndex >= n - 1 ? 0 : currentIndex + 1;
@@ -1551,12 +1577,12 @@ function useCarousel({
       }
     }
   }, [loop, n, itemStep, scrollX, displayData.length]);
-  const goToPreviousSlide = useCallback21(() => {
+  const goToPreviousSlide = (0, import_react23.useCallback)(() => {
     const currentIndex = Math.round(scrollX.value / itemStep);
     const prevIndex = currentIndex <= 0 ? loop ? 0 : n - 1 : currentIndex - 1;
     scrollViewRef.current?.scrollTo({ x: prevIndex * itemStep, animated: true });
   }, [loop, n, itemStep, scrollX]);
-  const startTimer = useCallback21(() => {
+  const startTimer = (0, import_react23.useCallback)(() => {
     if (autoPlayTimer.current) clearInterval(autoPlayTimer.current);
     autoPlayTimer.current = setInterval(() => {
       requestAnimationFrame(() => {
@@ -1564,13 +1590,13 @@ function useCarousel({
       });
     }, autoPlayInterval);
   }, [autoPlayInterval, goToNextSlide]);
-  const stopTimer = useCallback21(() => {
+  const stopTimer = (0, import_react23.useCallback)(() => {
     if (autoPlayTimer.current) {
       clearInterval(autoPlayTimer.current);
       autoPlayTimer.current = null;
     }
   }, []);
-  useEffect2(() => {
+  (0, import_react23.useEffect)(() => {
     if (autoPlay) {
       startTimer();
     } else {
@@ -1578,13 +1604,13 @@ function useCarousel({
     }
     return stopTimer;
   }, [autoPlay, startTimer, stopTimer]);
-  const onScroll = useCallback21((e) => {
+  const onScroll = (0, import_react23.useCallback)((e) => {
     scrollX.value = e.nativeEvent.contentOffset.x;
     if (autoPlay) {
       startTimer();
     }
   }, [autoPlay, startTimer, scrollX]);
-  const onMomentumScrollEnd = useCallback21((e) => {
+  const onMomentumScrollEnd = (0, import_react23.useCallback)((e) => {
     if (!loop || n < 2 || isJumping.current) return;
     const x = Math.round(e.nativeEvent.contentOffset.x);
     const lastCloneX = (displayData.length - 1) * itemStep;
@@ -1619,7 +1645,7 @@ function useCarousel({
 }
 
 // src/hooks/useOTPInput.ts
-import { useState as useState17, useCallback as useCallback22, useRef as useRef7 } from "react";
+var import_react24 = require("react");
 function useOTPInput({
   length,
   value,
@@ -1627,14 +1653,14 @@ function useOTPInput({
   onComplete,
   disabled = false
 }) {
-  const [isFocused, setIsFocused] = useState17(false);
-  const inputRef = useRef7(null);
-  const handlePress = useCallback22(() => {
+  const [isFocused, setIsFocused] = (0, import_react24.useState)(false);
+  const inputRef = (0, import_react24.useRef)(null);
+  const handlePress = (0, import_react24.useCallback)(() => {
     if (!disabled) {
       inputRef.current?.focus();
     }
   }, [disabled]);
-  const handleChange = useCallback22((text) => {
+  const handleChange = (0, import_react24.useCallback)((text) => {
     const numericVal = text.replace(/[^0-9]/g, "").slice(0, length);
     onChange(numericVal);
     if (numericVal.length === length && onComplete) {
@@ -1663,18 +1689,18 @@ function useOTPInput({
 }
 
 // src/hooks/useSegmentedControl.ts
-import { useState as useState18, useCallback as useCallback23 } from "react";
+var import_react25 = require("react");
 function useSegmentedControl({
   value: controlledValue,
   defaultValue,
   onChange,
   disabled = false
 }) {
-  const [internalValue, setInternalValue] = useState18(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react25.useState)(defaultValue);
   const isControlled = controlledValue !== void 0;
   const value = isControlled ? controlledValue : internalValue;
-  const isSelected = useCallback23((val) => value === val, [value]);
-  const selectValue = useCallback23((val) => {
+  const isSelected = (0, import_react25.useCallback)((val) => value === val, [value]);
+  const selectValue = (0, import_react25.useCallback)((val) => {
     if (disabled) return;
     if (!isControlled) setInternalValue(val);
     onChange?.(val);
@@ -1692,18 +1718,18 @@ function useSegmentedControl({
 }
 
 // src/hooks/useTable.ts
-import { useState as useState19, useCallback as useCallback24, useMemo as useMemo6 } from "react";
+var import_react26 = require("react");
 function useTable({
   data,
   rowsPerPage: initialRowsPerPage = 10,
   initialPage = 0,
   initialSort = null
 }) {
-  const [page, setPage] = useState19(initialPage);
-  const [rowsPerPage, setRowsPerPage] = useState19(initialRowsPerPage);
-  const [sort, setSort] = useState19(initialSort);
-  const [selected, setSelected] = useState19(/* @__PURE__ */ new Set());
-  const processedData = useMemo6(() => {
+  const [page, setPage] = (0, import_react26.useState)(initialPage);
+  const [rowsPerPage, setRowsPerPage] = (0, import_react26.useState)(initialRowsPerPage);
+  const [sort, setSort] = (0, import_react26.useState)(initialSort);
+  const [selected, setSelected] = (0, import_react26.useState)(/* @__PURE__ */ new Set());
+  const processedData = (0, import_react26.useMemo)(() => {
     if (!sort) return data;
     const { key, direction } = sort;
     return [...data].sort((a, b) => {
@@ -1713,11 +1739,11 @@ function useTable({
     });
   }, [data, sort]);
   const totalPages = Math.ceil(processedData.length / rowsPerPage);
-  const paginatedData = useMemo6(() => {
+  const paginatedData = (0, import_react26.useMemo)(() => {
     const start = page * rowsPerPage;
     return processedData.slice(start, start + rowsPerPage);
   }, [processedData, page, rowsPerPage]);
-  const handleSort = useCallback24((key) => {
+  const handleSort = (0, import_react26.useCallback)((key) => {
     setSort((prev) => {
       if (prev?.key === key) {
         return { key, direction: prev.direction === "asc" ? "desc" : "asc" };
@@ -1725,7 +1751,7 @@ function useTable({
       return { key, direction: "asc" };
     });
   }, []);
-  const toggleSelect = useCallback24((id) => {
+  const toggleSelect = (0, import_react26.useCallback)((id) => {
     setSelected((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -1733,13 +1759,13 @@ function useTable({
       return next;
     });
   }, []);
-  const toggleSelectAll = useCallback24((ids) => {
+  const toggleSelectAll = (0, import_react26.useCallback)((ids) => {
     setSelected((prev) => {
       if (prev.size === ids.length) return /* @__PURE__ */ new Set();
       return new Set(ids);
     });
   }, []);
-  const isSelected = useCallback24((id) => selected.has(id), [selected]);
+  const isSelected = (0, import_react26.useCallback)((id) => selected.has(id), [selected]);
   return {
     page,
     rowsPerPage,
@@ -1758,13 +1784,13 @@ function useTable({
 }
 
 // src/hooks/useAlert.ts
-import { useState as useState20, useCallback as useCallback25 } from "react";
+var import_react27 = require("react");
 function useAlert({
   defaultOpen = true,
   onClose
 } = {}) {
-  const [isOpen, setIsOpen] = useState20(defaultOpen);
-  const close = useCallback25(() => {
+  const [isOpen, setIsOpen] = (0, import_react27.useState)(defaultOpen);
+  const close = (0, import_react27.useCallback)(() => {
     setIsOpen(false);
     onClose?.();
   }, [onClose]);
@@ -1784,17 +1810,17 @@ function useAlert({
 }
 
 // src/hooks/useBottomNavigation.ts
-import { useState as useState21, useCallback as useCallback26 } from "react";
+var import_react28 = require("react");
 function useBottomNavigation({
   value: controlledValue,
   defaultValue,
   onChange
 }) {
-  const [internalValue, setInternalValue] = useState21(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react28.useState)(defaultValue);
   const isControlled = controlledValue !== void 0;
   const value = isControlled ? controlledValue : internalValue;
-  const isSelected = useCallback26((val) => value === val, [value]);
-  const selectValue = useCallback26((val) => {
+  const isSelected = (0, import_react28.useCallback)((val) => value === val, [value]);
+  const selectValue = (0, import_react28.useCallback)((val) => {
     if (!isControlled) setInternalValue(val);
     onChange?.(val);
   }, [isControlled, onChange]);
@@ -1811,21 +1837,21 @@ function useBottomNavigation({
 }
 
 // src/hooks/useMenu.ts
-import { useState as useState22, useCallback as useCallback27 } from "react";
+var import_react29 = require("react");
 function useMenu({
   onClose,
   onOpen
 } = {}) {
-  const [isOpen, setIsOpen] = useState22(false);
-  const open = useCallback27(() => {
+  const [isOpen, setIsOpen] = (0, import_react29.useState)(false);
+  const open = (0, import_react29.useCallback)(() => {
     setIsOpen(true);
     onOpen?.();
   }, [onOpen]);
-  const close = useCallback27(() => {
+  const close = (0, import_react29.useCallback)(() => {
     setIsOpen(false);
     onClose?.();
   }, [onClose]);
-  const toggle = useCallback27(() => {
+  const toggle = (0, import_react29.useCallback)(() => {
     if (isOpen) close();
     else open();
   }, [isOpen, open, close]);
@@ -1851,7 +1877,8 @@ function useMenu({
     })
   };
 }
-export {
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
   ThemeProvider,
   createTheme,
   dismissAllToasts,
@@ -1898,5 +1925,5 @@ export {
   useToast,
   useToggleGroup,
   useTokens
-};
+});
 //# sourceMappingURL=index.js.map
