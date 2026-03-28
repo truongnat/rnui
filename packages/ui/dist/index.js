@@ -241,8 +241,8 @@ function IconWrapper({ children, size, color }) {
   const tokens = (0, import_headless.useTokens)();
   if (!import_react.default.isValidElement(children)) return null;
   return import_react.default.cloneElement(children, {
-    color: children.props?.color ?? color ?? tokens.color.text.primary,
-    size: children.props?.size ?? size
+    color: children.props.color ?? color ?? tokens.color.text.primary,
+    size: children.props.size ?? size
   });
 }
 
@@ -545,8 +545,8 @@ function Input({
     if (!icon) return null;
     if (import_react6.default.isValidElement(icon)) {
       return import_react6.default.cloneElement(icon, {
-        size: icon.props?.size ?? (size === "sm" ? tokens.fontSize.md : iconSize),
-        color: icon.props?.color ?? iconColor
+        size: icon.props.size ?? (size === "sm" ? tokens.fontSize.md : iconSize),
+        color: icon.props.color ?? iconColor
       });
     }
     return icon;
@@ -940,8 +940,8 @@ var Badge = import_react9.default.memo(({ label, variant = "default", size = "md
     if (!el) return null;
     if (import_react9.default.isValidElement(el)) {
       return import_react9.default.cloneElement(el, {
-        size: el.props?.size ?? iconSize * 0.8,
-        color: el.props?.color ?? iconColor
+        size: el.props.size ?? iconSize * 0.8,
+        color: el.props.color ?? iconColor
       });
     }
     return el;
@@ -1275,8 +1275,8 @@ var Button = import_react14.default.memo(({
     if (!icon) return null;
     if (import_react14.default.isValidElement(icon)) {
       return import_react14.default.cloneElement(icon, {
-        size: icon.props?.size ?? iconSize,
-        color: icon.props?.color ?? iconColor
+        size: icon.props.size ?? iconSize,
+        color: icon.props.color ?? iconColor
       });
     }
     return icon;
@@ -1336,7 +1336,6 @@ function ButtonGroup({
     },
     items.map((child, i) => {
       if (!import_react15.default.isValidElement(child)) return child;
-      const element = child;
       const isFirst = i === 0;
       const isLast = i === items.length - 1;
       const borderStyle = isRow ? {
@@ -1347,16 +1346,16 @@ function ButtonGroup({
         borderBottomColor: buttonGroup.divider.backgroundColor
       };
       const radiusStyle = isFirst ? isRow ? { borderTopLeftRadius: buttonGroup.container.borderRadius, borderBottomLeftRadius: buttonGroup.container.borderRadius } : { borderTopLeftRadius: buttonGroup.container.borderRadius, borderTopRightRadius: buttonGroup.container.borderRadius } : isLast ? isRow ? { borderTopRightRadius: buttonGroup.container.borderRadius, borderBottomRightRadius: buttonGroup.container.borderRadius } : { borderBottomLeftRadius: buttonGroup.container.borderRadius, borderBottomRightRadius: buttonGroup.container.borderRadius } : { borderRadius: 0 };
-      return import_react15.default.cloneElement(element, {
+      return import_react15.default.cloneElement(child, {
         variant,
         size,
-        disabled: disabled || element.props?.disabled,
-        fullWidth: fullWidth || element.props?.fullWidth,
+        disabled: disabled || child.props?.disabled,
+        fullWidth: fullWidth || child.props?.fullWidth,
         style: [
           { borderRadius: 0, borderWidth: 0 },
           borderStyle,
           radiusStyle,
-          element.props?.style
+          child.props?.style
         ].filter(Boolean)
       });
     })
@@ -1637,8 +1636,8 @@ function Chip({
     if (!node) return null;
     if (import_react19.default.isValidElement(node)) {
       return import_react19.default.cloneElement(node, {
-        size: node.props?.size ?? (size === "sm" ? 14 : 16),
-        color: node.props?.color ?? iconColor
+        size: node.props.size ?? (size === "sm" ? 14 : 16),
+        color: node.props.color ?? iconColor
       });
     }
     return node;
@@ -1816,8 +1815,8 @@ function DatePicker({
     if (!node) return null;
     if (import_react21.default.isValidElement(node)) {
       return import_react21.default.cloneElement(node, {
-        size: node.props?.size ?? iconSize,
-        color: node.props?.color ?? iconColor
+        size: node.props.size ?? iconSize,
+        color: node.props.color ?? iconColor
       });
     }
     return node;
@@ -2066,8 +2065,8 @@ function EmptyState({ title, description, icon, action }) {
   const { emptyState } = (0, import_headless25.useComponentTokens)();
   const tokens = (0, import_headless25.useTokens)();
   return /* @__PURE__ */ import_react25.default.createElement(import_react_native25.View, { style: emptyState.container }, icon && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.View, { style: { marginBottom: tokens.spacing[2] } }, import_react25.default.isValidElement(icon) ? import_react25.default.cloneElement(icon, {
-    size: icon.props?.size ?? emptyState.icon.size,
-    color: icon.props?.color ?? emptyState.icon.color
+    size: icon.props.size ?? emptyState.icon.size,
+    color: icon.props.color ?? emptyState.icon.color
   }) : icon), title && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.Text, { style: emptyState.title }, title), description && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.Text, { style: emptyState.description }, description), action && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.View, { style: { marginTop: tokens.spacing[4] } }, action));
 }
 
@@ -3991,8 +3990,7 @@ function Stepper({ activeStep = 0, orientation = "horizontal", children }) {
   const items = import_react53.default.Children.toArray(children);
   return /* @__PURE__ */ import_react53.default.createElement(import_react_native52.View, { style: [stepper.container, { flexDirection: orientation === "horizontal" ? "row" : "column" }] }, items.map((child) => {
     if (!import_react53.default.isValidElement(child)) return child;
-    const element = child;
-    return import_react53.default.cloneElement(element, { activeStep, orientation });
+    return import_react53.default.cloneElement(child, { activeStep, orientation });
   }));
 }
 function Step({ index, label, children, activeStep = 0, orientation = "horizontal" }) {
@@ -4489,13 +4487,12 @@ function Timeline({ position = "right", itemVariant = "filled", children }) {
   const { timeline } = (0, import_headless59.useComponentTokens)();
   return /* @__PURE__ */ import_react59.default.createElement(TimelineContext.Provider, { value: { position, itemVariant } }, /* @__PURE__ */ import_react59.default.createElement(import_react_native58.View, { style: timeline.content }, import_react59.default.Children.map(children, (child, index) => {
     if (!import_react59.default.isValidElement(child)) return child;
-    const element = child;
     if (position === "alternate" || position === "alternate-reverse") {
       const isEven = index % 2 === 0;
       const derived = position === "alternate" ? isEven ? "right" : "left" : isEven ? "left" : "right";
-      return import_react59.default.cloneElement(element, { position: element.props?.position ?? derived, variant: itemVariant });
+      return import_react59.default.cloneElement(child, { position: child.props.position ?? derived, variant: itemVariant });
     }
-    return import_react59.default.cloneElement(element, { variant: itemVariant });
+    return import_react59.default.cloneElement(child, { variant: itemVariant });
   })));
 }
 function TimelineItem({ position, variant = "filled", status = "pending", children }) {
@@ -4620,8 +4617,8 @@ function ToastItem({ item, position, onDismiss }) {
       ]
     },
     item.icon ? /* @__PURE__ */ import_react60.default.createElement(import_react_native59.View, { style: { width: 20, height: 20, alignItems: "center", justifyContent: "center" } }, import_react60.default.isValidElement(item.icon) ? import_react60.default.cloneElement(item.icon, {
-      size: item.icon.props?.size ?? 20,
-      color: item.icon.props?.color ?? "#FFFFFF"
+      size: item.icon.props.size ?? 20,
+      color: item.icon.props.color ?? "#FFFFFF"
     }) : item.icon) : item.variant !== "default" && /* @__PURE__ */ import_react60.default.createElement(Icon, { size: 20, color: v.iconColor, name: "VARIANT_ICONS[item.variant]" }),
     /* @__PURE__ */ import_react60.default.createElement(import_react_native59.Text, { style: [toast.text, { flex: 1 }], numberOfLines: 3 }, item.message),
     item.action && /* @__PURE__ */ import_react60.default.createElement(

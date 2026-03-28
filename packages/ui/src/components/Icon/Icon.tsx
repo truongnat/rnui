@@ -179,9 +179,9 @@ export function Icon({ name, children, size, color, style }: IconProps) {
  */
 export function IconWrapper({ children, size, color }: { children: React.ReactNode; size?: number; color?: string }) {
   const tokens = useTokens();
-  if (!React.isValidElement(children)) return null;
+  if (!React.isValidElement<{ size?: number | string; color?: string }>(children)) return null;
   return React.cloneElement(children, {
-    color: (children.props as any)?.color ?? color ?? tokens.color.text.primary,
-    size: (children.props as any)?.size ?? size,
-  } as any);
+    color: children.props.color ?? color ?? tokens.color.text.primary,
+    size: children.props.size ?? size,
+  });
 }

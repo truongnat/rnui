@@ -26,14 +26,13 @@ export function Timeline({ position = "right", itemVariant = "filled", children 
   return (
     <TimelineContext.Provider value={{ position, itemVariant }}>
       <View style={timeline.content}>{React.Children.map(children, (child, index) => {
-        if (!React.isValidElement(child)) return child;
-        const element = child as React.ReactElement<any>;
+        if (!React.isValidElement<{ position?: string; variant?: string }>(child)) return child;
         if (position === "alternate" || position === "alternate-reverse") {
           const isEven = index % 2 === 0;
           const derived = position === "alternate" ? (isEven ? "right" : "left") : (isEven ? "left" : "right");
-          return React.cloneElement(element, { position: element.props?.position ?? derived, variant: itemVariant } as any);
+          return React.cloneElement(child, { position: child.props.position ?? derived, variant: itemVariant });
         }
-        return React.cloneElement(element, { variant: itemVariant } as any);
+        return React.cloneElement(child, { variant: itemVariant });
       })}</View>
     </TimelineContext.Provider>
   );
