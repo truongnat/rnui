@@ -161,8 +161,8 @@ function IconWrapper({ children, size, color }) {
   const tokens = useTokens();
   if (!React.isValidElement(children)) return null;
   return React.cloneElement(children, {
-    color: children.props?.color ?? color ?? tokens.color.text.primary,
-    size: children.props?.size ?? size
+    color: children.props.color ?? color ?? tokens.color.text.primary,
+    size: children.props.size ?? size
   });
 }
 
@@ -471,8 +471,8 @@ function Input({
     if (!icon) return null;
     if (React6.isValidElement(icon)) {
       return React6.cloneElement(icon, {
-        size: icon.props?.size ?? (size === "sm" ? tokens.fontSize.md : iconSize),
-        color: icon.props?.color ?? iconColor
+        size: icon.props.size ?? (size === "sm" ? tokens.fontSize.md : iconSize),
+        color: icon.props.color ?? iconColor
       });
     }
     return icon;
@@ -675,10 +675,15 @@ var TEXT_PALETTE = [
   "#633806",
   "#0C447C"
 ];
+var colorIndexCache = /* @__PURE__ */ new Map();
 function getColorIndex(str) {
+  const cached = colorIndexCache.get(str);
+  if (cached !== void 0) return cached;
   let hash = 0;
   for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  return Math.abs(hash) % BG_PALETTE.length;
+  const result = Math.abs(hash) % BG_PALETTE.length;
+  colorIndexCache.set(str, result);
+  return result;
 }
 function Avatar({
   src,
@@ -866,8 +871,8 @@ var Badge = React9.memo(({ label, variant = "default", size = "md", icon }) => {
     if (!el) return null;
     if (React9.isValidElement(el)) {
       return React9.cloneElement(el, {
-        size: el.props?.size ?? iconSize * 0.8,
-        color: el.props?.color ?? iconColor
+        size: el.props.size ?? iconSize * 0.8,
+        color: el.props.color ?? iconColor
       });
     }
     return el;
@@ -1201,8 +1206,8 @@ var Button = React14.memo(({
     if (!icon) return null;
     if (React14.isValidElement(icon)) {
       return React14.cloneElement(icon, {
-        size: icon.props?.size ?? iconSize,
-        color: icon.props?.color ?? iconColor
+        size: icon.props.size ?? iconSize,
+        color: icon.props.color ?? iconColor
       });
     }
     return icon;
@@ -1262,7 +1267,6 @@ function ButtonGroup({
     },
     items.map((child, i) => {
       if (!React15.isValidElement(child)) return child;
-      const element = child;
       const isFirst = i === 0;
       const isLast = i === items.length - 1;
       const borderStyle = isRow ? {
@@ -1273,16 +1277,16 @@ function ButtonGroup({
         borderBottomColor: buttonGroup.divider.backgroundColor
       };
       const radiusStyle = isFirst ? isRow ? { borderTopLeftRadius: buttonGroup.container.borderRadius, borderBottomLeftRadius: buttonGroup.container.borderRadius } : { borderTopLeftRadius: buttonGroup.container.borderRadius, borderTopRightRadius: buttonGroup.container.borderRadius } : isLast ? isRow ? { borderTopRightRadius: buttonGroup.container.borderRadius, borderBottomRightRadius: buttonGroup.container.borderRadius } : { borderBottomLeftRadius: buttonGroup.container.borderRadius, borderBottomRightRadius: buttonGroup.container.borderRadius } : { borderRadius: 0 };
-      return React15.cloneElement(element, {
+      return React15.cloneElement(child, {
         variant,
         size,
-        disabled: disabled || element.props?.disabled,
-        fullWidth: fullWidth || element.props?.fullWidth,
+        disabled: disabled || child.props.disabled,
+        fullWidth: fullWidth || child.props.fullWidth,
         style: [
           { borderRadius: 0, borderWidth: 0 },
           borderStyle,
           radiusStyle,
-          element.props?.style
+          child.props.style
         ].filter(Boolean)
       });
     })
@@ -1572,8 +1576,8 @@ function Chip({
     if (!node) return null;
     if (React19.isValidElement(node)) {
       return React19.cloneElement(node, {
-        size: node.props?.size ?? (size === "sm" ? 14 : 16),
-        color: node.props?.color ?? iconColor
+        size: node.props.size ?? (size === "sm" ? 14 : 16),
+        color: node.props.color ?? iconColor
       });
     }
     return node;
@@ -1751,8 +1755,8 @@ function DatePicker({
     if (!node) return null;
     if (React21.isValidElement(node)) {
       return React21.cloneElement(node, {
-        size: node.props?.size ?? iconSize,
-        color: node.props?.color ?? iconColor
+        size: node.props.size ?? iconSize,
+        color: node.props.color ?? iconColor
       });
     }
     return node;
@@ -2006,8 +2010,8 @@ function EmptyState({ title, description, icon, action }) {
   const { emptyState } = useComponentTokens25();
   const tokens = useTokens19();
   return /* @__PURE__ */ React25.createElement(View25, { style: emptyState.container }, icon && /* @__PURE__ */ React25.createElement(View25, { style: { marginBottom: tokens.spacing[2] } }, React25.isValidElement(icon) ? React25.cloneElement(icon, {
-    size: icon.props?.size ?? emptyState.icon.size,
-    color: icon.props?.color ?? emptyState.icon.color
+    size: icon.props.size ?? emptyState.icon.size,
+    color: icon.props.color ?? emptyState.icon.color
   }) : icon), title && /* @__PURE__ */ React25.createElement(Text17, { style: emptyState.title }, title), description && /* @__PURE__ */ React25.createElement(Text17, { style: emptyState.description }, description), action && /* @__PURE__ */ React25.createElement(View25, { style: { marginTop: tokens.spacing[4] } }, action));
 }
 
@@ -3427,7 +3431,7 @@ function SegmentedControl({
 }
 
 // src/components/Select/Select.tsx
-import React47, { useRef as useRef3, useState as useState12 } from "react";
+import React47, { useRef as useRef3, useState as useState12, useMemo as useMemo16 } from "react";
 import { View as View44, Text as Text29, TextInput as TextInput2, ScrollView as ScrollView2, Pressable as Pressable22 } from "react-native";
 import { useSelect, useTokens as useTokens34, useComponentTokens as useComponentTokens46 } from "@truongdq01/headless";
 function Select({
@@ -3452,9 +3456,13 @@ function Select({
     displayLabel
   } = useSelect({ options, ...hookOptions, placeholder });
   const hasSelection = displayLabel !== placeholder;
-  const filtered = query ? options.filter(
-    (o) => o.label.toLowerCase().includes(query.toLowerCase())
-  ) : options;
+  const filtered = useMemo16(() => {
+    if (!query) return options;
+    const lowerQuery = query.toLowerCase();
+    return options.filter(
+      (o) => o.label.toLowerCase().includes(lowerQuery)
+    );
+  }, [options, query]);
   const handleOpen = () => {
     setQuery("");
     sheetRef.current?.open();
@@ -3766,7 +3774,11 @@ function Slider({
             backgroundColor: slider.thumb.bg,
             borderWidth: slider.thumb.borderWidth,
             borderColor: slider.thumb.borderColor,
-            ...slider.thumb
+            shadowColor: slider.thumb.shadowColor,
+            shadowOffset: slider.thumb.shadowOffset,
+            shadowOpacity: slider.thumb.shadowOpacity,
+            shadowRadius: slider.thumb.shadowRadius,
+            elevation: slider.thumb.elevation
           },
           thumbAnimatedStyle
         ]
@@ -3776,7 +3788,7 @@ function Slider({
 }
 
 // src/components/Snackbar/Snackbar.tsx
-import React50, { useEffect as useEffect4, useMemo as useMemo16 } from "react";
+import React50, { useEffect as useEffect4, useMemo as useMemo17 } from "react";
 import { View as View47, Text as Text31, Pressable as Pressable23, Modal as Modal10, StyleSheet as StyleSheet14 } from "react-native";
 import Animated20, {
   useSharedValue as useSharedValue11,
@@ -3828,7 +3840,7 @@ function Snackbar({
     return () => clearTimeout(t);
   }, [open, autoHideDuration, onClose]);
   const verticalStyle = isBottom ? { bottom: 32 } : { top: 48 };
-  const horizontalStyle = useMemo16(() => {
+  const horizontalStyle = useMemo17(() => {
     if (anchorOrigin.horizontal === "center") return { alignSelf: "center" };
     if (anchorOrigin.horizontal === "left") return { left: 16 };
     return { right: 16 };
@@ -3861,7 +3873,7 @@ var styles11 = StyleSheet14.create({
 });
 
 // src/components/SpeedDial/SpeedDial.tsx
-import React51, { createContext as createContext6, useContext as useContext6, useMemo as useMemo17 } from "react";
+import React51, { createContext as createContext6, useContext as useContext6, useMemo as useMemo18 } from "react";
 import { View as View48, Text as Text32, Pressable as Pressable24 } from "react-native";
 import { useDisclosure as useDisclosure2, useTokens as useTokens38, useComponentTokens as useComponentTokens50 } from "@truongdq01/headless";
 var SpeedDialContext = createContext6(null);
@@ -3884,7 +3896,7 @@ function SpeedDial({
     alignItems: "center",
     gap: tokens.spacing[3]
   };
-  const ctxValue = useMemo17(() => ({ isOpen: disclosure.isOpen, close: disclosure.close }), [disclosure.isOpen, disclosure.close]);
+  const ctxValue = useMemo18(() => ({ isOpen: disclosure.isOpen, close: disclosure.close }), [disclosure.isOpen, disclosure.close]);
   return /* @__PURE__ */ React51.createElement(SpeedDialContext.Provider, { value: ctxValue }, /* @__PURE__ */ React51.createElement(View48, { style: [speedDial.container, stackStyle] }, disclosure.isOpen && children, /* @__PURE__ */ React51.createElement(Fab, { icon, accessibilityLabel: ariaLabel, onPress: disclosure.toggle })));
 }
 function SpeedDialAction({ icon, tooltipTitle, onPress }) {
@@ -3968,8 +3980,7 @@ function Stepper({ activeStep = 0, orientation = "horizontal", children }) {
   const items = React53.Children.toArray(children);
   return /* @__PURE__ */ React53.createElement(View50, { style: [stepper.container, { flexDirection: orientation === "horizontal" ? "row" : "column" }] }, items.map((child) => {
     if (!React53.isValidElement(child)) return child;
-    const element = child;
-    return React53.cloneElement(element, { activeStep, orientation });
+    return React53.cloneElement(child, { activeStep, orientation });
   }));
 }
 function Step({ index, label, children, activeStep = 0, orientation = "horizontal" }) {
@@ -4078,7 +4089,7 @@ var Switch = React54.memo(({ label, description, size = "md", ...hookOptions }) 
 });
 
 // src/components/Table/Table.tsx
-import React55, { createContext as createContext7, useContext as useContext7, useMemo as useMemo18 } from "react";
+import React55, { createContext as createContext7, useContext as useContext7, useMemo as useMemo19 } from "react";
 import { View as View52, ScrollView as ScrollView3, Text as Text35, Pressable as Pressable26 } from "react-native";
 import { useComponentTokens as useComponentTokens54, useTokens as useTokens40 } from "@truongdq01/headless";
 var TableContext = createContext7(null);
@@ -4092,7 +4103,7 @@ function Table({
   stickyHeader = false,
   style
 }) {
-  const ctx = useMemo18(() => ({ size, padding, stickyHeader }), [size, padding, stickyHeader]);
+  const ctx = useMemo19(() => ({ size, padding, stickyHeader }), [size, padding, stickyHeader]);
   return /* @__PURE__ */ React55.createElement(TableContext.Provider, { value: ctx }, /* @__PURE__ */ React55.createElement(View52, { style }, children));
 }
 function TableContainer({ children, style }) {
@@ -4475,13 +4486,12 @@ function Timeline({ position = "right", itemVariant = "filled", children }) {
   const { timeline } = useComponentTokens58();
   return /* @__PURE__ */ React59.createElement(TimelineContext.Provider, { value: { position, itemVariant } }, /* @__PURE__ */ React59.createElement(View55, { style: timeline.content }, React59.Children.map(children, (child, index) => {
     if (!React59.isValidElement(child)) return child;
-    const element = child;
     if (position === "alternate" || position === "alternate-reverse") {
       const isEven = index % 2 === 0;
       const derived = position === "alternate" ? isEven ? "right" : "left" : isEven ? "left" : "right";
-      return React59.cloneElement(element, { position: element.props?.position ?? derived, variant: itemVariant });
+      return React59.cloneElement(child, { position: child.props.position ?? derived, variant: itemVariant });
     }
-    return React59.cloneElement(element, { variant: itemVariant });
+    return React59.cloneElement(child, { variant: itemVariant });
   })));
 }
 function TimelineItem({ position, variant = "filled", status = "pending", children }) {
@@ -4615,8 +4625,8 @@ function ToastItem({ item, position, onDismiss }) {
       ]
     },
     item.icon ? /* @__PURE__ */ React60.createElement(View56, { style: { width: 20, height: 20, alignItems: "center", justifyContent: "center" } }, React60.isValidElement(item.icon) ? React60.cloneElement(item.icon, {
-      size: item.icon.props?.size ?? 20,
-      color: item.icon.props?.color ?? "#FFFFFF"
+      size: item.icon.props.size ?? 20,
+      color: item.icon.props.color ?? "#FFFFFF"
     }) : item.icon) : item.variant !== "default" && /* @__PURE__ */ React60.createElement(Icon, { size: 20, color: v.iconColor, name: "VARIANT_ICONS[item.variant]" }),
     /* @__PURE__ */ React60.createElement(Text39, { style: [toast.text, { flex: 1 }], numberOfLines: 3 }, item.message),
     item.action && /* @__PURE__ */ React60.createElement(

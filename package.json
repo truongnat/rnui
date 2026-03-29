@@ -29,11 +29,14 @@
     "@changesets/cli": "^2.27.1",
     "babel-jest": "^30.3.0",
     "metro-react-native-babel-preset": "^0.77.0",
+    "react-test-renderer": "^19.2.4",
     "turbo": "^2.8.20",
     "typescript": "^5.8.3"
   },
   "packageManager": "bun@1.1.38",
   "dependencies": {
-    "babel-preset-expo": "^55.0.12"
+    "@testing-library/react-native": "^13.3.3",
+    "babel-preset-expo": "^55.0.12",
+    "react-test-renderer": "^19.2.4"
   }
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import { View, Text, TextInput, ScrollView, Pressable } from "react-native";
 import { useSelect, useTokens, useComponentTokens } from "@truongdq01/headless";
 import { BottomSheet } from "../BottomSheet/BottomSheet";
@@ -40,11 +40,13 @@ export function Select<T = string>({
 
   const hasSelection = displayLabel !== placeholder;
 
-  const filtered = query
-    ? options.filter((o) =>
-      o.label.toLowerCase().includes(query.toLowerCase())
-    )
-    : options;
+  const filtered = useMemo(() => {
+    if (!query) return options;
+    const lowerQuery = query.toLowerCase();
+    return options.filter((o) =>
+      o.label.toLowerCase().includes(lowerQuery)
+    );
+  }, [options, query]);
 
   const handleOpen = () => {
     setQuery("");
