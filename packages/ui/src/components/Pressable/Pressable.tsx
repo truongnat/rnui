@@ -21,7 +21,7 @@ export function Pressable({ children, style, testID, ...hookOptions }: Pressable
       <Animated.View
         style={[(pressable as any).container, style, animatedStyle] as any}
         {...accessibilityProps}
-        {...({ onPress } as any)}
+        onPress={onPress}
       >
         {typeof children === "function" ? children({ isPressed }) : children}
       </Animated.View>

@@ -5,7 +5,7 @@ import Animated, { FadeInDown, Layout } from "react-native-reanimated";
 import { useComponentTokens } from "@truongdq01/headless";
 
 // Wrapping FlashList with Reanimated to allow layout animations and entering/exiting
-const ReanimatedFlashList = Animated.createAnimatedComponent(FlashList);
+const ReanimatedFlashList = Animated.createAnimatedComponent(FlashList as any) as any;
 
 export interface AnimatedListProps<T> extends Omit<FlashListProps<T>, "renderItem"> {
     /** The items to render */
@@ -75,8 +75,8 @@ export const AnimatedList = forwardRef(<T extends any>(
         <ReanimatedFlashList
             ref={ref}
             data={data}
-            renderItem={(info) => <AnimatedCell {...info} />}
-            {...(flashListProps as any)}
+            renderItem={(info: any) => <AnimatedCell {...info} />}
+            {...flashListProps}
             contentContainerStyle={useMemo(() => [
                 animatedList.container,
                 flashListProps.contentContainerStyle

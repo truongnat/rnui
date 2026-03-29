@@ -17,11 +17,11 @@ export function EmptyState({ title, description, icon, action }: EmptyStateProps
     <View style={emptyState.container as any}>
       {icon && (
         <View style={{ marginBottom: tokens.spacing[2] }}>
-          {React.isValidElement(icon)
-            ? React.cloneElement(icon as React.ReactElement, {
-                size: (icon.props as any)?.size ?? emptyState.icon.size,
-                color: (icon.props as any)?.color ?? emptyState.icon.color,
-              } as any)
+          {React.isValidElement<{ size?: number | string; color?: string }>(icon)
+            ? React.cloneElement(icon, {
+                size: icon.props.size ?? emptyState.icon.size,
+                color: icon.props.color ?? emptyState.icon.color,
+              })
             : icon}
         </View>
       )}

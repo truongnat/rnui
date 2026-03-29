@@ -157,7 +157,7 @@ export function Icon({ name, children, size, color, style }: IconProps) {
   const tokens = useTokens();
   
   // Resolve the icon name from either prop or children
-  const iconNameString = (name ?? (typeof children === "string" ? children : undefined)) as string;
+  const iconNameString = (name ?? (typeof children === "string" ? children : undefined)) as IconName;
   
   const resolvedSize = typeof size === "number" 
     ? size 
@@ -179,7 +179,7 @@ export function Icon({ name, children, size, color, style }: IconProps) {
  */
 export function IconWrapper({ children, size, color }: { children: React.ReactNode; size?: number; color?: string }) {
   const tokens = useTokens();
-  if (!React.isValidElement<{ color?: string; size?: number }>(children)) return null;
+  if (!React.isValidElement<{ size?: number | string; color?: string }>(children)) return null;
   return React.cloneElement(children, {
     color: children.props.color ?? color ?? tokens.color.text.primary,
     size: children.props.size ?? size,
