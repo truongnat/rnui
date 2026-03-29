@@ -185,7 +185,7 @@ export function TablePagination({
           variant="outlined"
           disabled={page <= 0}
           onPress={() => onPageChange?.(Math.max(0, page - 1))}
-          startIcon={<Icon size={16} name={"chevronLeft" as any} />}
+          startIcon={<Icon size={16} name="chevronLeft" />}
         >
           Prev
         </Button>
@@ -194,7 +194,7 @@ export function TablePagination({
           variant="outlined"
           disabled={page >= totalPages - 1}
           onPress={() => onPageChange?.(Math.min(totalPages - 1, page + 1))}
-          endIcon={<Icon size={16} name={"chevronRight" as any} />}
+          endIcon={<Icon size={16} name="chevronRight" />}
         >
           Next
         </Button>

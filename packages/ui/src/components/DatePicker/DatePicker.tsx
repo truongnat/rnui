@@ -94,11 +94,11 @@ export function DatePicker({
 
     const renderIcon = (node: React.ReactNode) => {
         if (!node) return null;
-        if (React.isValidElement(node)) {
-            return React.cloneElement(node as React.ReactElement, {
-                size: (node.props as any)?.size ?? iconSize,
-                color: (node.props as any)?.color ?? iconColor,
-            } as any);
+        if (React.isValidElement<{ size?: number | string; color?: string }>(node)) {
+            return React.cloneElement(node, {
+                size: node.props.size ?? iconSize,
+                color: node.props.color ?? iconColor,
+            });
         }
         return node;
     };
