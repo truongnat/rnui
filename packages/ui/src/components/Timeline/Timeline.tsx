@@ -26,7 +26,7 @@ export function Timeline({ position = "right", itemVariant = "filled", children 
   return (
     <TimelineContext.Provider value={{ position, itemVariant }}>
       <View style={timeline.content}>{React.Children.map(children, (child, index) => {
-        if (!React.isValidElement<{ position?: string; variant?: string }>(child)) return child;
+        if (!React.isValidElement<{ position?: TimelinePosition | "left" | "right"; variant?: "filled" | "outlined" }>(child)) return child;
         if (position === "alternate" || position === "alternate-reverse") {
           const isEven = index % 2 === 0;
           const derived = position === "alternate" ? (isEven ? "right" : "left") : (isEven ? "left" : "right");

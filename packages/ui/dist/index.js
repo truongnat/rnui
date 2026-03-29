@@ -1354,13 +1354,13 @@ function ButtonGroup({
       return import_react15.default.cloneElement(child, {
         variant,
         size,
-        disabled: disabled || child.props?.disabled,
-        fullWidth: fullWidth || child.props?.fullWidth,
+        disabled: disabled || child.props.disabled,
+        fullWidth: fullWidth || child.props.fullWidth,
         style: [
           { borderRadius: 0, borderWidth: 0 },
           borderStyle,
           radiusStyle,
-          child.props?.style
+          child.props.style
         ].filter(Boolean)
       });
     })
