@@ -7,14 +7,16 @@ Schema: stories + chapters
 import json
 import os
 import glob
-import psycopg2
-from psycopg2.extras import execute_values
 import sys
 
-DATABASE_URL = os.environ.get(
-    "DATABASE_URL",
-    "postgresql://neondb_owner:npg_9rNiMU1wHDSm@ep-crimson-forest-an1ztsk9-pooler.c-6.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-)
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if not DATABASE_URL:
+    print("Error: DATABASE_URL environment variable is not set.")
+    sys.exit(1)
+
+import psycopg2
+from psycopg2.extras import execute_values
 
 CREATE_STORIES_TABLE = """
 CREATE TABLE IF NOT EXISTS stories (

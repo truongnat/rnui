@@ -157,17 +157,17 @@ export function Icon({ name, children, size, color, style }: IconProps) {
   const tokens = useTokens();
   
   // Resolve the icon name from either prop or children
-  const iconNameString = (name ?? (typeof children === "string" ? children : undefined)) as string;
+  const iconNameString = (name ?? (typeof children === "string" ? children : undefined)) as IconName;
   
   const resolvedSize = typeof size === "number" 
     ? size 
-    : (iconTokens.size as any)[size ?? "md"] ?? 20;
+    : iconTokens.size[(size ?? "md") as keyof typeof iconTokens.size] ?? 20;
     
   const resolvedColor = color && color in iconTokens.color
     ? iconTokens.color[color as keyof typeof iconTokens.color]
     : color ?? tokens.color.text.primary;
 
-  const IconComp = (ICON_MAP as any)[iconNameString] || Info;
+  const IconComp = ICON_MAP[iconNameString as keyof typeof ICON_MAP] || Info;
 
   return (
     <View style={[{ width: resolvedSize, height: resolvedSize, alignItems: "center", justifyContent: "center" }, style]}>
@@ -181,9 +181,9 @@ export function Icon({ name, children, size, color, style }: IconProps) {
  */
 export function IconWrapper({ children, size, color }: { children: React.ReactNode; size?: number; color?: string }) {
   const tokens = useTokens();
-  if (!React.isValidElement(children)) return null;
+  if (!React.isValidElement<Partial<{ color: string; size: number }>>(children)) return null;
   return React.cloneElement(children, {
-    color: (children.props as any)?.color ?? color ?? tokens.color.text.primary,
-    size: (children.props as any)?.size ?? size,
-  } as any);
+    color: children.props.color ?? color ?? tokens.color.text.primary,
+    size: children.props.size ?? size,
+  });
 }

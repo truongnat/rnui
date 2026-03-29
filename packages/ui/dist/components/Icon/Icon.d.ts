@@ -88,5 +88,8 @@ export declare function IconWrapper({ children, size, color }: {
     children: React.ReactNode;
     size?: number;
     color?: string;
-}): React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | null;
+}): React.ReactElement<{
+    color?: string;
+    size?: number;
+}, string | React.JSXElementConstructor<any>> | null;
 //# sourceMappingURL=Icon.d.ts.map
