@@ -749,10 +749,15 @@ var TEXT_PALETTE = [
   "#633806",
   "#0C447C"
 ];
+var colorIndexCache = /* @__PURE__ */ new Map();
 function getColorIndex(str) {
+  const cached = colorIndexCache.get(str);
+  if (cached !== void 0) return cached;
   let hash = 0;
   for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  return Math.abs(hash) % BG_PALETTE.length;
+  const result = Math.abs(hash) % BG_PALETTE.length;
+  colorIndexCache.set(str, result);
+  return result;
 }
 function Avatar({
   src,
