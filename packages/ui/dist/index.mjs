@@ -3431,7 +3431,7 @@ function SegmentedControl({
 }
 
 // src/components/Select/Select.tsx
-import React47, { useRef as useRef3, useState as useState12 } from "react";
+import React47, { useRef as useRef3, useState as useState12, useMemo as useMemo16 } from "react";
 import { View as View44, Text as Text29, TextInput as TextInput2, ScrollView as ScrollView2, Pressable as Pressable22 } from "react-native";
 import { useSelect, useTokens as useTokens34, useComponentTokens as useComponentTokens46 } from "@truongdq01/headless";
 function Select({
@@ -3456,9 +3456,13 @@ function Select({
     displayLabel
   } = useSelect({ options, ...hookOptions, placeholder });
   const hasSelection = displayLabel !== placeholder;
-  const filtered = query ? options.filter(
-    (o) => o.label.toLowerCase().includes(query.toLowerCase())
-  ) : options;
+  const filtered = useMemo16(() => {
+    if (!query) return options;
+    const lowerQuery = query.toLowerCase();
+    return options.filter(
+      (o) => o.label.toLowerCase().includes(lowerQuery)
+    );
+  }, [options, query]);
   const handleOpen = () => {
     setQuery("");
     sheetRef.current?.open();
@@ -3784,7 +3788,7 @@ function Slider({
 }
 
 // src/components/Snackbar/Snackbar.tsx
-import React50, { useEffect as useEffect4, useMemo as useMemo16 } from "react";
+import React50, { useEffect as useEffect4, useMemo as useMemo17 } from "react";
 import { View as View47, Text as Text31, Pressable as Pressable23, Modal as Modal10, StyleSheet as StyleSheet14 } from "react-native";
 import Animated20, {
   useSharedValue as useSharedValue11,
@@ -3836,7 +3840,7 @@ function Snackbar({
     return () => clearTimeout(t);
   }, [open, autoHideDuration, onClose]);
   const verticalStyle = isBottom ? { bottom: 32 } : { top: 48 };
-  const horizontalStyle = useMemo16(() => {
+  const horizontalStyle = useMemo17(() => {
     if (anchorOrigin.horizontal === "center") return { alignSelf: "center" };
     if (anchorOrigin.horizontal === "left") return { left: 16 };
     return { right: 16 };
@@ -3869,7 +3873,7 @@ var styles11 = StyleSheet14.create({
 });
 
 // src/components/SpeedDial/SpeedDial.tsx
-import React51, { createContext as createContext6, useContext as useContext6, useMemo as useMemo17 } from "react";
+import React51, { createContext as createContext6, useContext as useContext6, useMemo as useMemo18 } from "react";
 import { View as View48, Text as Text32, Pressable as Pressable24 } from "react-native";
 import { useDisclosure as useDisclosure2, useTokens as useTokens38, useComponentTokens as useComponentTokens50 } from "@truongdq01/headless";
 var SpeedDialContext = createContext6(null);
@@ -3892,7 +3896,7 @@ function SpeedDial({
     alignItems: "center",
     gap: tokens.spacing[3]
   };
-  const ctxValue = useMemo17(() => ({ isOpen: disclosure.isOpen, close: disclosure.close }), [disclosure.isOpen, disclosure.close]);
+  const ctxValue = useMemo18(() => ({ isOpen: disclosure.isOpen, close: disclosure.close }), [disclosure.isOpen, disclosure.close]);
   return /* @__PURE__ */ React51.createElement(SpeedDialContext.Provider, { value: ctxValue }, /* @__PURE__ */ React51.createElement(View48, { style: [speedDial.container, stackStyle] }, disclosure.isOpen && children, /* @__PURE__ */ React51.createElement(Fab, { icon, accessibilityLabel: ariaLabel, onPress: disclosure.toggle })));
 }
 function SpeedDialAction({ icon, tooltipTitle, onPress }) {
@@ -4085,7 +4089,7 @@ var Switch = React54.memo(({ label, description, size = "md", ...hookOptions }) 
 });
 
 // src/components/Table/Table.tsx
-import React55, { createContext as createContext7, useContext as useContext7, useMemo as useMemo18 } from "react";
+import React55, { createContext as createContext7, useContext as useContext7, useMemo as useMemo19 } from "react";
 import { View as View52, ScrollView as ScrollView3, Text as Text35, Pressable as Pressable26 } from "react-native";
 import { useComponentTokens as useComponentTokens54, useTokens as useTokens40 } from "@truongdq01/headless";
 var TableContext = createContext7(null);
@@ -4099,7 +4103,7 @@ function Table({
   stickyHeader = false,
   style
 }) {
-  const ctx = useMemo18(() => ({ size, padding, stickyHeader }), [size, padding, stickyHeader]);
+  const ctx = useMemo19(() => ({ size, padding, stickyHeader }), [size, padding, stickyHeader]);
   return /* @__PURE__ */ React55.createElement(TableContext.Provider, { value: ctx }, /* @__PURE__ */ React55.createElement(View52, { style }, children));
 }
 function TableContainer({ children, style }) {

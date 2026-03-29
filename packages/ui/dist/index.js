@@ -3491,9 +3491,13 @@ function Select({
     displayLabel
   } = (0, import_headless47.useSelect)({ options, ...hookOptions, placeholder });
   const hasSelection = displayLabel !== placeholder;
-  const filtered = query ? options.filter(
-    (o) => o.label.toLowerCase().includes(query.toLowerCase())
-  ) : options;
+  const filtered = (0, import_react47.useMemo)(() => {
+    if (!query) return options;
+    const lowerQuery = query.toLowerCase();
+    return options.filter(
+      (o) => o.label.toLowerCase().includes(lowerQuery)
+    );
+  }, [options, query]);
   const handleOpen = () => {
     setQuery("");
     sheetRef.current?.open();
