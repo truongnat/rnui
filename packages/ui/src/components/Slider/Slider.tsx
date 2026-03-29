@@ -64,7 +64,7 @@ export function Slider({
       )}
 
       {/* Track area — extra vertical padding for hit area */}
-      <Animated.View style={[{ paddingVertical: 12 }, trackAnimatedStyle] as any}>
+      <Animated.View style={[{ paddingVertical: 12 }, trackAnimatedStyle]}>
         <GestureDetector gesture={panGesture}>
           <View
             style={{ height: slider.thumb.height, justifyContent: "center" }}
@@ -91,7 +91,7 @@ export function Slider({
                     borderRadius: slider.track.borderRadius,
                   },
                   fillAnimatedStyle,
-                ] as any}
+                ]}
               />
             </View>
 
@@ -104,7 +104,7 @@ export function Slider({
                   key={mark}
                   style={{
                     position: "absolute",
-                    left: `${markPct * 100}%` as any,
+                    left: `${markPct * 100}%`,
                     width: 4,
                     height: 4,
                     borderRadius: 2,
@@ -128,10 +128,14 @@ export function Slider({
                   backgroundColor: slider.thumb.bg,
                   borderWidth: slider.thumb.borderWidth,
                   borderColor: slider.thumb.borderColor,
-                  ...(slider.thumb as any),
+                  shadowColor: slider.thumb.shadowColor,
+                  shadowOffset: slider.thumb.shadowOffset,
+                  shadowOpacity: slider.thumb.shadowOpacity,
+                  shadowRadius: slider.thumb.shadowRadius,
+                  elevation: slider.thumb.elevation,
                 },
                 thumbAnimatedStyle,
-              ] as any}
+              ]}
             />
           </View>
         </GestureDetector>
