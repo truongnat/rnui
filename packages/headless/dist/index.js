@@ -4930,8 +4930,12 @@ function useRating({
 // src/hooks/usePagination.ts
 var import_react20 = require("react");
 function range(start, end) {
-  const arr = [];
-  for (let i = start; i <= end; i++) arr.push(i);
+  const length = end - start + 1;
+  if (length <= 0) return [];
+  const arr = new Array(length);
+  for (let i = 0; i < length; i++) {
+    arr[i] = start + i;
+  }
   return arr;
 }
 function usePagination({
