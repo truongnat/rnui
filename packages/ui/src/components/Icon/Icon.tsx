@@ -157,7 +157,7 @@ export function Icon({ name, children, size, color, style }: IconProps) {
   const tokens = useTokens();
   
   // Resolve the icon name from either prop or children
-  const iconNameString = (name ?? (typeof children === "string" ? children : undefined)) as string;
+  const iconNameString = (name ?? (typeof children === "string" ? children : undefined)) as IconName;
   
   const resolvedSize = typeof size === "number" 
     ? size 
