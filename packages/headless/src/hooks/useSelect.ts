@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDisclosure } from "./useDisclosure";
 
 export interface SelectOption<T = string> {
@@ -79,20 +79,16 @@ export function useSelect<T = string>({
     [selected]
   );
 
-  const displayLabel = useMemo(() => {
+  const displayLabel = (() => {
     if (!selected || (Array.isArray(selected) && selected.length === 0)) return placeholder;
     if (Array.isArray(selected)) {
-      const optionsMap = new Map();
-      for (let i = 0; i < options.length; i++) {
-        optionsMap.set(options[i].value, options[i].label);
-      }
       const labels = selected
-        .map((v) => optionsMap.get(v))
+        .map((v) => options.find((o) => o.value === v)?.label)
         .filter(Boolean);
       return labels.join(", ");
     }
     return options.find((o) => o.value === selected)?.label ?? placeholder;
-  }, [selected, options, placeholder]);
+  })();
 
   return {
     selected,

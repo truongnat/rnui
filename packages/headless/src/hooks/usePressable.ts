@@ -41,8 +41,6 @@ export interface UsePressableOptions {
   haptic?: boolean;
   /** Expand the touch target area without changing visual layout */
   hitSlop?: number | { top?: number; left?: number; bottom?: number; right?: number };
-  /** Test identifier for automation testing */
-  testID?: string;
 }
 
 export interface UsePressableReturn {
@@ -57,12 +55,9 @@ export interface UsePressableReturn {
     accessibilityLabel?: string;
     accessibilityHint?: string;
     accessibilityState: { disabled: boolean };
-    testID?: string;
   };
   /** True while finger is down */
   isPressed: boolean;
-  /** Original onPress for testing */
-  onPress?: () => void;
 }
 
 // ─── Hook ─────────────────────────────────────────────────────────
@@ -78,7 +73,6 @@ export function usePressable({
   accessibilityRole = "button",
   haptic = false,
   hitSlop,
-  testID,
 }: UsePressableOptions = {}): UsePressableReturn {
   const [isPressed, setIsPressed] = useState(false);
 
@@ -166,7 +160,6 @@ export function usePressable({
     accessibilityLabel,
     accessibilityHint,
     accessibilityState: { disabled },
-    testID,
   };
 
   return {
@@ -174,7 +167,6 @@ export function usePressable({
     gesture,
     accessibilityProps,
     isPressed,
-    onPress: handlePress,
   };
 }
 

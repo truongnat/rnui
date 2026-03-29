@@ -10,6 +10,6 @@ test("Input renders and handles text change", () => {
       <Input placeholder="Type here" onChange={onChange} />
     </ThemeProvider>
   );
-  fireEvent(getByPlaceholderText("Type here"), "onChange", { nativeEvent: { text: "Hello" } });
+  fireEvent.changeText(getByPlaceholderText("Type here"), "Hello");
   expect(onChange).toHaveBeenCalledWith("Hello");
 });

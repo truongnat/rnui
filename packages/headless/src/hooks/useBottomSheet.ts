@@ -1,4 +1,4 @@
-import { useCallback, useRef, useMemo } from "react";
+import { useCallback, useRef } from "react";
 import {
   useSharedValue,
   useAnimatedStyle,
@@ -72,11 +72,7 @@ export function useBottomSheet({
   enableDismissOnSwipe = true,
   enableBackdrop = true,
 }: UseBottomSheetOptions = {}): UseBottomSheetReturn {
-  const snapPoints = useMemo(
-    () => rawSnapPoints.map(resolveSnapPoint),
-    [rawSnapPoints]
-  );
-  const maxHeight = useMemo(() => Math.max(...snapPoints), [snapPoints]);
+  const snapPoints = rawSnapPoints.map(resolveSnapPoint);
   const defaultSnapIndex = initialSnapIndex ?? snapPoints.length - 1;
 
   const isOpenRef = useRef(false);
@@ -99,12 +95,13 @@ export function useBottomSheet({
         if (finished && onDone) scheduleOnRN(onDone);
       });
       // Backdrop opacity: 0 when closed, 1 at highest snap point
+      const maxHeight = Math.max(...snapPoints);
       backdropOpacity.value = withTiming(
         enableBackdrop ? targetHeight / maxHeight * 0.6 : 0,
         { duration: 250 }
       );
     },
-    [snapPoints, maxHeight, translateY, backdropOpacity, enableBackdrop, gentleSpring]
+    [snapPoints, translateY, backdropOpacity, enableBackdrop, gentleSpring]
   );
 
   // ── JS-thread open/close/snap ────────────────────────────────
@@ -120,22 +117,14 @@ export function useBottomSheet({
         return;
       }
       translateY.value = withSpring(targetY, gentleSpring);
+      const maxHeight = Math.max(...snapPoints);
       backdropOpacity.value = withTiming(
         enableBackdrop ? (targetHeight / maxHeight) * 0.6 : 0,
         { duration: 250 }
       );
       onSnapChange?.(idx);
     },
-    [
-      snapPoints,
-      maxHeight,
-      defaultSnapIndex,
-      translateY,
-      backdropOpacity,
-      enableBackdrop,
-      onSnapChange,
-      gentleSpring,
-    ]
+    [snapPoints, defaultSnapIndex, translateY, backdropOpacity, enableBackdrop, onSnapChange, gentleSpring]
   );
 
   const handleCloseEnd = useCallback(() => {
@@ -163,13 +152,14 @@ export function useBottomSheet({
         return;
       }
       translateY.value = withSpring(targetY, gentleSpring);
+      const maxHeight = Math.max(...snapPoints);
       backdropOpacity.value = withTiming(
         enableBackdrop ? (targetHeight / maxHeight) * 0.6 : 0,
         { duration: 200 }
       );
       onSnapChange?.(index);
     },
-    [snapPoints, maxHeight, translateY, backdropOpacity, enableBackdrop, onSnapChange, gentleSpring]
+    [snapPoints, translateY, backdropOpacity, enableBackdrop, onSnapChange, gentleSpring]
   );
 
   // ── Pan gesture (UI thread) ──────────────────────────────────
@@ -182,13 +172,14 @@ export function useBottomSheet({
       "worklet";
       const next = dragStartY.value + e.translationY;
       // Resistance above highest snap point
-      const minY = SCREEN_HEIGHT - maxHeight;
+      const minY = SCREEN_HEIGHT - Math.max(...snapPoints);
       if (next < minY) {
         translateY.value = minY + (next - minY) * 0.15;
       } else {
         translateY.value = next;
       }
       const currentHeight = SCREEN_HEIGHT - translateY.value;
+      const maxHeight = Math.max(...snapPoints);
       backdropOpacity.value = enableBackdrop
         ? Math.max(0, (currentHeight / maxHeight) * 0.6)
         : 0;

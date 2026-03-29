@@ -34,7 +34,8 @@ export function ButtonGroup({
       }}
     >
       {items.map((child, i) => {
-        if (!React.isValidElement<{ variant?: string; size?: string; color?: string; disabled?: boolean; fullWidth?: boolean; style?: any }>(child)) return child;
+        if (!React.isValidElement(child)) return child;
+        const element = child as React.ReactElement<any>;
         const isFirst = i === 0;
         const isLast = i === items.length - 1;
 
@@ -58,16 +59,16 @@ export function ButtonGroup({
             : { borderBottomLeftRadius: buttonGroup.container.borderRadius, borderBottomRightRadius: buttonGroup.container.borderRadius }
           : { borderRadius: 0 };
 
-        return React.cloneElement(child, {
+        return React.cloneElement(element, {
           variant,
           size,
-          disabled: disabled || (child.props as any)?.disabled,
-          fullWidth: fullWidth || child.props?.fullWidth,
+          disabled: disabled || element.props?.disabled,
+          fullWidth: fullWidth || element.props?.fullWidth,
           style: [
             { borderRadius: 0, borderWidth: 0 },
             borderStyle,
             radiusStyle,
-            child.props?.style,
+            element.props?.style,
           ].filter(Boolean),
         });
       })}

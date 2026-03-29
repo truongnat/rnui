@@ -27,8 +27,9 @@ export function Stepper({ activeStep = 0, orientation = "horizontal", children }
   return (
     <View style={[stepper.container, { flexDirection: orientation === "horizontal" ? "row" : "column" }]}>
       {items.map((child) => {
-        if (!React.isValidElement<{ activeStep?: number; orientation?: "horizontal" | "vertical" }>(child)) return child;
-        return React.cloneElement(child, { activeStep, orientation });
+        if (!React.isValidElement(child)) return child;
+        const element = child as React.ReactElement<any>;
+        return React.cloneElement(element, { activeStep, orientation });
       })}
     </View>
   );

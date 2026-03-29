@@ -41,11 +41,11 @@ export const Badge = React.memo(({ label, variant = "default", size = "md", icon
   // Helper to clone icon with standardized props
   const renderIcon = (el: React.ReactNode) => {
     if (!el) return null;
-    if (React.isValidElement<{ size?: number | string; color?: string }>(el)) {
-      return React.cloneElement(el, {
-        size: el.props.size ?? (iconSize * 0.8),
-        color: el.props.color ?? iconColor,
-      });
+    if (React.isValidElement(el)) {
+      return React.cloneElement(el as React.ReactElement, {
+        size: (el.props as any)?.size ?? (iconSize * 0.8),
+        color: (el.props as any)?.color ?? iconColor,
+      } as any);
     }
     return el;
   };

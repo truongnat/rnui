@@ -75,11 +75,11 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
       {/* Icon */}
       {item.icon ? (
         <View style={{ width: 20, height: 20, alignItems: "center", justifyContent: "center" }}>
-          {React.isValidElement<{ size?: number | string; color?: string }>(item.icon)
-            ? React.cloneElement(item.icon, {
-              size: item.icon.props.size ?? 20,
-              color: item.icon.props.color ?? "#FFFFFF",
-            })
+          {React.isValidElement(item.icon)
+            ? React.cloneElement(item.icon as React.ReactElement, {
+              size: (item.icon.props as any)?.size ?? 20,
+              color: (item.icon.props as any)?.color ?? "#FFFFFF",
+            } as any)
             : item.icon}
         </View>
       ) : item.variant !== "default" && (

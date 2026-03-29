@@ -28,7 +28,7 @@ export function PasswordInput(props: PasswordInputProps) {
                     accessibilityLabel={show ? "Hide password" : "Show password"}
                     accessibilityRole="button"
                 >
-                    <Icon size={size} color={color} name={show ? "eyeOff" : "eye"} />
+                    <Icon size={size} color={color} name={(show ? "eyeOff" : "eye") as any} />
                 </Pressable>
             }
         />

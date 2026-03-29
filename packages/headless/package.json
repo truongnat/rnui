@@ -26,7 +26,7 @@
     "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "test": "jest --passWithNoTests",
+    "test": "bunx item --passWithNoTests",
     "test:bun": "bun test",
     "clean": "rm -rf dist dist-types"
   },
@@ -42,10 +42,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.27.0",
-    "@babel/plugin-transform-class-properties": "^7.28.6",
-    "@babel/plugin-transform-flow-strip-types": "^7.27.1",
-    "@babel/plugin-transform-private-methods": "^7.28.6",
-    "@babel/plugin-transform-private-property-in-object": "^7.28.6",
     "@testing-library/react-native": "^12.9.0",
     "@types/jest": "^30.0.0",
     "@types/react": "^19.1.0",

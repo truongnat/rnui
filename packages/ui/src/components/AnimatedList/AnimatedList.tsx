@@ -5,7 +5,7 @@ import Animated, { FadeInDown, Layout } from "react-native-reanimated";
 import { useComponentTokens } from "@truongdq01/headless";
 
 // Wrapping FlashList with Reanimated to allow layout animations and entering/exiting
-const ReanimatedFlashList = Animated.createAnimatedComponent(FlashList as any) as any;
+const ReanimatedFlashList = Animated.createAnimatedComponent(FlashList);
 
 export interface AnimatedListProps<T> extends Omit<FlashListProps<T>, "renderItem"> {
     /** The items to render */
@@ -52,8 +52,7 @@ export const AnimatedList = forwardRef(<T extends any>(
 ) => {
     const { animatedList } = useComponentTokens();
 
-    const AnimatedCell = (info: any) => {
-        const { index } = info;
+    const AnimatedCell = ({ item, index, target, ...props }: any) => {
         // If staggering, delay the entering animation by index * staggerDelay
         const enteringAnim = staggerEntering && itemEntering?.delay
             ? itemEntering.delay(Math.min(index * staggerDelay, 500))
@@ -66,7 +65,7 @@ export const AnimatedList = forwardRef(<T extends any>(
                 layout={itemLayout}
                 style={[animatedList.item, itemContainerStyle, styles.itemWrapper]}
             >
-                {renderItem(info as unknown as ListRenderItemInfo<T>)}
+                {renderItem({ item, index, target, separators: {} as any } as unknown as ListRenderItemInfo<T>)}
             </Animated.View>
         );
     };
@@ -75,8 +74,8 @@ export const AnimatedList = forwardRef(<T extends any>(
         <ReanimatedFlashList
             ref={ref}
             data={data}
-            renderItem={(info: any) => <AnimatedCell {...info} />}
-            {...flashListProps}
+            renderItem={(info) => <AnimatedCell {...info} />}
+            {...(flashListProps as any)}
             contentContainerStyle={useMemo(() => [
                 animatedList.container,
                 flashListProps.contentContainerStyle
