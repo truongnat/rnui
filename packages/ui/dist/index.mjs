@@ -153,7 +153,7 @@ function Icon({ name, children, size, color, style }) {
   const tokens = useTokens();
   const iconNameString = name ?? (typeof children === "string" ? children : void 0);
   const resolvedSize = typeof size === "number" ? size : iconTokens.size[size ?? "md"] ?? 20;
-  const resolvedColor = iconTokens.color[color] ?? color ?? tokens.color.text.primary;
+  const resolvedColor = color && color in iconTokens.color ? iconTokens.color[color] : color ?? tokens.color.text.primary;
   const IconComp = ICON_MAP[iconNameString] || Info;
   return /* @__PURE__ */ React.createElement(View, { style: [{ width: resolvedSize, height: resolvedSize, alignItems: "center", justifyContent: "center" }, style] }, /* @__PURE__ */ React.createElement(IconComp, { size: resolvedSize, color: resolvedColor }));
 }
@@ -323,7 +323,8 @@ var AnimatedList = forwardRef(({
   ...flashListProps
 }, ref) => {
   const { animatedList } = useComponentTokens4();
-  const AnimatedCell = ({ item, index, target, ...props }) => {
+  const AnimatedCell = (info) => {
+    const { index } = info;
     const enteringAnim = staggerEntering && itemEntering?.delay ? itemEntering.delay(Math.min(index * staggerDelay, 500)) : itemEntering;
     return /* @__PURE__ */ React4.createElement(
       Animated2.View,
@@ -333,7 +334,7 @@ var AnimatedList = forwardRef(({
         layout: itemLayout,
         style: [animatedList.item, itemContainerStyle, styles.itemWrapper]
       },
-      renderItem({ item, index, target, separators: {} })
+      renderItem(info)
     );
   };
   return /* @__PURE__ */ React4.createElement(
@@ -431,7 +432,11 @@ import { useAutocomplete, useTokens as useTokens6, useComponentTokens as useComp
 
 // src/components/Input/Input.tsx
 import React6, { useMemo as useMemo4, useState } from "react";
-import { TextInput as RNTextInput, View as View6, Text as Text4 } from "react-native";
+import {
+  TextInput as RNTextInput,
+  View as View6,
+  Text as Text4
+} from "react-native";
 import { useComponentTokens as useComponentTokens6, useTokens as useTokens5, useIconStyle } from "@truongdq01/headless";
 function Input({
   label,
@@ -493,9 +498,7 @@ function Input({
         setIsFocused(false);
         onBlur?.(e);
       },
-      onChange: (e) => {
-        handleChange(e.nativeEvent.text);
-      },
+      onChange: handleChange,
       ...rest
     }
   ), renderIcon(trailingElement)), error ? /* @__PURE__ */ React6.createElement(Text4, { style: input.errorText }, error) : helperText ? /* @__PURE__ */ React6.createElement(Text4, { style: input.helperText }, helperText) : null);
@@ -3122,10 +3125,20 @@ import React43 from "react";
 import Animated15 from "react-native-reanimated";
 import { GestureDetector as GestureDetector6 } from "react-native-gesture-handler";
 import { usePressable as usePressable5, useComponentTokens as useComponentTokens42 } from "@truongdq01/headless";
-function Pressable18({ children, style, ...hookOptions }) {
+function Pressable18({ children, style, testID, ...hookOptions }) {
   const { pressable } = useComponentTokens42();
-  const { gesture, animatedStyle, accessibilityProps, isPressed } = usePressable5(hookOptions);
-  return /* @__PURE__ */ React43.createElement(GestureDetector6, { gesture }, /* @__PURE__ */ React43.createElement(Animated15.View, { style: [pressable.container, style, animatedStyle], ...accessibilityProps }, typeof children === "function" ? children({ isPressed }) : children));
+  const { gesture, animatedStyle, accessibilityProps, isPressed } = usePressable5({
+    ...hookOptions,
+    testID
+  });
+  return /* @__PURE__ */ React43.createElement(GestureDetector6, { gesture }, /* @__PURE__ */ React43.createElement(
+    Animated15.View,
+    {
+      style: [pressable.container, style, animatedStyle],
+      ...accessibilityProps
+    },
+    typeof children === "function" ? children({ isPressed }) : children
+  ));
 }
 
 // src/components/Radio/Radio.tsx

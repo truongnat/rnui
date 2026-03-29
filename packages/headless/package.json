@@ -26,8 +26,8 @@
     "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "test": "jest --passWithNoTests",
-    "test:bun": "bun test",
+    "test": "bun test",
+    "test:jest": "jest --passWithNoTests",
     "clean": "rm -rf dist dist-types"
   },
   "dependencies": {

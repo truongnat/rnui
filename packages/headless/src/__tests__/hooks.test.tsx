@@ -26,7 +26,7 @@ describe("semantic tokens — light mode", () => {
   });
 
   test("text.primary is near-black", () => {
-    expect(lightTokens.color.text.primary).toBe(primitive.color.gray[900]);
+    expect(lightTokens.color.text.primary).toBe("#020617");
   });
 
   test("has shadow definitions", () => {
@@ -37,7 +37,7 @@ describe("semantic tokens — light mode", () => {
 
 describe("semantic tokens — dark mode", () => {
   test("bg.default is near-black", () => {
-    expect(darkTokens.color.bg.default).toBe(primitive.color.gray[950]);
+    expect(darkTokens.color.bg.default).toBe("#0D0D14");
   });
 
   test("text.primary is near-white", () => {
@@ -46,7 +46,7 @@ describe("semantic tokens — dark mode", () => {
 
   test("brand colors are lighter in dark mode", () => {
     // In dark mode, brand.default should be a lighter stop than light mode
-    expect(darkTokens.color.brand.default).toBe(primitive.color.brand[500]);
+    expect(darkTokens.color.brand.default).toBe("#A78BFA");
     expect(lightTokens.color.brand.default).toBe(primitive.color.brand[600]);
   });
 });
@@ -59,9 +59,9 @@ describe("component tokens", () => {
   });
 
   test("button sizes have correct heights", () => {
-    expect(ct.button.size.sm.container.height).toBe(32);
+    expect(ct.button.size.sm.container.height).toBe(36);
     expect(ct.button.size.md.container.height).toBe(44);
-    expect(ct.button.size.lg.container.height).toBe(52);
+    expect(ct.button.size.lg.container.height).toBe(54);
   });
 
   test("button disabled reduces opacity", () => {

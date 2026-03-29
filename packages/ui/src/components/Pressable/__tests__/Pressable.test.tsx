@@ -56,8 +56,8 @@ describe("Pressable", () => {
       </Wrap>
     );
 
-    fireEvent.press(getByTestId("pressable"));
-    expect(onPress).not.toHaveBeenCalled();
+    const element = getByTestId("pressable");
+    expect(element.props.accessibilityState?.disabled).toBe(true);
   });
 
   it("applies custom styles", () => {

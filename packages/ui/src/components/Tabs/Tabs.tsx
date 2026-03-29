@@ -72,7 +72,7 @@ export function Tab<T = string>({ value, label, icon, disabled = false }: TabPro
   if (!ctx) return null;
 
   const selected = ctx.isSelected(value);
-  const { animatedStyle, gesture, accessibilityProps } = usePressable({
+  const { animatedStyle, gesture, accessibilityProps, onPress } = usePressable({
     onPress: () => ctx.getTabProps(value, disabled).onPress(),
     disabled,
     feedbackMode: "scaleSubtle",
@@ -98,6 +98,7 @@ export function Tab<T = string>({ value, label, icon, disabled = false }: TabPro
           animatedStyle,
         ] as any}
         {...accessibilityProps}
+        onPress={onPress}
       >
         {icon}
         {label && (

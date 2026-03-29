@@ -233,7 +233,7 @@ function Icon({ name, children, size, color, style }) {
   const tokens = (0, import_headless.useTokens)();
   const iconNameString = name ?? (typeof children === "string" ? children : void 0);
   const resolvedSize = typeof size === "number" ? size : iconTokens.size[size ?? "md"] ?? 20;
-  const resolvedColor = iconTokens.color[color] ?? color ?? tokens.color.text.primary;
+  const resolvedColor = color && color in iconTokens.color ? iconTokens.color[color] : color ?? tokens.color.text.primary;
   const IconComp = ICON_MAP[iconNameString] || import_lucide_react_native.Info;
   return /* @__PURE__ */ import_react.default.createElement(import_react_native.View, { style: [{ width: resolvedSize, height: resolvedSize, alignItems: "center", justifyContent: "center" }, style] }, /* @__PURE__ */ import_react.default.createElement(IconComp, { size: resolvedSize, color: resolvedColor }));
 }
@@ -403,7 +403,8 @@ var AnimatedList = (0, import_react4.forwardRef)(({
   ...flashListProps
 }, ref) => {
   const { animatedList } = (0, import_headless4.useComponentTokens)();
-  const AnimatedCell = ({ item, index, target, ...props }) => {
+  const AnimatedCell = (info) => {
+    const { index } = info;
     const enteringAnim = staggerEntering && itemEntering?.delay ? itemEntering.delay(Math.min(index * staggerDelay, 500)) : itemEntering;
     return /* @__PURE__ */ import_react4.default.createElement(
       import_react_native_reanimated2.default.View,
@@ -413,7 +414,7 @@ var AnimatedList = (0, import_react4.forwardRef)(({
         layout: itemLayout,
         style: [animatedList.item, itemContainerStyle, styles.itemWrapper]
       },
-      renderItem({ item, index, target, separators: {} })
+      renderItem(info)
     );
   };
   return /* @__PURE__ */ import_react4.default.createElement(
@@ -567,9 +568,7 @@ function Input({
         setIsFocused(false);
         onBlur?.(e);
       },
-      onChange: (e) => {
-        handleChange(e.nativeEvent.text);
-      },
+      onChange: handleChange,
       ...rest
     }
   ), renderIcon(trailingElement)), error ? /* @__PURE__ */ import_react6.default.createElement(import_react_native6.Text, { style: input.errorText }, error) : helperText ? /* @__PURE__ */ import_react6.default.createElement(import_react_native6.Text, { style: input.helperText }, helperText) : null);
@@ -3165,10 +3164,20 @@ var import_react43 = __toESM(require("react"));
 var import_react_native_reanimated15 = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler6 = require("react-native-gesture-handler");
 var import_headless43 = require("@truongdq01/headless");
-function Pressable18({ children, style, ...hookOptions }) {
+function Pressable18({ children, style, testID, ...hookOptions }) {
   const { pressable } = (0, import_headless43.useComponentTokens)();
-  const { gesture, animatedStyle, accessibilityProps, isPressed } = (0, import_headless43.usePressable)(hookOptions);
-  return /* @__PURE__ */ import_react43.default.createElement(import_react_native_gesture_handler6.GestureDetector, { gesture }, /* @__PURE__ */ import_react43.default.createElement(import_react_native_reanimated15.default.View, { style: [pressable.container, style, animatedStyle], ...accessibilityProps }, typeof children === "function" ? children({ isPressed }) : children));
+  const { gesture, animatedStyle, accessibilityProps, isPressed } = (0, import_headless43.usePressable)({
+    ...hookOptions,
+    testID
+  });
+  return /* @__PURE__ */ import_react43.default.createElement(import_react_native_gesture_handler6.GestureDetector, { gesture }, /* @__PURE__ */ import_react43.default.createElement(
+    import_react_native_reanimated15.default.View,
+    {
+      style: [pressable.container, style, animatedStyle],
+      ...accessibilityProps
+    },
+    typeof children === "function" ? children({ isPressed }) : children
+  ));
 }
 
 // src/components/Radio/Radio.tsx

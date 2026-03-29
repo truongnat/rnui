@@ -5,10 +5,16 @@ apps/*/node_modules
 docs/node_modules
 
 # Build outputs
-dist
-dist-types
-packages/*/dist
-apps/*/dist
+dist/
+dist-types/
+build/
+packages/*/dist/
+packages/*/dist-types/
+packages/*/build/
+apps/*/dist/
+apps/*/dist-types/
+apps/*/build/
+*.tsbuildinfo
 
 # Cache
 .bun-cache
@@ -46,3 +52,8 @@ coverage
 
 # TypeScript
 *.tsbuildinfo
+tsconfig.tsbuildinfo
+tsconfig.*.tsbuildinfo
+
+# GitNexus
+.gitnexus
