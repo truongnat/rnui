@@ -65,10 +65,16 @@ const TEXT_PALETTE = [
   "#0C447C",
 ];
 
+const colorIndexCache = new Map<string, number>();
+
 function getColorIndex(str: string): number {
+  const cached = colorIndexCache.get(str);
+  if (cached !== undefined) return cached;
   let hash = 0;
   for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  return Math.abs(hash) % BG_PALETTE.length;
+  const result = Math.abs(hash) % BG_PALETTE.length;
+  colorIndexCache.set(str, result);
+  return result;
 }
 
 // ─── Avatar ───────────────────────────────────────────────────────

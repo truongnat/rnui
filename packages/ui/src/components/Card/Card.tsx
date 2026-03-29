@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { View } from "react-native";
+import { View, StyleProp, ViewStyle } from "react-native";
 import { usePressable, useComponentTokens } from "@truongdq01/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
@@ -17,7 +17,7 @@ export interface CardProps {
   /** Accessibility label (required if pressable) */
   accessibilityLabel?: string;
   /** Additional style override */
-  style?: object;
+  style?: StyleProp<ViewStyle>;
 }
 
 // ─── Component ────────────────────────────────────────────────────
@@ -47,7 +47,7 @@ export function Card({
 
     return (
       <GestureDetector gesture={gesture}>
-        <Animated.View style={[containerStyle, animatedStyle] as any} {...accessibilityProps}>
+        <Animated.View style={[containerStyle, animatedStyle]} {...accessibilityProps}>
           {children}
         </Animated.View>
       </GestureDetector>
