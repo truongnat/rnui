@@ -241,8 +241,8 @@ function IconWrapper({ children, size, color }) {
   const tokens = (0, import_headless.useTokens)();
   if (!import_react.default.isValidElement(children)) return null;
   return import_react.default.cloneElement(children, {
-    color: children.props?.color ?? color ?? tokens.color.text.primary,
-    size: children.props?.size ?? size
+    color: children.props.color ?? color ?? tokens.color.text.primary,
+    size: children.props.size ?? size
   });
 }
 

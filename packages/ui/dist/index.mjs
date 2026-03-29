@@ -161,8 +161,8 @@ function IconWrapper({ children, size, color }) {
   const tokens = useTokens();
   if (!React.isValidElement(children)) return null;
   return React.cloneElement(children, {
-    color: children.props?.color ?? color ?? tokens.color.text.primary,
-    size: children.props?.size ?? size
+    color: children.props.color ?? color ?? tokens.color.text.primary,
+    size: children.props.size ?? size
   });
 }
 
