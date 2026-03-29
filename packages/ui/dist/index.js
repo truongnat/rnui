@@ -241,8 +241,8 @@ function IconWrapper({ children, size, color }) {
   const tokens = (0, import_headless.useTokens)();
   if (!import_react.default.isValidElement(children)) return null;
   return import_react.default.cloneElement(children, {
-    color: children.props?.color ?? color ?? tokens.color.text.primary,
-    size: children.props?.size ?? size
+    color: children.props.color ?? color ?? tokens.color.text.primary,
+    size: children.props.size ?? size
   });
 }
 
@@ -749,10 +749,15 @@ var TEXT_PALETTE = [
   "#633806",
   "#0C447C"
 ];
+var colorIndexCache = /* @__PURE__ */ new Map();
 function getColorIndex(str) {
+  const cached = colorIndexCache.get(str);
+  if (cached !== void 0) return cached;
   let hash = 0;
   for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  return Math.abs(hash) % BG_PALETTE.length;
+  const result = Math.abs(hash) % BG_PALETTE.length;
+  colorIndexCache.set(str, result);
+  return result;
 }
 function Avatar({
   src,
@@ -1815,8 +1820,8 @@ function DatePicker({
     if (!node) return null;
     if (import_react21.default.isValidElement(node)) {
       return import_react21.default.cloneElement(node, {
-        size: node.props?.size ?? iconSize,
-        color: node.props?.color ?? iconColor
+        size: node.props.size ?? iconSize,
+        color: node.props.color ?? iconColor
       });
     }
     return node;
