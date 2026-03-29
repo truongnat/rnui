@@ -1,5 +1,6 @@
 import { mock } from "bun:test";
 import React from "react";
+import { createFlashListMock, createGestureHandlerMock, createReanimatedMock } from "./test-mocks";
 
 // Mock React Native BEFORE it gets imported to avoid Flow type errors
 mock.module("react-native", () => {
@@ -125,307 +126,10 @@ mock.module("react-native", () => {
 });
 
 // Mock React Native Reanimated
-mock.module("react-native-reanimated", () => {
-  const animatedValue = { value: 0 };
-  const createAnimatedComponent = (name: string) => {
-    const Component = ({ children, ...props }: any) => 
-      React.createElement(name, props, children);
-    Component.displayName = name;
-    return Component;
-  };
-  const AnimatedComponent = createAnimatedComponent("Reanimated.View");
-  
-  return {
-    // Hooks
-    useSharedValue: (v: any) => ({ value: v }),
-    useDerivedValue: (fn: any) => ({ value: fn() }),
-    useAnimatedStyle: (fn: any) => fn(),
-    useAnimatedProps: (fn: any) => fn(),
-    useAnimatedReaction: () => {},
-    useAnimatedScrollHandler: () => () => {},
-    useAnimatedGestureHandler: () => () => {},
-    useAnimatedRef: () => ({ current: null }),
-    useWorkletCallback: (fn: any) => fn,
-    useFrameCallback: () => {},
-    useAnimatedKeyboard: () => ({ height: animatedValue, state: animatedValue }),
-    useAnimatedSensor: () => ({ sensor: animatedValue }),
-    useScrollViewOffset: () => animatedValue,
-    
-    // Animations
-    withTiming: (v: any) => v,
-    withSpring: (v: any) => v,
-    withDecay: (v: any) => v,
-    withDelay: (delay: any, v: any) => v,
-    withRepeat: (v: any) => v,
-    withSequence: (...v: any[]) => v[v.length - 1],
-    cancelAnimation: () => {},
-    
-    // Worklets
-    runOnJS: (fn: any) => fn,
-    runOnUI: (fn: any) => fn,
-    makeMutable: (v: any) => ({ value: v }),
-    makeShareable: (v: any) => v,
-    
-    // Components
-    createAnimatedComponent: (c: any) => c,
-    View: createAnimatedComponent("Reanimated.View"),
-    Text: createAnimatedComponent("Reanimated.Text"),
-    ScrollView: createAnimatedComponent("Reanimated.ScrollView"),
-    Image: createAnimatedComponent("Reanimated.Image"),
-    FlatList: createAnimatedComponent("Reanimated.FlatList"),
-    
-    // Interpolation
-    interpolate: (v: any, input: any, output: any) => output[0],
-    interpolateColor: (v: any, input: any, output: any) => output[0],
-    Extrapolation: { 
-      CLAMP: "clamp", 
-      EXTEND: "extend", 
-      IDENTITY: "identity" 
-    },
-    Extrapolate: { 
-      CLAMP: "clamp", 
-      EXTEND: "extend", 
-      IDENTITY: "identity" 
-    },
-    
-    // Easing
-    Easing: {
-      linear: (t: any) => t,
-      ease: (t: any) => t,
-      quad: (t: any) => t,
-      cubic: (t: any) => t,
-      poly: (n: any) => (t: any) => t,
-      sin: (t: any) => t,
-      circle: (t: any) => t,
-      exp: (t: any) => t,
-      elastic: (bounciness: any) => (t: any) => t,
-      back: (s: any) => (t: any) => t,
-      bounce: (t: any) => t,
-      bezier: () => (t: any) => t,
-      in: (f: any) => f,
-      out: (f: any) => f,
-      inOut: (f: any) => f,
-    },
-    
-    // Layout Animations
-    Layout: {
-      springify: () => {
-        const chain = {
-          damping: () => chain,
-          stiffness: () => chain,
-          mass: () => chain,
-          overshootClamping: () => chain,
-          restDisplacementThreshold: () => chain,
-          restSpeedThreshold: () => chain,
-        };
-        return chain;
-      },
-      duration: () => ({}),
-      delay: () => ({}),
-      randomDelay: () => ({}),
-      withInitialValues: () => ({}),
-      withCallback: () => ({}),
-    },
-    FadeIn: {},
-    FadeInDown: {},
-    FadeInUp: {},
-    FadeInLeft: {},
-    FadeInRight: {},
-    FadeOut: {},
-    FadeOutDown: {},
-    FadeOutUp: {},
-    FadeOutLeft: {},
-    FadeOutRight: {},
-    SlideInDown: {},
-    SlideInUp: {},
-    SlideInLeft: {},
-    SlideInRight: {},
-    SlideOutDown: {},
-    SlideOutUp: {},
-    SlideOutLeft: {},
-    SlideOutRight: {},
-    ZoomIn: {},
-    ZoomInDown: {},
-    ZoomInUp: {},
-    ZoomInLeft: {},
-    ZoomInRight: {},
-    ZoomInRotate: {},
-    ZoomInEasyUp: {},
-    ZoomInEasyDown: {},
-    ZoomOut: {},
-    ZoomOutDown: {},
-    ZoomOutUp: {},
-    ZoomOutLeft: {},
-    ZoomOutRight: {},
-    ZoomOutRotate: {},
-    ZoomOutEasyUp: {},
-    ZoomOutEasyDown: {},
-    BounceIn: {},
-    BounceInDown: {},
-    BounceInUp: {},
-    BounceInLeft: {},
-    BounceInRight: {},
-    BounceOut: {},
-    BounceOutDown: {},
-    BounceOutUp: {},
-    BounceOutLeft: {},
-    BounceOutRight: {},
-    FlipInXUp: {},
-    FlipInXDown: {},
-    FlipInYLeft: {},
-    FlipInYRight: {},
-    FlipInEasyX: {},
-    FlipInEasyY: {},
-    FlipOutXUp: {},
-    FlipOutXDown: {},
-    FlipOutYLeft: {},
-    FlipOutYRight: {},
-    FlipOutEasyX: {},
-    FlipOutEasyY: {},
-    StretchInX: {},
-    StretchInY: {},
-    StretchOutX: {},
-    StretchOutY: {},
-    RotateInDownLeft: {},
-    RotateInDownRight: {},
-    RotateInUpLeft: {},
-    RotateInUpRight: {},
-    RotateOutDownLeft: {},
-    RotateOutDownRight: {},
-    RotateOutUpLeft: {},
-    RotateOutUpRight: {},
-    LightSpeedInRight: {},
-    LightSpeedInLeft: {},
-    LightSpeedOutRight: {},
-    LightSpeedOutLeft: {},
-    PinwheelIn: {},
-    PinwheelOut: {},
-    RollInLeft: {},
-    RollInRight: {},
-    RollOutLeft: {},
-    RollOutRight: {},
-    
-    // Layout Transitions
-    LinearTransition: {},
-    SequencedTransition: {},
-    FadingTransition: {},
-    JumpingTransition: {},
-    CurvedTransition: {},
-    EntryExitTransition: {},
-    
-    // Shared Transition
-    SharedTransition: {},
-    SharedValue: class {
-      constructor(public value: any) {}
-    },
-    
-    // Measure
-    measure: () => null,
-    scrollTo: () => {},
-    
-    // Keyboard
-    KeyboardState: {
-      UNKNOWN: 0,
-      OPENING: 1,
-      OPEN: 2,
-      CLOSING: 3,
-      CLOSED: 4,
-    },
-    
-    // Sensor
-    SensorType: {
-      ACCELEROMETER: 1,
-      GYROSCOPE: 2,
-      GRAVITY: 3,
-      MAGNETIC_FIELD: 4,
-      ROTATION: 5,
-    },
-    
-    // Default export
-    default: {
-      View: createAnimatedComponent("Reanimated.View"),
-      Text: createAnimatedComponent("Reanimated.Text"),
-      ScrollView: createAnimatedComponent("Reanimated.ScrollView"),
-      Image: createAnimatedComponent("Reanimated.Image"),
-      FlatList: createAnimatedComponent("Reanimated.FlatList"),
-      createAnimatedComponent: (c: any) => c,
-    },
-  };
-});
+mock.module("react-native-reanimated", () => createReanimatedMock());
 
 // Mock React Native Gesture Handler
-mock.module("react-native-gesture-handler", () => {
-  const createMockComponent = (name: string) => {
-    const Component = ({ children, ...props }: any) => 
-      React.createElement(name, props, children);
-    Component.displayName = name;
-    return Component;
-  };
-  
-  // Create chainable gesture builder
-  const createGestureBuilder = () => {
-    const chain = {
-      enabled: () => chain,
-      onBegin: () => chain,
-      onStart: () => chain,
-      onUpdate: () => chain,
-      onEnd: () => chain,
-      onFinalize: () => chain,
-      activeOffsetX: () => chain,
-      activeOffsetY: () => chain,
-      failOffsetX: () => chain,
-      failOffsetY: () => chain,
-      minDuration: () => chain,
-      hitSlop: () => chain,
-      direction: () => chain,
-      numberOfTaps: () => chain,
-      maxDuration: () => chain,
-      minPointers: () => chain,
-      maxPointers: () => chain,
-      minDistance: () => chain,
-      shouldCancelWhenOutside: () => chain,
-      withTestId: () => chain,
-    };
-    return chain;
-  };
-  
-  // GestureDetector that forwards children without wrapping
-  const GestureDetector = ({ children }: any) => children;
-  
-  return {
-    GestureDetector,
-    GestureHandlerRootView: createMockComponent("GestureHandlerRootView"),
-    Gesture: {
-      Tap: createGestureBuilder,
-      Pan: createGestureBuilder,
-      LongPress: createGestureBuilder,
-      Fling: createGestureBuilder,
-      Pinch: createGestureBuilder,
-      Rotation: createGestureBuilder,
-      Hover: createGestureBuilder,
-      Native: createGestureBuilder,
-      Manual: createGestureBuilder,
-      Simultaneous: (...g: any[]) => g,
-      Race: (...g: any[]) => g,
-      Exclusive: (...g: any[]) => g,
-    },
-    GestureStateManager: {},
-    State: {
-      UNDETERMINED: 0,
-      FAILED: 1,
-      BEGAN: 2,
-      CANCELLED: 3,
-      ACTIVE: 4,
-      END: 5,
-    },
-    Directions: {
-      RIGHT: 1,
-      LEFT: 2,
-      UP: 4,
-      DOWN: 8,
-    },
-  };
-});
+mock.module("react-native-gesture-handler", () => createGestureHandlerMock());
 
 // Mock React Native Worklets
 mock.module("react-native-worklets", () => ({
@@ -465,21 +169,7 @@ mock.module("react-native-safe-area-context", () => {
 });
 
 // Mock @shopify/flash-list
-mock.module("@shopify/flash-list", () => {
-  const FlashList = ({ data, renderItem, ...props }: any) => {
-    // Render items like FlatList does
-    const children = data?.map((item: any, index: number) => {
-      const element = renderItem({ item, index });
-      return React.createElement(React.Fragment, { key: item.key || item.id || index }, element);
-    });
-    return React.createElement("FlashList", props, children);
-  };
-  FlashList.displayName = "FlashList";
-  
-  return {
-    FlashList,
-  };
-});
+mock.module("@shopify/flash-list", () => createFlashListMock());
 
 // Mock @react-native-community/datetimepicker
 mock.module("@react-native-community/datetimepicker", () => {
@@ -531,3 +221,27 @@ global.IS_REACT_ACT_ENVIRONMENT = true;
 // Add requestAnimationFrame for tests that need it
 global.requestAnimationFrame = (cb: any) => setTimeout(cb, 0);
 global.cancelAnimationFrame = (id: any) => clearTimeout(id);
+
+const shouldSuppressTestWarning = (args: unknown[]) =>
+  args.some(
+    (arg) =>
+      typeof arg === "string" &&
+      (
+        /react-test-renderer is deprecated/i.test(arg) ||
+        /not wrapped in act/i.test(arg) ||
+        /When testing, code that causes React state updates should be wrapped into act/i.test(arg) ||
+        /This ensures that you're testing the behavior the user would see in the browser/i.test(arg)
+      )
+  );
+
+const originalConsoleError = console.error.bind(console);
+console.error = (...args: unknown[]) => {
+  if (shouldSuppressTestWarning(args)) return;
+  originalConsoleError(...args);
+};
+
+const originalConsoleWarn = console.warn.bind(console);
+console.warn = (...args: unknown[]) => {
+  if (shouldSuppressTestWarning(args)) return;
+  originalConsoleWarn(...args);
+};
