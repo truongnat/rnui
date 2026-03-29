@@ -1,12 +1,21 @@
 import React, { useMemo, useState } from "react";
-import { TextInput as RNTextInput, View, Text, type TextInputProps as RNTextInputProps } from "react-native";
+import {
+  TextInput as RNTextInput,
+  View,
+  Text,
+  type TextInputProps as RNTextInputProps,
+  type NativeSyntheticEvent,
+  type TextInputChangeEventData,
+} from "react-native";
 import { useComponentTokens, useTokens, useIconStyle } from "@truongdq01/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
 
 export type InputSize = "sm" | "md" | "lg";
 
-export interface InputProps extends Omit<RNTextInputProps, "style"> {
+export interface InputProps extends Omit<RNTextInputProps, "style" | "onChange"> {
+  /** Callback for when the text changes */
+  onChange?: (text: string) => void;
   /** Field label shown above input */
   label?: string;
   /** Error message shown below input */
@@ -48,7 +57,7 @@ export function Input({
   const [hasTyped, setHasTyped] = useState(false);
 
   // Clear error when user starts typing
-  const handleChange = (e: any) => {
+  const handleChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
     const text = e.nativeEvent.text;
     if (!hasTyped && text.length > 0) {
       setHasTyped(true);
@@ -68,11 +77,11 @@ export function Input({
   // Helper to clone icon with standardized props
   const renderIcon = (icon: React.ReactNode) => {
     if (!icon) return null;
-    if (React.isValidElement(icon)) {
-      return React.cloneElement(icon as React.ReactElement, {
-        size: (icon.props as any)?.size ?? (size === "sm" ? tokens.fontSize.md : iconSize),
-        color: (icon.props as any)?.color ?? iconColor,
-      } as any);
+    if (React.isValidElement<{ size?: number | string; color?: string }>(icon)) {
+      return React.cloneElement(icon, {
+        size: icon.props.size ?? (size === "sm" ? tokens.fontSize.md : iconSize),
+        color: icon.props.color ?? iconColor,
+      });
     }
     return icon;
   };
@@ -99,9 +108,7 @@ export function Input({
             setIsFocused(false);
             onBlur?.(e);
           }}
-          onChange={(e) => {
-            handleChange(e.nativeEvent.text);
-          }}
+          onChange={handleChange}
           {...rest}
         />
         {renderIcon(trailingElement)}

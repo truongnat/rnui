@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Modal, View, Pressable, StyleSheet, Dimensions, type LayoutChangeEvent } from "react-native";
+import { Modal, View, Pressable, StyleSheet, Dimensions, type LayoutChangeEvent, type StyleProp, type ViewStyle } from "react-native";
 import { useTokens, useComponentTokens } from "@truongdq01/headless";
 
 export type PopperPlacement =
@@ -117,7 +117,7 @@ export function Popper({
         style={[
           popper.container,
           position,
-        ] as any}
+        ] as StyleProp<ViewStyle>}
       >
         {children}
       </View>
