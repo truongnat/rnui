@@ -34,9 +34,11 @@ jobs:
       - name: Build packages
         run: bun turbo build
 
-      # Note: Typecheck is included in build step (TypeScript compilation during build)
-      # Note: Tests are temporarily disabled due to Bun + React Native Jest incompatibility
-      # See: https://github.com/oven-sh/bun/issues/4293
+      - name: Lint
+        run: bun turbo lint
+
+      - name: Test
+        run: bun turbo test
 
   perf-test:
     name: Performance regression
@@ -54,8 +56,8 @@ jobs:
       - name: Build packages
         run: bun turbo build --filter=@truongdq01/ui...
 
-      # Note: Perf tests skipped due to react-native-gesture-handler incompatibility with Jest
-      # See: https://github.com/reactwg/react-native-reanimated/discussions/1889
+      - name: Perf tests
+        run: bun turbo test:perf --filter=@truongdq01/ui...
 
   docs:
     name: Build docs
