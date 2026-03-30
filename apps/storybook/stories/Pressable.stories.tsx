@@ -25,7 +25,6 @@ export const Basic: Story = {
   render: () => {
     const { tokens } = useTheme();
     return (
-      // @ts-ignore
       <Pressable onPress={() => { }} feedbackMode="scale">
         {({ isPressed }: any) => (
           <View

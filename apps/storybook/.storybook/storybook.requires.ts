@@ -3,14 +3,18 @@ import { start, updateView, View } from '@storybook/react-native';
 
 import "@storybook/addon-ondevice-controls/register";
 
+type RequireContext = (path: string, recursive: boolean, pattern: RegExp) => unknown;
+type RequireWithContext = NodeRequire & { context: RequireContext };
+
+declare const module: { hot?: { accept?: () => void } } | undefined;
+
 const normalizedStories = [
   {
     titlePrefix: "",
     directory: "./stories",
     files: "**/*.stories.?(ts|tsx|js|jsx)",
     importPathMatcher: /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
-    // @ts-ignore
-    req: require.context(
+    req: (require as RequireWithContext).context(
       '../stories',
       true,
       /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/
@@ -34,8 +38,7 @@ const annotations = [
 globalThis.STORIES = normalizedStories;
 
 
-// @ts-ignore
-module?.hot?.accept?.();
+(module as { hot?: { accept?: () => void } } | undefined)?.hot?.accept?.();
 
 
 

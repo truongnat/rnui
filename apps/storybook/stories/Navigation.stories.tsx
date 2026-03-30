@@ -100,11 +100,8 @@ export const StepperStory: StoryObj = {
   name: "Stepper",
   render: () => (
     <Stepper activeStep={1}>
-      {/* @ts-ignore */}
       <Step index={0} label="Account" />
-      {/* @ts-ignore */}
       <Step index={1} label="Billing" />
-      {/* @ts-ignore */}
       <Step index={2} label="Review" />
     </Stepper>
   ),
