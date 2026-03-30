@@ -22,13 +22,27 @@ describe("useOTPInput", () => {
     expect(onComplete).toHaveBeenCalledWith("1234");
   });
 
-  it("should clear the input", () => {
+  it("should expose otp props and focus handlers", () => {
     const onChange = jest.fn();
     const { result } = renderHook(() => useOTPInput({ length: 4, value: "1234", onChange }));
     
     act(() => {
-      // result.current.clear();
+      result.current.onFocus();
     });
-    expect(onChange).toHaveBeenCalledWith("");
+
+    expect(result.current.isFocused).toBe(true);
+
+    act(() => {
+      result.current.onBlur();
+    });
+
+    expect(result.current.isFocused).toBe(false);
+
+    const props = result.current.getOtpProps();
+    expect(props.keyboardType).toBe("number-pad");
+    expect(props.textContentType).toBe("oneTimeCode");
+    expect(props.autoComplete).toBe("one-time-code");
+    expect(props.maxLength).toBe(4);
+    expect(props.editable).toBe(true);
   });
 });

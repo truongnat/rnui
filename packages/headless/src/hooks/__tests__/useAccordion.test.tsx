@@ -27,6 +27,8 @@ describe("useAccordion", () => {
     
     act(() => {
       result.current.expand("item1");
+    });
+    act(() => {
       result.current.expand("item2");
     });
     expect(result.current.isExpanded("item1")).toBe(true);

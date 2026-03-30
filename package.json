@@ -12,6 +12,7 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "test": "turbo test",
+    "test:coverage": "turbo test -- --coverage --coverage-reporter=text --coverage-reporter=lcov",
     "typecheck": "turbo typecheck",
     "clean": "turbo clean && rm -rf node_modules",
     "changeset": "changeset",

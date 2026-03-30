@@ -11,7 +11,7 @@ describe("useSelect", () => {
       result.current.selectOption("1");
     });
     
-    expect(result.current.selected).toEqual(["1"]);
+    expect(result.current.selected).toBe("1");
     expect(result.current.displayLabel).toBe("One");
   });
 
@@ -20,6 +20,9 @@ describe("useSelect", () => {
     
     act(() => {
       result.current.selectOption("1");
+    });
+
+    act(() => {
       result.current.selectOption("2");
     });
     

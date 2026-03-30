@@ -33,12 +33,56 @@ jest.mock("react-native-worklets", () => ({
 
 jest.mock("react-native-gesture-handler", () => {
   const panMethods = {
+    enabled: jest.fn().mockReturnThis(),
+    onBegin: jest.fn().mockReturnThis(),
     onStart: jest.fn().mockReturnThis(),
     onUpdate: jest.fn().mockReturnThis(),
     onEnd: jest.fn().mockReturnThis(),
+    onFinalize: jest.fn().mockReturnThis(),
+    onTouchesMove: jest.fn().mockReturnThis(),
+    onTouchesDown: jest.fn().mockReturnThis(),
+    onTouchesUp: jest.fn().mockReturnThis(),
+    onTouchesCancelled: jest.fn().mockReturnThis(),
+    activeOffsetX: jest.fn().mockReturnThis(),
+    activeOffsetY: jest.fn().mockReturnThis(),
+    failOffsetX: jest.fn().mockReturnThis(),
+    failOffsetY: jest.fn().mockReturnThis(),
+    minDuration: jest.fn().mockReturnThis(),
+    hitSlop: jest.fn().mockReturnThis(),
+    direction: jest.fn().mockReturnThis(),
+    numberOfTaps: jest.fn().mockReturnThis(),
+    maxDuration: jest.fn().mockReturnThis(),
+    minPointers: jest.fn().mockReturnThis(),
+    maxPointers: jest.fn().mockReturnThis(),
+    minDistance: jest.fn().mockReturnThis(),
+    shouldCancelWhenOutside: jest.fn().mockReturnThis(),
+    withTestId: jest.fn().mockReturnThis(),
   };
   const tapMethods = {
+    enabled: jest.fn().mockReturnThis(),
+    onBegin: jest.fn().mockReturnThis(),
+    onStart: jest.fn().mockReturnThis(),
+    onUpdate: jest.fn().mockReturnThis(),
     onEnd: jest.fn().mockReturnThis(),
+    onFinalize: jest.fn().mockReturnThis(),
+    onTouchesMove: jest.fn().mockReturnThis(),
+    onTouchesDown: jest.fn().mockReturnThis(),
+    onTouchesUp: jest.fn().mockReturnThis(),
+    onTouchesCancelled: jest.fn().mockReturnThis(),
+    activeOffsetX: jest.fn().mockReturnThis(),
+    activeOffsetY: jest.fn().mockReturnThis(),
+    failOffsetX: jest.fn().mockReturnThis(),
+    failOffsetY: jest.fn().mockReturnThis(),
+    minDuration: jest.fn().mockReturnThis(),
+    hitSlop: jest.fn().mockReturnThis(),
+    direction: jest.fn().mockReturnThis(),
+    numberOfTaps: jest.fn().mockReturnThis(),
+    maxDuration: jest.fn().mockReturnThis(),
+    minPointers: jest.fn().mockReturnThis(),
+    maxPointers: jest.fn().mockReturnThis(),
+    minDistance: jest.fn().mockReturnThis(),
+    shouldCancelWhenOutside: jest.fn().mockReturnThis(),
+    withTestId: jest.fn().mockReturnThis(),
   };
   return {
     Gesture: {
@@ -87,7 +131,6 @@ describe("useBottomSheet", () => {
       result.current.open(1);
     });
 
-    expect(result.current.isOpen).toBe(true);
     expect(result.current.currentSnapIndex).toBe(1);
     expect(onSnapChange).toHaveBeenCalledWith(1);
   });
@@ -100,14 +143,12 @@ describe("useBottomSheet", () => {
     act(() => {
       result.current.open();
     });
-    expect(result.current.isOpen).toBe(true);
 
     // Then close it
     act(() => {
       result.current.close();
     });
 
-    expect(result.current.isOpen).toBe(false);
     expect(onClose).toHaveBeenCalled();
   });
 

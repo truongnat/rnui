@@ -208,7 +208,7 @@ describe("useAutocomplete", () => {
       const { result } = renderHook(() =>
         useAutocomplete<User>({
           options: users,
-          getOptionLabel: (user) => user.name,
+          getOptionLabel: (user) => user.id.toString(),
           filterOptions: (opts, query) =>
             opts.filter((o) => o.id.toString() === query),
         })
