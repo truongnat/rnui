@@ -87,10 +87,10 @@ export const TooltipStory: StoryObj = {
   name: "Tooltip",
   render: () => {
     const placements = [
-      "top", "top-left", "top-right",
-      "bottom", "bottom-left", "bottom-right",
-      "left", "left-top", "left-bottom",
-      "right", "right-top", "right-bottom"
+      "top", "top-start", "top-end",
+      "bottom", "bottom-start", "bottom-end",
+      "left", "left-start", "left-end",
+      "right", "right-start", "right-end"
     ] as const;
 
     return (

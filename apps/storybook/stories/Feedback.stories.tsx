@@ -5,9 +5,6 @@ import {
   ThemeProvider,
   Alert,
   Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Snackbar,
   CircularProgress,
   LinearProgress,
@@ -69,37 +66,36 @@ export const DialogStory: StoryObj = {
           label="Open Dialog"
           onPress={() => setOpen(true)}
           onLongPress={() => { }}
-          leadingIcon={undefined}
-          trailingIcon={undefined}
           accessibilityLabel="Open dialog"
           accessibilityHint=""
         />
-        <Dialog open={open} onClose={() => setOpen(false)} maxWidth={400}>
-          <DialogTitle>Confirm Action</DialogTitle>
-          <DialogContent>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          title="Confirm Action"
+          actions={(
+            <>
+              <Button
+                label="Cancel"
+                variant="outline"
+                onPress={() => setOpen(false)}
+                onLongPress={() => { }}
+                accessibilityLabel="Cancel"
+                accessibilityHint=""
+              />
+              <Button
+                label="Confirm"
+                onPress={() => setOpen(false)}
+                onLongPress={() => { }}
+                accessibilityLabel="Confirm"
+                accessibilityHint=""
+              />
+            </>
+          )}
+        >
+          <Text>
             Are you sure you want to proceed with this action? This cannot be undone.
-          </DialogContent>
-          <DialogActions>
-            <Button
-              label="Cancel"
-              variant="outline"
-              onPress={() => setOpen(false)}
-              onLongPress={() => { }}
-              leadingIcon={undefined}
-              trailingIcon={undefined}
-              accessibilityLabel="Cancel"
-              accessibilityHint=""
-            />
-            <Button
-              label="Confirm"
-              onPress={() => setOpen(false)}
-              onLongPress={() => { }}
-              leadingIcon={undefined}
-              trailingIcon={undefined}
-              accessibilityLabel="Confirm"
-              accessibilityHint=""
-            />
-          </DialogActions>
+          </Text>
         </Dialog>
       </View>
     );

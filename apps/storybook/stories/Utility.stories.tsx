@@ -8,9 +8,10 @@ import {
   EmptyState,
   FormField, FormGroup,
   Input, TextArea, Select, Checkbox, Button,
-  useField,
+  Icon,
   useTheme,
 } from "@truongdq01/ui";
+import { useField } from "@truongdq01/headless";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
@@ -75,15 +76,21 @@ export const EmptyStateStory: StoryObj = {
       <EmptyState
         title="No messages yet"
         description="When you receive messages, they will appear here. Start a conversation now."
-        icon="mail"
-        action={{ label: "New Message", onPress: () => { } }}
-        secondaryAction={{ label: "Learn more", onPress: () => { } }}
+        icon={<Icon>mail</Icon>}
+        action={(
+          <View style={{ flexDirection: "row", gap: 12 }}>
+            <Button label="New Message" onPress={() => { }} />
+            <Button label="Learn more" variant="outline" onPress={() => { }} />
+          </View>
+        )}
       />
       <EmptyState
         title="Search returned no results"
         description="Try adjusting your filters or searching for something else."
-        icon="search"
-        action={{ label: "Clear search", onPress: () => { }, variant: "outline" }}
+        icon={<Icon>search</Icon>}
+        action={(
+          <Button label="Clear search" variant="outline" onPress={() => { }} />
+        )}
       />
     </View>
   ),

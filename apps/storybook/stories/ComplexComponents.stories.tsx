@@ -1,6 +1,6 @@
 import type { StoryObj } from "@storybook/react-native";
 import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import {
   ThemeProvider,
   Table,
@@ -22,8 +22,8 @@ import {
   StepLabel,
   DatePicker,
   OTPInput,
-  useTable,
 } from "@truongdq01/ui";
+import { useTable } from "@truongdq01/headless";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider>
@@ -51,6 +51,7 @@ const TableDemo = () => {
     { id: 4, name: "Cupcake", calories: 305, fat: 3.7 },
     { id: 5, name: "Gingerbread", calories: 356, fat: 16.0 },
   ];
+  type Dessert = (typeof data)[number];
 
   const {
     paginatedData,
@@ -61,7 +62,7 @@ const TableDemo = () => {
     handleSort,
     isSelected,
     toggleSelect,
-  } = useTable({ data, rowsPerPage: 3 });
+  } = useTable<Dessert>({ data, rowsPerPage: 3 });
 
   return (
     <View>
@@ -85,11 +86,13 @@ const TableDemo = () => {
           </TableHead>
           <TableBody>
             {paginatedData.map((row) => (
-              <TableRow key={row.id} selected={isSelected(row.id)}>
-                <TableCell onPress={() => toggleSelect(row.id)}>{row.name}</TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-              </TableRow>
+              <Pressable key={row.id} onPress={() => toggleSelect(row.id)}>
+                <TableRow selected={isSelected(row.id)}>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell align="right">{row.calories}</TableCell>
+                  <TableCell align="right">{row.fat}</TableCell>
+                </TableRow>
+              </Pressable>
             ))}
           </TableBody>
         </Table>

@@ -1,7 +1,7 @@
 import type { StoryObj } from "@storybook/react-native";
 import React from "react";
 import { View } from "react-native";
-import { ThemeProvider, AnimatedList, ListItem, Avatar } from "@truongdq01/ui";
+import { ThemeProvider, AnimatedList, ListItem, ListItemText, ListItemIcon, Avatar } from "@truongdq01/ui";
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
     <ThemeProvider override={{}}>
@@ -27,31 +27,23 @@ const CONTACTS = [
 
 export const Default: StoryObj<typeof AnimatedList> = {
     render: () => {
-        const AnyAnimatedList = AnimatedList as any;
+        type Contact = (typeof CONTACTS)[number];
         return (
             <View style={{ height: 300, borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 8, overflow: "hidden" }}>
-                <AnyAnimatedList
+                <AnimatedList<Contact>
                     data={CONTACTS}
                     estimatedItemSize={60}
-                    renderItem={({ item, index }: any) => (
-                        <ListItem
-                            title={item.name}
-                            subtitle={item.role}
-                            leading={
+                    renderItem={({ item, index }) => (
+                        <ListItem divider={index < CONTACTS.length - 1}>
+                            <ListItemIcon>
                                 <Avatar
                                     initials={item.initials}
                                     size="sm"
-                                    src={undefined}
-                                    fallbackIcon={undefined}
-                                    status={undefined}
-                                    accessibilityLabel={undefined}
+                                    accessibilityLabel={item.name}
                                 />
-                            }
-                            trailing={undefined}
-                            onPress={undefined}
-                            onLongPress={undefined}
-                            showSeparator={index < CONTACTS.length - 1}
-                        />
+                            </ListItemIcon>
+                            <ListItemText primary={item.name} secondary={item.role} />
+                        </ListItem>
                     )}
                 />
             </View>

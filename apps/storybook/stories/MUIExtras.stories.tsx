@@ -37,9 +37,6 @@ import {
   Icon,
   Alert,
   Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Snackbar,
   CircularProgress,
   LinearProgress,
@@ -94,7 +91,7 @@ export const Layout: Story = {
         <Grid size={6}><Box style={{ height: 40, backgroundColor: "#e2e8f0" }} /></Grid>
         <Grid size={6}><Box style={{ height: 40, backgroundColor: "#cbd5f5" }} /></Grid>
       </Grid>
-      <Paper elevation={2} style={{ padding: 16 }}>
+      <Paper elevation="md" style={{ padding: 16 }}>
         <Typography>Paper surface</Typography>
       </Paper>
       <Link href="https://example.com">Example link</Link>
@@ -242,13 +239,18 @@ export const Feedback: Story = {
           <LinearProgress value={40} variant="determinate" style={{ flex: 1 }} />
         </View>
         <Button onPress={() => setDialogOpen(true)}>Open Dialog</Button>
-        <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-          <DialogTitle>Confirm</DialogTitle>
-          <DialogContent>Are you sure?</DialogContent>
-          <DialogActions>
-            <Button onPress={() => setDialogOpen(false)}>Cancel</Button>
-            <Button variant="contained">OK</Button>
-          </DialogActions>
+        <Dialog
+          open={dialogOpen}
+          onClose={() => setDialogOpen(false)}
+          title="Confirm"
+          actions={(
+            <>
+              <Button onPress={() => setDialogOpen(false)}>Cancel</Button>
+              <Button variant="contained">OK</Button>
+            </>
+          )}
+        >
+          <Text>Are you sure?</Text>
         </Dialog>
         <Snackbar open={snackOpen} message="Saved" onClose={() => setSnackOpen(false)} />
       </View>

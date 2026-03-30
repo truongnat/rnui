@@ -81,7 +81,7 @@ export const LinkStory: StoryObj = {
 export const PaperStory: StoryObj = {
   name: "Paper",
   render: () => (
-    <Paper elevation={2} style={{ padding: 16 }}>
+    <Paper elevation="md" style={{ padding: 16 }}>
       <Text>Paper with elevation</Text>
     </Paper>
   ),
