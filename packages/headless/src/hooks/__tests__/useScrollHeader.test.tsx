@@ -50,7 +50,10 @@ describe("useScrollHeader", () => {
     );
 
     act(() => {
-      result.current.scrollHandler({ contentOffset: { y: 120 } });
+      // Worklet scroll shape uses top-level contentOffset; handler typing still matches RN.
+      result.current.scrollHandler({
+        contentOffset: { x: 0, y: 120 },
+      } as unknown as Parameters<typeof result.current.scrollHandler>[0]);
     });
 
     expect(result.current.scrollY.value).toBe(120);

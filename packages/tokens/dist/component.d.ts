@@ -1011,7 +1011,7 @@ export declare function datePickerTokens(t: SemanticTokens): {
         readonly borderRadius: 9999;
         readonly selected: {
             readonly backgroundColor: string;
-            readonly color: "#FFFFFF";
+            readonly color: string;
         };
         readonly today: {
             readonly borderColor: string;
@@ -2995,7 +2995,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             readonly borderRadius: 9999;
             readonly selected: {
                 readonly backgroundColor: string;
-                readonly color: "#FFFFFF";
+                readonly color: string;
             };
             readonly today: {
                 readonly borderColor: string;

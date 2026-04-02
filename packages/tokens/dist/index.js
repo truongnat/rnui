@@ -607,7 +607,7 @@ function buttonTokens(t) {
           borderWidth: 0,
           ...t.shadow.md
         },
-        text: { color: "#FFFFFF", fontWeight: t.fontWeight.semibold },
+        text: { color: t.color.text.onBrand, fontWeight: t.fontWeight.semibold },
         pressed: { backgroundColor: t.color.brand.active, ...t.shadow.none }
       },
       outline: {
@@ -769,8 +769,7 @@ function toastTokens(t) {
     },
     text: {
       fontSize: t.fontSize.sm,
-      color: "#FFFFFF",
-      // Use definite white for background inverse for maximum contrast
+      color: t.color.text.inverse,
       flex: 1
     }
   };
@@ -839,7 +838,7 @@ function switchTokens(t) {
     colors: {
       trackOff: t.color.border.default,
       trackOn: t.color.brand.default,
-      thumb: "#FFFFFF",
+      thumb: t.color.text.inverse,
       disabledOpacity: t.opacity[40]
     }
   };
@@ -878,7 +877,7 @@ function sliderTokens(t) {
       width: 20,
       height: 20,
       borderRadius: 10,
-      bg: "#FFFFFF",
+      bg: t.color.surface.raised,
       borderColor: t.color.border.default,
       borderWidth: 1,
       ...t.shadow.sm
@@ -1215,7 +1214,7 @@ function datePickerTokens(t) {
       alignItems: "center",
       justifyContent: "center",
       borderRadius: t.radius.full,
-      selected: { backgroundColor: t.color.brand.default, color: "#FFFFFF" },
+      selected: { backgroundColor: t.color.brand.default, color: t.color.text.onBrand },
       today: { borderColor: t.color.brand.default, borderWidth: 1 },
       outside: { color: t.color.text.disabled }
     }

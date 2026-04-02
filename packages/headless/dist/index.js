@@ -5314,15 +5314,17 @@ function useStepper(options) {
 var import_react27 = require("react");
 var import_react_native11 = require("react-native");
 var import_react_native_reanimated8 = require("react-native-reanimated");
-var { width: SCREEN_WIDTH } = import_react_native11.Dimensions.get("window");
 function useCarousel({
   data,
-  itemWidth = SCREEN_WIDTH,
+  itemWidth: itemWidthOption,
   gap = 0,
   loop = false,
   autoPlay = false,
   autoPlayInterval = 3e3
 }) {
+  const { width: windowWidthPx } = (0, import_react_native11.useWindowDimensions)();
+  const windowWidth = Math.max(1, windowWidthPx > 0 ? windowWidthPx : 375);
+  const itemWidth = itemWidthOption ?? windowWidth;
   const scrollX = (0, import_react_native_reanimated8.useSharedValue)(0);
   const scrollViewRef = (0, import_react27.useRef)(null);
   const isJumping = (0, import_react27.useRef)(false);
@@ -5345,6 +5347,7 @@ function useCarousel({
     }
   }, []);
   const goToNextSlide = (0, import_react27.useCallback)(() => {
+    if (n < 1 || itemStep <= 0) return;
     if (!loop || n < 2) {
       const currentIndex = Math.round(scrollX.value / itemStep);
       const nextIndex = currentIndex >= n - 1 ? 0 : currentIndex + 1;
@@ -5358,6 +5361,7 @@ function useCarousel({
     }
   }, [loop, n, itemStep, scrollX, displayData.length]);
   const goToPreviousSlide = (0, import_react27.useCallback)(() => {
+    if (n < 1 || itemStep <= 0) return;
     const currentIndex = Math.round(scrollX.value / itemStep);
     const prevIndex = currentIndex <= 0 ? loop ? 0 : n - 1 : currentIndex - 1;
     scrollViewRef.current?.scrollTo({ x: prevIndex * itemStep, animated: true });
@@ -5377,39 +5381,49 @@ function useCarousel({
     }
   }, []);
   (0, import_react27.useEffect)(() => {
+    if (n < 1) {
+      stopTimer();
+      return;
+    }
     if (autoPlay) {
       startTimer();
     } else {
       stopTimer();
     }
     return stopTimer;
-  }, [autoPlay, startTimer, stopTimer]);
-  const onScroll = (0, import_react27.useCallback)((e) => {
-    scrollX.value = e.nativeEvent.contentOffset.x;
-    if (autoPlay) {
-      startTimer();
-    }
-  }, [autoPlay, startTimer, scrollX]);
-  const onMomentumScrollEnd = (0, import_react27.useCallback)((e) => {
-    if (!loop || n < 2 || isJumping.current) return;
-    const x = Math.round(e.nativeEvent.contentOffset.x);
-    const lastCloneX = (displayData.length - 1) * itemStep;
-    if (x <= 0) {
-      isJumping.current = true;
-      scrollViewRef.current?.scrollTo({ x: n * itemStep, animated: false });
-      scrollX.value = n * itemStep;
-      setTimeout(() => {
-        isJumping.current = false;
-      }, 50);
-    } else if (x >= lastCloneX) {
-      isJumping.current = true;
-      scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
-      scrollX.value = itemStep;
-      setTimeout(() => {
-        isJumping.current = false;
-      }, 50);
-    }
-  }, [loop, n, itemStep, displayData.length, scrollX]);
+  }, [autoPlay, startTimer, stopTimer, n]);
+  const onScroll = (0, import_react27.useCallback)(
+    (e) => {
+      scrollX.value = e.nativeEvent.contentOffset.x;
+      if (autoPlay && n >= 1) {
+        startTimer();
+      }
+    },
+    [autoPlay, startTimer, scrollX, n]
+  );
+  const onMomentumScrollEnd = (0, import_react27.useCallback)(
+    (e) => {
+      if (!loop || n < 2 || isJumping.current) return;
+      const x = Math.round(e.nativeEvent.contentOffset.x);
+      const lastCloneX = (displayData.length - 1) * itemStep;
+      if (x <= 0) {
+        isJumping.current = true;
+        scrollViewRef.current?.scrollTo({ x: n * itemStep, animated: false });
+        scrollX.value = n * itemStep;
+        setTimeout(() => {
+          isJumping.current = false;
+        }, 50);
+      } else if (x >= lastCloneX) {
+        isJumping.current = true;
+        scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
+        scrollX.value = itemStep;
+        setTimeout(() => {
+          isJumping.current = false;
+        }, 50);
+      }
+    },
+    [loop, n, itemStep, displayData.length, scrollX]
+  );
   return {
     scrollViewRef,
     scrollX,

@@ -1225,12 +1225,14 @@ var Button = import_react14.default.memo(({
       textOn: tokens.color.text.inverse
     };
   }, [color, tokens]);
-  const handlePress = (0, import_react14.useMemo)(() => {
-    if (!href) return onPress;
-    return () => {
+  const handlePress = (0, import_react14.useCallback)(() => {
+    if (!href) {
       onPress?.();
-      import_react_native14.Linking.openURL(href);
-    };
+      return;
+    }
+    onPress?.();
+    void import_react_native14.Linking.openURL(href).catch(() => {
+    });
   }, [href, onPress]);
   const hitSlop = (0, import_react14.useMemo)(() => {
     const height = button.size[size].container.height;
@@ -1270,7 +1272,22 @@ var Button = import_react14.default.memo(({
     resolvedVariant === "ghost" && { color: resolvedColor.main },
     resolvedVariant === "destructive" && { color: tokens.color.error.text }
   ], [button, resolvedVariant, size, resolvedColor, tokens]);
-  const iconColor = String(textStyle[0]?.color ?? button.variant[resolvedVariant].text.color);
+  const resolvedLabelColor = (0, import_react14.useMemo)(() => {
+    switch (resolvedVariant) {
+      case "solid":
+        return String(resolvedColor.textOn ?? tokens.color.text.inverse);
+      case "outline":
+      case "ghost":
+        return String(resolvedColor.main);
+      case "destructive":
+        return String(tokens.color.error.text);
+      default: {
+        const _never = resolvedVariant;
+        throw new Error(`Unexpected button variant: ${_never}`);
+      }
+    }
+  }, [resolvedVariant, resolvedColor, tokens]);
+  const iconColor = resolvedLabelColor;
   const content = children ?? label;
   const isTextContent = typeof content === "string" || typeof content === "number";
   const leading = startIcon ?? leadingIcon;
@@ -1402,18 +1419,36 @@ var import_react17 = __toESM(require("react"));
 var import_react_native17 = require("react-native");
 var import_react_native_reanimated7 = __toESM(require("react-native-reanimated"));
 var import_headless17 = require("@truongdq01/headless");
-var { width: SCREEN_WIDTH } = import_react_native17.Dimensions.get("window");
+function defaultKeyExtractor(_item, index) {
+  return `carousel-${index}`;
+}
+function getSlideKey(item, indexInDisplay, loop, n, keyExtractor) {
+  if (!loop || n < 2) {
+    return keyExtractor(item, indexInDisplay);
+  }
+  if (indexInDisplay === 0) {
+    return `${keyExtractor(item, n - 1)}-loop-prev`;
+  }
+  if (indexInDisplay === n + 1) {
+    return `${keyExtractor(item, 0)}-loop-next`;
+  }
+  return keyExtractor(item, indexInDisplay - 1);
+}
 function Carousel({
   data,
   renderItem,
-  itemWidth = SCREEN_WIDTH,
+  itemWidth,
   gap = 0,
   height = 200,
   showPagination = true,
   loop = false,
   autoPlay = false,
-  autoPlayInterval = 3e3
+  autoPlayInterval = 3e3,
+  keyExtractor = defaultKeyExtractor
 }) {
+  const { width: windowWidthPx } = (0, import_react_native17.useWindowDimensions)();
+  const windowWidth = Math.max(1, windowWidthPx > 0 ? windowWidthPx : 375);
+  const resolvedItemWidth = itemWidth ?? windowWidth;
   const { carousel } = (0, import_headless17.useComponentTokens)();
   const {
     scrollViewRef,
@@ -1426,12 +1461,15 @@ function Carousel({
     n
   } = (0, import_headless17.useCarousel)({
     data,
-    itemWidth,
+    itemWidth: resolvedItemWidth,
     gap,
     loop,
     autoPlay,
     autoPlayInterval
   });
+  if (data.length === 0) {
+    return null;
+  }
   return /* @__PURE__ */ import_react17.default.createElement(import_react_native17.View, { style: { height } }, /* @__PURE__ */ import_react17.default.createElement(
     import_react_native17.ScrollView,
     {
@@ -1445,12 +1483,19 @@ function Carousel({
       scrollEventThrottle: 16,
       onMomentumScrollEnd,
       contentContainerStyle: {
-        paddingHorizontal: (SCREEN_WIDTH - itemWidth) / 2,
+        paddingHorizontal: (windowWidth - resolvedItemWidth) / 2,
         gap
       }
     },
     displayData.map((item, index) => {
-      return /* @__PURE__ */ import_react17.default.createElement(import_react_native17.View, { key: index, style: { width: itemWidth, height } }, renderItem(item, loop ? (index - 1 + n) % n : index));
+      return /* @__PURE__ */ import_react17.default.createElement(
+        import_react_native17.View,
+        {
+          key: getSlideKey(item, index, loop, n, keyExtractor),
+          style: { width: resolvedItemWidth, height }
+        },
+        renderItem(item, loop ? (index - 1 + n) % n : index)
+      );
     })
   ), showPagination && /* @__PURE__ */ import_react17.default.createElement(
     import_react_native17.View,
@@ -1766,7 +1811,11 @@ function DatePicker({
   mode = "date",
   presets = ["today", "last7", "last30"],
   onPresetChange,
-  clearable = true
+  clearable = true,
+  locale,
+  timeZoneOffsetInMinutes,
+  timeZoneOffsetInSeconds,
+  timeZoneName
 }) {
   const { datePicker, input } = (0, import_headless21.useComponentTokens)();
   const tokens = (0, import_headless21.useTokens)();
@@ -1833,7 +1882,11 @@ function DatePicker({
       display: import_react_native21.Platform.OS === "ios" ? "spinner" : "default",
       onChange: handleChange,
       minimumDate,
-      maximumDate
+      maximumDate,
+      locale,
+      timeZoneOffsetInMinutes,
+      timeZoneOffsetInSeconds,
+      timeZoneName
     }
   ) : null;
   return /* @__PURE__ */ import_react21.default.createElement(import_react_native21.View, { style: { gap: tokens.spacing[2], opacity: disabled ? 0.6 : 1 } }, label && /* @__PURE__ */ import_react21.default.createElement(import_react_native21.Text, { style: input.label }, label), presets && presets.length > 0 && /* @__PURE__ */ import_react21.default.createElement(import_react_native21.View, { style: { flexDirection: "row", gap: tokens.spacing[2], flexWrap: "wrap" } }, presets.map((preset) => /* @__PURE__ */ import_react21.default.createElement(
@@ -2359,7 +2412,7 @@ var styles6 = import_react_native30.StyleSheet.create({
 var import_react31 = __toESM(require("react"));
 var import_react_native31 = require("react-native");
 var import_headless31 = require("@truongdq01/headless");
-var { width: SCREEN_WIDTH2 } = import_react_native31.Dimensions.get("window");
+var { width: SCREEN_WIDTH } = import_react_native31.Dimensions.get("window");
 var ImageListContext = (0, import_react31.createContext)(null);
 function useImageListContext() {
   return (0, import_react31.useContext)(ImageListContext);
@@ -2372,7 +2425,7 @@ function ImageList({
   variant = "standard",
   style
 }) {
-  const [width, setWidth] = (0, import_react31.useState)(SCREEN_WIDTH2);
+  const [width, setWidth] = (0, import_react31.useState)(SCREEN_WIDTH);
   const handleLayout = (event) => {
     const nextWidth = event.nativeEvent.layout.width;
     if (nextWidth !== width) setWidth(nextWidth);
@@ -2819,6 +2872,7 @@ function OTPInput({
   return /* @__PURE__ */ import_react38.default.createElement(import_react_native38.View, { style: { width: "100%" } }, /* @__PURE__ */ import_react38.default.createElement(
     import_react_native38.TextInput,
     {
+      testID: "rnui-otp-input",
       ref: inputRef,
       caretHidden: true,
       style: {
@@ -3334,8 +3388,59 @@ function RadioGroup({
 // src/components/Rating/Rating.tsx
 var import_react45 = __toESM(require("react"));
 var import_react_native44 = require("react-native");
+var import_react_native_reanimated17 = __toESM(require("react-native-reanimated"));
+var import_tokens4 = require("@truongdq01/tokens");
 var import_headless45 = require("@truongdq01/headless");
-function Rating({
+var DEFAULT_ICON_NAMES = {
+  filled: "star",
+  empty: "star",
+  half: "starHalf"
+};
+function clamp3(n, lo, hi) {
+  return Math.max(lo, Math.min(hi, n));
+}
+function RatingStarButton({
+  index,
+  iconSize,
+  iconName,
+  iconColor,
+  disabled,
+  readOnly,
+  reduceMotion,
+  onPress
+}) {
+  const scale = (0, import_react_native_reanimated17.useSharedValue)(1);
+  const animStyle = (0, import_react_native_reanimated17.useAnimatedStyle)(() => ({
+    transform: [{ scale: scale.value }]
+  }));
+  const handlePressIn = () => {
+    if (disabled || readOnly || reduceMotion) return;
+    scale.value = (0, import_react_native_reanimated17.withSpring)(1.12, import_tokens4.spring.snappy);
+  };
+  const handlePressOut = () => {
+    if (disabled || readOnly) return;
+    if (reduceMotion) {
+      scale.value = 1;
+      return;
+    }
+    scale.value = (0, import_react_native_reanimated17.withSpring)(1, import_tokens4.spring.snappy);
+  };
+  return /* @__PURE__ */ import_react45.default.createElement(
+    import_react_native44.Pressable,
+    {
+      accessibilityElementsHidden: true,
+      importantForAccessibility: "no",
+      accessible: false,
+      disabled: disabled || readOnly,
+      onPress: () => onPress(index),
+      onPressIn: handlePressIn,
+      onPressOut: handlePressOut,
+      style: { opacity: disabled ? 0.5 : 1 }
+    },
+    /* @__PURE__ */ import_react45.default.createElement(import_react_native_reanimated17.default.View, { style: animStyle }, /* @__PURE__ */ import_react45.default.createElement(Icon, { size: iconSize, color: iconColor }, iconName))
+  );
+}
+function RatingInner({
   value,
   defaultValue,
   max = 5,
@@ -3343,11 +3448,16 @@ function Rating({
   readOnly = false,
   disabled = false,
   size = "md",
-  onChange
+  onChange,
+  showValue = false,
+  valuePosition = "end",
+  compact = false,
+  iconNames: iconNamesProp
 }) {
   const { rating } = (0, import_headless45.useComponentTokens)();
-  const tokens = (0, import_headless45.useTokens)();
-  const { value: ratingValue, setValue } = (0, import_headless45.useRating)({
+  const reduceMotion = (0, import_headless45.useReduceMotionEnabled)();
+  const icons = { ...DEFAULT_ICON_NAMES, ...iconNamesProp };
+  const { value: ratingValue, setValue, precision: effectivePrecision } = (0, import_headless45.useRating)({
     value,
     defaultValue,
     max,
@@ -3359,42 +3469,107 @@ function Rating({
   const iconSize = rating.size[size];
   const activeColor = rating.star.filled.color;
   const inactiveColor = rating.star.empty.color;
+  const halfColor = rating.star.half.color;
+  const announceValue = (0, import_react45.useCallback)(
+    (next) => {
+      const announce = import_react_native44.AccessibilityInfo.announceForAccessibility;
+      if (typeof announce === "function") {
+        announce(`${next} out of ${max} stars`);
+      }
+    },
+    [max]
+  );
   const handlePress = (index) => {
     if (disabled || readOnly) return;
-    const next = index + 1;
-    const snapped = Math.round(next / precision) * precision;
-    setValue(ratingValue === snapped ? 0 : snapped);
+    const tapTarget = index + 1;
+    const snapped = Math.round(tapTarget / effectivePrecision) * effectivePrecision;
+    const newVal = ratingValue === snapped ? 0 : snapped;
+    setValue(newVal);
+    announceValue(newVal);
   };
-  return /* @__PURE__ */ import_react45.default.createElement(import_react_native44.View, { style: rating.container }, Array.from({ length: max }).map((_, i) => {
-    const starNumber = i + 1;
-    const filled = ratingValue >= starNumber;
-    const halfFilled = !filled && ratingValue >= starNumber - 0.5 && precision <= 0.5;
-    return /* @__PURE__ */ import_react45.default.createElement(
-      import_react_native44.Pressable,
-      {
-        key: i,
-        onPress: () => handlePress(i),
-        disabled: disabled || readOnly,
-        style: { opacity: disabled ? 0.5 : 1 }
-      },
-      /* @__PURE__ */ import_react45.default.createElement(
-        Icon,
+  const applyAccessibilityStep = (delta) => {
+    if (disabled || readOnly) return;
+    const raw = ratingValue + delta * effectivePrecision;
+    const snapped = Math.round(raw / effectivePrecision) * effectivePrecision;
+    const next = clamp3(snapped, 0, max);
+    if (next !== ratingValue) {
+      setValue(next);
+      announceValue(next);
+    }
+  };
+  const onAccessibilityAction = (event) => {
+    const name = event.nativeEvent.actionName;
+    if (name === "increment") {
+      applyAccessibilityStep(1);
+    } else if (name === "decrement") {
+      applyAccessibilityStep(-1);
+    }
+  };
+  const interactive = !readOnly && !disabled;
+  const rowStyle = compact ? rating.containerCompact : rating.container;
+  const valueLabel = /* @__PURE__ */ import_react45.default.createElement(
+    import_react_native44.Text,
+    {
+      accessibilityElementsHidden: true,
+      importantForAccessibility: "no",
+      accessible: false,
+      style: { fontSize: iconSize * 0.7, color: activeColor, marginHorizontal: 4 }
+    },
+    `${ratingValue}/${max}`
+  );
+  const starsRow = /* @__PURE__ */ import_react45.default.createElement(
+    import_react_native44.View,
+    {
+      accessible: interactive || readOnly || disabled,
+      accessibilityRole: interactive ? "adjustable" : "none",
+      accessibilityValue: interactive ? {
+        min: 0,
+        max,
+        now: ratingValue
+      } : void 0,
+      accessibilityHint: interactive ? "Swipe up or down to adjust rating" : void 0,
+      accessibilityLabel: !interactive ? `${ratingValue} out of ${max} stars` : void 0,
+      onAccessibilityAction: interactive ? onAccessibilityAction : void 0,
+      style: rowStyle
+    },
+    Array.from({ length: max }).map((_, i) => {
+      const starNumber = i + 1;
+      const filled = ratingValue >= starNumber;
+      const halfFilled = !filled && ratingValue >= starNumber - 0.5 && effectivePrecision <= 0.5;
+      let iconName = icons.empty;
+      if (halfFilled) iconName = icons.half;
+      else if (filled) iconName = icons.filled;
+      const iconColor = halfFilled ? halfColor : filled ? activeColor : inactiveColor;
+      return /* @__PURE__ */ import_react45.default.createElement(
+        RatingStarButton,
         {
-          size: iconSize,
-          color: filled || halfFilled ? activeColor : inactiveColor
-        },
-        filled ? "star" : halfFilled ? "star" : "star"
-      )
-    );
-  }));
+          key: i,
+          index: i,
+          iconSize,
+          iconName,
+          iconColor,
+          disabled,
+          readOnly,
+          reduceMotion,
+          onPress: handlePress
+        }
+      );
+    })
+  );
+  if (!showValue) {
+    return /* @__PURE__ */ import_react45.default.createElement(import_react_native44.View, null, starsRow);
+  }
+  return /* @__PURE__ */ import_react45.default.createElement(import_react_native44.View, { style: { flexDirection: "row", alignItems: "center" } }, valuePosition === "start" ? valueLabel : null, starsRow, valuePosition === "end" ? valueLabel : null);
 }
+var Rating = (0, import_react45.memo)(RatingInner);
+Rating.displayName = "Rating";
 
 // src/components/SegmentedControl/SegmentedControl.tsx
 var import_react46 = __toESM(require("react"));
 var import_react_native45 = require("react-native");
-var import_react_native_reanimated17 = __toESM(require("react-native-reanimated"));
+var import_react_native_reanimated18 = __toESM(require("react-native-reanimated"));
 var import_headless46 = require("@truongdq01/headless");
-var import_tokens4 = require("@truongdq01/tokens");
+var import_tokens5 = require("@truongdq01/tokens");
 function SegmentedControl({
   options,
   selectedIndex,
@@ -3411,16 +3586,16 @@ function SegmentedControl({
   });
   const [containerWidth, setContainerWidth] = (0, import_react46.useState)(0);
   const segmentWidth = containerWidth / options.length;
-  const translateX = (0, import_react_native_reanimated17.useSharedValue)(selectedIndex * segmentWidth);
+  const translateX = (0, import_react_native_reanimated18.useSharedValue)(selectedIndex * segmentWidth);
   import_react46.default.useEffect(() => {
     if (segmentWidth > 0) {
-      translateX.value = (0, import_react_native_reanimated17.withSpring)(selectedIndex * segmentWidth, import_tokens4.spring.snappy);
+      translateX.value = (0, import_react_native_reanimated18.withSpring)(selectedIndex * segmentWidth, import_tokens5.spring.snappy);
     }
   }, [selectedIndex, segmentWidth, translateX]);
   const onLayout = (e) => {
     setContainerWidth(e.nativeEvent.layout.width);
   };
-  const indicatorStyle = (0, import_react_native_reanimated17.useAnimatedStyle)(() => ({
+  const indicatorStyle = (0, import_react_native_reanimated18.useAnimatedStyle)(() => ({
     transform: [{ translateX: translateX.value }],
     width: segmentWidth
   }));
@@ -3434,7 +3609,7 @@ function SegmentedControl({
       ]
     },
     containerWidth > 0 && /* @__PURE__ */ import_react46.default.createElement(
-      import_react_native_reanimated17.default.View,
+      import_react_native_reanimated18.default.View,
       {
         style: [
           segmentedControl.item.active,
@@ -3628,7 +3803,7 @@ function Select({
 // src/components/Skeleton/Skeleton.tsx
 var import_react48 = __toESM(require("react"));
 var import_react_native47 = require("react-native");
-var import_react_native_reanimated18 = __toESM(require("react-native-reanimated"));
+var import_react_native_reanimated19 = __toESM(require("react-native-reanimated"));
 var import_headless48 = require("@truongdq01/headless");
 function Skeleton({
   width = "100%",
@@ -3636,22 +3811,24 @@ function Skeleton({
   borderRadius,
   animate = true
 }) {
-  const tokens = (0, import_headless48.useTokens)();
   const { skeleton } = (0, import_headless48.useComponentTokens)();
-  const shimmer = (0, import_react_native_reanimated18.useSharedValue)(0);
+  const shimmer = (0, import_react_native_reanimated19.useSharedValue)(0);
   (0, import_react48.useEffect)(() => {
-    if (!animate) return;
-    shimmer.value = (0, import_react_native_reanimated18.withRepeat)(
-      (0, import_react_native_reanimated18.withTiming)(1, { duration: 1200 }),
-      -1,
-      true
-    );
+    if (!animate) {
+      (0, import_react_native_reanimated19.cancelAnimation)(shimmer);
+      shimmer.value = 0;
+      return;
+    }
+    shimmer.value = (0, import_react_native_reanimated19.withRepeat)((0, import_react_native_reanimated19.withTiming)(1, { duration: 1200 }), -1, true);
+    return () => {
+      (0, import_react_native_reanimated19.cancelAnimation)(shimmer);
+    };
   }, [animate]);
-  const animatedStyle = (0, import_react_native_reanimated18.useAnimatedStyle)(() => ({
-    opacity: (0, import_react_native_reanimated18.interpolate)(shimmer.value, [0, 1], [skeleton.opacity.start, skeleton.opacity.end])
+  const animatedStyle = (0, import_react_native_reanimated19.useAnimatedStyle)(() => ({
+    opacity: (0, import_react_native_reanimated19.interpolate)(shimmer.value, [0, 1], [skeleton.opacity.start, skeleton.opacity.end])
   }));
   return /* @__PURE__ */ import_react48.default.createElement(
-    import_react_native_reanimated18.default.View,
+    import_react_native_reanimated19.default.View,
     {
       style: [
         {
@@ -3720,7 +3897,7 @@ function SkeletonListItem() {
 // src/components/Slider/Slider.tsx
 var import_react49 = __toESM(require("react"));
 var import_react_native48 = require("react-native");
-var import_react_native_reanimated19 = __toESM(require("react-native-reanimated"));
+var import_react_native_reanimated20 = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler7 = require("react-native-gesture-handler");
 var import_headless49 = require("@truongdq01/headless");
 function Slider({
@@ -3746,7 +3923,7 @@ function Slider({
     percentage
   } = (0, import_headless49.useSlider)({ min, max, step, ...hookOptions });
   const marks = showMarks && step > 0 ? Array.from({ length: Math.floor((max - min) / step) + 1 }, (_, i) => i * step + min) : [];
-  return /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { opacity: hookOptions.disabled ? slider.disabledOpacity : 1 } }, (label || showValue) && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[2] } }, label && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary } }, label), showValue && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, color: tokens.color.brand.default } }, formatValue(currentValue))), /* @__PURE__ */ import_react49.default.createElement(import_react_native_reanimated19.default.View, { style: [{ paddingVertical: 12 }, trackAnimatedStyle] }, /* @__PURE__ */ import_react49.default.createElement(import_react_native_gesture_handler7.GestureDetector, { gesture: panGesture }, /* @__PURE__ */ import_react49.default.createElement(
+  return /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { opacity: hookOptions.disabled ? slider.disabledOpacity : 1 } }, (label || showValue) && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[2] } }, label && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary } }, label), showValue && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, color: tokens.color.brand.default } }, formatValue(currentValue))), /* @__PURE__ */ import_react49.default.createElement(import_react_native_reanimated20.default.View, { style: [{ paddingVertical: 12 }, trackAnimatedStyle] }, /* @__PURE__ */ import_react49.default.createElement(import_react_native_gesture_handler7.GestureDetector, { gesture: panGesture }, /* @__PURE__ */ import_react49.default.createElement(
     import_react_native48.View,
     {
       style: { height: slider.thumb.height, justifyContent: "center" },
@@ -3766,7 +3943,7 @@ function Slider({
         }
       },
       /* @__PURE__ */ import_react49.default.createElement(
-        import_react_native_reanimated19.default.View,
+        import_react_native_reanimated20.default.View,
         {
           style: [
             {
@@ -3800,7 +3977,7 @@ function Slider({
       );
     }),
     /* @__PURE__ */ import_react49.default.createElement(
-      import_react_native_reanimated19.default.View,
+      import_react_native_reanimated20.default.View,
       {
         style: [
           {
@@ -3828,7 +4005,7 @@ function Slider({
 // src/components/Snackbar/Snackbar.tsx
 var import_react50 = __toESM(require("react"));
 var import_react_native49 = require("react-native");
-var import_react_native_reanimated20 = __toESM(require("react-native-reanimated"));
+var import_react_native_reanimated21 = __toESM(require("react-native-reanimated"));
 var import_headless50 = require("@truongdq01/headless");
 function Snackbar({
   open,
@@ -3842,18 +4019,18 @@ function Snackbar({
   const tokens = (0, import_headless50.useTokens)();
   const [mounted, setMounted] = import_react50.default.useState(open);
   const isBottom = anchorOrigin.vertical === "bottom";
-  const translateY = (0, import_react_native_reanimated20.useSharedValue)(isBottom ? 100 : -100);
-  const opacity = (0, import_react_native_reanimated20.useSharedValue)(0);
-  const scale = (0, import_react_native_reanimated20.useSharedValue)(0.95);
+  const translateY = (0, import_react_native_reanimated21.useSharedValue)(isBottom ? 100 : -100);
+  const opacity = (0, import_react_native_reanimated21.useSharedValue)(0);
+  const scale = (0, import_react_native_reanimated21.useSharedValue)(0.95);
   const animateIn = () => {
-    translateY.value = (0, import_react_native_reanimated20.withSpring)(0, { damping: 25, stiffness: 300, mass: 1 });
-    opacity.value = (0, import_react_native_reanimated20.withTiming)(1, { duration: 200 });
-    scale.value = (0, import_react_native_reanimated20.withSpring)(1, { damping: 25, stiffness: 300 });
+    translateY.value = (0, import_react_native_reanimated21.withSpring)(0, { damping: 25, stiffness: 300, mass: 1 });
+    opacity.value = (0, import_react_native_reanimated21.withTiming)(1, { duration: 200 });
+    scale.value = (0, import_react_native_reanimated21.withSpring)(1, { damping: 25, stiffness: 300 });
   };
   const animateOut = (onDone) => {
-    translateY.value = (0, import_react_native_reanimated20.withTiming)(isBottom ? 100 : -100, { duration: 200 });
-    opacity.value = (0, import_react_native_reanimated20.withTiming)(0, { duration: 150 }, (done) => {
-      if (done) (0, import_react_native_reanimated20.runOnJS)(onDone)();
+    translateY.value = (0, import_react_native_reanimated21.withTiming)(isBottom ? 100 : -100, { duration: 200 });
+    opacity.value = (0, import_react_native_reanimated21.withTiming)(0, { duration: 150 }, (done) => {
+      if (done) (0, import_react_native_reanimated21.runOnJS)(onDone)();
     });
   };
   (0, import_react50.useEffect)(() => {
@@ -3877,13 +4054,13 @@ function Snackbar({
     if (anchorOrigin.horizontal === "left") return { left: 16 };
     return { right: 16 };
   }, [anchorOrigin.horizontal]);
-  const animStyle = (0, import_react_native_reanimated20.useAnimatedStyle)(() => ({
+  const animStyle = (0, import_react_native_reanimated21.useAnimatedStyle)(() => ({
     opacity: opacity.value,
     transform: [{ translateY: translateY.value }, { scale: scale.value }]
   }));
   if (!mounted && !open) return null;
   return /* @__PURE__ */ import_react50.default.createElement(import_react_native49.Modal, { visible: mounted || open, transparent: true, animationType: "none", onRequestClose: onClose }, /* @__PURE__ */ import_react50.default.createElement(import_react_native49.View, { pointerEvents: "box-none", style: styles11.overlay }, /* @__PURE__ */ import_react50.default.createElement(
-    import_react_native_reanimated20.default.View,
+    import_react_native_reanimated21.default.View,
     {
       style: [
         snackbar.container,
@@ -4045,28 +4222,28 @@ function StepLabel({ children, style }) {
 // src/components/Switch/Switch.tsx
 var import_react54 = __toESM(require("react"));
 var import_react_native53 = require("react-native");
-var import_react_native_reanimated21 = __toESM(require("react-native-reanimated"));
+var import_react_native_reanimated22 = __toESM(require("react-native-reanimated"));
 var import_headless54 = require("@truongdq01/headless");
-var import_tokens5 = require("@truongdq01/tokens");
+var import_tokens6 = require("@truongdq01/tokens");
 var Switch = import_react54.default.memo(({ label, description, size = "md", ...hookOptions }) => {
   const tokens = (0, import_headless54.useTokens)();
   const { switch: switchT } = (0, import_headless54.useComponentTokens)();
   const { isOn, isDisabled, toggle, accessibilityProps } = (0, import_headless54.useSwitch)(hookOptions);
   const tTrack = switchT.track[size];
   const tThumb = switchT.thumb[size];
-  const thumbTravel = tTrack.width - tThumb.width - tTrack.padding * 2;
-  const progress = (0, import_react_native_reanimated21.useSharedValue)(isOn ? 1 : 0);
+  const thumbTravel = Math.max(0, tTrack.width - tThumb.width - tTrack.padding * 2);
+  const progress = (0, import_react_native_reanimated22.useSharedValue)(isOn ? 1 : 0);
   import_react54.default.useEffect(() => {
-    progress.value = (0, import_react_native_reanimated21.withSpring)(isOn ? 1 : 0, import_tokens5.spring.snappy);
+    progress.value = (0, import_react_native_reanimated22.withSpring)(isOn ? 1 : 0, import_tokens6.spring.snappy);
   }, [isOn]);
-  const trackStyle = (0, import_react_native_reanimated21.useAnimatedStyle)(() => ({
-    backgroundColor: (0, import_react_native_reanimated21.interpolateColor)(
+  const trackStyle = (0, import_react_native_reanimated22.useAnimatedStyle)(() => ({
+    backgroundColor: (0, import_react_native_reanimated22.interpolateColor)(
       progress.value,
       [0, 1],
       [switchT.colors.trackOff, switchT.colors.trackOn]
     )
   }));
-  const thumbStyle = (0, import_react_native_reanimated21.useAnimatedStyle)(() => ({
+  const thumbStyle = (0, import_react_native_reanimated22.useAnimatedStyle)(() => ({
     transform: [{ translateX: progress.value * thumbTravel }]
   }));
   return /* @__PURE__ */ import_react54.default.createElement(
@@ -4074,11 +4251,16 @@ var Switch = import_react54.default.memo(({ label, description, size = "md", ...
     {
       onPress: toggle,
       disabled: isDisabled,
-      style: { flexDirection: "row", alignItems: "center", gap: 12, opacity: isDisabled ? switchT.colors.disabledOpacity : 1 },
+      style: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: tokens.spacing[3],
+        opacity: isDisabled ? switchT.colors.disabledOpacity : 1
+      },
       ...accessibilityProps
     },
     /* @__PURE__ */ import_react54.default.createElement(
-      import_react_native_reanimated21.default.View,
+      import_react_native_reanimated22.default.View,
       {
         style: [
           {
@@ -4092,7 +4274,7 @@ var Switch = import_react54.default.memo(({ label, description, size = "md", ...
         ]
       },
       /* @__PURE__ */ import_react54.default.createElement(
-        import_react_native_reanimated21.default.View,
+        import_react_native_reanimated22.default.View,
         {
           style: [
             {
@@ -4100,18 +4282,24 @@ var Switch = import_react54.default.memo(({ label, description, size = "md", ...
               height: tThumb.height,
               borderRadius: tThumb.borderRadius,
               backgroundColor: switchT.colors.thumb,
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.15,
-              shadowRadius: 3,
-              elevation: 2
+              ...tokens.shadow.sm
             },
             thumbStyle
           ]
         }
       )
     ),
-    (label || description) && /* @__PURE__ */ import_react54.default.createElement(import_react_native53.View, { style: { flex: 1 } }, label && /* @__PURE__ */ import_react54.default.createElement(import_react_native53.Text, { style: { fontSize: tokens.fontSize.md, color: tokens.color.text.primary, fontWeight: tokens.fontWeight.medium } }, label), description && /* @__PURE__ */ import_react54.default.createElement(import_react_native53.Text, { style: { fontSize: tokens.fontSize.sm, color: tokens.color.text.secondary, marginTop: 2 } }, description))
+    (label || description) && /* @__PURE__ */ import_react54.default.createElement(import_react_native53.View, { style: { flex: 1 } }, label && /* @__PURE__ */ import_react54.default.createElement(import_react_native53.Text, { style: { fontSize: tokens.fontSize.md, color: tokens.color.text.primary, fontWeight: tokens.fontWeight.medium } }, label), description && /* @__PURE__ */ import_react54.default.createElement(
+      import_react_native53.Text,
+      {
+        style: {
+          fontSize: tokens.fontSize.sm,
+          color: tokens.color.text.secondary,
+          marginTop: tokens.spacing[0.5]
+        }
+      },
+      description
+    ))
   );
 });
 
@@ -4261,8 +4449,6 @@ function TableSortLabel({
 // src/components/Tabs/Tabs.tsx
 var import_react56 = __toESM(require("react"));
 var import_react_native55 = require("react-native");
-var import_react_native_reanimated22 = __toESM(require("react-native-reanimated"));
-var import_react_native_gesture_handler8 = require("react-native-gesture-handler");
 var import_headless56 = require("@truongdq01/headless");
 var TabsContext = (0, import_react56.createContext)(null);
 function Tabs({
@@ -4298,31 +4484,28 @@ function Tab({ value, label, icon, disabled = false }) {
   const ctx = (0, import_react56.useContext)(TabsContext);
   if (!ctx) return null;
   const selected = ctx.isSelected(value);
-  const { animatedStyle, gesture, accessibilityProps } = (0, import_headless56.usePressable)({
-    onPress: () => ctx.getTabProps(value, disabled).onPress(),
-    disabled,
-    feedbackMode: "scaleSubtle",
-    accessibilityRole: "tab"
-  });
-  return /* @__PURE__ */ import_react56.default.createElement(import_react_native_gesture_handler8.GestureDetector, { gesture }, /* @__PURE__ */ import_react56.default.createElement(
-    import_react_native_reanimated22.default.View,
+  const { onPress, accessibilityState } = ctx.getTabProps(value, disabled);
+  return /* @__PURE__ */ import_react56.default.createElement(
+    import_react_native55.Pressable,
     {
-      style: [
+      disabled,
+      onPress,
+      accessibilityRole: "tab",
+      accessibilityState,
+      style: ({ pressed }) => [
         {
           paddingVertical: tokens.spacing[3],
           paddingHorizontal: tokens.spacing[4],
           borderBottomWidth: ctx.orientation === "horizontal" ? tabs.indicator.height : 0,
           borderLeftWidth: ctx.orientation === "vertical" ? tabs.indicator.height : 0,
           borderColor: selected ? tabs.indicator.bg : "transparent",
-          opacity: disabled ? 0.5 : 1,
+          opacity: disabled ? 0.5 : pressed ? 0.92 : 1,
           alignItems: "center",
           flexDirection: "row",
           gap: tokens.spacing[2]
         },
-        ctx.variant === "fullWidth" ? { flex: 1, justifyContent: "center" } : null,
-        animatedStyle
-      ],
-      ...accessibilityProps
+        ctx.variant === "fullWidth" ? { flex: 1, justifyContent: "center" } : null
+      ]
     },
     icon,
     label && /* @__PURE__ */ import_react56.default.createElement(
@@ -4335,7 +4518,7 @@ function Tab({ value, label, icon, disabled = false }) {
       },
       label
     )
-  ));
+  );
 }
 
 // src/components/TextArea/TextArea.tsx
@@ -4689,7 +4872,7 @@ var styles12 = import_react_native60.StyleSheet.create({
 var import_react62 = __toESM(require("react"));
 var import_react_native61 = require("react-native");
 var import_react_native_reanimated24 = __toESM(require("react-native-reanimated"));
-var import_react_native_gesture_handler9 = require("react-native-gesture-handler");
+var import_react_native_gesture_handler8 = require("react-native-gesture-handler");
 var import_headless62 = require("@truongdq01/headless");
 var ToggleContext = (0, import_react62.createContext)(null);
 function ToggleButtonGroup({
@@ -4730,7 +4913,7 @@ function ToggleButton({ value, disabled = false, children }) {
     lg: { height: 48, paddingHorizontal: 20, fontSize: tokens.fontSize.lg }
   };
   const s = sizeMap[size];
-  return /* @__PURE__ */ import_react62.default.createElement(import_react_native_gesture_handler9.GestureDetector, { gesture }, /* @__PURE__ */ import_react62.default.createElement(
+  return /* @__PURE__ */ import_react62.default.createElement(import_react_native_gesture_handler8.GestureDetector, { gesture }, /* @__PURE__ */ import_react62.default.createElement(
     import_react_native_reanimated24.default.View,
     {
       style: [
@@ -4899,8 +5082,11 @@ function Typography({
   const { typography } = (0, import_headless64.useComponentTokens)();
   const tokens = (0, import_headless64.useTokens)();
   const variantStyle = variant === "inherit" ? {} : typography.variants[variant] || {};
-  const resolvedColor = color && typography.colors[color] ? typography.colors[color] : color || typography.colors.primary;
+  const presetColors = typography.colors;
+  const resolvedColor = color != null && color !== "" && typeof color === "string" && Object.prototype.hasOwnProperty.call(presetColors, color) ? presetColors[color] : color || presetColors.primary;
   const resolvedDisplay = display === "block" || display === "inline" || display === "inline-flex" ? "flex" : display;
+  const sans = tokens.fontFamily?.sans;
+  const sansFont = sans != null && sans !== "" ? { fontFamily: sans } : null;
   return /* @__PURE__ */ import_react64.default.createElement(
     import_react_native63.Text,
     {
@@ -4908,6 +5094,7 @@ function Typography({
       style: [
         { color: resolvedColor, textAlign: align === "inherit" ? void 0 : align },
         variantStyle,
+        sansFont,
         paragraph && { marginBottom: tokens.spacing[4] },
         gutterBottom && { marginBottom: tokens.spacing[2] },
         resolvedDisplay ? { display: resolvedDisplay } : null,
