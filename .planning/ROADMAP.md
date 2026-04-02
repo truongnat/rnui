@@ -81,7 +81,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 **UI hint**: yes
 
-**Plans**: TBD
+**Plans**: `04-01-PLAN.md` (wave 1) — ready to execute
 
 ### Phase 5: Backlog components & integrations
 
@@ -106,7 +106,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 | 1. Critical fixes | 1/1 | Complete   | 2026-04-02 |
 | 2. Rating depth | 1/1 | Complete | 2026-04-02 |
 | 3. Perf & edges | 1/1 | Complete | 2026-04-02 |
-| 4. DS enhancements | TBD | Not started | - |
+| 4. DS enhancements | 1/1 planned | Planned (not executed) | - |
 | 5. Backlog | TBD | Not started | - |
 
 ## Coverage
