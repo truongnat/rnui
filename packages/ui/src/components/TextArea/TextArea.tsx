@@ -14,9 +14,11 @@ export interface TextAreaProps {
   onFocus?: () => void;
   error?: string;
   helperText?: string;
-  /** Minimum number of visible lines */
+  /**
+   * Kept for API compatibility (e.g. TextField `rows`); layout height uses `maxLines` only.
+   */
   minLines?: number;
-  /** Maximum lines before scroll kicks in */
+  /** Visible height is fixed to this many lines; extra text scrolls inside. */
   maxLines?: number;
   /** Show character counter when `maxLength` is set */
   showCounter?: boolean;
@@ -42,7 +44,7 @@ export function TextArea({
   onFocus,
   error,
   helperText,
-  minLines = 3,
+  minLines: _minLines = 3,
   maxLines = 8,
   maxLength,
   showCounter = true,
