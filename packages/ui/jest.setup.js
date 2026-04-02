@@ -1,11 +1,3 @@
-import { jest } from '@jest/globals';
-import 'react-native';
-
-jest.mock('react-native/Libraries/Utilities/Dimensions', () => ({
-  get: jest.fn().mockReturnValue({ width: 375, height: 812 }),
-  addEventListener: jest.fn(),
-}));
-
-jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
-
+// Do not import the real react-native entry (Flow/TS hybrid breaks babel-jest).
+// `jest.config.js` maps `react-native` to `../headless/jest/react-native-mock.js`.
 global.__fbBatchedBridgeConfig = {};

@@ -1,6 +1,5 @@
 import "@testing-library/react-native/extend-expect";
 import { configure } from "@testing-library/react-native";
-import { createFlashListMock, createGestureHandlerMock, createReanimatedMock } from "./test-mocks";
 
 configure({
   hostComponentNames: {
@@ -35,16 +34,25 @@ jest.mock("react-native-worklets", () => ({
   createSerializable: (v: any) => v,
 }));
 
-jest.mock("react-native-reanimated", () => createReanimatedMock());
+jest.mock("react-native-reanimated", () => {
+  const { createReanimatedMock } = require("./test-mocks");
+  return createReanimatedMock();
+});
 
-jest.mock("react-native-gesture-handler", () => createGestureHandlerMock());
+jest.mock("react-native-gesture-handler", () => {
+  const { createGestureHandlerMock } = require("./test-mocks");
+  return createGestureHandlerMock();
+});
 
 jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
   SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-jest.mock("@shopify/flash-list", () => createFlashListMock());
+jest.mock("@shopify/flash-list", () => {
+  const { createFlashListMock } = require("./test-mocks");
+  return createFlashListMock();
+});
 
 jest.mock("react-native-svg", () => {
   const React = require("react");

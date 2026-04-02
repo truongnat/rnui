@@ -27,9 +27,9 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "bun test",
-    "test:jest": "jest --testPathPattern=\"__tests__(?!/perf)\"",
+    "test:jest": "node ./scripts/run-jest.cjs --testPathPattern=\"__tests__(?!/perf)\"",
     "clean": "rm -rf dist dist-types",
-    "test:perf": "jest --testPathPattern=perf"
+    "test:perf": "node ./scripts/run-jest.cjs --testPathPattern=perf"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^9.1.0",
