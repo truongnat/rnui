@@ -6,6 +6,7 @@ import Animated, {
   withRepeat,
   withTiming,
   interpolate,
+  cancelAnimation,
 } from "react-native-reanimated";
 import { useTokens, useComponentTokens } from "@truongdq01/headless";
 
@@ -25,17 +26,19 @@ export function Skeleton({
   borderRadius,
   animate = true,
 }: SkeletonProps) {
-  const tokens = useTokens();
   const { skeleton } = useComponentTokens();
   const shimmer = useSharedValue(0);
 
   useEffect(() => {
-    if (!animate) return;
-    shimmer.value = withRepeat(
-      withTiming(1, { duration: 1200 }),
-      -1,
-      true
-    );
+    if (!animate) {
+      cancelAnimation(shimmer);
+      shimmer.value = 0;
+      return;
+    }
+    shimmer.value = withRepeat(withTiming(1, { duration: 1200 }), -1, true);
+    return () => {
+      cancelAnimation(shimmer);
+    };
   }, [animate]);
 
   const animatedStyle = useAnimatedStyle(() => ({

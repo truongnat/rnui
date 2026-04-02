@@ -23,7 +23,7 @@ export const Switch = React.memo(({ label, description, size = "md", ...hookOpti
 
   const tTrack = switchT.track[size];
   const tThumb = switchT.thumb[size];
-  const thumbTravel = tTrack.width - tThumb.width - tTrack.padding * 2;
+  const thumbTravel = Math.max(0, tTrack.width - tThumb.width - tTrack.padding * 2);
 
   // Shared value 0 = off, 1 = on
   const progress = useSharedValue(isOn ? 1 : 0);

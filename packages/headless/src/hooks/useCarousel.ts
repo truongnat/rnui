@@ -1,11 +1,10 @@
 import React, { useRef, useMemo, useCallback, useEffect } from "react";
-import { ScrollView, Dimensions } from "react-native";
+import { ScrollView, useWindowDimensions } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
-
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export interface UseCarouselOptions<T> {
   data: T[];
+  /** Defaults to current window width (from `useWindowDimensions`). */
   itemWidth?: number;
   gap?: number;
   loop?: boolean;
@@ -13,14 +12,23 @@ export interface UseCarouselOptions<T> {
   autoPlayInterval?: number;
 }
 
+/**
+ * Carousel scroll state. When `loop` is true and `data.length >= 2`, `displayData` is
+ * `[last, ...data, first]` for infinite scroll. When `data.length === 1` and `loop` is true,
+ * `displayData` is the single item (no clones) — same as non-loop.
+ */
 export function useCarousel<T>({
   data,
-  itemWidth = SCREEN_WIDTH,
+  itemWidth: itemWidthOption,
   gap = 0,
   loop = false,
   autoPlay = false,
   autoPlayInterval = 3000,
 }: UseCarouselOptions<T>) {
+  const { width: windowWidthPx } = useWindowDimensions();
+  const windowWidth = Math.max(1, windowWidthPx > 0 ? windowWidthPx : 375);
+  const itemWidth = itemWidthOption ?? windowWidth;
+
   const scrollX = useSharedValue(0);
   const scrollViewRef = useRef<ScrollView>(null);
   const isJumping = useRef(false);
@@ -53,6 +61,7 @@ export function useCarousel<T>({
 
   // ─── Navigation ─────────────────────────────────────────────────
   const goToNextSlide = useCallback(() => {
+    if (n < 1 || itemStep <= 0) return;
     if (!loop || n < 2) {
       const currentIndex = Math.round(scrollX.value / itemStep);
       const nextIndex = currentIndex >= n - 1 ? 0 : currentIndex + 1;
@@ -67,6 +76,7 @@ export function useCarousel<T>({
   }, [loop, n, itemStep, scrollX, displayData.length]);
 
   const goToPreviousSlide = useCallback(() => {
+    if (n < 1 || itemStep <= 0) return;
     const currentIndex = Math.round(scrollX.value / itemStep);
     const prevIndex = currentIndex <= 0 ? (loop ? 0 : n - 1) : currentIndex - 1;
     scrollViewRef.current?.scrollTo({ x: prevIndex * itemStep, animated: true });
@@ -90,42 +100,56 @@ export function useCarousel<T>({
   }, []);
 
   useEffect(() => {
+    if (n < 1) {
+      stopTimer();
+      return;
+    }
     if (autoPlay) {
       startTimer();
     } else {
       stopTimer();
     }
     return stopTimer;
-  }, [autoPlay, startTimer, stopTimer]);
+  }, [autoPlay, startTimer, stopTimer, n]);
 
   // ─── Event Handlers ─────────────────────────────────────────────
-  const onScroll = useCallback((e: any) => {
-    scrollX.value = e.nativeEvent.contentOffset.x;
-    if (autoPlay) {
-      startTimer();
-    }
-  }, [autoPlay, startTimer, scrollX]);
+  const onScroll = useCallback(
+    (e: any) => {
+      scrollX.value = e.nativeEvent.contentOffset.x;
+      if (autoPlay && n >= 1) {
+        startTimer();
+      }
+    },
+    [autoPlay, startTimer, scrollX, n]
+  );
 
-  const onMomentumScrollEnd = useCallback((e: any) => {
-    if (!loop || n < 2 || isJumping.current) return;
+  const onMomentumScrollEnd = useCallback(
+    (e: any) => {
+      if (!loop || n < 2 || isJumping.current) return;
 
-    const x = Math.round(e.nativeEvent.contentOffset.x);
-    const lastCloneX = (displayData.length - 1) * itemStep;
+      const x = Math.round(e.nativeEvent.contentOffset.x);
+      const lastCloneX = (displayData.length - 1) * itemStep;
 
-    if (x <= 0) {
-      // Jump from first clone to real last item
-      isJumping.current = true;
-      scrollViewRef.current?.scrollTo({ x: n * itemStep, animated: false });
-      scrollX.value = n * itemStep;
-      setTimeout(() => { isJumping.current = false; }, 50);
-    } else if (x >= lastCloneX) {
-      // Jump from last clone to real first item
-      isJumping.current = true;
-      scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
-      scrollX.value = itemStep;
-      setTimeout(() => { isJumping.current = false; }, 50);
-    }
-  }, [loop, n, itemStep, displayData.length, scrollX]);
+      if (x <= 0) {
+        // Jump from first clone to real last item
+        isJumping.current = true;
+        scrollViewRef.current?.scrollTo({ x: n * itemStep, animated: false });
+        scrollX.value = n * itemStep;
+        setTimeout(() => {
+          isJumping.current = false;
+        }, 50);
+      } else if (x >= lastCloneX) {
+        // Jump from last clone to real first item
+        isJumping.current = true;
+        scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
+        scrollX.value = itemStep;
+        setTimeout(() => {
+          isJumping.current = false;
+        }, 50);
+      }
+    },
+    [loop, n, itemStep, displayData.length, scrollX]
+  );
 
   return {
     scrollViewRef,

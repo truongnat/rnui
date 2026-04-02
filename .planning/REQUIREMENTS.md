@@ -27,8 +27,8 @@ Nguồn: mục tiêu sản phẩm trong `PROJECT.md` + `AUDIT_REPORT.md` (Improv
 
 ### Performance & edge cases (PERF)
 
-- [ ] **PERF-01**: Carousel: key ổn định, guard `data` rỗng, xử lý loop 1 phần tử, width responsive
-- [ ] **PERF-02**: Skeleton: hủy shimmer khi `animate=false`; (tùy chọn) shared shimmer
+- [x] **PERF-01**: Carousel: key ổn định, guard `data` rỗng, xử lý loop 1 phần tử, width responsive
+- [x] **PERF-02**: Skeleton: hủy shimmer khi `animate=false`; (tùy chọn) shared shimmer
 
 ### Design system (DS)
 
