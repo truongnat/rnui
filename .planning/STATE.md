@@ -12,8 +12,8 @@ See: `.planning/PROJECT.md` (updated 2026-04-02)
 
 Phase: 1 of 5 (Critical fixes)  
 Plan: 0 of N in current phase  
-Status: Ready to plan (`/gsd-plan-phase 1`)  
-Last activity: 2026-04-02 — Discuss phase 1 (`/gsd-discuss-phase 1`) → `1-CONTEXT.md`
+Status: Ready to execute (`/gsd-execute-phase 1`)  
+Last activity: 2026-04-02 — Plan phase 1 → `01-01-PLAN.md`; Button `as any` cleanup landed in code
 
 Progress: [░░░░░░░░░░] 0%
 

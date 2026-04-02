@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import Animated from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { ActivityIndicator, Text, View, StyleSheet, Linking } from "react-native";
+import { ActivityIndicator, Text, View, StyleSheet, Linking, type StyleProp, type ViewStyle } from "react-native";
 import { usePressable, useComponentTokens, useIconStyle, useTokens } from "@truongdq01/headless";
 import type { PressFeedbackMode } from "@truongdq01/headless";
 
@@ -168,12 +168,13 @@ export const Button = React.memo(({
     };
   }, [color, tokens]);
 
-  const handlePress = useMemo(() => {
-    if (!href) return onPress;
-    return () => {
+  const handlePress = useCallback(() => {
+    if (!href) {
       onPress?.();
-      Linking.openURL(href);
-    };
+      return;
+    }
+    onPress?.();
+    void Linking.openURL(href).catch(() => {});
   }, [href, onPress]);
 
   const hitSlop = useMemo(() => {
@@ -220,7 +221,23 @@ export const Button = React.memo(({
     resolvedVariant === "destructive" && { color: tokens.color.error.text },
   ], [button, resolvedVariant, size, resolvedColor, tokens]);
 
-  const iconColor = String((textStyle[0] as any)?.color ?? button.variant[resolvedVariant].text.color);
+  const resolvedLabelColor = useMemo(() => {
+    switch (resolvedVariant) {
+      case "solid":
+        return String(resolvedColor.textOn ?? tokens.color.text.inverse);
+      case "outline":
+      case "ghost":
+        return String(resolvedColor.main);
+      case "destructive":
+        return String(tokens.color.error.text);
+      default: {
+        const _never: never = resolvedVariant;
+        throw new Error(`Unexpected button variant: ${_never}`);
+      }
+    }
+  }, [resolvedVariant, resolvedColor, tokens]);
+
+  const iconColor = resolvedLabelColor;
   const content = children ?? label;
   const isTextContent = typeof content === "string" || typeof content === "number";
   const leading = startIcon ?? leadingIcon;
@@ -241,7 +258,7 @@ export const Button = React.memo(({
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View
-        style={[containerStyle, animatedStyle, { position: "relative" }] as any}
+        style={[containerStyle, animatedStyle, { position: "relative" }] as StyleProp<ViewStyle>}
         {...accessibilityProps}
       >
         <View style={[
