@@ -81,6 +81,8 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 **UI hint**: yes
 
+**UI-SPEC**: `04-UI-SPEC.md` (approved 2026-04-02)
+
 **Plans**: `04-01-PLAN.md` (wave 1) — ready to execute
 
 ### Phase 5: Backlog components & integrations
