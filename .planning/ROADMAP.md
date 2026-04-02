@@ -91,15 +91,17 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 **Depends on**: Phase 4
 
-**Requirements**: TBD backlog
+**Requirements**: BL-01, BL-02 (wave 1); backlog mở rộng sau wave 1
 
 **Success Criteria** (what must be TRUE):
 
-1. Mỗi hạng mục chọn có issue/plan và proof merge
+1. BL-01: test + hành vi rõ cho paste/autofill OTP (hook + UI smoke)
+2. BL-02: `DatePicker` forward prop locale/TZ tới `DateTimePicker` + test
+3. Mỗi hạng mục wave sau có issue/plan và proof merge
 
 **UI hint**: mixed
 
-**Plans**: TBD
+**Plans**: `05-01-PLAN.md` (wave 1) — ready to execute
 
 ## Progress
 
@@ -109,7 +111,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 | 2. Rating depth | 1/1 | Complete | 2026-04-02 |
 | 3. Perf & edges | 1/1 | Complete | 2026-04-02 |
 | 4. DS enhancements | 1/1 | Complete | 2026-04-02 |
-| 5. Backlog | TBD | Not started | - |
+| 5. Backlog | 1/1 planned | Planned (not executed) | - |
 
 ## Coverage
 
@@ -119,4 +121,4 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 | 2 | A11Y-02, RATE-03 |
 | 3 | PERF-01..02 |
 | 4 | DS-01 |
-| 5 | TBD backlog |
+| 5 | BL-01, BL-02 (+ backlog) |

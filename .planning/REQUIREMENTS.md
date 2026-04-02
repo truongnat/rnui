@@ -34,6 +34,11 @@ Nguồn: mục tiêu sản phẩm trong `PROJECT.md` + `AUDIT_REPORT.md` (Improv
 
 - [x] **DS-01**: (Phase 4) Font family token, brand trung tính, contrast loveBrand, token `surface.hover` traceable, v.v.
 
+### Backlog integrations (BL)
+
+- [ ] **BL-01**: (Phase 5) OTPInput — paste/autofill chuỗi đầy đủ; `useOTPInput` + test chứng minh
+- [ ] **BL-02**: (Phase 5) DatePicker — forward `locale`, `timeZoneOffsetInMinutes` (và prop TZ liên quan từ `@react-native-community/datetimepicker`) xuống native picker
+
 ## v2 — Deferred
 
 - Histogram review, NumericScore animation, SentimentPicker — sau khi v1 ổn định
@@ -51,4 +56,4 @@ Nguồn: mục tiêu sản phẩm trong `PROJECT.md` + `AUDIT_REPORT.md` (Improv
 | A11Y-02, RATE-03 (partial) | 2 |
 | PERF-* | 3 |
 | DS-* | 4 |
-| Backlog OTP/DatePicker | 5 |
+| BL-* | 5 |
