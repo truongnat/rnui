@@ -48,7 +48,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 **UI hint**: yes
 
-**Plans**: TBD
+**Plans**: `02-01-PLAN.md` (wave 1)
 
 ### Phase 3: Performance & edge cases
 
@@ -104,7 +104,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Critical fixes | 1/1 | Complete   | 2026-04-02 |
-| 2. Rating depth | TBD | Not started | - |
+| 2. Rating depth | 0/1 | Planned | - |
 | 3. Perf & edges | TBD | Not started | - |
 | 4. DS enhancements | TBD | Not started | - |
 | 5. Backlog | TBD | Not started | - |
