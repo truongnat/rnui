@@ -12,8 +12,8 @@ See: `.planning/PROJECT.md` (updated 2026-04-02)
 
 Phase: 2 of 5 (Rating component depth)  
 Plan: 0 of TBD in current phase  
-Status: Ready to discuss or plan  
-Last activity: 2026-04-02 — Execute phase 1 complete (`01-01-SUMMARY.md`)
+Status: Context gathered — ready to plan  
+Last activity: 2026-04-02 — Discuss phase 2 (`2-CONTEXT.md`)
 
 Progress: [████░░░░░░] Phase 1 complete (1/5)
 
@@ -50,5 +50,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-04-02  
-Stopped at: Phase 1 execution verified; SUMMARY committed  
+Stopped at: Phase 2 context in `.planning/phases/02-rating-component-depth/2-CONTEXT.md`  
 Resume file: None
