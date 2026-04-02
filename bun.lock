@@ -158,6 +158,7 @@
         "@truongdq01/tokens": "^1.0.3",
         "@types/react-native": "^0.73.0",
         "lucide-react-native": "^0.577.0",
+        "react-native-svg": "^15.15.4",
       },
       "devDependencies": {
         "@testing-library/react-native": "^12.9.0",
