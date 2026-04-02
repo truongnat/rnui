@@ -103,6 +103,11 @@ declare const shared: {
         readonly offset: 2;
         readonly outlineWidth: 2;
     };
+    readonly fontFamily: {
+        /** Omit / undefined = system default sans */
+        readonly sans: string | undefined;
+        readonly mono: string | undefined;
+    };
     readonly text: {
         readonly xs: {
             readonly fontSize: 11;
@@ -385,6 +390,11 @@ export declare const lightTokens: {
         readonly offset: 2;
         readonly outlineWidth: 2;
     };
+    readonly fontFamily: {
+        /** Omit / undefined = system default sans */
+        readonly sans: string | undefined;
+        readonly mono: string | undefined;
+    };
     readonly text: {
         readonly xs: {
             readonly fontSize: 11;
@@ -440,7 +450,7 @@ export declare const darkTokens: {
             readonly raised: "#1E293B";
             readonly overlay: "#1E293B";
             readonly sunken: "#020617";
-            readonly hover: "#1A1A28";
+            readonly hover: "#334155";
             readonly disabled: "#0D0D14";
         };
         readonly text: {
@@ -667,6 +677,11 @@ export declare const darkTokens: {
         readonly offset: 2;
         readonly outlineWidth: 2;
     };
+    readonly fontFamily: {
+        /** Omit / undefined = system default sans */
+        readonly sans: string | undefined;
+        readonly mono: string | undefined;
+    };
     readonly text: {
         readonly xs: {
             readonly fontSize: 11;
@@ -795,6 +810,7 @@ export interface SemanticTokens {
     zIndex: typeof shared.zIndex;
     elevation: typeof shared.elevation;
     focusRing: typeof shared.focusRing;
+    fontFamily: typeof shared.fontFamily;
     text: typeof shared.text;
     color: ColorGroup;
     shadow: {

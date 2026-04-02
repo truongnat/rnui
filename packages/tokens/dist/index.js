@@ -329,6 +329,11 @@ var shared = {
   zIndex,
   elevation,
   focusRing,
+  fontFamily: {
+    /** Omit / undefined = system default sans */
+    sans: void 0,
+    mono: void 0
+  },
   // Typography styles (composite)
   text: {
     xs: { fontSize: fontSize.xs, lineHeight: fontSize.xs * lineHeight.normal, fontWeight: fontWeight.regular },
@@ -483,8 +488,8 @@ var darkTokens = {
       raised: color.gray[800],
       overlay: color.gray[800],
       sunken: color.gray[950],
-      hover: "#1A1A28",
-      // slightly lighter than raised
+      // One step lighter than raised (gray[800]) for hover affordance
+      hover: color.gray[700],
       disabled: "#0D0D14"
       // same as bg.default = sunken feel
     },
@@ -1523,6 +1528,10 @@ function popperTokens(t) {
 }
 function pressableTokens(t) {
   return {
+    container: {
+      opacity: t.opacity[70],
+      backgroundColor: "transparent"
+    },
     opacity: t.opacity[70],
     backgroundColor: "transparent",
     hover: { backgroundColor: t.color.bg.hover }
@@ -1849,11 +1858,23 @@ function selectTokens(t) {
   };
 }
 function ratingTokens(t) {
+  const accent = t.color.accent.default;
   return {
+    container: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: t.spacing[1]
+    },
+    /** Tighter row for `compact` Rating — same flex as `container`, smaller gap */
+    containerCompact: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 2
+    },
     star: {
-      filled: { color: "#F59E0B" },
+      filled: { color: accent },
       empty: { color: t.color.border.strong },
-      half: { color: "#F59E0B" }
+      half: { color: accent }
     },
     size: { sm: 16, md: 20, lg: 28 }
   };

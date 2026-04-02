@@ -32,7 +32,7 @@ Nguồn: mục tiêu sản phẩm trong `PROJECT.md` + `AUDIT_REPORT.md` (Improv
 
 ### Design system (DS)
 
-- [ ] **DS-01**: (Phase 4) Font family token, brand trung tính, contrast loveBrand, token `surface.hover` traceable, v.v.
+- [x] **DS-01**: (Phase 4) Font family token, brand trung tính, contrast loveBrand, token `surface.hover` traceable, v.v.
 
 ## v2 — Deferred
 

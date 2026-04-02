@@ -23,6 +23,12 @@ const shared = {
   elevation,
   focusRing,
 
+  fontFamily: {
+    /** Omit / undefined = system default sans */
+    sans: undefined as string | undefined,
+    mono: undefined as string | undefined,
+  },
+
   // Typography styles (composite)
   text: {
     xs: { fontSize: fontSize.xs, lineHeight: fontSize.xs * lineHeight.normal, fontWeight: fontWeight.regular },
@@ -145,7 +151,8 @@ export const darkTokens = {
       raised: color.gray[800],
       overlay: color.gray[800],
       sunken: color.gray[950],
-      hover: "#1A1A28",           // slightly lighter than raised
+      // One step lighter than raised (gray[800]) for hover affordance
+      hover: color.gray[700],
       disabled: "#0D0D14",        // same as bg.default = sunken feel
     },
     text: {
@@ -281,6 +288,7 @@ export interface SemanticTokens {
   zIndex: typeof shared.zIndex;
   elevation: typeof shared.elevation;
   focusRing: typeof shared.focusRing;
+  fontFamily: typeof shared.fontFamily;
   text: typeof shared.text;
   color: ColorGroup;
   shadow: {

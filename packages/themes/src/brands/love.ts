@@ -38,7 +38,8 @@ export const loveBrand = defineBrand({
       primary: "#4C0519",
       secondary: "#881337",
       tertiary: "#BE123C",
-      disabled: "#FDA4AF",
+      // WCAG UI text / disabled — ≥3:1 on #FFFFFF (rose-600)
+      disabled: "#E11D48",
       inverse: "#FFFFFF",
       link: "#E11D48",
       onBrand: "#FFFFFF",

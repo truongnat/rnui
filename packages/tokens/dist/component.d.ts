@@ -1389,6 +1389,10 @@ export declare function popperTokens(t: SemanticTokens): {
     };
 };
 export declare function pressableTokens(t: SemanticTokens): {
+    readonly container: {
+        readonly opacity: 0.7;
+        readonly backgroundColor: "transparent";
+    };
     readonly opacity: 0.7;
     readonly backgroundColor: "transparent";
     readonly hover: {
@@ -2629,15 +2633,26 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
         };
     };
     readonly rating: {
+        readonly container: {
+            readonly flexDirection: "row";
+            readonly alignItems: "center";
+            readonly gap: 4;
+        };
+        /** Tighter row for `compact` Rating — same flex as `container`, smaller gap */
+        readonly containerCompact: {
+            readonly flexDirection: "row";
+            readonly alignItems: "center";
+            readonly gap: 2;
+        };
         readonly star: {
             readonly filled: {
-                readonly color: "#F59E0B";
+                readonly color: string;
             };
             readonly empty: {
                 readonly color: string;
             };
             readonly half: {
-                readonly color: "#F59E0B";
+                readonly color: string;
             };
         };
         readonly size: {
@@ -3358,6 +3373,10 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
         };
     };
     readonly pressable: {
+        readonly container: {
+            readonly opacity: 0.7;
+            readonly backgroundColor: "transparent";
+        };
         readonly opacity: 0.7;
         readonly backgroundColor: "transparent";
         readonly hover: {
@@ -3875,15 +3894,26 @@ export declare function selectTokens(t: SemanticTokens): {
     };
 };
 export declare function ratingTokens(t: SemanticTokens): {
+    readonly container: {
+        readonly flexDirection: "row";
+        readonly alignItems: "center";
+        readonly gap: 4;
+    };
+    /** Tighter row for `compact` Rating — same flex as `container`, smaller gap */
+    readonly containerCompact: {
+        readonly flexDirection: "row";
+        readonly alignItems: "center";
+        readonly gap: 2;
+    };
     readonly star: {
         readonly filled: {
-            readonly color: "#F59E0B";
+            readonly color: string;
         };
         readonly empty: {
             readonly color: string;
         };
         readonly half: {
-            readonly color: "#F59E0B";
+            readonly color: string;
         };
     };
     readonly size: {

@@ -55,12 +55,17 @@ export function Typography({
       ? "flex"
       : display;
 
+  const sans = tokens.fontFamily?.sans;
+  const sansFont =
+    sans != null && sans !== "" ? { fontFamily: sans } : null;
+
   return (
     <Text
       numberOfLines={noWrap ? 1 : undefined}
       style={[
         { color: resolvedColor, textAlign: align === "inherit" ? undefined : align },
         variantStyle,
+        sansFont,
         paragraph && { marginBottom: tokens.spacing[4] },
         gutterBottom && { marginBottom: tokens.spacing[2] },
         resolvedDisplay ? { display: resolvedDisplay } : null,

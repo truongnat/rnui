@@ -48,7 +48,12 @@ export const Switch = React.memo(({ label, description, size = "md", ...hookOpti
     <Pressable
       onPress={toggle}
       disabled={isDisabled}
-      style={{ flexDirection: "row", alignItems: "center", gap: 12, opacity: isDisabled ? switchT.colors.disabledOpacity : 1 }}
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: tokens.spacing[3],
+        opacity: isDisabled ? switchT.colors.disabledOpacity : 1,
+      }}
       {...accessibilityProps}
     >
       {/* Track */}
@@ -72,11 +77,7 @@ export const Switch = React.memo(({ label, description, size = "md", ...hookOpti
               height: tThumb.height,
               borderRadius: tThumb.borderRadius,
               backgroundColor: switchT.colors.thumb,
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.15,
-              shadowRadius: 3,
-              elevation: 2,
+              ...tokens.shadow.sm,
             },
             thumbStyle,
           ]}
@@ -91,7 +92,13 @@ export const Switch = React.memo(({ label, description, size = "md", ...hookOpti
             </Text>
           )}
           {description && (
-            <Text style={{ fontSize: tokens.fontSize.sm, color: tokens.color.text.secondary, marginTop: 2 }}>
+            <Text
+              style={{
+                fontSize: tokens.fontSize.sm,
+                color: tokens.color.text.secondary,
+                marginTop: tokens.spacing[0.5],
+              }}
+            >
               {description}
             </Text>
           )}
