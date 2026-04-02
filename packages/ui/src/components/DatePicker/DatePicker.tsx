@@ -20,6 +20,14 @@ export interface DatePickerProps {
     presets?: DatePickerPreset[];
     onPresetChange?: (preset: DatePickerPreset) => void;
     clearable?: boolean;
+    /** Forwarded to `@react-native-community/datetimepicker` — behavior is platform-specific. */
+    locale?: string;
+    /** Forwarded to `@react-native-community/datetimepicker`. */
+    timeZoneOffsetInMinutes?: number;
+    /** Forwarded to `@react-native-community/datetimepicker` (Android / newer iOS). */
+    timeZoneOffsetInSeconds?: number;
+    /** IANA tz name; forwarded to `@react-native-community/datetimepicker`. */
+    timeZoneName?: string;
 }
 
 export function DatePicker({
@@ -36,6 +44,10 @@ export function DatePicker({
     presets = ["today", "last7", "last30"],
     onPresetChange,
     clearable = true,
+    locale,
+    timeZoneOffsetInMinutes,
+    timeZoneOffsetInSeconds,
+    timeZoneName,
 }: DatePickerProps) {
     const { datePicker, input } = useComponentTokens();
     const tokens = useTokens();
@@ -111,6 +123,10 @@ export function DatePicker({
             onChange={handleChange}
             minimumDate={minimumDate}
             maximumDate={maximumDate}
+            locale={locale}
+            timeZoneOffsetInMinutes={timeZoneOffsetInMinutes}
+            timeZoneOffsetInSeconds={timeZoneOffsetInSeconds}
+            timeZoneName={timeZoneName}
         />
     ) : null;
 

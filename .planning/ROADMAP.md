@@ -10,7 +10,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 - [x] **Phase 2: Rating component depth** — A11y, animation, memo, variants (completed 2026-04-02)
 - [x] **Phase 3: Performance & edge cases** — Carousel, Skeleton, Switch (completed 2026-04-02)
 - [x] **Phase 4: Design system enhancements** — Tokens, brands, motion, contrast (completed 2026-04-02)
-- [ ] **Phase 5: Backlog components** — OTP, DatePicker, NumericScore, …
+- [x] **Phase 5: Backlog components** — OTP, DatePicker, NumericScore, … (wave 1 complete 2026-04-02)
 
 ## Phase Details
 
@@ -101,7 +101,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 **UI hint**: mixed
 
-**Plans**: `05-01-PLAN.md` (wave 1) — ready to execute
+**Plans**: `05-01-PLAN.md` (wave 1) — executed (`05-01-SUMMARY.md`)
 
 ## Progress
 
@@ -111,7 +111,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 | 2. Rating depth | 1/1 | Complete | 2026-04-02 |
 | 3. Perf & edges | 1/1 | Complete | 2026-04-02 |
 | 4. DS enhancements | 1/1 | Complete | 2026-04-02 |
-| 5. Backlog | 1/1 planned | Planned (not executed) | - |
+| 5. Backlog | 1/1 | Complete | 2026-04-02 |
 
 ## Coverage
 

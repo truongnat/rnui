@@ -22,6 +22,28 @@ describe("useOTPInput", () => {
     expect(onComplete).toHaveBeenCalledWith("1234");
   });
 
+  it("accepts full pasted or autofill string in one event (length 6)", () => {
+    const onChange = jest.fn();
+    const onComplete = jest.fn();
+    const { result } = renderHook(() =>
+      useOTPInput({ length: 6, value: "", onChange, onComplete })
+    );
+    act(() => {
+      result.current.handleChange("123456");
+    });
+    expect(onChange).toHaveBeenCalledWith("123456");
+    expect(onComplete).toHaveBeenCalledWith("123456");
+  });
+
+  it("truncates pasted string to length", () => {
+    const onChange = jest.fn();
+    const { result } = renderHook(() => useOTPInput({ length: 4, value: "", onChange }));
+    act(() => {
+      result.current.handleChange("123456");
+    });
+    expect(onChange).toHaveBeenCalledWith("1234");
+  });
+
   it("should expose otp props and focus handlers", () => {
     const onChange = jest.fn();
     const { result } = renderHook(() => useOTPInput({ length: 4, value: "1234", onChange }));

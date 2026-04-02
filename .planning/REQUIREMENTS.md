@@ -36,8 +36,8 @@ Nguồn: mục tiêu sản phẩm trong `PROJECT.md` + `AUDIT_REPORT.md` (Improv
 
 ### Backlog integrations (BL)
 
-- [ ] **BL-01**: (Phase 5) OTPInput — paste/autofill chuỗi đầy đủ; `useOTPInput` + test chứng minh
-- [ ] **BL-02**: (Phase 5) DatePicker — forward `locale`, `timeZoneOffsetInMinutes` (và prop TZ liên quan từ `@react-native-community/datetimepicker`) xuống native picker
+- [x] **BL-01**: (Phase 5) OTPInput — paste/autofill chuỗi đầy đủ; `useOTPInput` + test chứng minh
+- [x] **BL-02**: (Phase 5) DatePicker — forward `locale`, `timeZoneOffsetInMinutes` (và prop TZ liên quan từ `@react-native-community/datetimepicker`) xuống native picker
 
 ## v2 — Deferred
 

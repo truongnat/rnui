@@ -36,6 +36,7 @@ export function OTPInput({
     return (
         <View style={{ width: "100%" }}>
             <TextInput
+                testID="rnui-otp-input"
                 ref={inputRef as any}
                 caretHidden
                 style={{
