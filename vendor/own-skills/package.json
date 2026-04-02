@@ -1,0 +1,61 @@
+{
+  "name": "own-skills-bundle",
+  "version": "1.0.0",
+  "description": "npx installer for the own-skills bundle (skills, workflows, KB tooling) into your project",
+  "type": "module",
+  "bin": {
+    "own-skills": "./dist/own-skills.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/own-skills.ts",
+    "lint:cli": "tsx --tsconfig tsconfig.json --no-warnings src/own-skills.ts --help",
+    "tool": "tsx src/tools.ts",
+    "list-skills": "node dist/tools.js list-skills",
+    "validate-skills": "node dist/tools.js validate-skills",
+    "analyze-skills": "node dist/tools.js analyze-skills",
+    "build-skill-index": "node dist/tools.js build-skill-index",
+    "install-skill": "node dist/tools.js install-skill",
+    "verify-bundle-install": "node dist/tools.js verify-bundle-install",
+    "build-kb": "node dist/tools.js build-kb",
+    "query-kb": "node dist/tools.js query-kb",
+    "query-kb-batch": "node dist/tools.js query-kb-batch",
+    "verify-kb": "node dist/tools.js verify-kb"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "degit": "^2.8.4",
+    "glob": "^11.0.0",
+    "gray-matter": "^4.0.3",
+    "inquirer": "^9.3.7",
+    "minimist": "^1.2.8",
+    "ora": "^8.1.1",
+    "yaml": "^2.5.1"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.9",
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^22.13.10",
+    "tsx": "^4.20.6",
+    "typescript": "^5.8.2"
+  },
+  "keywords": [
+    "cursor",
+    "skills",
+    "claude",
+    "installer",
+    "cli"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/truongnat/skills.git"
+  }
+}

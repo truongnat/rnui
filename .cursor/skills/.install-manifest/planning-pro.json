@@ -1,0 +1,13 @@
+{
+  "installed_at": "2026-04-01T12:07:45.704Z",
+  "mode": "symlink",
+  "skill_name": "planning-pro",
+  "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/planning-pro",
+  "ides": [
+    "cursor"
+  ],
+  "targets": {
+    "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/planning-pro"
+  },
+  "primary_cursor_target": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/planning-pro"
+}

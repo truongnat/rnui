@@ -1,0 +1,13 @@
+{
+  "installed_at": "2026-04-01T12:07:45.682Z",
+  "mode": "symlink",
+  "skill_name": "clean-code-architecture-pro",
+  "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/clean-code-architecture-pro",
+  "ides": [
+    "cursor"
+  ],
+  "targets": {
+    "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/clean-code-architecture-pro"
+  },
+  "primary_cursor_target": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/clean-code-architecture-pro"
+}

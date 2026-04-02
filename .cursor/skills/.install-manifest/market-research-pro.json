@@ -1,0 +1,13 @@
+{
+  "installed_at": "2026-04-01T12:07:45.697Z",
+  "mode": "symlink",
+  "skill_name": "market-research-pro",
+  "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/market-research-pro",
+  "ides": [
+    "cursor"
+  ],
+  "targets": {
+    "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/market-research-pro"
+  },
+  "primary_cursor_target": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/market-research-pro"
+}

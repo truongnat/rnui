@@ -1,0 +1,13 @@
+{
+  "installed_at": "2026-04-01T12:07:45.684Z",
+  "mode": "symlink",
+  "skill_name": "code-packaging-pro",
+  "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/code-packaging-pro",
+  "ides": [
+    "cursor"
+  ],
+  "targets": {
+    "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/code-packaging-pro"
+  },
+  "primary_cursor_target": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/code-packaging-pro"
+}

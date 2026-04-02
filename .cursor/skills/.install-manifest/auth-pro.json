@@ -1,0 +1,13 @@
+{
+  "installed_at": "2026-04-01T12:07:45.679Z",
+  "mode": "symlink",
+  "skill_name": "auth-pro",
+  "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/auth-pro",
+  "ides": [
+    "cursor"
+  ],
+  "targets": {
+    "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/auth-pro"
+  },
+  "primary_cursor_target": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/auth-pro"
+}

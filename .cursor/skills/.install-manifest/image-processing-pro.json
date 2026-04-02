@@ -1,0 +1,13 @@
+{
+  "installed_at": "2026-04-01T12:07:45.695Z",
+  "mode": "symlink",
+  "skill_name": "image-processing-pro",
+  "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/image-processing-pro",
+  "ides": [
+    "cursor"
+  ],
+  "targets": {
+    "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/image-processing-pro"
+  },
+  "primary_cursor_target": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/image-processing-pro"
+}
