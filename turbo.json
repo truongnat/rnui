@@ -22,6 +22,11 @@
       "outputs": ["coverage/**"],
       "env": ["CI"]
     },
+    "test:perf": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"],
+      "env": ["CI"]
+    },
     "clean": {
       "cache": false
     }
