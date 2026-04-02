@@ -13,13 +13,13 @@ Nguồn: mục tiêu sản phẩm trong `PROJECT.md` + `AUDIT_REPORT.md` (Improv
 ### Accessibility & motion (A11Y)
 
 - [ ] **A11Y-01**: Giảm chuyển động khi OS bật “Reduce motion” (`useReduceMotionEnabled` / `usePressable`)
-- [ ] **A11Y-02**: Rating có vai trò/ giá trị a11y và (phase 2) thông báo SR khi đổi giá trị
+- [x] **A11Y-02**: Rating có vai trò/ giá trị a11y và (phase 2) thông báo SR khi đổi giá trị
 
 ### Rating (RATE)
 
 - [ ] **RATE-01**: Màu sao theo semantic token (`accent`), không hardcode amber cố định
 - [ ] **RATE-02**: Trạng thái nửa sao dùng `starHalf` (glyph đúng)
-- [ ] **RATE-03**: (Phase 2+) Read-only / compact / custom icon theo roadmap
+- [x] **RATE-03**: (Phase 2+) Read-only / compact / custom icon theo roadmap
 
 ### Motion tokens (MOT)
 

@@ -6,22 +6,22 @@ See: `.planning/PROJECT.md` (updated 2026-04-02)
 
 **Core value:** Design system RN nhất quán — token, type-safe components, animation UI-thread, a11y có thể kiểm chứng.
 
-**Current focus:** Phase 2 — Rating component depth
+**Current focus:** Phase 3 — Performance & edge cases
 
 ## Current Position
 
-Phase: 2 of 5 (Rating component depth)  
-Plan: 1 of 1 in current phase (`02-01-PLAN.md`)  
-Status: Planned — ready to execute  
-Last activity: 2026-04-02 — Plan phase 2 (`02-01-PLAN.md`, `02-RESEARCH.md`, `02-VALIDATION.md`)
+Phase: 3 of 5 (Performance & edge cases)  
+Plan: 0 of TBD in current phase  
+Status: Ready to discuss or plan  
+Last activity: 2026-04-02 — Execute phase 2 complete (`02-01-SUMMARY.md`)
 
-Progress: [████░░░░░░] Phase 1 complete (1/5)
+Progress: [████████░░] Phases 1–2 complete (2/5)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 1
+- Total plans completed: 2
 - Average duration: —
 - Total execution time: —
 
@@ -30,6 +30,7 @@ Progress: [████░░░░░░] Phase 1 complete (1/5)
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 1 | — | — |
+| 2 | 1 | — | — |
 
 **Recent trend:** —
 
@@ -50,5 +51,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-04-02  
-Stopped at: Phase 2 context in `.planning/phases/02-rating-component-depth/2-CONTEXT.md`  
+Stopped at: Phase 2 execution verified; SUMMARY committed  
 Resume file: None

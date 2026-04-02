@@ -1514,15 +1514,25 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
         };
     };
     readonly rating: {
+        readonly container: {
+            readonly flexDirection: "row";
+            readonly alignItems: "center";
+            readonly gap: 4;
+        };
+        readonly containerCompact: {
+            readonly flexDirection: "row";
+            readonly alignItems: "center";
+            readonly gap: 2;
+        };
         readonly star: {
             readonly filled: {
-                readonly color: "#F59E0B";
+                readonly color: string;
             };
             readonly empty: {
                 readonly color: string;
             };
             readonly half: {
-                readonly color: "#F59E0B";
+                readonly color: string;
             };
         };
         readonly size: {
@@ -1645,15 +1655,25 @@ export declare function selectTokens(t: SemanticTokens): {
     };
 };
 export declare function ratingTokens(t: SemanticTokens): {
+    readonly container: {
+        readonly flexDirection: "row";
+        readonly alignItems: "center";
+        readonly gap: 4;
+    };
+    readonly containerCompact: {
+        readonly flexDirection: "row";
+        readonly alignItems: "center";
+        readonly gap: 2;
+    };
     readonly star: {
         readonly filled: {
-            readonly color: "#F59E0B";
+            readonly color: string;
         };
         readonly empty: {
             readonly color: string;
         };
         readonly half: {
-            readonly color: "#F59E0B";
+            readonly color: string;
         };
     };
     readonly size: {
