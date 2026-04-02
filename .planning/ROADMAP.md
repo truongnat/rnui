@@ -65,7 +65,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 **UI hint**: no
 
-**Plans**: TBD
+**Plans**: `03-01-PLAN.md` (wave 1)
 
 ### Phase 4: Design system enhancements
 
@@ -105,7 +105,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 |-------|----------------|--------|-----------|
 | 1. Critical fixes | 1/1 | Complete   | 2026-04-02 |
 | 2. Rating depth | 1/1 | Complete | 2026-04-02 |
-| 3. Perf & edges | TBD | Not started | - |
+| 3. Perf & edges | 0/1 | Planned | - |
 | 4. DS enhancements | TBD | Not started | - |
 | 5. Backlog | TBD | Not started | - |
 
