@@ -1,87 +1,118 @@
-# Roadmap — RNUI (post-audit)
+# Roadmap: RNUI
 
-**Milestone:** v1.x evolution  
-**Granularity:** standard (config)
+## Overview
 
-## Phase 1 — Critical fixes
+Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng (phase 1) đến nâng Rating, hiệu năng/edge case, design system, rồi backlog.
 
-**Goal:** An toàn kiểu, Rating/half-star đúng, reduce motion, token màu, precision, `openURL`, easing dùng được với Reanimated.
+## Phases
 
-**Requirements:** QUAL-01, QUAL-02, QUAL-03, A11Y-01, RATE-01, RATE-02, MOT-01
+- [ ] **Phase 1: Critical fixes** — Typing, Rating/half-star, reduce motion, tokens, precision, href, easing
+- [ ] **Phase 2: Rating component depth** — A11y, animation, memo, variants
+- [ ] **Phase 3: Performance & edge cases** — Carousel, Skeleton, Switch
+- [ ] **Phase 4: Design system enhancements** — Tokens, brands, motion, contrast
+- [ ] **Phase 5: Backlog components** — OTP, DatePicker, NumericScore, …
 
-**Success criteria:**
+## Phase Details
 
-1. `tsc` / test liên quan pass; không còn `as any` trên path Rating/Pressable đã nêu trong audit
+### Phase 1: Critical fixes
+
+**Goal**: An toàn kiểu, Rating/half-star đúng, reduce motion, token màu accent, precision hợp lệ, `Linking.openURL` an toàn, easing dùng được với Reanimated.
+
+**Depends on**: Nothing (first phase)
+
+**Requirements**: QUAL-01, QUAL-02, QUAL-03, A11Y-01, RATE-01, RATE-02, MOT-01
+
+**Success Criteria** (what must be TRUE):
+
+1. `tsc` và test liên quan pass; không còn `as any` trên path Rating/Pressable đã nêu trong audit
 2. `useReduceMotionEnabled` được dùng trong `usePressable` và export từ headless
 3. `resolveTimingPreset` có trong public API và có ít nhất một test/smoke
 
-**UI hint:** no
+**UI hint**: no
 
----
+**Plans**: TBD
 
-## Phase 2 — Rating component depth
+### Phase 2: Rating component depth
 
-**Goal:** A11y đầy đủ, animation chọn sao, memo, tùy chọn read-only/compact/icon.
+**Goal**: A11y đầy đủ, animation chọn sao, memo, tùy chọn read-only/compact/icon.
 
-**Requirements:** A11Y-02, RATE-03
+**Depends on**: Phase 1
 
-**Success criteria:**
+**Requirements**: A11Y-02, RATE-03
+
+**Success Criteria** (what must be TRUE):
 
 1. Rating có `accessibilityRole` / `accessibilityValue` phù hợp nền tảng
 2. `React.memo(Rating)`; animation tôn trọng reduce motion
 3. Ít nhất một variant read-only hoặc compact theo spec đã định
 
-**UI hint:** yes
+**UI hint**: yes
 
----
+**Plans**: TBD
 
-## Phase 3 — Performance & edge cases
+### Phase 3: Performance & edge cases
 
-**Goal:** Carousel/Skeleton/Switch/Button cứng cho edge case.
+**Goal**: Carousel/Skeleton/Switch/Button cứng cho edge case.
 
-**Requirements:** PERF-01, PERF-02
+**Depends on**: Phase 2
 
-**Success criteria:**
+**Requirements**: PERF-01, PERF-02
+
+**Success Criteria** (what must be TRUE):
 
 1. Carousel không render `undefined` khi `data=[]`; key ổn định trong loop mode
 2. Skeleton dừng animation khi `animate=false`
 
-**UI hint:** no
+**UI hint**: no
 
----
+**Plans**: TBD
 
-## Phase 4 — Design system enhancements
+### Phase 4: Design system enhancements
 
-**Goal:** Token typography, brand mới, motion export, contrast, spacing, shadows.
+**Goal**: Token typography, brand mới, motion export, contrast, spacing, shadows.
 
-**Requirements:** DS-01
+**Depends on**: Phase 3
 
-**Success criteria:**
+**Requirements**: DS-01
 
-1. Mỗi hạng mục DS-01 đã chọn trong plan có acceptance cụ thể và test/tài liệu ngắn
+**Success Criteria** (what must be TRUE):
 
-**UI hint:** yes
+1. Mỗi hạng mục DS-01 đã chọn trong plan có acceptance cụ thể và test hoặc tài liệu ngắn
 
----
+**UI hint**: yes
 
-## Phase 5 — Backlog components & integrations
+**Plans**: TBD
 
-**Goal:** OTP paste, DatePicker locale/TZ, component backlog (NumericScore, ReviewSummary, …).
+### Phase 5: Backlog components & integrations
 
-**Requirements:** (từ backlog audit — gán REQ-ID khi scope hóa)
+**Goal**: OTP paste, DatePicker locale/TZ, component backlog (NumericScore, ReviewSummary, …).
 
-**Success criteria:**
+**Depends on**: Phase 4
+
+**Requirements**: TBD backlog
+
+**Success Criteria** (what must be TRUE):
 
 1. Mỗi hạng mục chọn có issue/plan và proof merge
 
-**UI hint:** mixed
+**UI hint**: mixed
 
----
+**Plans**: TBD
+
+## Progress
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 1. Critical fixes | TBD | Discuss → plan | - |
+| 2. Rating depth | TBD | Not started | - |
+| 3. Perf & edges | TBD | Not started | - |
+| 4. DS enhancements | TBD | Not started | - |
+| 5. Backlog | TBD | Not started | - |
 
 ## Coverage
 
 | Phase | Requirement IDs |
-|-------|-----------------|
+|-------|-------------------|
 | 1 | QUAL-01..03, A11Y-01, RATE-01..02, MOT-01 |
 | 2 | A11Y-02, RATE-03 |
 | 3 | PERF-01..02 |

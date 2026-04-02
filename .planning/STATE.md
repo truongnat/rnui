@@ -6,14 +6,14 @@ See: `.planning/PROJECT.md` (updated 2026-04-02)
 
 **Core value:** Design system RN nhất quán — token, type-safe components, animation UI-thread, a11y có thể kiểm chứng.
 
-**Current focus:** Phase 1 — Critical fixes
+**Current focus:** Phase 1 — Critical fixes (context captured)
 
 ## Current Position
 
 Phase: 1 of 5 (Critical fixes)  
 Plan: 0 of N in current phase  
-Status: Ready to plan  
-Last activity: 2026-04-02 — GSD project initialized (`/gsd-new-project`)
+Status: Ready to plan (`/gsd-plan-phase 1`)  
+Last activity: 2026-04-02 — Discuss phase 1 (`/gsd-discuss-phase 1`) → `1-CONTEXT.md`
 
 Progress: [░░░░░░░░░░] 0%
 
