@@ -1,5 +1,12 @@
 import { useState, useCallback, useRef } from "react";
-import { TextInput } from "react-native";
+import { TextInput, type TextInputProps } from "react-native";
+
+/** Props for the hidden single-field OTP `TextInput` (paste/autofill). */
+export type OtpHiddenInputProps = Pick<
+  TextInputProps,
+  "value" | "onChangeText" | "onFocus" | "onBlur" | "keyboardType" | "maxLength" | "editable"
+> &
+  Pick<TextInputProps, "textContentType" | "autoComplete">;
 
 export interface UseOTPInputOptions {
   length: number;
@@ -16,7 +23,7 @@ export interface UseOTPInputReturn {
   onBlur: () => void;
   handlePress: () => void;
   handleChange: (text: string) => void;
-  getOtpProps: () => any;
+  getOtpProps: () => OtpHiddenInputProps;
 }
 
 export function useOTPInput({

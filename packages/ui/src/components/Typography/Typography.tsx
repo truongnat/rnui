@@ -45,10 +45,15 @@ export function Typography({
   const tokens = useTokens();
 
   const variantStyle = variant === "inherit" ? {} : typography.variants[variant as keyof typeof typography.variants] || {};
-  
-  const resolvedColor = color && (typography.colors as any)[color] 
-    ? (typography.colors as any)[color] 
-    : (color || typography.colors.primary);
+
+  const presetColors = typography.colors;
+  const resolvedColor =
+    color != null &&
+    color !== "" &&
+    typeof color === "string" &&
+    Object.prototype.hasOwnProperty.call(presetColors, color)
+      ? presetColors[color as keyof typeof presetColors]
+      : color || presetColors.primary;
 
   const resolvedDisplay =
     display === "block" || display === "inline" || display === "inline-flex"

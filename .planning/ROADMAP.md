@@ -30,7 +30,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 **UI hint**: no
 
-**Plans**: TBD
+**Plans**: `01-01-PLAN.md` (wave 1) — executed (`01-01-SUMMARY.md`)
 
 ### Phase 2: Rating component depth
 

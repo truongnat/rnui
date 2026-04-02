@@ -99,7 +99,7 @@ export { useCarousel } from "./hooks/useCarousel";
 export type { UseCarouselOptions } from "./hooks/useCarousel";
 
 export { useOTPInput } from "./hooks/useOTPInput";
-export type { UseOTPInputOptions, UseOTPInputReturn } from "./hooks/useOTPInput";
+export type { OtpHiddenInputProps, UseOTPInputOptions, UseOTPInputReturn } from "./hooks/useOTPInput";
 
 export { useSegmentedControl } from "./hooks/useSegmentedControl";
 export type { UseSegmentedControlOptions, UseSegmentedControlReturn } from "./hooks/useSegmentedControl";

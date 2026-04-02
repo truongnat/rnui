@@ -6,24 +6,24 @@ Nguồn: mục tiêu sản phẩm trong `PROJECT.md` + `AUDIT_REPORT.md` (Improv
 
 ### Quality & safety (QUAL)
 
-- [ ] **QUAL-01**: Loại bỏ `as any` không cần thiết trên token Rating/Pressable; `ComponentTokens` khớp với `ratingTokens` / `pressableTokens`
-- [ ] **QUAL-02**: `useRating` không chia cho `precision` không hợp lệ (≤0, NaN)
-- [ ] **QUAL-03**: `Button` với `href` xử lý lỗi `Linking.openURL` (không unhandled rejection)
+- [x] **QUAL-01**: Loại bỏ `as any` không cần thiết trên token Rating/Pressable; `ComponentTokens` khớp với `ratingTokens` / `pressableTokens`
+- [x] **QUAL-02**: `useRating` không chia cho `precision` không hợp lệ (≤0, NaN)
+- [x] **QUAL-03**: `Button` với `href` xử lý lỗi `Linking.openURL` (không unhandled rejection)
 
 ### Accessibility & motion (A11Y)
 
-- [ ] **A11Y-01**: Giảm chuyển động khi OS bật “Reduce motion” (`useReduceMotionEnabled` / `usePressable`)
+- [x] **A11Y-01**: Giảm chuyển động khi OS bật “Reduce motion” (`useReduceMotionEnabled` / `usePressable`)
 - [x] **A11Y-02**: Rating có vai trò/ giá trị a11y và (phase 2) thông báo SR khi đổi giá trị
 
 ### Rating (RATE)
 
-- [ ] **RATE-01**: Màu sao theo semantic token (`accent`), không hardcode amber cố định
-- [ ] **RATE-02**: Trạng thái nửa sao dùng `starHalf` (glyph đúng)
+- [x] **RATE-01**: Màu sao theo semantic token (`accent`), không hardcode amber cố định
+- [x] **RATE-02**: Trạng thái nửa sao dùng `starHalf` (glyph đúng)
 - [x] **RATE-03**: (Phase 2+) Read-only / compact / custom icon theo roadmap
 
 ### Motion tokens (MOT)
 
-- [ ] **MOT-01**: `timingPreset` dùng được với `withTiming` qua `resolveTimingPreset` (headless)
+- [x] **MOT-01**: `timingPreset` dùng được với `withTiming` qua `resolveTimingPreset` (headless)
 
 ### Performance & edge cases (PERF)
 

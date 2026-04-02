@@ -1,8 +1,6 @@
 import React, { createContext, useContext } from "react";
-import { View, Text } from "react-native";
-import Animated from "react-native-reanimated";
-import { GestureDetector } from "react-native-gesture-handler";
-import { useComponentTokens, usePressable, useTabs, useTokens } from "@truongdq01/headless";
+import { View, Text, Pressable } from "react-native";
+import { useComponentTokens, useTabs, useTokens } from "@truongdq01/headless";
 
 export interface TabsProps<T = string> {
   value?: T;
@@ -72,45 +70,40 @@ export function Tab<T = string>({ value, label, icon, disabled = false }: TabPro
   if (!ctx) return null;
 
   const selected = ctx.isSelected(value);
-  const { animatedStyle, gesture, accessibilityProps } = usePressable({
-    onPress: () => ctx.getTabProps(value, disabled).onPress(),
-    disabled,
-    feedbackMode: "scaleSubtle",
-    accessibilityRole: "tab",
-  });
+  const { onPress, accessibilityState } = ctx.getTabProps(value, disabled);
 
   return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View
-        style={[
-          {
-            paddingVertical: tokens.spacing[3],
-            paddingHorizontal: tokens.spacing[4],
-            borderBottomWidth: ctx.orientation === "horizontal" ? tabs.indicator.height : 0,
-            borderLeftWidth: ctx.orientation === "vertical" ? tabs.indicator.height : 0,
-            borderColor: selected ? tabs.indicator.bg : "transparent",
-            opacity: disabled ? 0.5 : 1,
-            alignItems: "center",
-            flexDirection: "row",
-            gap: tokens.spacing[2],
-          },
-          ctx.variant === "fullWidth" ? { flex: 1, justifyContent: "center" } : null,
-          animatedStyle,
-        ] as any}
-        {...accessibilityProps}
-      >
-        {icon}
-        {label && (
-          <Text
-            style={[
-              selected ? tabs.tab.active : tabs.tab.inactive,
-              { fontSize: tokens.fontSize.md }
-            ]}
-          >
-            {label}
-          </Text>
-        )}
-      </Animated.View>
-    </GestureDetector>
+    <Pressable
+      disabled={disabled}
+      onPress={onPress}
+      accessibilityRole="tab"
+      accessibilityState={accessibilityState}
+      style={({ pressed }) => [
+        {
+          paddingVertical: tokens.spacing[3],
+          paddingHorizontal: tokens.spacing[4],
+          borderBottomWidth: ctx.orientation === "horizontal" ? tabs.indicator.height : 0,
+          borderLeftWidth: ctx.orientation === "vertical" ? tabs.indicator.height : 0,
+          borderColor: selected ? tabs.indicator.bg : "transparent",
+          opacity: disabled ? 0.5 : pressed ? 0.92 : 1,
+          alignItems: "center",
+          flexDirection: "row",
+          gap: tokens.spacing[2],
+        },
+        ctx.variant === "fullWidth" ? { flex: 1, justifyContent: "center" } : null,
+      ]}
+    >
+      {icon}
+      {label && (
+        <Text
+          style={[
+            selected ? tabs.tab.active : tabs.tab.inactive,
+            { fontSize: tokens.fontSize.md }
+          ]}
+        >
+          {label}
+        </Text>
+      )}
+    </Pressable>
   );
 }
