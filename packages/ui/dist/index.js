@@ -99,7 +99,13 @@ __export(index_exports, {
   Select: () => Select,
   Skeleton: () => Skeleton,
   SkeletonCard: () => SkeletonCard,
+  SkeletonForm: () => SkeletonForm,
+  SkeletonGrid: () => SkeletonGrid,
+  SkeletonGroup: () => SkeletonGroup,
   SkeletonListItem: () => SkeletonListItem,
+  SkeletonMedia: () => SkeletonMedia,
+  SkeletonProfile: () => SkeletonProfile,
+  SkeletonTable: () => SkeletonTable,
   SkeletonText: () => SkeletonText,
   Slider: () => Slider,
   Snackbar: () => Snackbar,
@@ -508,6 +514,7 @@ var import_headless7 = require("@truongdq01/headless");
 var import_react6 = __toESM(require("react"));
 var import_react_native6 = require("react-native");
 var import_headless6 = require("@truongdq01/headless");
+var FOCUS_BORDER_DURATION_MS = 120;
 function Input({
   label,
   error,
@@ -527,6 +534,15 @@ function Input({
   const { size: iconSize, color: iconColor } = (0, import_headless6.useIconStyle)("input");
   const [isFocused, setIsFocused] = (0, import_react6.useState)(false);
   const [hasTyped, setHasTyped] = (0, import_react6.useState)(false);
+  const focusAnim = (0, import_react6.useRef)(new import_react_native6.Animated.Value(0)).current;
+  (0, import_react6.useEffect)(() => {
+    if (error || disabled) return;
+    import_react_native6.Animated.timing(focusAnim, {
+      toValue: isFocused ? 1 : 0,
+      duration: FOCUS_BORDER_DURATION_MS,
+      useNativeDriver: false
+    }).start();
+  }, [isFocused, error, disabled, focusAnim]);
   const handleChange = (e) => {
     const text = e.nativeEvent.text;
     if (!hasTyped && text.length > 0) {
@@ -535,13 +551,27 @@ function Input({
     }
     onChange?.(text);
   };
-  const containerStyle = (0, import_react6.useMemo)(() => [
-    input.container,
-    input.size[size],
-    isFocused && input.state.focused,
-    error && input.state.error,
-    disabled && input.state.disabled
-  ], [input, size, isFocused, error, disabled]);
+  const defaultBorder = tokens.color.border.input;
+  const focusBorder = tokens.color.border.focus;
+  const animatedBorderStyle = error || disabled ? null : {
+    borderColor: focusAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [defaultBorder, focusBorder]
+    }),
+    borderWidth: focusAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 1.5]
+    })
+  };
+  const staticContainerStyle = (0, import_react6.useMemo)(
+    () => [
+      input.container,
+      input.size[size],
+      error && input.state.error,
+      disabled && input.state.disabled
+    ],
+    [input, size, error, disabled]
+  );
   const renderIcon = (icon) => {
     if (!icon) return null;
     if (import_react6.default.isValidElement(icon)) {
@@ -552,7 +582,7 @@ function Input({
     }
     return icon;
   };
-  return /* @__PURE__ */ import_react6.default.createElement(import_react_native6.View, null, label && /* @__PURE__ */ import_react6.default.createElement(import_react_native6.Text, { style: input.label }, label), /* @__PURE__ */ import_react6.default.createElement(import_react_native6.View, { style: containerStyle }, renderIcon(leadingElement), /* @__PURE__ */ import_react6.default.createElement(
+  const inner = /* @__PURE__ */ import_react6.default.createElement(import_react6.default.Fragment, null, renderIcon(leadingElement), /* @__PURE__ */ import_react6.default.createElement(
     import_react_native6.TextInput,
     {
       style: { flex: 1, color: input.text.color, fontSize: input.size[size].fontSize },
@@ -571,7 +601,17 @@ function Input({
       onChange: handleChange,
       ...rest
     }
-  ), renderIcon(trailingElement)), error ? /* @__PURE__ */ import_react6.default.createElement(import_react_native6.Text, { style: input.errorText }, error) : helperText ? /* @__PURE__ */ import_react6.default.createElement(import_react_native6.Text, { style: input.helperText }, helperText) : null);
+  ), renderIcon(trailingElement));
+  return /* @__PURE__ */ import_react6.default.createElement(import_react_native6.View, null, label && /* @__PURE__ */ import_react6.default.createElement(import_react_native6.Text, { style: input.label }, label), animatedBorderStyle && !error && !disabled ? /* @__PURE__ */ import_react6.default.createElement(import_react_native6.Animated.View, { style: [staticContainerStyle, animatedBorderStyle] }, inner) : /* @__PURE__ */ import_react6.default.createElement(
+    import_react_native6.View,
+    {
+      style: [
+        staticContainerStyle,
+        isFocused && !error && !disabled && input.state.focused
+      ]
+    },
+    inner
+  ), error ? /* @__PURE__ */ import_react6.default.createElement(import_react_native6.Text, { style: input.errorText }, error) : helperText ? /* @__PURE__ */ import_react6.default.createElement(import_react_native6.Text, { style: input.helperText }, helperText) : null);
 }
 
 // src/components/Autocomplete/Autocomplete.tsx
@@ -2118,13 +2158,70 @@ function Drawer({
 var import_react25 = __toESM(require("react"));
 var import_react_native25 = require("react-native");
 var import_headless25 = require("@truongdq01/headless");
-function EmptyState({ title, description, icon, action }) {
+var VARIANT_DEFAULTS = {
+  search: {
+    title: "No results found",
+    description: "Try different keywords or filters.",
+    iconName: "search"
+  },
+  error: {
+    title: "Something went wrong",
+    description: "We couldn't load this content. Try again.",
+    iconName: "error"
+  },
+  offline: {
+    title: "You're offline",
+    description: "Check your connection and try again.",
+    iconName: "warning"
+  },
+  permission: {
+    title: "Access denied",
+    description: "You don't have permission to view this.",
+    iconName: "lock"
+  },
+  empty: {
+    title: "Nothing here yet",
+    description: "When there is content, it will show up here.",
+    iconName: "package"
+  }
+};
+function EmptyState({
+  title,
+  description,
+  icon,
+  action,
+  size = "md",
+  variant = "default",
+  illustration
+}) {
   const { emptyState } = (0, import_headless25.useComponentTokens)();
   const tokens = (0, import_headless25.useTokens)();
-  return /* @__PURE__ */ import_react25.default.createElement(import_react_native25.View, { style: emptyState.container }, icon && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.View, { style: { marginBottom: tokens.spacing[2] } }, import_react25.default.isValidElement(icon) ? import_react25.default.cloneElement(icon, {
-    size: icon.props.size ?? emptyState.icon.size,
-    color: icon.props.color ?? emptyState.icon.color
-  }) : icon), title && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.Text, { style: emptyState.title }, title), description && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.Text, { style: emptyState.description }, description), action && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.View, { style: { marginTop: tokens.spacing[4] } }, action));
+  const meta = variant !== "default" ? VARIANT_DEFAULTS[variant] : null;
+  const resolvedTitle = title ?? meta?.title;
+  const resolvedDescription = description ?? meta?.description;
+  const iconSize = Math.round(emptyState.icon.size / 2);
+  const resolvedIcon = icon ?? (meta ? /* @__PURE__ */ import_react25.default.createElement(Icon, { name: meta.iconName, size: iconSize, color: tokens.color.brand.text }) : null);
+  const sizePad = emptyState.containerSize[size];
+  const titleSize = emptyState.titleSize[size];
+  const descSize = emptyState.descriptionSize[size];
+  return /* @__PURE__ */ import_react25.default.createElement(
+    import_react_native25.View,
+    {
+      accessibilityRole: "none",
+      style: [
+        emptyState.container,
+        { padding: sizePad.padding, gap: sizePad.gap }
+      ]
+    },
+    illustration && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.View, { style: { marginBottom: tokens.spacing[2] } }, illustration),
+    resolvedIcon && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.View, { style: emptyState.iconWrap }, import_react25.default.isValidElement(resolvedIcon) ? import_react25.default.cloneElement(resolvedIcon, {
+      size: resolvedIcon.props.size ?? iconSize,
+      color: resolvedIcon.props.color ?? tokens.color.brand.text
+    }) : resolvedIcon),
+    resolvedTitle && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.Text, { style: [emptyState.title, titleSize] }, resolvedTitle),
+    resolvedDescription && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.Text, { style: [emptyState.description, descSize] }, resolvedDescription),
+    action && /* @__PURE__ */ import_react25.default.createElement(import_react_native25.View, { style: { marginTop: tokens.spacing[4] } }, action)
+  );
 }
 
 // src/components/Fab/Fab.tsx
@@ -2287,10 +2384,10 @@ function FormField({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: tokens.spacing[1]
+        marginBottom: tokens.spacing[1.5]
       }
     },
-    label && /* @__PURE__ */ import_react28.default.createElement(import_react_native28.View, { style: { flexDirection: "row", gap: 3 } }, /* @__PURE__ */ import_react28.default.createElement(import_react_native28.Text, { style: formControl.label }, label), required && /* @__PURE__ */ import_react28.default.createElement(import_react_native28.Text, { style: formControl.errorText }, "*")),
+    label && /* @__PURE__ */ import_react28.default.createElement(import_react_native28.View, { style: { flexDirection: "row", gap: 3 } }, /* @__PURE__ */ import_react28.default.createElement(import_react_native28.Text, { style: formControl.label }, label), required && /* @__PURE__ */ import_react28.default.createElement(import_react_native28.Text, { style: { color: tokens.color.error.icon, fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold } }, "*")),
     labelTrailing
   ), children, error ? /* @__PURE__ */ import_react28.default.createElement(
     import_react_native28.Text,
@@ -2926,19 +3023,28 @@ function OTPCell({
       scale.value = (0, import_react_native_reanimated14.withTiming)(1, { duration: 150 });
     }
   }, [isFocused, isFilled]);
-  const animatedStyle = (0, import_react_native_reanimated14.useAnimatedStyle)(() => {
-    return {
-      transform: [{ scale: scale.value }],
-      borderColor: isFocused ? otpInput.cell.focused.borderColor : isFilled ? otpInput.cell.borderColor : otpInput.cell.borderColor,
-      backgroundColor: isFilled ? otpInput.cell.backgroundColor : otpInput.cell.backgroundColor
-    };
-  });
+  const animatedStyle = (0, import_react_native_reanimated14.useAnimatedStyle)(() => ({
+    transform: [{ scale: scale.value }]
+  }));
+  const borderColor = isFocused ? otpInput.cell.focused.borderColor : isFilled ? otpInput.cell.filled.borderColor : otpInput.cell.borderColor;
+  const backgroundColor = isFilled ? otpInput.cell.filled.backgroundColor : otpInput.cell.backgroundColor;
+  const borderWidth = isFocused ? 2 : 1.5;
   return /* @__PURE__ */ import_react38.default.createElement(
     import_react_native_reanimated14.default.View,
     {
       style: [
-        otpInput.cell,
-        { flex: 1, aspectRatio: 0.8 },
+        {
+          flex: 1,
+          aspectRatio: 1,
+          minWidth: 0,
+          maxHeight: otpInput.cell.height,
+          borderRadius: otpInput.cell.borderRadius,
+          alignItems: "center",
+          justifyContent: "center",
+          borderWidth,
+          borderColor,
+          backgroundColor
+        },
         animatedStyle
       ]
     },
@@ -3570,6 +3676,7 @@ var import_react_native45 = require("react-native");
 var import_react_native_reanimated18 = __toESM(require("react-native-reanimated"));
 var import_headless46 = require("@truongdq01/headless");
 var import_tokens5 = require("@truongdq01/tokens");
+var TRACK_PADDING = 2;
 function SegmentedControl({
   options,
   selectedIndex,
@@ -3585,20 +3692,31 @@ function SegmentedControl({
     disabled
   });
   const [containerWidth, setContainerWidth] = (0, import_react46.useState)(0);
-  const segmentWidth = containerWidth / options.length;
-  const translateX = (0, import_react_native_reanimated18.useSharedValue)(selectedIndex * segmentWidth);
+  const [layoutReady, setLayoutReady] = (0, import_react46.useState)(false);
+  const innerWidth = Math.max(0, containerWidth - TRACK_PADDING * 2);
+  const segmentWidth = options.length > 0 ? innerWidth / options.length : 0;
+  const translateX = (0, import_react_native_reanimated18.useSharedValue)(0);
+  const didInitialLayout = (0, import_react46.useRef)(false);
   import_react46.default.useEffect(() => {
-    if (segmentWidth > 0) {
-      translateX.value = (0, import_react_native_reanimated18.withSpring)(selectedIndex * segmentWidth, import_tokens5.spring.snappy);
+    if (segmentWidth <= 0) return;
+    const target = selectedIndex * segmentWidth;
+    if (!didInitialLayout.current) {
+      didInitialLayout.current = true;
+      translateX.value = target;
+      return;
     }
+    translateX.value = (0, import_react_native_reanimated18.withSpring)(target, import_tokens5.spring.snappy);
   }, [selectedIndex, segmentWidth, translateX]);
   const onLayout = (e) => {
-    setContainerWidth(e.nativeEvent.layout.width);
+    const w = e.nativeEvent.layout.width;
+    setContainerWidth(w);
+    if (w > 0) setLayoutReady(true);
   };
   const indicatorStyle = (0, import_react_native_reanimated18.useAnimatedStyle)(() => ({
     transform: [{ translateX: translateX.value }],
     width: segmentWidth
   }));
+  const showIndicator = layoutReady && segmentWidth > 0;
   return /* @__PURE__ */ import_react46.default.createElement(
     import_react_native45.View,
     {
@@ -3608,12 +3726,18 @@ function SegmentedControl({
         { height, borderRadius: height / 2, opacity: disabled ? 0.6 : 1 }
       ]
     },
-    containerWidth > 0 && /* @__PURE__ */ import_react46.default.createElement(
+    showIndicator && /* @__PURE__ */ import_react46.default.createElement(
       import_react_native_reanimated18.default.View,
       {
         style: [
           segmentedControl.item.active,
-          { borderRadius: (height - 4) / 2 },
+          {
+            position: "absolute",
+            left: TRACK_PADDING,
+            top: TRACK_PADDING,
+            bottom: TRACK_PADDING,
+            borderRadius: (height - TRACK_PADDING * 2) / 2
+          },
           indicatorStyle
         ]
       }
@@ -3650,22 +3774,197 @@ function SegmentedControl({
 }
 
 // src/components/Select/Select.tsx
+var import_react48 = __toESM(require("react"));
+var import_react_native47 = require("react-native");
+var import_flash_list3 = require("@shopify/flash-list");
+var import_headless48 = require("@truongdq01/headless");
+
+// src/components/Skeleton/Skeleton.tsx
 var import_react47 = __toESM(require("react"));
 var import_react_native46 = require("react-native");
+var import_react_native_reanimated19 = __toESM(require("react-native-reanimated"));
 var import_headless47 = require("@truongdq01/headless");
+function Skeleton({
+  width = "100%",
+  height = 16,
+  borderRadius,
+  animate = true,
+  delayMs = 0,
+  shimmerDirection = "pulse"
+}) {
+  const { skeleton } = (0, import_headless47.useComponentTokens)();
+  const shimmer = (0, import_react_native_reanimated19.useSharedValue)(0);
+  const [layoutW, setLayoutW] = (0, import_react47.useState)(0);
+  (0, import_react47.useEffect)(() => {
+    if (!animate) {
+      (0, import_react_native_reanimated19.cancelAnimation)(shimmer);
+      shimmer.value = 0;
+      return;
+    }
+    const start = () => {
+      shimmer.value = (0, import_react_native_reanimated19.withRepeat)((0, import_react_native_reanimated19.withTiming)(1, { duration: 1200 }), -1, true);
+    };
+    if (delayMs > 0) {
+      const t = setTimeout(start, delayMs);
+      return () => {
+        clearTimeout(t);
+        (0, import_react_native_reanimated19.cancelAnimation)(shimmer);
+      };
+    }
+    start();
+    return () => {
+      (0, import_react_native_reanimated19.cancelAnimation)(shimmer);
+    };
+  }, [animate, delayMs]);
+  const pulseStyle = (0, import_react_native_reanimated19.useAnimatedStyle)(() => ({
+    opacity: (0, import_react_native_reanimated19.interpolate)(shimmer.value, [0, 1], [skeleton.opacity.start, skeleton.opacity.end])
+  }));
+  const sweepStyle = (0, import_react_native_reanimated19.useAnimatedStyle)(() => {
+    const w = Math.max(layoutW, 1);
+    const sweep = w * 0.35;
+    const t = shimmerDirection === "right-to-left" ? 1 - shimmer.value : shimmer.value;
+    return {
+      transform: [{ translateX: (0, import_react_native_reanimated19.interpolate)(t, [0, 1], [-sweep, w]) }],
+      opacity: 0.45
+    };
+  });
+  const isSweep = shimmerDirection === "left-to-right" || shimmerDirection === "right-to-left";
+  return /* @__PURE__ */ import_react47.default.createElement(
+    import_react_native_reanimated19.default.View,
+    {
+      style: [
+        {
+          width,
+          height,
+          borderRadius: borderRadius ?? skeleton.borderRadius,
+          backgroundColor: skeleton.backgroundColor,
+          overflow: "hidden"
+        },
+        animate && !isSweep ? pulseStyle : null
+      ],
+      onLayout: (e) => setLayoutW(e.nativeEvent.layout.width)
+    },
+    animate && isSweep && /* @__PURE__ */ import_react47.default.createElement(
+      import_react_native_reanimated19.default.View,
+      {
+        style: [
+          {
+            position: "absolute",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: "35%",
+            backgroundColor: "rgba(255,255,255,0.35)",
+            borderRadius: borderRadius ?? skeleton.borderRadius
+          },
+          sweepStyle
+        ]
+      }
+    )
+  );
+}
+function SkeletonGroup({ stagger = 80, children }) {
+  return /* @__PURE__ */ import_react47.default.createElement(import_react47.default.Fragment, null, import_react47.Children.map(children, (child, i) => {
+    if (!(0, import_react47.isValidElement)(child)) return child;
+    return (0, import_react47.cloneElement)(child, {
+      delayMs: i * stagger
+    });
+  }));
+}
+function SkeletonText({
+  lines = 3,
+  lastLineWidth = "60%",
+  shimmerDirection = "pulse"
+}) {
+  const tokens = (0, import_headless47.useTokens)();
+  return /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { gap: tokens.spacing[2] } }, Array.from({ length: lines }).map((_, i) => /* @__PURE__ */ import_react47.default.createElement(
+    Skeleton,
+    {
+      key: i,
+      width: i === lines - 1 ? lastLineWidth : "100%",
+      height: 14,
+      shimmerDirection
+    }
+  )));
+}
+function SkeletonCard() {
+  const tokens = (0, import_headless47.useTokens)();
+  return /* @__PURE__ */ import_react47.default.createElement(
+    import_react_native46.View,
+    {
+      style: {
+        padding: tokens.spacing[4],
+        borderRadius: tokens.radius.lg,
+        borderWidth: 0.5,
+        borderColor: tokens.color.border.default,
+        backgroundColor: tokens.color.surface.default,
+        gap: tokens.spacing[3]
+      }
+    },
+    /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { flexDirection: "row", gap: tokens.spacing[3], alignItems: "center" } }, /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: 44, height: 44, borderRadius: 22 }), /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { flex: 1, gap: tokens.spacing[2] } }, /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "50%", height: 14 }), /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "35%", height: 12 }))),
+    /* @__PURE__ */ import_react47.default.createElement(SkeletonText, { lines: 3 }),
+    /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "40%", height: 32, borderRadius: tokens.radius.md })
+  );
+}
+function SkeletonListItem() {
+  const tokens = (0, import_headless47.useTokens)();
+  return /* @__PURE__ */ import_react47.default.createElement(
+    import_react_native46.View,
+    {
+      style: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: tokens.spacing[4],
+        paddingVertical: tokens.spacing[3],
+        gap: tokens.spacing[3]
+      }
+    },
+    /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: 40, height: 40, borderRadius: 20 }),
+    /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { flex: 1, gap: tokens.spacing[2] } }, /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "55%", height: 14 }), /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "38%", height: 12 })),
+    /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: 24, height: 14 })
+  );
+}
+function SkeletonProfile() {
+  const tokens = (0, import_headless47.useTokens)();
+  return /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { gap: tokens.spacing[4], alignItems: "center" } }, /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: 96, height: 96, borderRadius: 48, shimmerDirection: "left-to-right" }), /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "70%", height: 18 }), /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "45%", height: 14 }));
+}
+function SkeletonMedia() {
+  const tokens = (0, import_headless47.useTokens)();
+  return /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { gap: tokens.spacing[3] } }, /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "100%", height: 180, borderRadius: tokens.radius.lg, shimmerDirection: "left-to-right" }), /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "80%", height: 16 }), /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "50%", height: 13 }));
+}
+function SkeletonForm({ rows = 4 }) {
+  const tokens = (0, import_headless47.useTokens)();
+  return /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { gap: tokens.spacing[4] } }, Array.from({ length: rows }).map((_, i) => /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { key: i, style: { gap: tokens.spacing[2] } }, /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "30%", height: 12 }), /* @__PURE__ */ import_react47.default.createElement(Skeleton, { width: "100%", height: 44, borderRadius: tokens.radius.md }))));
+}
+function SkeletonGrid({ columns = 3, rows = 2, cell = 48 }) {
+  const tokens = (0, import_headless47.useTokens)();
+  return /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { flexDirection: "row", flexWrap: "wrap", gap: tokens.spacing[2] } }, Array.from({ length: columns * rows }).map((_, i) => /* @__PURE__ */ import_react47.default.createElement(Skeleton, { key: i, width: cell, height: cell, borderRadius: tokens.radius.sm })));
+}
+function SkeletonTable({ columns = 4, dataRows = 3 }) {
+  const tokens = (0, import_headless47.useTokens)();
+  return /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { gap: tokens.spacing[2] } }, /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { flexDirection: "row", gap: tokens.spacing[2] } }, Array.from({ length: columns }).map((_, i) => /* @__PURE__ */ import_react47.default.createElement(Skeleton, { key: `h-${i}`, width: `${90 / columns}%`, height: 14 }))), Array.from({ length: dataRows }).map((_, r) => /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { key: r, style: { flexDirection: "row", gap: tokens.spacing[2] } }, Array.from({ length: columns }).map((_2, c) => /* @__PURE__ */ import_react47.default.createElement(Skeleton, { key: `${r}-${c}`, width: `${90 / columns}%`, height: 12 })))));
+}
+
+// src/components/Select/Select.tsx
 function Select({
   label,
   placeholder = "Select\u2026",
   searchable = false,
   error,
   onClearError,
+  loading = false,
+  onLoadMore,
+  hasMore = false,
+  loadingMore = false,
+  renderOption,
   options,
   ...hookOptions
 }) {
-  const { select } = (0, import_headless47.useComponentTokens)();
-  const tokens = (0, import_headless47.useTokens)();
-  const sheetRef = (0, import_react47.useRef)(null);
-  const [query, setQuery] = (0, import_react47.useState)("");
+  const { select } = (0, import_headless48.useComponentTokens)();
+  const tokens = (0, import_headless48.useTokens)();
+  const sheetRef = (0, import_react48.useRef)(null);
+  const [query, setQuery] = (0, import_react48.useState)("");
+  const endReachBusy = (0, import_react48.useRef)(false);
   const {
     isOpen,
     open,
@@ -3673,31 +3972,106 @@ function Select({
     selectOption,
     isSelected,
     displayLabel
-  } = (0, import_headless47.useSelect)({ options, ...hookOptions, placeholder });
+  } = (0, import_headless48.useSelect)({ options, ...hookOptions, placeholder });
   const hasSelection = displayLabel !== placeholder;
-  const filtered = (0, import_react47.useMemo)(() => {
+  const filtered = (0, import_react48.useMemo)(() => {
     if (!query) return options;
     const lowerQuery = query.toLowerCase();
-    return options.filter(
-      (o) => o.label.toLowerCase().includes(lowerQuery)
-    );
+    return options.filter((o) => o.label.toLowerCase().includes(lowerQuery));
   }, [options, query]);
-  const handleOpen = () => {
+  const handleClose = (0, import_react48.useCallback)(() => {
+    sheetRef.current?.close();
+    close();
+  }, [close]);
+  const handleOpen = (0, import_react48.useCallback)(() => {
     setQuery("");
     sheetRef.current?.open();
     open();
-  };
-  const handleClose = () => {
-    sheetRef.current?.close();
-    close();
-  };
-  const handleSelect = (val) => {
-    selectOption(val);
-    onClearError?.();
-    if (!hookOptions.multiple) handleClose();
-  };
-  return /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, null, label && /* @__PURE__ */ import_react47.default.createElement(import_react_native46.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary, marginBottom: tokens.spacing[1] } }, label), /* @__PURE__ */ import_react47.default.createElement(
-    import_react_native46.Pressable,
+  }, [open]);
+  const handleSelect = (0, import_react48.useCallback)(
+    (val) => {
+      selectOption(val);
+      onClearError?.();
+      if (!hookOptions.multiple) handleClose();
+    },
+    [selectOption, onClearError, hookOptions.multiple, handleClose]
+  );
+  const onEndReached = (0, import_react48.useCallback)(() => {
+    if (!onLoadMore || !hasMore || loading || loadingMore || endReachBusy.current) return;
+    endReachBusy.current = true;
+    onLoadMore();
+  }, [onLoadMore, hasMore, loading, loadingMore]);
+  import_react48.default.useEffect(() => {
+    if (!loadingMore) endReachBusy.current = false;
+  }, [loadingMore]);
+  const renderItem = (0, import_react48.useCallback)(
+    ({ item: option }) => {
+      const selected = isSelected(option.value);
+      if (renderOption) {
+        return /* @__PURE__ */ import_react48.default.createElement(
+          import_react_native47.Pressable,
+          {
+            onPress: () => !option.disabled && handleSelect(option.value),
+            style: { opacity: option.disabled ? 0.4 : 1 }
+          },
+          renderOption(option, { selected })
+        );
+      }
+      return /* @__PURE__ */ import_react48.default.createElement(
+        import_react_native47.Pressable,
+        {
+          onPress: () => !option.disabled && handleSelect(option.value),
+          style: {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingVertical: tokens.spacing[3],
+            paddingHorizontal: tokens.spacing[2],
+            borderRadius: tokens.radius.md,
+            backgroundColor: selected ? select.option.selected.bg : "transparent",
+            marginBottom: 2,
+            opacity: option.disabled ? 0.4 : 1
+          }
+        },
+        /* @__PURE__ */ import_react48.default.createElement(
+          import_react_native47.Text,
+          {
+            style: {
+              fontSize: tokens.fontSize.md,
+              color: selected ? select.option.selected.color : select.option.default.color,
+              fontWeight: selected ? tokens.fontWeight.medium : tokens.fontWeight.regular
+            }
+          },
+          option.label
+        ),
+        selected && /* @__PURE__ */ import_react48.default.createElement(Icon, { size: 16, color: select.option.selected.color, name: "check" })
+      );
+    },
+    [isSelected, renderOption, select.option, tokens, handleSelect]
+  );
+  const listEmpty = (0, import_react48.useMemo)(() => {
+    if (loading && options.length === 0) {
+      return /* @__PURE__ */ import_react48.default.createElement(import_react_native47.View, { style: { paddingVertical: tokens.spacing[2] } }, /* @__PURE__ */ import_react48.default.createElement(SkeletonListItem, null), /* @__PURE__ */ import_react48.default.createElement(SkeletonListItem, null), /* @__PURE__ */ import_react48.default.createElement(SkeletonListItem, null));
+    }
+    if (filtered.length === 0) {
+      const emptyMsg = loading ? "Loading\u2026" : query ? `No results for "${query}"` : "No options";
+      return /* @__PURE__ */ import_react48.default.createElement(
+        import_react_native47.Text,
+        {
+          style: {
+            color: tokens.color.text.tertiary,
+            fontSize: tokens.fontSize.sm,
+            textAlign: "center",
+            paddingVertical: tokens.spacing[6]
+          }
+        },
+        emptyMsg
+      );
+    }
+    return null;
+  }, [loading, options.length, filtered.length, query, tokens]);
+  return /* @__PURE__ */ import_react48.default.createElement(import_react_native47.View, null, label && /* @__PURE__ */ import_react48.default.createElement(import_react_native47.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary, marginBottom: tokens.spacing[1] } }, label), /* @__PURE__ */ import_react48.default.createElement(
+    import_react_native47.Pressable,
     {
       onPress: handleOpen,
       style: {
@@ -3714,8 +4088,8 @@ function Select({
       },
       accessibilityState: { expanded: isOpen }
     },
-    /* @__PURE__ */ import_react47.default.createElement(
-      import_react_native46.Text,
+    /* @__PURE__ */ import_react48.default.createElement(
+      import_react_native47.Text,
       {
         style: {
           flex: 1,
@@ -3726,8 +4100,8 @@ function Select({
       },
       displayLabel
     ),
-    /* @__PURE__ */ import_react47.default.createElement(Icon, { size: 16, color: tokens.color.text.tertiary }, isOpen ? "chevronUp" : "chevronDown")
-  ), error && /* @__PURE__ */ import_react47.default.createElement(import_react_native46.Text, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.error.text, marginTop: tokens.spacing[1] } }, error), /* @__PURE__ */ import_react47.default.createElement(
+    /* @__PURE__ */ import_react48.default.createElement(Icon, { size: 16, color: tokens.color.text.tertiary }, isOpen ? "chevronUp" : "chevronDown")
+  ), error && /* @__PURE__ */ import_react48.default.createElement(import_react_native47.Text, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.error.text, marginTop: tokens.spacing[1] } }, error), /* @__PURE__ */ import_react48.default.createElement(
     BottomSheet,
     {
       ref: sheetRef,
@@ -3736,8 +4110,8 @@ function Select({
       enableBackdrop: true,
       enableDismissOnSwipe: true
     },
-    /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { flex: 1, paddingHorizontal: tokens.spacing[4] } }, searchable && isOpen && /* @__PURE__ */ import_react47.default.createElement(
-      import_react_native46.View,
+    /* @__PURE__ */ import_react48.default.createElement(import_react_native47.View, { style: { flex: 1, paddingHorizontal: tokens.spacing[4] } }, searchable && isOpen && /* @__PURE__ */ import_react48.default.createElement(
+      import_react_native47.View,
       {
         style: {
           flexDirection: "row",
@@ -3751,9 +4125,9 @@ function Select({
           backgroundColor: tokens.color.bg.subtle
         }
       },
-      /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { marginRight: 8 } }, /* @__PURE__ */ import_react47.default.createElement(Icon, { size: 20, color: tokens.color.text.tertiary, name: "search" })),
-      /* @__PURE__ */ import_react47.default.createElement(
-        import_react_native46.TextInput,
+      /* @__PURE__ */ import_react48.default.createElement(import_react_native47.View, { style: { marginRight: 8 } }, /* @__PURE__ */ import_react48.default.createElement(Icon, { size: 20, color: tokens.color.text.tertiary, name: "search" })),
+      /* @__PURE__ */ import_react48.default.createElement(
+        import_react_native47.TextInput,
         {
           value: query,
           onChangeText: setQuery,
@@ -3763,135 +4137,21 @@ function Select({
           autoFocus: true
         }
       ),
-      query.length > 0 && /* @__PURE__ */ import_react47.default.createElement(import_react_native46.Pressable, { onPress: () => setQuery(""), hitSlop: 8 }, /* @__PURE__ */ import_react47.default.createElement(Icon, { size: 18, color: tokens.color.text.tertiary, name: "close" }))
-    ), /* @__PURE__ */ import_react47.default.createElement(import_react_native46.ScrollView, { showsVerticalScrollIndicator: false, keyboardShouldPersistTaps: "handled" }, filtered.length === 0 ? /* @__PURE__ */ import_react47.default.createElement(import_react_native46.Text, { style: { color: tokens.color.text.tertiary, fontSize: tokens.fontSize.sm, textAlign: "center", paddingVertical: tokens.spacing[6] } }, 'No results for "', query, '"') : filtered.map((option) => {
-      const selected = isSelected(option.value);
-      return /* @__PURE__ */ import_react47.default.createElement(
-        import_react_native46.Pressable,
-        {
-          key: String(option.value),
-          onPress: () => !option.disabled && handleSelect(option.value),
-          style: {
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingVertical: tokens.spacing[3],
-            paddingHorizontal: tokens.spacing[2],
-            borderRadius: tokens.radius.md,
-            backgroundColor: selected ? select.option.selected.bg : "transparent",
-            marginBottom: 2,
-            opacity: option.disabled ? 0.4 : 1
-          }
-        },
-        /* @__PURE__ */ import_react47.default.createElement(
-          import_react_native46.Text,
-          {
-            style: {
-              fontSize: tokens.fontSize.md,
-              color: selected ? select.option.selected.color : select.option.default.color,
-              fontWeight: selected ? tokens.fontWeight.medium : tokens.fontWeight.regular
-            }
-          },
-          option.label
-        ),
-        selected && /* @__PURE__ */ import_react47.default.createElement(Icon, { size: 16, color: select.option.selected.color, name: "check" })
-      );
-    }), /* @__PURE__ */ import_react47.default.createElement(import_react_native46.View, { style: { height: tokens.spacing[4] } })))
+      query.length > 0 && /* @__PURE__ */ import_react48.default.createElement(import_react_native47.Pressable, { onPress: () => setQuery(""), hitSlop: 8 }, /* @__PURE__ */ import_react48.default.createElement(Icon, { size: 18, color: tokens.color.text.tertiary, name: "close" }))
+    ), filtered.length === 0 ? /* @__PURE__ */ import_react48.default.createElement(import_react_native47.View, { style: { flex: 1, minHeight: 120 } }, listEmpty) : /* @__PURE__ */ import_react48.default.createElement(
+      import_flash_list3.FlashList,
+      {
+        style: { flex: 1 },
+        data: filtered,
+        extraData: query,
+        renderItem,
+        keyExtractor: (item) => String(item.value),
+        onEndReached,
+        onEndReachedThreshold: 0.35,
+        ListFooterComponent: loadingMore ? /* @__PURE__ */ import_react48.default.createElement(import_react_native47.View, { style: { paddingVertical: tokens.spacing[3], alignItems: "center" } }, /* @__PURE__ */ import_react48.default.createElement(import_react_native47.ActivityIndicator, { color: tokens.color.brand.default })) : /* @__PURE__ */ import_react48.default.createElement(import_react_native47.View, { style: { height: tokens.spacing[4] } })
+      }
+    ))
   ));
-}
-
-// src/components/Skeleton/Skeleton.tsx
-var import_react48 = __toESM(require("react"));
-var import_react_native47 = require("react-native");
-var import_react_native_reanimated19 = __toESM(require("react-native-reanimated"));
-var import_headless48 = require("@truongdq01/headless");
-function Skeleton({
-  width = "100%",
-  height = 16,
-  borderRadius,
-  animate = true
-}) {
-  const { skeleton } = (0, import_headless48.useComponentTokens)();
-  const shimmer = (0, import_react_native_reanimated19.useSharedValue)(0);
-  (0, import_react48.useEffect)(() => {
-    if (!animate) {
-      (0, import_react_native_reanimated19.cancelAnimation)(shimmer);
-      shimmer.value = 0;
-      return;
-    }
-    shimmer.value = (0, import_react_native_reanimated19.withRepeat)((0, import_react_native_reanimated19.withTiming)(1, { duration: 1200 }), -1, true);
-    return () => {
-      (0, import_react_native_reanimated19.cancelAnimation)(shimmer);
-    };
-  }, [animate]);
-  const animatedStyle = (0, import_react_native_reanimated19.useAnimatedStyle)(() => ({
-    opacity: (0, import_react_native_reanimated19.interpolate)(shimmer.value, [0, 1], [skeleton.opacity.start, skeleton.opacity.end])
-  }));
-  return /* @__PURE__ */ import_react48.default.createElement(
-    import_react_native_reanimated19.default.View,
-    {
-      style: [
-        {
-          width,
-          height,
-          borderRadius: borderRadius ?? skeleton.borderRadius,
-          backgroundColor: skeleton.backgroundColor
-        },
-        animate && animatedStyle
-      ]
-    }
-  );
-}
-function SkeletonText({
-  lines = 3,
-  lastLineWidth = "60%"
-}) {
-  const tokens = (0, import_headless48.useTokens)();
-  return /* @__PURE__ */ import_react48.default.createElement(import_react_native47.View, { style: { gap: tokens.spacing[2] } }, Array.from({ length: lines }).map((_, i) => /* @__PURE__ */ import_react48.default.createElement(
-    Skeleton,
-    {
-      key: i,
-      width: i === lines - 1 ? lastLineWidth : "100%",
-      height: 14
-    }
-  )));
-}
-function SkeletonCard() {
-  const tokens = (0, import_headless48.useTokens)();
-  return /* @__PURE__ */ import_react48.default.createElement(
-    import_react_native47.View,
-    {
-      style: {
-        padding: tokens.spacing[4],
-        borderRadius: tokens.radius.lg,
-        borderWidth: 0.5,
-        borderColor: tokens.color.border.default,
-        backgroundColor: tokens.color.surface.default,
-        gap: tokens.spacing[3]
-      }
-    },
-    /* @__PURE__ */ import_react48.default.createElement(import_react_native47.View, { style: { flexDirection: "row", gap: tokens.spacing[3], alignItems: "center" } }, /* @__PURE__ */ import_react48.default.createElement(Skeleton, { width: 44, height: 44, borderRadius: 22 }), /* @__PURE__ */ import_react48.default.createElement(import_react_native47.View, { style: { flex: 1, gap: tokens.spacing[2] } }, /* @__PURE__ */ import_react48.default.createElement(Skeleton, { width: "50%", height: 14 }), /* @__PURE__ */ import_react48.default.createElement(Skeleton, { width: "35%", height: 12 }))),
-    /* @__PURE__ */ import_react48.default.createElement(SkeletonText, { lines: 3 }),
-    /* @__PURE__ */ import_react48.default.createElement(Skeleton, { width: "40%", height: 32, borderRadius: tokens.radius.md })
-  );
-}
-function SkeletonListItem() {
-  const tokens = (0, import_headless48.useTokens)();
-  return /* @__PURE__ */ import_react48.default.createElement(
-    import_react_native47.View,
-    {
-      style: {
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: tokens.spacing[4],
-        paddingVertical: tokens.spacing[3],
-        gap: tokens.spacing[3]
-      }
-    },
-    /* @__PURE__ */ import_react48.default.createElement(Skeleton, { width: 40, height: 40, borderRadius: 20 }),
-    /* @__PURE__ */ import_react48.default.createElement(import_react_native47.View, { style: { flex: 1, gap: tokens.spacing[2] } }, /* @__PURE__ */ import_react48.default.createElement(Skeleton, { width: "55%", height: 14 }), /* @__PURE__ */ import_react48.default.createElement(Skeleton, { width: "38%", height: 12 })),
-    /* @__PURE__ */ import_react48.default.createElement(Skeleton, { width: 24, height: 14 })
-  );
 }
 
 // src/components/Slider/Slider.tsx
@@ -3904,39 +4164,142 @@ function Slider({
   label,
   showValue = false,
   formatValue = (v) => String(v),
-  showRange = false,
+  showMinMaxLabels = false,
   showMarks = false,
+  sliderHeight = 150,
+  thumbRenderer,
   min = 0,
   max = 100,
   step = 1,
-  ...hookOptions
+  orientation = "horizontal",
+  range = false,
+  ...rest
 }) {
   const tokens = (0, import_headless49.useTokens)();
   const { slider } = (0, import_headless49.useComponentTokens)();
+  const isVertical = orientation === "vertical";
+  const sliderState = (0, import_headless49.useSlider)({
+    min,
+    max,
+    step,
+    orientation,
+    range,
+    ...rest
+  });
+  const showRangeLabels = showMinMaxLabels;
+  const marks = showMarks && step > 0 ? Array.from({ length: Math.floor((max - min) / step) + 1 }, (_, i) => i * step + min) : [];
+  const trackThickness = slider.track.height;
+  const thumbW = slider.thumb.width;
+  const thumbH = slider.thumb.height;
+  const thumbShellStyle = {
+    position: "absolute",
+    left: isVertical ? void 0 : -thumbW / 2,
+    top: isVertical ? -thumbH / 2 : void 0,
+    width: thumbW,
+    height: thumbH,
+    borderRadius: slider.thumb.borderRadius,
+    backgroundColor: slider.thumb.bg,
+    borderWidth: slider.thumb.borderWidth,
+    borderColor: slider.thumb.borderColor,
+    shadowColor: slider.thumb.shadowColor,
+    shadowOffset: slider.thumb.shadowOffset,
+    shadowOpacity: slider.thumb.shadowOpacity,
+    shadowRadius: slider.thumb.shadowRadius,
+    elevation: slider.thumb.elevation
+  };
+  function renderThumb(animatedStyle, kind, value) {
+    const custom = thumbRenderer?.({ kind, value });
+    return /* @__PURE__ */ import_react49.default.createElement(import_react_native_reanimated20.default.View, { style: [thumbShellStyle, animatedStyle] }, custom ?? null);
+  }
+  if (sliderState.mode === "range") {
+    const {
+      currentValue: currentValue2,
+      thumbLowAnimatedStyle,
+      thumbHighAnimatedStyle,
+      fillAnimatedStyle: fillAnimatedStyle2,
+      trackAnimatedStyle: trackAnimatedStyle2,
+      panGestureLow,
+      panGestureHigh,
+      onTrackLayout: onTrackLayout2
+    } = sliderState;
+    const [lo, hi] = currentValue2;
+    const d = rest.disabled;
+    return /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { opacity: d ? slider.disabledOpacity : 1 } }, (label || showValue) && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[2] } }, label && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary } }, label), showValue && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, color: tokens.color.brand.default } }, formatValue(lo), " \u2013 ", formatValue(hi))), /* @__PURE__ */ import_react49.default.createElement(import_react_native_reanimated20.default.View, { style: [{ paddingVertical: isVertical ? 0 : 12, paddingHorizontal: isVertical ? 12 : 0 }, trackAnimatedStyle2] }, /* @__PURE__ */ import_react49.default.createElement(
+      import_react_native48.View,
+      {
+        style: isVertical ? { width: thumbW + 24, height: sliderHeight, justifyContent: "center" } : { height: thumbH + 24, justifyContent: "center" },
+        onLayout: (e) => onTrackLayout2(isVertical ? e.nativeEvent.layout.height : e.nativeEvent.layout.width)
+      },
+      /* @__PURE__ */ import_react49.default.createElement(
+        import_react_native48.View,
+        {
+          style: {
+            position: "absolute",
+            ...isVertical ? { top: 0, bottom: 0, left: "50%", marginLeft: -trackThickness / 2, width: trackThickness } : { left: 0, right: 0, height: trackThickness },
+            borderRadius: slider.track.borderRadius,
+            backgroundColor: slider.track.bgOff,
+            overflow: "hidden"
+          }
+        },
+        /* @__PURE__ */ import_react49.default.createElement(
+          import_react_native_reanimated20.default.View,
+          {
+            style: [
+              {
+                height: isVertical ? "100%" : slider.track.height,
+                backgroundColor: slider.track.bgOn,
+                borderRadius: slider.track.borderRadius
+              },
+              fillAnimatedStyle2
+            ]
+          }
+        )
+      ),
+      showMarks && !isVertical && marks.map((mark) => {
+        const markPct = (mark - min) / (max - min);
+        const isActive = mark <= hi && mark >= lo;
+        return /* @__PURE__ */ import_react49.default.createElement(
+          import_react_native48.View,
+          {
+            key: mark,
+            style: {
+              position: "absolute",
+              left: `${markPct * 100}%`,
+              width: 4,
+              height: 4,
+              borderRadius: 2,
+              marginLeft: -2,
+              backgroundColor: isActive ? slider.track.bgOn : tokens.color.border.strong,
+              top: (thumbH - 4) / 2 + 12
+            }
+          }
+        );
+      }),
+      /* @__PURE__ */ import_react49.default.createElement(import_react_native_gesture_handler7.GestureDetector, { gesture: panGestureLow }, renderThumb(thumbLowAnimatedStyle, "low", lo)),
+      /* @__PURE__ */ import_react49.default.createElement(import_react_native_gesture_handler7.GestureDetector, { gesture: panGestureHigh }, renderThumb(thumbHighAnimatedStyle, "high", hi))
+    )), showRangeLabels && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { flexDirection: "row", justifyContent: "space-between", marginTop: -tokens.spacing[1] } }, /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(min)), /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(max))));
+  }
   const {
     currentValue,
     thumbAnimatedStyle,
     fillAnimatedStyle,
     trackAnimatedStyle,
     panGesture,
-    onTrackLayout,
-    percentage
-  } = (0, import_headless49.useSlider)({ min, max, step, ...hookOptions });
-  const marks = showMarks && step > 0 ? Array.from({ length: Math.floor((max - min) / step) + 1 }, (_, i) => i * step + min) : [];
-  return /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { opacity: hookOptions.disabled ? slider.disabledOpacity : 1 } }, (label || showValue) && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[2] } }, label && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary } }, label), showValue && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, color: tokens.color.brand.default } }, formatValue(currentValue))), /* @__PURE__ */ import_react49.default.createElement(import_react_native_reanimated20.default.View, { style: [{ paddingVertical: 12 }, trackAnimatedStyle] }, /* @__PURE__ */ import_react49.default.createElement(import_react_native_gesture_handler7.GestureDetector, { gesture: panGesture }, /* @__PURE__ */ import_react49.default.createElement(
+    onTrackLayout
+  } = sliderState;
+  const disabled = rest.disabled;
+  return /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { opacity: disabled ? slider.disabledOpacity : 1 } }, (label || showValue) && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[2] } }, label && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary } }, label), showValue && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, color: tokens.color.brand.default } }, formatValue(currentValue))), /* @__PURE__ */ import_react49.default.createElement(import_react_native_reanimated20.default.View, { style: [{ paddingVertical: isVertical ? 0 : 12, paddingHorizontal: isVertical ? 12 : 0 }, trackAnimatedStyle] }, /* @__PURE__ */ import_react49.default.createElement(import_react_native_gesture_handler7.GestureDetector, { gesture: panGesture }, /* @__PURE__ */ import_react49.default.createElement(
     import_react_native48.View,
     {
-      style: { height: slider.thumb.height, justifyContent: "center" },
-      onLayout: (e) => onTrackLayout(e.nativeEvent.layout.width)
+      style: isVertical ? { width: thumbW + 24, height: sliderHeight, justifyContent: "center" } : { height: thumbH + 24, justifyContent: "center" },
+      onLayout: (e) => onTrackLayout(isVertical ? e.nativeEvent.layout.height : e.nativeEvent.layout.width)
     },
     /* @__PURE__ */ import_react49.default.createElement(
       import_react_native48.View,
       {
         style: {
           position: "absolute",
-          left: 0,
-          right: 0,
-          height: slider.track.height,
+          ...isVertical ? { top: 0, bottom: 0, left: "50%", marginLeft: -trackThickness / 2, width: trackThickness } : { left: 0, right: 0, height: trackThickness },
           borderRadius: slider.track.borderRadius,
           backgroundColor: slider.track.bgOff,
           overflow: "hidden"
@@ -3947,7 +4310,7 @@ function Slider({
         {
           style: [
             {
-              height: slider.track.height,
+              height: isVertical ? "100%" : slider.track.height,
               backgroundColor: slider.track.bgOn,
               borderRadius: slider.track.borderRadius
             },
@@ -3956,7 +4319,7 @@ function Slider({
         }
       )
     ),
-    showMarks && marks.map((mark) => {
+    showMarks && !isVertical && marks.map((mark) => {
       const markPct = (mark - min) / (max - min);
       const isActive = mark <= currentValue;
       return /* @__PURE__ */ import_react49.default.createElement(
@@ -3971,35 +4334,13 @@ function Slider({
             borderRadius: 2,
             marginLeft: -2,
             backgroundColor: isActive ? slider.track.bgOn : tokens.color.border.strong,
-            top: (slider.thumb.height - 4) / 2
+            top: (thumbH - 4) / 2 + 12
           }
         }
       );
     }),
-    /* @__PURE__ */ import_react49.default.createElement(
-      import_react_native_reanimated20.default.View,
-      {
-        style: [
-          {
-            position: "absolute",
-            left: -(slider.thumb.width / 2),
-            width: slider.thumb.width,
-            height: slider.thumb.height,
-            borderRadius: slider.thumb.borderRadius,
-            backgroundColor: slider.thumb.bg,
-            borderWidth: slider.thumb.borderWidth,
-            borderColor: slider.thumb.borderColor,
-            shadowColor: slider.thumb.shadowColor,
-            shadowOffset: slider.thumb.shadowOffset,
-            shadowOpacity: slider.thumb.shadowOpacity,
-            shadowRadius: slider.thumb.shadowRadius,
-            elevation: slider.thumb.elevation
-          },
-          thumbAnimatedStyle
-        ]
-      }
-    )
-  ))), showRange && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { flexDirection: "row", justifyContent: "space-between", marginTop: -tokens.spacing[1] } }, /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(min)), /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(max))));
+    renderThumb(thumbAnimatedStyle, "single", currentValue)
+  ))), showRangeLabels && /* @__PURE__ */ import_react49.default.createElement(import_react_native48.View, { style: { flexDirection: "row", justifyContent: "space-between", marginTop: -tokens.spacing[1] } }, /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(min)), /* @__PURE__ */ import_react49.default.createElement(import_react_native48.Text, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(max))));
 }
 
 // src/components/Snackbar/Snackbar.tsx
@@ -4537,6 +4878,8 @@ function TextArea({
   minLines = 3,
   maxLines = 8,
   maxLength,
+  showCounter = true,
+  counterPosition = "inside",
   disabled = false,
   autoFocus = false,
   accessibilityLabel
@@ -4562,19 +4905,39 @@ function TextArea({
   const charCount = value.length;
   const nearLimit = maxLength && charCount >= maxLength * 0.9;
   const atLimit = maxLength && charCount >= maxLength;
-  return /* @__PURE__ */ import_react57.default.createElement(import_react_native56.View, null, (label || maxLength) && /* @__PURE__ */ import_react57.default.createElement(import_react_native56.View, { style: { flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[1] } }, label && /* @__PURE__ */ import_react57.default.createElement(import_react_native56.Text, { style: textArea.label }, label), maxLength && /* @__PURE__ */ import_react57.default.createElement(
+  const counterColor = atLimit ? tokens.color.error.text : nearLimit ? tokens.color.warning.text : tokens.color.text.tertiary;
+  const counterWeight = atLimit ? tokens.fontWeight.semibold : tokens.fontWeight.regular;
+  const showCounterAbove = Boolean(maxLength && showCounter && counterPosition === "above");
+  const showCounterInside = Boolean(maxLength && showCounter && counterPosition === "inside");
+  const showCounterBelow = Boolean(maxLength && showCounter && counterPosition === "below");
+  const counterPaddingBottom = showCounterInside ? tokens.spacing[5] : 0;
+  const counterEl = maxLength && showCounter ? /* @__PURE__ */ import_react57.default.createElement(
     import_react_native56.Text,
     {
+      pointerEvents: "none",
       style: {
         fontSize: tokens.fontSize.xs,
-        color: atLimit ? tokens.color.error.text : nearLimit ? tokens.color.warning.text : tokens.color.text.tertiary,
-        fontWeight: atLimit ? tokens.fontWeight.semibold : tokens.fontWeight.regular
+        color: counterColor,
+        fontWeight: counterWeight
       }
     },
     charCount,
     "/",
     maxLength
-  )), /* @__PURE__ */ import_react57.default.createElement(import_react_native56.View, { style: containerStyle }, /* @__PURE__ */ import_react57.default.createElement(
+  ) : null;
+  return /* @__PURE__ */ import_react57.default.createElement(import_react_native56.View, null, (label || showCounterAbove) && /* @__PURE__ */ import_react57.default.createElement(
+    import_react_native56.View,
+    {
+      style: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: tokens.spacing[1]
+      }
+    },
+    label && /* @__PURE__ */ import_react57.default.createElement(import_react_native56.Text, { style: textArea.label }, label),
+    showCounterAbove ? counterEl : null
+  ), /* @__PURE__ */ import_react57.default.createElement(import_react_native56.View, { style: [containerStyle, showCounterInside && { position: "relative" }] }, /* @__PURE__ */ import_react57.default.createElement(
     import_react_native56.TextInput,
     {
       value,
@@ -4597,7 +4960,7 @@ function TextArea({
         lineHeight: LINE_HEIGHT,
         textAlignVertical: "top",
         paddingTop: 0,
-        paddingBottom: 0
+        paddingBottom: counterPaddingBottom
       },
       onFocus: () => {
         setIsFocused(true);
@@ -4608,7 +4971,27 @@ function TextArea({
         onBlur?.();
       }
     }
-  )), error ? /* @__PURE__ */ import_react57.default.createElement(import_react_native56.Text, { style: textArea.errorText }, error) : helperText ? /* @__PURE__ */ import_react57.default.createElement(import_react_native56.Text, { style: textArea.helperText }, helperText) : null);
+  ), showCounterInside && counterEl ? /* @__PURE__ */ import_react57.default.createElement(
+    import_react_native56.View,
+    {
+      style: {
+        position: "absolute",
+        right: tokens.spacing[3],
+        bottom: tokens.spacing[2]
+      }
+    },
+    counterEl
+  ) : null), showCounterBelow && counterEl ? /* @__PURE__ */ import_react57.default.createElement(
+    import_react_native56.View,
+    {
+      style: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        marginTop: tokens.spacing[1]
+      }
+    },
+    counterEl
+  ) : null, error ? /* @__PURE__ */ import_react57.default.createElement(import_react_native56.Text, { style: textArea.errorText }, error) : helperText ? /* @__PURE__ */ import_react57.default.createElement(import_react_native56.Text, { style: textArea.helperText }, helperText) : null);
 }
 
 // src/components/TextField/TextField.tsx
@@ -4808,8 +5191,8 @@ function ToastItem({ item, position, onDismiss }) {
     info: { iconColor: tokens.color.info.icon, progressColor: tokens.color.info.icon }
   };
   const v = variantMap[item.variant] || variantMap.default;
-  const entering = position === "top" ? import_react_native_reanimated23.FadeInDown.springify().damping(18).stiffness(280) : import_react_native_reanimated23.FadeInUp.springify().damping(18).stiffness(280);
-  const exiting = position === "top" ? import_react_native_reanimated23.FadeOutUp.duration(200) : import_react_native_reanimated23.FadeOutDown.duration(200);
+  const entering = position === "top" ? import_react_native_reanimated23.FadeInDown.duration(280) : import_react_native_reanimated23.FadeInUp.duration(280);
+  const exiting = position === "top" ? import_react_native_reanimated23.FadeOutUp.duration(220) : import_react_native_reanimated23.FadeOutDown.duration(220);
   return /* @__PURE__ */ import_react60.default.createElement(
     import_react_native_reanimated23.default.View,
     {
@@ -5068,9 +5451,20 @@ function Tooltip({
 var import_react64 = __toESM(require("react"));
 var import_react_native63 = require("react-native");
 var import_headless64 = require("@truongdq01/headless");
-function Typography({
+function accessibilityForAs(as) {
+  if (!as || as === "span") return {};
+  if (as === "p" || as === "label") {
+    return { accessibilityRole: "text" };
+  }
+  if (as === "h1" || as === "h2" || as === "h3" || as === "h4" || as === "h5" || as === "h6") {
+    return { accessibilityRole: "header" };
+  }
+  return {};
+}
+function TypographyInner({
   children,
   variant = "body1",
+  as,
   align = "left",
   color,
   gutterBottom = false,
@@ -5087,14 +5481,17 @@ function Typography({
   const resolvedDisplay = display === "block" || display === "inline" || display === "inline-flex" ? "flex" : display;
   const sans = tokens.fontFamily?.sans;
   const sansFont = sans != null && sans !== "" ? { fontFamily: sans } : null;
+  const skipSans = variant === "code";
+  const a11y = accessibilityForAs(as);
   return /* @__PURE__ */ import_react64.default.createElement(
     import_react_native63.Text,
     {
+      ...a11y,
       numberOfLines: noWrap ? 1 : void 0,
       style: [
         { color: resolvedColor, textAlign: align === "inherit" ? void 0 : align },
         variantStyle,
-        sansFont,
+        !skipSans && sansFont,
         paragraph && { marginBottom: tokens.spacing[4] },
         gutterBottom && { marginBottom: tokens.spacing[2] },
         resolvedDisplay ? { display: resolvedDisplay } : null,
@@ -5104,6 +5501,7 @@ function Typography({
     children
   );
 }
+var Typography = import_react64.default.memo(TypographyInner);
 
 // src/index.ts
 var import_react_native64 = require("react-native");
@@ -5178,7 +5576,13 @@ var import_react_native64 = require("react-native");
   Select,
   Skeleton,
   SkeletonCard,
+  SkeletonForm,
+  SkeletonGrid,
+  SkeletonGroup,
   SkeletonListItem,
+  SkeletonMedia,
+  SkeletonProfile,
+  SkeletonTable,
   SkeletonText,
   Slider,
   Snackbar,

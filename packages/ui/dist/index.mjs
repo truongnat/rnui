@@ -1,5 +1,5 @@
 // src/index.ts
-import { ThemeProvider, useTheme, useTokens as useTokens47, useComponentTokens as useComponentTokens63, useIsDark, useActiveBrand, useBrandSwitch, createTheme } from "@truongdq01/headless";
+import { ThemeProvider, useTheme, useTokens as useTokens46, useComponentTokens as useComponentTokens63, useIsDark, useActiveBrand, useBrandSwitch, createTheme } from "@truongdq01/headless";
 
 // src/components/Accordion/Accordion.tsx
 import React2, { createContext, useContext, useMemo } from "react";
@@ -419,9 +419,9 @@ function Toolbar({ children, style }) {
 }
 
 // src/components/Autocomplete/Autocomplete.tsx
-import React7, { useState as useState2, useRef } from "react";
+import React7, { useState as useState2, useRef as useRef2 } from "react";
 import { View as View7, Text as Text5, Pressable as Pressable2, Modal, useWindowDimensions } from "react-native";
-import Animated3, {
+import Animated4, {
   useSharedValue as useSharedValue2,
   useAnimatedStyle as useAnimatedStyle2,
   withTiming as withTiming2,
@@ -431,13 +431,15 @@ import Animated3, {
 import { useAutocomplete, useTokens as useTokens6, useComponentTokens as useComponentTokens7 } from "@truongdq01/headless";
 
 // src/components/Input/Input.tsx
-import React6, { useMemo as useMemo4, useState } from "react";
+import React6, { useMemo as useMemo4, useState, useRef, useEffect } from "react";
 import {
   TextInput as RNTextInput,
   View as View6,
-  Text as Text4
+  Text as Text4,
+  Animated as Animated3
 } from "react-native";
 import { useComponentTokens as useComponentTokens6, useTokens as useTokens5, useIconStyle } from "@truongdq01/headless";
+var FOCUS_BORDER_DURATION_MS = 120;
 function Input({
   label,
   error,
@@ -457,6 +459,15 @@ function Input({
   const { size: iconSize, color: iconColor } = useIconStyle("input");
   const [isFocused, setIsFocused] = useState(false);
   const [hasTyped, setHasTyped] = useState(false);
+  const focusAnim = useRef(new Animated3.Value(0)).current;
+  useEffect(() => {
+    if (error || disabled) return;
+    Animated3.timing(focusAnim, {
+      toValue: isFocused ? 1 : 0,
+      duration: FOCUS_BORDER_DURATION_MS,
+      useNativeDriver: false
+    }).start();
+  }, [isFocused, error, disabled, focusAnim]);
   const handleChange = (e) => {
     const text = e.nativeEvent.text;
     if (!hasTyped && text.length > 0) {
@@ -465,13 +476,27 @@ function Input({
     }
     onChange?.(text);
   };
-  const containerStyle = useMemo4(() => [
-    input.container,
-    input.size[size],
-    isFocused && input.state.focused,
-    error && input.state.error,
-    disabled && input.state.disabled
-  ], [input, size, isFocused, error, disabled]);
+  const defaultBorder = tokens.color.border.input;
+  const focusBorder = tokens.color.border.focus;
+  const animatedBorderStyle = error || disabled ? null : {
+    borderColor: focusAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [defaultBorder, focusBorder]
+    }),
+    borderWidth: focusAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 1.5]
+    })
+  };
+  const staticContainerStyle = useMemo4(
+    () => [
+      input.container,
+      input.size[size],
+      error && input.state.error,
+      disabled && input.state.disabled
+    ],
+    [input, size, error, disabled]
+  );
   const renderIcon = (icon) => {
     if (!icon) return null;
     if (React6.isValidElement(icon)) {
@@ -482,7 +507,7 @@ function Input({
     }
     return icon;
   };
-  return /* @__PURE__ */ React6.createElement(View6, null, label && /* @__PURE__ */ React6.createElement(Text4, { style: input.label }, label), /* @__PURE__ */ React6.createElement(View6, { style: containerStyle }, renderIcon(leadingElement), /* @__PURE__ */ React6.createElement(
+  const inner = /* @__PURE__ */ React6.createElement(React6.Fragment, null, renderIcon(leadingElement), /* @__PURE__ */ React6.createElement(
     RNTextInput,
     {
       style: { flex: 1, color: input.text.color, fontSize: input.size[size].fontSize },
@@ -501,7 +526,17 @@ function Input({
       onChange: handleChange,
       ...rest
     }
-  ), renderIcon(trailingElement)), error ? /* @__PURE__ */ React6.createElement(Text4, { style: input.errorText }, error) : helperText ? /* @__PURE__ */ React6.createElement(Text4, { style: input.helperText }, helperText) : null);
+  ), renderIcon(trailingElement));
+  return /* @__PURE__ */ React6.createElement(View6, null, label && /* @__PURE__ */ React6.createElement(Text4, { style: input.label }, label), animatedBorderStyle && !error && !disabled ? /* @__PURE__ */ React6.createElement(Animated3.View, { style: [staticContainerStyle, animatedBorderStyle] }, inner) : /* @__PURE__ */ React6.createElement(
+    View6,
+    {
+      style: [
+        staticContainerStyle,
+        isFocused && !error && !disabled && input.state.focused
+      ]
+    },
+    inner
+  ), error ? /* @__PURE__ */ React6.createElement(Text4, { style: input.errorText }, error) : helperText ? /* @__PURE__ */ React6.createElement(Text4, { style: input.helperText }, helperText) : null);
 }
 
 // src/components/Autocomplete/Autocomplete.tsx
@@ -522,7 +557,7 @@ function Autocomplete({
   const tokens = useTokens6();
   const { autocomplete } = useComponentTokens7();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
-  const inputRef = useRef(null);
+  const inputRef = useRef2(null);
   const [inputRect, setInputRect] = useState2({ pageX: 0, pageY: 0, width: 0, height: 0 });
   const [dropdownMounted, setDropdownMounted] = useState2(false);
   const opacity = useSharedValue2(0);
@@ -594,7 +629,7 @@ function Autocomplete({
       disabled
     }
   ), dropdownMounted && filteredOptions.length > 0 && /* @__PURE__ */ React7.createElement(Modal, { transparent: true, animationType: "none", visible: dropdownMounted, onRequestClose: handleClose }, /* @__PURE__ */ React7.createElement(Pressable2, { style: { flex: 1 }, onPress: handleClose }), /* @__PURE__ */ React7.createElement(
-    Animated3.View,
+    Animated4.View,
     {
       style: [
         {
@@ -916,7 +951,7 @@ function BottomNavigationAction({ value, label, icon }) {
 // src/components/BottomSheet/BottomSheet.tsx
 import React11, { forwardRef as forwardRef2, useImperativeHandle, useState as useState3 } from "react";
 import { View as View11, StyleSheet as StyleSheet2, Dimensions, Modal as Modal2 } from "react-native";
-import Animated4 from "react-native-reanimated";
+import Animated5 from "react-native-reanimated";
 import { GestureDetector as GestureDetector2 } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomSheet, useComponentTokens as useComponentTokens11 } from "@truongdq01/headless";
@@ -964,7 +999,7 @@ var BottomSheet = forwardRef2(
     }, [baseOpen]);
     useImperativeHandle(ref, () => ({ open, close: baseClose, snapTo }), [open, baseClose, snapTo]);
     return /* @__PURE__ */ React11.createElement(Modal2, { visible: mounted, transparent: true, animationType: "none", onRequestClose: baseClose }, /* @__PURE__ */ React11.createElement(View11, { style: StyleSheet2.absoluteFill, pointerEvents: "box-none" }, enableBackdrop && /* @__PURE__ */ React11.createElement(GestureDetector2, { gesture: backdropTapGesture }, /* @__PURE__ */ React11.createElement(
-      Animated4.View,
+      Animated5.View,
       {
         style: [
           StyleSheet2.absoluteFill,
@@ -973,7 +1008,7 @@ var BottomSheet = forwardRef2(
         ]
       }
     )), /* @__PURE__ */ React11.createElement(
-      Animated4.View,
+      Animated5.View,
       {
         style: [
           styles2.sheet,
@@ -1061,7 +1096,7 @@ function Breadcrumbs({
 
 // src/components/Button/Button.tsx
 import React14, { useCallback, useMemo as useMemo7 } from "react";
-import Animated5 from "react-native-reanimated";
+import Animated6 from "react-native-reanimated";
 import { GestureDetector as GestureDetector3 } from "react-native-gesture-handler";
 import { ActivityIndicator, Text as Text10, View as View14, StyleSheet as StyleSheet3, Linking } from "react-native";
 import { usePressable as usePressable2, useComponentTokens as useComponentTokens14, useIconStyle as useIconStyle3, useTokens as useTokens10 } from "@truongdq01/headless";
@@ -1233,7 +1268,7 @@ var Button = React14.memo(({
     return icon;
   };
   return /* @__PURE__ */ React14.createElement(GestureDetector3, { gesture }, /* @__PURE__ */ React14.createElement(
-    Animated5.View,
+    Animated6.View,
     {
       style: [containerStyle, animatedStyle, { position: "relative" }],
       ...accessibilityProps
@@ -1315,7 +1350,7 @@ function ButtonGroup({
 
 // src/components/Card/Card.tsx
 import React16, { useMemo as useMemo8 } from "react";
-import Animated6 from "react-native-reanimated";
+import Animated7 from "react-native-reanimated";
 import { GestureDetector as GestureDetector4 } from "react-native-gesture-handler";
 import { View as View16 } from "react-native";
 import { usePressable as usePressable3, useComponentTokens as useComponentTokens16 } from "@truongdq01/headless";
@@ -1339,7 +1374,7 @@ function Card({
       accessibilityLabel,
       accessibilityRole: "button"
     });
-    return /* @__PURE__ */ React16.createElement(GestureDetector4, { gesture }, /* @__PURE__ */ React16.createElement(Animated6.View, { style: [containerStyle, animatedStyle], ...accessibilityProps }, children));
+    return /* @__PURE__ */ React16.createElement(GestureDetector4, { gesture }, /* @__PURE__ */ React16.createElement(Animated7.View, { style: [containerStyle, animatedStyle], ...accessibilityProps }, children));
   }
   return /* @__PURE__ */ React16.createElement(View16, { style: containerStyle }, children);
 }
@@ -1347,7 +1382,7 @@ function Card({
 // src/components/Carousel/Carousel.tsx
 import React17 from "react";
 import { View as View17, ScrollView, useWindowDimensions as useWindowDimensions2 } from "react-native";
-import Animated7, {
+import Animated8, {
   useAnimatedStyle as useAnimatedStyle3,
   interpolate as interpolate2,
   Extrapolation as Extrapolation2
@@ -1492,13 +1527,13 @@ function PaginationDot({
       borderRadius: carousel.dot.borderRadius
     };
   });
-  return /* @__PURE__ */ React17.createElement(Animated7.View, { style: dotStyle });
+  return /* @__PURE__ */ React17.createElement(Animated8.View, { style: dotStyle });
 }
 
 // src/components/Checkbox/Checkbox.tsx
 import React18 from "react";
 import { View as View18, Text as Text11, Pressable as Pressable4 } from "react-native";
-import Animated8, {
+import Animated9, {
   useSharedValue as useSharedValue3,
   useAnimatedStyle as useAnimatedStyle4,
   withSpring as withSpring2,
@@ -1549,7 +1584,7 @@ function Checkbox({
       ...accessibilityProps
     },
     /* @__PURE__ */ React18.createElement(
-      Animated8.View,
+      Animated9.View,
       {
         style: [
           {
@@ -1564,7 +1599,7 @@ function Checkbox({
           boxStyle
         ]
       },
-      /* @__PURE__ */ React18.createElement(Animated8.View, { style: checkStyle }, isIndeterminate ? /* @__PURE__ */ React18.createElement(View18, { style: { width: sizeConfig.iconSize, height: 2, backgroundColor: tokens.color.text.inverse, borderRadius: 1 } }) : /* @__PURE__ */ React18.createElement(Text11, { style: { color: tokens.color.text.inverse, fontSize: sizeConfig.iconSize, fontWeight: "700", lineHeight: sizeConfig.iconSize + 2 } }, "\u2713"))
+      /* @__PURE__ */ React18.createElement(Animated9.View, { style: checkStyle }, isIndeterminate ? /* @__PURE__ */ React18.createElement(View18, { style: { width: sizeConfig.iconSize, height: 2, backgroundColor: tokens.color.text.inverse, borderRadius: 1 } }) : /* @__PURE__ */ React18.createElement(Text11, { style: { color: tokens.color.text.inverse, fontSize: sizeConfig.iconSize, fontWeight: "700", lineHeight: sizeConfig.iconSize + 2 } }, "\u2713"))
     ),
     (label || description) && /* @__PURE__ */ React18.createElement(View18, { style: { flex: 1, paddingTop: 1 } }, label && /* @__PURE__ */ React18.createElement(Text11, { style: { fontSize: tokens.fontSize.md, color: tokens.color.text.primary, fontWeight: tokens.fontWeight.medium } }, label), description && /* @__PURE__ */ React18.createElement(Text11, { style: { fontSize: tokens.fontSize.sm, color: tokens.color.text.secondary, marginTop: 2 } }, description))
   );
@@ -1990,9 +2025,9 @@ function Divider({
 }
 
 // src/components/Drawer/Drawer.tsx
-import React24, { useEffect } from "react";
+import React24, { useEffect as useEffect2 } from "react";
 import { Modal as Modal5, View as View24, Pressable as Pressable8, StyleSheet as StyleSheet6, Dimensions as Dimensions2 } from "react-native";
-import Animated9, {
+import Animated10, {
   useSharedValue as useSharedValue4,
   useAnimatedStyle as useAnimatedStyle5,
   withSpring as withSpring3,
@@ -2013,7 +2048,7 @@ function Drawer({
   const size = isVertical ? windowHeight * 0.4 : 280;
   const progress = useSharedValue4(0);
   const [mounted, setMounted] = React24.useState(open);
-  useEffect(() => {
+  useEffect2(() => {
     if (open) {
       setMounted(true);
       progress.value = withSpring3(1, spring2.snappy);
@@ -2045,8 +2080,8 @@ function Drawer({
     ...anchor === "top" ? { top: 0, left: 0, right: 0, height: size } : {},
     ...anchor === "bottom" ? { bottom: 0, left: 0, right: 0, height: size } : {}
   };
-  return /* @__PURE__ */ React24.createElement(Modal5, { visible: mounted, transparent: true, animationType: "none", onRequestClose: onClose }, /* @__PURE__ */ React24.createElement(View24, { style: { flex: 1 } }, /* @__PURE__ */ React24.createElement(Animated9.View, { style: [StyleSheet6.absoluteFill, drawer.overlay, backdropStyle] }, /* @__PURE__ */ React24.createElement(Pressable8, { style: { flex: 1 }, onPress: onClose })), /* @__PURE__ */ React24.createElement(
-    Animated9.View,
+  return /* @__PURE__ */ React24.createElement(Modal5, { visible: mounted, transparent: true, animationType: "none", onRequestClose: onClose }, /* @__PURE__ */ React24.createElement(View24, { style: { flex: 1 } }, /* @__PURE__ */ React24.createElement(Animated10.View, { style: [StyleSheet6.absoluteFill, drawer.overlay, backdropStyle] }, /* @__PURE__ */ React24.createElement(Pressable8, { style: { flex: 1 }, onPress: onClose })), /* @__PURE__ */ React24.createElement(
+    Animated10.View,
     {
       style: [
         drawer.container,
@@ -2062,19 +2097,76 @@ function Drawer({
 import React25 from "react";
 import { View as View25, Text as Text17 } from "react-native";
 import { useComponentTokens as useComponentTokens25, useTokens as useTokens19 } from "@truongdq01/headless";
-function EmptyState({ title, description, icon, action }) {
+var VARIANT_DEFAULTS = {
+  search: {
+    title: "No results found",
+    description: "Try different keywords or filters.",
+    iconName: "search"
+  },
+  error: {
+    title: "Something went wrong",
+    description: "We couldn't load this content. Try again.",
+    iconName: "error"
+  },
+  offline: {
+    title: "You're offline",
+    description: "Check your connection and try again.",
+    iconName: "warning"
+  },
+  permission: {
+    title: "Access denied",
+    description: "You don't have permission to view this.",
+    iconName: "lock"
+  },
+  empty: {
+    title: "Nothing here yet",
+    description: "When there is content, it will show up here.",
+    iconName: "package"
+  }
+};
+function EmptyState({
+  title,
+  description,
+  icon,
+  action,
+  size = "md",
+  variant = "default",
+  illustration
+}) {
   const { emptyState } = useComponentTokens25();
   const tokens = useTokens19();
-  return /* @__PURE__ */ React25.createElement(View25, { style: emptyState.container }, icon && /* @__PURE__ */ React25.createElement(View25, { style: { marginBottom: tokens.spacing[2] } }, React25.isValidElement(icon) ? React25.cloneElement(icon, {
-    size: icon.props.size ?? emptyState.icon.size,
-    color: icon.props.color ?? emptyState.icon.color
-  }) : icon), title && /* @__PURE__ */ React25.createElement(Text17, { style: emptyState.title }, title), description && /* @__PURE__ */ React25.createElement(Text17, { style: emptyState.description }, description), action && /* @__PURE__ */ React25.createElement(View25, { style: { marginTop: tokens.spacing[4] } }, action));
+  const meta = variant !== "default" ? VARIANT_DEFAULTS[variant] : null;
+  const resolvedTitle = title ?? meta?.title;
+  const resolvedDescription = description ?? meta?.description;
+  const iconSize = Math.round(emptyState.icon.size / 2);
+  const resolvedIcon = icon ?? (meta ? /* @__PURE__ */ React25.createElement(Icon, { name: meta.iconName, size: iconSize, color: tokens.color.brand.text }) : null);
+  const sizePad = emptyState.containerSize[size];
+  const titleSize = emptyState.titleSize[size];
+  const descSize = emptyState.descriptionSize[size];
+  return /* @__PURE__ */ React25.createElement(
+    View25,
+    {
+      accessibilityRole: "none",
+      style: [
+        emptyState.container,
+        { padding: sizePad.padding, gap: sizePad.gap }
+      ]
+    },
+    illustration && /* @__PURE__ */ React25.createElement(View25, { style: { marginBottom: tokens.spacing[2] } }, illustration),
+    resolvedIcon && /* @__PURE__ */ React25.createElement(View25, { style: emptyState.iconWrap }, React25.isValidElement(resolvedIcon) ? React25.cloneElement(resolvedIcon, {
+      size: resolvedIcon.props.size ?? iconSize,
+      color: resolvedIcon.props.color ?? tokens.color.brand.text
+    }) : resolvedIcon),
+    resolvedTitle && /* @__PURE__ */ React25.createElement(Text17, { style: [emptyState.title, titleSize] }, resolvedTitle),
+    resolvedDescription && /* @__PURE__ */ React25.createElement(Text17, { style: [emptyState.description, descSize] }, resolvedDescription),
+    action && /* @__PURE__ */ React25.createElement(View25, { style: { marginTop: tokens.spacing[4] } }, action)
+  );
 }
 
 // src/components/Fab/Fab.tsx
 import React26 from "react";
 import { View as View26, Text as Text18, StyleSheet as StyleSheet7 } from "react-native";
-import Animated10 from "react-native-reanimated";
+import Animated11 from "react-native-reanimated";
 import { GestureDetector as GestureDetector5 } from "react-native-gesture-handler";
 import { usePressable as usePressable4, useComponentTokens as useComponentTokens26 } from "@truongdq01/headless";
 function Fab({
@@ -2116,7 +2208,7 @@ function Fab({
     disabled && { opacity: 0.5 },
     animatedStyle
   ];
-  return /* @__PURE__ */ React26.createElement(GestureDetector5, { gesture }, /* @__PURE__ */ React26.createElement(Animated10.View, { style: containerStyle, ...accessibilityProps }, /* @__PURE__ */ React26.createElement(View26, { style: styles5.content }, icon && /* @__PURE__ */ React26.createElement(Icon, { size: s.iconSize, color: textColor }, icon), isExtended && /* @__PURE__ */ React26.createElement(Text18, { style: [styles5.label, { marginLeft: icon ? 8 : 0 }] }, label))));
+  return /* @__PURE__ */ React26.createElement(GestureDetector5, { gesture }, /* @__PURE__ */ React26.createElement(Animated11.View, { style: containerStyle, ...accessibilityProps }, /* @__PURE__ */ React26.createElement(View26, { style: styles5.content }, icon && /* @__PURE__ */ React26.createElement(Icon, { size: s.iconSize, color: textColor }, icon), isExtended && /* @__PURE__ */ React26.createElement(Text18, { style: [styles5.label, { marginLeft: icon ? 8 : 0 }] }, label))));
 }
 var styles5 = StyleSheet7.create({
   content: {
@@ -2231,10 +2323,10 @@ function FormField({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: tokens.spacing[1]
+        marginBottom: tokens.spacing[1.5]
       }
     },
-    label && /* @__PURE__ */ React28.createElement(View28, { style: { flexDirection: "row", gap: 3 } }, /* @__PURE__ */ React28.createElement(Text20, { style: formControl.label }, label), required && /* @__PURE__ */ React28.createElement(Text20, { style: formControl.errorText }, "*")),
+    label && /* @__PURE__ */ React28.createElement(View28, { style: { flexDirection: "row", gap: 3 } }, /* @__PURE__ */ React28.createElement(Text20, { style: formControl.label }, label), required && /* @__PURE__ */ React28.createElement(Text20, { style: { color: tokens.color.error.icon, fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold } }, "*")),
     labelTrailing
   ), children, error ? /* @__PURE__ */ React28.createElement(
     Text20,
@@ -2321,13 +2413,13 @@ function Grid2({
 // src/components/Image/Image.tsx
 import React30, { useState as useState5 } from "react";
 import { Image as RNImage, View as View30, StyleSheet as StyleSheet8 } from "react-native";
-import Animated11, {
+import Animated12, {
   useAnimatedStyle as useAnimatedStyle6,
   withTiming as withTiming3,
   useSharedValue as useSharedValue5
 } from "react-native-reanimated";
 import { useComponentTokens as useComponentTokens30 } from "@truongdq01/headless";
-var AnimatedImage = Animated11.createAnimatedComponent(RNImage);
+var AnimatedImage = Animated12.createAnimatedComponent(RNImage);
 function RnImage({ showPlaceholder = true, style, onLoad, ...props }) {
   const { image } = useComponentTokens30();
   const [isLoaded, setIsLoaded] = useState5(false);
@@ -2454,7 +2546,7 @@ function PasswordInput(props) {
 // src/components/LinearProgress/LinearProgress.tsx
 import React33 from "react";
 import { View as View32, StyleSheet as StyleSheet9 } from "react-native";
-import Animated12, { useAnimatedStyle as useAnimatedStyle7 } from "react-native-reanimated";
+import Animated13, { useAnimatedStyle as useAnimatedStyle7 } from "react-native-reanimated";
 import { useTokens as useTokens23, useComponentTokens as useComponentTokens32 } from "@truongdq01/headless";
 function clamp2(value, min = 0, max = 100) {
   return Math.max(min, Math.min(max, value));
@@ -2495,7 +2587,7 @@ function LinearProgress({
   }, [progressValue]);
   const bufferValue = clamp2(valueBuffer);
   return /* @__PURE__ */ React33.createElement(View32, { style: containerStyle }, variant === "indeterminate" || variant === "query" ? /* @__PURE__ */ React33.createElement(
-    Animated12.View,
+    Animated13.View,
     {
       style: [
         styles7.indeterminateBar,
@@ -2505,7 +2597,7 @@ function LinearProgress({
       ]
     }
   ) : /* @__PURE__ */ React33.createElement(React33.Fragment, null, variant === "buffer" && /* @__PURE__ */ React33.createElement(View32, { style: [styles7.bufferBar, { width: `${bufferValue}%`, backgroundColor: trackColor ?? tokens.color.bg.muted }] }), /* @__PURE__ */ React33.createElement(
-    Animated12.View,
+    Animated13.View,
     {
       style: [
         styles7.determinateBar,
@@ -2653,7 +2745,7 @@ function ListData({
 // src/components/Menu/Menu.tsx
 import React36 from "react";
 import { Modal as Modal6, Pressable as Pressable12, Text as Text24, useWindowDimensions as useWindowDimensions3 } from "react-native";
-import Animated13, {
+import Animated14, {
   useSharedValue as useSharedValue6,
   useAnimatedStyle as useAnimatedStyle8,
   withTiming as withTiming4,
@@ -2710,7 +2802,7 @@ function Menu2({ open, onClose, anchorEl, children }) {
   }));
   if (!mounted) return null;
   return /* @__PURE__ */ React36.createElement(Modal6, { visible: mounted, transparent: true, animationType: "none", onRequestClose: close }, /* @__PURE__ */ React36.createElement(Pressable12, { style: { flex: 1 }, onPress: close }), /* @__PURE__ */ React36.createElement(
-    Animated13.View,
+    Animated14.View,
     {
       onLayout: (e) => {
         const { width, height } = e.nativeEvent.layout;
@@ -2805,9 +2897,9 @@ var styles8 = StyleSheet10.create({
 });
 
 // src/components/OTPInput/OTPInput.tsx
-import React38, { useEffect as useEffect2 } from "react";
+import React38, { useEffect as useEffect3 } from "react";
 import { View as View36, TextInput, Pressable as Pressable14, Text as Text25 } from "react-native";
-import Animated14, {
+import Animated15, {
   useAnimatedStyle as useAnimatedStyle9,
   withSpring as withSpring5,
   useSharedValue as useSharedValue7,
@@ -2875,7 +2967,7 @@ function OTPCell({
 }) {
   const { otpInput } = useComponentTokens37();
   const scale = useSharedValue7(1);
-  useEffect2(() => {
+  useEffect3(() => {
     if (isFocused) {
       scale.value = withSequence(
         withTiming5(1.1, { duration: 150 }),
@@ -2887,19 +2979,28 @@ function OTPCell({
       scale.value = withTiming5(1, { duration: 150 });
     }
   }, [isFocused, isFilled]);
-  const animatedStyle = useAnimatedStyle9(() => {
-    return {
-      transform: [{ scale: scale.value }],
-      borderColor: isFocused ? otpInput.cell.focused.borderColor : isFilled ? otpInput.cell.borderColor : otpInput.cell.borderColor,
-      backgroundColor: isFilled ? otpInput.cell.backgroundColor : otpInput.cell.backgroundColor
-    };
-  });
+  const animatedStyle = useAnimatedStyle9(() => ({
+    transform: [{ scale: scale.value }]
+  }));
+  const borderColor = isFocused ? otpInput.cell.focused.borderColor : isFilled ? otpInput.cell.filled.borderColor : otpInput.cell.borderColor;
+  const backgroundColor = isFilled ? otpInput.cell.filled.backgroundColor : otpInput.cell.backgroundColor;
+  const borderWidth = isFocused ? 2 : 1.5;
   return /* @__PURE__ */ React38.createElement(
-    Animated14.View,
+    Animated15.View,
     {
       style: [
-        otpInput.cell,
-        { flex: 1, aspectRatio: 0.8 },
+        {
+          flex: 1,
+          aspectRatio: 1,
+          minWidth: 0,
+          maxHeight: otpInput.cell.height,
+          borderRadius: otpInput.cell.borderRadius,
+          alignItems: "center",
+          justifyContent: "center",
+          borderWidth,
+          borderColor,
+          backgroundColor
+        },
         animatedStyle
       ]
     },
@@ -2920,7 +3021,7 @@ function OTPCell({
 // src/components/Pagination/Pagination.tsx
 import React39 from "react";
 import { View as View37, Text as Text26, Pressable as Pressable15 } from "react-native";
-import { usePagination, useTokens as useTokens27, useComponentTokens as useComponentTokens38 } from "@truongdq01/headless";
+import { usePagination, useTokens as useTokens26, useComponentTokens as useComponentTokens38 } from "@truongdq01/headless";
 function Pagination({
   count,
   page,
@@ -2930,7 +3031,7 @@ function Pagination({
   shape = "rounded",
   size = "md"
 }) {
-  const tokens = useTokens27();
+  const tokens = useTokens26();
   const { pagination } = useComponentTokens38();
   const { page: current, setPage, items } = usePagination({ count, page, defaultPage, onChange });
   const s = pagination.size[size];
@@ -2966,7 +3067,7 @@ function Pagination({
 // src/components/Paper/Paper.tsx
 import React40 from "react";
 import { View as View38 } from "react-native";
-import { useComponentTokens as useComponentTokens39, useTokens as useTokens28 } from "@truongdq01/headless";
+import { useComponentTokens as useComponentTokens39, useTokens as useTokens27 } from "@truongdq01/headless";
 function Paper({
   children,
   variant = "elevation",
@@ -2975,7 +3076,7 @@ function Paper({
   style
 }) {
   const { paper } = useComponentTokens39();
-  const tokens = useTokens28();
+  const tokens = useTokens27();
   return /* @__PURE__ */ React40.createElement(
     View38,
     {
@@ -2993,9 +3094,9 @@ function Paper({
 }
 
 // src/components/Popover/Popover.tsx
-import React41, { useMemo as useMemo14, useState as useState9 } from "react";
-import { Modal as Modal8, View as View39, Pressable as Pressable16, StyleSheet as StyleSheet12, Dimensions as Dimensions4 } from "react-native";
-import { useTokens as useTokens29, useComponentTokens as useComponentTokens40 } from "@truongdq01/headless";
+import React41, { useMemo as useMemo14, useState as useState8 } from "react";
+import { Modal as Modal8, View as View39, Pressable as Pressable16, StyleSheet as StyleSheet11, Dimensions as Dimensions4 } from "react-native";
+import { useTokens as useTokens28, useComponentTokens as useComponentTokens40 } from "@truongdq01/headless";
 var defaultOrigin = { vertical: "bottom", horizontal: "left" };
 var defaultTransform = { vertical: "top", horizontal: "left" };
 function resolveOrigin(value, size) {
@@ -3016,8 +3117,8 @@ function Popover({
   children
 }) {
   const { popover } = useComponentTokens40();
-  const tokens = useTokens29();
-  const [contentSize, setContentSize] = useState9({ width: 0, height: 0 });
+  const tokens = useTokens28();
+  const [contentSize, setContentSize] = useState8({ width: 0, height: 0 });
   if (!open) return null;
   const anchorRect = anchorEl ?? { x: 0, y: 0, width: 0, height: 0 };
   const anchorX = anchorPosition?.left ?? anchorRect.x;
@@ -3059,9 +3160,9 @@ function Popover({
     children
   ));
 }
-var styles9 = StyleSheet12.create({
+var styles9 = StyleSheet11.create({
   backdrop: {
-    ...StyleSheet12.absoluteFillObject
+    ...StyleSheet11.absoluteFillObject
   },
   paper: {
     position: "absolute",
@@ -3075,9 +3176,9 @@ var styles9 = StyleSheet12.create({
 });
 
 // src/components/Popper/Popper.tsx
-import React42, { useMemo as useMemo15, useState as useState10 } from "react";
-import { Modal as Modal9, View as View40, Pressable as Pressable17, StyleSheet as StyleSheet13, Dimensions as Dimensions5 } from "react-native";
-import { useTokens as useTokens30, useComponentTokens as useComponentTokens41 } from "@truongdq01/headless";
+import React42, { useMemo as useMemo15, useState as useState9 } from "react";
+import { Modal as Modal9, View as View40, Pressable as Pressable17, StyleSheet as StyleSheet12, Dimensions as Dimensions5 } from "react-native";
+import { useTokens as useTokens29, useComponentTokens as useComponentTokens41 } from "@truongdq01/headless";
 function resolvePlacement(placement, anchor, content) {
   const baseX = anchor.x;
   const baseY = anchor.y;
@@ -3125,8 +3226,8 @@ function Popper({
   children
 }) {
   const { popper } = useComponentTokens41();
-  const tokens = useTokens30();
-  const [contentSize, setContentSize] = useState10({ width: 0, height: 0 });
+  const tokens = useTokens29();
+  const [contentSize, setContentSize] = useState9({ width: 0, height: 0 });
   if (!open && !keepMounted) return null;
   const anchorRect = anchorEl ?? { x: 0, y: 0, width: 0, height: 0 };
   const { width: screenWidth, height: screenHeight } = Dimensions5.get("window");
@@ -3159,9 +3260,9 @@ function Popper({
     children
   ));
 }
-var styles10 = StyleSheet13.create({
+var styles10 = StyleSheet12.create({
   backdrop: {
-    ...StyleSheet13.absoluteFillObject
+    ...StyleSheet12.absoluteFillObject
   },
   popper: {
     position: "absolute",
@@ -3176,7 +3277,7 @@ var styles10 = StyleSheet13.create({
 
 // src/components/Pressable/Pressable.tsx
 import React43 from "react";
-import Animated15 from "react-native-reanimated";
+import Animated16 from "react-native-reanimated";
 import { GestureDetector as GestureDetector6 } from "react-native-gesture-handler";
 import { usePressable as usePressable5, useComponentTokens as useComponentTokens42 } from "@truongdq01/headless";
 function Pressable18({ children, style, testID, ...hookOptions }) {
@@ -3186,7 +3287,7 @@ function Pressable18({ children, style, testID, ...hookOptions }) {
     testID
   });
   return /* @__PURE__ */ React43.createElement(GestureDetector6, { gesture }, /* @__PURE__ */ React43.createElement(
-    Animated15.View,
+    Animated16.View,
     {
       style: [pressable.container, style, animatedStyle],
       ...accessibilityProps
@@ -3198,12 +3299,12 @@ function Pressable18({ children, style, testID, ...hookOptions }) {
 // src/components/Radio/Radio.tsx
 import React44 from "react";
 import { View as View41, Text as Text27, Pressable as Pressable19 } from "react-native";
-import Animated16, {
+import Animated17, {
   useSharedValue as useSharedValue8,
   useAnimatedStyle as useAnimatedStyle10,
   withSpring as withSpring6
 } from "react-native-reanimated";
-import { useRadioGroup, useTokens as useTokens31, useComponentTokens as useComponentTokens43 } from "@truongdq01/headless";
+import { useRadioGroup, useTokens as useTokens30, useComponentTokens as useComponentTokens43 } from "@truongdq01/headless";
 import { spring as spring3 } from "@truongdq01/tokens";
 function RadioItem({
   label,
@@ -3213,7 +3314,7 @@ function RadioItem({
   onPress,
   size = "md"
 }) {
-  const tokens = useTokens31();
+  const tokens = useTokens30();
   const { radio } = useComponentTokens43();
   const outerSize = radio.container[size];
   const innerSize = radio.dot[size];
@@ -3265,7 +3366,7 @@ function RadioItem({
         }
       },
       /* @__PURE__ */ React44.createElement(
-        Animated16.View,
+        Animated17.View,
         {
           style: [
             {
@@ -3309,7 +3410,7 @@ function RadioGroup({
   size = "md",
   ...hookOptions
 }) {
-  const tokens = useTokens31();
+  const tokens = useTokens30();
   const { isSelected, getItemProps } = useRadioGroup(hookOptions);
   return /* @__PURE__ */ React44.createElement(View41, null, label && /* @__PURE__ */ React44.createElement(
     Text27,
@@ -3358,7 +3459,7 @@ import {
   Text as Text28,
   AccessibilityInfo
 } from "react-native";
-import Animated17, { useAnimatedStyle as useAnimatedStyle11, useSharedValue as useSharedValue9, withSpring as withSpring7 } from "react-native-reanimated";
+import Animated18, { useAnimatedStyle as useAnimatedStyle11, useSharedValue as useSharedValue9, withSpring as withSpring7 } from "react-native-reanimated";
 import { spring as spring4 } from "@truongdq01/tokens";
 import { useRating, useComponentTokens as useComponentTokens44, useReduceMotionEnabled } from "@truongdq01/headless";
 var DEFAULT_ICON_NAMES = {
@@ -3407,7 +3508,7 @@ function RatingStarButton({
       onPressOut: handlePressOut,
       style: { opacity: disabled ? 0.5 : 1 }
     },
-    /* @__PURE__ */ React45.createElement(Animated17.View, { style: animStyle }, /* @__PURE__ */ React45.createElement(Icon, { size: iconSize, color: iconColor }, iconName))
+    /* @__PURE__ */ React45.createElement(Animated18.View, { style: animStyle }, /* @__PURE__ */ React45.createElement(Icon, { size: iconSize, color: iconColor }, iconName))
   );
 }
 function RatingInner({
@@ -3535,15 +3636,16 @@ var Rating = memo(RatingInner);
 Rating.displayName = "Rating";
 
 // src/components/SegmentedControl/SegmentedControl.tsx
-import React46, { useState as useState11 } from "react";
+import React46, { useState as useState10, useRef as useRef3 } from "react";
 import { View as View43, Pressable as Pressable21, Text as Text29 } from "react-native";
-import Animated18, {
+import Animated19, {
   useAnimatedStyle as useAnimatedStyle12,
   withSpring as withSpring8,
   useSharedValue as useSharedValue10
 } from "react-native-reanimated";
-import { useTokens as useTokens32, useComponentTokens as useComponentTokens45, useSegmentedControl } from "@truongdq01/headless";
+import { useTokens as useTokens31, useComponentTokens as useComponentTokens45, useSegmentedControl } from "@truongdq01/headless";
 import { spring as spring5 } from "@truongdq01/tokens";
+var TRACK_PADDING = 2;
 function SegmentedControl({
   options,
   selectedIndex,
@@ -3551,28 +3653,39 @@ function SegmentedControl({
   height = 36,
   disabled = false
 }) {
-  const tokens = useTokens32();
+  const tokens = useTokens31();
   const { segmentedControl } = useComponentTokens45();
   const { isSelected, setSelectedIndex, getTabProps } = useSegmentedControl({
     value: selectedIndex,
     onChange: (val) => onChange(val),
     disabled
   });
-  const [containerWidth, setContainerWidth] = useState11(0);
-  const segmentWidth = containerWidth / options.length;
-  const translateX = useSharedValue10(selectedIndex * segmentWidth);
+  const [containerWidth, setContainerWidth] = useState10(0);
+  const [layoutReady, setLayoutReady] = useState10(false);
+  const innerWidth = Math.max(0, containerWidth - TRACK_PADDING * 2);
+  const segmentWidth = options.length > 0 ? innerWidth / options.length : 0;
+  const translateX = useSharedValue10(0);
+  const didInitialLayout = useRef3(false);
   React46.useEffect(() => {
-    if (segmentWidth > 0) {
-      translateX.value = withSpring8(selectedIndex * segmentWidth, spring5.snappy);
+    if (segmentWidth <= 0) return;
+    const target = selectedIndex * segmentWidth;
+    if (!didInitialLayout.current) {
+      didInitialLayout.current = true;
+      translateX.value = target;
+      return;
     }
+    translateX.value = withSpring8(target, spring5.snappy);
   }, [selectedIndex, segmentWidth, translateX]);
   const onLayout = (e) => {
-    setContainerWidth(e.nativeEvent.layout.width);
+    const w = e.nativeEvent.layout.width;
+    setContainerWidth(w);
+    if (w > 0) setLayoutReady(true);
   };
   const indicatorStyle = useAnimatedStyle12(() => ({
     transform: [{ translateX: translateX.value }],
     width: segmentWidth
   }));
+  const showIndicator = layoutReady && segmentWidth > 0;
   return /* @__PURE__ */ React46.createElement(
     View43,
     {
@@ -3582,12 +3695,18 @@ function SegmentedControl({
         { height, borderRadius: height / 2, opacity: disabled ? 0.6 : 1 }
       ]
     },
-    containerWidth > 0 && /* @__PURE__ */ React46.createElement(
-      Animated18.View,
+    showIndicator && /* @__PURE__ */ React46.createElement(
+      Animated19.View,
       {
         style: [
           segmentedControl.item.active,
-          { borderRadius: (height - 4) / 2 },
+          {
+            position: "absolute",
+            left: TRACK_PADDING,
+            top: TRACK_PADDING,
+            bottom: TRACK_PADDING,
+            borderRadius: (height - TRACK_PADDING * 2) / 2
+          },
           indicatorStyle
         ]
       }
@@ -3624,22 +3743,204 @@ function SegmentedControl({
 }
 
 // src/components/Select/Select.tsx
-import React47, { useRef as useRef3, useState as useState12, useMemo as useMemo16 } from "react";
-import { View as View44, Text as Text30, TextInput as TextInput2, ScrollView as ScrollView2, Pressable as Pressable22 } from "react-native";
-import { useSelect, useTokens as useTokens33, useComponentTokens as useComponentTokens46 } from "@truongdq01/headless";
+import React48, { useRef as useRef4, useState as useState12, useMemo as useMemo16, useCallback as useCallback4 } from "react";
+import { View as View45, Text as Text30, TextInput as TextInput2, Pressable as Pressable22, ActivityIndicator as ActivityIndicator3 } from "react-native";
+import { FlashList as FlashList3 } from "@shopify/flash-list";
+import { useSelect, useTokens as useTokens33, useComponentTokens as useComponentTokens47 } from "@truongdq01/headless";
+
+// src/components/Skeleton/Skeleton.tsx
+import React47, { useEffect as useEffect4, useState as useState11, Children, isValidElement, cloneElement } from "react";
+import { View as View44 } from "react-native";
+import Animated20, {
+  useSharedValue as useSharedValue11,
+  useAnimatedStyle as useAnimatedStyle13,
+  withRepeat,
+  withTiming as withTiming6,
+  interpolate as interpolate4,
+  cancelAnimation
+} from "react-native-reanimated";
+import { useTokens as useTokens32, useComponentTokens as useComponentTokens46 } from "@truongdq01/headless";
+function Skeleton({
+  width = "100%",
+  height = 16,
+  borderRadius,
+  animate = true,
+  delayMs = 0,
+  shimmerDirection = "pulse"
+}) {
+  const { skeleton } = useComponentTokens46();
+  const shimmer = useSharedValue11(0);
+  const [layoutW, setLayoutW] = useState11(0);
+  useEffect4(() => {
+    if (!animate) {
+      cancelAnimation(shimmer);
+      shimmer.value = 0;
+      return;
+    }
+    const start = () => {
+      shimmer.value = withRepeat(withTiming6(1, { duration: 1200 }), -1, true);
+    };
+    if (delayMs > 0) {
+      const t = setTimeout(start, delayMs);
+      return () => {
+        clearTimeout(t);
+        cancelAnimation(shimmer);
+      };
+    }
+    start();
+    return () => {
+      cancelAnimation(shimmer);
+    };
+  }, [animate, delayMs]);
+  const pulseStyle = useAnimatedStyle13(() => ({
+    opacity: interpolate4(shimmer.value, [0, 1], [skeleton.opacity.start, skeleton.opacity.end])
+  }));
+  const sweepStyle = useAnimatedStyle13(() => {
+    const w = Math.max(layoutW, 1);
+    const sweep = w * 0.35;
+    const t = shimmerDirection === "right-to-left" ? 1 - shimmer.value : shimmer.value;
+    return {
+      transform: [{ translateX: interpolate4(t, [0, 1], [-sweep, w]) }],
+      opacity: 0.45
+    };
+  });
+  const isSweep = shimmerDirection === "left-to-right" || shimmerDirection === "right-to-left";
+  return /* @__PURE__ */ React47.createElement(
+    Animated20.View,
+    {
+      style: [
+        {
+          width,
+          height,
+          borderRadius: borderRadius ?? skeleton.borderRadius,
+          backgroundColor: skeleton.backgroundColor,
+          overflow: "hidden"
+        },
+        animate && !isSweep ? pulseStyle : null
+      ],
+      onLayout: (e) => setLayoutW(e.nativeEvent.layout.width)
+    },
+    animate && isSweep && /* @__PURE__ */ React47.createElement(
+      Animated20.View,
+      {
+        style: [
+          {
+            position: "absolute",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: "35%",
+            backgroundColor: "rgba(255,255,255,0.35)",
+            borderRadius: borderRadius ?? skeleton.borderRadius
+          },
+          sweepStyle
+        ]
+      }
+    )
+  );
+}
+function SkeletonGroup({ stagger = 80, children }) {
+  return /* @__PURE__ */ React47.createElement(React47.Fragment, null, Children.map(children, (child, i) => {
+    if (!isValidElement(child)) return child;
+    return cloneElement(child, {
+      delayMs: i * stagger
+    });
+  }));
+}
+function SkeletonText({
+  lines = 3,
+  lastLineWidth = "60%",
+  shimmerDirection = "pulse"
+}) {
+  const tokens = useTokens32();
+  return /* @__PURE__ */ React47.createElement(View44, { style: { gap: tokens.spacing[2] } }, Array.from({ length: lines }).map((_, i) => /* @__PURE__ */ React47.createElement(
+    Skeleton,
+    {
+      key: i,
+      width: i === lines - 1 ? lastLineWidth : "100%",
+      height: 14,
+      shimmerDirection
+    }
+  )));
+}
+function SkeletonCard() {
+  const tokens = useTokens32();
+  return /* @__PURE__ */ React47.createElement(
+    View44,
+    {
+      style: {
+        padding: tokens.spacing[4],
+        borderRadius: tokens.radius.lg,
+        borderWidth: 0.5,
+        borderColor: tokens.color.border.default,
+        backgroundColor: tokens.color.surface.default,
+        gap: tokens.spacing[3]
+      }
+    },
+    /* @__PURE__ */ React47.createElement(View44, { style: { flexDirection: "row", gap: tokens.spacing[3], alignItems: "center" } }, /* @__PURE__ */ React47.createElement(Skeleton, { width: 44, height: 44, borderRadius: 22 }), /* @__PURE__ */ React47.createElement(View44, { style: { flex: 1, gap: tokens.spacing[2] } }, /* @__PURE__ */ React47.createElement(Skeleton, { width: "50%", height: 14 }), /* @__PURE__ */ React47.createElement(Skeleton, { width: "35%", height: 12 }))),
+    /* @__PURE__ */ React47.createElement(SkeletonText, { lines: 3 }),
+    /* @__PURE__ */ React47.createElement(Skeleton, { width: "40%", height: 32, borderRadius: tokens.radius.md })
+  );
+}
+function SkeletonListItem() {
+  const tokens = useTokens32();
+  return /* @__PURE__ */ React47.createElement(
+    View44,
+    {
+      style: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: tokens.spacing[4],
+        paddingVertical: tokens.spacing[3],
+        gap: tokens.spacing[3]
+      }
+    },
+    /* @__PURE__ */ React47.createElement(Skeleton, { width: 40, height: 40, borderRadius: 20 }),
+    /* @__PURE__ */ React47.createElement(View44, { style: { flex: 1, gap: tokens.spacing[2] } }, /* @__PURE__ */ React47.createElement(Skeleton, { width: "55%", height: 14 }), /* @__PURE__ */ React47.createElement(Skeleton, { width: "38%", height: 12 })),
+    /* @__PURE__ */ React47.createElement(Skeleton, { width: 24, height: 14 })
+  );
+}
+function SkeletonProfile() {
+  const tokens = useTokens32();
+  return /* @__PURE__ */ React47.createElement(View44, { style: { gap: tokens.spacing[4], alignItems: "center" } }, /* @__PURE__ */ React47.createElement(Skeleton, { width: 96, height: 96, borderRadius: 48, shimmerDirection: "left-to-right" }), /* @__PURE__ */ React47.createElement(Skeleton, { width: "70%", height: 18 }), /* @__PURE__ */ React47.createElement(Skeleton, { width: "45%", height: 14 }));
+}
+function SkeletonMedia() {
+  const tokens = useTokens32();
+  return /* @__PURE__ */ React47.createElement(View44, { style: { gap: tokens.spacing[3] } }, /* @__PURE__ */ React47.createElement(Skeleton, { width: "100%", height: 180, borderRadius: tokens.radius.lg, shimmerDirection: "left-to-right" }), /* @__PURE__ */ React47.createElement(Skeleton, { width: "80%", height: 16 }), /* @__PURE__ */ React47.createElement(Skeleton, { width: "50%", height: 13 }));
+}
+function SkeletonForm({ rows = 4 }) {
+  const tokens = useTokens32();
+  return /* @__PURE__ */ React47.createElement(View44, { style: { gap: tokens.spacing[4] } }, Array.from({ length: rows }).map((_, i) => /* @__PURE__ */ React47.createElement(View44, { key: i, style: { gap: tokens.spacing[2] } }, /* @__PURE__ */ React47.createElement(Skeleton, { width: "30%", height: 12 }), /* @__PURE__ */ React47.createElement(Skeleton, { width: "100%", height: 44, borderRadius: tokens.radius.md }))));
+}
+function SkeletonGrid({ columns = 3, rows = 2, cell = 48 }) {
+  const tokens = useTokens32();
+  return /* @__PURE__ */ React47.createElement(View44, { style: { flexDirection: "row", flexWrap: "wrap", gap: tokens.spacing[2] } }, Array.from({ length: columns * rows }).map((_, i) => /* @__PURE__ */ React47.createElement(Skeleton, { key: i, width: cell, height: cell, borderRadius: tokens.radius.sm })));
+}
+function SkeletonTable({ columns = 4, dataRows = 3 }) {
+  const tokens = useTokens32();
+  return /* @__PURE__ */ React47.createElement(View44, { style: { gap: tokens.spacing[2] } }, /* @__PURE__ */ React47.createElement(View44, { style: { flexDirection: "row", gap: tokens.spacing[2] } }, Array.from({ length: columns }).map((_, i) => /* @__PURE__ */ React47.createElement(Skeleton, { key: `h-${i}`, width: `${90 / columns}%`, height: 14 }))), Array.from({ length: dataRows }).map((_, r) => /* @__PURE__ */ React47.createElement(View44, { key: r, style: { flexDirection: "row", gap: tokens.spacing[2] } }, Array.from({ length: columns }).map((_2, c) => /* @__PURE__ */ React47.createElement(Skeleton, { key: `${r}-${c}`, width: `${90 / columns}%`, height: 12 })))));
+}
+
+// src/components/Select/Select.tsx
 function Select({
   label,
   placeholder = "Select\u2026",
   searchable = false,
   error,
   onClearError,
+  loading = false,
+  onLoadMore,
+  hasMore = false,
+  loadingMore = false,
+  renderOption,
   options,
   ...hookOptions
 }) {
-  const { select } = useComponentTokens46();
+  const { select } = useComponentTokens47();
   const tokens = useTokens33();
-  const sheetRef = useRef3(null);
+  const sheetRef = useRef4(null);
   const [query, setQuery] = useState12("");
+  const endReachBusy = useRef4(false);
   const {
     isOpen,
     open,
@@ -3652,25 +3953,100 @@ function Select({
   const filtered = useMemo16(() => {
     if (!query) return options;
     const lowerQuery = query.toLowerCase();
-    return options.filter(
-      (o) => o.label.toLowerCase().includes(lowerQuery)
-    );
+    return options.filter((o) => o.label.toLowerCase().includes(lowerQuery));
   }, [options, query]);
-  const handleOpen = () => {
+  const handleClose = useCallback4(() => {
+    sheetRef.current?.close();
+    close();
+  }, [close]);
+  const handleOpen = useCallback4(() => {
     setQuery("");
     sheetRef.current?.open();
     open();
-  };
-  const handleClose = () => {
-    sheetRef.current?.close();
-    close();
-  };
-  const handleSelect = (val) => {
-    selectOption(val);
-    onClearError?.();
-    if (!hookOptions.multiple) handleClose();
-  };
-  return /* @__PURE__ */ React47.createElement(View44, null, label && /* @__PURE__ */ React47.createElement(Text30, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary, marginBottom: tokens.spacing[1] } }, label), /* @__PURE__ */ React47.createElement(
+  }, [open]);
+  const handleSelect = useCallback4(
+    (val) => {
+      selectOption(val);
+      onClearError?.();
+      if (!hookOptions.multiple) handleClose();
+    },
+    [selectOption, onClearError, hookOptions.multiple, handleClose]
+  );
+  const onEndReached = useCallback4(() => {
+    if (!onLoadMore || !hasMore || loading || loadingMore || endReachBusy.current) return;
+    endReachBusy.current = true;
+    onLoadMore();
+  }, [onLoadMore, hasMore, loading, loadingMore]);
+  React48.useEffect(() => {
+    if (!loadingMore) endReachBusy.current = false;
+  }, [loadingMore]);
+  const renderItem = useCallback4(
+    ({ item: option }) => {
+      const selected = isSelected(option.value);
+      if (renderOption) {
+        return /* @__PURE__ */ React48.createElement(
+          Pressable22,
+          {
+            onPress: () => !option.disabled && handleSelect(option.value),
+            style: { opacity: option.disabled ? 0.4 : 1 }
+          },
+          renderOption(option, { selected })
+        );
+      }
+      return /* @__PURE__ */ React48.createElement(
+        Pressable22,
+        {
+          onPress: () => !option.disabled && handleSelect(option.value),
+          style: {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingVertical: tokens.spacing[3],
+            paddingHorizontal: tokens.spacing[2],
+            borderRadius: tokens.radius.md,
+            backgroundColor: selected ? select.option.selected.bg : "transparent",
+            marginBottom: 2,
+            opacity: option.disabled ? 0.4 : 1
+          }
+        },
+        /* @__PURE__ */ React48.createElement(
+          Text30,
+          {
+            style: {
+              fontSize: tokens.fontSize.md,
+              color: selected ? select.option.selected.color : select.option.default.color,
+              fontWeight: selected ? tokens.fontWeight.medium : tokens.fontWeight.regular
+            }
+          },
+          option.label
+        ),
+        selected && /* @__PURE__ */ React48.createElement(Icon, { size: 16, color: select.option.selected.color, name: "check" })
+      );
+    },
+    [isSelected, renderOption, select.option, tokens, handleSelect]
+  );
+  const listEmpty = useMemo16(() => {
+    if (loading && options.length === 0) {
+      return /* @__PURE__ */ React48.createElement(View45, { style: { paddingVertical: tokens.spacing[2] } }, /* @__PURE__ */ React48.createElement(SkeletonListItem, null), /* @__PURE__ */ React48.createElement(SkeletonListItem, null), /* @__PURE__ */ React48.createElement(SkeletonListItem, null));
+    }
+    if (filtered.length === 0) {
+      const emptyMsg = loading ? "Loading\u2026" : query ? `No results for "${query}"` : "No options";
+      return /* @__PURE__ */ React48.createElement(
+        Text30,
+        {
+          style: {
+            color: tokens.color.text.tertiary,
+            fontSize: tokens.fontSize.sm,
+            textAlign: "center",
+            paddingVertical: tokens.spacing[6]
+          }
+        },
+        emptyMsg
+      );
+    }
+    return null;
+  }, [loading, options.length, filtered.length, query, tokens]);
+  return /* @__PURE__ */ React48.createElement(View45, null, label && /* @__PURE__ */ React48.createElement(Text30, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary, marginBottom: tokens.spacing[1] } }, label), /* @__PURE__ */ React48.createElement(
     Pressable22,
     {
       onPress: handleOpen,
@@ -3688,7 +4064,7 @@ function Select({
       },
       accessibilityState: { expanded: isOpen }
     },
-    /* @__PURE__ */ React47.createElement(
+    /* @__PURE__ */ React48.createElement(
       Text30,
       {
         style: {
@@ -3700,8 +4076,8 @@ function Select({
       },
       displayLabel
     ),
-    /* @__PURE__ */ React47.createElement(Icon, { size: 16, color: tokens.color.text.tertiary }, isOpen ? "chevronUp" : "chevronDown")
-  ), error && /* @__PURE__ */ React47.createElement(Text30, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.error.text, marginTop: tokens.spacing[1] } }, error), /* @__PURE__ */ React47.createElement(
+    /* @__PURE__ */ React48.createElement(Icon, { size: 16, color: tokens.color.text.tertiary }, isOpen ? "chevronUp" : "chevronDown")
+  ), error && /* @__PURE__ */ React48.createElement(Text30, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.error.text, marginTop: tokens.spacing[1] } }, error), /* @__PURE__ */ React48.createElement(
     BottomSheet,
     {
       ref: sheetRef,
@@ -3710,8 +4086,8 @@ function Select({
       enableBackdrop: true,
       enableDismissOnSwipe: true
     },
-    /* @__PURE__ */ React47.createElement(View44, { style: { flex: 1, paddingHorizontal: tokens.spacing[4] } }, searchable && isOpen && /* @__PURE__ */ React47.createElement(
-      View44,
+    /* @__PURE__ */ React48.createElement(View45, { style: { flex: 1, paddingHorizontal: tokens.spacing[4] } }, searchable && isOpen && /* @__PURE__ */ React48.createElement(
+      View45,
       {
         style: {
           flexDirection: "row",
@@ -3725,8 +4101,8 @@ function Select({
           backgroundColor: tokens.color.bg.subtle
         }
       },
-      /* @__PURE__ */ React47.createElement(View44, { style: { marginRight: 8 } }, /* @__PURE__ */ React47.createElement(Icon, { size: 20, color: tokens.color.text.tertiary, name: "search" })),
-      /* @__PURE__ */ React47.createElement(
+      /* @__PURE__ */ React48.createElement(View45, { style: { marginRight: 8 } }, /* @__PURE__ */ React48.createElement(Icon, { size: 20, color: tokens.color.text.tertiary, name: "search" })),
+      /* @__PURE__ */ React48.createElement(
         TextInput2,
         {
           value: query,
@@ -3737,198 +4113,180 @@ function Select({
           autoFocus: true
         }
       ),
-      query.length > 0 && /* @__PURE__ */ React47.createElement(Pressable22, { onPress: () => setQuery(""), hitSlop: 8 }, /* @__PURE__ */ React47.createElement(Icon, { size: 18, color: tokens.color.text.tertiary, name: "close" }))
-    ), /* @__PURE__ */ React47.createElement(ScrollView2, { showsVerticalScrollIndicator: false, keyboardShouldPersistTaps: "handled" }, filtered.length === 0 ? /* @__PURE__ */ React47.createElement(Text30, { style: { color: tokens.color.text.tertiary, fontSize: tokens.fontSize.sm, textAlign: "center", paddingVertical: tokens.spacing[6] } }, 'No results for "', query, '"') : filtered.map((option) => {
-      const selected = isSelected(option.value);
-      return /* @__PURE__ */ React47.createElement(
-        Pressable22,
-        {
-          key: String(option.value),
-          onPress: () => !option.disabled && handleSelect(option.value),
-          style: {
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingVertical: tokens.spacing[3],
-            paddingHorizontal: tokens.spacing[2],
-            borderRadius: tokens.radius.md,
-            backgroundColor: selected ? select.option.selected.bg : "transparent",
-            marginBottom: 2,
-            opacity: option.disabled ? 0.4 : 1
-          }
-        },
-        /* @__PURE__ */ React47.createElement(
-          Text30,
-          {
-            style: {
-              fontSize: tokens.fontSize.md,
-              color: selected ? select.option.selected.color : select.option.default.color,
-              fontWeight: selected ? tokens.fontWeight.medium : tokens.fontWeight.regular
-            }
-          },
-          option.label
-        ),
-        selected && /* @__PURE__ */ React47.createElement(Icon, { size: 16, color: select.option.selected.color, name: "check" })
-      );
-    }), /* @__PURE__ */ React47.createElement(View44, { style: { height: tokens.spacing[4] } })))
+      query.length > 0 && /* @__PURE__ */ React48.createElement(Pressable22, { onPress: () => setQuery(""), hitSlop: 8 }, /* @__PURE__ */ React48.createElement(Icon, { size: 18, color: tokens.color.text.tertiary, name: "close" }))
+    ), filtered.length === 0 ? /* @__PURE__ */ React48.createElement(View45, { style: { flex: 1, minHeight: 120 } }, listEmpty) : /* @__PURE__ */ React48.createElement(
+      FlashList3,
+      {
+        style: { flex: 1 },
+        data: filtered,
+        extraData: query,
+        renderItem,
+        keyExtractor: (item) => String(item.value),
+        onEndReached,
+        onEndReachedThreshold: 0.35,
+        ListFooterComponent: loadingMore ? /* @__PURE__ */ React48.createElement(View45, { style: { paddingVertical: tokens.spacing[3], alignItems: "center" } }, /* @__PURE__ */ React48.createElement(ActivityIndicator3, { color: tokens.color.brand.default })) : /* @__PURE__ */ React48.createElement(View45, { style: { height: tokens.spacing[4] } })
+      }
+    ))
   ));
-}
-
-// src/components/Skeleton/Skeleton.tsx
-import React48, { useEffect as useEffect3 } from "react";
-import { View as View45 } from "react-native";
-import Animated19, {
-  useSharedValue as useSharedValue11,
-  useAnimatedStyle as useAnimatedStyle13,
-  withRepeat,
-  withTiming as withTiming6,
-  interpolate as interpolate4,
-  cancelAnimation
-} from "react-native-reanimated";
-import { useTokens as useTokens34, useComponentTokens as useComponentTokens47 } from "@truongdq01/headless";
-function Skeleton({
-  width = "100%",
-  height = 16,
-  borderRadius,
-  animate = true
-}) {
-  const { skeleton } = useComponentTokens47();
-  const shimmer = useSharedValue11(0);
-  useEffect3(() => {
-    if (!animate) {
-      cancelAnimation(shimmer);
-      shimmer.value = 0;
-      return;
-    }
-    shimmer.value = withRepeat(withTiming6(1, { duration: 1200 }), -1, true);
-    return () => {
-      cancelAnimation(shimmer);
-    };
-  }, [animate]);
-  const animatedStyle = useAnimatedStyle13(() => ({
-    opacity: interpolate4(shimmer.value, [0, 1], [skeleton.opacity.start, skeleton.opacity.end])
-  }));
-  return /* @__PURE__ */ React48.createElement(
-    Animated19.View,
-    {
-      style: [
-        {
-          width,
-          height,
-          borderRadius: borderRadius ?? skeleton.borderRadius,
-          backgroundColor: skeleton.backgroundColor
-        },
-        animate && animatedStyle
-      ]
-    }
-  );
-}
-function SkeletonText({
-  lines = 3,
-  lastLineWidth = "60%"
-}) {
-  const tokens = useTokens34();
-  return /* @__PURE__ */ React48.createElement(View45, { style: { gap: tokens.spacing[2] } }, Array.from({ length: lines }).map((_, i) => /* @__PURE__ */ React48.createElement(
-    Skeleton,
-    {
-      key: i,
-      width: i === lines - 1 ? lastLineWidth : "100%",
-      height: 14
-    }
-  )));
-}
-function SkeletonCard() {
-  const tokens = useTokens34();
-  return /* @__PURE__ */ React48.createElement(
-    View45,
-    {
-      style: {
-        padding: tokens.spacing[4],
-        borderRadius: tokens.radius.lg,
-        borderWidth: 0.5,
-        borderColor: tokens.color.border.default,
-        backgroundColor: tokens.color.surface.default,
-        gap: tokens.spacing[3]
-      }
-    },
-    /* @__PURE__ */ React48.createElement(View45, { style: { flexDirection: "row", gap: tokens.spacing[3], alignItems: "center" } }, /* @__PURE__ */ React48.createElement(Skeleton, { width: 44, height: 44, borderRadius: 22 }), /* @__PURE__ */ React48.createElement(View45, { style: { flex: 1, gap: tokens.spacing[2] } }, /* @__PURE__ */ React48.createElement(Skeleton, { width: "50%", height: 14 }), /* @__PURE__ */ React48.createElement(Skeleton, { width: "35%", height: 12 }))),
-    /* @__PURE__ */ React48.createElement(SkeletonText, { lines: 3 }),
-    /* @__PURE__ */ React48.createElement(Skeleton, { width: "40%", height: 32, borderRadius: tokens.radius.md })
-  );
-}
-function SkeletonListItem() {
-  const tokens = useTokens34();
-  return /* @__PURE__ */ React48.createElement(
-    View45,
-    {
-      style: {
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: tokens.spacing[4],
-        paddingVertical: tokens.spacing[3],
-        gap: tokens.spacing[3]
-      }
-    },
-    /* @__PURE__ */ React48.createElement(Skeleton, { width: 40, height: 40, borderRadius: 20 }),
-    /* @__PURE__ */ React48.createElement(View45, { style: { flex: 1, gap: tokens.spacing[2] } }, /* @__PURE__ */ React48.createElement(Skeleton, { width: "55%", height: 14 }), /* @__PURE__ */ React48.createElement(Skeleton, { width: "38%", height: 12 })),
-    /* @__PURE__ */ React48.createElement(Skeleton, { width: 24, height: 14 })
-  );
 }
 
 // src/components/Slider/Slider.tsx
 import React49 from "react";
 import { View as View46, Text as Text31 } from "react-native";
-import Animated20 from "react-native-reanimated";
+import Animated21 from "react-native-reanimated";
 import { GestureDetector as GestureDetector7 } from "react-native-gesture-handler";
-import { useSlider, useTokens as useTokens35, useComponentTokens as useComponentTokens48 } from "@truongdq01/headless";
+import { useSlider, useTokens as useTokens34, useComponentTokens as useComponentTokens48 } from "@truongdq01/headless";
 function Slider({
   label,
   showValue = false,
   formatValue = (v) => String(v),
-  showRange = false,
+  showMinMaxLabels = false,
   showMarks = false,
+  sliderHeight = 150,
+  thumbRenderer,
   min = 0,
   max = 100,
   step = 1,
-  ...hookOptions
+  orientation = "horizontal",
+  range = false,
+  ...rest
 }) {
-  const tokens = useTokens35();
+  const tokens = useTokens34();
   const { slider } = useComponentTokens48();
+  const isVertical = orientation === "vertical";
+  const sliderState = useSlider({
+    min,
+    max,
+    step,
+    orientation,
+    range,
+    ...rest
+  });
+  const showRangeLabels = showMinMaxLabels;
+  const marks = showMarks && step > 0 ? Array.from({ length: Math.floor((max - min) / step) + 1 }, (_, i) => i * step + min) : [];
+  const trackThickness = slider.track.height;
+  const thumbW = slider.thumb.width;
+  const thumbH = slider.thumb.height;
+  const thumbShellStyle = {
+    position: "absolute",
+    left: isVertical ? void 0 : -thumbW / 2,
+    top: isVertical ? -thumbH / 2 : void 0,
+    width: thumbW,
+    height: thumbH,
+    borderRadius: slider.thumb.borderRadius,
+    backgroundColor: slider.thumb.bg,
+    borderWidth: slider.thumb.borderWidth,
+    borderColor: slider.thumb.borderColor,
+    shadowColor: slider.thumb.shadowColor,
+    shadowOffset: slider.thumb.shadowOffset,
+    shadowOpacity: slider.thumb.shadowOpacity,
+    shadowRadius: slider.thumb.shadowRadius,
+    elevation: slider.thumb.elevation
+  };
+  function renderThumb(animatedStyle, kind, value) {
+    const custom = thumbRenderer?.({ kind, value });
+    return /* @__PURE__ */ React49.createElement(Animated21.View, { style: [thumbShellStyle, animatedStyle] }, custom ?? null);
+  }
+  if (sliderState.mode === "range") {
+    const {
+      currentValue: currentValue2,
+      thumbLowAnimatedStyle,
+      thumbHighAnimatedStyle,
+      fillAnimatedStyle: fillAnimatedStyle2,
+      trackAnimatedStyle: trackAnimatedStyle2,
+      panGestureLow,
+      panGestureHigh,
+      onTrackLayout: onTrackLayout2
+    } = sliderState;
+    const [lo, hi] = currentValue2;
+    const d = rest.disabled;
+    return /* @__PURE__ */ React49.createElement(View46, { style: { opacity: d ? slider.disabledOpacity : 1 } }, (label || showValue) && /* @__PURE__ */ React49.createElement(View46, { style: { flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[2] } }, label && /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary } }, label), showValue && /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, color: tokens.color.brand.default } }, formatValue(lo), " \u2013 ", formatValue(hi))), /* @__PURE__ */ React49.createElement(Animated21.View, { style: [{ paddingVertical: isVertical ? 0 : 12, paddingHorizontal: isVertical ? 12 : 0 }, trackAnimatedStyle2] }, /* @__PURE__ */ React49.createElement(
+      View46,
+      {
+        style: isVertical ? { width: thumbW + 24, height: sliderHeight, justifyContent: "center" } : { height: thumbH + 24, justifyContent: "center" },
+        onLayout: (e) => onTrackLayout2(isVertical ? e.nativeEvent.layout.height : e.nativeEvent.layout.width)
+      },
+      /* @__PURE__ */ React49.createElement(
+        View46,
+        {
+          style: {
+            position: "absolute",
+            ...isVertical ? { top: 0, bottom: 0, left: "50%", marginLeft: -trackThickness / 2, width: trackThickness } : { left: 0, right: 0, height: trackThickness },
+            borderRadius: slider.track.borderRadius,
+            backgroundColor: slider.track.bgOff,
+            overflow: "hidden"
+          }
+        },
+        /* @__PURE__ */ React49.createElement(
+          Animated21.View,
+          {
+            style: [
+              {
+                height: isVertical ? "100%" : slider.track.height,
+                backgroundColor: slider.track.bgOn,
+                borderRadius: slider.track.borderRadius
+              },
+              fillAnimatedStyle2
+            ]
+          }
+        )
+      ),
+      showMarks && !isVertical && marks.map((mark) => {
+        const markPct = (mark - min) / (max - min);
+        const isActive = mark <= hi && mark >= lo;
+        return /* @__PURE__ */ React49.createElement(
+          View46,
+          {
+            key: mark,
+            style: {
+              position: "absolute",
+              left: `${markPct * 100}%`,
+              width: 4,
+              height: 4,
+              borderRadius: 2,
+              marginLeft: -2,
+              backgroundColor: isActive ? slider.track.bgOn : tokens.color.border.strong,
+              top: (thumbH - 4) / 2 + 12
+            }
+          }
+        );
+      }),
+      /* @__PURE__ */ React49.createElement(GestureDetector7, { gesture: panGestureLow }, renderThumb(thumbLowAnimatedStyle, "low", lo)),
+      /* @__PURE__ */ React49.createElement(GestureDetector7, { gesture: panGestureHigh }, renderThumb(thumbHighAnimatedStyle, "high", hi))
+    )), showRangeLabels && /* @__PURE__ */ React49.createElement(View46, { style: { flexDirection: "row", justifyContent: "space-between", marginTop: -tokens.spacing[1] } }, /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(min)), /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(max))));
+  }
   const {
     currentValue,
     thumbAnimatedStyle,
     fillAnimatedStyle,
     trackAnimatedStyle,
     panGesture,
-    onTrackLayout,
-    percentage
-  } = useSlider({ min, max, step, ...hookOptions });
-  const marks = showMarks && step > 0 ? Array.from({ length: Math.floor((max - min) / step) + 1 }, (_, i) => i * step + min) : [];
-  return /* @__PURE__ */ React49.createElement(View46, { style: { opacity: hookOptions.disabled ? slider.disabledOpacity : 1 } }, (label || showValue) && /* @__PURE__ */ React49.createElement(View46, { style: { flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[2] } }, label && /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary } }, label), showValue && /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, color: tokens.color.brand.default } }, formatValue(currentValue))), /* @__PURE__ */ React49.createElement(Animated20.View, { style: [{ paddingVertical: 12 }, trackAnimatedStyle] }, /* @__PURE__ */ React49.createElement(GestureDetector7, { gesture: panGesture }, /* @__PURE__ */ React49.createElement(
+    onTrackLayout
+  } = sliderState;
+  const disabled = rest.disabled;
+  return /* @__PURE__ */ React49.createElement(View46, { style: { opacity: disabled ? slider.disabledOpacity : 1 } }, (label || showValue) && /* @__PURE__ */ React49.createElement(View46, { style: { flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[2] } }, label && /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary } }, label), showValue && /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, color: tokens.color.brand.default } }, formatValue(currentValue))), /* @__PURE__ */ React49.createElement(Animated21.View, { style: [{ paddingVertical: isVertical ? 0 : 12, paddingHorizontal: isVertical ? 12 : 0 }, trackAnimatedStyle] }, /* @__PURE__ */ React49.createElement(GestureDetector7, { gesture: panGesture }, /* @__PURE__ */ React49.createElement(
     View46,
     {
-      style: { height: slider.thumb.height, justifyContent: "center" },
-      onLayout: (e) => onTrackLayout(e.nativeEvent.layout.width)
+      style: isVertical ? { width: thumbW + 24, height: sliderHeight, justifyContent: "center" } : { height: thumbH + 24, justifyContent: "center" },
+      onLayout: (e) => onTrackLayout(isVertical ? e.nativeEvent.layout.height : e.nativeEvent.layout.width)
     },
     /* @__PURE__ */ React49.createElement(
       View46,
       {
         style: {
           position: "absolute",
-          left: 0,
-          right: 0,
-          height: slider.track.height,
+          ...isVertical ? { top: 0, bottom: 0, left: "50%", marginLeft: -trackThickness / 2, width: trackThickness } : { left: 0, right: 0, height: trackThickness },
           borderRadius: slider.track.borderRadius,
           backgroundColor: slider.track.bgOff,
           overflow: "hidden"
         }
       },
       /* @__PURE__ */ React49.createElement(
-        Animated20.View,
+        Animated21.View,
         {
           style: [
             {
-              height: slider.track.height,
+              height: isVertical ? "100%" : slider.track.height,
               backgroundColor: slider.track.bgOn,
               borderRadius: slider.track.borderRadius
             },
@@ -3937,7 +4295,7 @@ function Slider({
         }
       )
     ),
-    showMarks && marks.map((mark) => {
+    showMarks && !isVertical && marks.map((mark) => {
       const markPct = (mark - min) / (max - min);
       const isActive = mark <= currentValue;
       return /* @__PURE__ */ React49.createElement(
@@ -3952,48 +4310,26 @@ function Slider({
             borderRadius: 2,
             marginLeft: -2,
             backgroundColor: isActive ? slider.track.bgOn : tokens.color.border.strong,
-            top: (slider.thumb.height - 4) / 2
+            top: (thumbH - 4) / 2 + 12
           }
         }
       );
     }),
-    /* @__PURE__ */ React49.createElement(
-      Animated20.View,
-      {
-        style: [
-          {
-            position: "absolute",
-            left: -(slider.thumb.width / 2),
-            width: slider.thumb.width,
-            height: slider.thumb.height,
-            borderRadius: slider.thumb.borderRadius,
-            backgroundColor: slider.thumb.bg,
-            borderWidth: slider.thumb.borderWidth,
-            borderColor: slider.thumb.borderColor,
-            shadowColor: slider.thumb.shadowColor,
-            shadowOffset: slider.thumb.shadowOffset,
-            shadowOpacity: slider.thumb.shadowOpacity,
-            shadowRadius: slider.thumb.shadowRadius,
-            elevation: slider.thumb.elevation
-          },
-          thumbAnimatedStyle
-        ]
-      }
-    )
-  ))), showRange && /* @__PURE__ */ React49.createElement(View46, { style: { flexDirection: "row", justifyContent: "space-between", marginTop: -tokens.spacing[1] } }, /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(min)), /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(max))));
+    renderThumb(thumbAnimatedStyle, "single", currentValue)
+  ))), showRangeLabels && /* @__PURE__ */ React49.createElement(View46, { style: { flexDirection: "row", justifyContent: "space-between", marginTop: -tokens.spacing[1] } }, /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(min)), /* @__PURE__ */ React49.createElement(Text31, { style: { fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary } }, formatValue(max))));
 }
 
 // src/components/Snackbar/Snackbar.tsx
-import React50, { useEffect as useEffect4, useMemo as useMemo17 } from "react";
-import { View as View47, Text as Text32, Pressable as Pressable23, Modal as Modal10, StyleSheet as StyleSheet14 } from "react-native";
-import Animated21, {
+import React50, { useEffect as useEffect5, useMemo as useMemo17 } from "react";
+import { View as View47, Text as Text32, Pressable as Pressable23, Modal as Modal10, StyleSheet as StyleSheet13 } from "react-native";
+import Animated22, {
   useSharedValue as useSharedValue12,
   useAnimatedStyle as useAnimatedStyle14,
   withTiming as withTiming7,
   withSpring as withSpring9,
   runOnJS as runOnJS3
 } from "react-native-reanimated";
-import { useTokens as useTokens36, useComponentTokens as useComponentTokens49 } from "@truongdq01/headless";
+import { useTokens as useTokens35, useComponentTokens as useComponentTokens49 } from "@truongdq01/headless";
 function Snackbar({
   open,
   message,
@@ -4003,7 +4339,7 @@ function Snackbar({
   anchorOrigin = { vertical: "bottom", horizontal: "center" }
 }) {
   const { snackbar } = useComponentTokens49();
-  const tokens = useTokens36();
+  const tokens = useTokens35();
   const [mounted, setMounted] = React50.useState(open);
   const isBottom = anchorOrigin.vertical === "bottom";
   const translateY = useSharedValue12(isBottom ? 100 : -100);
@@ -4020,7 +4356,7 @@ function Snackbar({
       if (done) runOnJS3(onDone)();
     });
   };
-  useEffect4(() => {
+  useEffect5(() => {
     if (open) {
       setMounted(true);
       translateY.value = isBottom ? 80 : -80;
@@ -4030,7 +4366,7 @@ function Snackbar({
       animateOut(() => setMounted(false));
     }
   }, [open]);
-  useEffect4(() => {
+  useEffect5(() => {
     if (!open || autoHideDuration === null) return;
     const t = setTimeout(() => onClose?.(), autoHideDuration);
     return () => clearTimeout(t);
@@ -4047,7 +4383,7 @@ function Snackbar({
   }));
   if (!mounted && !open) return null;
   return /* @__PURE__ */ React50.createElement(Modal10, { visible: mounted || open, transparent: true, animationType: "none", onRequestClose: onClose }, /* @__PURE__ */ React50.createElement(View47, { pointerEvents: "box-none", style: styles11.overlay }, /* @__PURE__ */ React50.createElement(
-    Animated21.View,
+    Animated22.View,
     {
       style: [
         snackbar.container,
@@ -4062,7 +4398,7 @@ function Snackbar({
     onClose && /* @__PURE__ */ React50.createElement(Pressable23, { onPress: onClose, hitSlop: 8, style: { marginLeft: 8 } }, /* @__PURE__ */ React50.createElement(Icon, { size: 18, color: snackbar.text.color, name: "close" }))
   )));
 }
-var styles11 = StyleSheet14.create({
+var styles11 = StyleSheet13.create({
   overlay: {
     flex: 1
   }
@@ -4071,7 +4407,7 @@ var styles11 = StyleSheet14.create({
 // src/components/SpeedDial/SpeedDial.tsx
 import React51, { createContext as createContext6, useContext as useContext6, useMemo as useMemo18 } from "react";
 import { View as View48, Text as Text33, Pressable as Pressable24 } from "react-native";
-import { useDisclosure as useDisclosure2, useTokens as useTokens37, useComponentTokens as useComponentTokens50 } from "@truongdq01/headless";
+import { useDisclosure as useDisclosure2, useTokens as useTokens36, useComponentTokens as useComponentTokens50 } from "@truongdq01/headless";
 var SpeedDialContext = createContext6(null);
 function SpeedDial({
   ariaLabel,
@@ -4085,7 +4421,7 @@ function SpeedDial({
 }) {
   const { speedDial } = useComponentTokens50();
   const disclosure = useDisclosure2({ isOpen: controlledOpen, onOpen, onClose });
-  const tokens = useTokens37();
+  const tokens = useTokens36();
   if (hidden) return null;
   const stackStyle = {
     flexDirection: direction === "left" || direction === "right" ? "row" : "column",
@@ -4097,7 +4433,7 @@ function SpeedDial({
 }
 function SpeedDialAction({ icon, tooltipTitle, onPress }) {
   const { speedDial } = useComponentTokens50();
-  const tokens = useTokens37();
+  const tokens = useTokens36();
   const ctx = useContext6(SpeedDialContext);
   if (!ctx?.isOpen) return null;
   return /* @__PURE__ */ React51.createElement(
@@ -4209,16 +4545,16 @@ function StepLabel({ children, style }) {
 // src/components/Switch/Switch.tsx
 import React54 from "react";
 import { View as View51, Text as Text35, Pressable as Pressable25 } from "react-native";
-import Animated22, {
+import Animated23, {
   useSharedValue as useSharedValue13,
   useAnimatedStyle as useAnimatedStyle15,
   withSpring as withSpring10,
   interpolateColor
 } from "react-native-reanimated";
-import { useSwitch, useTokens as useTokens38, useComponentTokens as useComponentTokens53 } from "@truongdq01/headless";
+import { useSwitch, useTokens as useTokens37, useComponentTokens as useComponentTokens53 } from "@truongdq01/headless";
 import { spring as spring6 } from "@truongdq01/tokens";
 var Switch = React54.memo(({ label, description, size = "md", ...hookOptions }) => {
-  const tokens = useTokens38();
+  const tokens = useTokens37();
   const { switch: switchT } = useComponentTokens53();
   const { isOn, isDisabled, toggle, accessibilityProps } = useSwitch(hookOptions);
   const tTrack = switchT.track[size];
@@ -4252,7 +4588,7 @@ var Switch = React54.memo(({ label, description, size = "md", ...hookOptions }) 
       ...accessibilityProps
     },
     /* @__PURE__ */ React54.createElement(
-      Animated22.View,
+      Animated23.View,
       {
         style: [
           {
@@ -4266,7 +4602,7 @@ var Switch = React54.memo(({ label, description, size = "md", ...hookOptions }) 
         ]
       },
       /* @__PURE__ */ React54.createElement(
-        Animated22.View,
+        Animated23.View,
         {
           style: [
             {
@@ -4297,8 +4633,8 @@ var Switch = React54.memo(({ label, description, size = "md", ...hookOptions }) 
 
 // src/components/Table/Table.tsx
 import React55, { createContext as createContext7, useContext as useContext7, useMemo as useMemo19 } from "react";
-import { View as View52, ScrollView as ScrollView3, Text as Text36, Pressable as Pressable26 } from "react-native";
-import { useComponentTokens as useComponentTokens54, useTokens as useTokens39 } from "@truongdq01/headless";
+import { View as View52, ScrollView as ScrollView2, Text as Text36, Pressable as Pressable26 } from "react-native";
+import { useComponentTokens as useComponentTokens54, useTokens as useTokens38 } from "@truongdq01/headless";
 var TableContext = createContext7(null);
 function useTableContext() {
   return useContext7(TableContext);
@@ -4316,7 +4652,7 @@ function Table({
 function TableContainer({ children, style }) {
   const { table } = useComponentTokens54();
   return /* @__PURE__ */ React55.createElement(
-    ScrollView3,
+    ScrollView2,
     {
       horizontal: true,
       style: [
@@ -4340,7 +4676,7 @@ function TableFooter({ children }) {
 }
 function TableRow({ children, selected = false, style }) {
   const { table } = useComponentTokens54();
-  const tokens = useTokens39();
+  const tokens = useTokens38();
   return /* @__PURE__ */ React55.createElement(
     View52,
     {
@@ -4363,7 +4699,7 @@ function TableCell({
 }) {
   const { table } = useComponentTokens54();
   const ctx = useTableContext();
-  const tokens = useTokens39();
+  const tokens = useTokens38();
   const resolvedPadding = padding ?? ctx?.padding ?? "normal";
   const resolvedSize = size ?? ctx?.size ?? "medium";
   const paddingX = {
@@ -4392,7 +4728,7 @@ function TablePagination({
   onPageChange,
   labelRowsPerPage = "Rows per page"
 }) {
-  const tokens = useTokens39();
+  const tokens = useTokens38();
   const totalPages = Math.max(1, Math.ceil(count / rowsPerPage));
   return /* @__PURE__ */ React55.createElement(
     View52,
@@ -4434,14 +4770,14 @@ function TableSortLabel({
   onClick,
   children
 }) {
-  const tokens = useTokens39();
+  const tokens = useTokens38();
   return /* @__PURE__ */ React55.createElement(Pressable26, { onPress: onClick, style: { flexDirection: "row", alignItems: "center", gap: 6 } }, /* @__PURE__ */ React55.createElement(Text36, { style: { color: tokens.color.text.primary, fontWeight: active ? tokens.fontWeight.semibold : tokens.fontWeight.regular } }, children), active ? /* @__PURE__ */ React55.createElement(Icon, { size: 14, color: tokens.color.text.primary }, direction === "asc" ? "arrowUp" : "arrowDown") : /* @__PURE__ */ React55.createElement(View52, { style: { width: 14 } }));
 }
 
 // src/components/Tabs/Tabs.tsx
 import React56, { createContext as createContext8, useContext as useContext8 } from "react";
 import { View as View53, Text as Text37, Pressable as Pressable27 } from "react-native";
-import { useComponentTokens as useComponentTokens55, useTabs, useTokens as useTokens40 } from "@truongdq01/headless";
+import { useComponentTokens as useComponentTokens55, useTabs, useTokens as useTokens39 } from "@truongdq01/headless";
 var TabsContext = createContext8(null);
 function Tabs({
   value,
@@ -4472,7 +4808,7 @@ function Tabs({
 }
 function Tab({ value, label, icon, disabled = false }) {
   const { tabs } = useComponentTokens55();
-  const tokens = useTokens40();
+  const tokens = useTokens39();
   const ctx = useContext8(TabsContext);
   if (!ctx) return null;
   const selected = ctx.isSelected(value);
@@ -4520,7 +4856,7 @@ import {
   Text as Text38,
   TextInput as TextInput3
 } from "react-native";
-import { useComponentTokens as useComponentTokens56, useTokens as useTokens41 } from "@truongdq01/headless";
+import { useComponentTokens as useComponentTokens56, useTokens as useTokens40 } from "@truongdq01/headless";
 function TextArea({
   label,
   placeholder,
@@ -4533,12 +4869,14 @@ function TextArea({
   minLines = 3,
   maxLines = 8,
   maxLength,
+  showCounter = true,
+  counterPosition = "inside",
   disabled = false,
   autoFocus = false,
   accessibilityLabel
 }) {
   const { textArea } = useComponentTokens56();
-  const tokens = useTokens41();
+  const tokens = useTokens40();
   const [isFocused, setIsFocused] = useState13(false);
   const [contentHeight, setContentHeight] = useState13(0);
   const LINE_HEIGHT = tokens.fontSize.md * tokens.lineHeight.normal;
@@ -4558,19 +4896,39 @@ function TextArea({
   const charCount = value.length;
   const nearLimit = maxLength && charCount >= maxLength * 0.9;
   const atLimit = maxLength && charCount >= maxLength;
-  return /* @__PURE__ */ React57.createElement(View54, null, (label || maxLength) && /* @__PURE__ */ React57.createElement(View54, { style: { flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[1] } }, label && /* @__PURE__ */ React57.createElement(Text38, { style: textArea.label }, label), maxLength && /* @__PURE__ */ React57.createElement(
+  const counterColor = atLimit ? tokens.color.error.text : nearLimit ? tokens.color.warning.text : tokens.color.text.tertiary;
+  const counterWeight = atLimit ? tokens.fontWeight.semibold : tokens.fontWeight.regular;
+  const showCounterAbove = Boolean(maxLength && showCounter && counterPosition === "above");
+  const showCounterInside = Boolean(maxLength && showCounter && counterPosition === "inside");
+  const showCounterBelow = Boolean(maxLength && showCounter && counterPosition === "below");
+  const counterPaddingBottom = showCounterInside ? tokens.spacing[5] : 0;
+  const counterEl = maxLength && showCounter ? /* @__PURE__ */ React57.createElement(
     Text38,
     {
+      pointerEvents: "none",
       style: {
         fontSize: tokens.fontSize.xs,
-        color: atLimit ? tokens.color.error.text : nearLimit ? tokens.color.warning.text : tokens.color.text.tertiary,
-        fontWeight: atLimit ? tokens.fontWeight.semibold : tokens.fontWeight.regular
+        color: counterColor,
+        fontWeight: counterWeight
       }
     },
     charCount,
     "/",
     maxLength
-  )), /* @__PURE__ */ React57.createElement(View54, { style: containerStyle }, /* @__PURE__ */ React57.createElement(
+  ) : null;
+  return /* @__PURE__ */ React57.createElement(View54, null, (label || showCounterAbove) && /* @__PURE__ */ React57.createElement(
+    View54,
+    {
+      style: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: tokens.spacing[1]
+      }
+    },
+    label && /* @__PURE__ */ React57.createElement(Text38, { style: textArea.label }, label),
+    showCounterAbove ? counterEl : null
+  ), /* @__PURE__ */ React57.createElement(View54, { style: [containerStyle, showCounterInside && { position: "relative" }] }, /* @__PURE__ */ React57.createElement(
     TextInput3,
     {
       value,
@@ -4593,7 +4951,7 @@ function TextArea({
         lineHeight: LINE_HEIGHT,
         textAlignVertical: "top",
         paddingTop: 0,
-        paddingBottom: 0
+        paddingBottom: counterPaddingBottom
       },
       onFocus: () => {
         setIsFocused(true);
@@ -4604,7 +4962,27 @@ function TextArea({
         onBlur?.();
       }
     }
-  )), error ? /* @__PURE__ */ React57.createElement(Text38, { style: textArea.errorText }, error) : helperText ? /* @__PURE__ */ React57.createElement(Text38, { style: textArea.helperText }, helperText) : null);
+  ), showCounterInside && counterEl ? /* @__PURE__ */ React57.createElement(
+    View54,
+    {
+      style: {
+        position: "absolute",
+        right: tokens.spacing[3],
+        bottom: tokens.spacing[2]
+      }
+    },
+    counterEl
+  ) : null), showCounterBelow && counterEl ? /* @__PURE__ */ React57.createElement(
+    View54,
+    {
+      style: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        marginTop: tokens.spacing[1]
+      }
+    },
+    counterEl
+  ) : null, error ? /* @__PURE__ */ React57.createElement(Text38, { style: textArea.errorText }, error) : helperText ? /* @__PURE__ */ React57.createElement(Text38, { style: textArea.helperText }, helperText) : null);
 }
 
 // src/components/TextField/TextField.tsx
@@ -4679,7 +5057,7 @@ function TextField({
 // src/components/Timeline/Timeline.tsx
 import React59, { createContext as createContext9, useContext as useContext9 } from "react";
 import { View as View55, Text as Text39 } from "react-native";
-import { useComponentTokens as useComponentTokens58, useTokens as useTokens42 } from "@truongdq01/headless";
+import { useComponentTokens as useComponentTokens58, useTokens as useTokens41 } from "@truongdq01/headless";
 var TimelineContext = createContext9(null);
 function useTimelineContext() {
   return useContext9(TimelineContext);
@@ -4738,7 +5116,7 @@ function TimelineSeparator({ status = "pending", variant = "filled", children })
 }
 function TimelineDot({ variant = "filled", color = "primary", status, size }) {
   const { timeline } = useComponentTokens58();
-  const tokens = useTokens42();
+  const tokens = useTokens41();
   const resolvedStatus = status || (color === "success" ? "completed" : color === "error" ? "error" : color === "primary" ? "active" : "pending");
   const statusTokens = timeline.dot[resolvedStatus] || timeline.dot.pending;
   const dotSize = size || timeline.dot.size || 16;
@@ -4771,13 +5149,13 @@ function TimelineOppositeContent({ children, align = "right" }) {
 
 // src/components/Toast/ToastContainer.tsx
 import React61 from "react";
-import { View as View57, StyleSheet as StyleSheet15 } from "react-native";
+import { View as View57, StyleSheet as StyleSheet14 } from "react-native";
 import { useSafeAreaInsets as useSafeAreaInsets2 } from "react-native-safe-area-context";
 import { useToast, dismissToast } from "@truongdq01/headless";
 
 // src/components/Toast/ToastItem.tsx
-import React60, { useEffect as useEffect5 } from "react";
-import Animated23, {
+import React60, { useEffect as useEffect6 } from "react";
+import Animated24, {
   useSharedValue as useSharedValue14,
   useAnimatedStyle as useAnimatedStyle16,
   withTiming as withTiming8,
@@ -4788,12 +5166,12 @@ import Animated23, {
   FadeOutDown
 } from "react-native-reanimated";
 import { View as View56, Text as Text40, Pressable as Pressable29 } from "react-native";
-import { useComponentTokens as useComponentTokens59, useTokens as useTokens43 } from "@truongdq01/headless";
+import { useComponentTokens as useComponentTokens59, useTokens as useTokens42 } from "@truongdq01/headless";
 function ToastItem({ item, position, onDismiss }) {
   const { toast } = useComponentTokens59();
-  const tokens = useTokens43();
+  const tokens = useTokens42();
   const progress = useSharedValue14(1);
-  useEffect5(() => {
+  useEffect6(() => {
     if (item.persistent) return;
     progress.value = withTiming8(0, { duration: item.duration }, (finished) => {
       if (finished) runOnJS4(onDismiss)(item.id);
@@ -4813,10 +5191,10 @@ function ToastItem({ item, position, onDismiss }) {
     info: { iconColor: tokens.color.info.icon, progressColor: tokens.color.info.icon }
   };
   const v = variantMap[item.variant] || variantMap.default;
-  const entering = position === "top" ? FadeInDown2.springify().damping(18).stiffness(280) : FadeInUp.springify().damping(18).stiffness(280);
-  const exiting = position === "top" ? FadeOutUp.duration(200) : FadeOutDown.duration(200);
+  const entering = position === "top" ? FadeInDown2.duration(280) : FadeInUp.duration(280);
+  const exiting = position === "top" ? FadeOutUp.duration(220) : FadeOutDown.duration(220);
   return /* @__PURE__ */ React60.createElement(
-    Animated23.View,
+    Animated24.View,
     {
       entering,
       exiting,
@@ -4843,7 +5221,7 @@ function ToastItem({ item, position, onDismiss }) {
       /* @__PURE__ */ React60.createElement(Text40, { style: { fontSize: 13, fontWeight: "700", color: tokens.color.brand.muted } }, item.action.label)
     ),
     /* @__PURE__ */ React60.createElement(Pressable29, { onPress: () => onDismiss(item.id), hitSlop: 8 }, /* @__PURE__ */ React60.createElement(Icon, { size: 18, color: tokens.color.text.inverse, name: "close" })),
-    !item.persistent && /* @__PURE__ */ React60.createElement(View56, { style: { position: "absolute", bottom: 0, left: 0, right: 0, height: 2, backgroundColor: "transparent" } }, /* @__PURE__ */ React60.createElement(Animated23.View, { style: [{ height: 2, backgroundColor: v.progressColor, opacity: 0.5 }, progressStyle] }))
+    !item.persistent && /* @__PURE__ */ React60.createElement(View56, { style: { position: "absolute", bottom: 0, left: 0, right: 0, height: 2, backgroundColor: "transparent" } }, /* @__PURE__ */ React60.createElement(Animated24.View, { style: [{ height: 2, backgroundColor: v.progressColor, opacity: 0.5 }, progressStyle] }))
   );
 }
 
@@ -4866,7 +5244,7 @@ function ToastContainer({
     }
   )));
 }
-var styles12 = StyleSheet15.create({
+var styles12 = StyleSheet14.create({
   container: {
     position: "absolute",
     zIndex: 9999
@@ -4876,9 +5254,9 @@ var styles12 = StyleSheet15.create({
 // src/components/ToggleButton/ToggleButton.tsx
 import React62, { createContext as createContext10, useContext as useContext10 } from "react";
 import { View as View58, Text as Text41 } from "react-native";
-import Animated24 from "react-native-reanimated";
+import Animated25 from "react-native-reanimated";
 import { GestureDetector as GestureDetector8 } from "react-native-gesture-handler";
-import { useComponentTokens as useComponentTokens60, usePressable as usePressable6, useTokens as useTokens44, useToggleGroup } from "@truongdq01/headless";
+import { useComponentTokens as useComponentTokens60, usePressable as usePressable6, useTokens as useTokens43, useToggleGroup } from "@truongdq01/headless";
 var ToggleContext = createContext10(null);
 function ToggleButtonGroup({
   value,
@@ -4901,7 +5279,7 @@ function ToggleButtonGroup({
 }
 function ToggleButton({ value, disabled = false, children }) {
   const { toggleButton } = useComponentTokens60();
-  const tokens = useTokens44();
+  const tokens = useTokens43();
   const ctx = useContext10(ToggleContext);
   const selected = ctx?.isSelected(value) ?? false;
   const isDisabled = disabled || ctx?.disabled;
@@ -4919,7 +5297,7 @@ function ToggleButton({ value, disabled = false, children }) {
   };
   const s = sizeMap[size];
   return /* @__PURE__ */ React62.createElement(GestureDetector8, { gesture }, /* @__PURE__ */ React62.createElement(
-    Animated24.View,
+    Animated25.View,
     {
       style: [
         toggleButton.container,
@@ -4948,15 +5326,15 @@ function ToggleButton({ value, disabled = false, children }) {
 }
 
 // src/components/Tooltip/Tooltip.tsx
-import React63, { useState as useState15, useCallback as useCallback4 } from "react";
+import React63, { useState as useState15, useCallback as useCallback5 } from "react";
 import { Text as Text42, Pressable as Pressable30, Modal as Modal11, useWindowDimensions as useWindowDimensions4 } from "react-native";
-import Animated25, {
+import Animated26, {
   useSharedValue as useSharedValue15,
   useAnimatedStyle as useAnimatedStyle17,
   withTiming as withTiming9,
   runOnJS as runOnJS5
 } from "react-native-reanimated";
-import { useTokens as useTokens45, useComponentTokens as useComponentTokens61 } from "@truongdq01/headless";
+import { useTokens as useTokens44, useComponentTokens as useComponentTokens61 } from "@truongdq01/headless";
 function Tooltip({
   title,
   children,
@@ -4966,7 +5344,7 @@ function Tooltip({
   placement = "top"
 }) {
   const { tooltip } = useComponentTokens61();
-  const tokens = useTokens45();
+  const tokens = useTokens44();
   const [internalOpen, setInternalOpen] = useState15(false);
   const { width: windowWidth, height: windowHeight } = useWindowDimensions4();
   const [triggerRect, setTriggerRect] = useState15(null);
@@ -4974,10 +5352,10 @@ function Tooltip({
   const triggerRef = React63.useRef(null);
   const isOpen = controlledOpen !== void 0 ? controlledOpen : internalOpen;
   const opacity = useSharedValue15(0);
-  const animateIn = useCallback4(() => {
+  const animateIn = useCallback5(() => {
     opacity.value = withTiming9(1, { duration: 150 });
   }, []);
-  const animateOut = useCallback4((onDone) => {
+  const animateOut = useCallback5((onDone) => {
     opacity.value = withTiming9(0, { duration: 100 }, () => {
       runOnJS5(onDone)();
     });
@@ -5051,7 +5429,7 @@ function Tooltip({
         onPress: handleClose
       },
       /* @__PURE__ */ React63.createElement(
-        Animated25.View,
+        Animated26.View,
         {
           onLayout: (e) => {
             const { width, height } = e.nativeEvent.layout;
@@ -5077,10 +5455,21 @@ function Tooltip({
 // src/components/Typography/Typography.tsx
 import React64 from "react";
 import { Text as Text43 } from "react-native";
-import { useComponentTokens as useComponentTokens62, useTokens as useTokens46 } from "@truongdq01/headless";
-function Typography({
+import { useComponentTokens as useComponentTokens62, useTokens as useTokens45 } from "@truongdq01/headless";
+function accessibilityForAs(as) {
+  if (!as || as === "span") return {};
+  if (as === "p" || as === "label") {
+    return { accessibilityRole: "text" };
+  }
+  if (as === "h1" || as === "h2" || as === "h3" || as === "h4" || as === "h5" || as === "h6") {
+    return { accessibilityRole: "header" };
+  }
+  return {};
+}
+function TypographyInner({
   children,
   variant = "body1",
+  as,
   align = "left",
   color,
   gutterBottom = false,
@@ -5090,21 +5479,24 @@ function Typography({
   style
 }) {
   const { typography } = useComponentTokens62();
-  const tokens = useTokens46();
+  const tokens = useTokens45();
   const variantStyle = variant === "inherit" ? {} : typography.variants[variant] || {};
   const presetColors = typography.colors;
   const resolvedColor = color != null && color !== "" && typeof color === "string" && Object.prototype.hasOwnProperty.call(presetColors, color) ? presetColors[color] : color || presetColors.primary;
   const resolvedDisplay = display === "block" || display === "inline" || display === "inline-flex" ? "flex" : display;
   const sans = tokens.fontFamily?.sans;
   const sansFont = sans != null && sans !== "" ? { fontFamily: sans } : null;
+  const skipSans = variant === "code";
+  const a11y = accessibilityForAs(as);
   return /* @__PURE__ */ React64.createElement(
     Text43,
     {
+      ...a11y,
       numberOfLines: noWrap ? 1 : void 0,
       style: [
         { color: resolvedColor, textAlign: align === "inherit" ? void 0 : align },
         variantStyle,
-        sansFont,
+        !skipSans && sansFont,
         paragraph && { marginBottom: tokens.spacing[4] },
         gutterBottom && { marginBottom: tokens.spacing[2] },
         resolvedDisplay ? { display: resolvedDisplay } : null,
@@ -5114,9 +5506,10 @@ function Typography({
     children
   );
 }
+var Typography = React64.memo(TypographyInner);
 
 // src/index.ts
-import { StyleSheet as StyleSheet16 } from "react-native";
+import { StyleSheet as StyleSheet15 } from "react-native";
 export {
   Accordion,
   AccordionActions,
@@ -5187,7 +5580,13 @@ export {
   Select,
   Skeleton,
   SkeletonCard,
+  SkeletonForm,
+  SkeletonGrid,
+  SkeletonGroup,
   SkeletonListItem,
+  SkeletonMedia,
+  SkeletonProfile,
+  SkeletonTable,
   SkeletonText,
   Slider,
   Snackbar,
@@ -5197,7 +5596,7 @@ export {
   Step,
   StepLabel,
   Stepper,
-  StyleSheet16 as StyleSheet,
+  StyleSheet15 as StyleSheet,
   Switch,
   Tab,
   Table,
@@ -5234,6 +5633,6 @@ export {
   useFormControl,
   useIsDark,
   useTheme,
-  useTokens47 as useTokens
+  useTokens46 as useTokens
 };
 //# sourceMappingURL=index.mjs.map

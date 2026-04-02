@@ -1,18 +1,24 @@
-import React, { useRef, useState } from "react";
-import { ScrollView, View, Text, StyleSheet } from "react-native";
+/**
+ * RN `TextStyle.fontWeight` typings expect string literals (e.g. "600", "700") — keep consistent to avoid TS noise.
+ */
+import React, { useRef, useState, useCallback, useMemo } from "react";
+import { ScrollView, View, Text, StyleSheet, type ListRenderItemInfo } from "react-native";
+import Constants from "expo-constants";
+import * as Haptics from "expo-haptics";
 import {
   Button, Input, PasswordInput, TextArea, Card, Badge,
-  Checkbox, Switch, RadioGroup, Slider,
+  Checkbox, Switch, RadioGroup, RadioItem, Slider,
   Avatar, AvatarGroup,
   Select, List, ListItem,
-  Divider, Skeleton, SkeletonCard, EmptyState,
+  Divider, Skeleton, SkeletonCard, SkeletonGroup, SkeletonProfile, SkeletonMedia, SkeletonForm, SkeletonGrid, SkeletonTable, SkeletonText, EmptyState,
   FormField, FormGroup, Pressable,
   ToastContainer, BottomSheet,
   SegmentedControl, OTPInput, Carousel, AnimatedList, RnImage, DatePicker,
   Typography,
   type BottomSheetRef,
 } from "@truongdq01/ui";
-import { useTokens, useToast, useField, useTheme } from "@truongdq01/headless";
+import { useTokens, useToast, useField, useTheme, useRadioGroup } from "@truongdq01/headless";
+import type { ColorScheme } from "@truongdq01/tokens";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Search,
@@ -43,25 +49,26 @@ const COUNTRIES = [
   { label: "South Korea", value: "kr" },
 ];
 
+const LARGE_COUNTRIES = Array.from({ length: 50 }, (_, i) => ({
+  label: `Country ${i + 1}`,
+  value: `c${i}`,
+}));
+
 const CONTACTS = [
   { id: "1", name: "An Nguyen", role: "Designer", initials: "AN" },
   { id: "2", name: "Binh Tran", role: "Engineer", initials: "BT" },
   { id: "3", name: "Chi Le", role: "Product", initials: "CL" },
 ];
 
+type Contact = (typeof CONTACTS)[number];
+
 function SectionHeader({ title }: { title: string }) {
   const t = useTokens();
   return (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginTop: 8 }}>
-      <Text style={{
-        fontSize: 11,
-        fontWeight: "700",
-        textTransform: "uppercase",
-        letterSpacing: 1.2,
-        color: t.color.text.tertiary,
-      }}>
+      <Typography variant="overline" color="tertiary" as="span">
         {title}
-      </Text>
+      </Typography>
       <View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: t.color.border.subtle }} />
     </View>
   );
@@ -94,14 +101,65 @@ export default function KitchenSink() {
   const [plan, setPlan] = useState("pro");
   const [volume, setVolume] = useState(60);
   const [bio, setBio] = useState("");
+  const [standaloneRadio, setStandaloneRadio] = useState<"one" | "two">("one");
+  const standaloneRadioGroup = useRadioGroup({
+    value: standaloneRadio,
+    onChange: (v) => setStandaloneRadio(v as "one" | "two"),
+  });
+  const [gender, setGender] = useState<string | undefined>("m");
+  const [partialCheck, setPartialCheck] = useState<boolean | "indeterminate">("indeterminate");
   const [loading, setLoading] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(false);
+  const [skelPreset, setSkelPreset] = useState(0);
   const [showEmpty, setShowEmpty] = useState(false);
   const [segIndex, setSegIndex] = useState(0);
+  const [bigCountry, setBigCountry] = useState<string | undefined>();
+  const [bigLoaded, setBigLoaded] = useState(15);
+  const [bigLoadingMore, setBigLoadingMore] = useState(false);
+  const bigOptions = useMemo(() => LARGE_COUNTRIES.slice(0, bigLoaded), [bigLoaded]);
+  const bigHasMore = bigLoaded < LARGE_COUNTRIES.length;
+  const onBigLoadMore = useCallback(() => {
+    if (!bigHasMore || bigLoadingMore) return;
+    setBigLoadingMore(true);
+    setTimeout(() => {
+      setBigLoaded((n) => Math.min(n + 12, LARGE_COUNTRIES.length));
+      setBigLoadingMore(false);
+    }, 500);
+  }, [bigHasMore, bigLoadingMore]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([20, 80]);
+  const [vertVol, setVertVol] = useState(35);
+  const [starSlider, setStarSlider] = useState(50);
+  const [otpValue, setOtpValue] = useState("");
 
   const t = useTokens();
   const toast = useToast();
   const { setColorScheme, colorScheme } = useTheme();
+
+  const setThemeScheme = (scheme: ColorScheme | "system") => {
+    setColorScheme(scheme);
+    // Simulator has no haptic engine; calling Haptics here spams CoreHaptics plist errors in Xcode console.
+    if (Constants.isDevice) {
+      void Haptics.selectionAsync();
+    }
+  };
+
+  const keyExtractorContact = useCallback((item: Contact) => item.id, []);
+
+  const renderAnimatedContact = useCallback(
+    ({ item, index }: ListRenderItemInfo<Contact>) => (
+      <ListItem
+        onPress={() => toast.info(`Opening ${item.name}`)}
+        divider={index < CONTACTS.length - 1}
+      >
+        <Avatar initials={item.initials} size="sm" />
+        <View style={{ flex: 1, marginLeft: t.spacing[3] }}>
+          <Text style={{ fontWeight: "600", color: t.color.text.primary }}>{item.name}</Text>
+          <Text style={{ fontSize: 13, color: t.color.text.secondary }}>{item.role}</Text>
+        </View>
+      </ListItem>
+    ),
+    [t.spacing, toast]
+  );
 
   const emailField = useField({
     defaultValue: "",
@@ -134,7 +192,7 @@ export default function KitchenSink() {
         </View>
         <View style={{ flexDirection: "row", gap: 6 }}>
           <Pressable
-            onPress={() => setColorScheme("light")}
+            onPress={() => setThemeScheme("light")}
             feedbackMode="scaleSubtle"
             style={{
               width: 36, height: 36, borderRadius: 18,
@@ -145,7 +203,7 @@ export default function KitchenSink() {
             <Sun size={18} color={colorScheme === "light" ? t.color.brand.default : t.color.text.tertiary} />
           </Pressable>
           <Pressable
-            onPress={() => setColorScheme("dark")}
+            onPress={() => setThemeScheme("dark")}
             feedbackMode="scaleSubtle"
             style={{
               width: 36, height: 36, borderRadius: 18,
@@ -156,7 +214,7 @@ export default function KitchenSink() {
             <Moon size={18} color={colorScheme === "dark" ? t.color.brand.default : t.color.text.tertiary} />
           </Pressable>
           <Pressable
-            onPress={() => setColorScheme("system")}
+            onPress={() => setThemeScheme("system")}
             feedbackMode="scaleSubtle"
             style={{
               width: 36, height: 36, borderRadius: 18,
@@ -242,9 +300,9 @@ export default function KitchenSink() {
               <PasswordInput placeholder="••••••••" />
             </FormField>
 
-            <FormField label="Bio" helperText="Max 200 characters">
+            <FormField label="Bio" helperText="Short intro for your profile (counter shows limit)">
               <TextArea placeholder="Tell us about yourself…"
-                value={bio} onChangeText={setBio} maxLength={200} minLines={3} />
+                value={bio} onChangeText={setBio} maxLength={200} minLines={3} counterPosition="inside" />
             </FormField>
           </FormGroup>
         </Section>
@@ -257,6 +315,13 @@ export default function KitchenSink() {
             <Text style={{ color: t.color.text.secondary, fontSize: 13 }}>Section B</Text>
             <Divider label="OR" spacing="sm" />
             <Text style={{ color: t.color.text.secondary, fontSize: 13 }}>Section C</Text>
+            <View style={{ flexDirection: "row", alignItems: "center", height: 40, gap: 12, marginTop: 4 }}>
+              <Text style={{ color: t.color.text.secondary, fontSize: 13 }}>Left</Text>
+              <Divider orientation="vertical" spacing="none" />
+              <Text style={{ color: t.color.text.secondary, fontSize: 13 }}>Middle</Text>
+              <Divider orientation="vertical" spacing="none" emphasis />
+              <Text style={{ color: t.color.text.secondary, fontSize: 13 }}>Right</Text>
+            </View>
           </View>
         </Section>
 
@@ -265,6 +330,17 @@ export default function KitchenSink() {
           <Select label="Country" options={COUNTRIES} value={country}
             onChange={(v) => setCountry(v as string)}
             placeholder="Choose a country…" searchable />
+          <Select
+            label="Large list (load more)"
+            options={bigOptions}
+            value={bigCountry}
+            onChange={(v) => setBigCountry(v as string)}
+            placeholder="Scroll to load more…"
+            searchable
+            hasMore={bigHasMore}
+            loadingMore={bigLoadingMore}
+            onLoadMore={onBigLoadMore}
+          />
         </Section>
 
         {/* Radio */}
@@ -276,22 +352,106 @@ export default function KitchenSink() {
               { value: "enterprise", label: "Enterprise", description: "Custom pricing" },
             ]}
           />
+          <RadioGroup label="Billing (horizontal)" direction="horizontal" value={plan} onChange={(v) => setPlan(v as string)}
+            options={[
+              { value: "free", label: "Free" },
+              { value: "pro", label: "Pro" },
+              { value: "enterprise", label: "Ent." },
+            ]}
+            size="sm"
+          />
+          <RadioGroup
+            label="Gender"
+            direction="horizontal"
+            value={gender}
+            onChange={(v) => setGender(v as string)}
+            options={[
+              { value: "m", label: "Male" },
+              { value: "f", label: "Female" },
+              { value: "o", label: "Other" },
+            ]}
+            size="sm"
+          />
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16, alignItems: "center" }}>
+            <Typography variant="caption" color="tertiary">Standalone RadioItem (headless group, no RadioGroup)</Typography>
+            <RadioItem
+              value="one"
+              label="One"
+              isSelected={standaloneRadioGroup.isSelected("one")}
+              onPress={standaloneRadioGroup.getItemProps("one").onPress}
+              size="sm"
+            />
+            <RadioItem
+              value="two"
+              label="Two"
+              isSelected={standaloneRadioGroup.isSelected("two")}
+              onPress={standaloneRadioGroup.getItemProps("two").onPress}
+              size="sm"
+            />
+          </View>
         </Section>
 
         {/* Slider */}
         <Section title="Slider">
-          <Slider label="Volume" showValue showRange min={0} max={100} step={1}
+          <Slider label="Volume" showValue showMinMaxLabels min={0} max={100} step={1}
             value={volume} onChange={setVolume} formatValue={(v) => `${v}%`} />
+          <View style={{ flexDirection: "row", alignItems: "flex-end", gap: 24, minHeight: 180 }}>
+            <Slider
+              orientation="vertical"
+              sliderHeight={150}
+              label="Vertical"
+              showValue
+              min={0}
+              max={100}
+              value={vertVol}
+              onChange={setVertVol}
+              formatValue={(v) => `${v}%`}
+            />
+            <View style={{ flex: 1 }}>
+              <Slider
+                range
+                label="Range"
+                showValue
+                showMinMaxLabels
+                min={0}
+                max={100}
+                step={5}
+                value={priceRange}
+                onChange={(v) => setPriceRange(v)}
+                formatValue={(v) => `${v}%`}
+              />
+            </View>
+          </View>
+          <Slider
+            label="Custom thumb"
+            showValue
+            min={0}
+            max={100}
+            value={starSlider}
+            onChange={setStarSlider}
+            thumbRenderer={() => (
+              <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                <Star size={18} color={t.color.brand.default} fill={t.color.brand.subtle} />
+              </View>
+            )}
+          />
         </Section>
 
         {/* Checkbox & Switch */}
         <Section title="Checkbox & Switch">
+          <Checkbox
+            label="Select all items"
+            description="3 of 5 selected"
+            checked={partialCheck === true}
+            indeterminate={partialCheck === "indeterminate"}
+            onChange={(v) => setPartialCheck(v)}
+          />
           <Checkbox label="I agree to the terms" description="Required to continue"
             checked={agree} onChange={setAgree} />
           <Switch label="Push notifications" description="Receive alerts on your device"
             on={notifications} onChange={setNotifications} />
           <Switch label="Dark mode" on={colorScheme === "dark"}
-            onChange={(v) => setColorScheme(v ? "dark" : "light")} />
+            onChange={(v) => setThemeScheme(v ? "dark" : "light")} />
         </Section>
 
         {/* Avatar */}
@@ -327,20 +487,48 @@ export default function KitchenSink() {
 
         {/* Skeleton */}
         <Section title="Skeleton">
+          <SegmentedControl
+            options={["Card", "Profile", "Media", "Form", "Grid", "Table", "Group"]}
+            selectedIndex={skelPreset}
+            onChange={setSkelPreset}
+          />
           <Button label={showSkeleton ? "Hide skeleton" : "Show skeleton"}
             variant="outline" size="sm"
             onPress={() => setShowSkeleton(p => !p)} />
           {showSkeleton && (
             <View style={{ gap: 12 }}>
-              <SkeletonCard />
-              <SkeletonCard />
+              {skelPreset === 0 && (
+                <>
+                  <SkeletonCard />
+                  <SkeletonCard />
+                </>
+              )}
+              {skelPreset === 1 && <SkeletonProfile />}
+              {skelPreset === 2 && <SkeletonMedia />}
+              {skelPreset === 3 && <SkeletonForm rows={3} />}
+              {skelPreset === 4 && <SkeletonGrid columns={4} rows={2} cell={40} />}
+              {skelPreset === 5 && <SkeletonTable columns={3} dataRows={2} />}
+              {skelPreset === 6 && (
+                <SkeletonGroup stagger={100}>
+                  <SkeletonText lines={1} />
+                  <SkeletonText lines={1} />
+                  <SkeletonText lines={1} />
+                </SkeletonGroup>
+              )}
             </View>
           )}
         </Section>
 
         {/* Empty State */}
         <Section title="Empty State">
-          <Button label={showEmpty ? "Hide" : "Show empty state"}
+          <View style={{ gap: 12 }}>
+            <EmptyState variant="search" size="sm" />
+            <EmptyState variant="error" size="sm" />
+            <EmptyState variant="offline" size="sm" />
+            <EmptyState variant="permission" size="sm" />
+            <EmptyState variant="empty" size="sm" />
+          </View>
+          <Button label={showEmpty ? "Hide" : "Show custom empty state"}
             variant="outline" size="sm"
             onPress={() => setShowEmpty(p => !p)} />
           {showEmpty && (
@@ -376,24 +564,14 @@ export default function KitchenSink() {
           </View>
         </Section>
 
-        {/* Animated List */}
+        {/* Animated List — stable renderItem + keyExtractor keeps FlashList from unnecessary recycles */}
         <Section title="Animated List">
           <View style={{ height: 200, borderRadius: t.radius.lg, overflow: "hidden", borderWidth: StyleSheet.hairlineWidth, borderColor: t.color.border.subtle }}>
-            <AnimatedList
+            <AnimatedList<Contact>
               data={CONTACTS}
               estimatedItemSize={60}
-              renderItem={({ item, index }: any) => (
-                <ListItem
-                  onPress={() => toast.info(`Opening ${item.name}`)}
-                  divider={index < CONTACTS.length - 1}
-                >
-                  <Avatar initials={item.initials} size="sm" />
-                  <View style={{ flex: 1, marginLeft: t.spacing[3] }}>
-                    <Text style={{ fontWeight: "600", color: t.color.text.primary }}>{item.name}</Text>
-                    <Text style={{ fontSize: 13, color: t.color.text.secondary }}>{item.role}</Text>
-                  </View>
-                </ListItem>
-              )}
+              keyExtractor={keyExtractorContact}
+              renderItem={renderAnimatedContact}
             />
           </View>
         </Section>
@@ -410,7 +588,7 @@ export default function KitchenSink() {
         {/* OTP Input */}
         <Section title="OTP Input">
           <View style={{ alignItems: "center", paddingVertical: 6 }}>
-            <OTPInput length={6} value="123" onChange={() => {}} onComplete={(code) => toast.success(`OTP: ${code}`)} />
+            <OTPInput length={6} value={otpValue} onChange={setOtpValue} onComplete={(code) => toast.success(`OTP: ${code}`)} />
           </View>
         </Section>
 
@@ -472,21 +650,21 @@ export default function KitchenSink() {
               variant={colorScheme === "light" ? "solid" : "outline"}
               size="sm"
               leadingIcon={<Sun size={14} />}
-              onPress={() => setColorScheme("light")}
+              onPress={() => setThemeScheme("light")}
             />
             <Button
               label="Dark"
               variant={colorScheme === "dark" ? "solid" : "outline"}
               size="sm"
               leadingIcon={<Moon size={14} />}
-              onPress={() => setColorScheme("dark")}
+              onPress={() => setThemeScheme("dark")}
             />
             <Button
               label="System"
               variant="ghost"
               size="sm"
               leadingIcon={<Monitor size={14} />}
-              onPress={() => setColorScheme("system")}
+              onPress={() => setThemeScheme("system")}
             />
           </View>
         </Section>

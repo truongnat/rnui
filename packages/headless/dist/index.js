@@ -277,31 +277,31 @@ var init_PermissionsInterface = __esm({
 });
 
 // ../../node_modules/expo-modules-core/src/PermissionsHook.ts
-var import_react3;
+var import_react4;
 var init_PermissionsHook = __esm({
   "../../node_modules/expo-modules-core/src/PermissionsHook.ts"() {
     "use strict";
     "use client";
-    import_react3 = require("react");
-  }
-});
-
-// ../../node_modules/expo-modules-core/src/Refs.ts
-var import_react4;
-var init_Refs = __esm({
-  "../../node_modules/expo-modules-core/src/Refs.ts"() {
-    "use strict";
     import_react4 = require("react");
   }
 });
 
-// ../../node_modules/expo-modules-core/src/hooks/useReleasingSharedObject.ts
+// ../../node_modules/expo-modules-core/src/Refs.ts
 var import_react5;
+var init_Refs = __esm({
+  "../../node_modules/expo-modules-core/src/Refs.ts"() {
+    "use strict";
+    import_react5 = require("react");
+  }
+});
+
+// ../../node_modules/expo-modules-core/src/hooks/useReleasingSharedObject.ts
+var import_react6;
 var init_useReleasingSharedObject = __esm({
   "../../node_modules/expo-modules-core/src/hooks/useReleasingSharedObject.ts"() {
     "use strict";
     "use client";
-    import_react5 = require("react");
+    import_react6 = require("react");
   }
 });
 
@@ -3778,6 +3778,7 @@ __export(index_exports, {
   useMotionPreference: () => useReduceMotionEnabled,
   useOTPInput: () => useOTPInput,
   usePagination: () => usePagination,
+  usePersistedColorScheme: () => usePersistedColorScheme,
   usePressable: () => usePressable,
   useRadioGroup: () => useRadioGroup,
   useRating: () => useRating,
@@ -3810,12 +3811,30 @@ function ThemeProvider({
   children,
   colorScheme: forcedScheme = "system",
   brand: initialBrand,
-  override
+  override,
+  onColorSchemeChange
 }) {
   const systemScheme = (0, import_react_native.useColorScheme)();
+  const isControlled = typeof onColorSchemeChange === "function";
   const [manualScheme, setManualScheme] = import_react.default.useState(forcedScheme);
   const [activeBrand, setActiveBrand] = import_react.default.useState(initialBrand);
-  const activeScheme = manualScheme === "system" ? systemScheme === "dark" ? "dark" : "light" : manualScheme;
+  import_react.default.useEffect(() => {
+    if (!isControlled) {
+      setManualScheme(forcedScheme);
+    }
+  }, [forcedScheme, isControlled]);
+  const schemePreference = isControlled ? forcedScheme : manualScheme;
+  const setColorScheme = import_react.default.useCallback(
+    (scheme) => {
+      if (isControlled) {
+        onColorSchemeChange?.(scheme);
+      } else {
+        setManualScheme(scheme);
+      }
+    },
+    [isControlled, onColorSchemeChange]
+  );
+  const activeScheme = schemePreference === "system" ? systemScheme === "dark" ? "dark" : "light" : schemePreference;
   const theme = (0, import_react.useMemo)(() => {
     let tokens = activeBrand ? (0, import_tokens.buildSemanticTokens)(activeBrand, activeScheme) : import_tokens.semanticTokens[activeScheme];
     if (override?.[activeScheme]) {
@@ -3827,10 +3846,10 @@ function ThemeProvider({
       components,
       colorScheme: activeScheme,
       brand: activeBrand,
-      setColorScheme: setManualScheme,
+      setColorScheme,
       setBrand: setActiveBrand
     };
-  }, [activeScheme, activeBrand, override]);
+  }, [activeScheme, activeBrand, override, setColorScheme]);
   return /* @__PURE__ */ import_react.default.createElement(import_react_native_gesture_handler.GestureHandlerRootView, { style: { flex: 1 } }, /* @__PURE__ */ import_react.default.createElement(ThemeContext.Provider, { value: theme }, children));
 }
 function useTheme() {
@@ -3872,6 +3891,39 @@ function deepMerge(base, override) {
     }
   }
   return result;
+}
+
+// src/hooks/usePersistedColorScheme.ts
+var import_react2 = __toESM(require("react"));
+function usePersistedColorScheme(options) {
+  const { storage, storageKey, defaultScheme = "system" } = options;
+  const [colorScheme, setColorSchemeState] = import_react2.default.useState(defaultScheme);
+  const [hydrated, setHydrated] = import_react2.default.useState(false);
+  import_react2.default.useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        const raw = await storage.getItem(storageKey);
+        if (cancelled) return;
+        if (raw === "light" || raw === "dark" || raw === "system") {
+          setColorSchemeState(raw);
+        }
+      } finally {
+        if (!cancelled) setHydrated(true);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [storage, storageKey]);
+  const setColorScheme = import_react2.default.useCallback(
+    (scheme) => {
+      setColorSchemeState(scheme);
+      void storage.setItem(storageKey, scheme);
+    },
+    [storage, storageKey]
+  );
+  return { colorScheme, setColorScheme, hydrated };
 }
 
 // src/motion.ts
@@ -3923,11 +3975,11 @@ var heroTransition = import_react_native_reanimated.SharedTransition && import_r
 }) : null;
 
 // src/hooks/useMotionPreference.ts
-var import_react2 = require("react");
+var import_react3 = require("react");
 var import_react_native2 = require("react-native");
 function useReduceMotionEnabled() {
-  const [reduceMotion, setReduceMotion] = (0, import_react2.useState)(false);
-  (0, import_react2.useEffect)(() => {
+  const [reduceMotion, setReduceMotion] = (0, import_react3.useState)(false);
+  (0, import_react3.useEffect)(() => {
     let mounted = true;
     const initial = typeof import_react_native2.AccessibilityInfo.isReduceMotionEnabled === "function" ? import_react_native2.AccessibilityInfo.isReduceMotionEnabled() : Promise.resolve(false);
     initial.then((v) => {
@@ -3949,7 +4001,7 @@ function useReduceMotionEnabled() {
 }
 
 // src/hooks/usePressable.ts
-var import_react6 = require("react");
+var import_react7 = require("react");
 var import_react_native_reanimated3 = require("react-native-reanimated");
 var import_react_native_worklets = require("react-native-worklets");
 var import_react_native_gesture_handler2 = require("react-native-gesture-handler");
@@ -3968,22 +4020,22 @@ function usePressable({
   hitSlop,
   testID
 } = {}) {
-  const [isPressed, setIsPressed] = (0, import_react6.useState)(false);
+  const [isPressed, setIsPressed] = (0, import_react7.useState)(false);
   const reduceMotion = useReduceMotionEnabled();
   const effectiveFeedbackMode = reduceMotion && feedbackMode !== "none" ? "none" : feedbackMode;
   const scale = (0, import_react_native_reanimated3.useSharedValue)(1);
   const opacity = (0, import_react_native_reanimated3.useSharedValue)(1);
-  const handlePress = (0, import_react6.useCallback)(() => {
+  const handlePress = (0, import_react7.useCallback)(() => {
     if (disabled) return;
     if (haptic) triggerHaptic("light");
     onPress?.();
   }, [disabled, haptic, onPress]);
-  const handleLongPress = (0, import_react6.useCallback)(() => {
+  const handleLongPress = (0, import_react7.useCallback)(() => {
     if (disabled) return;
     if (haptic) triggerHaptic("medium");
     onLongPress?.();
   }, [disabled, haptic, onLongPress]);
-  const setPressedState = (0, import_react6.useCallback)((pressed) => {
+  const setPressedState = (0, import_react7.useCallback)((pressed) => {
     setIsPressed(pressed);
   }, []);
   const animatedStyle = (0, import_react_native_reanimated3.useAnimatedStyle)(() => {
@@ -4065,24 +4117,24 @@ function triggerHaptic(type) {
 }
 
 // src/hooks/useDisclosure.ts
-var import_react7 = require("react");
+var import_react8 = require("react");
 function useDisclosure({
   defaultOpen = false,
   isOpen: controlledOpen,
   onOpen,
   onClose
 } = {}) {
-  const [internalOpen, setInternalOpen] = (0, import_react7.useState)(defaultOpen);
+  const [internalOpen, setInternalOpen] = (0, import_react8.useState)(defaultOpen);
   const isOpen = controlledOpen !== void 0 ? controlledOpen : internalOpen;
-  const open = (0, import_react7.useCallback)(() => {
+  const open = (0, import_react8.useCallback)(() => {
     if (controlledOpen === void 0) setInternalOpen(true);
     onOpen?.();
   }, [controlledOpen, onOpen]);
-  const close = (0, import_react7.useCallback)(() => {
+  const close = (0, import_react8.useCallback)(() => {
     if (controlledOpen === void 0) setInternalOpen(false);
     onClose?.();
   }, [controlledOpen, onClose]);
-  const toggle = (0, import_react7.useCallback)(() => {
+  const toggle = (0, import_react8.useCallback)(() => {
     if (isOpen) close();
     else open();
   }, [isOpen, open, close]);
@@ -4102,17 +4154,17 @@ function useDisclosure({
 }
 
 // src/hooks/useField.ts
-var import_react8 = require("react");
+var import_react9 = require("react");
 function useField({
   defaultValue,
   validate,
   validateOnChange = false
 }) {
-  const [value, setValue] = (0, import_react8.useState)(defaultValue);
-  const [error, setError] = (0, import_react8.useState)(void 0);
-  const [touched, setTouched] = (0, import_react8.useState)(false);
-  const [isValidating, setIsValidating] = (0, import_react8.useState)(false);
-  const runValidation = (0, import_react8.useCallback)(
+  const [value, setValue] = (0, import_react9.useState)(defaultValue);
+  const [error, setError] = (0, import_react9.useState)(void 0);
+  const [touched, setTouched] = (0, import_react9.useState)(false);
+  const [isValidating, setIsValidating] = (0, import_react9.useState)(false);
+  const runValidation = (0, import_react9.useCallback)(
     async (val) => {
       if (!validate) return;
       setIsValidating(true);
@@ -4130,7 +4182,7 @@ function useField({
     },
     [validate]
   );
-  const onChange = (0, import_react8.useCallback)(
+  const onChange = (0, import_react9.useCallback)(
     (val) => {
       setValue(val);
       if (validateOnChange && touched) {
@@ -4141,11 +4193,11 @@ function useField({
     },
     [validateOnChange, touched, error, runValidation]
   );
-  const onBlur = (0, import_react8.useCallback)(() => {
+  const onBlur = (0, import_react9.useCallback)(() => {
     setTouched(true);
     runValidation(value);
   }, [value, runValidation]);
-  const reset = (0, import_react8.useCallback)(() => {
+  const reset = (0, import_react9.useCallback)(() => {
     setValue(defaultValue);
     setError(void 0);
     setTouched(false);
@@ -4170,7 +4222,7 @@ function useField({
 }
 
 // src/hooks/useToast.ts
-var import_react9 = require("react");
+var import_react10 = require("react");
 var store = {
   queue: [],
   listeners: /* @__PURE__ */ new Set()
@@ -4210,23 +4262,23 @@ function dismissAllToasts() {
   notify();
 }
 function useToast() {
-  const toasts = (0, import_react9.useSyncExternalStore)(subscribe, getSnapshot, getSnapshot);
-  const show = (0, import_react9.useCallback)((options) => showToast(options), []);
-  const dismiss = (0, import_react9.useCallback)((id2) => dismissToast(id2), []);
-  const dismissAll = (0, import_react9.useCallback)(() => dismissAllToasts(), []);
-  const success = (0, import_react9.useCallback)(
+  const toasts = (0, import_react10.useSyncExternalStore)(subscribe, getSnapshot, getSnapshot);
+  const show = (0, import_react10.useCallback)((options) => showToast(options), []);
+  const dismiss = (0, import_react10.useCallback)((id2) => dismissToast(id2), []);
+  const dismissAll = (0, import_react10.useCallback)(() => dismissAllToasts(), []);
+  const success = (0, import_react10.useCallback)(
     (message, opts) => showToast({ ...opts, message, variant: "success" }),
     []
   );
-  const error = (0, import_react9.useCallback)(
+  const error = (0, import_react10.useCallback)(
     (message, opts) => showToast({ ...opts, message, variant: "error" }),
     []
   );
-  const warning = (0, import_react9.useCallback)(
+  const warning = (0, import_react10.useCallback)(
     (message, opts) => showToast({ ...opts, message, variant: "warning" }),
     []
   );
-  const info = (0, import_react9.useCallback)(
+  const info = (0, import_react10.useCallback)(
     (message, opts) => showToast({ ...opts, message, variant: "info" }),
     []
   );
@@ -4234,7 +4286,7 @@ function useToast() {
 }
 
 // src/hooks/useBottomSheet.ts
-var import_react10 = require("react");
+var import_react11 = require("react");
 var import_react_native_reanimated4 = require("react-native-reanimated");
 var import_react_native_worklets2 = require("react-native-worklets");
 var import_react_native_gesture_handler3 = require("react-native-gesture-handler");
@@ -4254,19 +4306,19 @@ function useBottomSheet({
   enableDismissOnSwipe = true,
   enableBackdrop = true
 } = {}) {
-  const snapPoints = (0, import_react10.useMemo)(
+  const snapPoints = (0, import_react11.useMemo)(
     () => rawSnapPoints.map(resolveSnapPoint),
     [rawSnapPoints]
   );
-  const maxHeight = (0, import_react10.useMemo)(() => Math.max(...snapPoints), [snapPoints]);
+  const maxHeight = (0, import_react11.useMemo)(() => Math.max(...snapPoints), [snapPoints]);
   const defaultSnapIndex = initialSnapIndex ?? snapPoints.length - 1;
-  const isOpenRef = (0, import_react10.useRef)(false);
-  const currentIndexRef = (0, import_react10.useRef)(defaultSnapIndex);
+  const isOpenRef = (0, import_react11.useRef)(false);
+  const currentIndexRef = (0, import_react11.useRef)(defaultSnapIndex);
   const translateY = (0, import_react_native_reanimated4.useSharedValue)(SCREEN_HEIGHT);
   const backdropOpacity = (0, import_react_native_reanimated4.useSharedValue)(0);
   const dragStartY = (0, import_react_native_reanimated4.useSharedValue)(0);
   const gentleSpring = import_tokens4.spring.gentle;
-  const animateToSnap = (0, import_react10.useCallback)(
+  const animateToSnap = (0, import_react11.useCallback)(
     (index, onDone) => {
       "worklet";
       const targetHeight = snapPoints[index] ?? snapPoints[snapPoints.length - 1];
@@ -4281,7 +4333,7 @@ function useBottomSheet({
     },
     [snapPoints, maxHeight, translateY, backdropOpacity, enableBackdrop, gentleSpring]
   );
-  const open = (0, import_react10.useCallback)(
+  const open = (0, import_react11.useCallback)(
     (snapIndex) => {
       const idx = snapIndex ?? defaultSnapIndex;
       isOpenRef.current = true;
@@ -4310,11 +4362,11 @@ function useBottomSheet({
       gentleSpring
     ]
   );
-  const handleCloseEnd = (0, import_react10.useCallback)(() => {
+  const handleCloseEnd = (0, import_react11.useCallback)(() => {
     isOpenRef.current = false;
     onClose?.();
   }, [onClose]);
-  const close = (0, import_react10.useCallback)(() => {
+  const close = (0, import_react11.useCallback)(() => {
     translateY.value = (0, import_react_native_reanimated4.withSpring)(SCREEN_HEIGHT, gentleSpring, (finished) => {
       if (finished) {
         (0, import_react_native_worklets2.scheduleOnRN)(handleCloseEnd);
@@ -4322,7 +4374,7 @@ function useBottomSheet({
     });
     backdropOpacity.value = (0, import_react_native_reanimated4.withTiming)(0, { duration: 200 });
   }, [translateY, backdropOpacity, handleCloseEnd, gentleSpring]);
-  const snapTo = (0, import_react10.useCallback)(
+  const snapTo = (0, import_react11.useCallback)(
     (index) => {
       if (index < 0 || index >= snapPoints.length) return;
       currentIndexRef.current = index;
@@ -4399,7 +4451,7 @@ function useBottomSheet({
 }
 
 // src/hooks/useCheckbox.ts
-var import_react11 = require("react");
+var import_react12 = require("react");
 function useCheckbox({
   defaultChecked = false,
   checked: controlledChecked,
@@ -4407,9 +4459,9 @@ function useCheckbox({
   disabled = false,
   indeterminate = false
 } = {}) {
-  const [internalChecked, setInternalChecked] = (0, import_react11.useState)(defaultChecked);
+  const [internalChecked, setInternalChecked] = (0, import_react12.useState)(defaultChecked);
   const isChecked = controlledChecked !== void 0 ? controlledChecked : internalChecked;
-  const toggle = (0, import_react11.useCallback)(() => {
+  const toggle = (0, import_react12.useCallback)(() => {
     if (disabled) return;
     const next = !isChecked;
     if (controlledChecked === void 0) setInternalChecked(next);
@@ -4432,16 +4484,16 @@ function useCheckbox({
 }
 
 // src/hooks/useSwitch.ts
-var import_react12 = require("react");
+var import_react13 = require("react");
 function useSwitch({
   defaultOn = false,
   on: controlledOn,
   onChange,
   disabled = false
 } = {}) {
-  const [internalOn, setInternalOn] = (0, import_react12.useState)(defaultOn);
+  const [internalOn, setInternalOn] = (0, import_react13.useState)(defaultOn);
   const isOn = controlledOn !== void 0 ? controlledOn : internalOn;
-  const toggle = (0, import_react12.useCallback)(() => {
+  const toggle = (0, import_react13.useCallback)(() => {
     if (disabled) return;
     const next = !isOn;
     if (controlledOn === void 0) setInternalOn(next);
@@ -4460,7 +4512,7 @@ function useSwitch({
 }
 
 // src/hooks/useSelect.ts
-var import_react13 = require("react");
+var import_react14 = require("react");
 function useSelect({
   options,
   defaultValue,
@@ -4470,10 +4522,10 @@ function useSelect({
   disabled = false,
   placeholder = "Select\u2026"
 }) {
-  const [internalValue, setInternalValue] = (0, import_react13.useState)(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react14.useState)(defaultValue);
   const disclosure = useDisclosure();
   const selected = controlledValue !== void 0 ? controlledValue : internalValue;
-  const selectOption = (0, import_react13.useCallback)(
+  const selectOption = (0, import_react14.useCallback)(
     (val) => {
       if (disabled) return;
       let next;
@@ -4489,12 +4541,12 @@ function useSelect({
     },
     [disabled, multiple, selected, controlledValue, onChange, disclosure]
   );
-  const clearSelection = (0, import_react13.useCallback)(() => {
+  const clearSelection = (0, import_react14.useCallback)(() => {
     const next = multiple ? [] : void 0;
     if (controlledValue === void 0) setInternalValue(next);
     if (next !== void 0) onChange?.(next);
   }, [multiple, controlledValue, onChange]);
-  const isSelected = (0, import_react13.useCallback)(
+  const isSelected = (0, import_react14.useCallback)(
     (val) => {
       if (!selected) return false;
       if (Array.isArray(selected)) return selected.includes(val);
@@ -4502,7 +4554,7 @@ function useSelect({
     },
     [selected]
   );
-  const displayLabel = (0, import_react13.useMemo)(() => {
+  const displayLabel = (0, import_react14.useMemo)(() => {
     if (!selected || Array.isArray(selected) && selected.length === 0) return placeholder;
     if (Array.isArray(selected)) {
       const optionsMap = /* @__PURE__ */ new Map();
@@ -4607,20 +4659,20 @@ function useScrollHeader({ headerMaxHeight, headerMinHeight }) {
 }
 
 // src/hooks/useMemoStyles.ts
-var import_react14 = require("react");
+var import_react15 = require("react");
 var import_react_native10 = require("react-native");
 function useMemoStyles(styleFactory) {
   const tokens = useTokens();
-  const factoryRef = (0, import_react14.useRef)(styleFactory);
+  const factoryRef = (0, import_react15.useRef)(styleFactory);
   factoryRef.current = styleFactory;
-  return (0, import_react14.useMemo)(() => {
+  return (0, import_react15.useMemo)(() => {
     const rawStyles = factoryRef.current(tokens);
     return import_react_native10.StyleSheet.create(rawStyles);
   }, [tokens]);
 }
 
 // src/hooks/useListItem.ts
-var import_react15 = require("react");
+var import_react16 = require("react");
 var import_react_native_reanimated6 = require("react-native-reanimated");
 var import_react_native_worklets3 = require("react-native-worklets");
 var import_react_native_gesture_handler4 = require("react-native-gesture-handler");
@@ -4638,7 +4690,7 @@ function useListItem({
   const trailingMax = trailingActions.length * ACTION_WIDTH;
   const leadingMax = leadingActions.length * ACTION_WIDTH;
   const snappySpring = import_tokens5.spring.snappy;
-  const close = (0, import_react15.useCallback)(() => {
+  const close = (0, import_react16.useCallback)(() => {
     translateX.value = (0, import_react_native_reanimated6.withSpring)(0, snappySpring);
     isRevealedValue.value = false;
   }, [translateX, isRevealedValue, snappySpring]);
@@ -4711,16 +4763,16 @@ function useListItem({
 }
 
 // src/hooks/useRadioGroup.ts
-var import_react16 = require("react");
+var import_react17 = require("react");
 function useRadioGroup({
   defaultValue,
   value: controlledValue,
   onChange,
   disabled = false
 } = {}) {
-  const [internalValue, setInternalValue] = (0, import_react16.useState)(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react17.useState)(defaultValue);
   const selectedValue = controlledValue !== void 0 ? controlledValue : internalValue;
-  const select2 = (0, import_react16.useCallback)(
+  const select2 = (0, import_react17.useCallback)(
     (val) => {
       if (disabled) return;
       if (controlledValue === void 0) setInternalValue(val);
@@ -4728,11 +4780,11 @@ function useRadioGroup({
     },
     [disabled, controlledValue, onChange]
   );
-  const isSelected = (0, import_react16.useCallback)(
+  const isSelected = (0, import_react17.useCallback)(
     (val) => selectedValue === val,
     [selectedValue]
   );
-  const getItemProps = (0, import_react16.useCallback)(
+  const getItemProps = (0, import_react17.useCallback)(
     (val, itemDisabled = false) => ({
       onPress: () => !itemDisabled && !disabled && select2(val),
       accessibilityRole: "radio",
@@ -4747,7 +4799,7 @@ function useRadioGroup({
 }
 
 // src/hooks/useSlider.ts
-var import_react17 = require("react");
+var import_react18 = require("react");
 var import_react_native_reanimated7 = require("react-native-reanimated");
 var import_react_native_worklets4 = require("react-native-worklets");
 var import_react_native_gesture_handler5 = require("react-native-gesture-handler");
@@ -4756,106 +4808,387 @@ function snapToStep(value, min, max, step) {
   const snapped = Math.round((value - min) / step) * step + min;
   return Math.max(min, Math.min(max, snapped));
 }
+function sortPair(a, b) {
+  return a <= b ? [a, b] : [b, a];
+}
+function snapRatioWorklet(raw, min, max, step) {
+  "worklet";
+  const snapped = Math.round((raw - min) / step) * step + min;
+  return Math.max(min, Math.min(max, snapped));
+}
 function useSlider({
   min = 0,
   max = 100,
   step = 1,
-  defaultValue = min,
-  value: controlledValue,
-  onChange,
-  onChangeEnd,
-  disabled = false
+  disabled = false,
+  orientation = "horizontal",
+  range: range2 = false,
+  ...rest
 } = {}) {
-  const trackWidth = (0, import_react_native_reanimated7.useSharedValue)(0);
-  const internalValue = (0, import_react17.useRef)(controlledValue ?? defaultValue);
-  const currentValue = controlledValue ?? internalValue.current;
-  const percentage = (currentValue - min) / (max - min);
-  const thumbRatio = (0, import_react_native_reanimated7.useSharedValue)(percentage);
+  const isRange = range2 === true;
+  const isVertical = orientation === "vertical";
+  const trackLength = (0, import_react_native_reanimated7.useSharedValue)(0);
+  const snappySpringConfig = import_tokens6.spring.snappy;
+  const minRatioGap = Math.max(step / (max - min), 1e-4);
+  const singleRest = rest;
+  const rangeRest = rest;
+  const defaultValueSingle = singleRest.defaultValue ?? min;
+  const controlledSingle = singleRest.value;
+  const onChangeSingle = singleRest.onChange;
+  const onChangeEndSingle = singleRest.onChangeEnd;
+  const dvRange = rangeRest.defaultValue ?? [min, max];
+  const controlledPair = rangeRest.value;
+  const onChangeRange = rangeRest.onChange;
+  const onChangeEndRange = rangeRest.onChangeEnd;
+  const sortedDefaultRange = sortPair(
+    snapToStep(dvRange[0], min, max, step),
+    snapToStep(dvRange[1], min, max, step)
+  );
+  const internalPairRef = (0, import_react18.useRef)(
+    controlledPair ? sortPair(controlledPair[0], controlledPair[1]) : sortedDefaultRange
+  );
+  const currentPairResolved = (0, import_react18.useMemo)(() => {
+    if (!isRange) return [min, min];
+    return controlledPair ? sortPair(
+      snapToStep(controlledPair[0], min, max, step),
+      snapToStep(controlledPair[1], min, max, step)
+    ) : internalPairRef.current;
+  }, [isRange, controlledPair, min, max, step]);
+  const internalValueRef = (0, import_react18.useRef)(controlledSingle ?? defaultValueSingle);
+  const currentSingle = controlledSingle ?? internalValueRef.current;
+  const lowRatioInit = isRange ? (currentPairResolved[0] - min) / (max - min) : 0;
+  const highRatioInit = isRange ? (currentPairResolved[1] - min) / (max - min) : 1;
+  const singleRatioInit = !isRange ? (currentSingle - min) / (max - min) : 0;
+  const thumbRatio = (0, import_react_native_reanimated7.useSharedValue)(singleRatioInit);
+  const thumbRatioLow = (0, import_react_native_reanimated7.useSharedValue)(lowRatioInit);
+  const thumbRatioHigh = (0, import_react_native_reanimated7.useSharedValue)(highRatioInit);
   const isDragging = (0, import_react_native_reanimated7.useSharedValue)(false);
   const dragStartRatio = (0, import_react_native_reanimated7.useSharedValue)(0);
   const thumbScale = (0, import_react_native_reanimated7.useSharedValue)(1);
-  const onTrackLayout = (0, import_react17.useCallback)(
-    (width) => {
-      trackWidth.value = width;
-    },
-    [trackWidth]
+  const isDraggingLow = (0, import_react_native_reanimated7.useSharedValue)(false);
+  const isDraggingHigh = (0, import_react_native_reanimated7.useSharedValue)(false);
+  const dragStartLow = (0, import_react_native_reanimated7.useSharedValue)(0);
+  const dragStartHigh = (0, import_react_native_reanimated7.useSharedValue)(0);
+  const thumbScaleLow = (0, import_react_native_reanimated7.useSharedValue)(1);
+  const thumbScaleHigh = (0, import_react_native_reanimated7.useSharedValue)(1);
+  const lastEmittedValue = (0, import_react_native_reanimated7.useSharedValue)(
+    !isRange ? snapToStep(currentSingle, min, max, step) : min
   );
-  const emitChange = (0, import_react17.useCallback)(
+  const lastEmittedLow = (0, import_react_native_reanimated7.useSharedValue)(isRange ? currentPairResolved[0] : min);
+  const lastEmittedHigh = (0, import_react_native_reanimated7.useSharedValue)(isRange ? currentPairResolved[1] : max);
+  (0, import_react18.useEffect)(() => {
+    if (isRange || controlledSingle === void 0) return;
+    const r = (controlledSingle - min) / (max - min);
+    thumbRatio.value = Math.max(0, Math.min(1, r));
+    lastEmittedValue.value = snapToStep(controlledSingle, min, max, step);
+  }, [isRange, controlledSingle, min, max, step, thumbRatio, lastEmittedValue]);
+  (0, import_react18.useEffect)(() => {
+    if (!isRange || controlledPair === void 0) return;
+    const [lo, hi] = sortPair(
+      snapToStep(controlledPair[0], min, max, step),
+      snapToStep(controlledPair[1], min, max, step)
+    );
+    thumbRatioLow.value = (lo - min) / (max - min);
+    thumbRatioHigh.value = (hi - min) / (max - min);
+    lastEmittedLow.value = lo;
+    lastEmittedHigh.value = hi;
+  }, [isRange, controlledPair, min, max, step, thumbRatioLow, thumbRatioHigh, lastEmittedLow, lastEmittedHigh]);
+  const onTrackLayout = (0, import_react18.useCallback)(
+    (size) => {
+      trackLength.value = size;
+    },
+    [trackLength]
+  );
+  const emitChange = (0, import_react18.useCallback)(
     (ratio) => {
       const raw = ratio * (max - min) + min;
       const snapped = snapToStep(raw, min, max, step);
-      internalValue.current = snapped;
-      onChange?.(snapped);
+      internalValueRef.current = snapped;
+      onChangeSingle?.(snapped);
     },
-    [min, max, step, onChange]
+    [min, max, step, onChangeSingle]
   );
-  const emitChangeEnd = (0, import_react17.useCallback)(
+  const emitChangeEnd = (0, import_react18.useCallback)(
     (ratio) => {
       const raw = ratio * (max - min) + min;
       const snapped = snapToStep(raw, min, max, step);
-      onChangeEnd?.(snapped);
+      onChangeEndSingle?.(snapped);
     },
-    [min, max, step, onChangeEnd]
+    [min, max, step, onChangeEndSingle]
   );
-  const snappySpringConfig = import_tokens6.spring.snappy;
-  const lastEmittedValue = (0, import_react_native_reanimated7.useSharedValue)(currentValue);
-  const panGesture = import_react_native_gesture_handler5.Gesture.Pan().enabled(!disabled).onStart(() => {
-    "worklet";
-    isDragging.value = true;
-    thumbScale.value = (0, import_react_native_reanimated7.withSpring)(1.2, snappySpringConfig);
-    dragStartRatio.value = thumbRatio.value;
-  }).onUpdate((e) => {
-    "worklet";
-    if (trackWidth.value === 0) return;
-    const delta = e.translationX / trackWidth.value;
-    const next = Math.max(0, Math.min(1, dragStartRatio.value + delta));
-    thumbRatio.value = next;
-    const raw = next * (max - min) + min;
-    const snapped = Math.round((raw - min) / step) * step + min;
-    const finalSnapped = Math.max(min, Math.min(max, snapped));
-    if (finalSnapped !== lastEmittedValue.value) {
-      lastEmittedValue.value = finalSnapped;
-      (0, import_react_native_worklets4.scheduleOnRN)(emitChange, next);
-    }
-  }).onEnd(() => {
-    "worklet";
-    isDragging.value = false;
-    thumbScale.value = (0, import_react_native_reanimated7.withSpring)(1, snappySpringConfig);
-    const raw = thumbRatio.value * (max - min) + min;
-    const snapped = Math.round((raw - min) / step) * step + min;
-    const finalSnapped = Math.max(min, Math.min(max, snapped));
-    const targetRatio = (finalSnapped - min) / (max - min);
-    thumbRatio.value = (0, import_react_native_reanimated7.withSpring)(targetRatio, snappySpringConfig);
-    (0, import_react_native_worklets4.scheduleOnRN)(emitChangeEnd, targetRatio);
-  });
+  const emitChangePair = (0, import_react18.useCallback)(
+    (rLow, rHigh) => {
+      const rawLo = rLow * (max - min) + min;
+      const rawHi = rHigh * (max - min) + min;
+      const lo = snapToStep(rawLo, min, max, step);
+      const hi = snapToStep(rawHi, min, max, step);
+      const [a, b] = sortPair(lo, hi);
+      internalPairRef.current = [a, b];
+      onChangeRange?.([a, b]);
+    },
+    [min, max, step, onChangeRange]
+  );
+  const emitChangeEndPair = (0, import_react18.useCallback)(
+    (rLow, rHigh) => {
+      const rawLo = rLow * (max - min) + min;
+      const rawHi = rHigh * (max - min) + min;
+      const lo = snapToStep(rawLo, min, max, step);
+      const hi = snapToStep(rawHi, min, max, step);
+      const [a, b] = sortPair(lo, hi);
+      onChangeEndRange?.([a, b]);
+    },
+    [min, max, step, onChangeEndRange]
+  );
+  const panGesture = (0, import_react18.useMemo)(
+    () => import_react_native_gesture_handler5.Gesture.Pan().enabled(!disabled && !isRange).onStart(() => {
+      "worklet";
+      isDragging.value = true;
+      thumbScale.value = (0, import_react_native_reanimated7.withSpring)(1.2, snappySpringConfig);
+      dragStartRatio.value = thumbRatio.value;
+    }).onUpdate((e) => {
+      "worklet";
+      const len = trackLength.value;
+      if (len === 0) return;
+      const delta = isVertical ? -e.translationY / len : e.translationX / len;
+      const next = Math.max(0, Math.min(1, dragStartRatio.value + delta));
+      thumbRatio.value = next;
+      const raw = next * (max - min) + min;
+      const snapped = snapRatioWorklet(raw, min, max, step);
+      if (snapped !== lastEmittedValue.value) {
+        lastEmittedValue.value = snapped;
+        (0, import_react_native_worklets4.scheduleOnRN)(emitChange, next);
+      }
+    }).onEnd(() => {
+      "worklet";
+      isDragging.value = false;
+      thumbScale.value = (0, import_react_native_reanimated7.withSpring)(1, snappySpringConfig);
+      const raw = thumbRatio.value * (max - min) + min;
+      const finalSnapped = snapRatioWorklet(raw, min, max, step);
+      const targetRatio = (finalSnapped - min) / (max - min);
+      thumbRatio.value = (0, import_react_native_reanimated7.withSpring)(targetRatio, snappySpringConfig);
+      (0, import_react_native_worklets4.scheduleOnRN)(emitChangeEnd, targetRatio);
+    }),
+    [
+      disabled,
+      isRange,
+      isVertical,
+      max,
+      min,
+      step,
+      snappySpringConfig,
+      dragStartRatio,
+      isDragging,
+      lastEmittedValue,
+      thumbRatio,
+      thumbScale,
+      trackLength,
+      emitChange,
+      emitChangeEnd
+    ]
+  );
+  const panGestureLow = (0, import_react18.useMemo)(
+    () => import_react_native_gesture_handler5.Gesture.Pan().enabled(!disabled && isRange).onStart(() => {
+      "worklet";
+      isDraggingLow.value = true;
+      thumbScaleLow.value = (0, import_react_native_reanimated7.withSpring)(1.15, snappySpringConfig);
+      dragStartLow.value = thumbRatioLow.value;
+    }).onUpdate((e) => {
+      "worklet";
+      const len = trackLength.value;
+      if (len === 0) return;
+      const delta = isVertical ? -e.translationY / len : e.translationX / len;
+      const cap = thumbRatioHigh.value - minRatioGap;
+      const next = Math.max(0, Math.min(cap, dragStartLow.value + delta));
+      thumbRatioLow.value = next;
+      const rawLo = next * (max - min) + min;
+      const rawHi = thumbRatioHigh.value * (max - min) + min;
+      const sLo = snapRatioWorklet(rawLo, min, max, step);
+      const sHi = snapRatioWorklet(rawHi, min, max, step);
+      if (sLo !== lastEmittedLow.value || sHi !== lastEmittedHigh.value) {
+        lastEmittedLow.value = sLo;
+        lastEmittedHigh.value = sHi;
+        (0, import_react_native_worklets4.scheduleOnRN)(emitChangePair, next, thumbRatioHigh.value);
+      }
+    }).onEnd(() => {
+      "worklet";
+      isDraggingLow.value = false;
+      thumbScaleLow.value = (0, import_react_native_reanimated7.withSpring)(1, snappySpringConfig);
+      const raw = thumbRatioLow.value * (max - min) + min;
+      const snapped = snapRatioWorklet(raw, min, max, step);
+      const capVal = thumbRatioHigh.value * (max - min) + min;
+      const finalLo = Math.min(snapped, snapRatioWorklet(capVal - step, min, max, step));
+      const targetR = (finalLo - min) / (max - min);
+      thumbRatioLow.value = (0, import_react_native_reanimated7.withSpring)(targetR, snappySpringConfig);
+      (0, import_react_native_worklets4.scheduleOnRN)(emitChangeEndPair, targetR, thumbRatioHigh.value);
+    }),
+    [
+      disabled,
+      isRange,
+      isVertical,
+      max,
+      min,
+      minRatioGap,
+      step,
+      snappySpringConfig,
+      dragStartLow,
+      isDraggingLow,
+      lastEmittedHigh,
+      lastEmittedLow,
+      thumbRatioHigh,
+      thumbRatioLow,
+      thumbScaleLow,
+      trackLength,
+      emitChangeEndPair,
+      emitChangePair
+    ]
+  );
+  const panGestureHigh = (0, import_react18.useMemo)(
+    () => import_react_native_gesture_handler5.Gesture.Pan().enabled(!disabled && isRange).onStart(() => {
+      "worklet";
+      isDraggingHigh.value = true;
+      thumbScaleHigh.value = (0, import_react_native_reanimated7.withSpring)(1.15, snappySpringConfig);
+      dragStartHigh.value = thumbRatioHigh.value;
+    }).onUpdate((e) => {
+      "worklet";
+      const len = trackLength.value;
+      if (len === 0) return;
+      const delta = isVertical ? -e.translationY / len : e.translationX / len;
+      const floor = thumbRatioLow.value + minRatioGap;
+      const next = Math.max(floor, Math.min(1, dragStartHigh.value + delta));
+      thumbRatioHigh.value = next;
+      const rawLo = thumbRatioLow.value * (max - min) + min;
+      const rawHi = next * (max - min) + min;
+      const sLo = snapRatioWorklet(rawLo, min, max, step);
+      const sHi = snapRatioWorklet(rawHi, min, max, step);
+      if (sLo !== lastEmittedLow.value || sHi !== lastEmittedHigh.value) {
+        lastEmittedLow.value = sLo;
+        lastEmittedHigh.value = sHi;
+        (0, import_react_native_worklets4.scheduleOnRN)(emitChangePair, thumbRatioLow.value, next);
+      }
+    }).onEnd(() => {
+      "worklet";
+      isDraggingHigh.value = false;
+      thumbScaleHigh.value = (0, import_react_native_reanimated7.withSpring)(1, snappySpringConfig);
+      const raw = thumbRatioHigh.value * (max - min) + min;
+      const snapped = snapRatioWorklet(raw, min, max, step);
+      const floorVal = thumbRatioLow.value * (max - min) + min;
+      const finalHi = Math.max(snapped, snapRatioWorklet(floorVal + step, min, max, step));
+      const targetR = (finalHi - min) / (max - min);
+      thumbRatioHigh.value = (0, import_react_native_reanimated7.withSpring)(targetR, snappySpringConfig);
+      (0, import_react_native_worklets4.scheduleOnRN)(emitChangeEndPair, thumbRatioLow.value, targetR);
+    }),
+    [
+      disabled,
+      isRange,
+      isVertical,
+      max,
+      min,
+      minRatioGap,
+      step,
+      snappySpringConfig,
+      dragStartHigh,
+      isDraggingHigh,
+      lastEmittedHigh,
+      lastEmittedLow,
+      thumbRatioHigh,
+      thumbRatioLow,
+      thumbScaleHigh,
+      trackLength,
+      emitChangeEndPair,
+      emitChangePair
+    ]
+  );
   const thumbAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
-    const width = trackWidth.value;
+    const len = trackLength.value;
     const ratio = thumbRatio.value;
     const scale = thumbScale.value;
-    return {
-      transform: [
-        { translateX: ratio * width },
-        { scale }
-      ]
-    };
+    if (isVertical) {
+      return { transform: [{ translateY: (1 - ratio) * len }, { scale }] };
+    }
+    return { transform: [{ translateX: ratio * len }, { scale }] };
   });
-  const fillAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
+  const thumbLowAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
+    const len = trackLength.value;
+    const r = thumbRatioLow.value;
+    const sc = thumbScaleLow.value;
+    if (isVertical) {
+      return { transform: [{ translateY: (1 - r) * len }, { scale: sc }] };
+    }
+    return { transform: [{ translateX: r * len }, { scale: sc }] };
+  });
+  const thumbHighAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
+    const len = trackLength.value;
+    const r = thumbRatioHigh.value;
+    const sc = thumbScaleHigh.value;
+    if (isVertical) {
+      return { transform: [{ translateY: (1 - r) * len }, { scale: sc }] };
+    }
+    return { transform: [{ translateX: r * len }, { scale: sc }] };
+  });
+  const fillAnimatedStyleSingle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
     const ratio = thumbRatio.value;
+    if (isVertical) {
+      return {
+        position: "absolute",
+        left: 0,
+        right: 0,
+        bottom: 0,
+        height: `${ratio * 100}%`
+      };
+    }
+    return { width: `${ratio * 100}%` };
+  });
+  const fillAnimatedStyleRange = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
+    const lo = thumbRatioLow.value;
+    const hi = thumbRatioHigh.value;
+    if (isVertical) {
+      return {
+        position: "absolute",
+        left: 0,
+        right: 0,
+        bottom: `${lo * 100}%`,
+        height: `${(hi - lo) * 100}%`
+      };
+    }
     return {
-      width: `${ratio * 100}%`
+      position: "absolute",
+      left: `${lo * 100}%`,
+      width: `${(hi - lo) * 100}%`,
+      top: 0,
+      bottom: 0
     };
   });
   const trackAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => ({
     opacity: disabled ? 0.4 : 1
   }));
+  if (isRange) {
+    return {
+      mode: "range",
+      currentValue: currentPairResolved,
+      thumbLowAnimatedStyle,
+      thumbHighAnimatedStyle,
+      fillAnimatedStyle: fillAnimatedStyleRange,
+      trackAnimatedStyle,
+      panGestureLow,
+      panGestureHigh,
+      onTrackLayout,
+      percentage: [
+        (currentPairResolved[0] - min) / (max - min),
+        (currentPairResolved[1] - min) / (max - min)
+      ],
+      orientation
+    };
+  }
   return {
-    currentValue,
+    mode: "single",
+    currentValue: currentSingle,
     thumbAnimatedStyle,
-    fillAnimatedStyle,
+    fillAnimatedStyle: fillAnimatedStyleSingle,
     trackAnimatedStyle,
     panGesture,
     onTrackLayout,
-    percentage
+    percentage: (currentSingle - min) / (max - min),
+    orientation
   };
 }
 
@@ -4889,26 +5222,26 @@ function useIconStyle(context) {
 }
 
 // src/hooks/useTabs.ts
-var import_react18 = require("react");
+var import_react19 = require("react");
 function useTabs({
   defaultValue,
   value: controlledValue,
   onChange
 } = {}) {
-  const [internalValue, setInternalValue] = (0, import_react18.useState)(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react19.useState)(defaultValue);
   const value = controlledValue !== void 0 ? controlledValue : internalValue;
-  const setValue = (0, import_react18.useCallback)(
+  const setValue = (0, import_react19.useCallback)(
     (next) => {
       if (controlledValue === void 0) setInternalValue(next);
       onChange?.(next);
     },
     [controlledValue, onChange]
   );
-  const isSelected = (0, import_react18.useCallback)(
+  const isSelected = (0, import_react19.useCallback)(
     (v) => value === v,
     [value]
   );
-  const getTabProps = (0, import_react18.useCallback)(
+  const getTabProps = (0, import_react19.useCallback)(
     (v, disabled = false) => ({
       onPress: () => {
         if (disabled) return;
@@ -4923,7 +5256,7 @@ function useTabs({
 }
 
 // src/hooks/useToggleGroup.ts
-var import_react19 = require("react");
+var import_react20 = require("react");
 function useToggleGroup({
   value: controlledValue,
   defaultValue,
@@ -4931,16 +5264,16 @@ function useToggleGroup({
   exclusive = false,
   disabled = false
 } = {}) {
-  const [internalValue, setInternalValue] = (0, import_react19.useState)(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react20.useState)(defaultValue);
   const value = controlledValue !== void 0 ? controlledValue : internalValue;
-  const isSelected = (0, import_react19.useCallback)(
+  const isSelected = (0, import_react20.useCallback)(
     (v) => {
       if (Array.isArray(value)) return value.includes(v);
       return value === v;
     },
     [value]
   );
-  const toggle = (0, import_react19.useCallback)(
+  const toggle = (0, import_react20.useCallback)(
     (v) => {
       if (disabled) return;
       let next;
@@ -4959,7 +5292,7 @@ function useToggleGroup({
 }
 
 // src/hooks/useRating.ts
-var import_react20 = require("react");
+var import_react21 = require("react");
 function useRating({
   value: controlledValue,
   defaultValue = 0,
@@ -4969,15 +5302,15 @@ function useRating({
   readOnly = false,
   onChange
 } = {}) {
-  const safePrecision = (0, import_react20.useMemo)(() => {
+  const safePrecision = (0, import_react21.useMemo)(() => {
     if (typeof precision !== "number" || !Number.isFinite(precision) || precision <= 0) {
       return 1;
     }
     return precision;
   }, [precision]);
-  const [internalValue, setInternalValue] = (0, import_react20.useState)(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react21.useState)(defaultValue);
   const value = controlledValue !== void 0 ? controlledValue : internalValue;
-  const setValue = (0, import_react20.useCallback)(
+  const setValue = (0, import_react21.useCallback)(
     (next) => {
       if (disabled || readOnly) return;
       if (controlledValue === void 0) setInternalValue(next);
@@ -4989,7 +5322,7 @@ function useRating({
 }
 
 // src/hooks/usePagination.ts
-var import_react21 = require("react");
+var import_react22 = require("react");
 function range(start, end) {
   const length = end - start + 1;
   if (length <= 0) return [];
@@ -5007,9 +5340,9 @@ function usePagination({
   boundaryCount = 1,
   onChange
 }) {
-  const [internalPage, setInternalPage] = (0, import_react21.useState)(defaultPage);
+  const [internalPage, setInternalPage] = (0, import_react22.useState)(defaultPage);
   const page = controlledPage ?? internalPage;
-  const setPage = (0, import_react21.useCallback)(
+  const setPage = (0, import_react22.useCallback)(
     (next) => {
       const clamped = Math.max(1, Math.min(count, next));
       if (controlledPage === void 0) setInternalPage(clamped);
@@ -5017,7 +5350,7 @@ function usePagination({
     },
     [count, controlledPage, onChange]
   );
-  const items = (0, import_react21.useMemo)(() => {
+  const items = (0, import_react22.useMemo)(() => {
     if (count <= 0) return [];
     const startPages = range(1, Math.min(boundaryCount, count));
     const endPages = range(Math.max(count - boundaryCount + 1, boundaryCount + 1), count);
@@ -5052,7 +5385,7 @@ function usePagination({
 }
 
 // src/hooks/useAutocomplete.ts
-var import_react22 = require("react");
+var import_react23 = require("react");
 function useAutocomplete({
   options,
   value: controlledValue,
@@ -5068,8 +5401,8 @@ function useAutocomplete({
   onOpen,
   onClose
 }) {
-  const [internalValue, setInternalValue] = (0, import_react22.useState)(defaultValue);
-  const [internalInput, setInternalInput] = (0, import_react22.useState)(defaultInputValue);
+  const [internalValue, setInternalValue] = (0, import_react23.useState)(defaultValue);
+  const [internalInput, setInternalInput] = (0, import_react23.useState)(defaultInputValue);
   const disclosure = useDisclosure({
     isOpen: controlledOpen,
     onOpen,
@@ -5077,21 +5410,21 @@ function useAutocomplete({
   });
   const value = controlledValue !== void 0 ? controlledValue : internalValue;
   const inputValue = controlledInput !== void 0 ? controlledInput : internalInput;
-  const setInputValue = (0, import_react22.useCallback)(
+  const setInputValue = (0, import_react23.useCallback)(
     (next) => {
       if (controlledInput === void 0) setInternalInput(next);
       onInputChange?.(next);
     },
     [controlledInput, onInputChange]
   );
-  const isSelected = (0, import_react22.useCallback)(
+  const isSelected = (0, import_react23.useCallback)(
     (v) => {
       if (Array.isArray(value)) return value.includes(v);
       return value === v;
     },
     [value]
   );
-  const selectOption = (0, import_react22.useCallback)(
+  const selectOption = (0, import_react23.useCallback)(
     (v) => {
       let next;
       if (multiple) {
@@ -5110,12 +5443,12 @@ function useAutocomplete({
     },
     [multiple, value, controlledValue, onChange, disclosure, getOptionLabel, setInputValue]
   );
-  const clear = (0, import_react22.useCallback)(() => {
+  const clear = (0, import_react23.useCallback)(() => {
     if (controlledValue === void 0) setInternalValue(multiple ? [] : void 0);
     onChange?.(multiple ? [] : void 0);
     setInputValue("");
   }, [controlledValue, multiple, onChange, setInputValue]);
-  const filteredOptions = (0, import_react22.useMemo)(() => {
+  const filteredOptions = (0, import_react23.useMemo)(() => {
     const base = filterOptions ? filterOptions(options, inputValue) : options;
     if (!inputValue) return base;
     const labelOf = getOptionLabel ?? ((o) => String(o));
@@ -5136,7 +5469,7 @@ function useAutocomplete({
 }
 
 // src/hooks/useAccordion.ts
-var import_react23 = require("react");
+var import_react24 = require("react");
 function useAccordion(options = {}) {
   const {
     defaultExpanded = [],
@@ -5144,36 +5477,36 @@ function useAccordion(options = {}) {
     onChange,
     multiple = false
   } = options;
-  const [internalExpanded, setInternalExpanded] = (0, import_react23.useState)(defaultExpanded);
+  const [internalExpanded, setInternalExpanded] = (0, import_react24.useState)(defaultExpanded);
   const isControlled = controlledExpanded !== void 0;
   const expanded = isControlled ? controlledExpanded : internalExpanded;
-  const setExpanded = (0, import_react23.useCallback)((next) => {
+  const setExpanded = (0, import_react24.useCallback)((next) => {
     if (!isControlled) setInternalExpanded(next);
     onChange?.(next);
   }, [isControlled, onChange]);
-  const isExpanded = (0, import_react23.useCallback)((id2) => expanded.includes(id2), [expanded]);
-  const toggle = (0, import_react23.useCallback)((id2) => {
+  const isExpanded = (0, import_react24.useCallback)((id2) => expanded.includes(id2), [expanded]);
+  const toggle = (0, import_react24.useCallback)((id2) => {
     if (isExpanded(id2)) {
       setExpanded(expanded.filter((e) => e !== id2));
     } else {
       setExpanded(multiple ? [...expanded, id2] : [id2]);
     }
   }, [expanded, isExpanded, multiple, setExpanded]);
-  const expand = (0, import_react23.useCallback)((id2) => {
+  const expand = (0, import_react24.useCallback)((id2) => {
     if (!isExpanded(id2)) setExpanded(multiple ? [...expanded, id2] : [id2]);
   }, [expanded, isExpanded, multiple, setExpanded]);
-  const collapse = (0, import_react23.useCallback)((id2) => {
+  const collapse = (0, import_react24.useCallback)((id2) => {
     setExpanded(expanded.filter((e) => e !== id2));
   }, [expanded, setExpanded]);
-  const expandAll = (0, import_react23.useCallback)((ids) => {
+  const expandAll = (0, import_react24.useCallback)((ids) => {
     if (multiple) setExpanded(ids);
   }, [multiple, setExpanded]);
-  const collapseAll = (0, import_react23.useCallback)(() => setExpanded([]), [setExpanded]);
+  const collapseAll = (0, import_react24.useCallback)(() => setExpanded([]), [setExpanded]);
   return { expanded, isExpanded, toggle, expand, collapse, expandAll, collapseAll };
 }
 
 // src/hooks/useModal.ts
-var import_react24 = require("react");
+var import_react25 = require("react");
 function useModal(options = {}) {
   const {
     defaultOpen = false,
@@ -5182,17 +5515,17 @@ function useModal(options = {}) {
     onClose,
     closeOnBackdrop = true
   } = options;
-  const [internalOpen, setInternalOpen] = (0, import_react24.useState)(defaultOpen);
+  const [internalOpen, setInternalOpen] = (0, import_react25.useState)(defaultOpen);
   const isControlled = controlledOpen !== void 0;
   const isOpen = isControlled ? controlledOpen : internalOpen;
-  const setOpen = (0, import_react24.useCallback)((next) => {
+  const setOpen = (0, import_react25.useCallback)((next) => {
     if (!isControlled) setInternalOpen(next);
     if (next) onOpen?.();
     else onClose?.();
   }, [isControlled, onOpen, onClose]);
-  const open = (0, import_react24.useCallback)(() => setOpen(true), [setOpen]);
-  const close = (0, import_react24.useCallback)(() => setOpen(false), [setOpen]);
-  const toggle = (0, import_react24.useCallback)(() => setOpen(!isOpen), [isOpen, setOpen]);
+  const open = (0, import_react25.useCallback)(() => setOpen(true), [setOpen]);
+  const close = (0, import_react25.useCallback)(() => setOpen(false), [setOpen]);
+  const toggle = (0, import_react25.useCallback)(() => setOpen(!isOpen), [isOpen, setOpen]);
   return {
     isOpen,
     open,
@@ -5214,7 +5547,7 @@ function useModal(options = {}) {
 }
 
 // src/hooks/useDrawer.ts
-var import_react25 = require("react");
+var import_react26 = require("react");
 function useDrawer(options = {}) {
   const {
     defaultOpen = false,
@@ -5224,17 +5557,17 @@ function useDrawer(options = {}) {
     side = "left",
     closeOnBackdrop = true
   } = options;
-  const [internalOpen, setInternalOpen] = (0, import_react25.useState)(defaultOpen);
+  const [internalOpen, setInternalOpen] = (0, import_react26.useState)(defaultOpen);
   const isControlled = controlledOpen !== void 0;
   const isOpen = isControlled ? controlledOpen : internalOpen;
-  const setOpen = (0, import_react25.useCallback)((next) => {
+  const setOpen = (0, import_react26.useCallback)((next) => {
     if (!isControlled) setInternalOpen(next);
     if (next) onOpen?.();
     else onClose?.();
   }, [isControlled, onOpen, onClose]);
-  const open = (0, import_react25.useCallback)(() => setOpen(true), [setOpen]);
-  const close = (0, import_react25.useCallback)(() => setOpen(false), [setOpen]);
-  const toggle = (0, import_react25.useCallback)(() => setOpen(!isOpen), [isOpen, setOpen]);
+  const open = (0, import_react26.useCallback)(() => setOpen(true), [setOpen]);
+  const close = (0, import_react26.useCallback)(() => setOpen(false), [setOpen]);
+  const toggle = (0, import_react26.useCallback)(() => setOpen(!isOpen), [isOpen, setOpen]);
   return {
     isOpen,
     side,
@@ -5256,15 +5589,15 @@ function useDrawer(options = {}) {
 }
 
 // src/hooks/useStepper.ts
-var import_react26 = require("react");
+var import_react27 = require("react");
 function useStepper(options) {
   const { steps, initialStep = 0, onChange, onComplete, linear = true } = options;
-  const [currentStep, setCurrentStep] = (0, import_react26.useState)(initialStep);
-  const [completedSteps, setCompletedSteps] = (0, import_react26.useState)(/* @__PURE__ */ new Set());
+  const [currentStep, setCurrentStep] = (0, import_react27.useState)(initialStep);
+  const [completedSteps, setCompletedSteps] = (0, import_react27.useState)(/* @__PURE__ */ new Set());
   const totalSteps = steps.length;
   const isFirst = currentStep === 0;
   const isLast = currentStep === totalSteps - 1;
-  const next = (0, import_react26.useCallback)(async () => {
+  const next = (0, import_react27.useCallback)(async () => {
     const step = steps[currentStep];
     if (step.validate) {
       const valid = await step.validate();
@@ -5278,28 +5611,28 @@ function useStepper(options) {
     }
     return true;
   }, [currentStep, isLast, steps, onChange]);
-  const prev = (0, import_react26.useCallback)(() => {
+  const prev = (0, import_react27.useCallback)(() => {
     if (!isFirst) {
       const prev2 = currentStep - 1;
       setCurrentStep(prev2);
       onChange?.(prev2);
     }
   }, [currentStep, isFirst, onChange]);
-  const goTo = (0, import_react26.useCallback)((index) => {
+  const goTo = (0, import_react27.useCallback)((index) => {
     if (index < 0 || index >= totalSteps) return;
     if (linear && index > currentStep && !completedSteps.has(index - 1)) return;
     setCurrentStep(index);
     onChange?.(index);
   }, [totalSteps, linear, currentStep, completedSteps, onChange]);
-  const complete = (0, import_react26.useCallback)(() => {
+  const complete = (0, import_react27.useCallback)(() => {
     setCompletedSteps((prev2) => /* @__PURE__ */ new Set([...prev2, currentStep]));
     onComplete?.();
   }, [currentStep, onComplete]);
-  const reset = (0, import_react26.useCallback)(() => {
+  const reset = (0, import_react27.useCallback)(() => {
     setCurrentStep(initialStep);
     setCompletedSteps(/* @__PURE__ */ new Set());
   }, [initialStep]);
-  const getStepProps = (0, import_react26.useCallback)((index) => ({
+  const getStepProps = (0, import_react27.useCallback)((index) => ({
     active: index === currentStep,
     completed: completedSteps.has(index),
     accessible: true,
@@ -5311,7 +5644,7 @@ function useStepper(options) {
 }
 
 // src/hooks/useCarousel.ts
-var import_react27 = require("react");
+var import_react28 = require("react");
 var import_react_native11 = require("react-native");
 var import_react_native_reanimated8 = require("react-native-reanimated");
 function useCarousel({
@@ -5326,19 +5659,19 @@ function useCarousel({
   const windowWidth = Math.max(1, windowWidthPx > 0 ? windowWidthPx : 375);
   const itemWidth = itemWidthOption ?? windowWidth;
   const scrollX = (0, import_react_native_reanimated8.useSharedValue)(0);
-  const scrollViewRef = (0, import_react27.useRef)(null);
-  const isJumping = (0, import_react27.useRef)(false);
-  const autoPlayTimer = (0, import_react27.useRef)(null);
+  const scrollViewRef = (0, import_react28.useRef)(null);
+  const isJumping = (0, import_react28.useRef)(false);
+  const autoPlayTimer = (0, import_react28.useRef)(null);
   const n = data.length;
   const itemStep = itemWidth + gap;
-  const displayData = (0, import_react27.useMemo)(() => {
+  const displayData = (0, import_react28.useMemo)(() => {
     if (!loop || n < 2) return data;
     return [data[n - 1], ...data, data[0]];
   }, [data, loop, n]);
-  const snapToOffsets = (0, import_react27.useMemo)(() => {
+  const snapToOffsets = (0, import_react28.useMemo)(() => {
     return displayData.map((_, i) => i * itemStep);
   }, [displayData, itemStep]);
-  (0, import_react27.useEffect)(() => {
+  (0, import_react28.useEffect)(() => {
     if (loop && n >= 2) {
       requestAnimationFrame(() => {
         scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
@@ -5346,7 +5679,7 @@ function useCarousel({
       });
     }
   }, []);
-  const goToNextSlide = (0, import_react27.useCallback)(() => {
+  const goToNextSlide = (0, import_react28.useCallback)(() => {
     if (n < 1 || itemStep <= 0) return;
     if (!loop || n < 2) {
       const currentIndex = Math.round(scrollX.value / itemStep);
@@ -5360,13 +5693,13 @@ function useCarousel({
       }
     }
   }, [loop, n, itemStep, scrollX, displayData.length]);
-  const goToPreviousSlide = (0, import_react27.useCallback)(() => {
+  const goToPreviousSlide = (0, import_react28.useCallback)(() => {
     if (n < 1 || itemStep <= 0) return;
     const currentIndex = Math.round(scrollX.value / itemStep);
     const prevIndex = currentIndex <= 0 ? loop ? 0 : n - 1 : currentIndex - 1;
     scrollViewRef.current?.scrollTo({ x: prevIndex * itemStep, animated: true });
   }, [loop, n, itemStep, scrollX]);
-  const startTimer = (0, import_react27.useCallback)(() => {
+  const startTimer = (0, import_react28.useCallback)(() => {
     if (autoPlayTimer.current) clearInterval(autoPlayTimer.current);
     autoPlayTimer.current = setInterval(() => {
       requestAnimationFrame(() => {
@@ -5374,13 +5707,13 @@ function useCarousel({
       });
     }, autoPlayInterval);
   }, [autoPlayInterval, goToNextSlide]);
-  const stopTimer = (0, import_react27.useCallback)(() => {
+  const stopTimer = (0, import_react28.useCallback)(() => {
     if (autoPlayTimer.current) {
       clearInterval(autoPlayTimer.current);
       autoPlayTimer.current = null;
     }
   }, []);
-  (0, import_react27.useEffect)(() => {
+  (0, import_react28.useEffect)(() => {
     if (n < 1) {
       stopTimer();
       return;
@@ -5392,7 +5725,7 @@ function useCarousel({
     }
     return stopTimer;
   }, [autoPlay, startTimer, stopTimer, n]);
-  const onScroll = (0, import_react27.useCallback)(
+  const onScroll = (0, import_react28.useCallback)(
     (e) => {
       scrollX.value = e.nativeEvent.contentOffset.x;
       if (autoPlay && n >= 1) {
@@ -5401,7 +5734,7 @@ function useCarousel({
     },
     [autoPlay, startTimer, scrollX, n]
   );
-  const onMomentumScrollEnd = (0, import_react27.useCallback)(
+  const onMomentumScrollEnd = (0, import_react28.useCallback)(
     (e) => {
       if (!loop || n < 2 || isJumping.current) return;
       const x = Math.round(e.nativeEvent.contentOffset.x);
@@ -5439,7 +5772,7 @@ function useCarousel({
 }
 
 // src/hooks/useOTPInput.ts
-var import_react28 = require("react");
+var import_react29 = require("react");
 function useOTPInput({
   length,
   value,
@@ -5447,14 +5780,14 @@ function useOTPInput({
   onComplete,
   disabled = false
 }) {
-  const [isFocused, setIsFocused] = (0, import_react28.useState)(false);
-  const inputRef = (0, import_react28.useRef)(null);
-  const handlePress = (0, import_react28.useCallback)(() => {
+  const [isFocused, setIsFocused] = (0, import_react29.useState)(false);
+  const inputRef = (0, import_react29.useRef)(null);
+  const handlePress = (0, import_react29.useCallback)(() => {
     if (!disabled) {
       inputRef.current?.focus();
     }
   }, [disabled]);
-  const handleChange = (0, import_react28.useCallback)((text) => {
+  const handleChange = (0, import_react29.useCallback)((text) => {
     const numericVal = text.replace(/[^0-9]/g, "").slice(0, length);
     onChange(numericVal);
     if (numericVal.length === length && onComplete) {
@@ -5483,18 +5816,18 @@ function useOTPInput({
 }
 
 // src/hooks/useSegmentedControl.ts
-var import_react29 = require("react");
+var import_react30 = require("react");
 function useSegmentedControl({
   value: controlledValue,
   defaultValue,
   onChange,
   disabled = false
 }) {
-  const [internalValue, setInternalValue] = (0, import_react29.useState)(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react30.useState)(defaultValue);
   const isControlled = controlledValue !== void 0;
   const value = isControlled ? controlledValue : internalValue;
-  const isSelected = (0, import_react29.useCallback)((val) => value === val, [value]);
-  const selectValue = (0, import_react29.useCallback)((val) => {
+  const isSelected = (0, import_react30.useCallback)((val) => value === val, [value]);
+  const selectValue = (0, import_react30.useCallback)((val) => {
     if (disabled) return;
     if (!isControlled) setInternalValue(val);
     onChange?.(val);
@@ -5512,18 +5845,18 @@ function useSegmentedControl({
 }
 
 // src/hooks/useTable.ts
-var import_react30 = require("react");
+var import_react31 = require("react");
 function useTable({
   data,
   rowsPerPage: initialRowsPerPage = 10,
   initialPage = 0,
   initialSort = null
 }) {
-  const [page, setPage] = (0, import_react30.useState)(initialPage);
-  const [rowsPerPage, setRowsPerPage] = (0, import_react30.useState)(initialRowsPerPage);
-  const [sort, setSort] = (0, import_react30.useState)(initialSort);
-  const [selected, setSelected] = (0, import_react30.useState)(/* @__PURE__ */ new Set());
-  const processedData = (0, import_react30.useMemo)(() => {
+  const [page, setPage] = (0, import_react31.useState)(initialPage);
+  const [rowsPerPage, setRowsPerPage] = (0, import_react31.useState)(initialRowsPerPage);
+  const [sort, setSort] = (0, import_react31.useState)(initialSort);
+  const [selected, setSelected] = (0, import_react31.useState)(/* @__PURE__ */ new Set());
+  const processedData = (0, import_react31.useMemo)(() => {
     if (!sort) return data;
     const { key, direction } = sort;
     return [...data].sort((a, b) => {
@@ -5533,11 +5866,11 @@ function useTable({
     });
   }, [data, sort]);
   const totalPages = Math.ceil(processedData.length / rowsPerPage);
-  const paginatedData = (0, import_react30.useMemo)(() => {
+  const paginatedData = (0, import_react31.useMemo)(() => {
     const start = page * rowsPerPage;
     return processedData.slice(start, start + rowsPerPage);
   }, [processedData, page, rowsPerPage]);
-  const handleSort = (0, import_react30.useCallback)((key) => {
+  const handleSort = (0, import_react31.useCallback)((key) => {
     setSort((prev) => {
       if (prev?.key === key) {
         return { key, direction: prev.direction === "asc" ? "desc" : "asc" };
@@ -5545,7 +5878,7 @@ function useTable({
       return { key, direction: "asc" };
     });
   }, []);
-  const toggleSelect = (0, import_react30.useCallback)((id2) => {
+  const toggleSelect = (0, import_react31.useCallback)((id2) => {
     setSelected((prev) => {
       const next = new Set(prev);
       if (next.has(id2)) next.delete(id2);
@@ -5553,13 +5886,13 @@ function useTable({
       return next;
     });
   }, []);
-  const toggleSelectAll = (0, import_react30.useCallback)((ids) => {
+  const toggleSelectAll = (0, import_react31.useCallback)((ids) => {
     setSelected((prev) => {
       if (prev.size === ids.length) return /* @__PURE__ */ new Set();
       return new Set(ids);
     });
   }, []);
-  const isSelected = (0, import_react30.useCallback)((id2) => selected.has(id2), [selected]);
+  const isSelected = (0, import_react31.useCallback)((id2) => selected.has(id2), [selected]);
   return {
     page,
     rowsPerPage,
@@ -5578,13 +5911,13 @@ function useTable({
 }
 
 // src/hooks/useAlert.ts
-var import_react31 = require("react");
+var import_react32 = require("react");
 function useAlert({
   defaultOpen = true,
   onClose
 } = {}) {
-  const [isOpen, setIsOpen] = (0, import_react31.useState)(defaultOpen);
-  const close = (0, import_react31.useCallback)(() => {
+  const [isOpen, setIsOpen] = (0, import_react32.useState)(defaultOpen);
+  const close = (0, import_react32.useCallback)(() => {
     setIsOpen(false);
     onClose?.();
   }, [onClose]);
@@ -5604,17 +5937,17 @@ function useAlert({
 }
 
 // src/hooks/useBottomNavigation.ts
-var import_react32 = require("react");
+var import_react33 = require("react");
 function useBottomNavigation({
   value: controlledValue,
   defaultValue,
   onChange
 }) {
-  const [internalValue, setInternalValue] = (0, import_react32.useState)(defaultValue);
+  const [internalValue, setInternalValue] = (0, import_react33.useState)(defaultValue);
   const isControlled = controlledValue !== void 0;
   const value = isControlled ? controlledValue : internalValue;
-  const isSelected = (0, import_react32.useCallback)((val) => value === val, [value]);
-  const selectValue = (0, import_react32.useCallback)((val) => {
+  const isSelected = (0, import_react33.useCallback)((val) => value === val, [value]);
+  const selectValue = (0, import_react33.useCallback)((val) => {
     if (!isControlled) setInternalValue(val);
     onChange?.(val);
   }, [isControlled, onChange]);
@@ -5631,21 +5964,21 @@ function useBottomNavigation({
 }
 
 // src/hooks/useMenu.ts
-var import_react33 = require("react");
+var import_react34 = require("react");
 function useMenu({
   onClose,
   onOpen
 } = {}) {
-  const [isOpen, setIsOpen] = (0, import_react33.useState)(false);
-  const open = (0, import_react33.useCallback)(() => {
+  const [isOpen, setIsOpen] = (0, import_react34.useState)(false);
+  const open = (0, import_react34.useCallback)(() => {
     setIsOpen(true);
     onOpen?.();
   }, [onOpen]);
-  const close = (0, import_react33.useCallback)(() => {
+  const close = (0, import_react34.useCallback)(() => {
     setIsOpen(false);
     onClose?.();
   }, [onClose]);
-  const toggle = (0, import_react33.useCallback)(() => {
+  const toggle = (0, import_react34.useCallback)(() => {
     if (isOpen) close();
     else open();
   }, [isOpen, open, close]);
@@ -5706,6 +6039,7 @@ function useMenu({
   useMotionPreference,
   useOTPInput,
   usePagination,
+  usePersistedColorScheme,
   usePressable,
   useRadioGroup,
   useRating,

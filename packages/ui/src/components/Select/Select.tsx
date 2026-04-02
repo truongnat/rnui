@@ -1,18 +1,27 @@
-import React, { useRef, useState, useMemo } from "react";
-import { View, Text, TextInput, ScrollView, Pressable } from "react-native";
+import React, { useRef, useState, useMemo, useCallback } from "react";
+import { View, Text, TextInput, Pressable, ActivityIndicator } from "react-native";
+import { FlashList } from "@shopify/flash-list";
 import { useSelect, useTokens, useComponentTokens } from "@truongdq01/headless";
 import { BottomSheet } from "../BottomSheet/BottomSheet";
 import type { BottomSheetRef } from "../BottomSheet/BottomSheet";
 import type { UseSelectOptions, SelectOption } from "@truongdq01/headless";
 import { Icon } from "../Icon";
+import { SkeletonListItem } from "../Skeleton";
 
 export interface SelectProps<T = string> extends UseSelectOptions<T> {
   label?: string;
   placeholder?: string;
   searchable?: boolean;
   error?: string;
-  /** Callback to clear error when selection changes */
   onClearError?: () => void;
+  loading?: boolean;
+  onLoadMore?: () => void;
+  hasMore?: boolean;
+  loadingMore?: boolean;
+  renderOption?: (
+    option: SelectOption<T>,
+    ctx: { selected: boolean }
+  ) => React.ReactNode;
 }
 
 export function Select<T = string>({
@@ -21,6 +30,11 @@ export function Select<T = string>({
   searchable = false,
   error,
   onClearError,
+  loading = false,
+  onLoadMore,
+  hasMore = false,
+  loadingMore = false,
+  renderOption,
   options,
   ...hookOptions
 }: SelectProps<T>) {
@@ -28,6 +42,7 @@ export function Select<T = string>({
   const tokens = useTokens();
   const sheetRef = useRef<BottomSheetRef>(null);
   const [query, setQuery] = useState("");
+  const endReachBusy = useRef(false);
 
   const {
     isOpen,
@@ -43,27 +58,114 @@ export function Select<T = string>({
   const filtered = useMemo(() => {
     if (!query) return options;
     const lowerQuery = query.toLowerCase();
-    return options.filter((o) =>
-      o.label.toLowerCase().includes(lowerQuery)
-    );
+    return options.filter((o) => o.label.toLowerCase().includes(lowerQuery));
   }, [options, query]);
 
-  const handleOpen = () => {
+  const handleClose = useCallback(() => {
+    sheetRef.current?.close();
+    close();
+  }, [close]);
+
+  const handleOpen = useCallback(() => {
     setQuery("");
     sheetRef.current?.open();
     open();
-  };
+  }, [open]);
 
-  const handleClose = () => {
-    sheetRef.current?.close();
-    close();
-  };
+  const handleSelect = useCallback(
+    (val: T) => {
+      selectOption(val);
+      onClearError?.();
+      if (!hookOptions.multiple) handleClose();
+    },
+    [selectOption, onClearError, hookOptions.multiple, handleClose]
+  );
 
-  const handleSelect = (val: T) => {
-    selectOption(val);
-    onClearError?.();
-    if (!hookOptions.multiple) handleClose();
-  };
+  const onEndReached = useCallback(() => {
+    if (!onLoadMore || !hasMore || loading || loadingMore || endReachBusy.current) return;
+    endReachBusy.current = true;
+    onLoadMore();
+  }, [onLoadMore, hasMore, loading, loadingMore]);
+
+  React.useEffect(() => {
+    if (!loadingMore) endReachBusy.current = false;
+  }, [loadingMore]);
+
+  const renderItem = useCallback(
+    ({ item: option }: { item: SelectOption<T> }) => {
+      const selected = isSelected(option.value);
+      if (renderOption) {
+        return (
+          <Pressable
+            onPress={() => !option.disabled && handleSelect(option.value)}
+            style={{ opacity: option.disabled ? 0.4 : 1 }}
+          >
+            {renderOption(option, { selected })}
+          </Pressable>
+        );
+      }
+      return (
+        <Pressable
+          onPress={() => !option.disabled && handleSelect(option.value)}
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingVertical: tokens.spacing[3],
+            paddingHorizontal: tokens.spacing[2],
+            borderRadius: tokens.radius.md,
+            backgroundColor: selected ? select.option.selected.bg : "transparent",
+            marginBottom: 2,
+            opacity: option.disabled ? 0.4 : 1,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: tokens.fontSize.md,
+              color: selected ? select.option.selected.color : select.option.default.color,
+              fontWeight: selected ? tokens.fontWeight.medium : tokens.fontWeight.regular,
+            }}
+          >
+            {option.label}
+          </Text>
+          {selected && <Icon size={16} color={select.option.selected.color} name={"check" as any} />}
+        </Pressable>
+      );
+    },
+    [isSelected, renderOption, select.option, tokens, handleSelect]
+  );
+
+  const listEmpty = useMemo(() => {
+    if (loading && options.length === 0) {
+      return (
+        <View style={{ paddingVertical: tokens.spacing[2] }}>
+          <SkeletonListItem />
+          <SkeletonListItem />
+          <SkeletonListItem />
+        </View>
+      );
+    }
+    if (filtered.length === 0) {
+      const emptyMsg = loading
+        ? "Loading…"
+        : query
+          ? `No results for "${query}"`
+          : "No options";
+      return (
+        <Text
+          style={{
+            color: tokens.color.text.tertiary,
+            fontSize: tokens.fontSize.sm,
+            textAlign: "center",
+            paddingVertical: tokens.spacing[6],
+          }}
+        >
+          {emptyMsg}
+        </Text>
+      );
+    }
+    return null;
+  }, [loading, options.length, filtered.length, query, tokens]);
 
   return (
     <View>
@@ -73,7 +175,6 @@ export function Select<T = string>({
         </Text>
       )}
 
-      {/* Trigger */}
       <Pressable
         onPress={handleOpen}
         style={{
@@ -100,7 +201,6 @@ export function Select<T = string>({
         >
           {displayLabel}
         </Text>
-        {/* Chevron */}
         <Icon size={16} color={tokens.color.text.tertiary}>
           {isOpen ? "chevronUp" : "chevronDown"}
         </Icon>
@@ -112,7 +212,6 @@ export function Select<T = string>({
         </Text>
       )}
 
-      {/* Options sheet */}
       <BottomSheet
         ref={sheetRef}
         snapPoints={searchable || options.length > 6 ? ["70%"] : ["40%"]}
@@ -121,7 +220,6 @@ export function Select<T = string>({
         enableDismissOnSwipe
       >
         <View style={{ flex: 1, paddingHorizontal: tokens.spacing[4] }}>
-          {/* Search input */}
           {searchable && isOpen && (
             <View
               style={{
@@ -155,49 +253,28 @@ export function Select<T = string>({
             </View>
           )}
 
-          {/* Option list */}
-          <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-            {filtered.length === 0 ? (
-              <Text style={{ color: tokens.color.text.tertiary, fontSize: tokens.fontSize.sm, textAlign: "center", paddingVertical: tokens.spacing[6] }}>
-                No results for "{query}"
-              </Text>
-            ) : (
-              filtered.map((option) => {
-                const selected = isSelected(option.value);
-                return (
-                  <Pressable
-                    key={String(option.value)}
-                    onPress={() => !option.disabled && handleSelect(option.value)}
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      paddingVertical: tokens.spacing[3],
-                      paddingHorizontal: tokens.spacing[2],
-                      borderRadius: tokens.radius.md,
-                      backgroundColor: selected ? select.option.selected.bg : "transparent",
-                      marginBottom: 2,
-                      opacity: option.disabled ? 0.4 : 1,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: tokens.fontSize.md,
-                        color: selected ? select.option.selected.color : select.option.default.color,
-                        fontWeight: selected ? tokens.fontWeight.medium : tokens.fontWeight.regular,
-                      }}
-                    >
-                      {option.label}
-                    </Text>
-                    {selected && (
-                      <Icon size={16} color={select.option.selected.color} name={"check" as any} />
-                    )}
-                  </Pressable>
-                );
-              })
-            )}
-            <View style={{ height: tokens.spacing[4] }} />
-          </ScrollView>
+          {filtered.length === 0 ? (
+            <View style={{ flex: 1, minHeight: 120 }}>{listEmpty}</View>
+          ) : (
+            <FlashList
+              style={{ flex: 1 }}
+              data={filtered}
+              extraData={query}
+              renderItem={renderItem}
+              keyExtractor={(item) => String(item.value)}
+              onEndReached={onEndReached}
+              onEndReachedThreshold={0.35}
+              ListFooterComponent={
+                loadingMore ? (
+                  <View style={{ paddingVertical: tokens.spacing[3], alignItems: "center" }}>
+                    <ActivityIndicator color={tokens.color.brand.default} />
+                  </View>
+                ) : (
+                  <View style={{ height: tokens.spacing[4] }} />
+                )
+              }
+            />
+          )}
         </View>
       </BottomSheet>
     </View>

@@ -198,13 +198,16 @@ export declare function inputTokens(t: SemanticTokens): {
             height: number;
             fontSize: 13;
         };
+        /** Issue #1: spacing[3] vertical padding inside ~48dp target */
         md: {
             height: number;
             fontSize: 15;
+            paddingVertical: 12;
         };
         lg: {
             height: number;
             fontSize: 17;
+            paddingVertical: 12;
         };
     };
     focusRing: {
@@ -234,9 +237,9 @@ export declare function inputTokens(t: SemanticTokens): {
     };
     label: {
         fontSize: 13;
-        fontWeight: "500";
+        fontWeight: "600";
         color: string;
-        marginBottom: 4;
+        marginBottom: 6;
     };
     helperText: {
         fontSize: 11;
@@ -1052,6 +1055,28 @@ export declare function emptyStateTokens(t: SemanticTokens): {
         readonly justifyContent: "center";
         readonly gap: 16;
     };
+    readonly containerSize: {
+        readonly sm: {
+            readonly padding: 24;
+            readonly gap: 12;
+        };
+        readonly md: {
+            readonly padding: 32;
+            readonly gap: 16;
+        };
+        readonly lg: {
+            readonly padding: 40;
+            readonly gap: 20;
+        };
+    };
+    readonly iconWrap: {
+        readonly width: 64;
+        readonly height: 64;
+        readonly borderRadius: 9999;
+        readonly alignItems: "center";
+        readonly justifyContent: "center";
+        readonly backgroundColor: string;
+    };
     readonly icon: {
         readonly size: 64;
         readonly color: string;
@@ -1062,10 +1087,32 @@ export declare function emptyStateTokens(t: SemanticTokens): {
         readonly color: string;
         readonly textAlign: "center";
     };
+    readonly titleSize: {
+        readonly sm: {
+            readonly fontSize: 17;
+        };
+        readonly md: {
+            readonly fontSize: 20;
+        };
+        readonly lg: {
+            readonly fontSize: 24;
+        };
+    };
     readonly description: {
         readonly fontSize: 15;
         readonly color: string;
         readonly textAlign: "center";
+    };
+    readonly descriptionSize: {
+        readonly sm: {
+            readonly fontSize: 13;
+        };
+        readonly md: {
+            readonly fontSize: 15;
+        };
+        readonly lg: {
+            readonly fontSize: 17;
+        };
     };
 };
 export declare function formControlTokens(t: SemanticTokens): {
@@ -1075,7 +1122,7 @@ export declare function formControlTokens(t: SemanticTokens): {
     };
     readonly label: {
         readonly fontSize: 13;
-        readonly fontWeight: "500";
+        readonly fontWeight: "600";
         readonly color: string;
     };
     readonly helperText: {
@@ -1291,6 +1338,11 @@ export declare function otpInputTokens(t: SemanticTokens): {
         readonly color: string;
         readonly focused: {
             readonly borderColor: string;
+        };
+        /** Filled digit — distinct from empty default border */
+        readonly filled: {
+            readonly borderColor: string;
+            readonly backgroundColor: string;
         };
         readonly error: {
             readonly borderColor: string;
@@ -1559,6 +1611,10 @@ export declare function tableTokens(t: SemanticTokens): {
 };
 export declare function textAreaTokens(t: SemanticTokens): {
     readonly container: {
+        /** Multiline: column + stretch so TextInput fills height; row/center caused overlap with sibling helper */
+        readonly flexDirection: "column";
+        readonly alignItems: "stretch";
+        readonly overflow: "hidden";
         readonly height: "auto";
         readonly minHeight: 100;
         readonly paddingVertical: 8;
@@ -1567,8 +1623,6 @@ export declare function textAreaTokens(t: SemanticTokens): {
         readonly borderColor: string;
         readonly borderRadius: 8;
         readonly backgroundColor: string;
-        readonly flexDirection: "row";
-        readonly alignItems: "center";
         readonly paddingHorizontal: 12;
         readonly gap: 8;
     };
@@ -1585,13 +1639,16 @@ export declare function textAreaTokens(t: SemanticTokens): {
             height: number;
             fontSize: 13;
         };
+        /** Issue #1: spacing[3] vertical padding inside ~48dp target */
         md: {
             height: number;
             fontSize: 15;
+            paddingVertical: 12;
         };
         lg: {
             height: number;
             fontSize: 17;
+            paddingVertical: 12;
         };
     };
     readonly focusRing: {
@@ -1621,9 +1678,9 @@ export declare function textAreaTokens(t: SemanticTokens): {
     };
     readonly label: {
         fontSize: 13;
-        fontWeight: "500";
+        fontWeight: "600";
         color: string;
-        marginBottom: 4;
+        marginBottom: 6;
     };
     readonly helperText: {
         fontSize: 11;
@@ -1660,13 +1717,16 @@ export declare function textFieldTokens(t: SemanticTokens): {
             height: number;
             fontSize: 13;
         };
+        /** Issue #1: spacing[3] vertical padding inside ~48dp target */
         md: {
             height: number;
             fontSize: 15;
+            paddingVertical: 12;
         };
         lg: {
             height: number;
             fontSize: 17;
+            paddingVertical: 12;
         };
     };
     readonly focusRing: {
@@ -1696,9 +1756,9 @@ export declare function textFieldTokens(t: SemanticTokens): {
     };
     readonly label: {
         fontSize: 13;
-        fontWeight: "500";
+        fontWeight: "600";
         color: string;
-        marginBottom: 4;
+        marginBottom: 6;
     };
     readonly helperText: {
         fontSize: 11;
@@ -1771,35 +1831,74 @@ export declare function tooltipTokens(t: SemanticTokens): {
 };
 export declare function typographyTokens(t: SemanticTokens): {
     readonly variants: {
-        readonly h1: {
+        readonly display: {
             readonly fontSize: 36;
-            readonly fontWeight: "600";
-            readonly lineHeight: number;
+            readonly fontWeight: "800";
+            readonly lineHeight: 44;
+            readonly letterSpacing: -0.5;
+        };
+        readonly h1: {
+            readonly fontSize: 30;
+            readonly fontWeight: "700";
+            readonly lineHeight: 38;
         };
         readonly h2: {
-            readonly fontSize: 30;
-            readonly fontWeight: "600";
-            readonly lineHeight: number;
+            readonly fontSize: 24;
+            readonly fontWeight: "700";
+            readonly lineHeight: 32;
         };
         readonly h3: {
-            readonly fontSize: 24;
-            readonly fontWeight: "600";
-            readonly lineHeight: number;
-        };
-        readonly h4: {
             readonly fontSize: 20;
             readonly fontWeight: "600";
-            readonly lineHeight: number;
+            readonly lineHeight: 28;
+        };
+        readonly h4: {
+            readonly fontSize: 18;
+            readonly fontWeight: "600";
+            readonly lineHeight: 26;
         };
         readonly h5: {
-            readonly fontSize: 17;
-            readonly fontWeight: "500";
-            readonly lineHeight: number;
+            readonly fontSize: 16;
+            readonly fontWeight: "600";
+            readonly lineHeight: 24;
         };
         readonly h6: {
-            readonly fontSize: 15;
+            readonly fontSize: 14;
+            readonly fontWeight: "600";
+            readonly lineHeight: 22;
+        };
+        readonly body1: {
+            readonly fontSize: 16;
+            readonly fontWeight: "400";
+            readonly lineHeight: 24;
+        };
+        readonly body2: {
+            readonly fontSize: 14;
+            readonly fontWeight: "400";
+            readonly lineHeight: 22;
+        };
+        readonly caption: {
+            readonly fontSize: 12;
+            readonly fontWeight: "400";
+            readonly lineHeight: 18;
+        };
+        readonly overline: {
+            readonly fontSize: 11;
+            readonly fontWeight: "700";
+            readonly lineHeight: 16;
+            readonly letterSpacing: 1.2;
+            readonly textTransform: "uppercase";
+        };
+        readonly label: {
+            readonly fontSize: 14;
             readonly fontWeight: "500";
-            readonly lineHeight: number;
+            readonly lineHeight: 20;
+        };
+        readonly code: {
+            readonly fontSize: 13;
+            readonly fontWeight: "400";
+            readonly fontFamily: "monospace";
+            readonly lineHeight: 20;
         };
         readonly subtitle1: {
             readonly fontSize: 15;
@@ -1811,30 +1910,9 @@ export declare function typographyTokens(t: SemanticTokens): {
             readonly fontWeight: "500";
             readonly lineHeight: number;
         };
-        readonly body1: {
-            readonly fontSize: 15;
-            readonly fontWeight: "400";
-            readonly lineHeight: number;
-        };
-        readonly body2: {
-            readonly fontSize: 13;
-            readonly fontWeight: "400";
-            readonly lineHeight: number;
-        };
-        readonly caption: {
-            readonly fontSize: 11;
-            readonly fontWeight: "400";
-            readonly lineHeight: number;
-        };
         readonly button: {
             readonly fontSize: 13;
             readonly fontWeight: "600";
-            readonly textTransform: "uppercase";
-        };
-        readonly overline: {
-            readonly fontSize: 11;
-            readonly fontWeight: "600";
-            readonly letterSpacing: 1.2;
             readonly textTransform: "uppercase";
         };
     };
@@ -1847,6 +1925,11 @@ export declare function typographyTokens(t: SemanticTokens): {
         readonly error: string;
     };
 };
+/**
+ * Pure function: maps resolved semantic tokens to per-component style maps.
+ * Called once per theme resolution inside `ThemeProvider` (see `@truongdq01/headless`).
+ * Re-runs when semantic tokens change; avoid calling on every render from app code — rely on context.
+ */
 export declare function resolveComponentTokens(t: SemanticTokens): {
     readonly button: {
         variant: {
@@ -2042,13 +2125,16 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
                 height: number;
                 fontSize: 13;
             };
+            /** Issue #1: spacing[3] vertical padding inside ~48dp target */
             md: {
                 height: number;
                 fontSize: 15;
+                paddingVertical: 12;
             };
             lg: {
                 height: number;
                 fontSize: 17;
+                paddingVertical: 12;
             };
         };
         focusRing: {
@@ -2078,9 +2164,9 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
         };
         label: {
             fontSize: 13;
-            fontWeight: "500";
+            fontWeight: "600";
             color: string;
-            marginBottom: 4;
+            marginBottom: 6;
         };
         helperText: {
             fontSize: 11;
@@ -3036,6 +3122,28 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             readonly justifyContent: "center";
             readonly gap: 16;
         };
+        readonly containerSize: {
+            readonly sm: {
+                readonly padding: 24;
+                readonly gap: 12;
+            };
+            readonly md: {
+                readonly padding: 32;
+                readonly gap: 16;
+            };
+            readonly lg: {
+                readonly padding: 40;
+                readonly gap: 20;
+            };
+        };
+        readonly iconWrap: {
+            readonly width: 64;
+            readonly height: 64;
+            readonly borderRadius: 9999;
+            readonly alignItems: "center";
+            readonly justifyContent: "center";
+            readonly backgroundColor: string;
+        };
         readonly icon: {
             readonly size: 64;
             readonly color: string;
@@ -3046,10 +3154,32 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             readonly color: string;
             readonly textAlign: "center";
         };
+        readonly titleSize: {
+            readonly sm: {
+                readonly fontSize: 17;
+            };
+            readonly md: {
+                readonly fontSize: 20;
+            };
+            readonly lg: {
+                readonly fontSize: 24;
+            };
+        };
         readonly description: {
             readonly fontSize: 15;
             readonly color: string;
             readonly textAlign: "center";
+        };
+        readonly descriptionSize: {
+            readonly sm: {
+                readonly fontSize: 13;
+            };
+            readonly md: {
+                readonly fontSize: 15;
+            };
+            readonly lg: {
+                readonly fontSize: 17;
+            };
         };
     };
     readonly formControl: {
@@ -3059,7 +3189,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
         };
         readonly label: {
             readonly fontSize: 13;
-            readonly fontWeight: "500";
+            readonly fontWeight: "600";
             readonly color: string;
         };
         readonly helperText: {
@@ -3275,6 +3405,11 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             readonly color: string;
             readonly focused: {
                 readonly borderColor: string;
+            };
+            /** Filled digit — distinct from empty default border */
+            readonly filled: {
+                readonly borderColor: string;
+                readonly backgroundColor: string;
             };
             readonly error: {
                 readonly borderColor: string;
@@ -3543,6 +3678,10 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
     };
     readonly textArea: {
         readonly container: {
+            /** Multiline: column + stretch so TextInput fills height; row/center caused overlap with sibling helper */
+            readonly flexDirection: "column";
+            readonly alignItems: "stretch";
+            readonly overflow: "hidden";
             readonly height: "auto";
             readonly minHeight: 100;
             readonly paddingVertical: 8;
@@ -3551,8 +3690,6 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             readonly borderColor: string;
             readonly borderRadius: 8;
             readonly backgroundColor: string;
-            readonly flexDirection: "row";
-            readonly alignItems: "center";
             readonly paddingHorizontal: 12;
             readonly gap: 8;
         };
@@ -3569,13 +3706,16 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
                 height: number;
                 fontSize: 13;
             };
+            /** Issue #1: spacing[3] vertical padding inside ~48dp target */
             md: {
                 height: number;
                 fontSize: 15;
+                paddingVertical: 12;
             };
             lg: {
                 height: number;
                 fontSize: 17;
+                paddingVertical: 12;
             };
         };
         readonly focusRing: {
@@ -3605,9 +3745,9 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
         };
         readonly label: {
             fontSize: 13;
-            fontWeight: "500";
+            fontWeight: "600";
             color: string;
-            marginBottom: 4;
+            marginBottom: 6;
         };
         readonly helperText: {
             fontSize: 11;
@@ -3644,13 +3784,16 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
                 height: number;
                 fontSize: 13;
             };
+            /** Issue #1: spacing[3] vertical padding inside ~48dp target */
             md: {
                 height: number;
                 fontSize: 15;
+                paddingVertical: 12;
             };
             lg: {
                 height: number;
                 fontSize: 17;
+                paddingVertical: 12;
             };
         };
         readonly focusRing: {
@@ -3680,9 +3823,9 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
         };
         readonly label: {
             fontSize: 13;
-            fontWeight: "500";
+            fontWeight: "600";
             color: string;
-            marginBottom: 4;
+            marginBottom: 6;
         };
         readonly helperText: {
             fontSize: 11;
@@ -3755,35 +3898,74 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
     };
     readonly typography: {
         readonly variants: {
-            readonly h1: {
+            readonly display: {
                 readonly fontSize: 36;
-                readonly fontWeight: "600";
-                readonly lineHeight: number;
+                readonly fontWeight: "800";
+                readonly lineHeight: 44;
+                readonly letterSpacing: -0.5;
+            };
+            readonly h1: {
+                readonly fontSize: 30;
+                readonly fontWeight: "700";
+                readonly lineHeight: 38;
             };
             readonly h2: {
-                readonly fontSize: 30;
-                readonly fontWeight: "600";
-                readonly lineHeight: number;
+                readonly fontSize: 24;
+                readonly fontWeight: "700";
+                readonly lineHeight: 32;
             };
             readonly h3: {
-                readonly fontSize: 24;
-                readonly fontWeight: "600";
-                readonly lineHeight: number;
-            };
-            readonly h4: {
                 readonly fontSize: 20;
                 readonly fontWeight: "600";
-                readonly lineHeight: number;
+                readonly lineHeight: 28;
+            };
+            readonly h4: {
+                readonly fontSize: 18;
+                readonly fontWeight: "600";
+                readonly lineHeight: 26;
             };
             readonly h5: {
-                readonly fontSize: 17;
-                readonly fontWeight: "500";
-                readonly lineHeight: number;
+                readonly fontSize: 16;
+                readonly fontWeight: "600";
+                readonly lineHeight: 24;
             };
             readonly h6: {
-                readonly fontSize: 15;
+                readonly fontSize: 14;
+                readonly fontWeight: "600";
+                readonly lineHeight: 22;
+            };
+            readonly body1: {
+                readonly fontSize: 16;
+                readonly fontWeight: "400";
+                readonly lineHeight: 24;
+            };
+            readonly body2: {
+                readonly fontSize: 14;
+                readonly fontWeight: "400";
+                readonly lineHeight: 22;
+            };
+            readonly caption: {
+                readonly fontSize: 12;
+                readonly fontWeight: "400";
+                readonly lineHeight: 18;
+            };
+            readonly overline: {
+                readonly fontSize: 11;
+                readonly fontWeight: "700";
+                readonly lineHeight: 16;
+                readonly letterSpacing: 1.2;
+                readonly textTransform: "uppercase";
+            };
+            readonly label: {
+                readonly fontSize: 14;
                 readonly fontWeight: "500";
-                readonly lineHeight: number;
+                readonly lineHeight: 20;
+            };
+            readonly code: {
+                readonly fontSize: 13;
+                readonly fontWeight: "400";
+                readonly fontFamily: "monospace";
+                readonly lineHeight: 20;
             };
             readonly subtitle1: {
                 readonly fontSize: 15;
@@ -3795,30 +3977,9 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
                 readonly fontWeight: "500";
                 readonly lineHeight: number;
             };
-            readonly body1: {
-                readonly fontSize: 15;
-                readonly fontWeight: "400";
-                readonly lineHeight: number;
-            };
-            readonly body2: {
-                readonly fontSize: 13;
-                readonly fontWeight: "400";
-                readonly lineHeight: number;
-            };
-            readonly caption: {
-                readonly fontSize: 11;
-                readonly fontWeight: "400";
-                readonly lineHeight: number;
-            };
             readonly button: {
                 readonly fontSize: 13;
                 readonly fontWeight: "600";
-                readonly textTransform: "uppercase";
-            };
-            readonly overline: {
-                readonly fontSize: 11;
-                readonly fontWeight: "600";
-                readonly letterSpacing: 1.2;
                 readonly textTransform: "uppercase";
             };
         };

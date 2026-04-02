@@ -2,6 +2,9 @@
 export { ThemeProvider, useTheme, useTokens, useComponentTokens, useIsDark, useActiveBrand, useBrandSwitch, createTheme } from "./theme";
 export type { Theme, ThemeOverride, ThemeProviderProps, Brand } from "./theme";
 
+export { usePersistedColorScheme } from "./hooks/usePersistedColorScheme";
+export type { PersistedColorSchemeStorage, UsePersistedColorSchemeOptions } from "./hooks/usePersistedColorScheme";
+
 // Motion
 export {
   motionPresets,
@@ -64,7 +67,15 @@ export { useRadioGroup } from "./hooks/useRadioGroup";
 export type { UseRadioGroupOptions, UseRadioGroupReturn } from "./hooks/useRadioGroup";
 
 export { useSlider } from "./hooks/useSlider";
-export type { UseSliderOptions, UseSliderReturn } from "./hooks/useSlider";
+export type {
+  SliderOrientation,
+  UseSliderOptions,
+  UseSliderOptionsRange,
+  UseSliderOptionsSingle,
+  UseSliderReturn,
+  UseSliderReturnRange,
+  UseSliderReturnSingle,
+} from "./hooks/useSlider";
 
 export { useIconStyle } from "./hooks/useIconStyle";
 

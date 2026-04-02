@@ -31,7 +31,7 @@ export function FormField({
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            marginBottom: tokens.spacing[1],
+            marginBottom: tokens.spacing[1.5],
           }}
         >
           {label && (
@@ -40,7 +40,7 @@ export function FormField({
                 {label}
               </Text>
               {required && (
-                <Text style={formControl.errorText as any}>
+                <Text style={{ color: tokens.color.error.icon, fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold }}>
                   *
                 </Text>
               )}
@@ -56,7 +56,7 @@ export function FormField({
       {/* Error or helper */}
       {error ? (
         <Text
-          style={[formControl.errorText, { marginTop: tokens.spacing[1] }] as any}
+          style={[formControl.errorText, { marginTop: tokens.spacing[2] }] as any}
           accessibilityRole="alert"
           accessibilityLiveRegion="polite"
         >
@@ -64,7 +64,7 @@ export function FormField({
         </Text>
       ) : helperText ? (
         <Text
-          style={[formControl.helperText, { marginTop: tokens.spacing[1] }] as any}
+          style={[formControl.helperText, { marginTop: tokens.spacing[2] }] as any}
         >
           {helperText}
         </Text>

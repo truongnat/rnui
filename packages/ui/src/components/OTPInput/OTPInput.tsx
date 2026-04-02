@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from "react";
-import { View, TextInput, Pressable, Text, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { View, TextInput, Pressable, Text } from "react-native";
 import Animated, {
     useAnimatedStyle,
     withSpring,
@@ -7,7 +7,7 @@ import Animated, {
     withTiming,
     withSequence,
 } from "react-native-reanimated";
-import { useComponentTokens, useTokens, useOTPInput } from "@truongdq01/headless";
+import { useComponentTokens, useOTPInput } from "@truongdq01/headless";
 
 export interface OTPInputProps {
     length?: number;
@@ -98,19 +98,35 @@ function OTPCell({
         }
     }, [isFocused, isFilled]);
 
-    const animatedStyle = useAnimatedStyle(() => {
-        return {
-            transform: [{ scale: scale.value }],
-            borderColor: isFocused ? otpInput.cell.focused.borderColor : (isFilled ? otpInput.cell.borderColor : otpInput.cell.borderColor),
-            backgroundColor: isFilled ? otpInput.cell.backgroundColor : otpInput.cell.backgroundColor,
-        };
-    });
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: scale.value }],
+    }));
+
+    const borderColor = isFocused
+        ? otpInput.cell.focused.borderColor
+        : isFilled
+          ? otpInput.cell.filled.borderColor
+          : otpInput.cell.borderColor;
+
+    const backgroundColor = isFilled ? otpInput.cell.filled.backgroundColor : otpInput.cell.backgroundColor;
+
+    const borderWidth = isFocused ? 2 : 1.5;
 
     return (
         <Animated.View
             style={[
-                otpInput.cell,
-                { flex: 1, aspectRatio: 0.8 },
+                {
+                    flex: 1,
+                    aspectRatio: 1,
+                    minWidth: 0,
+                    maxHeight: otpInput.cell.height,
+                    borderRadius: otpInput.cell.borderRadius,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderWidth,
+                    borderColor,
+                    backgroundColor,
+                },
                 animatedStyle,
             ]}
         >

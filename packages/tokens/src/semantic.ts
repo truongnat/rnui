@@ -29,6 +29,32 @@ const shared = {
     mono: undefined as string | undefined,
   },
 
+  /**
+   * Composite typography ramp — IMPROVEMENT_PLAN.md Issue #2 (mode-independent).
+   * Consumed by `typographyTokens()` in `component.ts` (plus subtitle/button variants).
+   */
+  typography: {
+    display: { fontSize: 36, fontWeight: "800" as const, lineHeight: 44, letterSpacing: -0.5 },
+    h1: { fontSize: 30, fontWeight: "700" as const, lineHeight: 38 },
+    h2: { fontSize: 24, fontWeight: "700" as const, lineHeight: 32 },
+    h3: { fontSize: 20, fontWeight: "600" as const, lineHeight: 28 },
+    h4: { fontSize: 18, fontWeight: "600" as const, lineHeight: 26 },
+    h5: { fontSize: 16, fontWeight: "600" as const, lineHeight: 24 },
+    h6: { fontSize: 14, fontWeight: "600" as const, lineHeight: 22 },
+    body1: { fontSize: 16, fontWeight: "400" as const, lineHeight: 24 },
+    body2: { fontSize: 14, fontWeight: "400" as const, lineHeight: 22 },
+    caption: { fontSize: 12, fontWeight: "400" as const, lineHeight: 18 },
+    overline: {
+      fontSize: 11,
+      fontWeight: "700" as const,
+      lineHeight: 16,
+      letterSpacing: 1.2,
+      textTransform: "uppercase" as const,
+    },
+    label: { fontSize: 14, fontWeight: "500" as const, lineHeight: 20 },
+    code: { fontSize: 13, fontWeight: "400" as const, fontFamily: "monospace" as const, lineHeight: 20 },
+  },
+
   // Typography styles (composite)
   text: {
     xs: { fontSize: fontSize.xs, lineHeight: fontSize.xs * lineHeight.normal, fontWeight: fontWeight.regular },
@@ -289,6 +315,8 @@ export interface SemanticTokens {
   elevation: typeof shared.elevation;
   focusRing: typeof shared.focusRing;
   fontFamily: typeof shared.fontFamily;
+  /** Issue #2 scale — see `shared.typography` */
+  typography: typeof shared.typography;
   text: typeof shared.text;
   color: ColorGroup;
   shadow: {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, Pressable, Text, LayoutChangeEvent } from "react-native";
 import Animated, {
     useAnimatedStyle,
@@ -7,6 +7,9 @@ import Animated, {
 } from "react-native-reanimated";
 import { useTokens, useComponentTokens, useSegmentedControl } from "@truongdq01/headless";
 import { spring } from "@truongdq01/tokens";
+
+/** Must match `segmentedControlTokens().container.padding` (inset track for the sliding pill). */
+const TRACK_PADDING = 2;
 
 export interface SegmentedControlProps {
     options: string[];
@@ -32,23 +35,36 @@ export function SegmentedControl({
     });
 
     const [containerWidth, setContainerWidth] = useState(0);
-    const segmentWidth = containerWidth / options.length;
-    const translateX = useSharedValue(selectedIndex * segmentWidth);
+    const [layoutReady, setLayoutReady] = useState(false);
+
+    const innerWidth = Math.max(0, containerWidth - TRACK_PADDING * 2);
+    const segmentWidth = options.length > 0 ? innerWidth / options.length : 0;
+    const translateX = useSharedValue(0);
+    const didInitialLayout = useRef(false);
 
     React.useEffect(() => {
-        if (segmentWidth > 0) {
-            translateX.value = withSpring(selectedIndex * segmentWidth, spring.snappy);
+        if (segmentWidth <= 0) return;
+        const target = selectedIndex * segmentWidth;
+        if (!didInitialLayout.current) {
+            didInitialLayout.current = true;
+            translateX.value = target;
+            return;
         }
+        translateX.value = withSpring(target, spring.snappy);
     }, [selectedIndex, segmentWidth, translateX]);
 
     const onLayout = (e: LayoutChangeEvent) => {
-        setContainerWidth(e.nativeEvent.layout.width);
+        const w = e.nativeEvent.layout.width;
+        setContainerWidth(w);
+        if (w > 0) setLayoutReady(true);
     };
 
     const indicatorStyle = useAnimatedStyle(() => ({
         transform: [{ translateX: translateX.value }],
         width: segmentWidth,
     }));
+
+    const showIndicator = layoutReady && segmentWidth > 0;
 
     return (
         <View
@@ -58,11 +74,17 @@ export function SegmentedControl({
                 { height, borderRadius: height / 2, opacity: disabled ? 0.6 : 1 }
             ]}
         >
-            {containerWidth > 0 && (
+            {showIndicator && (
                 <Animated.View
                     style={[
                         segmentedControl.item.active,
-                        { borderRadius: (height - 4) / 2 },
+                        {
+                            position: "absolute",
+                            left: TRACK_PADDING,
+                            top: TRACK_PADDING,
+                            bottom: TRACK_PADDING,
+                            borderRadius: (height - TRACK_PADDING * 2) / 2,
+                        },
                         indicatorStyle,
                     ]}
                 />

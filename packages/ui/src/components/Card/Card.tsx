@@ -47,7 +47,8 @@ export function Card({
 
     return (
       <GestureDetector gesture={gesture}>
-        <Animated.View style={[containerStyle, animatedStyle]} {...accessibilityProps}>
+        {/* Reanimated style prop is stricter than RN StyleProp when project uses web types; cast merged styles */}
+        <Animated.View style={[containerStyle, animatedStyle] as any} {...accessibilityProps}>
           {children}
         </Animated.View>
       </GestureDetector>

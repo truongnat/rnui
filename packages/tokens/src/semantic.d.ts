@@ -140,6 +140,77 @@ declare const shared: {
             readonly fontWeight: "600";
         };
     };
+    readonly typography: {
+        readonly display: {
+            readonly fontSize: 36;
+            readonly fontWeight: "800";
+            readonly lineHeight: 44;
+            readonly letterSpacing: -0.5;
+        };
+        readonly h1: {
+            readonly fontSize: 30;
+            readonly fontWeight: "700";
+            readonly lineHeight: 38;
+        };
+        readonly h2: {
+            readonly fontSize: 24;
+            readonly fontWeight: "700";
+            readonly lineHeight: 32;
+        };
+        readonly h3: {
+            readonly fontSize: 20;
+            readonly fontWeight: "600";
+            readonly lineHeight: 28;
+        };
+        readonly h4: {
+            readonly fontSize: 18;
+            readonly fontWeight: "600";
+            readonly lineHeight: 26;
+        };
+        readonly h5: {
+            readonly fontSize: 16;
+            readonly fontWeight: "600";
+            readonly lineHeight: 24;
+        };
+        readonly h6: {
+            readonly fontSize: 14;
+            readonly fontWeight: "600";
+            readonly lineHeight: 22;
+        };
+        readonly body1: {
+            readonly fontSize: 16;
+            readonly fontWeight: "400";
+            readonly lineHeight: 24;
+        };
+        readonly body2: {
+            readonly fontSize: 14;
+            readonly fontWeight: "400";
+            readonly lineHeight: 22;
+        };
+        readonly caption: {
+            readonly fontSize: 12;
+            readonly fontWeight: "400";
+            readonly lineHeight: 18;
+        };
+        readonly overline: {
+            readonly fontSize: 11;
+            readonly fontWeight: "700";
+            readonly lineHeight: 16;
+            readonly letterSpacing: 1.2;
+            readonly textTransform: "uppercase";
+        };
+        readonly label: {
+            readonly fontSize: 14;
+            readonly fontWeight: "500";
+            readonly lineHeight: 20;
+        };
+        readonly code: {
+            readonly fontSize: 13;
+            readonly fontWeight: "400";
+            readonly fontFamily: "monospace";
+            readonly lineHeight: 20;
+        };
+    };
 };
 export declare const lightTokens: {
     readonly color: {
@@ -777,6 +848,7 @@ export interface SemanticTokens {
     zIndex: typeof shared.zIndex;
     elevation: typeof shared.elevation;
     focusRing: typeof shared.focusRing;
+    typography: typeof shared.typography;
     text: typeof shared.text;
     color: ColorGroup;
     shadow: {

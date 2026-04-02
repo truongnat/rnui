@@ -334,6 +334,31 @@ var shared = {
     sans: void 0,
     mono: void 0
   },
+  /**
+   * Composite typography ramp — IMPROVEMENT_PLAN.md Issue #2 (mode-independent).
+   * Consumed by `typographyTokens()` in `component.ts` (plus subtitle/button variants).
+   */
+  typography: {
+    display: { fontSize: 36, fontWeight: "800", lineHeight: 44, letterSpacing: -0.5 },
+    h1: { fontSize: 30, fontWeight: "700", lineHeight: 38 },
+    h2: { fontSize: 24, fontWeight: "700", lineHeight: 32 },
+    h3: { fontSize: 20, fontWeight: "600", lineHeight: 28 },
+    h4: { fontSize: 18, fontWeight: "600", lineHeight: 26 },
+    h5: { fontSize: 16, fontWeight: "600", lineHeight: 24 },
+    h6: { fontSize: 14, fontWeight: "600", lineHeight: 22 },
+    body1: { fontSize: 16, fontWeight: "400", lineHeight: 24 },
+    body2: { fontSize: 14, fontWeight: "400", lineHeight: 22 },
+    caption: { fontSize: 12, fontWeight: "400", lineHeight: 18 },
+    overline: {
+      fontSize: 11,
+      fontWeight: "700",
+      lineHeight: 16,
+      letterSpacing: 1.2,
+      textTransform: "uppercase"
+    },
+    label: { fontSize: 14, fontWeight: "500", lineHeight: 20 },
+    code: { fontSize: 13, fontWeight: "400", fontFamily: "monospace", lineHeight: 20 }
+  },
   // Typography styles (composite)
   text: {
     xs: { fontSize: fontSize.xs, lineHeight: fontSize.xs * lineHeight.normal, fontWeight: fontWeight.regular },
@@ -669,8 +694,9 @@ function inputTokens(t) {
     },
     size: {
       sm: { height: 32, fontSize: t.fontSize.sm },
-      md: { height: 40, fontSize: t.fontSize.md },
-      lg: { height: 48, fontSize: t.fontSize.lg }
+      /** Issue #1: spacing[3] vertical padding inside ~48dp target */
+      md: { height: 48, fontSize: t.fontSize.md, paddingVertical: t.spacing[3] },
+      lg: { height: 56, fontSize: t.fontSize.lg, paddingVertical: t.spacing[3] }
     },
     focusRing: { borderColor: t.color.border.focus, borderWidth: 2, outlineOffset: t.focusRing.offset },
     state: {
@@ -685,9 +711,9 @@ function inputTokens(t) {
     },
     label: {
       fontSize: t.fontSize.sm,
-      fontWeight: t.fontWeight.medium,
-      color: t.color.text.secondary,
-      marginBottom: t.spacing[1]
+      fontWeight: t.fontWeight.semibold,
+      color: t.color.text.primary,
+      marginBottom: t.spacing[1.5]
     },
     helperText: {
       fontSize: t.fontSize.xs,
@@ -1248,6 +1274,19 @@ function emptyStateTokens(t) {
       justifyContent: "center",
       gap: t.spacing[4]
     },
+    containerSize: {
+      sm: { padding: t.spacing[6], gap: t.spacing[3] },
+      md: { padding: t.spacing[8], gap: t.spacing[4] },
+      lg: { padding: t.spacing[10], gap: t.spacing[5] }
+    },
+    iconWrap: {
+      width: 64,
+      height: 64,
+      borderRadius: t.radius.full,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: t.color.brand.subtle
+    },
     icon: {
       size: 64,
       color: t.color.text.tertiary
@@ -1258,10 +1297,20 @@ function emptyStateTokens(t) {
       color: t.color.text.primary,
       textAlign: "center"
     },
+    titleSize: {
+      sm: { fontSize: t.fontSize.lg },
+      md: { fontSize: t.fontSize.xl },
+      lg: { fontSize: t.fontSize["2xl"] }
+    },
     description: {
       fontSize: t.fontSize.md,
       color: t.color.text.secondary,
       textAlign: "center"
+    },
+    descriptionSize: {
+      sm: { fontSize: t.fontSize.sm },
+      md: { fontSize: t.fontSize.md },
+      lg: { fontSize: t.fontSize.lg }
     }
   };
 }
@@ -1273,8 +1322,8 @@ function formControlTokens(t) {
     },
     label: {
       fontSize: t.fontSize.sm,
-      fontWeight: t.fontWeight.medium,
-      color: t.color.text.secondary
+      fontWeight: t.fontWeight.semibold,
+      color: t.color.text.primary
     },
     helperText: {
       fontSize: t.fontSize.xs,
@@ -1478,6 +1527,11 @@ function otpInputTokens(t) {
       fontWeight: t.fontWeight.semibold,
       color: t.color.text.primary,
       focused: { borderColor: t.color.brand.default },
+      /** Filled digit — distinct from empty default border */
+      filled: {
+        borderColor: t.color.brand.default,
+        backgroundColor: t.color.brand.subtle
+      },
       error: { borderColor: t.color.error.border }
     }
   };
@@ -1673,6 +1727,10 @@ function textAreaTokens(t) {
     ...inputTokens(t),
     container: {
       ...inputTokens(t).container,
+      /** Multiline: column + stretch so TextInput fills height; row/center caused overlap with sibling helper */
+      flexDirection: "column",
+      alignItems: "stretch",
+      overflow: "hidden",
       height: "auto",
       minHeight: 100,
       paddingVertical: t.spacing[2],
@@ -1731,21 +1789,25 @@ function tooltipTokens(t) {
   };
 }
 function typographyTokens(t) {
+  const ramp = t.typography;
   return {
     variants: {
-      h1: { fontSize: t.fontSize["4xl"], fontWeight: t.fontWeight.semibold, lineHeight: t.fontSize["4xl"] * 1.1 },
-      h2: { fontSize: t.fontSize["3xl"], fontWeight: t.fontWeight.semibold, lineHeight: t.fontSize["3xl"] * 1.1 },
-      h3: { fontSize: t.fontSize["2xl"], fontWeight: t.fontWeight.semibold, lineHeight: t.fontSize["2xl"] * 1.2 },
-      h4: { fontSize: t.fontSize.xl, fontWeight: t.fontWeight.semibold, lineHeight: t.fontSize.xl * 1.2 },
-      h5: { fontSize: t.fontSize.lg, fontWeight: t.fontWeight.medium, lineHeight: t.fontSize.lg * 1.3 },
-      h6: { fontSize: t.fontSize.md, fontWeight: t.fontWeight.medium, lineHeight: t.fontSize.md * 1.4 },
+      display: ramp.display,
+      h1: ramp.h1,
+      h2: ramp.h2,
+      h3: ramp.h3,
+      h4: ramp.h4,
+      h5: ramp.h5,
+      h6: ramp.h6,
+      body1: ramp.body1,
+      body2: ramp.body2,
+      caption: ramp.caption,
+      overline: ramp.overline,
+      label: ramp.label,
+      code: ramp.code,
       subtitle1: { fontSize: t.fontSize.md, fontWeight: t.fontWeight.medium, lineHeight: t.fontSize.md * 1.4 },
       subtitle2: { fontSize: t.fontSize.sm, fontWeight: t.fontWeight.medium, lineHeight: t.fontSize.sm * 1.4 },
-      body1: { fontSize: t.fontSize.md, fontWeight: t.fontWeight.regular, lineHeight: t.fontSize.md * 1.5 },
-      body2: { fontSize: t.fontSize.sm, fontWeight: t.fontWeight.regular, lineHeight: t.fontSize.sm * 1.5 },
-      caption: { fontSize: t.fontSize.xs, fontWeight: t.fontWeight.regular, lineHeight: t.fontSize.xs * 1.4 },
-      button: { fontSize: t.fontSize.sm, fontWeight: t.fontWeight.semibold, textTransform: "uppercase" },
-      overline: { fontSize: t.fontSize.xs, fontWeight: t.fontWeight.semibold, letterSpacing: 1.2, textTransform: "uppercase" }
+      button: { fontSize: t.fontSize.sm, fontWeight: t.fontWeight.semibold, textTransform: "uppercase" }
     },
     colors: {
       primary: t.color.text.primary,

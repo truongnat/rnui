@@ -12,7 +12,13 @@ export interface AnimatedListProps<T> extends Omit<FlashListProps<T>, "renderIte
     data: T[] | null | undefined;
     /** Function to render each item. Use `index` to stagger entering animations if desired. */
     renderItem: (info: ListRenderItemInfo<T>) => React.ReactElement | null;
-    /** The estimated height of an item in the list. Required for FlashList. */
+    /**
+     * Average main-axis size of one item (usually **height** in a vertical list), in dp.
+     * FlashList uses this to size the scroll window and recycle views; **pick a value close to the real
+     * rendered row height** (± a few px). If this is far off, you may see scroll jumps or degraded
+     * performance with little warning.
+     * @see https://shopify.github.io/flash-list/docs/estimated-item-size
+     */
     estimatedItemSize: number;
     /** Apply entering animation to items as they appear. Recommended: FadeInDown */
     itemEntering?: any;
@@ -34,6 +40,8 @@ export interface AnimatedListProps<T> extends Omit<FlashListProps<T>, "renderIte
 /**
  * AnimatedList wraps @shopify/flash-list with Reanimated to provide
  * ultra-fast performance combined with smooth layout and entry animations.
+ *
+ * Prefer a **stable** `renderItem` (`useCallback`) and `keyExtractor` so FlashList does not recycle unnecessarily.
  */
 // eslint-disable-next-line react/display-name
 export const AnimatedList = forwardRef(<T extends any>(

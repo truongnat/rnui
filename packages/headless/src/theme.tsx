@@ -39,8 +39,16 @@ export interface ThemeProviderProps {
   /**
    * Force a color scheme, ignoring system preference.
    * "system" (default) follows the device setting.
+   *
+   * When `onColorSchemeChange` is set, this value is **controlled**: the parent owns
+   * state (e.g. from `usePersistedColorScheme`) and must update `colorScheme` when the user changes theme.
    */
   colorScheme?: ColorScheme | "system";
+  /**
+   * If provided, `ThemeProvider` runs in controlled mode: `setColorScheme` from `useTheme()`
+   * calls this instead of internal state. Use with `usePersistedColorScheme` + AsyncStorage (in the app).
+   */
+  onColorSchemeChange?: (scheme: ColorScheme | "system") => void;
   /**
    * Brand preset — defines the full color identity (bg, brand, accent, text…).
    * Each brand carries its own light + dark token sets.
@@ -54,6 +62,9 @@ export interface ThemeProviderProps {
   /**
    * Fine-grained token overrides applied on top of the active brand.
    * Use for one-off tweaks; prefer Brand for full color swaps.
+   *
+   * **Perf:** `resolveComponentTokens` is pure; recomputation happens when this reference changes.
+   * Memoize at the call site if you build overrides inline: `useMemo(() => createTheme({ ... }), [deps])`.
    */
   override?: ThemeOverride;
 }
@@ -80,13 +91,34 @@ export function ThemeProvider({
   colorScheme: forcedScheme = "system",
   brand: initialBrand,
   override,
+  onColorSchemeChange,
 }: ThemeProviderProps) {
   const systemScheme = useColorScheme();
+  const isControlled = typeof onColorSchemeChange === "function";
   const [manualScheme, setManualScheme] = React.useState<ColorScheme | "system">(forcedScheme);
   const [activeBrand, setActiveBrand] = React.useState<Brand | undefined>(initialBrand);
 
+  React.useEffect(() => {
+    if (!isControlled) {
+      setManualScheme(forcedScheme);
+    }
+  }, [forcedScheme, isControlled]);
+
+  const schemePreference: ColorScheme | "system" = isControlled ? forcedScheme : manualScheme;
+
+  const setColorScheme = React.useCallback(
+    (scheme: ColorScheme | "system") => {
+      if (isControlled) {
+        onColorSchemeChange?.(scheme);
+      } else {
+        setManualScheme(scheme);
+      }
+    },
+    [isControlled, onColorSchemeChange]
+  );
+
   const activeScheme: ColorScheme =
-    manualScheme === "system" ? (systemScheme === "dark" ? "dark" : "light") : manualScheme;
+    schemePreference === "system" ? (systemScheme === "dark" ? "dark" : "light") : schemePreference;
 
   const theme = useMemo<Theme>(() => {
     // 1. Build base tokens:
@@ -109,10 +141,10 @@ export function ThemeProvider({
       components,
       colorScheme: activeScheme,
       brand: activeBrand,
-      setColorScheme: setManualScheme,
+      setColorScheme,
       setBrand: setActiveBrand,
     };
-  }, [activeScheme, activeBrand, override]);
+  }, [activeScheme, activeBrand, override, setColorScheme]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

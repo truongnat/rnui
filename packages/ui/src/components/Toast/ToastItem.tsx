@@ -59,8 +59,9 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
 
   const v = variantMap[item.variant] || variantMap.default;
 
-  const entering = position === "top" ? FadeInDown.springify().damping(18).stiffness(280) : FadeInUp.springify().damping(18).stiffness(280);
-  const exiting = position === "top" ? FadeOutUp.duration(200) : FadeOutDown.duration(200);
+  // Timing-based enter avoids high-stiffness springs (e.g. 280) that read as a sharp bounce when toasts stack or reflow.
+  const entering = position === "top" ? FadeInDown.duration(280) : FadeInUp.duration(280);
+  const exiting = position === "top" ? FadeOutUp.duration(220) : FadeOutDown.duration(220);
 
   return (
     <Animated.View
