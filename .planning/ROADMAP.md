@@ -6,7 +6,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 ## Phases
 
-- [ ] **Phase 1: Critical fixes** — Typing, Rating/half-star, reduce motion, tokens, precision, href, easing
+- [x] **Phase 1: Critical fixes** — Typing, Rating/half-star, reduce motion, tokens, precision, href, easing (completed 2026-04-02)
 - [ ] **Phase 2: Rating component depth** — A11y, animation, memo, variants
 - [ ] **Phase 3: Performance & edge cases** — Carousel, Skeleton, Switch
 - [ ] **Phase 4: Design system enhancements** — Tokens, brands, motion, contrast
@@ -103,7 +103,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Critical fixes | TBD | Discuss → plan | - |
+| 1. Critical fixes | 1/1 | Complete   | 2026-04-02 |
 | 2. Rating depth | TBD | Not started | - |
 | 3. Perf & edges | TBD | Not started | - |
 | 4. DS enhancements | TBD | Not started | - |
