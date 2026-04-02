@@ -13,7 +13,8 @@ import {
   type TapGestureHandlerEventPayload,
   type LongPressGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
-import { AccessibilityInfo, Platform, type AccessibilityRole } from "react-native";
+import { Platform, type AccessibilityRole } from "react-native";
+import { useReduceMotionEnabled } from "./useMotionPreference";
 import { spring, pressFeedback } from "@truongdq01/tokens";
 
 // ─── Types ────────────────────────────────────────────────────────
@@ -81,6 +82,9 @@ export function usePressable({
   testID,
 }: UsePressableOptions = {}): UsePressableReturn {
   const [isPressed, setIsPressed] = useState(false);
+  const reduceMotion = useReduceMotionEnabled();
+  const effectiveFeedbackMode: PressFeedbackMode =
+    reduceMotion && feedbackMode !== "none" ? "none" : feedbackMode;
 
   // Shared values live on the UI thread
   const scale = useSharedValue(1);
@@ -105,10 +109,10 @@ export function usePressable({
 
   // ── Animated style (UI thread) ────────────────────────────────
   const animatedStyle = useAnimatedStyle(() => {
-    if (feedbackMode === "opacity") {
+    if (effectiveFeedbackMode === "opacity") {
       return { opacity: opacity.value };
     }
-    if (feedbackMode === "none") {
+    if (effectiveFeedbackMode === "none") {
       return {};
     }
     return { transform: [{ scale: scale.value }] };
@@ -128,20 +132,20 @@ export function usePressable({
     .onBegin(() => {
       "worklet";
       runOnJS(setPressedState)(true);
-      if (feedbackMode === "scale") {
+      if (effectiveFeedbackMode === "scale") {
         scale.value = withSpring(scaleDownPressed, snappySpring);
-      } else if (feedbackMode === "scaleSubtle") {
+      } else if (effectiveFeedbackMode === "scaleSubtle") {
         scale.value = withSpring(scaleSubtlePressed, snappySpring);
-      } else if (feedbackMode === "opacity") {
+      } else if (effectiveFeedbackMode === "opacity") {
         opacity.value = withTiming(opacityOnlyPressed, { duration: 60 });
       }
     })
     .onFinalize((_event, success) => {
       "worklet";
       runOnJS(setPressedState)(false);
-      if (feedbackMode === "scale" || feedbackMode === "scaleSubtle") {
+      if (effectiveFeedbackMode === "scale" || effectiveFeedbackMode === "scaleSubtle") {
         scale.value = withSpring(1, snappySpring);
-      } else if (feedbackMode === "opacity") {
+      } else if (effectiveFeedbackMode === "opacity") {
         opacity.value = withTiming(1, { duration: 100 });
       }
       if (success) {

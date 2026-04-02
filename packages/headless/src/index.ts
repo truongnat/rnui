@@ -3,10 +3,20 @@ export { ThemeProvider, useTheme, useTokens, useComponentTokens, useIsDark, useA
 export type { Theme, ThemeOverride, ThemeProviderProps, Brand } from "./theme";
 
 // Motion
-export { motionPresets, motionEasing, heroTransition, timingPreset, focusRingAnimation } from "./motion";
+export {
+  motionPresets,
+  motionEasing,
+  heroTransition,
+  timingPreset,
+  focusRingAnimation,
+  resolveTimingPreset,
+} from "./motion";
+export type { TimingPresetKey } from "./motion";
 
 
 // Hooks
+export { useReduceMotionEnabled, useReduceMotionEnabled as useMotionPreference } from "./hooks/useMotionPreference";
+
 export { usePressable } from "./hooks/usePressable";
 export type { UsePressableOptions, UsePressableReturn, PressFeedbackMode } from "./hooks/usePressable";
 

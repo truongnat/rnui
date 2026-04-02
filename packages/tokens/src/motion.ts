@@ -41,7 +41,8 @@ export const duration = {
 } as const;
 
 // ─── Easing curves ────────────────────────────────────────────────
-// Use with withTiming — Bézier strings for Reanimated Easing
+// CSS cubic-bezier strings (design metadata). For `withTiming`, use `motionEasing` or
+// `resolveTimingPreset` from `@truongdq01/headless` — Reanimated expects `Easing.*` functions.
 export const easing = {
   easeIn: "cubic-bezier(0.4, 0, 1, 1)",
   easeOut: "cubic-bezier(0, 0, 0.2, 1)",
@@ -85,7 +86,8 @@ export const motionPreset = {
 } as const;
 
 // ─── Duration-based animation presets ────────────────────────────
-// Use with withTiming() for non-spring animations
+// Use `resolveTimingPreset(key)` from `@truongdq01/headless` to get `{ duration, easing }`
+// compatible with `withTiming`.
 export const timingPreset = {
   // Fade in/out — opacity only
   fadeIn:  { duration: duration.fast,   easing: easing.easeOut },

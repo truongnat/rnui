@@ -1,4 +1,11 @@
-import { Easing, SharedTransition, withSpring, withTiming } from "react-native-reanimated";
+import {
+  Easing,
+  SharedTransition,
+  withSpring,
+  withTiming,
+  type EasingFunction,
+  type EasingFunctionFactory,
+} from "react-native-reanimated";
 import {
     FadeInUp,
     FadeInDown,
@@ -15,7 +22,13 @@ import {
     SlideOutUp,
     SlideOutRight,
 } from "react-native-reanimated";
-import { spring, timingPreset, focusRingAnimation } from "@truongdq01/tokens";
+import {
+  spring,
+  timingPreset,
+  focusRingAnimation,
+  easing as easingTokens,
+  type TimingPresetKey,
+} from "@truongdq01/tokens";
 
 /**
  * Real Reanimated layout classes mapped from design tokens.
@@ -53,6 +66,21 @@ export const motionEasing = {
     linear: Easing.linear,
 } as const;
 
+/**
+ * Maps a {@link timingPreset} entry to arguments safe for `withTiming`.
+ * Token `easing` fields are CSS curve strings; this pairs them with Reanimated `Easing` functions.
+ */
+export function resolveTimingPreset(key: TimingPresetKey): {
+    duration: number;
+    easing: EasingFunction | EasingFunctionFactory;
+} {
+    const preset = timingPreset[key];
+    let easingFn: EasingFunction | EasingFunctionFactory = motionEasing.easeInOut;
+    if (preset.easing === easingTokens.easeIn) easingFn = motionEasing.easeIn;
+    else if (preset.easing === easingTokens.easeOut) easingFn = motionEasing.easeOut;
+    else if (preset.easing === easingTokens.linear) easingFn = motionEasing.linear;
+    return { duration: preset.duration, easing: easingFn };
+}
 
 /**
  * Shared Element Transition preset for Hero images and seamless navigation.
@@ -70,4 +98,4 @@ export const heroTransition = (SharedTransition && (SharedTransition as any).cus
     })
     : null;
 
-export { timingPreset, focusRingAnimation };
+export { timingPreset, focusRingAnimation, type TimingPresetKey };

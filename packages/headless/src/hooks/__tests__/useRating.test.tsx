@@ -70,4 +70,9 @@ describe("useRating", () => {
     expect(result.current.value).toBe(3);
     expect(onChange).not.toHaveBeenCalled();
   });
+
+  it("should fall back to precision 1 when precision is zero or invalid", () => {
+    const { result } = renderHook(() => useRating({ precision: 0 }));
+    expect(result.current.precision).toBe(1);
+  });
 });

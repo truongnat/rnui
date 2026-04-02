@@ -19,7 +19,7 @@ export function Pressable({ children, style, testID, ...hookOptions }: Pressable
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View
-        style={[(pressable as any).container, style, animatedStyle] as any}
+        style={[pressable.container, style, animatedStyle]}
         {...accessibilityProps}
       >
         {typeof children === "function" ? children({ isPressed }) : children}
