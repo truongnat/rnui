@@ -6,7 +6,7 @@ import Animated, {
   withSpring,
   interpolateColor,
 } from "react-native-reanimated";
-import { useSwitch, useTokens, useComponentTokens } from "@truongdq01/headless";
+import { useSwitch, useTokens, useComponentTokens, useReduceMotionEnabled } from "@truongdq01/headless";
 import { spring } from "@truongdq01/tokens";
 import type { UseSwitchOptions } from "@truongdq01/headless";
 
@@ -19,6 +19,7 @@ export interface SwitchProps extends UseSwitchOptions {
 export const Switch = React.memo(({ label, description, size = "md", ...hookOptions }: SwitchProps) => {
   const tokens = useTokens();
   const { switch: switchT } = useComponentTokens();
+  const reduceMotion = useReduceMotionEnabled();
   const { isOn, isDisabled, toggle, accessibilityProps } = useSwitch(hookOptions);
 
   const tTrack = switchT.track[size];
@@ -29,8 +30,9 @@ export const Switch = React.memo(({ label, description, size = "md", ...hookOpti
   const progress = useSharedValue(isOn ? 1 : 0);
 
   React.useEffect(() => {
-    progress.value = withSpring(isOn ? 1 : 0, spring.snappy);
-  }, [isOn]);
+    const target = isOn ? 1 : 0;
+    progress.value = reduceMotion ? target : withSpring(target, spring.snappy);
+  }, [isOn, reduceMotion]);
 
   const trackStyle = useAnimatedStyle(() => ({
     backgroundColor: interpolateColor(

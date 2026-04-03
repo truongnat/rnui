@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useMemo, type ReactNode } from "react";
+import React, { createContext, useContext, useMemo, useRef, type ReactNode } from "react";
 import { useColorScheme } from "react-native";
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import type { Brand } from "@truongdq01/tokens";
 import {
@@ -67,6 +68,8 @@ export interface ThemeProviderProps {
    * Memoize at the call site if you build overrides inline: `useMemo(() => createTheme({ ... }), [deps])`.
    */
   override?: ThemeOverride;
+  /** Animate opacity when color scheme or brand changes (subtle cross-fade). Default false. */
+  animateTransition?: boolean;
 }
 
 /**
@@ -92,6 +95,7 @@ export function ThemeProvider({
   brand: initialBrand,
   override,
   onColorSchemeChange,
+  animateTransition = false,
 }: ThemeProviderProps) {
   const systemScheme = useColorScheme();
   const isControlled = typeof onColorSchemeChange === "function";
@@ -120,6 +124,24 @@ export function ThemeProvider({
   const activeScheme: ColorScheme =
     schemePreference === "system" ? (systemScheme === "dark" ? "dark" : "light") : schemePreference;
 
+  // Animated transition on scheme/brand change
+  const transitionOpacity = useSharedValue(1);
+  const prevSchemeRef = useRef(activeScheme);
+  const prevBrandRef = useRef(activeBrand?.id);
+  React.useEffect(() => {
+    if (!animateTransition) return;
+    if (prevSchemeRef.current !== activeScheme || prevBrandRef.current !== activeBrand?.id) {
+      transitionOpacity.value = 0.88;
+      transitionOpacity.value = withTiming(1, { duration: 280 });
+    }
+    prevSchemeRef.current = activeScheme;
+    prevBrandRef.current = activeBrand?.id;
+  }, [activeScheme, activeBrand?.id, animateTransition]);
+  const transitionStyle = useAnimatedStyle(() => ({
+    opacity: transitionOpacity.value,
+    flex: 1,
+  }));
+
   const theme = useMemo<Theme>(() => {
     // 1. Build base tokens:
     //    - If brand provided → build full SemanticTokens from brand's color group for this scheme
@@ -146,10 +168,16 @@ export function ThemeProvider({
     };
   }, [activeScheme, activeBrand, override, setColorScheme]);
 
+  const content = animateTransition ? (
+    <Animated.View style={transitionStyle}>{children}</Animated.View>
+  ) : (
+    children
+  );
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeContext.Provider value={theme}>
-        {children}
+        {content}
       </ThemeContext.Provider>
     </GestureHandlerRootView>
   );

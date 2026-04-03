@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal as RNModal, View, Pressable, StyleSheet } from "react-native";
+import { Modal as RNModal, View, Pressable, StyleSheet, type StyleProp, type ViewStyle } from "react-native";
 import { useComponentTokens } from "@truongdq01/headless";
 
 export interface ModalProps {
@@ -10,9 +10,13 @@ export interface ModalProps {
   hideBackdrop?: boolean;
   disableAutoFocus?: boolean;
   disableEscapeKeyDown?: boolean;
+  /** Accessibility label for the modal content container */
+  accessibilityLabel?: string;
+  /** Accessibility label for the backdrop dismiss button */
+  backdropAccessibilityLabel?: string;
   BackdropComponent?: React.ComponentType<any>;
   BackdropProps?: object;
-  contentStyle?: object;
+  contentStyle?: StyleProp<ViewStyle>;
 }
 
 export function Modal({
@@ -22,6 +26,8 @@ export function Modal({
   keepMounted = false,
   hideBackdrop = false,
   disableEscapeKeyDown = false,
+  accessibilityLabel = "Modal",
+  backdropAccessibilityLabel = "Dismiss modal",
   BackdropComponent,
   BackdropProps,
   contentStyle,
@@ -46,15 +52,26 @@ export function Modal({
       <View style={[styles.overlay, modal.overlay]}>
         {!hideBackdrop && (
           BackdropComponent ? (
-            <BackdropComponent {...BackdropProps} />
+            (() => {
+              const el = <BackdropComponent {...BackdropProps} />;
+              return React.isValidElement(el) ? React.cloneElement(el as any, { collapsable: false }) : el;
+            })()
           ) : (
             <Pressable
               style={[StyleSheet.absoluteFill, { backgroundColor: modal.overlay.backgroundColor }]}
               onPress={onClose}
+              accessibilityRole="button"
+              accessibilityLabel={backdropAccessibilityLabel}
+              accessibilityHint="Closes the modal"
             />
           )
         )}
-        <View style={[styles.content, modal.container, contentStyle]}>
+        <View
+          accessibilityViewIsModal
+          accessibilityRole="none"
+          accessibilityLabel={accessibilityLabel}
+          style={[styles.content, modal.container, contentStyle]}
+        >
           {children}
         </View>
       </View>

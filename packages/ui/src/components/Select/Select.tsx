@@ -1,6 +1,5 @@
 import React, { useRef, useState, useMemo, useCallback } from "react";
-import { View, Text, TextInput, Pressable, ActivityIndicator } from "react-native";
-import { FlashList } from "@shopify/flash-list";
+import { View, Text, TextInput, Pressable, ActivityIndicator, FlatList } from "react-native";
 import { useSelect, useTokens, useComponentTokens } from "@truongdq01/headless";
 import { BottomSheet } from "../BottomSheet/BottomSheet";
 import type { BottomSheetRef } from "../BottomSheet/BottomSheet";
@@ -43,6 +42,17 @@ export function Select<T = string>({
   const sheetRef = useRef<BottomSheetRef>(null);
   const [query, setQuery] = useState("");
   const endReachBusy = useRef(false);
+  const a11yLabel = label ?? "Select";
+  // FlashList is an optional native dependency. Fall back to FlatList when it's not installed.
+  const ListImpl: React.ComponentType<any> = useMemo(() => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const mod = require("@shopify/flash-list") as { FlashList?: React.ComponentType<any> };
+      return mod?.FlashList ?? FlatList;
+    } catch {
+      return FlatList;
+    }
+  }, []);
 
   const {
     isOpen,
@@ -112,10 +122,9 @@ export function Select<T = string>({
             alignItems: "center",
             justifyContent: "space-between",
             paddingVertical: tokens.spacing[3],
-            paddingHorizontal: tokens.spacing[2],
+            paddingHorizontal: tokens.spacing[4],
             borderRadius: tokens.radius.md,
-            backgroundColor: selected ? select.option.selected.bg : "transparent",
-            marginBottom: 2,
+            backgroundColor: selected ? select.option.selected.bg : tokens.color.surface.default,
             opacity: option.disabled ? 0.4 : 1,
           }}
         >
@@ -181,7 +190,7 @@ export function Select<T = string>({
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          height: 44,
+          height: 48,
           paddingHorizontal: select.trigger.padding.x,
           paddingVertical: select.trigger.padding.y,
           borderWidth: 1,
@@ -189,6 +198,8 @@ export function Select<T = string>({
           borderRadius: select.trigger.borderRadius,
           backgroundColor: select.trigger.bg,
         }}
+        accessibilityRole={"combobox" as any}
+        accessibilityLabel={a11yLabel}
         accessibilityState={{ expanded: isOpen }}
       >
         <Text
@@ -219,7 +230,7 @@ export function Select<T = string>({
         enableBackdrop
         enableDismissOnSwipe
       >
-        <View style={{ flex: 1, paddingHorizontal: tokens.spacing[4] }}>
+        <View style={{ flex: 1, paddingHorizontal: tokens.spacing[4], backgroundColor: tokens.color.bg.default }}>
           {searchable && isOpen && (
             <View
               style={{
@@ -229,7 +240,7 @@ export function Select<T = string>({
                 borderColor: tokens.color.border.default,
                 borderRadius: tokens.radius.md,
                 paddingHorizontal: tokens.spacing[3],
-                height: 44,
+                height: 48,
                 marginBottom: tokens.spacing[3],
                 backgroundColor: tokens.color.bg.subtle,
               }}
@@ -244,6 +255,7 @@ export function Select<T = string>({
                 placeholderTextColor={tokens.color.text.tertiary}
                 style={{ flex: 1, fontSize: tokens.fontSize.md, color: tokens.color.text.primary, height: "100%" }}
                 autoFocus
+                accessibilityLabel={`${a11yLabel} search`}
               />
               {query.length > 0 && (
                 <Pressable onPress={() => setQuery("")} hitSlop={8}>
@@ -256,14 +268,23 @@ export function Select<T = string>({
           {filtered.length === 0 ? (
             <View style={{ flex: 1, minHeight: 120 }}>{listEmpty}</View>
           ) : (
-            <FlashList
+            <ListImpl
               style={{ flex: 1 }}
               data={filtered}
               extraData={query}
               renderItem={renderItem}
-              keyExtractor={(item) => String(item.value)}
+              keyExtractor={(item: SelectOption<T>) => String(item.value)}
               onEndReached={onEndReached}
               onEndReachedThreshold={0.35}
+              ItemSeparatorComponent={() => (
+                <View
+                  style={{
+                    height: 1,
+                    backgroundColor: tokens.color.border.subtle,
+                    marginLeft: tokens.spacing[4],
+                  }}
+                />
+              )}
               ListFooterComponent={
                 loadingMore ? (
                   <View style={{ paddingVertical: tokens.spacing[3], alignItems: "center" }}>
@@ -273,6 +294,8 @@ export function Select<T = string>({
                   <View style={{ height: tokens.spacing[4] }} />
                 )
               }
+              // FlashList-only optimization; harmless for FlatList (ignored)
+              estimatedItemSize={48}
             />
           )}
         </View>

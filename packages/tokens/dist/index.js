@@ -84,11 +84,22 @@ var primitive = {
       300: "#C4B5FD",
       400: "#A78BFA",
       500: "#8B5CF6",
+      550: "#7F4BF0",
+      // mid-step for finer gradients
       600: "#7C3AED",
       700: "#6D28D9",
       800: "#5B21B6",
       900: "#4C1D95",
       950: "#2E1065"
+    },
+    // Warm neutrals — cream/ivory tones for softer light backgrounds
+    warmNeutral: {
+      50: "#FEFDFB",
+      100: "#FBF8F3",
+      200: "#F5F0E8",
+      300: "#EBE3D6",
+      400: "#D5CBBC",
+      500: "#A8A093"
     },
     // Accent — Amber (warm CTA accent, creates visual hierarchy)
     amber: {
@@ -196,6 +207,15 @@ var primitive = {
       950: "#1E1B4B"
     }
   },
+  // ─── Gradient presets ────────────────────────────────────────
+  gradient: {
+    brand: ["#8B5CF6", "#6D28D9"],
+    accent: ["#F59E0B", "#D97706"],
+    success: ["#34D399", "#059669"],
+    sunrise: ["#F59E0B", "#EF4444"],
+    ocean: ["#60A5FA", "#7C3AED"],
+    midnight: ["#312E81", "#1E1B4B"]
+  },
   // ─── Spacing scale (4px base) ────────────────────────────────
   spacing: {
     0: 0,
@@ -216,8 +236,10 @@ var primitive = {
     12: 48,
     14: 56,
     16: 64,
+    18: 72,
     20: 80,
-    24: 96
+    24: 96,
+    28: 112
   },
   // ─── Border radius ───────────────────────────────────────────
   radius: {
@@ -367,7 +389,8 @@ var shared = {
     lg: { fontSize: fontSize.lg, lineHeight: fontSize.lg * lineHeight.normal, fontWeight: fontWeight.regular },
     xl: { fontSize: fontSize.xl, lineHeight: fontSize.xl * lineHeight.snug, fontWeight: fontWeight.medium },
     "2xl": { fontSize: fontSize["2xl"], lineHeight: fontSize["2xl"] * lineHeight.snug, fontWeight: fontWeight.medium },
-    "3xl": { fontSize: fontSize["3xl"], lineHeight: fontSize["3xl"] * lineHeight.tight, fontWeight: fontWeight.semibold }
+    "3xl": { fontSize: fontSize["3xl"], lineHeight: fontSize["3xl"] * lineHeight.tight, fontWeight: fontWeight.semibold },
+    "4xl": { fontSize: fontSize["4xl"], lineHeight: fontSize["4xl"] * lineHeight.tight, fontWeight: fontWeight.bold }
   }
 };
 var lightTokens = {
@@ -375,9 +398,12 @@ var lightTokens = {
   color: {
     // Backgrounds
     bg: {
-      default: color.white,
-      subtle: color.gray[50],
-      // F8FAFC
+      // Telegram-like grouping: app background is slightly tinted,
+      // while primary surfaces remain white for contrast and hierarchy.
+      default: color.gray[50],
+      // #F8FAFC
+      subtle: color.gray[100],
+      // #F1F5F9
       muted: color.gray[200],
       // E2E8F0
       emphasis: color.gray[400],
@@ -398,8 +424,10 @@ var lightTokens = {
       sunken: color.gray[100],
       hover: color.gray[50],
       // #F8FAFC - subtle hover on elevated surface
-      disabled: color.gray[100]
+      disabled: color.gray[100],
       // #F1F5F9
+      glass: "rgba(255,255,255,0.72)",
+      glassBorder: "rgba(255,255,255,0.3)"
     },
     // Text - Much darker overall
     text: {
@@ -513,10 +541,10 @@ var darkTokens = {
       raised: color.gray[800],
       overlay: color.gray[800],
       sunken: color.gray[950],
-      // One step lighter than raised (gray[800]) for hover affordance
       hover: color.gray[700],
-      disabled: "#0D0D14"
-      // same as bg.default = sunken feel
+      disabled: "#0D0D14",
+      glass: "rgba(15,23,42,0.72)",
+      glassBorder: "rgba(255,255,255,0.08)"
     },
     text: {
       primary: color.gray[50],
@@ -594,10 +622,10 @@ var darkTokens = {
   // Shadows dark mode — stronger for depth perception
   shadow: {
     none: { shadowColor: "transparent", shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
-    sm: { shadowColor: color.black, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 2 },
-    md: { shadowColor: color.black, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.35, shadowRadius: 10, elevation: 4 },
-    lg: { shadowColor: color.black, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.45, shadowRadius: 20, elevation: 8 },
-    xl: { shadowColor: color.black, shadowOffset: { width: 0, height: 16 }, shadowOpacity: 0.55, shadowRadius: 36, elevation: 16 }
+    sm: { shadowColor: color.brand[900], shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.3, shadowRadius: 4, elevation: 2 },
+    md: { shadowColor: color.brand[900], shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.4, shadowRadius: 10, elevation: 4 },
+    lg: { shadowColor: color.brand[800], shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.5, shadowRadius: 20, elevation: 8 },
+    xl: { shadowColor: color.brand[800], shadowOffset: { width: 0, height: 16 }, shadowOpacity: 0.6, shadowRadius: 36, elevation: 16 }
   }
 };
 function buildSemanticTokens(brand, scheme) {
@@ -605,6 +633,8 @@ function buildSemanticTokens(brand, scheme) {
   const baseShadow = scheme === "dark" ? darkTokens.shadow : lightTokens.shadow;
   return {
     ...shared,
+    fontFamily: brand.fontFamily ? { sans: brand.fontFamily.sans ?? shared.fontFamily.sans, mono: brand.fontFamily.mono ?? shared.fontFamily.mono } : shared.fontFamily,
+    brandStyle: brand.style,
     color: colors,
     shadow: baseShadow
   };
@@ -617,7 +647,7 @@ var semanticTokens = {
 // src/component.ts
 function buttonTokens(t) {
   const base = {
-    borderRadius: t.radius.full,
+    borderRadius: t.brandStyle?.buttonRadius ?? t.radius.full,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -1440,14 +1470,21 @@ function linkTokens(t) {
 function listTokens(t) {
   return {
     container: {
-      backgroundColor: t.color.surface.default
+      // Telegram-like grouped lists: list background is slightly tinted,
+      // while list items sit on primary surfaces.
+      backgroundColor: t.color.bg.default
     },
     item: {
       padding: t.spacing[4],
       flexDirection: "row",
       alignItems: "center",
       gap: t.spacing[3],
+      backgroundColor: t.color.surface.default,
       pressed: { backgroundColor: t.color.bg.hover }
+    },
+    separator: {
+      color: t.color.border.subtle,
+      insetLeft: t.spacing[4]
     },
     itemText: {
       fontSize: t.fontSize.md,
@@ -1943,7 +1980,7 @@ function ratingTokens(t) {
 function paginationTokens(t) {
   return {
     item: {
-      active: { bg: t.color.brand.default, color: "#fff", borderColor: t.color.brand.default },
+      active: { bg: t.color.brand.default, color: t.color.text.inverse, borderColor: t.color.brand.default },
       default: { bg: "transparent", color: t.color.text.primary, borderColor: t.color.border.default },
       hover: { bg: t.color.bg.hover },
       disabled: { color: t.color.text.disabled, borderColor: t.color.border.default }
@@ -1990,6 +2027,12 @@ var spring = {
     damping: 32,
     stiffness: 500,
     mass: 0.6
+  },
+  // Elastic — onboarding, celebration, achievement unlocks
+  elastic: {
+    damping: 8,
+    stiffness: 250,
+    mass: 1
   }
 };
 var duration = {

@@ -27,6 +27,8 @@ export * from "./components/EmptyState";
 export * from "./components/Fab";
 export * from "./components/FormControl";
 export * from "./components/FormField";
+export * from "./components/GlassCard";
+export * from "./components/Gradient";
 export * from "./components/Grid";
 export * from "./components/Icon";
 export * from "./components/Image";
@@ -63,6 +65,12 @@ export * from "./components/Toast";
 export * from "./components/ToggleButton";
 export * from "./components/Tooltip";
 export * from "./components/Typography";
+export * from "./components/TelegramTabBar";
+export * from "./components/ChatListItem";
+export * from "./components/MessageInput";
+export * from "./components/TelegramPopup";
+export * from "./components/TelegramContextMenu";
+export * from "./components/TelegramSettingsMenu";
 
 // Styles
 export { StyleSheet } from "react-native";

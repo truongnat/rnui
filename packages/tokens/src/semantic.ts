@@ -64,6 +64,7 @@ const shared = {
     xl: { fontSize: fontSize.xl, lineHeight: fontSize.xl * lineHeight.snug, fontWeight: fontWeight.medium },
     "2xl": { fontSize: fontSize["2xl"], lineHeight: fontSize["2xl"] * lineHeight.snug, fontWeight: fontWeight.medium },
     "3xl": { fontSize: fontSize["3xl"], lineHeight: fontSize["3xl"] * lineHeight.tight, fontWeight: fontWeight.semibold },
+    "4xl": { fontSize: fontSize["4xl"], lineHeight: fontSize["4xl"] * lineHeight.tight, fontWeight: fontWeight.bold },
   },
 } as const;
 
@@ -74,8 +75,10 @@ export const lightTokens = {
   color: {
     // Backgrounds
     bg: {
-      default: color.white,
-      subtle: color.gray[50], // F8FAFC
+      // Telegram-like grouping: app background is slightly tinted,
+      // while primary surfaces remain white for contrast and hierarchy.
+      default: color.gray[50], // #F8FAFC
+      subtle: color.gray[100], // #F1F5F9
       muted: color.gray[200],    // E2E8F0
       emphasis: color.gray[400], // 94A3B8 - Highly visible for skeletons
       inverse: color.gray[900],  // 0F172A
@@ -91,6 +94,8 @@ export const lightTokens = {
       sunken: color.gray[100],
       hover: color.gray[50],     // #F8FAFC - subtle hover on elevated surface
       disabled: color.gray[100], // #F1F5F9
+      glass: "rgba(255,255,255,0.72)",
+      glassBorder: "rgba(255,255,255,0.3)",
     },
     // Text - Much darker overall
     text: {
@@ -177,9 +182,10 @@ export const darkTokens = {
       raised: color.gray[800],
       overlay: color.gray[800],
       sunken: color.gray[950],
-      // One step lighter than raised (gray[800]) for hover affordance
       hover: color.gray[700],
-      disabled: "#0D0D14",        // same as bg.default = sunken feel
+      disabled: "#0D0D14",
+      glass: "rgba(15,23,42,0.72)",
+      glassBorder: "rgba(255,255,255,0.08)",
     },
     text: {
       primary: color.gray[50],
@@ -236,72 +242,12 @@ export const darkTokens = {
   // Shadows dark mode — stronger for depth perception
   shadow: {
     none: { shadowColor: "transparent", shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
-    sm:   { shadowColor: color.black, shadowOffset: { width: 0, height: 1 },  shadowOpacity: 0.25, shadowRadius: 4,  elevation: 2 },
-    md:   { shadowColor: color.black, shadowOffset: { width: 0, height: 4 },  shadowOpacity: 0.35, shadowRadius: 10, elevation: 4 },
-    lg:   { shadowColor: color.black, shadowOffset: { width: 0, height: 8 },  shadowOpacity: 0.45, shadowRadius: 20, elevation: 8 },
-    xl:   { shadowColor: color.black, shadowOffset: { width: 0, height: 16 }, shadowOpacity: 0.55, shadowRadius: 36, elevation: 16 },
+    sm:   { shadowColor: color.brand[900], shadowOffset: { width: 0, height: 1 },  shadowOpacity: 0.30, shadowRadius: 4,  elevation: 2 },
+    md:   { shadowColor: color.brand[900], shadowOffset: { width: 0, height: 4 },  shadowOpacity: 0.40, shadowRadius: 10, elevation: 4 },
+    lg:   { shadowColor: color.brand[800], shadowOffset: { width: 0, height: 8 },  shadowOpacity: 0.50, shadowRadius: 20, elevation: 8 },
+    xl:   { shadowColor: color.brand[800], shadowOffset: { width: 0, height: 16 }, shadowOpacity: 0.60, shadowRadius: 36, elevation: 16 },
   },
 } as const;
-
-interface ColorGroup {
-  bg: {
-    default: string;
-    subtle: string;
-    muted: string;
-    emphasis: string;
-    inverse: string;
-    overlay: string;
-    hover: string;
-    disabled: string;
-  };
-  surface: {
-    default: string;
-    raised: string;
-    overlay: string;
-    sunken: string;
-    hover: string;
-    disabled: string;
-  };
-  text: {
-    primary: string;
-    secondary: string;
-    tertiary: string;
-    disabled: string;
-    inverse: string;
-    link: string;
-    onBrand: string;
-    onAccent: string;
-  };
-  border: {
-    default: string;
-    subtle: string;
-    strong: string;
-    input: string;
-    focus: string;
-    error: string;
-  };
-  brand: {
-    default: string;
-    hover: string;
-    active: string;
-    subtle: string;
-    muted: string;
-    text: string;
-  };
-  accent: {
-    default: string;
-    hover: string;
-    active: string;
-    subtle: string;
-    muted: string;
-    text: string;
-    onAccent: string;
-  };
-  success: { bg: string; text: string; border: string; icon: string };
-  warning: { bg: string; text: string; border: string; icon: string };
-  error: { bg: string; text: string; border: string; icon: string };
-  info: { bg: string; text: string; border: string; icon: string };
-}
 
 export interface SemanticTokens {
   spacing: typeof shared.spacing;
@@ -315,10 +261,16 @@ export interface SemanticTokens {
   elevation: typeof shared.elevation;
   focusRing: typeof shared.focusRing;
   fontFamily: typeof shared.fontFamily;
+  /** Per-brand style overrides (button radius, etc.) */
+  brandStyle?: { buttonRadius?: number };
   /** Issue #2 scale — see `shared.typography` */
   typography: typeof shared.typography;
   text: typeof shared.text;
-  color: ColorGroup;
+  /**
+   * Color group for the active scheme.
+   * Keep this aligned with `BrandColorGroup` to avoid type drift between default tokens and brands.
+   */
+  color: BrandColorGroup;
   shadow: {
     none: { shadowColor: string; shadowOffset: { width: number; height: number }; shadowOpacity: number; shadowRadius: number; elevation: number };
     sm:   { shadowColor: string; shadowOffset: { width: number; height: number }; shadowOpacity: number; shadowRadius: number; elevation: number };
@@ -352,6 +304,10 @@ export function buildSemanticTokens(brand: Brand, scheme: ColorScheme): Semantic
 
   return {
     ...shared,
+    fontFamily: brand.fontFamily
+      ? { sans: brand.fontFamily.sans ?? shared.fontFamily.sans, mono: brand.fontFamily.mono ?? shared.fontFamily.mono }
+      : shared.fontFamily,
+    brandStyle: brand.style,
     color: colors,
     shadow: baseShadow,
   } as SemanticTokens;

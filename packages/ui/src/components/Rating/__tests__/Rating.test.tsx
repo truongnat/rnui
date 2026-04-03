@@ -95,4 +95,60 @@ describe("Rating", () => {
     );
     expect(UNSAFE_getAllByType(Pressable).length).toBe(5);
   });
+
+  it("renders custom icons via renderIcon", () => {
+    const renderIcon = jest.fn((state: string, size: number) => (
+      <Text>{state === "filled" ? "❤️" : "🤍"}</Text>
+    ));
+    render(
+      <Wrap>
+        <Rating max={3} value={2} renderIcon={renderIcon} readOnly />
+      </Wrap>
+    );
+    expect(renderIcon).toHaveBeenCalledTimes(3);
+    const states = renderIcon.mock.calls.map((c: any[]) => c[0]);
+    expect(states).toEqual(["filled", "filled", "empty"]);
+    expect(typeof renderIcon.mock.calls[0][1]).toBe("number");
+    expect(typeof renderIcon.mock.calls[0][2]).toBe("string");
+  });
+
+  it("shows ratingCount in value label", () => {
+    const { UNSAFE_getAllByType } = render(
+      <Wrap>
+        <Rating max={5} value={4.3} showValue ratingCount={128} readOnly />
+      </Wrap>
+    );
+    const texts = UNSAFE_getAllByType(Text);
+    const label = texts.find((n) => String(n.props.children) === "4.3 (128)");
+    expect(label).toBeTruthy();
+  });
+
+  it("uses custom formatLabel", () => {
+    const { UNSAFE_getAllByType } = render(
+      <Wrap>
+        <Rating
+          max={5}
+          value={4}
+          showValue
+          readOnly
+          formatLabel={(v, m) => `${v} of ${m}`}
+        />
+      </Wrap>
+    );
+    const texts = UNSAFE_getAllByType(Text);
+    const label = texts.find((n) => String(n.props.children) === "4 of 5");
+    expect(label).toBeTruthy();
+  });
+
+  it("includes ratingCount in a11y label when read-only", () => {
+    const { UNSAFE_root } = render(
+      <Wrap>
+        <Rating max={5} value={4} ratingCount={42} readOnly />
+      </Wrap>
+    );
+    const adjustable = UNSAFE_root.findByProps({
+      accessibilityLabel: "4 out of 5 stars, 42 ratings",
+    });
+    expect(adjustable).toBeTruthy();
+  });
 });

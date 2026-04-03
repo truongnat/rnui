@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import Animated, { LinearTransition as RawLinearTransition } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useToast, dismissToast } from "@truongdq01/headless";
 import type { ToastPosition } from "@truongdq01/headless";
@@ -12,6 +13,11 @@ export interface ToastContainerProps {
   /** Horizontal offset from screen edges */
   horizontalPadding?: number;
 }
+
+const layoutTransition =
+  typeof RawLinearTransition?.duration === "function"
+    ? RawLinearTransition.duration(280)
+    : undefined;
 
 // ─── Component ────────────────────────────────────────────────────
 
@@ -30,7 +36,13 @@ export function ToastContainer({
   if (toasts.length === 0) return null;
 
   return (
-    <View style={[styles.container, positionStyle]} pointerEvents="box-none">
+    <Animated.View
+      layout={layoutTransition}
+      style={[styles.container, positionStyle]}
+      pointerEvents="box-none"
+      accessibilityLiveRegion="polite"
+      accessibilityRole="alert"
+    >
       {toasts.map((item) => (
         <ToastItem
           key={item.id}
@@ -39,7 +51,7 @@ export function ToastContainer({
           onDismiss={dismissToast}
         />
       ))}
-    </View>
+    </Animated.View>
   );
 }
 
@@ -47,5 +59,6 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     zIndex: 9999,
+    gap: 8,
   },
 });

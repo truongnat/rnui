@@ -23,6 +23,7 @@ export { oceanBrand }   from "./brands/ocean";
 export { forestBrand }  from "./brands/forest";
 export { sunsetBrand }  from "./brands/sunset";
 export { midnightBrand }from "./brands/midnight";
+export { telegramBrand }from "./brands/telegram";
 
 // ── Types (re-exported for convenience) ───────────────────────────
 export type { Brand, BrandColorGroup } from "@truongdq01/tokens";
@@ -35,6 +36,7 @@ import { oceanBrand }   from "./brands/ocean";
 import { forestBrand }  from "./brands/forest";
 import { sunsetBrand }  from "./brands/sunset";
 import { midnightBrand }from "./brands/midnight";
+import { telegramBrand }from "./brands/telegram";
 import type { Brand }   from "@truongdq01/tokens";
 
 export const allBrands: Brand[] = [
@@ -44,9 +46,10 @@ export const allBrands: Brand[] = [
   forestBrand,
   sunsetBrand,
   midnightBrand,
+  telegramBrand,
 ];
 
-export type BrandId = "default" | "love" | "ocean" | "forest" | "sunset" | "midnight";
+export type BrandId = "default" | "love" | "ocean" | "forest" | "sunset" | "midnight" | "telegram";
 
 /** Look up a brand by its id */
 export function getBrandById(id: BrandId): Brand {

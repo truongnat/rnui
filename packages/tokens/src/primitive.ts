@@ -31,11 +31,21 @@ export const primitive = {
       300: "#C4B5FD",
       400: "#A78BFA",
       500: "#8B5CF6",
+      550: "#7F4BF0",  // mid-step for finer gradients
       600: "#7C3AED",
       700: "#6D28D9",
       800: "#5B21B6",
       900: "#4C1D95",
       950: "#2E1065",
+    },
+    // Warm neutrals — cream/ivory tones for softer light backgrounds
+    warmNeutral: {
+      50: "#FEFDFB",
+      100: "#FBF8F3",
+      200: "#F5F0E8",
+      300: "#EBE3D6",
+      400: "#D5CBBC",
+      500: "#A8A093",
     },
     // Accent — Amber (warm CTA accent, creates visual hierarchy)
     amber: {
@@ -144,6 +154,16 @@ export const primitive = {
     },
   },
 
+  // ─── Gradient presets ────────────────────────────────────────
+  gradient: {
+    brand:   ["#8B5CF6", "#6D28D9"] as readonly [string, string],
+    accent:  ["#F59E0B", "#D97706"] as readonly [string, string],
+    success: ["#34D399", "#059669"] as readonly [string, string],
+    sunrise: ["#F59E0B", "#EF4444"] as readonly [string, string],
+    ocean:   ["#60A5FA", "#7C3AED"] as readonly [string, string],
+    midnight:["#312E81", "#1E1B4B"] as readonly [string, string],
+  },
+
   // ─── Spacing scale (4px base) ────────────────────────────────
   spacing: {
     0: 0,
@@ -164,8 +184,10 @@ export const primitive = {
     12: 48,
     14: 56,
     16: 64,
+    18: 72,
     20: 80,
     24: 96,
+    28: 112,
   },
 
   // ─── Border radius ───────────────────────────────────────────

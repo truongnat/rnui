@@ -72,10 +72,10 @@ export function useBottomSheet({
   enableDismissOnSwipe = true,
   enableBackdrop = true,
 }: UseBottomSheetOptions = {}): UseBottomSheetReturn {
-  const snapPoints = useMemo(
-    () => rawSnapPoints.map(resolveSnapPoint),
-    [rawSnapPoints]
-  );
+  const snapPoints = useMemo(() => {
+    const resolved = rawSnapPoints.map(resolveSnapPoint);
+    return resolved.length > 0 ? resolved : [SCREEN_HEIGHT * 0.5];
+  }, [rawSnapPoints]);
   const maxHeight = useMemo(() => Math.max(...snapPoints), [snapPoints]);
   const defaultSnapIndex = initialSnapIndex ?? snapPoints.length - 1;
 

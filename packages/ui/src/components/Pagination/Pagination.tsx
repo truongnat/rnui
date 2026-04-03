@@ -43,6 +43,9 @@ export function Pagination({
       <Pressable
         key={item}
         onPress={() => setPage(item)}
+        accessibilityRole="button"
+        accessibilityLabel={`Page ${item}`}
+        accessibilityState={{ selected }}
         style={{
           height: s,
           minWidth: s,

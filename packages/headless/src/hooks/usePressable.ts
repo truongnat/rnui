@@ -4,7 +4,6 @@ import {
   useAnimatedStyle,
   withSpring,
   withTiming,
-  runOnJS,
 } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import {
@@ -19,7 +18,7 @@ import { spring, pressFeedback } from "@truongdq01/tokens";
 
 // ─── Types ────────────────────────────────────────────────────────
 
-export type PressFeedbackMode = "scale" | "scaleSubtle" | "opacity" | "none";
+export type PressFeedbackMode = "scale" | "scaleSubtle" | "opacity" | "highlight" | "none";
 
 export interface UsePressableOptions {
   /** Called when press completes */
@@ -89,6 +88,7 @@ export function usePressable({
   // Shared values live on the UI thread
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
+  const highlightOpacity = useSharedValue(0);
 
   // ── Press callbacks (JS thread) ────────────────────────────────
   const handlePress = useCallback(() => {
@@ -112,6 +112,9 @@ export function usePressable({
     if (effectiveFeedbackMode === "opacity") {
       return { opacity: opacity.value };
     }
+    if (effectiveFeedbackMode === "highlight") {
+      return { backgroundColor: `rgba(0,0,0,${highlightOpacity.value * 0.08})` };
+    }
     if (effectiveFeedbackMode === "none") {
       return {};
     }
@@ -131,22 +134,26 @@ export function usePressable({
     .hitSlop(hitSlop ?? 0)
     .onBegin(() => {
       "worklet";
-      runOnJS(setPressedState)(true);
+      scheduleOnRN(setPressedState, true);
       if (effectiveFeedbackMode === "scale") {
         scale.value = withSpring(scaleDownPressed, snappySpring);
       } else if (effectiveFeedbackMode === "scaleSubtle") {
         scale.value = withSpring(scaleSubtlePressed, snappySpring);
       } else if (effectiveFeedbackMode === "opacity") {
         opacity.value = withTiming(opacityOnlyPressed, { duration: 60 });
+      } else if (effectiveFeedbackMode === "highlight") {
+        highlightOpacity.value = withTiming(1, { duration: 60 });
       }
     })
     .onFinalize((_event, success) => {
       "worklet";
-      runOnJS(setPressedState)(false);
+      scheduleOnRN(setPressedState, false);
       if (effectiveFeedbackMode === "scale" || effectiveFeedbackMode === "scaleSubtle") {
         scale.value = withSpring(1, snappySpring);
       } else if (effectiveFeedbackMode === "opacity") {
         opacity.value = withTiming(1, { duration: 100 });
+      } else if (effectiveFeedbackMode === "highlight") {
+        highlightOpacity.value = withTiming(0, { duration: 200 });
       }
       if (success) {
         scheduleOnRN(handlePress);
@@ -183,29 +190,41 @@ export function usePressable({
 }
 
 // ─── Haptic helper ────────────────────────────────────────────────
-// Soft dependency — no crash if haptics not available
+// Resolved once at module load; subsequent calls skip require() overhead.
 
 type HapticType = "light" | "medium" | "heavy";
 
-function triggerHaptic(type: HapticType) {
+let _hapticModule: any = null;
+let _hapticProvider: "expo" | "rn" | "none" | undefined;
+
+function resolveHapticProvider() {
+  if (_hapticProvider !== undefined) return;
   try {
-    // Try expo-haptics first
-    const Haptics = require("expo-haptics");
-    const map = {
-      light: Haptics.ImpactFeedbackStyle.Light,
-      medium: Haptics.ImpactFeedbackStyle.Medium,
-      heavy: Haptics.ImpactFeedbackStyle.Heavy,
-    };
-    Haptics.impactAsync(map[type]);
+    _hapticModule = require("expo-haptics");
+    _hapticProvider = "expo";
     return;
   } catch { }
-
   try {
-    // Fallback: react-native-haptic-feedback
-    const HapticFeedback = require("react-native-haptic-feedback").default;
-    HapticFeedback.trigger(
+    _hapticModule = require("react-native-haptic-feedback").default;
+    _hapticProvider = "rn";
+    return;
+  } catch { }
+  _hapticProvider = "none";
+}
+
+function triggerHaptic(type: HapticType) {
+  resolveHapticProvider();
+  if (_hapticProvider === "expo") {
+    const map = {
+      light: _hapticModule.ImpactFeedbackStyle.Light,
+      medium: _hapticModule.ImpactFeedbackStyle.Medium,
+      heavy: _hapticModule.ImpactFeedbackStyle.Heavy,
+    };
+    _hapticModule.impactAsync(map[type]);
+  } else if (_hapticProvider === "rn") {
+    _hapticModule.trigger(
       Platform.OS === "ios" ? "impactLight" : "notificationSuccess",
       { enableVibrateFallback: true, ignoreAndroidSystemSettings: false }
     );
-  } catch { }
+  }
 }

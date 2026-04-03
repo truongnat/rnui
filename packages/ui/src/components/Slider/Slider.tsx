@@ -1,12 +1,13 @@
-import React from "react";
-import { View, Text } from "react-native";
-import Animated from "react-native-reanimated";
+import React, { useMemo } from "react";
+import { View, Text, TextInput, type TextStyle } from "react-native";
+import Animated, { useAnimatedProps } from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
 import { useSlider, useTokens, useComponentTokens } from "@truongdq01/headless";
 import type {
   UseSliderOptions,
   UseSliderOptionsRange,
   UseSliderOptionsSingle,
+  UseSliderReturnRange,
   UseSliderReturnSingle,
 } from "@truongdq01/headless";
 
@@ -30,6 +31,89 @@ type SliderUiProps = {
 export type SliderProps =
   | (SliderUiProps & UseSliderOptionsSingle)
   | (SliderUiProps & UseSliderOptionsRange);
+
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
+
+/** Worklet snap (mirrors headless `snapRatioWorklet` for live labels). */
+function snapSliderValueWorklet(raw: number, minV: number, maxV: number, stepV: number): number {
+  "worklet";
+  if (stepV === 0 || maxV === minV) return Math.max(minV, Math.min(maxV, raw));
+  const snapped = Math.round((raw - minV) / stepV) * stepV + minV;
+  return Math.max(minV, Math.min(maxV, snapped));
+}
+
+type LiveValueStyle = Pick<TextStyle, "fontSize" | "fontWeight" | "color">;
+
+function SliderLiveSingleValue(props: {
+  show: boolean;
+  thumbRatioShared: UseSliderReturnSingle["thumbRatioShared"];
+  min: number;
+  max: number;
+  step: number;
+  style: LiveValueStyle;
+}) {
+  const { show, thumbRatioShared, min, max, step, style } = props;
+  const animatedProps = useAnimatedProps(() => {
+    const raw = thumbRatioShared.value * (max - min) + min;
+    const s = snapSliderValueWorklet(raw, min, max, step);
+    return { text: String(s) };
+  });
+  if (!show) return null;
+  return (
+    <AnimatedTextInput
+      animatedProps={animatedProps as object}
+      editable={false}
+      pointerEvents="none"
+      underlineColorAndroid="transparent"
+      style={{
+        fontSize: style.fontSize,
+        fontWeight: style.fontWeight,
+        color: style.color,
+        padding: 0,
+        margin: 0,
+        minWidth: 40,
+        textAlign: "right",
+      }}
+    />
+  );
+}
+
+function SliderLiveRangeValue(props: {
+  show: boolean;
+  thumbRatioLowShared: UseSliderReturnRange["thumbRatioLowShared"];
+  thumbRatioHighShared: UseSliderReturnRange["thumbRatioHighShared"];
+  min: number;
+  max: number;
+  step: number;
+  style: LiveValueStyle;
+}) {
+  const { show, thumbRatioLowShared, thumbRatioHighShared, min, max, step, style } = props;
+  const animatedProps = useAnimatedProps(() => {
+    const rawLo = thumbRatioLowShared.value * (max - min) + min;
+    const rawHi = thumbRatioHighShared.value * (max - min) + min;
+    const lo = snapSliderValueWorklet(rawLo, min, max, step);
+    const hi = snapSliderValueWorklet(rawHi, min, max, step);
+    return { text: `${lo} – ${hi}` };
+  });
+  if (!show) return null;
+  return (
+    <AnimatedTextInput
+      animatedProps={animatedProps as object}
+      editable={false}
+      pointerEvents="none"
+      underlineColorAndroid="transparent"
+      style={{
+        fontSize: style.fontSize,
+        fontWeight: style.fontWeight,
+        color: style.color,
+        padding: 0,
+        margin: 0,
+        minWidth: 56,
+        textAlign: "right",
+      }}
+    />
+  );
+}
 
 export function Slider({
   label,
@@ -66,26 +150,62 @@ export function Slider({
       ? Array.from({ length: Math.floor((max - min) / step) + 1 }, (_, i) => i * step + min)
       : [];
 
+  const liveValueStyle = useMemo(
+    (): LiveValueStyle => ({
+      fontSize: tokens.fontSize.sm,
+      fontWeight: tokens.fontWeight.semibold,
+      color: tokens.color.brand.default,
+    }),
+    [tokens.color.brand.default, tokens.fontSize.sm, tokens.fontWeight.semibold]
+  );
+
   const trackThickness = slider.track.height;
   const thumbW = slider.thumb.width;
   const thumbH = slider.thumb.height;
 
-  const thumbShellStyle = {
-    position: "absolute" as const,
-    left: isVertical ? undefined : (-thumbW / 2) as number,
-    top: isVertical ? (-thumbH / 2) as number : undefined,
-    width: thumbW,
-    height: thumbH,
-    borderRadius: slider.thumb.borderRadius,
-    backgroundColor: slider.thumb.bg,
-    borderWidth: slider.thumb.borderWidth,
-    borderColor: slider.thumb.borderColor,
-    shadowColor: slider.thumb.shadowColor,
-    shadowOffset: slider.thumb.shadowOffset,
-    shadowOpacity: slider.thumb.shadowOpacity,
-    shadowRadius: slider.thumb.shadowRadius,
-    elevation: slider.thumb.elevation,
-  };
+  // Match Meta's minimum comfortable hit target (48dp) while keeping the visual thumb smaller.
+  const minHitSize = 48;
+  const trackPad = Math.max(12, (minHitSize - thumbH) / 2);
+
+  const thumbShellStyle = useMemo(() => {
+    const chrome = thumbRenderer
+      ? {
+          backgroundColor: "transparent" as const,
+          borderWidth: 0,
+          borderColor: "transparent" as const,
+          elevation: 0,
+          shadowOpacity: 0,
+          shadowRadius: 0,
+          shadowOffset: { width: 0, height: 0 } as const,
+          shadowColor: "transparent" as const,
+        }
+      : {
+          backgroundColor: slider.thumb.bg,
+          borderWidth: slider.thumb.borderWidth,
+          borderColor: slider.thumb.borderColor,
+          shadowColor: slider.thumb.shadowColor,
+          shadowOffset: slider.thumb.shadowOffset,
+          shadowOpacity: slider.thumb.shadowOpacity,
+          shadowRadius: slider.thumb.shadowRadius,
+          elevation: slider.thumb.elevation,
+        };
+    return {
+      position: "absolute" as const,
+      width: thumbW,
+      height: thumbH,
+      borderRadius: slider.thumb.borderRadius,
+      ...chrome,
+      ...(isVertical
+        ? { left: "50%" as const, marginLeft: -thumbW / 2, top: (-thumbH / 2) as number }
+        : { left: (-thumbW / 2) as number, top: undefined as undefined }),
+    };
+  }, [
+    thumbRenderer,
+    isVertical,
+    thumbW,
+    thumbH,
+    slider.thumb,
+  ]);
 
   function renderThumb(
     animatedStyle: object,
@@ -103,6 +223,8 @@ export function Slider({
   if (sliderState.mode === "range") {
     const {
       currentValue,
+      thumbRatioLowShared,
+      thumbRatioHighShared,
       thumbLowAnimatedStyle,
       thumbHighAnimatedStyle,
       fillAnimatedStyle,
@@ -124,19 +246,33 @@ export function Slider({
               </Text>
             )}
             {showValue && (
-              <Text style={{ fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, color: tokens.color.brand.default }}>
-                {formatValue(lo)} – {formatValue(hi)}
-              </Text>
+              <SliderLiveRangeValue
+                show={showValue}
+                thumbRatioLowShared={thumbRatioLowShared}
+                thumbRatioHighShared={thumbRatioHighShared}
+                min={min}
+                max={max}
+                step={step}
+                style={liveValueStyle}
+              />
             )}
           </View>
         )}
 
-        <Animated.View style={[{ paddingVertical: isVertical ? 0 : 12, paddingHorizontal: isVertical ? 12 : 0 }, trackAnimatedStyle] as any}>
+        <Animated.View
+          style={[
+            {
+              paddingVertical: isVertical ? 0 : trackPad,
+              paddingHorizontal: isVertical ? trackPad : 0,
+            },
+            trackAnimatedStyle,
+          ] as any}
+        >
           <View
             style={
               isVertical
-                ? { width: thumbW + 24, height: sliderHeight, justifyContent: "center" }
-                : { height: thumbH + 24, justifyContent: "center" }
+                ? { width: thumbW + trackPad * 2, height: sliderHeight, justifyContent: "center" }
+                : { height: thumbH + trackPad * 2, justifyContent: "center" }
             }
             onLayout={(e) =>
               onTrackLayout(isVertical ? e.nativeEvent.layout.height : e.nativeEvent.layout.width)
@@ -183,7 +319,7 @@ export function Slider({
                       borderRadius: 2,
                       marginLeft: -2,
                       backgroundColor: isActive ? slider.track.bgOn : tokens.color.border.strong,
-                      top: (thumbH - 4) / 2 + 12,
+                      top: (thumbH - 4) / 2 + trackPad,
                     }}
                   />
                 );
@@ -210,6 +346,7 @@ export function Slider({
 
   const {
     currentValue,
+    thumbRatioShared,
     thumbAnimatedStyle,
     fillAnimatedStyle,
     trackAnimatedStyle,
@@ -228,20 +365,33 @@ export function Slider({
             </Text>
           )}
           {showValue && (
-            <Text style={{ fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, color: tokens.color.brand.default }}>
-              {formatValue(currentValue)}
-            </Text>
+            <SliderLiveSingleValue
+              show={showValue}
+              thumbRatioShared={thumbRatioShared}
+              min={min}
+              max={max}
+              step={step}
+              style={liveValueStyle}
+            />
           )}
         </View>
       )}
 
-      <Animated.View style={[{ paddingVertical: isVertical ? 0 : 12, paddingHorizontal: isVertical ? 12 : 0 }, trackAnimatedStyle] as any}>
+      <Animated.View
+        style={[
+          {
+            paddingVertical: isVertical ? 0 : trackPad,
+            paddingHorizontal: isVertical ? trackPad : 0,
+          },
+          trackAnimatedStyle,
+        ] as any}
+      >
         <GestureDetector gesture={panGesture}>
           <View
             style={
               isVertical
-                ? { width: thumbW + 24, height: sliderHeight, justifyContent: "center" }
-                : { height: thumbH + 24, justifyContent: "center" }
+                ? { width: thumbW + trackPad * 2, height: sliderHeight, justifyContent: "center" }
+                : { height: thumbH + trackPad * 2, justifyContent: "center" }
             }
             onLayout={(e) =>
               onTrackLayout(isVertical ? e.nativeEvent.layout.height : e.nativeEvent.layout.width)
@@ -288,7 +438,7 @@ export function Slider({
                       borderRadius: 2,
                       marginLeft: -2,
                       backgroundColor: isActive ? slider.track.bgOn : tokens.color.border.strong,
-                      top: (thumbH - 4) / 2 + 12,
+                      top: (thumbH - 4) / 2 + trackPad,
                     }}
                   />
                 );

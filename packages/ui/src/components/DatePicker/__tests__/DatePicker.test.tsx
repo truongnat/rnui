@@ -34,6 +34,7 @@ describe("DatePicker", () => {
           onChange={onChange}
           placeholder="Pick date"
           presets={[]}
+          pickerStyle="spinner"
           locale="vi-VN"
           timeZoneOffsetInMinutes={420}
           timeZoneOffsetInSeconds={3600}

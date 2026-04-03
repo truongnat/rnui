@@ -8,7 +8,7 @@ import Animated, {
   Extrapolation,
 } from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { useDisclosure, useTokens, useComponentTokens, usePressable } from "@truongdq01/headless";
+import { useDisclosure, useTokens, useComponentTokens, usePressable, useReduceMotionEnabled } from "@truongdq01/headless";
 import { Icon } from "../Icon";
 
 export interface AccordionProps {
@@ -76,11 +76,12 @@ export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps
     feedbackMode: "opacity",
   });
 
-  // Rotate icon 180° when expanded
+  const reduceMotion = useReduceMotionEnabled();
   const rotation = useSharedValue(ctx.expanded ? 1 : 0);
   React.useEffect(() => {
-    rotation.value = withTiming(ctx.expanded ? 1 : 0, { duration: 200 });
-  }, [ctx.expanded]);
+    const target = ctx.expanded ? 1 : 0;
+    rotation.value = reduceMotion ? target : withTiming(target, { duration: 200 });
+  }, [ctx.expanded, reduceMotion]);
 
   const iconStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${interpolate(rotation.value, [0, 1], [0, 180], Extrapolation.CLAMP)}deg` }],
@@ -96,6 +97,7 @@ export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps
       <Animated.View
         style={containerStyle as any}
         {...accessibilityProps}
+        accessibilityState={{ expanded: ctx.expanded }}
       >
         <Text style={accordion.title}>
           {children}
@@ -113,13 +115,15 @@ export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps
 export function AccordionDetails({ children }: AccordionDetailsProps) {
   const { accordion } = useComponentTokens();
   const ctx = useContext(AccordionContext);
+  const reduceMotion = useReduceMotionEnabled();
   const [contentHeight, setContentHeight] = React.useState(0);
   const animHeight = useSharedValue(0);
 
   React.useEffect(() => {
     if (!ctx) return;
-    animHeight.value = withTiming(ctx.expanded ? contentHeight : 0, { duration: 250 });
-  }, [ctx?.expanded, contentHeight]);
+    const target = ctx.expanded ? contentHeight : 0;
+    animHeight.value = reduceMotion ? target : withTiming(target, { duration: 250 });
+  }, [ctx?.expanded, contentHeight, reduceMotion]);
 
   const animStyle = useAnimatedStyle(() => ({
     height: animHeight.value,

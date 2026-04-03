@@ -61,6 +61,7 @@ export function Carousel<T>({
   const { width: windowWidthPx } = useWindowDimensions();
   const windowWidth = Math.max(1, windowWidthPx > 0 ? windowWidthPx : 375);
   const resolvedItemWidth = itemWidth ?? windowWidth;
+  const contentPaddingStart = (windowWidth - resolvedItemWidth) / 2;
 
   const { carousel } = useComponentTokens();
   const {
@@ -72,10 +73,12 @@ export function Carousel<T>({
     onMomentumScrollEnd,
     itemStep,
     n,
+    contentPaddingStart: snapPad,
   } = useCarousel({
     data,
     itemWidth: resolvedItemWidth,
     gap,
+    contentPaddingStart,
     loop,
     autoPlay,
     autoPlayInterval,
@@ -98,7 +101,7 @@ export function Carousel<T>({
         scrollEventThrottle={16}
         onMomentumScrollEnd={onMomentumScrollEnd}
         contentContainerStyle={{
-          paddingHorizontal: (windowWidth - resolvedItemWidth) / 2,
+          paddingHorizontal: contentPaddingStart,
           gap,
         }}
       >
@@ -131,8 +134,10 @@ export function Carousel<T>({
                 index={i}
                 scrollX={scrollX}
                 itemStep={itemStep}
+                contentPaddingStart={snapPad}
                 isLoop={loop}
                 n={n}
+                dot={carousel.dot}
               />
             );
           })}
@@ -146,18 +151,21 @@ function PaginationDot({
   index,
   scrollX,
   itemStep,
+  contentPaddingStart,
   isLoop,
   n,
+  dot,
 }: {
   index: number;
   scrollX: SharedValue<number>;
   itemStep: number;
+  contentPaddingStart: number;
   isLoop: boolean;
   n: number;
+  dot: ReturnType<typeof useComponentTokens>["carousel"]["dot"];
 }) {
-  const { carousel } = useComponentTokens();
   const dotStyle = useAnimatedStyle(() => {
-    let activeIndex = scrollX.value / itemStep;
+    let activeIndex = (scrollX.value - contentPaddingStart) / itemStep;
     if (isLoop) {
       activeIndex = activeIndex - 1;
       if (activeIndex < 0) activeIndex = n - 1;
@@ -167,23 +175,23 @@ function PaginationDot({
     const opacity = interpolate(
       activeIndex,
       [index - 1, index, index + 1],
-      [carousel.dot.inactive.opacity, 1, carousel.dot.inactive.opacity],
+      [dot.inactive.opacity, 1, dot.inactive.opacity],
       Extrapolation.CLAMP
     );
 
     const width = interpolate(
       activeIndex,
       [index - 1, index, index + 1],
-      [carousel.dot.inactive.width, carousel.dot.active.width, carousel.dot.inactive.width],
+      [dot.inactive.width, dot.active.width, dot.inactive.width],
       Extrapolation.CLAMP
     );
 
     return {
       width,
       opacity,
-      backgroundColor: carousel.dot.active.bg,
-      height: carousel.dot.height,
-      borderRadius: carousel.dot.borderRadius,
+      backgroundColor: dot.active.bg,
+      height: dot.height,
+      borderRadius: dot.borderRadius,
     };
   });
 

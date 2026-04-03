@@ -27,11 +27,20 @@ export declare const primitive: {
             readonly 300: "#C4B5FD";
             readonly 400: "#A78BFA";
             readonly 500: "#8B5CF6";
+            readonly 550: "#7F4BF0";
             readonly 600: "#7C3AED";
             readonly 700: "#6D28D9";
             readonly 800: "#5B21B6";
             readonly 900: "#4C1D95";
             readonly 950: "#2E1065";
+        };
+        readonly warmNeutral: {
+            readonly 50: "#FEFDFB";
+            readonly 100: "#FBF8F3";
+            readonly 200: "#F5F0E8";
+            readonly 300: "#EBE3D6";
+            readonly 400: "#D5CBBC";
+            readonly 500: "#A8A093";
         };
         readonly amber: {
             readonly 50: "#FFFBEB";
@@ -132,6 +141,14 @@ export declare const primitive: {
             readonly 950: "#1E1B4B";
         };
     };
+    readonly gradient: {
+        readonly brand: readonly [string, string];
+        readonly accent: readonly [string, string];
+        readonly success: readonly [string, string];
+        readonly sunrise: readonly [string, string];
+        readonly ocean: readonly [string, string];
+        readonly midnight: readonly [string, string];
+    };
     readonly spacing: {
         readonly 0: 0;
         readonly 0.5: 2;
@@ -151,8 +168,10 @@ export declare const primitive: {
         readonly 12: 48;
         readonly 14: 56;
         readonly 16: 64;
+        readonly 18: 72;
         readonly 20: 80;
         readonly 24: 96;
+        readonly 28: 112;
     };
     readonly radius: {
         readonly none: 0;

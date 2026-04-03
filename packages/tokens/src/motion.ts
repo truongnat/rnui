@@ -29,6 +29,12 @@ export const spring = {
     stiffness: 500,
     mass: 0.6,
   },
+  // Elastic — onboarding, celebration, achievement unlocks
+  elastic: {
+    damping: 8,
+    stiffness: 250,
+    mass: 1,
+  },
 } as const;
 
 // ─── Duration (ms) ────────────────────────────────────────────────

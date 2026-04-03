@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  interpolateColor,
+} from "react-native-reanimated";
 import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import { useFormGroupVariant } from "../FormField/FormGroupContext";
+import { AnimatedHelperText } from "../Input/AnimatedHelperText";
 
 /** IMPROVEMENT_PLAN Issue #1 — `inside` | `above` (label row) | `below` (between field and helper) */
 export type TextAreaCounterPosition = "inside" | "above" | "below";
+
+const FOCUS_MS = 150;
 
 export interface TextAreaProps {
   label?: string;
@@ -55,7 +65,54 @@ export function TextArea({
 }: TextAreaProps) {
   const { textArea } = useComponentTokens();
   const tokens = useTokens();
+  const formGroupVariant = useFormGroupVariant();
+  const isGrouped = formGroupVariant === "grouped";
   const [isFocused, setIsFocused] = useState(false);
+
+  const focusProgress = useSharedValue(0);
+  const errorSv = useSharedValue(0);
+  const disabledSv = useSharedValue(0);
+  const groupedSv = useSharedValue(0);
+
+  useEffect(() => {
+    errorSv.value = error ? 1 : 0;
+  }, [error, errorSv]);
+
+  useEffect(() => {
+    disabledSv.value = disabled ? 1 : 0;
+  }, [disabled, disabledSv]);
+
+  useEffect(() => {
+    groupedSv.value = isGrouped ? 1 : 0;
+  }, [isGrouped, groupedSv]);
+
+  useEffect(() => {
+    if (error || disabled) {
+      focusProgress.value = 0;
+      return;
+    }
+    focusProgress.value = withTiming(isFocused ? 1 : 0, { duration: FOCUS_MS });
+  }, [isFocused, error, disabled, focusProgress]);
+
+  const defaultBorder = tokens.color.border.input;
+  const focusBorder = tokens.color.border.focus;
+  const errorBorder = tokens.color.border.error;
+  const disabledBorder = tokens.color.border.default;
+
+  const animatedBorderStyle = useAnimatedStyle(() => {
+    if (groupedSv.value === 1) {
+      return {};
+    }
+    if (errorSv.value === 1) {
+      return { borderColor: errorBorder };
+    }
+    if (disabledSv.value === 1) {
+      return { borderColor: disabledBorder };
+    }
+    return {
+      borderColor: interpolateColor(focusProgress.value, [0, 1], [defaultBorder, focusBorder]),
+    };
+  }, [defaultBorder, disabledBorder, errorBorder, focusBorder]);
 
   const LINE_HEIGHT = tokens.fontSize.md * tokens.lineHeight.normal;
   /** Fixed outer height from `maxLines` — no content measurement (avoids layout loops). */
@@ -71,12 +128,20 @@ export function TextArea({
 
   const innerMaxH = Math.max(1, maxHeight - 2 * containerPadV);
 
+  const groupedChrome = isGrouped
+    ? {
+        borderWidth: 0,
+        borderRadius: 0,
+        backgroundColor: "transparent" as const,
+      }
+    : {};
+
   const containerStyle = [
     textArea.container,
     { height: maxHeight },
-    isFocused && textArea.state.focused,
-    error && textArea.state.error,
-    disabled && textArea.state.disabled,
+    !isGrouped && error && textArea.state.error,
+    !isGrouped && disabled && textArea.state.disabled,
+    groupedChrome,
   ];
 
   const charCount = value.length;
@@ -116,13 +181,15 @@ export function TextArea({
             marginBottom: tokens.spacing[1],
           }}
         >
-          {label && <Text style={textArea.label}>{label}</Text>}
+          {label ? <Text style={textArea.label}>{label}</Text> : null}
           {showCounterAbove ? counterEl : null}
         </View>
       )}
 
       {/* Text area */}
-      <View style={[containerStyle, showCounterInside && { position: "relative" as const }] as any}>
+      <Animated.View
+        style={[containerStyle, showCounterInside && { position: "relative" as const }, animatedBorderStyle] as any}
+      >
         <TextInput
           value={value}
           onChangeText={onChangeText}
@@ -165,7 +232,7 @@ export function TextArea({
             {counterEl}
           </View>
         ) : null}
-      </View>
+      </Animated.View>
 
       {/* Counter between field and helper — `below` */}
       {showCounterBelow && counterEl ? (
@@ -180,12 +247,11 @@ export function TextArea({
         </View>
       ) : null}
 
-      {/* Helper / error */}
       {error ? (
-        <Text style={textArea.errorText}>{error}</Text>
-      ) : helperText ? (
-        <Text style={textArea.helperText}>{helperText}</Text>
-      ) : null}
+        <AnimatedHelperText text={error} isError={true} style={textArea.errorText as any} />
+      ) : (
+        <AnimatedHelperText text={helperText} isError={false} style={textArea.helperText as any} />
+      )}
     </View>
   );
 }

@@ -1,10 +1,15 @@
 import React, { useState, useMemo } from "react";
-import { View, Text, Pressable, Platform, Modal } from "react-native";
+import { View, Text, Pressable, Platform, Modal, StyleSheet } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTokens, useComponentTokens, useIconStyle } from "@truongdq01/headless";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Icon } from "../Icon";
+import { CalendarGrid } from "./CalendarGrid";
+import { TimePickerWheels } from "./TimePickerWheels";
 
 export type DatePickerPreset = "today" | "yesterday" | "last7" | "last30" | "last90" | null;
+
+export type DatePickerStyle = "calendar" | "spinner" | "native";
 
 export interface DatePickerProps {
     label?: string;
@@ -20,6 +25,12 @@ export interface DatePickerProps {
     presets?: DatePickerPreset[];
     onPresetChange?: (preset: DatePickerPreset) => void;
     clearable?: boolean;
+    /**
+     * `"calendar"` — custom CalendarGrid in a bottom-sheet-style modal (default for date mode).
+     * `"spinner"` — iOS drum-roll / Android native.
+     * `"native"` — platform-default DateTimePicker.
+     */
+    pickerStyle?: DatePickerStyle;
     /** Forwarded to `@react-native-community/datetimepicker` — behavior is platform-specific. */
     locale?: string;
     /** Forwarded to `@react-native-community/datetimepicker`. */
@@ -44,16 +55,36 @@ export function DatePicker({
     presets = ["today", "last7", "last30"],
     onPresetChange,
     clearable = true,
+    pickerStyle: pickerStyleProp,
     locale,
     timeZoneOffsetInMinutes,
     timeZoneOffsetInSeconds,
     timeZoneName,
 }: DatePickerProps) {
-    const { datePicker, input } = useComponentTokens();
+    const { input } = useComponentTokens();
     const tokens = useTokens();
+    const insets = useSafeAreaInsets();
     const { size: iconSize, color: iconColor } = useIconStyle("input");
     const [showPicker, setShowPicker] = useState(false);
     const [selectedPreset, setSelectedPreset] = useState<DatePickerPreset>(null);
+    const [pickerDraft, setPickerDraft] = useState<Date>(() => date ?? new Date());
+    const [yearPick, setYearPick] = useState(false);
+
+    const initDate = date ?? new Date();
+    const [calMonth, setCalMonth] = useState(initDate.getMonth());
+    const [calYear, setCalYear] = useState(initDate.getFullYear());
+
+    const effectivePickerStyle: DatePickerStyle = pickerStyleProp ?? "calendar";
+
+    const yearOptions = useMemo(() => Array.from({ length: 12 }, (_, i) => calYear - 5 + i), [calYear]);
+
+    const modalTitle =
+        mode === "time" ? "Select time" : mode === "datetime" ? "Select date & time" : "Select date";
+
+    const handleCalendarMonthChange = (m: number, y: number) => {
+        setCalMonth(m);
+        setCalYear(y);
+    };
 
     const formattedDate = date
         ? mode === "time"
@@ -91,7 +122,13 @@ export function DatePicker({
     };
 
     const handlePressTrigger = () => {
-        if (!disabled) setShowPicker(true);
+        if (disabled) return;
+        const ref = date ?? new Date();
+        setPickerDraft(ref);
+        setCalMonth(ref.getMonth());
+        setCalYear(ref.getFullYear());
+        setYearPick(false);
+        setShowPicker(true);
     };
 
     const handleChange = (_event: any, selectedDate?: Date) => {
@@ -212,8 +249,166 @@ export function DatePicker({
                 </Text>
             )}
 
-            {/* iOS: show picker in Modal overlay */}
-            {Platform.OS === "ios" && showPicker && (
+            {/* Calendar mode — custom grid in bottom-sheet-style modal */}
+            {effectivePickerStyle === "calendar" && showPicker && (
+                <Modal transparent animationType="slide" visible={showPicker} onRequestClose={() => { setShowPicker(false); setYearPick(false); }}>
+                    <View style={{ flex: 1, justifyContent: "flex-end", backgroundColor: "rgba(0,0,0,0.4)" }}>
+                        <Pressable
+                            style={StyleSheet.absoluteFill}
+                            onPress={() => { setShowPicker(false); setYearPick(false); }}
+                            accessibilityLabel="Dismiss"
+                        />
+                        <View
+                            style={{
+                                backgroundColor: tokens.color.surface.default,
+                                borderTopLeftRadius: 16,
+                                borderTopRightRadius: 16,
+                            }}
+                        >
+                            {/* Handle bar */}
+                            <View style={{ alignItems: "center", paddingVertical: 10 }}>
+                                <View style={{ width: 36, height: 4, borderRadius: 2, backgroundColor: tokens.color.border.subtle }} />
+                            </View>
+
+                            {/* Header */}
+                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 16, marginBottom: 12 }}>
+                                <Text style={{ fontSize: tokens.fontSize.lg, fontWeight: tokens.fontWeight.semibold, color: tokens.color.text.primary }}>
+                                    {modalTitle}
+                                </Text>
+                                <Pressable onPress={() => { setShowPicker(false); setYearPick(false); }} hitSlop={12} accessibilityRole="button" accessibilityLabel="Close">
+                                    <Icon name={"close" as any} size={22} color={tokens.color.text.secondary} />
+                                </Pressable>
+                            </View>
+
+                            {yearPick && mode !== "time" ? (
+                                <View style={{ flexDirection: "row", flexWrap: "wrap", gap: tokens.spacing[2], justifyContent: "center", paddingHorizontal: 16, paddingBottom: tokens.spacing[3] }}>
+                                    {yearOptions.map((y) => (
+                                        <Pressable
+                                            key={y}
+                                            onPress={() => {
+                                                setCalYear(y);
+                                                setYearPick(false);
+                                            }}
+                                            style={{
+                                                paddingHorizontal: tokens.spacing[3],
+                                                paddingVertical: tokens.spacing[2],
+                                                borderRadius: tokens.radius.md,
+                                                backgroundColor: y === calYear ? tokens.color.brand.subtle : tokens.color.bg.muted,
+                                            }}
+                                        >
+                                            <Text
+                                                style={{
+                                                    fontSize: tokens.fontSize.sm,
+                                                    fontWeight: tokens.fontWeight.semibold,
+                                                    color: y === calYear ? tokens.color.brand.text : tokens.color.text.primary,
+                                                }}
+                                            >
+                                                {y}
+                                            </Text>
+                                        </Pressable>
+                                    ))}
+                                </View>
+                            ) : (
+                                <>
+                                    {(mode === "date" || mode === "datetime") && (
+                                        <View style={{ paddingHorizontal: 16 }}>
+                                            <CalendarGrid
+                                                month={calMonth}
+                                                year={calYear}
+                                                selectedDate={pickerDraft}
+                                                onSelectDate={(d) => {
+                                                    setPickerDraft((prev) => {
+                                                        const next = new Date(prev);
+                                                        next.setFullYear(d.getFullYear(), d.getMonth(), d.getDate());
+                                                        return next;
+                                                    });
+                                                    setSelectedPreset(null);
+                                                }}
+                                                onMonthChange={handleCalendarMonthChange}
+                                                minimumDate={minimumDate}
+                                                maximumDate={maximumDate}
+                                                locale={locale}
+                                                onHeaderPress={() => setYearPick(true)}
+                                            />
+                                        </View>
+                                    )}
+
+                                    {(mode === "time" || mode === "datetime") && (
+                                        <TimePickerWheels value={pickerDraft} onChange={setPickerDraft} />
+                                    )}
+
+                                    {(mode === "date" || mode === "datetime") && (
+                                        <View style={{ paddingHorizontal: 16, marginTop: 12 }}>
+                                            <Pressable
+                                                onPress={() => {
+                                                    const now = new Date();
+                                                    setPickerDraft(now);
+                                                    setCalMonth(now.getMonth());
+                                                    setCalYear(now.getFullYear());
+                                                    setSelectedPreset(null);
+                                                }}
+                                                style={{
+                                                    alignItems: "center",
+                                                    paddingVertical: tokens.spacing[3],
+                                                    borderRadius: tokens.radius.lg,
+                                                    backgroundColor: tokens.color.brand.subtle,
+                                                }}
+                                            >
+                                                <Text style={{ fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.semibold, color: tokens.color.brand.text }}>
+                                                    Today
+                                                </Text>
+                                            </Pressable>
+                                        </View>
+                                    )}
+                                </>
+                            )}
+
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    paddingHorizontal: 16,
+                                    paddingTop: tokens.spacing[3],
+                                    marginTop: tokens.spacing[2],
+                                    borderTopWidth: StyleSheet.hairlineWidth,
+                                    borderTopColor: tokens.color.border.subtle,
+                                    paddingBottom: Math.max(insets.bottom, tokens.spacing[3]),
+                                }}
+                            >
+                                <Pressable
+                                    onPress={() => { setShowPicker(false); setYearPick(false); }}
+                                    hitSlop={12}
+                                    accessibilityRole="button"
+                                    accessibilityLabel="Cancel"
+                                >
+                                    <Text style={{ fontSize: tokens.fontSize.md, color: tokens.color.text.secondary, fontWeight: tokens.fontWeight.medium }}>
+                                        Cancel
+                                    </Text>
+                                </Pressable>
+                                <Pressable
+                                    onPress={() => {
+                                        onChange(pickerDraft);
+                                        setSelectedPreset(null);
+                                        setShowPicker(false);
+                                        setYearPick(false);
+                                    }}
+                                    hitSlop={12}
+                                    accessibilityRole="button"
+                                    accessibilityLabel="Confirm"
+                                >
+                                    <Text style={{ fontSize: tokens.fontSize.md, color: tokens.color.brand.default, fontWeight: tokens.fontWeight.semibold }}>
+                                        Confirm
+                                    </Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+            )}
+
+            {/* Spinner / native mode — iOS: Modal overlay */}
+            {effectivePickerStyle !== "calendar" && Platform.OS === "ios" && showPicker && (
                 <Modal transparent animationType="slide" visible={showPicker}>
                     <View style={{ flex: 1, justifyContent: "flex-end", backgroundColor: "rgba(0,0,0,0.4)" }}>
                         <View style={{ backgroundColor: tokens.color.surface.default, borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
@@ -230,8 +425,8 @@ export function DatePicker({
                 </Modal>
             )}
 
-            {/* Android: picker renders as native dialog, just place it */}
-            {Platform.OS === "android" && pickerComponent}
+            {/* Spinner / native mode — Android: native dialog */}
+            {effectivePickerStyle !== "calendar" && Platform.OS === "android" && pickerComponent}
         </View>
     );
 }

@@ -14,6 +14,10 @@ export interface BottomSheetProps extends UseBottomSheetOptions {
   showHandle?: boolean;
   /** Horizontal border radius on the sheet. If not provided, uses theme token. */
   borderRadius?: number;
+  /** Accessibility label for the sheet container */
+  accessibilityLabel?: string;
+  /** Accessibility label for the backdrop dismiss button */
+  backdropAccessibilityLabel?: string;
 }
 
 export interface BottomSheetRef {
@@ -38,6 +42,8 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       enableBackdrop = true,
       showHandle = true,
       borderRadius,
+      accessibilityLabel = "Bottom sheet",
+      backdropAccessibilityLabel = "Dismiss bottom sheet",
     },
     ref
   ) {
@@ -89,12 +95,18 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
                   bottomSheet.backdrop,
                   backdropAnimatedStyle,
                 ] as any}
+                accessibilityRole="button"
+                accessibilityLabel={backdropAccessibilityLabel}
+                accessibilityHint="Closes the bottom sheet"
               />
             </GestureDetector>
           )}
 
           {/* Sheet */}
           <Animated.View
+            accessibilityViewIsModal
+            accessibilityRole={"none" as any}
+            accessibilityLabel={accessibilityLabel}
             style={[
               styles.sheet,
               bottomSheet.container,
@@ -108,7 +120,12 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
           >
             {/* Drag handle area — full-width tap target */}
             <GestureDetector gesture={panGesture}>
-              <View style={styles.handleArea}>
+              <View
+                style={styles.handleArea}
+                accessibilityRole="adjustable"
+                accessibilityLabel="Drag handle"
+                accessibilityHint="Swipe up or down to resize the bottom sheet"
+              >
                 {showHandle && (
                   <View
                     style={[

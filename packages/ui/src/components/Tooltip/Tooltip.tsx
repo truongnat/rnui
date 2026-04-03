@@ -123,6 +123,8 @@ export function Tooltip({
         onPress={handleOpen}
         onLongPress={handleOpen}
         delayLongPress={400}
+        accessibilityRole="button"
+        accessibilityHint="Shows tooltip"
       >
         {children}
       </Pressable>

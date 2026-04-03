@@ -27,6 +27,8 @@ import { Modal } from "@truongdq01/ui";
 | `hideBackdrop` | `boolean` | `false` | Hide backdrop overlay |
 | `disableAutoFocus` | `boolean` | `false` | Disable auto focus |
 | `disableEscapeKeyDown` | `boolean` | `false` | Disable ESC key close |
+| `accessibilityLabel` | `string` | `"Modal"` | Accessibility label for modal content |
+| `backdropAccessibilityLabel` | `string` | `"Dismiss modal"` | Accessibility label for the backdrop dismiss button |
 | `BackdropComponent` | `ComponentType` | — | Custom backdrop component |
 | `BackdropProps` | `object` | — | Props for backdrop |
 | `contentStyle` | `StyleProp<ViewStyle>` | — | Custom content container styles |
@@ -47,7 +49,7 @@ function BasicModal() {
         <View style={{ padding: 24, backgroundColor: 'white', borderRadius: 12 }}>
           <Typography variant="h6" gutterBottom>Modal Title</Typography>
           <Typography variant="body2">
-            This is the modal content. Click outside or press ESC to close.
+            This is the modal content. Click outside (or use the backdrop dismiss action) to close.
           </Typography>
           <Button label="Close" onPress={() => setOpen(false)} style={{ marginTop: 16 }} />
         </View>
@@ -168,7 +170,6 @@ function CustomBackdrop({ color }) {
     <View style={{ 
       flex: 1, 
       backgroundColor: color,
-      backgroundImage: 'url(pattern.png)'
     }} />
   );
 }
@@ -258,18 +259,14 @@ function CustomBackdrop({ color }) {
   open={isOpen} 
   onClose={() => setIsOpen(false)}
   accessibilityLabel="Add user form"
-  accessibilityRole="dialog"
-  accessibilityModal={true}
 >
   <Text>Modal content with proper ARIA attributes</Text>
 </Modal>
 ```
 
-## Keyboard Support
+## Keyboard / Back button
 
-- **ESC**: Close modal (unless `disableEscapeKeyDown`)
-- **Tab**: Cycle through focusable elements
-- **Shift+Tab**: Reverse tab order
+- On Android, the hardware back button triggers `onRequestClose` (respects `disableEscapeKeyDown`).
 
 ## Responsive Design
 

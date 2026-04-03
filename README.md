@@ -2,12 +2,12 @@
 
 A high-performance, dual-layer UI design system for React Native (iOS + Android).
 
-## 🎉 Latest Release: v0.1.0
+## 🎉 Latest Release: v1.0.3
 
 **Status:** ✅ Production Ready  
 **Components:** 62+  
 **Icons:** 120+  
-**Last Updated:** March 20, 2026
+**Last Updated:** April 3, 2026
 
 ---
 
@@ -37,8 +37,10 @@ const { gesture, animatedStyle, accessibilityProps } = usePressable({ onPress: s
 ## Requirements
 
 - React Native ≥ 0.83 (New Architecture required)
-- react-native-reanimated ≥ 3.0
-- react-native-gesture-handler ≥ 2.0
+- react-native-reanimated ≥ 4.2.0
+- react-native-gesture-handler ≥ 2.30.0
+- react-native-worklets ≥ 0.7.0
+- react-native-safe-area-context ≥ 5.6.0
 
 ---
 
@@ -217,10 +219,10 @@ bun run changeset      # Create a new changeset for release
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| `@truongdq01/tokens` | 0.1.0 | Design tokens: primitive, semantic, component, motion |
-| `@truongdq01/headless` | 0.1.0 | ThemeProvider, hooks (usePressable, useDisclosure, etc.) |
-| `@truongdq01/ui` | 0.1.0 | 62+ styled components + all headless re-exports |
-| `@truongdq01/themes` | 0.1.0 | Multi-brand presets (love, ocean, forest, sunset, midnight) |
+| `@truongdq01/tokens` | 1.0.3 | Design tokens: primitive, semantic, component, motion |
+| `@truongdq01/headless` | 1.0.3 | ThemeProvider, hooks (usePressable, useDisclosure, etc.) |
+| `@truongdq01/ui` | 1.0.3 | 62+ styled components + all headless re-exports |
+| `@truongdq01/themes` | 1.0.3 | Multi-brand presets (love, ocean, forest, sunset, midnight) |
 
 ---
 

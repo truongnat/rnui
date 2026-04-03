@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export interface UseRatingOptions {
   value?: number;
@@ -36,6 +36,13 @@ export function useRating({
   }, [precision]);
 
   const [internalValue, setInternalValue] = useState(defaultValue);
+  const prevControlled = useRef(controlledValue);
+  useEffect(() => {
+    if (prevControlled.current !== undefined && controlledValue === undefined) {
+      setInternalValue(prevControlled.current);
+    }
+    prevControlled.current = controlledValue;
+  }, [controlledValue]);
   const value = controlledValue !== undefined ? controlledValue : internalValue;
 
   const setValue = useCallback(

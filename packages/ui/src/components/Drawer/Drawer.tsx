@@ -4,9 +4,10 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
+  withTiming,
   runOnJS,
 } from "react-native-reanimated";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import { useComponentTokens, useTokens, useReduceMotionEnabled } from "@truongdq01/headless";
 import { spring } from "@truongdq01/tokens";
 
 export type DrawerAnchor = "left" | "right" | "top" | "bottom";
@@ -16,6 +17,10 @@ export interface DrawerProps {
   onClose?: () => void;
   anchor?: DrawerAnchor;
   children?: React.ReactNode;
+  /** Accessibility label for the drawer container */
+  accessibilityLabel?: string;
+  /** Accessibility label for the backdrop dismiss button */
+  backdropAccessibilityLabel?: string;
 }
 
 export function Drawer({
@@ -23,9 +28,12 @@ export function Drawer({
   onClose,
   anchor = "left",
   children,
+  accessibilityLabel = "Drawer",
+  backdropAccessibilityLabel = "Dismiss drawer",
 }: DrawerProps) {
   const { drawer } = useComponentTokens();
   const tokens = useTokens();
+  const reduceMotion = useReduceMotionEnabled();
   const { width: windowWidth, height: windowHeight } = Dimensions.get("window");
 
   const isVertical = anchor === "top" || anchor === "bottom";
@@ -37,13 +45,22 @@ export function Drawer({
   useEffect(() => {
     if (open) {
       setMounted(true);
-      progress.value = withSpring(1, spring.snappy);
+      if (reduceMotion) {
+        progress.value = 1;
+      } else {
+        progress.value = withSpring(1, spring.snappy);
+      }
     } else {
-      progress.value = withSpring(0, spring.snappy, (finished) => {
-        if (finished) runOnJS(setMounted)(false);
-      });
+      if (reduceMotion) {
+        progress.value = 0;
+        setMounted(false);
+      } else {
+        progress.value = withSpring(0, spring.snappy, (finished) => {
+          if (finished) runOnJS(setMounted)(false);
+        });
+      }
     }
-  }, [open]);
+  }, [open, reduceMotion]);
 
   const animatedStyle = useAnimatedStyle(() => {
     const translate = (1 - progress.value) * size;
@@ -77,9 +94,18 @@ export function Drawer({
     <Modal visible={mounted} transparent animationType="none" onRequestClose={onClose}>
       <View style={{ flex: 1 }}>
         <Animated.View style={[StyleSheet.absoluteFill, drawer.overlay, backdropStyle]}>
-          <Pressable style={{ flex: 1 }} onPress={onClose} />
+          <Pressable
+            style={{ flex: 1 }}
+            onPress={onClose}
+            accessibilityRole="button"
+            accessibilityLabel={backdropAccessibilityLabel}
+            accessibilityHint="Closes the drawer"
+          />
         </Animated.View>
         <Animated.View
+          accessibilityViewIsModal
+          accessibilityRole={"none" as any}
+          accessibilityLabel={accessibilityLabel}
           style={[
             drawer.container,
             containerStyle,

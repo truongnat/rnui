@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useMemo } from "react";
-import { View, Text, Pressable, type StyleProp, type ViewStyle } from "react-native";
-import { FlashList, type ListRenderItem } from "@shopify/flash-list";
+import { View, Text, Pressable, FlatList, type ListRenderItem, type StyleProp, type ViewStyle } from "react-native";
 import { useTokens, useComponentTokens } from "@truongdq01/headless";
 
 // ─── List Context ────────────────────────────────────────────────
@@ -60,7 +59,7 @@ export interface ListItemProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export function ListItem({
+function ListItemInner({
   children,
   secondaryAction,
   onPress,
@@ -103,6 +102,8 @@ export function ListItem({
     </Pressable>
   );
 }
+
+export const ListItem = React.memo(ListItemInner);
 
 // ─── ListItemText ────────────────────────────────────────────────
 
@@ -161,9 +162,19 @@ export function ListData<T>({
   keyExtractor,
   ...listProps
 }: ListDataProps<T>) {
+  const ListImpl: React.ComponentType<any> = useMemo(() => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const mod = require("@shopify/flash-list") as { FlashList?: React.ComponentType<any> };
+      return mod?.FlashList ?? FlatList;
+    } catch {
+      return FlatList;
+    }
+  }, []);
+
   return (
     <List {...listProps}>
-      <FlashList
+      <ListImpl
         data={data}
         renderItem={renderItem}
         estimatedItemSize={estimatedItemSize} {...(listProps as any)}

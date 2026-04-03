@@ -22,6 +22,9 @@ function clamp(n: number, lo: number, hi: number) {
   return Math.max(lo, Math.min(hi, n));
 }
 
+/** State of a single star slot */
+export type RatingStarState = "filled" | "half" | "empty";
+
 /**
  * Star row item: press feedback uses Reanimated; stars are not separate a11y nodes.
  * Consumers should pass a stable `onChange` (e.g. `useCallback`) so `Rating` memo stays effective.
@@ -46,6 +49,18 @@ export interface RatingProps {
    * when both default to `star`.
    */
   iconNames?: { filled: IconName; empty: IconName; half: IconName };
+  /**
+   * Fully custom icon renderer. Overrides `iconNames` when provided.
+   * Receives the star state, dp size, and theme color — return any React node (emoji, SVG, etc.).
+   */
+  renderIcon?: (state: RatingStarState, size: number, color: string) => React.ReactNode;
+  /** Number of ratings/reviews — shown as `★ 4.3 (128)` when combined with `showValue`. */
+  ratingCount?: number;
+  /**
+   * Format function for the value label. Receives `(value, max, ratingCount?)`.
+   * Default: `"3/5"` or `"4.3 (128)"` when `ratingCount` is provided.
+   */
+  formatLabel?: (value: number, max: number, ratingCount?: number) => string;
 }
 
 type RatingStarButtonProps = {
@@ -53,10 +68,12 @@ type RatingStarButtonProps = {
   iconSize: number;
   iconName: IconName;
   iconColor: string;
+  starState: RatingStarState;
   disabled: boolean;
   readOnly: boolean;
   reduceMotion: boolean;
   onPress: (index: number) => void;
+  renderIcon?: (state: RatingStarState, size: number, color: string) => React.ReactNode;
 };
 
 function RatingStarButton({
@@ -64,10 +81,12 @@ function RatingStarButton({
   iconSize,
   iconName,
   iconColor,
+  starState,
   disabled,
   readOnly,
   reduceMotion,
   onPress,
+  renderIcon,
 }: RatingStarButtonProps) {
   const scale = useSharedValue(1);
   const animStyle = useAnimatedStyle(() => ({
@@ -88,6 +107,10 @@ function RatingStarButton({
     scale.value = withSpring(1, spring.snappy);
   };
 
+  const iconContent = renderIcon
+    ? renderIcon(starState, iconSize, iconColor)
+    : <Icon size={iconSize} color={iconColor}>{iconName}</Icon>;
+
   return (
     <Pressable
       accessibilityElementsHidden
@@ -100,9 +123,7 @@ function RatingStarButton({
       style={{ opacity: disabled ? 0.5 : 1 }}
     >
       <Animated.View style={animStyle}>
-        <Icon size={iconSize} color={iconColor}>
-          {iconName}
-        </Icon>
+        {iconContent}
       </Animated.View>
     </Pressable>
   );
@@ -121,6 +142,9 @@ function RatingInner({
   valuePosition = "end",
   compact = false,
   iconNames: iconNamesProp,
+  renderIcon,
+  ratingCount,
+  formatLabel,
 }: RatingProps) {
   const { rating } = useComponentTokens();
   const reduceMotion = useReduceMotionEnabled();
@@ -184,6 +208,13 @@ function RatingInner({
   const interactive = !readOnly && !disabled;
   const rowStyle = compact ? rating.containerCompact : rating.container;
 
+  const defaultFormatLabel = (v: number, m: number, count?: number) => {
+    if (count != null) return `${v} (${count})`;
+    return `${v}/${m}`;
+  };
+  const labelFormatter = formatLabel ?? defaultFormatLabel;
+  const labelText = labelFormatter(ratingValue, max, ratingCount);
+
   const valueLabel = (
     <Text
       accessibilityElementsHidden
@@ -191,7 +222,7 @@ function RatingInner({
       accessible={false}
       style={{ fontSize: iconSize * 0.7, color: activeColor, marginHorizontal: 4 }}
     >
-      {`${ratingValue}/${max}`}
+      {labelText}
     </Text>
   );
 
@@ -214,7 +245,11 @@ function RatingInner({
           : undefined
       }
       accessibilityLabel={
-        !interactive ? `${ratingValue} out of ${max} stars` : undefined
+        !interactive
+          ? ratingCount != null
+            ? `${ratingValue} out of ${max} stars, ${ratingCount} ratings`
+            : `${ratingValue} out of ${max} stars`
+          : undefined
       }
       onAccessibilityAction={interactive ? onAccessibilityAction : undefined}
       style={rowStyle}
@@ -225,6 +260,7 @@ function RatingInner({
         const halfFilled =
           !filled && ratingValue >= starNumber - 0.5 && effectivePrecision <= 0.5;
 
+        const starState: RatingStarState = halfFilled ? "half" : filled ? "filled" : "empty";
         let iconName: IconName = icons.empty;
         if (halfFilled) iconName = icons.half;
         else if (filled) iconName = icons.filled;
@@ -237,10 +273,12 @@ function RatingInner({
             iconSize={iconSize}
             iconName={iconName}
             iconColor={iconColor}
+            starState={starState}
             disabled={disabled}
             readOnly={readOnly}
             reduceMotion={reduceMotion}
             onPress={handlePress}
+            renderIcon={renderIcon}
           />
         );
       })}

@@ -3,16 +3,17 @@
 ## Requirements
 
 - React Native **0.83+** (New Architecture required)
-- `react-native-reanimated` **3.0+**
-- `react-native-gesture-handler` **2.0+**
-- `react-native-safe-area-context` **4.0+**
+- `react-native-reanimated` **4.2.0+**
+- `react-native-gesture-handler` **2.30.0+**
+- `react-native-worklets` **0.7.0+**
+- `react-native-safe-area-context` **5.6.0+**
 - Bun **1.1+**
 
 ## Install
 
 ```bash
 # In your React Native / Expo project
-bun add @truongdq01/ui react-native-reanimated react-native-gesture-handler react-native-safe-area-context
+bun add @truongdq01/ui react-native-reanimated react-native-gesture-handler react-native-worklets react-native-safe-area-context
 ```
 
 ## Wrap your app

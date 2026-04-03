@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Children, isValidElement, cloneElement } from "react";
+import React, { createContext, useContext, useEffect, useState, Children, isValidElement, cloneElement } from "react";
 import { View } from "react-native";
 import Animated, {
   useSharedValue,
@@ -7,10 +7,53 @@ import Animated, {
   withTiming,
   interpolate,
   cancelAnimation,
+  type SharedValue,
 } from "react-native-reanimated";
-import { useTokens, useComponentTokens } from "@truongdq01/headless";
+import { useTokens, useComponentTokens, useIsDark } from "@truongdq01/headless";
 
 export type SkeletonShimmerDirection = "pulse" | "left-to-right" | "right-to-left";
+
+// ─── Shared shimmer context ───────────────────────────────────────
+const ShimmerCtx = createContext<SharedValue<number> | null>(null);
+
+export interface ShimmerProviderProps {
+  children: React.ReactNode;
+  /** Animation duration per cycle (ms) */
+  duration?: number;
+}
+
+export function ShimmerProvider({ children, duration = 1200 }: ShimmerProviderProps) {
+  const shimmer = useSharedValue(0);
+  useEffect(() => {
+    shimmer.value = withRepeat(withTiming(1, { duration }), -1, true);
+    return () => cancelAnimation(shimmer);
+  }, [duration]);
+  return <ShimmerCtx.Provider value={shimmer}>{children}</ShimmerCtx.Provider>;
+}
+
+function useShimmerValue(animate: boolean, delayMs: number): SharedValue<number> {
+  const shared = useContext(ShimmerCtx);
+  const local = useSharedValue(0);
+
+  useEffect(() => {
+    if (shared || !animate) {
+      cancelAnimation(local);
+      local.value = 0;
+      return;
+    }
+    const start = () => {
+      local.value = withRepeat(withTiming(1, { duration: 1200 }), -1, true);
+    };
+    if (delayMs > 0) {
+      const t = setTimeout(start, delayMs);
+      return () => { clearTimeout(t); cancelAnimation(local); };
+    }
+    start();
+    return () => cancelAnimation(local);
+  }, [animate, delayMs, !!shared]);
+
+  return shared ?? local;
+}
 
 // ─── Base Skeleton ────────────────────────────────────────────────
 
@@ -35,30 +78,11 @@ export function Skeleton({
   shimmerDirection = "pulse",
 }: SkeletonProps) {
   const { skeleton } = useComponentTokens();
-  const shimmer = useSharedValue(0);
+  const isDark = useIsDark();
+  const shimmer = useShimmerValue(animate, delayMs);
   const [layoutW, setLayoutW] = useState(0);
 
-  useEffect(() => {
-    if (!animate) {
-      cancelAnimation(shimmer);
-      shimmer.value = 0;
-      return;
-    }
-    const start = () => {
-      shimmer.value = withRepeat(withTiming(1, { duration: 1200 }), -1, true);
-    };
-    if (delayMs > 0) {
-      const t = setTimeout(start, delayMs);
-      return () => {
-        clearTimeout(t);
-        cancelAnimation(shimmer);
-      };
-    }
-    start();
-    return () => {
-      cancelAnimation(shimmer);
-    };
-  }, [animate, delayMs]);
+  const sweepHighlight = isDark ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.45)";
 
   const pulseStyle = useAnimatedStyle(() => ({
     opacity: interpolate(shimmer.value, [0, 1], [skeleton.opacity.start, skeleton.opacity.end]),
@@ -99,7 +123,7 @@ export function Skeleton({
               top: 0,
               bottom: 0,
               width: "35%",
-              backgroundColor: "rgba(255,255,255,0.35)",
+              backgroundColor: sweepHighlight,
               borderRadius: borderRadius ?? skeleton.borderRadius,
             },
             sweepStyle,
@@ -133,7 +157,7 @@ export function SkeletonGroup({ stagger = 80, children }: SkeletonGroupProps) {
 
 // ─── Presets ──────────────────────────────────────────────────────
 
-export function SkeletonText({
+export const SkeletonText = React.memo(function SkeletonText({
   lines = 3,
   lastLineWidth = "60%",
   shimmerDirection = "pulse",
@@ -155,9 +179,9 @@ export function SkeletonText({
       ))}
     </View>
   );
-}
+});
 
-export function SkeletonCard() {
+export const SkeletonCard = React.memo(function SkeletonCard() {
   const tokens = useTokens();
   return (
     <View
@@ -178,12 +202,12 @@ export function SkeletonCard() {
         </View>
       </View>
       <SkeletonText lines={3} />
-      <Skeleton width="40%" height={32} borderRadius={tokens.radius.md} />
+      <Skeleton width="40%" height={16} borderRadius={tokens.radius.md} />
     </View>
   );
-}
+});
 
-export function SkeletonListItem() {
+export const SkeletonListItem = React.memo(function SkeletonListItem() {
   const tokens = useTokens();
   return (
     <View
@@ -203,10 +227,10 @@ export function SkeletonListItem() {
       <Skeleton width={24} height={14} />
     </View>
   );
-}
+});
 
 /** Avatar + two text lines — profile card placeholder */
-export function SkeletonProfile() {
+export const SkeletonProfile = React.memo(function SkeletonProfile() {
   const tokens = useTokens();
   return (
     <View style={{ gap: tokens.spacing[4], alignItems: "center" }}>
@@ -215,10 +239,10 @@ export function SkeletonProfile() {
       <Skeleton width="45%" height={14} />
     </View>
   );
-}
+});
 
 /** 16:9 block + title lines */
-export function SkeletonMedia() {
+export const SkeletonMedia = React.memo(function SkeletonMedia() {
   const tokens = useTokens();
   return (
     <View style={{ gap: tokens.spacing[3] }}>
@@ -227,10 +251,10 @@ export function SkeletonMedia() {
       <Skeleton width="50%" height={13} />
     </View>
   );
-}
+});
 
 /** Repeated label + field rows */
-export function SkeletonForm({ rows = 4 }: { rows?: number }) {
+export const SkeletonForm = React.memo(function SkeletonForm({ rows = 4 }: { rows?: number }) {
   const tokens = useTokens();
   return (
     <View style={{ gap: tokens.spacing[4] }}>
@@ -242,10 +266,10 @@ export function SkeletonForm({ rows = 4 }: { rows?: number }) {
       ))}
     </View>
   );
-}
+});
 
 /** N×M grid of squares */
-export function SkeletonGrid({ columns = 3, rows = 2, cell = 48 }: { columns?: number; rows?: number; cell?: number }) {
+export const SkeletonGrid = React.memo(function SkeletonGrid({ columns = 3, rows = 2, cell = 48 }: { columns?: number; rows?: number; cell?: number }) {
   const tokens = useTokens();
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap", gap: tokens.spacing[2] }}>
@@ -254,10 +278,10 @@ export function SkeletonGrid({ columns = 3, rows = 2, cell = 48 }: { columns?: n
       ))}
     </View>
   );
-}
+});
 
 /** Header row + data rows */
-export function SkeletonTable({ columns = 4, dataRows = 3 }: { columns?: number; dataRows?: number }) {
+export const SkeletonTable = React.memo(function SkeletonTable({ columns = 4, dataRows = 3 }: { columns?: number; dataRows?: number }) {
   const tokens = useTokens();
   return (
     <View style={{ gap: tokens.spacing[2] }}>
@@ -275,4 +299,4 @@ export function SkeletonTable({ columns = 4, dataRows = 3 }: { columns?: number;
       ))}
     </View>
   );
-}
+});

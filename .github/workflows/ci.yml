@@ -42,6 +42,9 @@ jobs:
       - name: Lint
         run: bun turbo lint
 
+      - name: Typecheck
+        run: bun turbo typecheck
+
       - name: Test
         run: bun turbo test
 

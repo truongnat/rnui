@@ -9,7 +9,7 @@ import type { SemanticTokens } from "./semantic";
 // ─── Button ──────────────────────────────────────────────────────
 export function buttonTokens(t: SemanticTokens) {
   const base = {
-    borderRadius: t.radius.full,
+    borderRadius: t.brandStyle?.buttonRadius ?? t.radius.full,
     flexDirection: "row" as const,
     alignItems: "center" as const,
     justifyContent: "center" as const,
@@ -72,7 +72,7 @@ export function inputTokens(t: SemanticTokens) {
     container: {
       borderWidth: 1,
       borderColor: t.color.border.input,
-      borderRadius: t.radius.md,
+      borderRadius: t.radius.lg,
       backgroundColor: t.color.surface.default,
       flexDirection: "row" as const,
       alignItems: "center" as const,
@@ -88,7 +88,11 @@ export function inputTokens(t: SemanticTokens) {
       opacity: t.opacity[50],
     },
     size: {
-      sm: { height: 32, fontSize: t.fontSize.sm },
+      sm: {
+        height: 32,
+        fontSize: t.fontSize.sm,
+        paddingVertical: t.spacing[1.5],
+      },
       /** Issue #1: spacing[3] vertical padding inside ~48dp target */
       md: { height: 48, fontSize: t.fontSize.md, paddingVertical: t.spacing[3] },
       lg: { height: 56, fontSize: t.fontSize.lg, paddingVertical: t.spacing[3] },
@@ -96,9 +100,15 @@ export function inputTokens(t: SemanticTokens) {
     focusRing: { borderColor: t.color.border.focus, borderWidth: 2, outlineOffset: t.focusRing.offset },
     state: {
       default: { borderColor: t.color.border.default },
-      focused: { borderColor: t.color.border.focus, borderWidth: 1.5 },
+      /** Match default borderWidth — avoids layout shift on focus */
+      focused: { borderColor: t.color.border.focus, borderWidth: 1 },
       error: { borderColor: t.color.border.error },
       disabled: { backgroundColor: t.color.bg.muted, opacity: t.opacity[60] },
+    },
+    floatingLabel: {
+      fontSize: { active: t.fontSize.xs, inactive: t.fontSize.md },
+      color: { active: t.color.border.focus, inactive: t.color.text.tertiary },
+      translateY: { active: -14, inactive: 0 },
     },
     text: {
       color: t.color.text.primary,
@@ -790,9 +800,36 @@ export function formControlTokens(t: SemanticTokens) {
 // ─── FormField ──────────────────────────────────────────────────
 export function formFieldTokens(t: SemanticTokens) {
   return {
-    // Usually a wrapper for FormControl + actual input
-    container: {
-      marginBottom: t.spacing[4],
+    // Spacing between fields is owned by FormGroup `gap`, not this wrapper
+    container: {},
+    /** Single field inside a grouped card (no outer margin; divider handled by FormGroup) */
+    groupedContainer: {
+      marginBottom: 0,
+    },
+  } as const;
+}
+
+// ─── Form group (Telegram-style bordered card) ───────────────────
+export function formGroupTokens(t: SemanticTokens) {
+  return {
+    grouped: {
+      card: {
+        backgroundColor: t.color.surface.default,
+        borderRadius: t.radius.xl,
+        overflow: "hidden" as const,
+      },
+    },
+    footer: {
+      fontSize: t.fontSize.xs,
+      color: t.color.text.tertiary,
+      marginTop: t.spacing[2],
+      paddingHorizontal: t.spacing[1],
+    },
+    errorBelowCard: {
+      fontSize: t.fontSize.xs,
+      color: t.color.error.text,
+      marginTop: t.spacing[2],
+      paddingHorizontal: t.spacing[1],
     },
   } as const;
 }
@@ -907,14 +944,21 @@ export function linkTokens(t: SemanticTokens) {
 export function listTokens(t: SemanticTokens) {
   return {
     container: {
-      backgroundColor: t.color.surface.default,
+      // Telegram-like grouped lists: list background is slightly tinted,
+      // while list items sit on primary surfaces.
+      backgroundColor: t.color.bg.default,
     },
     item: {
       padding: t.spacing[4],
       flexDirection: "row" as const,
       alignItems: "center" as const,
       gap: t.spacing[3],
+      backgroundColor: t.color.surface.default,
       pressed: { backgroundColor: t.color.bg.hover },
+    },
+    separator: {
+      color: t.color.border.subtle,
+      insetLeft: t.spacing[4],
     },
     itemText: {
       fontSize: t.fontSize.md,
@@ -1369,6 +1413,7 @@ export function resolveComponentTokens(t: SemanticTokens) {
     emptyState: emptyStateTokens(t),
     formControl: formControlTokens(t),
     formField: formFieldTokens(t),
+    formGroup: formGroupTokens(t),
     grid: gridTokens(t),
     icon: iconTokens(t),
     image: imageTokens(t),
@@ -1464,7 +1509,7 @@ export function ratingTokens(t: SemanticTokens) {
 export function paginationTokens(t: SemanticTokens) {
   return {
     item: {
-      active: { bg: t.color.brand.default, color: "#fff", borderColor: t.color.brand.default },
+      active: { bg: t.color.brand.default, color: t.color.text.inverse, borderColor: t.color.brand.default },
       default: { bg: "transparent", color: t.color.text.primary, borderColor: t.color.border.default },
       hover: { bg: t.color.bg.hover },
       disabled: { color: t.color.text.disabled, borderColor: t.color.border.default },

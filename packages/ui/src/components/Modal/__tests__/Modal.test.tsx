@@ -148,21 +148,21 @@ describe("Modal", () => {
 
     it("renders custom backdrop component", () => {
       const CustomBackdrop = () => <View testID="custom-backdrop" />;
-      const { getByTestId } = render(
+      const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal open={true} BackdropComponent={CustomBackdrop}>
             <Text>Content</Text>
           </Modal>
         </ThemeProvider>
       );
-      expect(getByTestId("custom-backdrop")).toBeTruthy();
+      expect(UNSAFE_root.findByProps({ testID: "custom-backdrop" })).toBeTruthy();
     });
 
     it("passes BackdropProps to custom backdrop", () => {
       const CustomBackdrop = ({ testID }: any) => (
         <View testID={testID} />
       );
-      const { getByTestId } = render(
+      const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal
             open={true}
@@ -173,7 +173,7 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByTestId("custom-backdrop-with-props")).toBeTruthy();
+      expect(UNSAFE_root.findByProps({ testID: "custom-backdrop-with-props" })).toBeTruthy();
     });
   });
 
@@ -373,6 +373,59 @@ describe("Modal", () => {
       expect(getByText("Title")).toBeTruthy();
       expect(getByText("Description")).toBeTruthy();
     });
+
+    it("has accessibilityViewIsModal on content container", () => {
+      const { UNSAFE_root } = render(
+        <ThemeProvider>
+          <Modal open={true}>
+            <Text>Content</Text>
+          </Modal>
+        </ThemeProvider>
+      );
+      const container = UNSAFE_root.findByProps({ accessibilityLabel: "Modal" });
+      expect(container.props.accessibilityViewIsModal).toBe(true);
+    });
+
+    it("uses default accessibilityLabel values", () => {
+      const { UNSAFE_root } = render(
+        <ThemeProvider>
+          <Modal open={true}>
+            <Text>Content</Text>
+          </Modal>
+        </ThemeProvider>
+      );
+      expect(UNSAFE_root.findByProps({ accessibilityLabel: "Modal" })).toBeTruthy();
+      expect(UNSAFE_root.findByProps({ accessibilityLabel: "Dismiss modal" })).toBeTruthy();
+    });
+
+    it("applies custom accessibilityLabel props", () => {
+      const { UNSAFE_root } = render(
+        <ThemeProvider>
+          <Modal
+            open={true}
+            accessibilityLabel="Settings panel"
+            backdropAccessibilityLabel="Close settings"
+          >
+            <Text>Content</Text>
+          </Modal>
+        </ThemeProvider>
+      );
+      expect(UNSAFE_root.findByProps({ accessibilityLabel: "Settings panel" })).toBeTruthy();
+      expect(UNSAFE_root.findByProps({ accessibilityLabel: "Close settings" })).toBeTruthy();
+    });
+
+    it("backdrop has button role and hint", () => {
+      const { UNSAFE_root } = render(
+        <ThemeProvider>
+          <Modal open={true}>
+            <Text>Content</Text>
+          </Modal>
+        </ThemeProvider>
+      );
+      const backdrop = UNSAFE_root.findByProps({ accessibilityLabel: "Dismiss modal" });
+      expect(backdrop.props.accessibilityRole).toBe("button");
+      expect(backdrop.props.accessibilityHint).toBe("Closes the modal");
+    });
   });
 
   // ─── Edge Cases ─────────────────────────────────────────────────────
@@ -439,7 +492,7 @@ describe("Modal", () => {
     it("handles all props together", () => {
       const onClose = jest.fn();
       const CustomBackdrop = () => <View testID="backdrop" />;
-      const { getByText, getByTestId } = render(
+      const { getByText, UNSAFE_root } = render(
         <ThemeProvider>
           <Modal
             open={true}
@@ -457,7 +510,7 @@ describe("Modal", () => {
         </ThemeProvider>
       );
       expect(getByText("Full Props Content")).toBeTruthy();
-      expect(getByTestId("backdrop")).toBeTruthy();
+      expect(UNSAFE_root.findByProps({ testID: "backdrop" })).toBeTruthy();
     });
   });
 

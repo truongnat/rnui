@@ -35,7 +35,8 @@ export function useTable<T>({
   initialSort = null as any,
 }: UseTableOptions<T>): UseTableReturn<T> {
   const [page, setPage] = useState(initialPage);
-  const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
+  const [rowsPerPage, setRowsPerPageRaw] = useState(Math.max(1, initialRowsPerPage));
+  const setRowsPerPage = useCallback((n: number) => setRowsPerPageRaw(Math.max(1, n)), []);
   const [sort, setSort] = useState(initialSort);
   const [selected, setSelected] = useState<Set<any>>(new Set());
 

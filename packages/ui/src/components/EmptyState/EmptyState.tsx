@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import type { SemanticTokens } from "@truongdq01/tokens";
 import { Icon } from "../Icon";
 import type { IconName } from "../Icon";
 
@@ -22,6 +23,22 @@ export interface EmptyStateProps {
   size?: EmptyStateSize;
   variant?: EmptyStateVariant;
   illustration?: React.ReactNode;
+}
+
+function variantSemantics(variant: EmptyStateVariant, tokens: SemanticTokens): { iconColor: string; wrapBg: string } {
+  switch (variant) {
+    case "error":
+    case "permission":
+      return { iconColor: tokens.color.error.icon, wrapBg: tokens.color.error.bg };
+    case "offline":
+      return { iconColor: tokens.color.warning.icon, wrapBg: tokens.color.warning.bg };
+    case "search":
+      return { iconColor: tokens.color.text.tertiary, wrapBg: tokens.color.bg.muted };
+    case "empty":
+      return { iconColor: tokens.color.brand.text, wrapBg: tokens.color.brand.subtle };
+    default:
+      return { iconColor: tokens.color.brand.text, wrapBg: tokens.color.brand.subtle };
+  }
 }
 
 const VARIANT_DEFAULTS: Record<
@@ -71,11 +88,13 @@ export function EmptyState({
   const resolvedTitle = title ?? meta?.title;
   const resolvedDescription = description ?? meta?.description;
 
+  const { iconColor, wrapBg } = variantSemantics(variant, tokens);
+
   const iconSize = Math.round(emptyState.icon.size / 2);
   const resolvedIcon =
     icon ??
     (meta ? (
-      <Icon name={meta.iconName} size={iconSize} color={tokens.color.brand.text} />
+      <Icon name={meta.iconName} size={iconSize} color={iconColor} />
     ) : null);
 
   const sizePad = emptyState.containerSize[size];
@@ -93,11 +112,11 @@ export function EmptyState({
       {illustration && <View style={{ marginBottom: tokens.spacing[2] }}>{illustration}</View>}
 
       {resolvedIcon && (
-        <View style={emptyState.iconWrap as any}>
+        <View style={[emptyState.iconWrap as any, { backgroundColor: wrapBg }]}>
           {React.isValidElement<{ size?: number | string; color?: string }>(resolvedIcon)
             ? React.cloneElement(resolvedIcon, {
                 size: resolvedIcon.props.size ?? iconSize,
-                color: resolvedIcon.props.color ?? tokens.color.brand.text,
+                color: resolvedIcon.props.color ?? iconColor,
               })
             : resolvedIcon}
         </View>

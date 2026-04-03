@@ -9,6 +9,10 @@ export interface DialogProps {
   children?: React.ReactNode;
   actions?: React.ReactNode;
   fullWidth?: boolean;
+  /** Accessibility label for the dialog container */
+  accessibilityLabel?: string;
+  /** Accessibility label for the backdrop dismiss button */
+  backdropAccessibilityLabel?: string;
 }
 
 export function Dialog({
@@ -18,6 +22,8 @@ export function Dialog({
   children,
   actions,
   fullWidth = false,
+  accessibilityLabel = "Dialog",
+  backdropAccessibilityLabel = "Dismiss dialog",
 }: DialogProps) {
   const { dialog, modal } = useComponentTokens();
   const tokens = useTokens();
@@ -27,8 +33,17 @@ export function Dialog({
   return (
     <Modal visible={open} transparent animationType="fade" onRequestClose={onClose}>
       <View style={modal.overlay}>
-        <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
+        <Pressable
+          style={StyleSheet.absoluteFill}
+          onPress={onClose}
+          accessibilityRole="button"
+          accessibilityLabel={backdropAccessibilityLabel}
+          accessibilityHint="Closes the dialog"
+        />
         <View
+          accessibilityViewIsModal
+          accessibilityRole="none"
+          accessibilityLabel={accessibilityLabel}
           style={[
             modal.container,
             {

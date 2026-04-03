@@ -18,7 +18,7 @@ export declare function buttonTokens(t: SemanticTokens): {
                 elevation: number;
                 backgroundColor: string;
                 borderWidth: number;
-                borderRadius: 9999;
+                borderRadius: number;
                 flexDirection: "row";
                 alignItems: "center";
                 justifyContent: "center";
@@ -45,7 +45,7 @@ export declare function buttonTokens(t: SemanticTokens): {
                 backgroundColor: string;
                 borderWidth: number;
                 borderColor: string;
-                borderRadius: 9999;
+                borderRadius: number;
                 flexDirection: "row";
                 alignItems: "center";
                 justifyContent: "center";
@@ -63,7 +63,7 @@ export declare function buttonTokens(t: SemanticTokens): {
             container: {
                 backgroundColor: string;
                 borderWidth: number;
-                borderRadius: 9999;
+                borderRadius: number;
                 flexDirection: "row";
                 alignItems: "center";
                 justifyContent: "center";
@@ -82,7 +82,7 @@ export declare function buttonTokens(t: SemanticTokens): {
                 backgroundColor: string;
                 borderWidth: number;
                 borderColor: string;
-                borderRadius: 9999;
+                borderRadius: number;
                 flexDirection: "row";
                 alignItems: "center";
                 justifyContent: "center";
@@ -108,7 +108,7 @@ export declare function buttonTokens(t: SemanticTokens): {
                 elevation: number;
                 backgroundColor: string;
                 borderWidth: number;
-                borderRadius: 9999;
+                borderRadius: number;
                 flexDirection: "row";
                 alignItems: "center";
                 justifyContent: "center";
@@ -1245,9 +1245,14 @@ export declare function listTokens(t: SemanticTokens): {
         readonly flexDirection: "row";
         readonly alignItems: "center";
         readonly gap: 12;
+        readonly backgroundColor: string;
         readonly pressed: {
             readonly backgroundColor: string;
         };
+    };
+    readonly separator: {
+        readonly color: string;
+        readonly insetLeft: 16;
     };
     readonly itemText: {
         readonly fontSize: 15;
@@ -1945,7 +1950,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
                     elevation: number;
                     backgroundColor: string;
                     borderWidth: number;
-                    borderRadius: 9999;
+                    borderRadius: number;
                     flexDirection: "row";
                     alignItems: "center";
                     justifyContent: "center";
@@ -1972,7 +1977,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
                     backgroundColor: string;
                     borderWidth: number;
                     borderColor: string;
-                    borderRadius: 9999;
+                    borderRadius: number;
                     flexDirection: "row";
                     alignItems: "center";
                     justifyContent: "center";
@@ -1990,7 +1995,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
                 container: {
                     backgroundColor: string;
                     borderWidth: number;
-                    borderRadius: 9999;
+                    borderRadius: number;
                     flexDirection: "row";
                     alignItems: "center";
                     justifyContent: "center";
@@ -2009,7 +2014,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
                     backgroundColor: string;
                     borderWidth: number;
                     borderColor: string;
-                    borderRadius: 9999;
+                    borderRadius: number;
                     flexDirection: "row";
                     alignItems: "center";
                     justifyContent: "center";
@@ -2035,7 +2040,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
                     elevation: number;
                     backgroundColor: string;
                     borderWidth: number;
-                    borderRadius: 9999;
+                    borderRadius: number;
                     flexDirection: "row";
                     alignItems: "center";
                     justifyContent: "center";
@@ -2751,7 +2756,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
         readonly item: {
             readonly active: {
                 readonly bg: string;
-                readonly color: "#fff";
+                readonly color: string;
                 readonly borderColor: string;
             };
             readonly default: {
@@ -3312,9 +3317,14 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             readonly flexDirection: "row";
             readonly alignItems: "center";
             readonly gap: 12;
+            readonly backgroundColor: string;
             readonly pressed: {
                 readonly backgroundColor: string;
             };
+        };
+        readonly separator: {
+            readonly color: string;
+            readonly insetLeft: 16;
         };
         readonly itemText: {
             readonly fontSize: 15;
@@ -4087,7 +4097,7 @@ export declare function paginationTokens(t: SemanticTokens): {
     readonly item: {
         readonly active: {
             readonly bg: string;
-            readonly color: "#fff";
+            readonly color: string;
             readonly borderColor: string;
         };
         readonly default: {

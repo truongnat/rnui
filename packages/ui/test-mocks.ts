@@ -25,6 +25,20 @@ export const createReanimatedMock = () => {
     restSpeedThreshold: () => layoutChain,
   };
 
+  /** Chainable entering/exiting presets (`FadeIn.duration(150)` etc.) */
+  const enteringExitChain: any = {
+    duration: () => enteringExitChain,
+    delay: () => enteringExitChain,
+    springify: () => enteringExitChain,
+    damping: () => enteringExitChain,
+    stiffness: () => enteringExitChain,
+    mass: () => enteringExitChain,
+    randomDelay: () => enteringExitChain,
+    withInitialValues: () => enteringExitChain,
+    withCallback: () => enteringExitChain,
+    build: () => ({}),
+  };
+
   const mockApi = {
     // Hooks
     useSharedValue: (v: any) => ({ value: v }),
@@ -107,13 +121,13 @@ export const createReanimatedMock = () => {
       withCallback: () => ({}),
     },
 
-    FadeIn: {},
-    FadeInDown: {},
-    FadeInUp: {},
-    FadeInLeft: {},
-    FadeInRight: {},
-    FadeOut: {},
-    FadeOutDown: {},
+    FadeIn: enteringExitChain,
+    FadeInDown: enteringExitChain,
+    FadeInUp: enteringExitChain,
+    FadeInLeft: enteringExitChain,
+    FadeInRight: enteringExitChain,
+    FadeOut: enteringExitChain,
+    FadeOutDown: enteringExitChain,
     FadeOutUp: {},
     FadeOutLeft: {},
     FadeOutRight: {},

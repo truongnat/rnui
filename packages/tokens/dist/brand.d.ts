@@ -30,6 +30,8 @@ export interface BrandColorGroup {
         sunken: string;
         hover: string;
         disabled: string;
+        glass?: string;
+        glassBorder?: string;
     };
     text: {
         primary: string;
@@ -117,6 +119,15 @@ export interface Brand {
     light: BrandColorGroup;
     /** Full color group for dark mode */
     dark: BrandColorGroup;
+    /** Optional font family override (e.g. midnight → monospace) */
+    fontFamily?: {
+        sans?: string;
+        mono?: string;
+    };
+    /** Optional style overrides (e.g. button radius per brand) */
+    style?: {
+        buttonRadius?: number;
+    };
 }
 /**
  * Type-safe factory for defining a brand.

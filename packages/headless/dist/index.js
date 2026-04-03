@@ -3766,6 +3766,7 @@ __export(index_exports, {
   useCarousel: () => useCarousel,
   useCheckbox: () => useCheckbox,
   useComponentTokens: () => useComponentTokens,
+  useDatePicker: () => useDatePicker,
   useDisclosure: () => useDisclosure,
   useDrawer: () => useDrawer,
   useField: () => useField,
@@ -3786,12 +3787,14 @@ __export(index_exports, {
   useScrollHeader: () => useScrollHeader,
   useSegmentedControl: () => useSegmentedControl,
   useSelect: () => useSelect,
+  useSkeleton: () => useSkeleton,
   useSlider: () => useSlider,
   useStepper: () => useStepper,
   useSwitch: () => useSwitch,
   useTable: () => useTable,
   useTabs: () => useTabs,
   useTheme: () => useTheme,
+  useTimeline: () => useTimeline,
   useToast: () => useToast,
   useToggleGroup: () => useToggleGroup,
   useTokens: () => useTokens
@@ -3801,6 +3804,7 @@ module.exports = __toCommonJS(index_exports);
 // src/theme.tsx
 var import_react = __toESM(require("react"));
 var import_react_native = require("react-native");
+var import_react_native_reanimated = __toESM(require("react-native-reanimated"));
 var import_react_native_gesture_handler = require("react-native-gesture-handler");
 var import_tokens = require("@truongdq01/tokens");
 function createTheme(override) {
@@ -3812,7 +3816,8 @@ function ThemeProvider({
   colorScheme: forcedScheme = "system",
   brand: initialBrand,
   override,
-  onColorSchemeChange
+  onColorSchemeChange,
+  animateTransition = false
 }) {
   const systemScheme = (0, import_react_native.useColorScheme)();
   const isControlled = typeof onColorSchemeChange === "function";
@@ -3835,6 +3840,22 @@ function ThemeProvider({
     [isControlled, onColorSchemeChange]
   );
   const activeScheme = schemePreference === "system" ? systemScheme === "dark" ? "dark" : "light" : schemePreference;
+  const transitionOpacity = (0, import_react_native_reanimated.useSharedValue)(1);
+  const prevSchemeRef = (0, import_react.useRef)(activeScheme);
+  const prevBrandRef = (0, import_react.useRef)(activeBrand?.id);
+  import_react.default.useEffect(() => {
+    if (!animateTransition) return;
+    if (prevSchemeRef.current !== activeScheme || prevBrandRef.current !== activeBrand?.id) {
+      transitionOpacity.value = 0.88;
+      transitionOpacity.value = (0, import_react_native_reanimated.withTiming)(1, { duration: 280 });
+    }
+    prevSchemeRef.current = activeScheme;
+    prevBrandRef.current = activeBrand?.id;
+  }, [activeScheme, activeBrand?.id, animateTransition]);
+  const transitionStyle = (0, import_react_native_reanimated.useAnimatedStyle)(() => ({
+    opacity: transitionOpacity.value,
+    flex: 1
+  }));
   const theme = (0, import_react.useMemo)(() => {
     let tokens = activeBrand ? (0, import_tokens.buildSemanticTokens)(activeBrand, activeScheme) : import_tokens.semanticTokens[activeScheme];
     if (override?.[activeScheme]) {
@@ -3850,7 +3871,8 @@ function ThemeProvider({
       setBrand: setActiveBrand
     };
   }, [activeScheme, activeBrand, override, setColorScheme]);
-  return /* @__PURE__ */ import_react.default.createElement(import_react_native_gesture_handler.GestureHandlerRootView, { style: { flex: 1 } }, /* @__PURE__ */ import_react.default.createElement(ThemeContext.Provider, { value: theme }, children));
+  const content = animateTransition ? /* @__PURE__ */ import_react.default.createElement(import_react_native_reanimated.default.View, { style: transitionStyle }, children) : children;
+  return /* @__PURE__ */ import_react.default.createElement(import_react_native_gesture_handler.GestureHandlerRootView, { style: { flex: 1 } }, /* @__PURE__ */ import_react.default.createElement(ThemeContext.Provider, { value: theme }, content));
 }
 function useTheme() {
   const ctx = (0, import_react.useContext)(ThemeContext);
@@ -3927,34 +3949,34 @@ function usePersistedColorScheme(options) {
 }
 
 // src/motion.ts
-var import_react_native_reanimated = require("react-native-reanimated");
 var import_react_native_reanimated2 = require("react-native-reanimated");
+var import_react_native_reanimated3 = require("react-native-reanimated");
 var import_tokens2 = require("@truongdq01/tokens");
 var motionPresets = {
   enter: {
-    fadeUp: import_react_native_reanimated2.FadeInUp,
-    fadeDown: import_react_native_reanimated2.FadeInDown,
-    fadeIn: import_react_native_reanimated2.FadeIn,
-    scaleIn: import_react_native_reanimated2.ZoomIn,
-    slideFromBottom: import_react_native_reanimated2.SlideInDown,
-    slideFromTop: import_react_native_reanimated2.SlideInUp,
-    slideFromRight: import_react_native_reanimated2.SlideInRight
+    fadeUp: import_react_native_reanimated3.FadeInUp,
+    fadeDown: import_react_native_reanimated3.FadeInDown,
+    fadeIn: import_react_native_reanimated3.FadeIn,
+    scaleIn: import_react_native_reanimated3.ZoomIn,
+    slideFromBottom: import_react_native_reanimated3.SlideInDown,
+    slideFromTop: import_react_native_reanimated3.SlideInUp,
+    slideFromRight: import_react_native_reanimated3.SlideInRight
   },
   exit: {
-    fadeDown: import_react_native_reanimated2.FadeOutDown,
-    fadeUp: import_react_native_reanimated2.FadeOutUp,
-    fadeOut: import_react_native_reanimated2.FadeOut,
-    scaleOut: import_react_native_reanimated2.ZoomOut,
-    slideToBottom: import_react_native_reanimated2.SlideOutDown,
-    slideToTop: import_react_native_reanimated2.SlideOutUp,
-    slideToRight: import_react_native_reanimated2.SlideOutRight
+    fadeDown: import_react_native_reanimated3.FadeOutDown,
+    fadeUp: import_react_native_reanimated3.FadeOutUp,
+    fadeOut: import_react_native_reanimated3.FadeOut,
+    scaleOut: import_react_native_reanimated3.ZoomOut,
+    slideToBottom: import_react_native_reanimated3.SlideOutDown,
+    slideToTop: import_react_native_reanimated3.SlideOutUp,
+    slideToRight: import_react_native_reanimated3.SlideOutRight
   }
 };
 var motionEasing = {
-  easeIn: import_react_native_reanimated.Easing.bezier(0.4, 0, 1, 1),
-  easeOut: import_react_native_reanimated.Easing.bezier(0, 0, 0.2, 1),
-  easeInOut: import_react_native_reanimated.Easing.bezier(0.4, 0, 0.2, 1),
-  linear: import_react_native_reanimated.Easing.linear
+  easeIn: import_react_native_reanimated2.Easing.bezier(0.4, 0, 1, 1),
+  easeOut: import_react_native_reanimated2.Easing.bezier(0, 0, 0.2, 1),
+  easeInOut: import_react_native_reanimated2.Easing.bezier(0.4, 0, 0.2, 1),
+  linear: import_react_native_reanimated2.Easing.linear
 };
 function resolveTimingPreset(key) {
   const preset = import_tokens2.timingPreset[key];
@@ -3964,13 +3986,13 @@ function resolveTimingPreset(key) {
   else if (preset.easing === import_tokens2.easing.linear) easingFn = motionEasing.linear;
   return { duration: preset.duration, easing: easingFn };
 }
-var heroTransition = import_react_native_reanimated.SharedTransition && import_react_native_reanimated.SharedTransition.custom ? import_react_native_reanimated.SharedTransition.custom((values) => {
+var heroTransition = import_react_native_reanimated2.SharedTransition && import_react_native_reanimated2.SharedTransition.custom ? import_react_native_reanimated2.SharedTransition.custom((values) => {
   "worklet";
   return {
-    height: (0, import_react_native_reanimated.withSpring)(values.targetHeight, import_tokens2.spring.snappy),
-    width: (0, import_react_native_reanimated.withSpring)(values.targetWidth, import_tokens2.spring.snappy),
-    originX: (0, import_react_native_reanimated.withSpring)(values.targetGlobalOriginX, import_tokens2.spring.snappy),
-    originY: (0, import_react_native_reanimated.withSpring)(values.targetGlobalOriginY, import_tokens2.spring.snappy)
+    height: (0, import_react_native_reanimated2.withSpring)(values.targetHeight, import_tokens2.spring.snappy),
+    width: (0, import_react_native_reanimated2.withSpring)(values.targetWidth, import_tokens2.spring.snappy),
+    originX: (0, import_react_native_reanimated2.withSpring)(values.targetGlobalOriginX, import_tokens2.spring.snappy),
+    originY: (0, import_react_native_reanimated2.withSpring)(values.targetGlobalOriginY, import_tokens2.spring.snappy)
   };
 }) : null;
 
@@ -4002,7 +4024,7 @@ function useReduceMotionEnabled() {
 
 // src/hooks/usePressable.ts
 var import_react7 = require("react");
-var import_react_native_reanimated3 = require("react-native-reanimated");
+var import_react_native_reanimated4 = require("react-native-reanimated");
 var import_react_native_worklets = require("react-native-worklets");
 var import_react_native_gesture_handler2 = require("react-native-gesture-handler");
 var import_react_native8 = require("react-native");
@@ -4023,8 +4045,9 @@ function usePressable({
   const [isPressed, setIsPressed] = (0, import_react7.useState)(false);
   const reduceMotion = useReduceMotionEnabled();
   const effectiveFeedbackMode = reduceMotion && feedbackMode !== "none" ? "none" : feedbackMode;
-  const scale = (0, import_react_native_reanimated3.useSharedValue)(1);
-  const opacity = (0, import_react_native_reanimated3.useSharedValue)(1);
+  const scale = (0, import_react_native_reanimated4.useSharedValue)(1);
+  const opacity = (0, import_react_native_reanimated4.useSharedValue)(1);
+  const highlightOpacity = (0, import_react_native_reanimated4.useSharedValue)(0);
   const handlePress = (0, import_react7.useCallback)(() => {
     if (disabled) return;
     if (haptic) triggerHaptic("light");
@@ -4038,9 +4061,12 @@ function usePressable({
   const setPressedState = (0, import_react7.useCallback)((pressed) => {
     setIsPressed(pressed);
   }, []);
-  const animatedStyle = (0, import_react_native_reanimated3.useAnimatedStyle)(() => {
+  const animatedStyle = (0, import_react_native_reanimated4.useAnimatedStyle)(() => {
     if (effectiveFeedbackMode === "opacity") {
       return { opacity: opacity.value };
+    }
+    if (effectiveFeedbackMode === "highlight") {
+      return { backgroundColor: `rgba(0,0,0,${highlightOpacity.value * 0.08})` };
     }
     if (effectiveFeedbackMode === "none") {
       return {};
@@ -4053,21 +4079,25 @@ function usePressable({
   const snappySpring = import_tokens3.spring.snappy;
   const tapGesture = import_react_native_gesture_handler2.Gesture.Tap().enabled(!disabled).hitSlop(hitSlop ?? 0).onBegin(() => {
     "worklet";
-    (0, import_react_native_reanimated3.runOnJS)(setPressedState)(true);
+    (0, import_react_native_worklets.scheduleOnRN)(setPressedState, true);
     if (effectiveFeedbackMode === "scale") {
-      scale.value = (0, import_react_native_reanimated3.withSpring)(scaleDownPressed, snappySpring);
+      scale.value = (0, import_react_native_reanimated4.withSpring)(scaleDownPressed, snappySpring);
     } else if (effectiveFeedbackMode === "scaleSubtle") {
-      scale.value = (0, import_react_native_reanimated3.withSpring)(scaleSubtlePressed, snappySpring);
+      scale.value = (0, import_react_native_reanimated4.withSpring)(scaleSubtlePressed, snappySpring);
     } else if (effectiveFeedbackMode === "opacity") {
-      opacity.value = (0, import_react_native_reanimated3.withTiming)(opacityOnlyPressed, { duration: 60 });
+      opacity.value = (0, import_react_native_reanimated4.withTiming)(opacityOnlyPressed, { duration: 60 });
+    } else if (effectiveFeedbackMode === "highlight") {
+      highlightOpacity.value = (0, import_react_native_reanimated4.withTiming)(1, { duration: 60 });
     }
   }).onFinalize((_event, success) => {
     "worklet";
-    (0, import_react_native_reanimated3.runOnJS)(setPressedState)(false);
+    (0, import_react_native_worklets.scheduleOnRN)(setPressedState, false);
     if (effectiveFeedbackMode === "scale" || effectiveFeedbackMode === "scaleSubtle") {
-      scale.value = (0, import_react_native_reanimated3.withSpring)(1, snappySpring);
+      scale.value = (0, import_react_native_reanimated4.withSpring)(1, snappySpring);
     } else if (effectiveFeedbackMode === "opacity") {
-      opacity.value = (0, import_react_native_reanimated3.withTiming)(1, { duration: 100 });
+      opacity.value = (0, import_react_native_reanimated4.withTiming)(1, { duration: 100 });
+    } else if (effectiveFeedbackMode === "highlight") {
+      highlightOpacity.value = (0, import_react_native_reanimated4.withTiming)(0, { duration: 200 });
     }
     if (success) {
       (0, import_react_native_worklets.scheduleOnRN)(handlePress);
@@ -4094,25 +4124,38 @@ function usePressable({
     onPress: handlePress
   };
 }
-function triggerHaptic(type) {
+var _hapticModule = null;
+var _hapticProvider;
+function resolveHapticProvider() {
+  if (_hapticProvider !== void 0) return;
   try {
-    const Haptics = (init_Haptics(), __toCommonJS(Haptics_exports));
-    const map = {
-      light: Haptics.ImpactFeedbackStyle.Light,
-      medium: Haptics.ImpactFeedbackStyle.Medium,
-      heavy: Haptics.ImpactFeedbackStyle.Heavy
-    };
-    Haptics.impactAsync(map[type]);
+    _hapticModule = (init_Haptics(), __toCommonJS(Haptics_exports));
+    _hapticProvider = "expo";
     return;
   } catch {
   }
   try {
-    const HapticFeedback = require("react-native-haptic-feedback").default;
-    HapticFeedback.trigger(
+    _hapticModule = require("react-native-haptic-feedback").default;
+    _hapticProvider = "rn";
+    return;
+  } catch {
+  }
+  _hapticProvider = "none";
+}
+function triggerHaptic(type) {
+  resolveHapticProvider();
+  if (_hapticProvider === "expo") {
+    const map = {
+      light: _hapticModule.ImpactFeedbackStyle.Light,
+      medium: _hapticModule.ImpactFeedbackStyle.Medium,
+      heavy: _hapticModule.ImpactFeedbackStyle.Heavy
+    };
+    _hapticModule.impactAsync(map[type]);
+  } else if (_hapticProvider === "rn") {
+    _hapticModule.trigger(
       import_react_native8.Platform.OS === "ios" ? "impactLight" : "notificationSuccess",
       { enableVibrateFallback: true, ignoreAndroidSystemSettings: false }
     );
-  } catch {
   }
 }
 
@@ -4287,7 +4330,7 @@ function useToast() {
 
 // src/hooks/useBottomSheet.ts
 var import_react11 = require("react");
-var import_react_native_reanimated4 = require("react-native-reanimated");
+var import_react_native_reanimated5 = require("react-native-reanimated");
 var import_react_native_worklets2 = require("react-native-worklets");
 var import_react_native_gesture_handler3 = require("react-native-gesture-handler");
 var import_react_native9 = require("react-native");
@@ -4306,27 +4349,27 @@ function useBottomSheet({
   enableDismissOnSwipe = true,
   enableBackdrop = true
 } = {}) {
-  const snapPoints = (0, import_react11.useMemo)(
-    () => rawSnapPoints.map(resolveSnapPoint),
-    [rawSnapPoints]
-  );
+  const snapPoints = (0, import_react11.useMemo)(() => {
+    const resolved = rawSnapPoints.map(resolveSnapPoint);
+    return resolved.length > 0 ? resolved : [SCREEN_HEIGHT * 0.5];
+  }, [rawSnapPoints]);
   const maxHeight = (0, import_react11.useMemo)(() => Math.max(...snapPoints), [snapPoints]);
   const defaultSnapIndex = initialSnapIndex ?? snapPoints.length - 1;
   const isOpenRef = (0, import_react11.useRef)(false);
   const currentIndexRef = (0, import_react11.useRef)(defaultSnapIndex);
-  const translateY = (0, import_react_native_reanimated4.useSharedValue)(SCREEN_HEIGHT);
-  const backdropOpacity = (0, import_react_native_reanimated4.useSharedValue)(0);
-  const dragStartY = (0, import_react_native_reanimated4.useSharedValue)(0);
+  const translateY = (0, import_react_native_reanimated5.useSharedValue)(SCREEN_HEIGHT);
+  const backdropOpacity = (0, import_react_native_reanimated5.useSharedValue)(0);
+  const dragStartY = (0, import_react_native_reanimated5.useSharedValue)(0);
   const gentleSpring = import_tokens4.spring.gentle;
   const animateToSnap = (0, import_react11.useCallback)(
     (index, onDone) => {
       "worklet";
       const targetHeight = snapPoints[index] ?? snapPoints[snapPoints.length - 1];
       const targetY = SCREEN_HEIGHT - targetHeight;
-      translateY.value = (0, import_react_native_reanimated4.withSpring)(targetY, gentleSpring, (finished) => {
+      translateY.value = (0, import_react_native_reanimated5.withSpring)(targetY, gentleSpring, (finished) => {
         if (finished && onDone) (0, import_react_native_worklets2.scheduleOnRN)(onDone);
       });
-      backdropOpacity.value = (0, import_react_native_reanimated4.withTiming)(
+      backdropOpacity.value = (0, import_react_native_reanimated5.withTiming)(
         enableBackdrop ? targetHeight / maxHeight * 0.6 : 0,
         { duration: 250 }
       );
@@ -4344,8 +4387,8 @@ function useBottomSheet({
         console.warn("Invalid targetY calculated for open:", targetY);
         return;
       }
-      translateY.value = (0, import_react_native_reanimated4.withSpring)(targetY, gentleSpring);
-      backdropOpacity.value = (0, import_react_native_reanimated4.withTiming)(
+      translateY.value = (0, import_react_native_reanimated5.withSpring)(targetY, gentleSpring);
+      backdropOpacity.value = (0, import_react_native_reanimated5.withTiming)(
         enableBackdrop ? targetHeight / maxHeight * 0.6 : 0,
         { duration: 250 }
       );
@@ -4367,12 +4410,12 @@ function useBottomSheet({
     onClose?.();
   }, [onClose]);
   const close = (0, import_react11.useCallback)(() => {
-    translateY.value = (0, import_react_native_reanimated4.withSpring)(SCREEN_HEIGHT, gentleSpring, (finished) => {
+    translateY.value = (0, import_react_native_reanimated5.withSpring)(SCREEN_HEIGHT, gentleSpring, (finished) => {
       if (finished) {
         (0, import_react_native_worklets2.scheduleOnRN)(handleCloseEnd);
       }
     });
-    backdropOpacity.value = (0, import_react_native_reanimated4.withTiming)(0, { duration: 200 });
+    backdropOpacity.value = (0, import_react_native_reanimated5.withTiming)(0, { duration: 200 });
   }, [translateY, backdropOpacity, handleCloseEnd, gentleSpring]);
   const snapTo = (0, import_react11.useCallback)(
     (index) => {
@@ -4384,8 +4427,8 @@ function useBottomSheet({
         console.warn("Invalid targetY calculated for snapTo:", targetY);
         return;
       }
-      translateY.value = (0, import_react_native_reanimated4.withSpring)(targetY, gentleSpring);
-      backdropOpacity.value = (0, import_react_native_reanimated4.withTiming)(
+      translateY.value = (0, import_react_native_reanimated5.withSpring)(targetY, gentleSpring);
+      backdropOpacity.value = (0, import_react_native_reanimated5.withTiming)(
         enableBackdrop ? targetHeight / maxHeight * 0.6 : 0,
         { duration: 200 }
       );
@@ -4430,10 +4473,10 @@ function useBottomSheet({
     "worklet";
     (0, import_react_native_worklets2.scheduleOnRN)(close);
   });
-  const sheetAnimatedStyle = (0, import_react_native_reanimated4.useAnimatedStyle)(() => ({
+  const sheetAnimatedStyle = (0, import_react_native_reanimated5.useAnimatedStyle)(() => ({
     transform: [{ translateY: translateY.value }]
   }));
-  const backdropAnimatedStyle = (0, import_react_native_reanimated4.useAnimatedStyle)(() => ({
+  const backdropAnimatedStyle = (0, import_react_native_reanimated5.useAnimatedStyle)(() => ({
     opacity: backdropOpacity.value,
     pointerEvents: backdropOpacity.value > 0 ? "auto" : "none"
   }));
@@ -4585,66 +4628,66 @@ function useSelect({
 }
 
 // src/hooks/useScrollHeader.ts
-var import_react_native_reanimated5 = require("react-native-reanimated");
+var import_react_native_reanimated6 = require("react-native-reanimated");
 function useScrollHeader({ headerMaxHeight, headerMinHeight }) {
-  const scrollY = (0, import_react_native_reanimated5.useSharedValue)(0);
-  const scrollHandler = (0, import_react_native_reanimated5.useAnimatedScrollHandler)({
+  const scrollY = (0, import_react_native_reanimated6.useSharedValue)(0);
+  const scrollHandler = (0, import_react_native_reanimated6.useAnimatedScrollHandler)({
     onScroll: (event) => {
       scrollY.value = event.contentOffset.y;
     }
   });
   const scrollDistance = headerMaxHeight - headerMinHeight;
-  const headerStyle = (0, import_react_native_reanimated5.useAnimatedStyle)(() => {
-    const height = (0, import_react_native_reanimated5.interpolate)(
+  const headerStyle = (0, import_react_native_reanimated6.useAnimatedStyle)(() => {
+    const height = (0, import_react_native_reanimated6.interpolate)(
       scrollY.value,
       [0, scrollDistance],
       [headerMaxHeight, headerMinHeight],
-      import_react_native_reanimated5.Extrapolation.CLAMP
+      import_react_native_reanimated6.Extrapolation.CLAMP
     );
     return { height };
   });
-  const imageStyle = (0, import_react_native_reanimated5.useAnimatedStyle)(() => {
-    const translateY = (0, import_react_native_reanimated5.interpolate)(
+  const imageStyle = (0, import_react_native_reanimated6.useAnimatedStyle)(() => {
+    const translateY = (0, import_react_native_reanimated6.interpolate)(
       scrollY.value,
       [-headerMaxHeight, 0, scrollDistance],
       [-headerMaxHeight / 2, 0, scrollDistance * 0.5],
       // Moves at half speed relative to scroll
-      import_react_native_reanimated5.Extrapolation.CLAMP
+      import_react_native_reanimated6.Extrapolation.CLAMP
     );
-    const scale = (0, import_react_native_reanimated5.interpolate)(
+    const scale = (0, import_react_native_reanimated6.interpolate)(
       scrollY.value,
       [-headerMaxHeight, 0],
       [2, 1],
-      { extrapolateLeft: import_react_native_reanimated5.Extrapolation.EXTEND, extrapolateRight: import_react_native_reanimated5.Extrapolation.CLAMP }
+      { extrapolateLeft: import_react_native_reanimated6.Extrapolation.EXTEND, extrapolateRight: import_react_native_reanimated6.Extrapolation.CLAMP }
     );
     return {
       transform: [{ translateY }, { scale }]
     };
   });
-  const titleStyle = (0, import_react_native_reanimated5.useAnimatedStyle)(() => {
-    const opacity = (0, import_react_native_reanimated5.interpolate)(
+  const titleStyle = (0, import_react_native_reanimated6.useAnimatedStyle)(() => {
+    const opacity = (0, import_react_native_reanimated6.interpolate)(
       scrollY.value,
       [scrollDistance * 0.6, scrollDistance * 0.9],
       [0, 1],
-      import_react_native_reanimated5.Extrapolation.CLAMP
+      import_react_native_reanimated6.Extrapolation.CLAMP
     );
-    const translateY = (0, import_react_native_reanimated5.interpolate)(
+    const translateY = (0, import_react_native_reanimated6.interpolate)(
       scrollY.value,
       [scrollDistance * 0.6, scrollDistance],
       [10, 0],
-      import_react_native_reanimated5.Extrapolation.CLAMP
+      import_react_native_reanimated6.Extrapolation.CLAMP
     );
     return {
       opacity,
       transform: [{ translateY }]
     };
   });
-  const headerBgStyle = (0, import_react_native_reanimated5.useAnimatedStyle)(() => {
-    const opacity = (0, import_react_native_reanimated5.interpolate)(
+  const headerBgStyle = (0, import_react_native_reanimated6.useAnimatedStyle)(() => {
+    const opacity = (0, import_react_native_reanimated6.interpolate)(
       scrollY.value,
       [0, scrollDistance],
       [0, 1],
-      import_react_native_reanimated5.Extrapolation.CLAMP
+      import_react_native_reanimated6.Extrapolation.CLAMP
     );
     return { opacity };
   });
@@ -4673,7 +4716,7 @@ function useMemoStyles(styleFactory) {
 
 // src/hooks/useListItem.ts
 var import_react16 = require("react");
-var import_react_native_reanimated6 = require("react-native-reanimated");
+var import_react_native_reanimated7 = require("react-native-reanimated");
 var import_react_native_worklets3 = require("react-native-worklets");
 var import_react_native_gesture_handler4 = require("react-native-gesture-handler");
 var import_tokens5 = require("@truongdq01/tokens");
@@ -4685,20 +4728,20 @@ function useListItem({
   leadingActions = [],
   disabled = false
 } = {}) {
-  const translateX = (0, import_react_native_reanimated6.useSharedValue)(0);
-  const isRevealedValue = (0, import_react_native_reanimated6.useSharedValue)(false);
+  const translateX = (0, import_react_native_reanimated7.useSharedValue)(0);
+  const isRevealedValue = (0, import_react_native_reanimated7.useSharedValue)(false);
   const trailingMax = trailingActions.length * ACTION_WIDTH;
   const leadingMax = leadingActions.length * ACTION_WIDTH;
   const snappySpring = import_tokens5.spring.snappy;
   const close = (0, import_react16.useCallback)(() => {
-    translateX.value = (0, import_react_native_reanimated6.withSpring)(0, snappySpring);
+    translateX.value = (0, import_react_native_reanimated7.withSpring)(0, snappySpring);
     isRevealedValue.value = false;
   }, [translateX, isRevealedValue, snappySpring]);
   const tapGesture = import_react_native_gesture_handler4.Gesture.Tap().enabled(!disabled).onEnd((_, success) => {
     "worklet";
     if (!success) return;
     if (isRevealedValue.value) {
-      translateX.value = (0, import_react_native_reanimated6.withSpring)(0, snappySpring);
+      translateX.value = (0, import_react_native_reanimated7.withSpring)(0, snappySpring);
       isRevealedValue.value = false;
       return;
     }
@@ -4722,14 +4765,14 @@ function useListItem({
     const tx = translateX.value;
     if (tx < 0 && trailingMax > 0) {
       const snap = tx < -trailingMax / 2 || vel < -300;
-      translateX.value = (0, import_react_native_reanimated6.withSpring)(snap ? -trailingMax : 0, snappySpring);
+      translateX.value = (0, import_react_native_reanimated7.withSpring)(snap ? -trailingMax : 0, snappySpring);
       isRevealedValue.value = snap;
     } else if (tx > 0 && leadingMax > 0) {
       const snap = tx > leadingMax / 2 || vel > 300;
-      translateX.value = (0, import_react_native_reanimated6.withSpring)(snap ? leadingMax : 0, snappySpring);
+      translateX.value = (0, import_react_native_reanimated7.withSpring)(snap ? leadingMax : 0, snappySpring);
       isRevealedValue.value = snap;
     } else {
-      translateX.value = (0, import_react_native_reanimated6.withSpring)(0, snappySpring);
+      translateX.value = (0, import_react_native_reanimated7.withSpring)(0, snappySpring);
       isRevealedValue.value = false;
     }
   });
@@ -4737,16 +4780,16 @@ function useListItem({
     import_react_native_gesture_handler4.Gesture.Race(panGesture, tapGesture),
     longPressGesture
   );
-  const itemAnimatedStyle = (0, import_react_native_reanimated6.useAnimatedStyle)(() => ({
+  const itemAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => ({
     transform: [{ translateX: translateX.value }]
   }));
-  const trailingActionsStyle = (0, import_react_native_reanimated6.useAnimatedStyle)(() => ({
+  const trailingActionsStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => ({
     width: Math.abs(Math.min(translateX.value, 0)),
-    opacity: (0, import_react_native_reanimated6.interpolate)(translateX.value, [-trailingMax, -20, 0], [1, 0.6, 0], import_react_native_reanimated6.Extrapolation.CLAMP)
+    opacity: (0, import_react_native_reanimated7.interpolate)(translateX.value, [-trailingMax, -20, 0], [1, 0.6, 0], import_react_native_reanimated7.Extrapolation.CLAMP)
   }));
-  const leadingActionsStyle = (0, import_react_native_reanimated6.useAnimatedStyle)(() => ({
+  const leadingActionsStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => ({
     width: Math.max(translateX.value, 0),
-    opacity: (0, import_react_native_reanimated6.interpolate)(translateX.value, [0, 20, leadingMax], [0, 0.6, 1], import_react_native_reanimated6.Extrapolation.CLAMP)
+    opacity: (0, import_react_native_reanimated7.interpolate)(translateX.value, [0, 20, leadingMax], [0, 0.6, 1], import_react_native_reanimated7.Extrapolation.CLAMP)
   }));
   return {
     itemAnimatedStyle,
@@ -4800,11 +4843,12 @@ function useRadioGroup({
 
 // src/hooks/useSlider.ts
 var import_react18 = require("react");
-var import_react_native_reanimated7 = require("react-native-reanimated");
+var import_react_native_reanimated8 = require("react-native-reanimated");
 var import_react_native_worklets4 = require("react-native-worklets");
 var import_react_native_gesture_handler5 = require("react-native-gesture-handler");
 var import_tokens6 = require("@truongdq01/tokens");
 function snapToStep(value, min, max, step) {
+  if (step === 0 || max === min) return Math.max(min, Math.min(max, value));
   const snapped = Math.round((value - min) / step) * step + min;
   return Math.max(min, Math.min(max, snapped));
 }
@@ -4813,6 +4857,7 @@ function sortPair(a, b) {
 }
 function snapRatioWorklet(raw, min, max, step) {
   "worklet";
+  if (step === 0 || max === min) return Math.max(min, Math.min(max, raw));
   const snapped = Math.round((raw - min) / step) * step + min;
   return Math.max(min, Math.min(max, snapped));
 }
@@ -4827,9 +4872,11 @@ function useSlider({
 } = {}) {
   const isRange = range2 === true;
   const isVertical = orientation === "vertical";
-  const trackLength = (0, import_react_native_reanimated7.useSharedValue)(0);
+  const trackLength = (0, import_react_native_reanimated8.useSharedValue)(0);
   const snappySpringConfig = import_tokens6.spring.snappy;
-  const minRatioGap = Math.max(step / (max - min), 1e-4);
+  const safeRange = max - min || 1;
+  const safeStep = step || 1;
+  const minRatioGap = Math.max(safeStep / safeRange, 1e-4);
   const singleRest = rest;
   const rangeRest = rest;
   const defaultValueSingle = singleRest.defaultValue ?? min;
@@ -4856,29 +4903,29 @@ function useSlider({
   }, [isRange, controlledPair, min, max, step]);
   const internalValueRef = (0, import_react18.useRef)(controlledSingle ?? defaultValueSingle);
   const currentSingle = controlledSingle ?? internalValueRef.current;
-  const lowRatioInit = isRange ? (currentPairResolved[0] - min) / (max - min) : 0;
-  const highRatioInit = isRange ? (currentPairResolved[1] - min) / (max - min) : 1;
-  const singleRatioInit = !isRange ? (currentSingle - min) / (max - min) : 0;
-  const thumbRatio = (0, import_react_native_reanimated7.useSharedValue)(singleRatioInit);
-  const thumbRatioLow = (0, import_react_native_reanimated7.useSharedValue)(lowRatioInit);
-  const thumbRatioHigh = (0, import_react_native_reanimated7.useSharedValue)(highRatioInit);
-  const isDragging = (0, import_react_native_reanimated7.useSharedValue)(false);
-  const dragStartRatio = (0, import_react_native_reanimated7.useSharedValue)(0);
-  const thumbScale = (0, import_react_native_reanimated7.useSharedValue)(1);
-  const isDraggingLow = (0, import_react_native_reanimated7.useSharedValue)(false);
-  const isDraggingHigh = (0, import_react_native_reanimated7.useSharedValue)(false);
-  const dragStartLow = (0, import_react_native_reanimated7.useSharedValue)(0);
-  const dragStartHigh = (0, import_react_native_reanimated7.useSharedValue)(0);
-  const thumbScaleLow = (0, import_react_native_reanimated7.useSharedValue)(1);
-  const thumbScaleHigh = (0, import_react_native_reanimated7.useSharedValue)(1);
-  const lastEmittedValue = (0, import_react_native_reanimated7.useSharedValue)(
+  const lowRatioInit = isRange ? (currentPairResolved[0] - min) / safeRange : 0;
+  const highRatioInit = isRange ? (currentPairResolved[1] - min) / safeRange : 1;
+  const singleRatioInit = !isRange ? (currentSingle - min) / safeRange : 0;
+  const thumbRatio = (0, import_react_native_reanimated8.useSharedValue)(singleRatioInit);
+  const thumbRatioLow = (0, import_react_native_reanimated8.useSharedValue)(lowRatioInit);
+  const thumbRatioHigh = (0, import_react_native_reanimated8.useSharedValue)(highRatioInit);
+  const isDragging = (0, import_react_native_reanimated8.useSharedValue)(false);
+  const dragStartRatio = (0, import_react_native_reanimated8.useSharedValue)(0);
+  const thumbScale = (0, import_react_native_reanimated8.useSharedValue)(1);
+  const isDraggingLow = (0, import_react_native_reanimated8.useSharedValue)(false);
+  const isDraggingHigh = (0, import_react_native_reanimated8.useSharedValue)(false);
+  const dragStartLow = (0, import_react_native_reanimated8.useSharedValue)(0);
+  const dragStartHigh = (0, import_react_native_reanimated8.useSharedValue)(0);
+  const thumbScaleLow = (0, import_react_native_reanimated8.useSharedValue)(1);
+  const thumbScaleHigh = (0, import_react_native_reanimated8.useSharedValue)(1);
+  const lastEmittedValue = (0, import_react_native_reanimated8.useSharedValue)(
     !isRange ? snapToStep(currentSingle, min, max, step) : min
   );
-  const lastEmittedLow = (0, import_react_native_reanimated7.useSharedValue)(isRange ? currentPairResolved[0] : min);
-  const lastEmittedHigh = (0, import_react_native_reanimated7.useSharedValue)(isRange ? currentPairResolved[1] : max);
+  const lastEmittedLow = (0, import_react_native_reanimated8.useSharedValue)(isRange ? currentPairResolved[0] : min);
+  const lastEmittedHigh = (0, import_react_native_reanimated8.useSharedValue)(isRange ? currentPairResolved[1] : max);
   (0, import_react18.useEffect)(() => {
     if (isRange || controlledSingle === void 0) return;
-    const r = (controlledSingle - min) / (max - min);
+    const r = (controlledSingle - min) / safeRange;
     thumbRatio.value = Math.max(0, Math.min(1, r));
     lastEmittedValue.value = snapToStep(controlledSingle, min, max, step);
   }, [isRange, controlledSingle, min, max, step, thumbRatio, lastEmittedValue]);
@@ -4888,8 +4935,8 @@ function useSlider({
       snapToStep(controlledPair[0], min, max, step),
       snapToStep(controlledPair[1], min, max, step)
     );
-    thumbRatioLow.value = (lo - min) / (max - min);
-    thumbRatioHigh.value = (hi - min) / (max - min);
+    thumbRatioLow.value = (lo - min) / safeRange;
+    thumbRatioHigh.value = (hi - min) / safeRange;
     lastEmittedLow.value = lo;
     lastEmittedHigh.value = hi;
   }, [isRange, controlledPair, min, max, step, thumbRatioLow, thumbRatioHigh, lastEmittedLow, lastEmittedHigh]);
@@ -4943,7 +4990,7 @@ function useSlider({
     () => import_react_native_gesture_handler5.Gesture.Pan().enabled(!disabled && !isRange).onStart(() => {
       "worklet";
       isDragging.value = true;
-      thumbScale.value = (0, import_react_native_reanimated7.withSpring)(1.2, snappySpringConfig);
+      thumbScale.value = (0, import_react_native_reanimated8.withSpring)(1.2, snappySpringConfig);
       dragStartRatio.value = thumbRatio.value;
     }).onUpdate((e) => {
       "worklet";
@@ -4952,20 +4999,16 @@ function useSlider({
       const delta = isVertical ? -e.translationY / len : e.translationX / len;
       const next = Math.max(0, Math.min(1, dragStartRatio.value + delta));
       thumbRatio.value = next;
-      const raw = next * (max - min) + min;
-      const snapped = snapRatioWorklet(raw, min, max, step);
-      if (snapped !== lastEmittedValue.value) {
-        lastEmittedValue.value = snapped;
-        (0, import_react_native_worklets4.scheduleOnRN)(emitChange, next);
-      }
     }).onEnd(() => {
       "worklet";
       isDragging.value = false;
-      thumbScale.value = (0, import_react_native_reanimated7.withSpring)(1, snappySpringConfig);
+      thumbScale.value = (0, import_react_native_reanimated8.withSpring)(1, snappySpringConfig);
       const raw = thumbRatio.value * (max - min) + min;
       const finalSnapped = snapRatioWorklet(raw, min, max, step);
-      const targetRatio = (finalSnapped - min) / (max - min);
-      thumbRatio.value = (0, import_react_native_reanimated7.withSpring)(targetRatio, snappySpringConfig);
+      const targetRatio = (finalSnapped - min) / safeRange;
+      thumbRatio.value = (0, import_react_native_reanimated8.withSpring)(targetRatio, snappySpringConfig);
+      lastEmittedValue.value = finalSnapped;
+      (0, import_react_native_worklets4.scheduleOnRN)(emitChange, targetRatio);
       (0, import_react_native_worklets4.scheduleOnRN)(emitChangeEnd, targetRatio);
     }),
     [
@@ -4990,7 +5033,7 @@ function useSlider({
     () => import_react_native_gesture_handler5.Gesture.Pan().enabled(!disabled && isRange).onStart(() => {
       "worklet";
       isDraggingLow.value = true;
-      thumbScaleLow.value = (0, import_react_native_reanimated7.withSpring)(1.15, snappySpringConfig);
+      thumbScaleLow.value = (0, import_react_native_reanimated8.withSpring)(1.15, snappySpringConfig);
       dragStartLow.value = thumbRatioLow.value;
     }).onUpdate((e) => {
       "worklet";
@@ -5000,25 +5043,17 @@ function useSlider({
       const cap = thumbRatioHigh.value - minRatioGap;
       const next = Math.max(0, Math.min(cap, dragStartLow.value + delta));
       thumbRatioLow.value = next;
-      const rawLo = next * (max - min) + min;
-      const rawHi = thumbRatioHigh.value * (max - min) + min;
-      const sLo = snapRatioWorklet(rawLo, min, max, step);
-      const sHi = snapRatioWorklet(rawHi, min, max, step);
-      if (sLo !== lastEmittedLow.value || sHi !== lastEmittedHigh.value) {
-        lastEmittedLow.value = sLo;
-        lastEmittedHigh.value = sHi;
-        (0, import_react_native_worklets4.scheduleOnRN)(emitChangePair, next, thumbRatioHigh.value);
-      }
     }).onEnd(() => {
       "worklet";
       isDraggingLow.value = false;
-      thumbScaleLow.value = (0, import_react_native_reanimated7.withSpring)(1, snappySpringConfig);
+      thumbScaleLow.value = (0, import_react_native_reanimated8.withSpring)(1, snappySpringConfig);
       const raw = thumbRatioLow.value * (max - min) + min;
       const snapped = snapRatioWorklet(raw, min, max, step);
       const capVal = thumbRatioHigh.value * (max - min) + min;
       const finalLo = Math.min(snapped, snapRatioWorklet(capVal - step, min, max, step));
-      const targetR = (finalLo - min) / (max - min);
-      thumbRatioLow.value = (0, import_react_native_reanimated7.withSpring)(targetR, snappySpringConfig);
+      const targetR = (finalLo - min) / safeRange;
+      thumbRatioLow.value = (0, import_react_native_reanimated8.withSpring)(targetR, snappySpringConfig);
+      (0, import_react_native_worklets4.scheduleOnRN)(emitChangePair, targetR, thumbRatioHigh.value);
       (0, import_react_native_worklets4.scheduleOnRN)(emitChangeEndPair, targetR, thumbRatioHigh.value);
     }),
     [
@@ -5046,7 +5081,7 @@ function useSlider({
     () => import_react_native_gesture_handler5.Gesture.Pan().enabled(!disabled && isRange).onStart(() => {
       "worklet";
       isDraggingHigh.value = true;
-      thumbScaleHigh.value = (0, import_react_native_reanimated7.withSpring)(1.15, snappySpringConfig);
+      thumbScaleHigh.value = (0, import_react_native_reanimated8.withSpring)(1.15, snappySpringConfig);
       dragStartHigh.value = thumbRatioHigh.value;
     }).onUpdate((e) => {
       "worklet";
@@ -5056,25 +5091,17 @@ function useSlider({
       const floor = thumbRatioLow.value + minRatioGap;
       const next = Math.max(floor, Math.min(1, dragStartHigh.value + delta));
       thumbRatioHigh.value = next;
-      const rawLo = thumbRatioLow.value * (max - min) + min;
-      const rawHi = next * (max - min) + min;
-      const sLo = snapRatioWorklet(rawLo, min, max, step);
-      const sHi = snapRatioWorklet(rawHi, min, max, step);
-      if (sLo !== lastEmittedLow.value || sHi !== lastEmittedHigh.value) {
-        lastEmittedLow.value = sLo;
-        lastEmittedHigh.value = sHi;
-        (0, import_react_native_worklets4.scheduleOnRN)(emitChangePair, thumbRatioLow.value, next);
-      }
     }).onEnd(() => {
       "worklet";
       isDraggingHigh.value = false;
-      thumbScaleHigh.value = (0, import_react_native_reanimated7.withSpring)(1, snappySpringConfig);
+      thumbScaleHigh.value = (0, import_react_native_reanimated8.withSpring)(1, snappySpringConfig);
       const raw = thumbRatioHigh.value * (max - min) + min;
       const snapped = snapRatioWorklet(raw, min, max, step);
       const floorVal = thumbRatioLow.value * (max - min) + min;
       const finalHi = Math.max(snapped, snapRatioWorklet(floorVal + step, min, max, step));
-      const targetR = (finalHi - min) / (max - min);
-      thumbRatioHigh.value = (0, import_react_native_reanimated7.withSpring)(targetR, snappySpringConfig);
+      const targetR = (finalHi - min) / safeRange;
+      thumbRatioHigh.value = (0, import_react_native_reanimated8.withSpring)(targetR, snappySpringConfig);
+      (0, import_react_native_worklets4.scheduleOnRN)(emitChangePair, thumbRatioLow.value, targetR);
       (0, import_react_native_worklets4.scheduleOnRN)(emitChangeEndPair, thumbRatioLow.value, targetR);
     }),
     [
@@ -5098,7 +5125,7 @@ function useSlider({
       emitChangePair
     ]
   );
-  const thumbAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
+  const thumbAnimatedStyle = (0, import_react_native_reanimated8.useAnimatedStyle)(() => {
     const len = trackLength.value;
     const ratio = thumbRatio.value;
     const scale = thumbScale.value;
@@ -5107,7 +5134,7 @@ function useSlider({
     }
     return { transform: [{ translateX: ratio * len }, { scale }] };
   });
-  const thumbLowAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
+  const thumbLowAnimatedStyle = (0, import_react_native_reanimated8.useAnimatedStyle)(() => {
     const len = trackLength.value;
     const r = thumbRatioLow.value;
     const sc = thumbScaleLow.value;
@@ -5116,7 +5143,7 @@ function useSlider({
     }
     return { transform: [{ translateX: r * len }, { scale: sc }] };
   });
-  const thumbHighAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
+  const thumbHighAnimatedStyle = (0, import_react_native_reanimated8.useAnimatedStyle)(() => {
     const len = trackLength.value;
     const r = thumbRatioHigh.value;
     const sc = thumbScaleHigh.value;
@@ -5125,7 +5152,7 @@ function useSlider({
     }
     return { transform: [{ translateX: r * len }, { scale: sc }] };
   });
-  const fillAnimatedStyleSingle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
+  const fillAnimatedStyleSingle = (0, import_react_native_reanimated8.useAnimatedStyle)(() => {
     const ratio = thumbRatio.value;
     if (isVertical) {
       return {
@@ -5138,7 +5165,7 @@ function useSlider({
     }
     return { width: `${ratio * 100}%` };
   });
-  const fillAnimatedStyleRange = (0, import_react_native_reanimated7.useAnimatedStyle)(() => {
+  const fillAnimatedStyleRange = (0, import_react_native_reanimated8.useAnimatedStyle)(() => {
     const lo = thumbRatioLow.value;
     const hi = thumbRatioHigh.value;
     if (isVertical) {
@@ -5158,13 +5185,15 @@ function useSlider({
       bottom: 0
     };
   });
-  const trackAnimatedStyle = (0, import_react_native_reanimated7.useAnimatedStyle)(() => ({
+  const trackAnimatedStyle = (0, import_react_native_reanimated8.useAnimatedStyle)(() => ({
     opacity: disabled ? 0.4 : 1
   }));
   if (isRange) {
     return {
       mode: "range",
       currentValue: currentPairResolved,
+      thumbRatioLowShared: thumbRatioLow,
+      thumbRatioHighShared: thumbRatioHigh,
       thumbLowAnimatedStyle,
       thumbHighAnimatedStyle,
       fillAnimatedStyle: fillAnimatedStyleRange,
@@ -5173,8 +5202,8 @@ function useSlider({
       panGestureHigh,
       onTrackLayout,
       percentage: [
-        (currentPairResolved[0] - min) / (max - min),
-        (currentPairResolved[1] - min) / (max - min)
+        (currentPairResolved[0] - min) / safeRange,
+        (currentPairResolved[1] - min) / safeRange
       ],
       orientation
     };
@@ -5182,12 +5211,13 @@ function useSlider({
   return {
     mode: "single",
     currentValue: currentSingle,
+    thumbRatioShared: thumbRatio,
     thumbAnimatedStyle,
     fillAnimatedStyle: fillAnimatedStyleSingle,
     trackAnimatedStyle,
     panGesture,
     onTrackLayout,
-    percentage: (currentSingle - min) / (max - min),
+    percentage: (currentSingle - min) / safeRange,
     orientation
   };
 }
@@ -5309,6 +5339,13 @@ function useRating({
     return precision;
   }, [precision]);
   const [internalValue, setInternalValue] = (0, import_react21.useState)(defaultValue);
+  const prevControlled = (0, import_react21.useRef)(controlledValue);
+  (0, import_react21.useEffect)(() => {
+    if (prevControlled.current !== void 0 && controlledValue === void 0) {
+      setInternalValue(prevControlled.current);
+    }
+    prevControlled.current = controlledValue;
+  }, [controlledValue]);
   const value = controlledValue !== void 0 ? controlledValue : internalValue;
   const setValue = (0, import_react21.useCallback)(
     (next) => {
@@ -5646,11 +5683,12 @@ function useStepper(options) {
 // src/hooks/useCarousel.ts
 var import_react28 = require("react");
 var import_react_native11 = require("react-native");
-var import_react_native_reanimated8 = require("react-native-reanimated");
+var import_react_native_reanimated9 = require("react-native-reanimated");
 function useCarousel({
   data,
   itemWidth: itemWidthOption,
   gap = 0,
+  contentPaddingStart: contentPaddingStartOption = 0,
   loop = false,
   autoPlay = false,
   autoPlayInterval = 3e3
@@ -5658,47 +5696,58 @@ function useCarousel({
   const { width: windowWidthPx } = (0, import_react_native11.useWindowDimensions)();
   const windowWidth = Math.max(1, windowWidthPx > 0 ? windowWidthPx : 375);
   const itemWidth = itemWidthOption ?? windowWidth;
-  const scrollX = (0, import_react_native_reanimated8.useSharedValue)(0);
+  const scrollX = (0, import_react_native_reanimated9.useSharedValue)(0);
   const scrollViewRef = (0, import_react28.useRef)(null);
   const isJumping = (0, import_react28.useRef)(false);
   const autoPlayTimer = (0, import_react28.useRef)(null);
+  const jumpTimers = (0, import_react28.useRef)([]);
   const n = data.length;
   const itemStep = itemWidth + gap;
+  const pad = contentPaddingStartOption;
   const displayData = (0, import_react28.useMemo)(() => {
     if (!loop || n < 2) return data;
     return [data[n - 1], ...data, data[0]];
   }, [data, loop, n]);
   const snapToOffsets = (0, import_react28.useMemo)(() => {
-    return displayData.map((_, i) => i * itemStep);
-  }, [displayData, itemStep]);
+    return displayData.map((_, i) => pad + i * itemStep);
+  }, [displayData, itemStep, pad]);
   (0, import_react28.useEffect)(() => {
     if (loop && n >= 2) {
       requestAnimationFrame(() => {
-        scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
-        scrollX.value = itemStep;
+        const x = pad + itemStep;
+        scrollViewRef.current?.scrollTo({ x, animated: false });
+        scrollX.value = x;
       });
     }
   }, []);
   const goToNextSlide = (0, import_react28.useCallback)(() => {
     if (n < 1 || itemStep <= 0) return;
     if (!loop || n < 2) {
-      const currentIndex = Math.round(scrollX.value / itemStep);
+      const currentIndex = Math.round((scrollX.value - pad) / itemStep);
       const nextIndex = currentIndex >= n - 1 ? 0 : currentIndex + 1;
-      scrollViewRef.current?.scrollTo({ x: nextIndex * itemStep, animated: true });
+      scrollViewRef.current?.scrollTo({ x: pad + nextIndex * itemStep, animated: true });
     } else {
-      const currentIndex = Math.round(scrollX.value / itemStep);
-      const nextX = (currentIndex + 1) * itemStep;
-      if (nextX < displayData.length * itemStep) {
+      const currentIndex = Math.round((scrollX.value - pad) / itemStep);
+      const nextX = pad + (currentIndex + 1) * itemStep;
+      if (currentIndex + 1 < displayData.length) {
         scrollViewRef.current?.scrollTo({ x: nextX, animated: true });
       }
     }
-  }, [loop, n, itemStep, scrollX, displayData.length]);
+  }, [loop, n, itemStep, scrollX, displayData.length, pad]);
   const goToPreviousSlide = (0, import_react28.useCallback)(() => {
     if (n < 1 || itemStep <= 0) return;
-    const currentIndex = Math.round(scrollX.value / itemStep);
-    const prevIndex = currentIndex <= 0 ? loop ? 0 : n - 1 : currentIndex - 1;
-    scrollViewRef.current?.scrollTo({ x: prevIndex * itemStep, animated: true });
-  }, [loop, n, itemStep, scrollX]);
+    const i = Math.round((scrollX.value - pad) / itemStep);
+    if (loop && n >= 2) {
+      if (i <= 0) {
+        scrollViewRef.current?.scrollTo({ x: pad + n * itemStep, animated: true });
+      } else {
+        scrollViewRef.current?.scrollTo({ x: pad + (i - 1) * itemStep, animated: true });
+      }
+      return;
+    }
+    const prevIndex = i <= 0 ? n - 1 : i - 1;
+    scrollViewRef.current?.scrollTo({ x: pad + prevIndex * itemStep, animated: true });
+  }, [loop, n, itemStep, scrollX, pad]);
   const startTimer = (0, import_react28.useCallback)(() => {
     if (autoPlayTimer.current) clearInterval(autoPlayTimer.current);
     autoPlayTimer.current = setInterval(() => {
@@ -5725,6 +5774,12 @@ function useCarousel({
     }
     return stopTimer;
   }, [autoPlay, startTimer, stopTimer, n]);
+  (0, import_react28.useEffect)(() => {
+    return () => {
+      jumpTimers.current.forEach(clearTimeout);
+      jumpTimers.current = [];
+    };
+  }, []);
   const onScroll = (0, import_react28.useCallback)(
     (e) => {
       scrollX.value = e.nativeEvent.contentOffset.x;
@@ -5738,24 +5793,29 @@ function useCarousel({
     (e) => {
       if (!loop || n < 2 || isJumping.current) return;
       const x = Math.round(e.nativeEvent.contentOffset.x);
-      const lastCloneX = (displayData.length - 1) * itemStep;
-      if (x <= 0) {
+      const i = Math.round((x - pad) / itemStep);
+      const lastIndex = displayData.length - 1;
+      if (i <= 0) {
         isJumping.current = true;
-        scrollViewRef.current?.scrollTo({ x: n * itemStep, animated: false });
-        scrollX.value = n * itemStep;
-        setTimeout(() => {
+        const target = pad + n * itemStep;
+        scrollViewRef.current?.scrollTo({ x: target, animated: false });
+        scrollX.value = target;
+        const id2 = setTimeout(() => {
           isJumping.current = false;
         }, 50);
-      } else if (x >= lastCloneX) {
+        jumpTimers.current.push(id2);
+      } else if (i >= lastIndex) {
         isJumping.current = true;
-        scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
-        scrollX.value = itemStep;
-        setTimeout(() => {
+        const target = pad + itemStep;
+        scrollViewRef.current?.scrollTo({ x: target, animated: false });
+        scrollX.value = target;
+        const id2 = setTimeout(() => {
           isJumping.current = false;
         }, 50);
+        jumpTimers.current.push(id2);
       }
     },
-    [loop, n, itemStep, displayData.length, scrollX]
+    [loop, n, itemStep, displayData.length, scrollX, pad]
   );
   return {
     scrollViewRef,
@@ -5767,7 +5827,8 @@ function useCarousel({
     goToNextSlide,
     goToPreviousSlide,
     itemStep,
-    n
+    n,
+    contentPaddingStart: pad
   };
 }
 
@@ -5853,7 +5914,8 @@ function useTable({
   initialSort = null
 }) {
   const [page, setPage] = (0, import_react31.useState)(initialPage);
-  const [rowsPerPage, setRowsPerPage] = (0, import_react31.useState)(initialRowsPerPage);
+  const [rowsPerPage, setRowsPerPageRaw] = (0, import_react31.useState)(Math.max(1, initialRowsPerPage));
+  const setRowsPerPage = (0, import_react31.useCallback)((n) => setRowsPerPageRaw(Math.max(1, n)), []);
   const [sort, setSort] = (0, import_react31.useState)(initialSort);
   const [selected, setSelected] = (0, import_react31.useState)(/* @__PURE__ */ new Set());
   const processedData = (0, import_react31.useMemo)(() => {
@@ -6004,6 +6066,231 @@ function useMenu({
     })
   };
 }
+
+// src/hooks/useDatePicker.ts
+var import_react35 = require("react");
+var DEFAULT_PRESETS = [
+  { label: "Today", value: () => /* @__PURE__ */ new Date() },
+  { label: "Last 7 days", value: () => {
+    const d = /* @__PURE__ */ new Date();
+    d.setDate(d.getDate() - 7);
+    return d;
+  } },
+  { label: "Last 30 days", value: () => {
+    const d = /* @__PURE__ */ new Date();
+    d.setDate(d.getDate() - 30);
+    return d;
+  } },
+  { label: "Last 90 days", value: () => {
+    const d = /* @__PURE__ */ new Date();
+    d.setDate(d.getDate() - 90);
+    return d;
+  } }
+];
+function useDatePicker(options = {}) {
+  const {
+    defaultDate,
+    minDate,
+    maxDate,
+    presets = DEFAULT_PRESETS,
+    mode = "date",
+    range: range2 = false,
+    onDateChange
+  } = options;
+  const [selectedDate, setSelectedDateState] = (0, import_react35.useState)(defaultDate || null);
+  const [selectedRange, setSelectedRangeState] = (0, import_react35.useState)(null);
+  const [displayDate, setDisplayDate] = (0, import_react35.useState)(defaultDate || /* @__PURE__ */ new Date());
+  const setSelectedDate = (0, import_react35.useCallback)((date) => {
+    setSelectedDateState(date);
+    if (date) setDisplayDate(date);
+    onDateChange?.(date);
+  }, [onDateChange]);
+  const setSelectedRange = (0, import_react35.useCallback)((rangeVal) => {
+    setSelectedRangeState(rangeVal);
+    if (rangeVal) setDisplayDate(rangeVal[0]);
+    onDateChange?.(rangeVal);
+  }, [onDateChange]);
+  const applyPreset = (0, import_react35.useCallback)((preset) => {
+    const date = preset.value();
+    if (range2) {
+      const end = /* @__PURE__ */ new Date();
+      setSelectedRange([date, end]);
+    } else {
+      setSelectedDate(date);
+    }
+  }, [range2, setSelectedDate, setSelectedRange]);
+  const clear = (0, import_react35.useCallback)(() => {
+    if (range2) {
+      setSelectedRange(null);
+    } else {
+      setSelectedDate(null);
+    }
+  }, [range2, setSelectedDate, setSelectedRange]);
+  const isDateDisabled = (0, import_react35.useCallback)((date) => {
+    if (minDate && date < minDate) return true;
+    if (maxDate && date > maxDate) return true;
+    return false;
+  }, [minDate, maxDate]);
+  const currentMonth = displayDate.getMonth();
+  const currentYear = displayDate.getFullYear();
+  const monthDays = (0, import_react35.useMemo)(() => {
+    const days = [];
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    const lastDay = new Date(currentYear, currentMonth + 1, 0);
+    const firstDayOfWeek = firstDay.getDay();
+    const daysFromPrevMonth = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+    for (let i = daysFromPrevMonth - 1; i >= 0; i--) {
+      const d = new Date(currentYear, currentMonth, -i);
+      days.push(d);
+    }
+    for (let i = 1; i <= lastDay.getDate(); i++) {
+      days.push(new Date(currentYear, currentMonth, i));
+    }
+    const remainingDays = 42 - days.length;
+    for (let i = 1; i <= remainingDays; i++) {
+      days.push(new Date(currentYear, currentMonth + 1, i));
+    }
+    return days;
+  }, [currentMonth, currentYear]);
+  const goToPreviousMonth = (0, import_react35.useCallback)(() => {
+    setDisplayDate(new Date(currentYear, currentMonth - 1, 1));
+  }, [currentYear, currentMonth]);
+  const goToNextMonth = (0, import_react35.useCallback)(() => {
+    setDisplayDate(new Date(currentYear, currentMonth + 1, 1));
+  }, [currentYear, currentMonth]);
+  const goToMonth = (0, import_react35.useCallback)((month, year) => {
+    setDisplayDate(new Date(year, month, 1));
+  }, []);
+  return {
+    selectedDate,
+    selectedRange,
+    displayDate,
+    setSelectedDate,
+    setSelectedRange,
+    setDisplayDate,
+    applyPreset,
+    clear,
+    isDateDisabled,
+    monthDays,
+    currentMonth,
+    currentYear,
+    goToPreviousMonth,
+    goToNextMonth,
+    goToMonth
+  };
+}
+
+// src/hooks/useTimeline.ts
+var import_react36 = require("react");
+function useTimeline(options) {
+  const {
+    steps,
+    activeStep: controlledActiveStep,
+    expandable = true,
+    onStepChange
+  } = options;
+  const [internalActiveStep, setInternalActiveStep] = (0, import_react36.useState)(0);
+  const [expandedSteps, setExpandedSteps] = (0, import_react36.useState)(/* @__PURE__ */ new Set());
+  const isControlled = controlledActiveStep !== void 0;
+  const activeStep = isControlled ? controlledActiveStep : internalActiveStep;
+  const setActiveStep = (0, import_react36.useCallback)((index) => {
+    if (steps.length === 0) return;
+    const clamped = Math.max(0, Math.min(index, steps.length - 1));
+    if (!isControlled) setInternalActiveStep(clamped);
+    onStepChange?.(clamped);
+  }, [isControlled, onStepChange, steps.length]);
+  const toggleStep = (0, import_react36.useCallback)((index) => {
+    if (!expandable) return;
+    setExpandedSteps((prev) => {
+      const next = new Set(prev);
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+      return next;
+    });
+  }, [expandable]);
+  const expandAll = (0, import_react36.useCallback)(() => {
+    if (!expandable) return;
+    setExpandedSteps(new Set(steps.map((_, i) => i)));
+  }, [expandable, steps.length]);
+  const collapseAll = (0, import_react36.useCallback)(() => {
+    setExpandedSteps(/* @__PURE__ */ new Set());
+  }, []);
+  const isStepExpanded = (0, import_react36.useCallback)((index) => {
+    return expandedSteps.has(index);
+  }, [expandedSteps]);
+  const goToNextStep = (0, import_react36.useCallback)(() => {
+    if (steps.length === 0) return;
+    const next = Math.min(activeStep + 1, steps.length - 1);
+    setActiveStep(next);
+  }, [activeStep, steps.length, setActiveStep]);
+  const goToPreviousStep = (0, import_react36.useCallback)(() => {
+    if (steps.length === 0) return;
+    const prev = Math.max(activeStep - 1, 0);
+    setActiveStep(prev);
+  }, [activeStep, steps.length, setActiveStep]);
+  const isStepComplete = (0, import_react36.useCallback)((index) => {
+    return index < activeStep || steps[index]?.status === "completed";
+  }, [activeStep, steps]);
+  const isStepActive = (0, import_react36.useCallback)((index) => {
+    return index === activeStep || steps[index]?.status === "active";
+  }, [activeStep, steps]);
+  const isStepPending = (0, import_react36.useCallback)((index) => {
+    return index > activeStep && steps[index]?.status !== "completed" && steps[index]?.status !== "active";
+  }, [activeStep, steps]);
+  const isStepError = (0, import_react36.useCallback)((index) => {
+    return steps[index]?.status === "error";
+  }, [steps]);
+  return {
+    steps,
+    activeStep,
+    setActiveStep,
+    expandedSteps,
+    toggleStep,
+    expandAll,
+    collapseAll,
+    isStepExpanded,
+    goToNextStep,
+    goToPreviousStep,
+    isStepComplete,
+    isStepActive,
+    isStepPending,
+    isStepError
+  };
+}
+
+// src/hooks/useSkeleton.ts
+var import_react37 = require("react");
+function useSkeleton(options) {
+  const {
+    isLoaded,
+    animationDuration = 1e3,
+    staggerDelay = 100,
+    count = 1
+  } = options;
+  const isLoading = !isLoaded;
+  const animationRef = (0, import_react37.useRef)(null);
+  (0, import_react37.useEffect)(() => {
+    if (isLoaded && animationRef.current) {
+      animationRef.current = null;
+    }
+  }, [isLoaded]);
+  const getStaggerDelay = (0, import_react37.useCallback)((index) => {
+    return index * staggerDelay;
+  }, [staggerDelay]);
+  const animationStyle = isLoading ? {
+    opacity: 1
+  } : {
+    opacity: 1
+  };
+  return {
+    isLoading,
+    animationStyle,
+    getStaggerDelay
+  };
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ThemeProvider,
@@ -6027,6 +6314,7 @@ function useMenu({
   useCarousel,
   useCheckbox,
   useComponentTokens,
+  useDatePicker,
   useDisclosure,
   useDrawer,
   useField,
@@ -6047,12 +6335,14 @@ function useMenu({
   useScrollHeader,
   useSegmentedControl,
   useSelect,
+  useSkeleton,
   useSlider,
   useStepper,
   useSwitch,
   useTable,
   useTabs,
   useTheme,
+  useTimeline,
   useToast,
   useToggleGroup,
   useTokens

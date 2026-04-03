@@ -6,8 +6,10 @@ import Animated, {
     useSharedValue,
     withTiming,
     withSequence,
+    withRepeat,
+    cancelAnimation,
 } from "react-native-reanimated";
-import { useComponentTokens, useOTPInput } from "@truongdq01/headless";
+import { useComponentTokens, useOTPInput, useReduceMotionEnabled } from "@truongdq01/headless";
 
 export interface OTPInputProps {
     length?: number;
@@ -15,6 +17,8 @@ export interface OTPInputProps {
     onChange: (value: string) => void;
     onComplete?: (value: string) => void;
     disabled?: boolean;
+    /** Show dots instead of digits (PIN entry). */
+    mask?: boolean;
 }
 
 export function OTPInput({
@@ -23,8 +27,10 @@ export function OTPInput({
     onChange,
     onComplete,
     disabled = false,
+    mask = false,
 }: OTPInputProps) {
     const { otpInput } = useComponentTokens();
+    const reduceMotion = useReduceMotionEnabled();
     const { inputRef, isFocused, handlePress, getOtpProps } = useOTPInput({
         length,
         value,
@@ -45,6 +51,7 @@ export function OTPInput({
                     height: 0,
                     opacity: 0,
                 }}
+                secureTextEntry={mask}
                 {...getOtpProps()}
             />
 
@@ -65,6 +72,9 @@ export function OTPInput({
                             char={char}
                             isFocused={hasFocusBorder}
                             isFilled={isFilled}
+                            showCursor={isCurrentFocus && !isFilled}
+                            mask={mask}
+                            reduceMotion={reduceMotion}
                         />
                     );
                 })}
@@ -77,13 +87,34 @@ function OTPCell({
     char,
     isFocused,
     isFilled,
+    showCursor,
+    mask,
+    reduceMotion,
 }: {
     char: string;
     isFocused: boolean;
     isFilled: boolean;
+    showCursor: boolean;
+    mask: boolean;
+    reduceMotion: boolean;
 }) {
     const { otpInput } = useComponentTokens();
     const scale = useSharedValue(1);
+    const cursorOpacity = useSharedValue(1);
+
+    useEffect(() => {
+        if (showCursor && !reduceMotion) {
+            cursorOpacity.value = withRepeat(
+                withSequence(withTiming(0, { duration: 500 }), withTiming(1, { duration: 500 })),
+                -1,
+                false,
+            );
+        } else {
+            cancelAnimation(cursorOpacity);
+            cursorOpacity.value = 1;
+        }
+        return () => cancelAnimation(cursorOpacity);
+    }, [showCursor, reduceMotion]);
 
     useEffect(() => {
         if (isFocused) {
@@ -102,6 +133,10 @@ function OTPCell({
         transform: [{ scale: scale.value }],
     }));
 
+    const cursorStyle = useAnimatedStyle(() => ({
+        opacity: cursorOpacity.value,
+    }));
+
     const borderColor = isFocused
         ? otpInput.cell.focused.borderColor
         : isFilled
@@ -110,7 +145,9 @@ function OTPCell({
 
     const backgroundColor = isFilled ? otpInput.cell.filled.backgroundColor : otpInput.cell.backgroundColor;
 
-    const borderWidth = isFocused ? 2 : 1.5;
+    const borderWidth = otpInput.cell.borderWidth;
+
+    const displayChar = isFilled && mask ? "\u2022" : char;
 
     return (
         <Animated.View
@@ -130,15 +167,29 @@ function OTPCell({
                 animatedStyle,
             ]}
         >
-            <Text
-                style={{
-                    fontSize: otpInput.cell.fontSize,
-                    fontWeight: otpInput.cell.fontWeight,
-                    color: otpInput.cell.color,
-                }}
-            >
-                {char}
-            </Text>
+            {showCursor ? (
+                <Animated.View
+                    style={[
+                        {
+                            width: 2,
+                            height: otpInput.cell.fontSize * 1.2,
+                            backgroundColor: otpInput.cell.focused.borderColor,
+                            borderRadius: 1,
+                        },
+                        cursorStyle,
+                    ]}
+                />
+            ) : (
+                <Text
+                    style={{
+                        fontSize: otpInput.cell.fontSize,
+                        fontWeight: otpInput.cell.fontWeight,
+                        color: otpInput.cell.color,
+                    }}
+                >
+                    {displayChar}
+                </Text>
+            )}
         </Animated.View>
     );
 }

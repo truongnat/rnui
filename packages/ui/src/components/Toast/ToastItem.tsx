@@ -10,7 +10,7 @@ import Animated, {
   FadeOutDown,
 } from "react-native-reanimated";
 import { View, Text, Pressable } from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import { useComponentTokens, useTokens, useReduceMotionEnabled } from "@truongdq01/headless";
 import { Icon } from "../Icon";
 import type { ToastItem as ToastItemType, ToastPosition } from "@truongdq01/headless";
 
@@ -30,6 +30,7 @@ export interface ToastItemProps {
 export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
   const { toast } = useComponentTokens();
   const tokens = useTokens();
+  const reduceMotion = useReduceMotionEnabled();
 
   // Progress bar for auto-dismiss
   const progress = useSharedValue(1);
@@ -59,9 +60,12 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
 
   const v = variantMap[item.variant] || variantMap.default;
 
-  // Timing-based enter avoids high-stiffness springs (e.g. 280) that read as a sharp bounce when toasts stack or reflow.
-  const entering = position === "top" ? FadeInDown.duration(280) : FadeInUp.duration(280);
-  const exiting = position === "top" ? FadeOutUp.duration(220) : FadeOutDown.duration(220);
+  const entering = reduceMotion
+    ? undefined
+    : position === "top" ? FadeInDown.duration(280) : FadeInUp.duration(280);
+  const exiting = reduceMotion
+    ? undefined
+    : position === "top" ? FadeOutUp.duration(200) : FadeOutDown.duration(200);
 
   return (
     <Animated.View
@@ -84,7 +88,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
             : item.icon}
         </View>
       ) : item.variant !== "default" && (
-        <Icon size={20} color={v.iconColor} name={"VARIANT_ICONS[item.variant]" as any} />
+        <Icon size={20} color={v.iconColor} name={(VARIANT_ICONS[item.variant] ?? "info") as any} />
       )}
 
       {/* Message */}
@@ -108,8 +112,13 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
       )}
 
       {/* Dismiss button */}
-      <Pressable onPress={() => onDismiss(item.id)} hitSlop={8}>
-        <Icon size={18} color={tokens.color.text.inverse} name={"close" as any} />
+      <Pressable
+        onPress={() => onDismiss(item.id)}
+        hitSlop={8}
+        accessibilityRole="button"
+        accessibilityLabel="Dismiss"
+      >
+        <Icon size={18} color={toast.text.color} name={"close" as any} />
       </Pressable>
 
       {/* Progress bar */}

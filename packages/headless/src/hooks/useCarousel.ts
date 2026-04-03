@@ -7,6 +7,11 @@ export interface UseCarouselOptions<T> {
   /** Defaults to current window width (from `useWindowDimensions`). */
   itemWidth?: number;
   gap?: number;
+  /**
+   * Leading inset inside scroll content (e.g. horizontal padding used to center slides).
+   * Snap offsets are `contentPaddingStart + index * (itemWidth + gap)`.
+   */
+  contentPaddingStart?: number;
   loop?: boolean;
   autoPlay?: boolean;
   autoPlayInterval?: number;
@@ -21,6 +26,7 @@ export function useCarousel<T>({
   data,
   itemWidth: itemWidthOption,
   gap = 0,
+  contentPaddingStart: contentPaddingStartOption = 0,
   loop = false,
   autoPlay = false,
   autoPlayInterval = 3000,
@@ -33,9 +39,11 @@ export function useCarousel<T>({
   const scrollViewRef = useRef<ScrollView>(null);
   const isJumping = useRef(false);
   const autoPlayTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const jumpTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const n = data.length;
   const itemStep = itemWidth + gap;
+  const pad = contentPaddingStartOption;
 
   // ─── Data Preparation ───────────────────────────────────────────
   const displayData = useMemo(() => {
@@ -45,15 +53,16 @@ export function useCarousel<T>({
   }, [data, loop, n]);
 
   const snapToOffsets = useMemo(() => {
-    return displayData.map((_, i) => i * itemStep);
-  }, [displayData, itemStep]);
+    return displayData.map((_, i) => pad + i * itemStep);
+  }, [displayData, itemStep, pad]);
 
   // ─── Initial Position ───────────────────────────────────────────
   useEffect(() => {
     if (loop && n >= 2) {
       requestAnimationFrame(() => {
-        scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
-        scrollX.value = itemStep;
+        const x = pad + itemStep;
+        scrollViewRef.current?.scrollTo({ x, animated: false });
+        scrollX.value = x;
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,24 +72,32 @@ export function useCarousel<T>({
   const goToNextSlide = useCallback(() => {
     if (n < 1 || itemStep <= 0) return;
     if (!loop || n < 2) {
-      const currentIndex = Math.round(scrollX.value / itemStep);
+      const currentIndex = Math.round((scrollX.value - pad) / itemStep);
       const nextIndex = currentIndex >= n - 1 ? 0 : currentIndex + 1;
-      scrollViewRef.current?.scrollTo({ x: nextIndex * itemStep, animated: true });
+      scrollViewRef.current?.scrollTo({ x: pad + nextIndex * itemStep, animated: true });
     } else {
-      const currentIndex = Math.round(scrollX.value / itemStep);
-      const nextX = (currentIndex + 1) * itemStep;
-      if (nextX < displayData.length * itemStep) {
+      const currentIndex = Math.round((scrollX.value - pad) / itemStep);
+      const nextX = pad + (currentIndex + 1) * itemStep;
+      if (currentIndex + 1 < displayData.length) {
         scrollViewRef.current?.scrollTo({ x: nextX, animated: true });
       }
     }
-  }, [loop, n, itemStep, scrollX, displayData.length]);
+  }, [loop, n, itemStep, scrollX, displayData.length, pad]);
 
   const goToPreviousSlide = useCallback(() => {
     if (n < 1 || itemStep <= 0) return;
-    const currentIndex = Math.round(scrollX.value / itemStep);
-    const prevIndex = currentIndex <= 0 ? (loop ? 0 : n - 1) : currentIndex - 1;
-    scrollViewRef.current?.scrollTo({ x: prevIndex * itemStep, animated: true });
-  }, [loop, n, itemStep, scrollX]);
+    const i = Math.round((scrollX.value - pad) / itemStep);
+    if (loop && n >= 2) {
+      if (i <= 0) {
+        scrollViewRef.current?.scrollTo({ x: pad + n * itemStep, animated: true });
+      } else {
+        scrollViewRef.current?.scrollTo({ x: pad + (i - 1) * itemStep, animated: true });
+      }
+      return;
+    }
+    const prevIndex = i <= 0 ? n - 1 : i - 1;
+    scrollViewRef.current?.scrollTo({ x: pad + prevIndex * itemStep, animated: true });
+  }, [loop, n, itemStep, scrollX, pad]);
 
   // ─── Auto-play ──────────────────────────────────────────────────
   const startTimer = useCallback(() => {
@@ -112,6 +129,13 @@ export function useCarousel<T>({
     return stopTimer;
   }, [autoPlay, startTimer, stopTimer, n]);
 
+  useEffect(() => {
+    return () => {
+      jumpTimers.current.forEach(clearTimeout);
+      jumpTimers.current = [];
+    };
+  }, []);
+
   // ─── Event Handlers ─────────────────────────────────────────────
   const onScroll = useCallback(
     (e: any) => {
@@ -128,27 +152,26 @@ export function useCarousel<T>({
       if (!loop || n < 2 || isJumping.current) return;
 
       const x = Math.round(e.nativeEvent.contentOffset.x);
-      const lastCloneX = (displayData.length - 1) * itemStep;
+      const i = Math.round((x - pad) / itemStep);
+      const lastIndex = displayData.length - 1;
 
-      if (x <= 0) {
-        // Jump from first clone to real last item
+      if (i <= 0) {
         isJumping.current = true;
-        scrollViewRef.current?.scrollTo({ x: n * itemStep, animated: false });
-        scrollX.value = n * itemStep;
-        setTimeout(() => {
-          isJumping.current = false;
-        }, 50);
-      } else if (x >= lastCloneX) {
-        // Jump from last clone to real first item
+        const target = pad + n * itemStep;
+        scrollViewRef.current?.scrollTo({ x: target, animated: false });
+        scrollX.value = target;
+        const id = setTimeout(() => { isJumping.current = false; }, 50);
+        jumpTimers.current.push(id);
+      } else if (i >= lastIndex) {
         isJumping.current = true;
-        scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
-        scrollX.value = itemStep;
-        setTimeout(() => {
-          isJumping.current = false;
-        }, 50);
+        const target = pad + itemStep;
+        scrollViewRef.current?.scrollTo({ x: target, animated: false });
+        scrollX.value = target;
+        const id = setTimeout(() => { isJumping.current = false; }, 50);
+        jumpTimers.current.push(id);
       }
     },
-    [loop, n, itemStep, displayData.length, scrollX]
+    [loop, n, itemStep, displayData.length, scrollX, pad]
   );
 
   return {
@@ -162,5 +185,6 @@ export function useCarousel<T>({
     goToPreviousSlide,
     itemStep,
     n,
+    contentPaddingStart: pad,
   };
 }

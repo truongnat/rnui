@@ -4,9 +4,9 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  interpolate,
+  interpolateColor,
 } from "react-native-reanimated";
-import { useCheckbox, useComponentTokens, useTokens } from "@truongdq01/headless";
+import { useCheckbox, useComponentTokens, useTokens, useReduceMotionEnabled } from "@truongdq01/headless";
 import { spring } from "@truongdq01/tokens";
 import type { UseCheckboxOptions } from "@truongdq01/headless";
 
@@ -24,6 +24,7 @@ export function Checkbox({
 }: CheckboxProps) {
   const { checkbox } = useComponentTokens();
   const tokens = useTokens();
+  const reduceMotion = useReduceMotionEnabled();
   const { isChecked, isIndeterminate, isDisabled, toggle, accessibilityProps } =
     useCheckbox(hookOptions);
 
@@ -34,20 +35,21 @@ export function Checkbox({
   const fillProgress = useSharedValue(isChecked || isIndeterminate ? 1 : 0);
 
   React.useEffect(() => {
-    fillProgress.value = withSpring(isChecked || isIndeterminate ? 1 : 0, spring.snappy);
-  }, [isChecked, isIndeterminate]);
+    const target = isChecked || isIndeterminate ? 1 : 0;
+    fillProgress.value = reduceMotion ? target : withSpring(target, spring.snappy);
+  }, [isChecked, isIndeterminate, reduceMotion]);
 
   const boxStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolate(
+    backgroundColor: interpolateColor(
       fillProgress.value,
       [0, 1],
-      [0, 1]
-    ) > 0.5
-      ? checkbox.state.checked.backgroundColor
-      : checkbox.state.default.backgroundColor,
-    borderColor: fillProgress.value > 0.5
-      ? checkbox.state.checked.borderColor
-      : checkbox.state.default.borderColor,
+      [checkbox.state.default.backgroundColor, checkbox.state.checked.backgroundColor]
+    ),
+    borderColor: interpolateColor(
+      fillProgress.value,
+      [0, 1],
+      [checkbox.state.default.borderColor, checkbox.state.checked.borderColor]
+    ),
     transform: [{ scale: scale.value }],
   }));
 
@@ -57,9 +59,11 @@ export function Checkbox({
   }));
 
   const handlePress = () => {
-    scale.value = withSpring(0.88, spring.snappy, () => {
-      scale.value = withSpring(1, spring.snappy);
-    });
+    if (!reduceMotion) {
+      scale.value = withSpring(0.88, spring.snappy, () => {
+        scale.value = withSpring(1, spring.snappy);
+      });
+    }
     toggle();
   };
 

@@ -91,6 +91,10 @@ export function Chip({
     padding: tokens.spacing[1],
     marginLeft: tokens.spacing[1],
     borderRadius: tokens.radius.full,
+    minWidth: 28,
+    minHeight: 28,
+    alignItems: "center" as const,
+    justifyContent: "center" as const,
   };
 
   const content = (
@@ -110,6 +114,8 @@ export function Chip({
           onPress={onDelete} 
           hitSlop={8}
           style={deleteButtonStyle}
+          accessibilityRole="button"
+          accessibilityLabel="Remove"
         >
           {deleteIcon ?? (
             <Text style={{ 

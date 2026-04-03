@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
+import type { SharedValue } from "react-native-reanimated";
 import {
   useSharedValue,
   useAnimatedStyle,
@@ -39,6 +40,8 @@ export type UseSliderOptions = UseSliderOptionsSingle | UseSliderOptionsRange;
 export interface UseSliderReturnSingle {
   mode: "single";
   currentValue: number;
+  /** UI-thread ratio 0–1 for live value label / derived reads */
+  thumbRatioShared: SharedValue<number>;
   thumbAnimatedStyle: ReturnType<typeof useAnimatedStyle>;
   fillAnimatedStyle: ReturnType<typeof useAnimatedStyle>;
   trackAnimatedStyle: ReturnType<typeof useAnimatedStyle>;
@@ -51,6 +54,8 @@ export interface UseSliderReturnSingle {
 export interface UseSliderReturnRange {
   mode: "range";
   currentValue: [number, number];
+  thumbRatioLowShared: SharedValue<number>;
+  thumbRatioHighShared: SharedValue<number>;
   thumbLowAnimatedStyle: ReturnType<typeof useAnimatedStyle>;
   thumbHighAnimatedStyle: ReturnType<typeof useAnimatedStyle>;
   fillAnimatedStyle: ReturnType<typeof useAnimatedStyle>;
@@ -65,6 +70,7 @@ export interface UseSliderReturnRange {
 export type UseSliderReturn = UseSliderReturnSingle | UseSliderReturnRange;
 
 function snapToStep(value: number, min: number, max: number, step: number): number {
+  if (step === 0 || max === min) return Math.max(min, Math.min(max, value));
   const snapped = Math.round((value - min) / step) * step + min;
   return Math.max(min, Math.min(max, snapped));
 }
@@ -76,6 +82,7 @@ function sortPair(a: number, b: number): [number, number] {
 /** Worklet-safe snap (inline math only). */
 function snapRatioWorklet(raw: number, min: number, max: number, step: number): number {
   "worklet";
+  if (step === 0 || max === min) return Math.max(min, Math.min(max, raw));
   const snapped = Math.round((raw - min) / step) * step + min;
   return Math.max(min, Math.min(max, snapped));
 }
@@ -93,7 +100,9 @@ export function useSlider({
   const isVertical = orientation === "vertical";
   const trackLength = useSharedValue(0);
   const snappySpringConfig = spring.snappy;
-  const minRatioGap = Math.max(step / (max - min), 1e-4);
+  const safeRange = max - min || 1;
+  const safeStep = step || 1;
+  const minRatioGap = Math.max(safeStep / safeRange, 1e-4);
 
   const singleRest = rest as UseSliderOptionsSingle;
   const rangeRest = rest as UseSliderOptionsRange;
@@ -129,9 +138,9 @@ export function useSlider({
   const internalValueRef = useRef(controlledSingle ?? defaultValueSingle);
   const currentSingle = controlledSingle ?? internalValueRef.current;
 
-  const lowRatioInit = isRange ? (currentPairResolved[0] - min) / (max - min) : 0;
-  const highRatioInit = isRange ? (currentPairResolved[1] - min) / (max - min) : 1;
-  const singleRatioInit = !isRange ? (currentSingle - min) / (max - min) : 0;
+  const lowRatioInit = isRange ? (currentPairResolved[0] - min) / safeRange : 0;
+  const highRatioInit = isRange ? (currentPairResolved[1] - min) / safeRange : 1;
+  const singleRatioInit = !isRange ? (currentSingle - min) / safeRange : 0;
 
   const thumbRatio = useSharedValue(singleRatioInit);
   const thumbRatioLow = useSharedValue(lowRatioInit);
@@ -156,7 +165,7 @@ export function useSlider({
 
   useEffect(() => {
     if (isRange || controlledSingle === undefined) return;
-    const r = (controlledSingle - min) / (max - min);
+    const r = (controlledSingle - min) / safeRange;
     thumbRatio.value = Math.max(0, Math.min(1, r));
     lastEmittedValue.value = snapToStep(controlledSingle, min, max, step);
   }, [isRange, controlledSingle, min, max, step, thumbRatio, lastEmittedValue]);
@@ -167,8 +176,8 @@ export function useSlider({
       snapToStep(controlledPair[0], min, max, step),
       snapToStep(controlledPair[1], min, max, step)
     );
-    thumbRatioLow.value = (lo - min) / (max - min);
-    thumbRatioHigh.value = (hi - min) / (max - min);
+    thumbRatioLow.value = (lo - min) / safeRange;
+    thumbRatioHigh.value = (hi - min) / safeRange;
     lastEmittedLow.value = lo;
     lastEmittedHigh.value = hi;
   }, [isRange, controlledPair, min, max, step, thumbRatioLow, thumbRatioHigh, lastEmittedLow, lastEmittedHigh]);
@@ -242,13 +251,7 @@ export function useSlider({
           const next = Math.max(0, Math.min(1, dragStartRatio.value + delta));
           thumbRatio.value = next;
 
-          const raw = next * (max - min) + min;
-          const snapped = snapRatioWorklet(raw, min, max, step);
-
-          if (snapped !== lastEmittedValue.value) {
-            lastEmittedValue.value = snapped;
-            scheduleOnRN(emitChange, next);
-          }
+          // Keep thumb smooth on UI thread only — avoid scheduleOnRN during drag (parent re-renders cause jank).
         })
         .onEnd(() => {
           "worklet";
@@ -257,9 +260,11 @@ export function useSlider({
 
           const raw = thumbRatio.value * (max - min) + min;
           const finalSnapped = snapRatioWorklet(raw, min, max, step);
-          const targetRatio = (finalSnapped - min) / (max - min);
+          const targetRatio = (finalSnapped - min) / safeRange;
           thumbRatio.value = withSpring(targetRatio, snappySpringConfig);
+          lastEmittedValue.value = finalSnapped;
 
+          scheduleOnRN(emitChange, targetRatio);
           scheduleOnRN(emitChangeEnd, targetRatio);
         }),
     [
@@ -300,16 +305,6 @@ export function useSlider({
           const next = Math.max(0, Math.min(cap, dragStartLow.value + delta));
           thumbRatioLow.value = next;
 
-          const rawLo = next * (max - min) + min;
-          const rawHi = thumbRatioHigh.value * (max - min) + min;
-          const sLo = snapRatioWorklet(rawLo, min, max, step);
-          const sHi = snapRatioWorklet(rawHi, min, max, step);
-
-          if (sLo !== lastEmittedLow.value || sHi !== lastEmittedHigh.value) {
-            lastEmittedLow.value = sLo;
-            lastEmittedHigh.value = sHi;
-            scheduleOnRN(emitChangePair, next, thumbRatioHigh.value);
-          }
         })
         .onEnd(() => {
           "worklet";
@@ -320,9 +315,10 @@ export function useSlider({
           const snapped = snapRatioWorklet(raw, min, max, step);
           const capVal = thumbRatioHigh.value * (max - min) + min;
           const finalLo = Math.min(snapped, snapRatioWorklet(capVal - step, min, max, step));
-          const targetR = (finalLo - min) / (max - min);
+          const targetR = (finalLo - min) / safeRange;
           thumbRatioLow.value = withSpring(targetR, snappySpringConfig);
 
+          scheduleOnRN(emitChangePair, targetR, thumbRatioHigh.value);
           scheduleOnRN(emitChangeEndPair, targetR, thumbRatioHigh.value);
         }),
     [
@@ -366,16 +362,6 @@ export function useSlider({
           const next = Math.max(floor, Math.min(1, dragStartHigh.value + delta));
           thumbRatioHigh.value = next;
 
-          const rawLo = thumbRatioLow.value * (max - min) + min;
-          const rawHi = next * (max - min) + min;
-          const sLo = snapRatioWorklet(rawLo, min, max, step);
-          const sHi = snapRatioWorklet(rawHi, min, max, step);
-
-          if (sLo !== lastEmittedLow.value || sHi !== lastEmittedHigh.value) {
-            lastEmittedLow.value = sLo;
-            lastEmittedHigh.value = sHi;
-            scheduleOnRN(emitChangePair, thumbRatioLow.value, next);
-          }
         })
         .onEnd(() => {
           "worklet";
@@ -386,9 +372,10 @@ export function useSlider({
           const snapped = snapRatioWorklet(raw, min, max, step);
           const floorVal = thumbRatioLow.value * (max - min) + min;
           const finalHi = Math.max(snapped, snapRatioWorklet(floorVal + step, min, max, step));
-          const targetR = (finalHi - min) / (max - min);
+          const targetR = (finalHi - min) / safeRange;
           thumbRatioHigh.value = withSpring(targetR, snappySpringConfig);
 
+          scheduleOnRN(emitChangePair, thumbRatioLow.value, targetR);
           scheduleOnRN(emitChangeEndPair, thumbRatioLow.value, targetR);
         }),
     [
@@ -486,6 +473,8 @@ export function useSlider({
     return {
       mode: "range",
       currentValue: currentPairResolved,
+      thumbRatioLowShared: thumbRatioLow,
+      thumbRatioHighShared: thumbRatioHigh,
       thumbLowAnimatedStyle,
       thumbHighAnimatedStyle,
       fillAnimatedStyle: fillAnimatedStyleRange,
@@ -494,8 +483,8 @@ export function useSlider({
       panGestureHigh,
       onTrackLayout,
       percentage: [
-        (currentPairResolved[0] - min) / (max - min),
-        (currentPairResolved[1] - min) / (max - min),
+        (currentPairResolved[0] - min) / safeRange,
+        (currentPairResolved[1] - min) / safeRange,
       ],
       orientation,
     };
@@ -504,12 +493,13 @@ export function useSlider({
   return {
     mode: "single",
     currentValue: currentSingle,
+    thumbRatioShared: thumbRatio,
     thumbAnimatedStyle,
     fillAnimatedStyle: fillAnimatedStyleSingle,
     trackAnimatedStyle,
     panGesture,
     onTrackLayout,
-    percentage: (currentSingle - min) / (max - min),
+    percentage: (currentSingle - min) / safeRange,
     orientation,
   };
 }

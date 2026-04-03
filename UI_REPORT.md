@@ -395,4 +395,69 @@ t.shadow.lg   // FAB / elevated modal
 
 ---
 
-*End of report — RNUI v0.x, branch `develop`, 2026-04-02*
+## 9. Improvement Plan — Completion Status
+
+Section 9 was reconciled against the repo: **13** items previously listed as “remaining” break down as **9 done**, **3 partial**, **1 pending** — **4 actionable** follow-ups.
+
+### Completed (P0–P5 + prior IMPROVEMENT_PLAN items)
+
+| # | Item | Phase | Status |
+|---|---|---|---|
+| — | Toast Icon variant lookup bug (literal string) | P0 | **Fixed** |
+| — | `useSlider` division by zero when `max === min` | P0 | **Fixed** |
+| — | `useTable` division by zero when `rowsPerPage === 0` | P0 | **Fixed** |
+| — | `useTimeline` empty steps guard | P0 | **Fixed** |
+| — | `useBottomSheet` empty snapPoints guard | P0 | **Fixed** |
+| — | `@shopify/flash-list` → optional peerDependency | P0 | **Fixed** |
+| — | `Accordion` — `accessibilityState.expanded` | P1 | **Fixed** |
+| — | `ToastContainer` — `accessibilityLiveRegion` + `role` | P1 | **Fixed** |
+| — | `Pagination` — hardcoded `#fff` → `text.inverse` token | P2 | **Fixed** |
+| — | `Carousel` — `PaginationDot` token drilling (perf) | P2 | **Fixed** |
+| — | `Skeleton` — 8 presets wrapped with `React.memo` | P2 | **Fixed** |
+| — | `Pagination` — `accessibilityRole`, `Label`, `State` | P2 | **Fixed** |
+| — | `Chip` — delete button a11y + 28dp touch target | P2 | **Fixed** |
+| — | `Tooltip` — trigger `accessibilityRole` + `Hint` | P2 | **Fixed** |
+| — | `Carousel` — `setTimeout` leak in loop-jump logic | P2 | **Fixed** |
+| 2 | Typography system extension (display / overline / label / code) | P3 | **Done** |
+| — | `spacing[18]` (72px) + `spacing[28]` (112px) | P3 | **Done** |
+| — | `text["4xl"]` composite typography | P3 | **Done** |
+| — | `elastic` spring preset | P3 | **Done** |
+| — | `useRating` controlled→uncontrolled state guard | P3 | **Done** |
+| — | Haptic feedback lazy resolution + caching | P3 | **Done** |
+| — | `"highlight"` press feedback mode | P3 | **Done** |
+| — | Brand `fontFamily` + `style.buttonRadius` overrides | P3 | **Done** |
+| — | Dark mode brand-tinted shadows | P3 | **Done** |
+| — | `ShimmerProvider` + `useShimmerValue` synchronized skeletons | P3 | **Done** |
+| — | `ThemeProvider` `animateTransition` cross-fade | P3 | **Done** |
+| + | Glass surface tokens (`surface.glass` / `glassBorder`) | P4 | **Done** |
+| + | Gradient tokens (6 presets: brand / accent / success / sunrise / ocean / midnight) | P4 | **Done** |
+| + | `GlassCard` component (expo-blur optional) | P4 | **Done** |
+| + | `Gradient` component (expo-linear-gradient optional) | P4 | **Done** |
+| + | Color refinement — `brand.550` mid-step + `warmNeutral` palette | P4 | **Done** |
+| 14 | Carousel adaptive text colors in example | P4 | **Done** |
+| 18 | Component tree documentation | P5 | **Done** |
+| 19 | UI_REPORT.md completion status update | P5 | **Done** |
+| 1 | Input focus lag + FormField padding + TextArea counter (`FOCUS_BORDER_DURATION_MS` 120, label spacing, counter `inside`) | Prior | **Done** |
+| 3 | Divider vertical showcase (`apps/example/app/index.tsx`, `Utility.stories.tsx`) | Prior | **Done** |
+| 4 | Select FlashList + `loading` / `onLoadMore` / `hasMore` / `loadingMore` | Prior | **Done** |
+| 5 | Radio `RadioItem` export + `direction="horizontal"` + Storybook | Prior | **Done** |
+| 6 | Slider vertical + `thumbRenderer` + range (`useSlider` + `Slider.tsx`) | Prior | **Done** |
+| 7 | Checkbox indeterminate showcase (example + `FormControls.stories.tsx`) | Prior | **Done** |
+| 8 | Skeleton `SkeletonGroup` stagger + `shimmerDirection` | Prior | **Done** |
+| 9 | EmptyState `size` / `variant` / `illustration` | Prior | **Done** |
+| 10 | AnimatedList stable `renderItem` / `keyExtractor` (`useCallback` in example) | Prior | **Done** |
+
+### Remaining backlog
+
+All items from the original improvement plan have been completed. No actionable backlog remains.
+
+| # | Item | Severity | Resolution |
+|---|---|---|---|
+| 11 | SegmentedControl icon + sizes | High | `SegmentedOption` union type (`string \| { label, icon }`), `size` prop (`sm` / `md` / `lg`) |
+| 12 | OTPInput cursor blink + mask | High | Blinking cursor on focused empty cell, `mask` prop for `\u2022` display |
+| 15 | Toast stack animation | Medium | `LinearTransition` on `Animated.View` container, `gap: 8` between items |
+| 13 | DatePicker calendar grid | High | `CalendarGrid` component, `pickerStyle` prop (`calendar` / `spinner` / `native`), bottom-sheet-style modal |
+
+---
+
+*End of report — RNUI v1.0.3, branch `develop`, reconciled 2026-04-04*
