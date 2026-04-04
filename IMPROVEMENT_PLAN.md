@@ -1,776 +1,634 @@
-# RNUI — Improvement Plan
+# RNUI Improvement Plan
 
-> Created: 2026-04-03 | Branch: `develop`
-> Based on: User audit + code review of all 15 reported issues
-
----
-
-## Summary
-
-| # | Issue | Component | Severity | Effort |
-|---|---|---|---|---|
-| 1 | Input focus lag + padding + TextArea overlap | Input, TextArea | High | M |
-| 2 | No consistent typography levels | Typography | High | S |
-| 3 | Divider only horizontal in showcase | Divider | Low | XS |
-| 4 | Select no large-data / load-more support | Select | High | L |
-| 5 | Radio no horizontal / standalone | Radio | Medium | S |
-| 6 | Slider no vertical / custom thumb / range | Slider | Medium | L |
-| 7 | Checkbox indeterminate not shown | Checkbox | Low | XS |
-| 8 | Skeleton not dynamic/customizable enough | Skeleton | Medium | M |
-| 9 | EmptyState too simple | EmptyState | Medium | M |
-| 10 | AnimatedList re-renders whole list | AnimatedList | High | S |
-| 11 | SegmentedControl wrong style / broken layout | SegmentedControl | High | M |
-| 12 | OTPInput can't delete / can't focus / ugly border | OTPInput | High | M |
-| 13 | DatePicker should be BottomSheet + calendar grid | DatePicker | High | XL |
-| 14 | Carousel invisible on light mode | Carousel | Medium | S |
-| 15 | Toast animation jumpy | Toast | Medium | S |
-| + | Glassmorphism / color system upgrade | tokens, components | High | L |
-| + | Component tree missing | docs | Medium | M |
-
-**Effort:** XS < 1h · S 1-3h · M 3-8h · L 8-16h · XL 16h+
+> **Based on**: `PACKAGE_REVIEW.md` (2026-04-04)
+> **Total tasks**: 17
+> **Phases**: P0 Critical / P1 High / P2 Medium / P3 Low-Architecture
 
 ---
 
-## Issue Details & Plans
-
----
-
-### Issue 1 — Input: Focus Lag, Semantic Padding, TextArea Overlap
-
-**Root cause analysis:**
-- Focus lag: `Input` uses `withTiming` for border-color transition on focus — can feel slow at 200ms on older devices. Also RN's native keyboard avoidance adds perceived delay.
-- Padding: `FormField` uses `tokens.spacing[1]` (4px) gap between label and input — too tight vs standard 6-8px. Label font size same as helper text (both `fontSize.xs`) — no visual hierarchy.
-- TextArea overlap: `helperText="Max 200 characters"` is passed to `FormField` which renders it below the box. But the `maxLength` counter is rendered inside `TextArea`'s own label row. When both exist, they stack oddly. The actual overlap seen in screenshot is the `helperText` text showing beneath the `TextArea` box too close to the `maxLength` counter — double information.
-
-**Plan:**
+## Execution Order
 
 ```
-packages/ui/src/components/Input/Input.tsx
-  - Reduce focus border animation to 120ms (from 200ms)
-  - Add transition: borderColor animated interpolation using withTiming(120)
-  - standardize paddingVertical to spacing[3] (12px) — semantic form height 48px
-
-packages/ui/src/components/FormField/FormField.tsx
-  - Label: fontSize.sm (14px), fontWeight.semibold, color.text.primary — more prominent
-  - Helper text: fontSize.xs (12px), color.text.tertiary — clearly subordinate
-  - Gap between label → input: spacing[1.5] = 6px
-  - Gap between input → helper: spacing[1] = 4px
-  - Required asterisk: color.error.icon (red), not just text
-
-packages/ui/src/components/TextArea/TextArea.tsx
-  - When maxLength prop is passed to TextArea, do NOT pass helperText prop from FormField
-  - OR: expose showCounter prop (default true) to suppress internal counter when FormField already shows it
-  - Fix: move character counter OUT of label row → absolutely position bottom-right inside the box
-    (like WhatsApp / Telegram message composer)
-  - Add counterPosition?: "inside" | "above" | "below" prop
+P0  -->  T-01 (AlertDialog bug + tests)
+         |
+P1  -->  T-02 (CollapsibleTrigger a11y)
+         T-03 (Label htmlFor)
+         T-04 (Button style type)
+         T-05 (Collapsible event type)
+         |
+P2  -->  T-06 (inline styles -> StyleSheet)
+         T-07 (Button color map refactor)
+         T-08 (Collapsible SharedValue sync)
+         T-09 (CollapsibleContent useTokens removal)
+         T-10 (ScrollArea flex)
+         T-11 (AspectRatio documentation)
+         T-12 (token color step gaps)
+         |
+P3  -->  T-13 (useContextSelector pattern)
+         T-14 (telegram brand extraction)
+         T-15 (dist/ gitignore)
+         T-16 (test coverage)
+         T-17 (API contract docs)
 ```
 
 ---
 
-### Issue 2 — Typography System Incomplete
+## Phase 0 -- Critical Bugs
 
-**Root cause analysis:**
-- `Typography` component exists with `h1-h6`, `body1`, `body2`, `caption`
-- BUT: raw `<Text>` is used throughout all components (Button, List, FormField, etc.) with inline style objects
-- No `overline` variant (uppercase tracking labels used in section headers)
-- No `code` / `mono` variant
+### T-01 - Fix AlertDialog: actions never rendered
 
-**Plan:**
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/ui/src/components/AlertDialog/AlertDialog.tsx` |
+| **Severity** | CRITICAL |
+| **Risk** | LOW -- additive fix |
+| **Files** | `AlertDialog.tsx`, `__tests__/AlertDialog.test.tsx` |
 
-```
-packages/tokens/src/semantic.ts
-  - Add typography composite styles to shared tokens:
-    display: { fontSize: 36, fontWeight: "800", lineHeight: 44, letterSpacing: -0.5 }
-    h1: { fontSize: 30, fontWeight: "700", lineHeight: 38 }
-    h2: { fontSize: 24, fontWeight: "700", lineHeight: 32 }
-    h3: { fontSize: 20, fontWeight: "600", lineHeight: 28 }
-    h4: { fontSize: 18, fontWeight: "600", lineHeight: 26 }
-    h5: { fontSize: 16, fontWeight: "600", lineHeight: 24 }
-    h6: { fontSize: 14, fontWeight: "600", lineHeight: 22 }
-    body1: { fontSize: 16, fontWeight: "400", lineHeight: 24 }
-    body2: { fontSize: 14, fontWeight: "400", lineHeight: 22 }
-    caption: { fontSize: 12, fontWeight: "400", lineHeight: 18 }
-    overline: { fontSize: 11, fontWeight: "700", lineHeight: 16, letterSpacing: 1.2, textTransform: "uppercase" }
-    label: { fontSize: 14, fontWeight: "500", lineHeight: 20 }
-    code: { fontSize: 13, fontFamily: "mono", lineHeight: 20 }
+**Root cause**: The `actions` JSX variable (Cancel + Confirm buttons) is built locally but never passed to `<Dialog>`. The Dialog component accepts an `actions` prop (Dialog.tsx:13) and renders it inside a flex-row container (Dialog.tsx:87-90). AlertDialog builds the buttons but discards them.
 
-packages/ui/src/components/Typography/Typography.tsx
-  - Extend variant prop to include all above variants
-  - Add as prop: "h1" | "h2" | "p" | "span" etc. for semantic HTML-like usage
-  - Memoize style computation
+**Current code** (lines 70-103):
 
-apps/example: replace all raw <Text style={{...}}> section labels with <Typography variant="overline">
-```
-
----
-
-### Issue 3 — Divider: Vertical Not Showcased
-
-**Root cause analysis:**
-- Divider component ALREADY supports `orientation="vertical"` — code is correct.
-- Just not demonstrated in the example app.
-
-**Plan:**
-
-```
-apps/example/app/index.tsx — Divider section:
-  Add vertical divider demo:
-  <View style={{ flexDirection: "row", alignItems: "center", height: 40, gap: 12 }}>
-    <Text>Left</Text>
-    <Divider orientation="vertical" />
-    <Text>Middle</Text>
-    <Divider orientation="vertical" emphasis />
-    <Text>Right</Text>
+```tsx
+const actions = (                          // <- built here
+  <View style={{ flexDirection: "row", ... }}>
+    {onCancel && <Button ...>{cancelText}</Button>}
+    <Button ...>{confirmText}</Button>
   </View>
+);
+
+return (
+  <Dialog {...dialogProps} title={title}>  // <- actions= NEVER passed
+    {description && <View>...</View>}
+  </Dialog>
+);
+```
+
+**Fix**:
+
+1. Pass `actions` as prop to Dialog: `<Dialog {...dialogProps} title={title} actions={actions}>`
+2. Remove wrapping `<View style={{ flexDirection: "row" }}>` since Dialog already wraps actions in a flex row (Dialog.tsx:88)
+3. Wrap `actions` in `useMemo` to avoid re-creating JSX every render
+4. Remove redundant `typeof description === "string"` check (prop is typed as `string | undefined`)
+5. Move inline styles to `StyleSheet.create`
+
+**Target implementation**:
+
+```tsx
+import React, { useMemo } from "react";
+import { Text, StyleSheet } from "react-native";
+import { useTokens } from "@truongdq01/headless";
+import { Dialog, DialogProps } from "../Dialog";
+import { Button } from "../Button";
+
+export function AlertDialog({
+  title, description,
+  cancelText = "Cancel", confirmText = "OK",
+  cancelVariant = "outline", confirmVariant,
+  onCancel, onConfirm,
+  destructive = false,
+  ...dialogProps
+}: AlertDialogProps) {
+  const tokens = useTokens();
+  const finalConfirmVariant = confirmVariant ?? (destructive ? "destructive" : "solid");
+
+  const actions = useMemo(() => (
+    <>
+      {onCancel && (
+        <Button variant={cancelVariant} onPress={onCancel}>{cancelText}</Button>
+      )}
+      <Button variant={finalConfirmVariant} onPress={onConfirm}>{confirmText}</Button>
+    </>
+  ), [cancelText, cancelVariant, confirmText, finalConfirmVariant, onCancel, onConfirm]);
+
+  return (
+    <Dialog {...dialogProps} title={title} actions={actions}>
+      {description && (
+        <Text style={[styles.description, { color: tokens.color.text.secondary }]}>
+          {description}
+        </Text>
+      )}
+    </Dialog>
+  );
+}
+
+const styles = StyleSheet.create({
+  description: { marginTop: 8 },
+});
+```
+
+**Test additions** -- current tests never assert buttons exist or handlers fire:
+
+```tsx
+it("renders confirm and cancel buttons", () => {
+  const { getByText } = renderWithTheme(
+    <AlertDialog open={true} title="T" onConfirm={() => {}} onCancel={() => {}} />
+  );
+  expect(getByText("OK")).toBeTruthy();
+  expect(getByText("Cancel")).toBeTruthy();
+});
+
+it("calls onConfirm when confirm pressed", () => {
+  const fn = jest.fn();
+  const { getByText } = renderWithTheme(
+    <AlertDialog open={true} title="T" onConfirm={fn} />
+  );
+  fireEvent.press(getByText("OK"));
+  expect(fn).toHaveBeenCalledTimes(1);
+});
+
+it("calls onCancel when cancel pressed", () => {
+  const fn = jest.fn();
+  const { getByText } = renderWithTheme(
+    <AlertDialog open={true} title="T" onConfirm={() => {}} onCancel={fn} />
+  );
+  fireEvent.press(getByText("Cancel"));
+  expect(fn).toHaveBeenCalledTimes(1);
+});
 ```
 
 ---
 
-### Issue 4 — Select: No Large-Data / Loading / Load-More
+## Phase 1 -- High Priority (Accessibility and Type Safety)
 
-**Root cause analysis:**
-- Current: `filtered.map(...)` inside `<ScrollView>` — O(n) render, no virtualization.
-- No `loading` prop, no `onLoadMore`, no pagination.
-- With 500+ options, this will lag and freeze.
+### T-02 - CollapsibleTrigger: add accessibility role and state
 
-**Plan:**
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/ui/src/components/Collapsible/Collapsible.tsx` |
+| **Severity** | HIGH |
+| **Risk** | LOW -- additive props |
+| **Lines** | 150-162 |
 
-```
-packages/ui/src/components/Select/Select.tsx
-  Props to add:
-    loading?: boolean                           // show spinner in sheet
-    onLoadMore?: () => void                     // called when list reaches end
-    hasMore?: boolean                           // show "Load more" footer
-    loadingMore?: boolean                       // spinner in footer
-    renderOption?: (option, selected) => ReactNode  // custom option renderer
+**Root cause**: `<Pressable>` with no `accessibilityRole` or `accessibilityState`. Screen readers see a generic tappable element with no indication of expand/collapse behavior.
 
-  Implementation:
-    - Replace ScrollView + map → FlashList (already a dep via AnimatedList)
-    - estimatedItemSize: 48
-    - Add ListFooterComponent: loading spinner when loadingMore=true
-    - onEndReached: call onLoadMore when hasMore=true
-    - Add ListEmptyComponent: show loading skeleton (3x SkeletonListItem) when loading=true
-    - Add section support: options can be { section: string, items: SelectOption[] }
+**Current**:
 
-  Example showcase in index.tsx:
-    - Add LARGE_COUNTRIES array (50 items)
-    - Demonstrate loading state and load-more pagination
+```tsx
+<Pressable onPress={toggle} style={style} testID={testID}>
+  {children}
+</Pressable>
 ```
 
----
+**Fix** -- read `isOpen` from context, add accessibility metadata:
 
-### Issue 5 — Radio: No Horizontal / No Standalone RadioItem Export
-
-**Root cause analysis:**
-- `RadioGroup` already has `direction="horizontal" | "vertical"` prop — code is correct.
-- `RadioItem` is defined but NOT exported from the component's `index.ts`.
-- Example only shows vertical direction.
-
-**Plan:**
-
-```
-packages/ui/src/components/Radio/index.ts
-  - Add: export { RadioItem } from "./Radio"
-
-packages/ui/src/index.ts
-  - Add RadioItem to named exports
-
-apps/example/app/index.tsx — Radio section:
-  - Add horizontal RadioGroup demo:
-    <RadioGroup direction="horizontal" options={[
-      { value: "m", label: "Male" },
-      { value: "f", label: "Female" },
-      { value: "o", label: "Other" },
-    ]} value={gender} onChange={setGender} />
-  - Add standalone RadioItem demo (no group)
+```tsx
+export function CollapsibleTrigger({ children, style, testID = "collapsible-trigger" }) {
+  const { toggle, isOpen } = useCollapsible();
+  return (
+    <Pressable
+      onPress={toggle}
+      style={style}
+      testID={testID}
+      accessibilityRole="button"
+      accessibilityState={{ expanded: isOpen.value }}
+    >
+      {children}
+    </Pressable>
+  );
+}
 ```
 
 ---
 
-### Issue 6 — Slider: No Vertical / No Custom Thumb / No Range
+### T-03 - Label: deprecate no-op htmlFor, add nativeID
 
-**Root cause analysis:**
-- Current Slider is hard-coded horizontal layout (uses `panGesture` horizontal pan).
-- Thumb is always a white circle (`borderRadius: slider.thumb.borderRadius`).
-- No dual-thumb range support.
-- `useSlider` hook in headless only handles single value, horizontal.
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/ui/src/components/Label/Label.tsx` |
+| **Severity** | HIGH |
+| **Risk** | LOW (non-breaking deprecation) |
+| **Lines** | 8-19, 36-60 |
 
-**Plan:**
+**Root cause**: `htmlFor` is a web HTML concept with no React Native equivalent. The prop is accepted but does nothing -- misleads consumers into thinking label-input association works.
 
-```
-packages/headless/src/hooks/useSlider.ts
-  - Add orientation?: "horizontal" | "vertical" (default "horizontal")
-  - For vertical: swap pan gesture direction (y-axis), invert percentage calculation
-  - Add range support: value can be [min, max] tuple, returns [thumbLeft, thumbRight] positions
+**Fix** (non-breaking -- deprecate + add native alternative):
 
-packages/ui/src/components/Slider/Slider.tsx
-  Props to add:
-    orientation?: "horizontal" | "vertical"
-    thumbRenderer?: () => ReactNode          // replace default circle
-    range?: boolean                          // dual-thumb mode
-    rangeValue?: [number, number]           // [low, high]
-    onRangeChange?: (v: [number, number]) => void
+```tsx
+export interface LabelProps {
+  children: React.ReactNode;
+  /** @deprecated No-op in React Native. Use nativeID + accessibilityLabelledBy instead. */
+  htmlFor?: string;
+  /** Sets nativeID for native label association via accessibilityLabelledBy */
+  nativeID?: string;
+  required?: boolean;
+  style?: StyleProp<TextStyle>;
+  testID?: string;
+}
 
-  Implementation (vertical):
-    - Rotate track 90deg, swap width/height
-    - panGesture translationY instead of translationX
-    - Height of container becomes configurable (sliderHeight prop)
-
-  Implementation (custom thumb):
-    - If thumbRenderer provided: render ReactNode instead of <Animated.View>
-    - Wrap in same Animated.View for positioning, size from thumb token
-
-  Implementation (range):
-    - Two thumbs, each with own useSharedValue for position
-    - Fill between left and right thumb
-    - Prevent thumbs from crossing
-
-apps/example — add:
-  - Vertical slider demo (height: 150, orientation="vertical")
-  - Custom thumb with icon (<Star size={20} />)
-  - Range slider [20, 80]
+export function Label({ children, nativeID, required = false, style, testID = "label" }: LabelProps) {
+  const tokens = useTokens();
+  return (
+    <Text
+      nativeID={nativeID}
+      style={[styles.label, { color: tokens.color.text.primary, fontSize: tokens.fontSize.sm }, style]}
+      accessible
+      accessibilityLabel={typeof children === "string" ? children : undefined}
+      testID={testID}
+    >
+      {children}
+      {required && <Text style={{ color: tokens.color.error.text }}> *</Text>}
+    </Text>
+  );
+}
 ```
 
 ---
 
-### Issue 7 — Checkbox: Indeterminate Not Showcased
+### T-04 - Button: fix style prop type
 
-**Root cause analysis:**
-- Checkbox code at line 88-90 already handles indeterminate with a horizontal dash.
-- `useCheckbox` hook supports `indeterminate` prop.
-- Just not shown in the example.
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/ui/src/components/Button/Button.tsx` |
+| **Severity** | HIGH |
+| **Risk** | LOW -- type-only change |
+| **Line** | 82 |
 
-**Plan:**
+**Current**: `style?: object`
 
-```
-apps/example/app/index.tsx — Checkbox section:
-  const [partialCheck, setPartialCheck] = useState<boolean | "indeterminate">("indeterminate");
+**Fix**: `style?: StyleProp<ViewStyle>`
 
-  <Checkbox
-    label="Select all items"
-    description="3 of 5 selected"
-    checked={partialCheck === true}
-    indeterminate={partialCheck === "indeterminate"}
-    onChange={(v) => setPartialCheck(v)}
-  />
+> `StyleProp` and `ViewStyle` are already imported on line 4. Single-line change.
+
+---
+
+### T-05 - Collapsible: fix event any type
+
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/ui/src/components/Collapsible/Collapsible.tsx` |
+| **Severity** | HIGH |
+| **Risk** | LOW -- type-only change |
+| **Line** | 187 |
+
+**Current**: `(event: any) =>`
+
+**Fix**:
+
+```tsx
+import type { LayoutChangeEvent } from "react-native";
+
+const handleLayout = React.useCallback((event: LayoutChangeEvent) => {
+  const height = event.nativeEvent.layout.height;
+  setMeasuredHeight(height);
+}, []);
 ```
 
 ---
 
-### Issue 8 — Skeleton: Not Dynamic Enough
+## Phase 2 -- Medium Priority (Performance and Code Quality)
 
-**Root cause analysis:**
-- `Skeleton` base: configurable `width`, `height`, `borderRadius` ✓
-- `SkeletonCard`, `SkeletonText`, `SkeletonListItem` are fixed presets
-- No `SkeletonProfile`, `SkeletonMedia`, `SkeletonForm`, `SkeletonTable`
-- No composable builder pattern
+### T-06 - Label: move inline styles to useMemo
 
-**Plan:**
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/ui/src/components/Label/Label.tsx` |
+| **Severity** | MEDIUM |
+| **Risk** | LOW |
+| **Lines** | 46-59 |
 
-```
-packages/ui/src/components/Skeleton/Skeleton.tsx
-  Add preset variants:
-    SkeletonProfile — large avatar + 2 lines + bio block
-    SkeletonMedia — image placeholder (16:9) + title + subtitle
-    SkeletonForm — label + input field repeated N times
-    SkeletonGrid — NxM grid of square cells
-    SkeletonTable — header row + N data rows with columns
+**Root cause**: Inline objects `{ color: ..., fontSize: ... }` and `{ color: tokens.color.error.text }` create new references every render.
 
-  Add SkeletonGroup — wrapper that delays animation per-child (stagger effect):
-    <SkeletonGroup stagger={80}>
-      <SkeletonListItem />
-      <SkeletonListItem />
-      <SkeletonListItem />
-    </SkeletonGroup>
+**Fix**:
 
-  Add shimmer direction prop: "left-to-right" | "right-to-left" | "pulse" (current)
-
-apps/example: showcase multiple skeleton types in a tab/segmented layout
+```tsx
+const labelStyle = useMemo(
+  () => [{ color: tokens.color.text.primary, fontSize: tokens.fontSize.sm }, style],
+  [tokens.color.text.primary, tokens.fontSize.sm, style]
+);
+const asteriskStyle = useMemo(
+  () => ({ color: tokens.color.error.text }),
+  [tokens.color.error.text]
+);
 ```
 
 ---
 
-### Issue 9 — EmptyState: Too Simple
+### T-07 - Button: replace resolvedColor if-else chain with lookup map
 
-**Root cause analysis:**
-- EmptyState is just title + description + icon + action — no visual weight.
-- No illustration support, no size variants, no specific type presets.
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/ui/src/components/Button/Button.tsx` |
+| **Severity** | MEDIUM |
+| **Risk** | LOW -- same behavior, different structure |
+| **Lines** | 154-209 |
 
-**Plan:**
+**Current**: 7-branch `if (color === "...") return {...}` chain (55 lines).
 
+**Fix** -- `Record<ButtonColor, ColorSet>` lookup:
+
+```tsx
+const resolvedColor = useMemo(() => {
+  const map: Record<ButtonColor, { main: string; subtle: string; textOn: string }> = {
+    inherit:   { main: tokens.color.text.primary,   subtle: tokens.color.bg.muted,      textOn: tokens.color.text.inverse },
+    secondary: { main: tokens.color.text.secondary, subtle: tokens.color.bg.muted,      textOn: tokens.color.text.inverse },
+    success:   { main: tokens.color.success.icon,   subtle: tokens.color.success.bg,    textOn: tokens.color.text.inverse },
+    warning:   { main: tokens.color.warning.icon,   subtle: tokens.color.warning.bg,    textOn: tokens.color.text.inverse },
+    error:     { main: tokens.color.error.icon,     subtle: tokens.color.error.bg,      textOn: tokens.color.text.inverse },
+    info:      { main: tokens.color.info.icon,      subtle: tokens.color.info.bg,       textOn: tokens.color.text.inverse },
+    accent:    { main: tokens.color.accent.default, subtle: tokens.color.accent.subtle, textOn: tokens.color.accent.onAccent },
+    primary:   { main: tokens.color.brand.default,  subtle: tokens.color.brand.subtle,  textOn: tokens.color.text.inverse },
+  };
+  return map[color];
+}, [color, tokens]);
 ```
-packages/ui/src/components/EmptyState/EmptyState.tsx
-  Props to add:
-    size?: "sm" | "md" | "lg"          // controls spacing and text size
-    illustration?: ReactNode            // large SVG/image above title
-    variant?: "default" | "search" | "error" | "offline" | "permission"
-    // Each variant provides default icon, title, description
 
-  Visual improvements:
-    - Increase icon container: 64x64 circle with brand.subtle background
-    - Icon size: 32px in 64px container
-    - Title: h5 (16px semibold), primary text
-    - Description: body2 (14px), tertiary text, centered
-    - Add subtle dashed border or illustration area
-    - Vertical padding: spacing[8] top+bottom for breathing room
+> Same runtime behavior, 40% fewer lines, compile-time exhaustiveness.
 
-  Built-in preset variants (use when no custom content):
-    "search"     → SearchX icon + "No results found"
-    "error"      → AlertCircle icon + "Something went wrong"
-    "offline"    → WifiOff icon + "No internet connection"
-    "permission" → ShieldOff icon + "Access required"
-    "empty"      → Inbox icon + "Nothing here yet"
+---
 
-apps/example: show all 5 preset variants in a carousel or expand/collapse
+### T-08 - Collapsible: fix SharedValue state duplication
+
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/ui/src/components/Collapsible/Collapsible.tsx` |
+| **Severity** | MEDIUM |
+| **Risk** | MEDIUM -- state management change, test thoroughly |
+| **Lines** | 107-141 |
+
+**Root cause**: Dual state -- React `useState(internalOpen)` and Reanimated `useSharedValue(isOpen)` are kept in sync manually. The toggle callback updates both independently -- a sequencing error could leave them inconsistent.
+
+**Fix** -- React state is single source of truth, SharedValue is a derived mirror:
+
+```tsx
+const [internalOpen, setInternalOpen] = useState(defaultOpen);
+const currentOpen = isControlled ? controlledOpen! : internalOpen;
+const isOpen = useSharedValue(currentOpen);
+
+// Single sync point: React state -> SharedValue
+React.useEffect(() => {
+  isOpen.value = currentOpen;
+}, [currentOpen, isOpen]);
+
+const toggle = useCallback(() => {
+  if (disabled) return;
+  const next = !currentOpen;
+  if (!isControlled) setInternalOpen(next);
+  onOpenChange?.(next);
+}, [disabled, isControlled, currentOpen, onOpenChange]);
 ```
 
 ---
 
-### Issue 10 — AnimatedList Re-renders Whole List
+### T-09 - CollapsibleContent: remove unnecessary useTokens
 
-**Root cause analysis:**
-- In `apps/example/app/index.tsx`, `renderItem` is an inline anonymous arrow function.
-- Every parent re-render creates a new `renderItem` reference → FlashList re-renders all visible cells.
-- Fix is in the example (wrap with `useCallback`), not in the component itself.
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/ui/src/components/Collapsible/Collapsible.tsx` |
+| **Severity** | MEDIUM |
+| **Risk** | LOW |
+| **Line** | 177 |
 
-**Plan:**
+**Root cause**: `useTokens()` is called only for `tokens.spacing[2]` (= 8px constant). Subscribes the animated container to all theme changes for a single spacing value.
 
-```
-apps/example/app/index.tsx
-  - Extract AnimatedList's renderItem to useCallback:
-    const renderContact = useCallback(({ item, index }: any) => (
-      <ListItem
-        onPress={() => toast.info(`Opening ${item.name}`)}
-        divider={index < CONTACTS.length - 1}
-      >
-        <Avatar initials={item.initials} size="sm" />
-        <View style={{ flex: 1, marginLeft: t.spacing[3] }}>
-          <Text style={{ fontWeight: "600", color: t.color.text.primary }}>{item.name}</Text>
-          <Text style={{ fontSize: 13, color: t.color.text.secondary }}>{item.role}</Text>
-        </View>
-      </ListItem>
-    ), [t, toast]);
+**Fix** -- replace with static value:
 
-    <AnimatedList
-      data={CONTACTS}
-      keyExtractor={(item) => item.id}
-      estimatedItemSize={60}
-      renderItem={renderContact}
-    />
+```tsx
+// Remove: const tokens = useTokens();
+<View onLayout={handleLayout} style={styles.innerContent}>
+  {children}
+</View>
 
-packages/ui/src/components/AnimatedList/AnimatedList.tsx
-  - Ensure keyExtractor defaults to item.id or item.key
-  - Add overrideItemLayout prop forwarding to FlashList
-  - Document: "Always pass useCallback renderItem and stable keyExtractor"
+// Add to StyleSheet.create:
+innerContent: { paddingVertical: 8 },
 ```
 
 ---
 
-### Issue 11 — SegmentedControl: Wrong Style / Broken Layout
+### T-10 - ScrollArea: make flex 1 opt-in
 
-**Root cause analysis (code review):**
-- Container renders options as flex row, indicator as `Animated.View` before the Pressables (in DOM order = behind them ✓)
-- Bug 1: Indicator `translateX` starts from position `0` but container may have horizontal padding from `segmentedControl.container` styles → indicator is offset
-- Bug 2: Indicator height = full container height (36px) but needs to be `height - 4px` with `top: 2` to respect container padding
-- Bug 3: On first render `containerWidth = 0` so `segmentWidth = 0/N = 0` → indicator jumps on layout
-- Bug 4: The component tokens `segmentedControl.container` likely includes `paddingHorizontal` that shifts option texts but not the absolutely-positioned indicator
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/ui/src/components/ScrollArea/ScrollArea.tsx` |
+| **Severity** | MEDIUM |
+| **Risk** | MEDIUM -- behavioral change, existing consumers may rely on flex |
+| **Line** | 79 |
 
-**Plan:**
+**Root cause**: `styles.container` hardcodes `flex: 1`. In free-flow layouts without a flex parent, the ScrollArea collapses to 0 height silently.
 
+**Current**: `container: { flex: 1 }`
+
+**Fix**: `container: {}` (empty -- let consumer control sizing via style prop)
+
+> Consumers who need flex stretch pass `style={{ flex: 1 }}` explicitly. Document in JSDoc.
+
+---
+
+### T-11 - AspectRatio: document paddingBottom technique and prop precedence
+
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/ui/src/components/AspectRatio/AspectRatio.tsx` |
+| **Severity** | MEDIUM |
+| **Risk** | LOW -- comment + minor logic fix |
+| **Lines** | 55-59, 67 |
+
+**Fix** -- add explanatory comment and clarify silent override:
+
+```tsx
+/**
+ * Uses paddingBottom percentage to maintain aspect ratio.
+ * In React Native, percentage padding is relative to the element's own width,
+ * so paddingBottom: "56.25%" on a full-width element gives 16:9 height.
+ *
+ * Prop precedence: width/height overrides ratio when both are provided.
+ */
+const aspectRatio = width != null && height != null ? width / height : ratio;
 ```
-packages/ui/src/components/SegmentedControl/SegmentedControl.tsx
 
-  Fix indicator positioning:
-    const INDICATOR_INSET = 3; // px inset from container edge
+Also change `width && height` to `width != null && height != null` to handle `width={0}` correctly.
 
-    indicatorStyle = useAnimatedStyle(() => ({
-      transform: [{ translateX: translateX.value + INDICATOR_INSET }],
-      width: segmentWidth - INDICATOR_INSET * (index === 0 || index === last ? 1 : 0),
-    }))
+---
 
-    <Animated.View
-      style={[
-        segmentedControl.item.active,
-        {
-          position: "absolute",
-          top: INDICATOR_INSET,
-          bottom: INDICATOR_INSET,
-          left: 0,
-          width: segmentWidth,
-          borderRadius: (height - INDICATOR_INSET * 2) / 2,
-        },
-        indicatorStyle,
-      ]}
-    />
+### T-12 - Tokens: fill sparse color scale gaps
 
-  Fix initial render flash:
-    const [ready, setReady] = useState(false);
-    onLayout: setReady(true) after first measurement
-    Only render indicator when ready=true
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/tokens/src/primitive.ts` |
+| **Severity** | MEDIUM |
+| **Risk** | LOW -- additive, existing references still valid |
+| **Lines** | 63-84 |
 
-  Add icon support:
-    options: string[] | { label: string; icon?: ReactNode }[]
+**Root cause**: `red`, `green`, `blue` have only 5 steps (50, 400, 500, 600, 900) while all other palettes have 10-12 steps.
 
-  Add size variants: "sm" (32px) | "md" (36px) | "lg" (44px)
+**Fix** -- expand to standard 11-step scales (Tailwind CSS v4 values):
 
-  Add scrollable mode for many options (ScrollView container)
+```ts
+red: {
+  50: "#FEF2F2", 100: "#FEE2E2", 200: "#FECACA", 300: "#FCA5A5",
+  400: "#F87171", 500: "#EF4444", 600: "#DC2626", 700: "#B91C1C",
+  800: "#991B1B", 900: "#7F1D1D", 950: "#450A0A",
+},
+green: {
+  50: "#F0FDF4", 100: "#DCFCE7", 200: "#BBF7D0", 300: "#86EFAC",
+  400: "#4ADE80", 500: "#22C55E", 600: "#16A34A", 700: "#15803D",
+  800: "#166534", 900: "#14532D", 950: "#052E16",
+},
+blue: {
+  50: "#EFF6FF", 100: "#DBEAFE", 200: "#BFDBFE", 300: "#93C5FD",
+  400: "#60A5FA", 500: "#3B82F6", 600: "#2563EB", 700: "#1D4ED8",
+  800: "#1E40AF", 900: "#1E3A8A", 950: "#172554",
+},
 ```
 
 ---
 
-### Issue 12 — OTPInput: Can't Delete / Can't Focus Filled Cell / Ugly Border
+## Phase 3 -- Low Priority / Architecture
 
-**Root cause analysis (code review):**
-- **Can't delete:** Example has `value="123"` hardcoded and `onChange={() => {}}` → value never changes. Fix: use useState in example.
-- **Can't focus filled cell:** By design — single hidden TextInput receives all key events. Tapping any cell calls `handlePress` which focuses the hidden input. User cannot click cell index 1 to position cursor there. This is intentional for security (prevents partial code editing) but poor UX.
-- **Border bug:** Line 104: `isFilled ? otpInput.cell.borderColor : otpInput.cell.borderColor` — BOTH branches use the SAME token. Filled cells have no different border color even though code tries to differentiate. This is a bug.
-- **Visual:** `flex: 1, aspectRatio: 0.8` makes cells rectangular not square. Cells should be square (aspectRatio: 1) or use fixed width/height from tokens.
+### T-13 - Add useContextSelector pattern to ThemeProvider
 
-**Plan:**
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/headless/src/` |
+| **Severity** | LOW |
+| **Risk** | HIGH -- broad architecture change |
 
+**Root cause**: Any `useTokens()` consumer re-renders on any theme change, even if specific tokens it uses did not change.
+
+**Fix** -- introduce selector hook:
+
+```tsx
+export function useTokenSelector<T>(selector: (tokens: SemanticTokens) => T): T {
+  const tokens = useTokens();
+  return useMemo(() => selector(tokens), [tokens, selector]);
+}
 ```
-apps/example/app/index.tsx
-  Fix example:
-    const [otpValue, setOtpValue] = useState("123");
-    <OTPInput length={6} value={otpValue} onChange={setOtpValue}
-      onComplete={(code) => toast.success(`OTP: ${code}`)} />
 
-packages/headless/src/tokens/component.ts (otpInput tokens)
-  Add:
-    cell: {
-      ...existing,
-      filledBorderColor: color.brand.default,    // NEW — filled cell shows brand border
-      filledBg: color.brand.subtle,              // optional tinted bg when filled
-    }
+> Optionally adopt `use-context-selector` library for reference equality. Plan carefully -- this touches every component.
 
-packages/ui/src/components/OTPInput/OTPInput.tsx
+---
 
-  Fix border color bug (line 104):
-    borderColor: isFocused
-      ? otpInput.cell.focused.borderColor        // brand color, thicker
-      : isFilled
-        ? otpInput.cell.filledBorderColor        // brand color, normal
-        : otpInput.cell.borderColor              // gray default
+### T-14 - Move telegram brand to app layer
 
-  Fix aspect ratio: change { flex: 1, aspectRatio: 0.8 } → { flex: 1, aspectRatio: 1 }
+| Field | Value |
+|-------|-------|
+| **Package** | `packages/themes/src/brands/telegram.ts` |
+| **Severity** | LOW |
+| **Risk** | MEDIUM -- removes an exported brand (breaking) |
 
-  Fix border width: focused cell: borderWidth: 2, default: borderWidth: 1
+**Steps**:
 
-  Add cursor blink animation on focused empty cell:
-    When isCurrentFocus && !char: show animated blinking | cursor
+1. Move `telegram.ts` to consuming app's theme config
+2. Export `createBrand(overrides)` helper from `@truongdq01/themes` for custom brands
+3. Keep 6 generic brands in the package
 
-  Consider adding:
-    mask?: boolean  // show • instead of digit (for PIN)
-    variant?: "box" | "underline" | "circle"
-    focusable cells: allow tapping specific cell to position (for edit use cases, not OTP)
+---
+
+### T-15 - Stop tracking dist/ in git
+
+| Field | Value |
+|-------|-------|
+| **Severity** | LOW |
+| **Risk** | LOW -- git config only |
+
+**Steps**:
+
+1. Add `packages/*/dist/` to `.gitignore`
+2. Run `git rm --cached -r packages/ui/dist/`
+3. Commit: `chore: stop tracking dist/ build artifacts`
+
+---
+
+### T-16 - Strengthen test coverage for new components
+
+| Field | Value |
+|-------|-------|
+| **Severity** | LOW |
+| **Risk** | LOW -- test-only changes |
+
+| Component | Missing Tests |
+|---|---|
+| AlertDialog | Covered by T-01 |
+| Collapsible | Toggle visibility, controlled mode, disabled state |
+| Label | Required asterisk renders, style prop applied, nativeID set |
+| AspectRatio | width/height overrides ratio, ratio=0 edge case |
+| ScrollArea | direction="horizontal" indicator logic, no implicit flex |
+
+**Collapsible test additions**:
+
+```tsx
+it("does not toggle when disabled", () => {
+  const fn = jest.fn();
+  const { getByTestId } = renderWithTheme(
+    <Collapsible disabled onOpenChange={fn}>
+      <CollapsibleTrigger testID="trigger"><Text>T</Text></CollapsibleTrigger>
+      <CollapsibleContent><Text>C</Text></CollapsibleContent>
+    </Collapsible>
+  );
+  fireEvent.press(getByTestId("trigger"));
+  expect(fn).not.toHaveBeenCalled();
+});
+
+it("calls onOpenChange in controlled mode", () => {
+  const fn = jest.fn();
+  const { getByTestId } = renderWithTheme(
+    <Collapsible open={false} onOpenChange={fn}>
+      <CollapsibleTrigger testID="trigger"><Text>T</Text></CollapsibleTrigger>
+      <CollapsibleContent><Text>C</Text></CollapsibleContent>
+    </Collapsible>
+  );
+  fireEvent.press(getByTestId("trigger"));
+  expect(fn).toHaveBeenCalledWith(true);
+});
 ```
 
 ---
 
-### Issue 13 — DatePicker: Use BottomSheet + Custom Calendar Grid
+### T-17 - Document public API stability
 
-**Root cause analysis:**
-- iOS: uses `@react-native-community/datetimepicker` with `display="spinner"` in a Modal → shows native iOS drum-roll picker (seen in screenshot)
-- User wants a custom calendar grid UI like the Vietnamese app screenshot: month grid, day cells, "Hủy" / "Chọn" buttons, Gregorian + Lunar calendar toggle
-- This requires replacing the iOS Modal+spinner with a custom BottomSheet containing a calendar grid component
+| Field | Value |
+|-------|-------|
+| **Severity** | LOW |
+| **Risk** | LOW -- documentation only |
 
-**Plan:**
+Add `@experimental` JSDoc tag to:
 
-```
-New component: packages/ui/src/components/DatePicker/CalendarGrid.tsx
-  - Props: month, year, selectedDate, onSelectDate, minDate, maxDate
-  - Renders: 7-column grid (Mon-Sun headers, day cells)
-  - Day cell states: default, selected (brand circle), today (brand outline), disabled (opacity)
-  - Month navigation: < MONTH YEAR > header with prev/next arrows
-  - Animated month transition: slide left/right when changing month
-
-New component: packages/ui/src/components/DatePicker/CalendarBottomSheet.tsx
-  - BottomSheet wrapper around CalendarGrid
-  - snapPoints: ["60%"] for date, ["75%"] for datetime
-  - Header: icon + "Chọn ngày" title + X close button
-  - Footer: "Hủy" (outline) + "Chọn" (brand solid) buttons
-  - Optional: Gregorian/Lunar toggle (SegmentedControl at top)
-
-packages/ui/src/components/DatePicker/DatePicker.tsx
-  - iOS: replace Modal+DateTimePicker with CalendarBottomSheet
-  - Android: keep native dialog (already fine on Android)
-  - New prop: pickerStyle?: "calendar" | "spinner" | "native"
-    "calendar" = custom CalendarGrid (default, new)
-    "spinner" = old iOS drum-roll behavior
-    "native" = @react-native-community/datetimepicker (current)
-
-  For time mode: keep spinner style (time is hard to do with grid)
-  For datetime mode: show date picker first → then time picker
-
-Dependencies: no new deps needed (uses existing BottomSheet)
-```
+- `Button.loadingIndicator` -- custom loading nodes, no design guideline
+- `Button.feedbackMode` -- implementation detail leaking to API
+- `Collapsible.open` / `onOpenChange` -- controlled pattern not yet tested
+- `AlertDialog.cancelVariant` / `confirmVariant` -- overrides defeat auto-logic
 
 ---
 
-### Issue 14 — Carousel: White Text Invisible on Light Mode
+## Files Modified Per Task
 
-**Root cause analysis:**
-- Example uses colored background boxes with `color: "white"` text
-- On light mode, the carousel area renders fine but the white text is very visible against solid colors — BUT the issue might be the Carousel component itself not rendering (empty white box seen in screenshot)
-- The carousel box shows empty in light mode screenshot → suggests Carousel might need a height explicitly or is not rendering content properly
+| Task | Files |
+|---|---|
+| T-01 | `AlertDialog/AlertDialog.tsx`, `AlertDialog/__tests__/AlertDialog.test.tsx` |
+| T-02 | `Collapsible/Collapsible.tsx` |
+| T-03 | `Label/Label.tsx` |
+| T-04 | `Button/Button.tsx` |
+| T-05 | `Collapsible/Collapsible.tsx` |
+| T-06 | `Label/Label.tsx` |
+| T-07 | `Button/Button.tsx` |
+| T-08 | `Collapsible/Collapsible.tsx` |
+| T-09 | `Collapsible/Collapsible.tsx` |
+| T-10 | `ScrollArea/ScrollArea.tsx` |
+| T-11 | `AspectRatio/AspectRatio.tsx` |
+| T-12 | `packages/tokens/src/primitive.ts` |
+| T-13 | `packages/headless/src/` (new file + ThemeProvider) |
+| T-14 | `packages/themes/src/brands/telegram.ts` -> app layer |
+| T-15 | `.gitignore`, git rm |
+| T-16 | Multiple `__tests__/*.test.tsx` |
+| T-17 | Multiple component JSDoc |
 
-**Plan:**
+## Risk Matrix
 
-```
-packages/ui/src/components/Carousel/Carousel.tsx
-  - Ensure Carousel container has flex:1 / fills parent
-  - Verify pagination dots render (add showDots?: boolean, default true)
-  - Add autoPlay?: boolean (default false) with autoPlayInterval?: number
-  - Add renderEmpty?: ReactNode for empty data
-
-apps/example/app/index.tsx — Carousel section:
-  Use text color adaptive to background:
-    renderItem={({ item }) => (
-      <View style={{ flex: 1, backgroundColor: item.bg, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ color: item.text, fontWeight: "700", fontSize: 18 }}>{item.title}</Text>
-        <Text style={{ color: item.text, opacity: 0.8, fontSize: 13 }}>{item.subtitle}</Text>
-      </View>
-    )}
-
-  Use slides: [
-    { bg: t.color.brand.default, text: "#fff", title: "Slide 1", subtitle: "Brand violet" },
-    { bg: t.color.accent.default, text: "#1C1917", title: "Slide 2", subtitle: "Amber accent" },
-    { bg: t.color.success.bg, text: t.color.success.text, title: "Slide 3", subtitle: "Success" },
-  ]
-```
-
----
-
-### Issue 15 — Toast: Jumpy Animation
-
-**Root cause analysis:**
-- `FadeInUp.springify().damping(18).stiffness(280)` — stiffness 280 is very high → causes aggressive bounce
-- When second toast appears, first toast shifts position → layout jump
-- `FadeInDown` (bottom position) springs down then bounces back up → visually jarring
-- Missing `layout` prop on container → items don't animate position changes when list shifts
-
-**Plan:**
-
-```
-packages/ui/src/components/Toast/ToastItem.tsx
-
-  Fix spring config:
-    // BEFORE
-    FadeInUp.springify().damping(18).stiffness(280)
-
-    // AFTER — smooth, no bounce
-    const entering = position === "top"
-      ? SlideInDown.duration(280).easing(Easing.out(Easing.cubic))
-      : SlideInUp.duration(280).easing(Easing.out(Easing.cubic))
-    const exiting = position === "top"
-      ? FadeOutUp.duration(200)
-      : FadeOutDown.duration(200)
-
-packages/ui/src/components/Toast/ToastContainer.tsx
-  - Add layout={LinearTransition.duration(250)} to the container View
-  - This makes existing toasts animate position smoothly when new one enters
-  - Add gap between toasts: gap: 8
-
-  - Consider: limit to 3 visible toasts, queue rest
-  - Add swipe-to-dismiss on individual toast items (pan gesture left/right)
-```
-
----
-
-## Additional Improvements (User Requested)
-
----
-
-### Glassmorphism / Glass Liquid Effect
-
-**Plan:**
-
-```
-Dependencies to add: expo-blur (already in Expo ecosystem)
-
-packages/tokens/src/semantic.ts
-  Add glass surface tokens:
-    surface: {
-      ...existing,
-      glass: {
-        backgroundColor: "rgba(255,255,255,0.72)",    // light mode
-        backdropFilter: "blur(20px)",                  // web only
-        borderColor: "rgba(255,255,255,0.3)",
-        borderWidth: 1,
-      }
-    }
-
-  darkTokens.surface.glass:
-    backgroundColor: "rgba(15,23,42,0.72)"
-    borderColor: "rgba(255,255,255,0.08)"
-
-New component: packages/ui/src/components/GlassCard/GlassCard.tsx
-  - Uses expo-blur BlurView as background
-  - intensity prop (0-100)
-  - tint?: "light" | "dark" | "default"
-  - Renders children over blurred background
-  - Border: 1px rgba white/transparent
-
-  Usage:
-    <GlassCard intensity={60} style={{ padding: 16, borderRadius: 16 }}>
-      <Text>Glassmorphism content</Text>
-    </GlassCard>
-
-Apply glass to:
-  - ToastItem: glass background instead of solid dark
-  - BottomSheet handle area: glass header
-  - FloatingHeader: sticky scroll header with blur background
-  - Card: add glass variant prop → <Card variant="glass">
-```
-
----
-
-### Color System Upgrade
-
-**Issues:**
-- Current brand violet is strong/saturated — heavy on eyes over long sessions
-- No gradient support in tokens
-- Missing `surface.glass` tokens
-
-**Plan:**
-
-```
-packages/tokens/src/primitive.ts
-  Refine violet palette: add violet-550 (#7C48E8) as new brand.default
-    — softer than 600 (#7C3AED), more modern
-
-  Add gradient tokens:
-    gradient: {
-      brand: ["#8B5CF6", "#6D28D9"],          // violet gradient
-      accent: ["#F59E0B", "#D97706"],          // amber gradient
-      success: ["#34D399", "#059669"],         // green gradient
-      sunrise: ["#F59E0B", "#EF4444"],         // warm hero gradient
-      ocean: ["#60A5FA", "#7C3AED"],           // cool hero gradient
-    }
-
-New utility: packages/ui/src/components/LinearGradient/LinearGradient.tsx
-  - Wraps expo-linear-gradient
-  - Accepts gradient token keys or raw colors array
-  - Usage: <LinearGradient gradient="brand" style={{ flex: 1 }} />
-```
-
----
-
-### Component Tree (Missing)
-
-**Plan:**
-
-```
-New file: docs/COMPONENT_TREE.md
-
-Structure:
-  RNUI Component Tree
-  ├── Layout
-  │   ├── Box
-  │   ├── Stack (VStack / HStack)
-  │   ├── Grid
-  │   └── Paper
-  ├── Typography
-  │   └── Typography (display/h1-h6/body1-2/caption/overline/label/code)
-  ├── Forms
-  │   ├── Button (solid/outline/ghost/destructive/accent + sizes)
-  │   ├── ButtonGroup
-  │   ├── Input (text/email/search/number)
-  │   ├── PasswordInput
-  │   ├── TextArea
-  │   ├── Select (single/multi/searchable/async)
-  │   ├── Checkbox (checked/unchecked/indeterminate)
-  │   ├── Switch (sm/md/lg)
-  │   ├── RadioGroup + RadioItem (vertical/horizontal)
-  │   ├── Slider (horizontal/vertical/range)
-  │   ├── OTPInput (box/underline/circle variants)
-  │   ├── DatePicker (calendar/spinner/native modes)
-  │   ├── Autocomplete
-  │   ├── SegmentedControl
-  │   ├── ToggleButton
-  │   ├── FormField (label/helper/error)
-  │   └── FormGroup
-  ├── Data Display
-  │   ├── Avatar + AvatarGroup (xs-2xl, status dots)
-  │   ├── Badge (default/brand/success/warning/error/info)
-  │   ├── Card (default/outlined/glass variants)
-  │   ├── Chip
-  │   ├── List + ListItem + ListItemText
-  │   ├── AnimatedList (FlashList-backed)
-  │   ├── Table
-  │   ├── Timeline
-  │   ├── Rating
-  │   ├── LinearProgress / CircularProgress
-  │   ├── Skeleton / SkeletonCard / SkeletonText / SkeletonListItem
-  │   │   └── Presets: SkeletonProfile / SkeletonMedia / SkeletonForm / SkeletonGrid
-  │   └── EmptyState (default/search/error/offline/permission)
-  ├── Navigation
-  │   ├── AppBar
-  │   ├── BottomNavigation
-  │   ├── Tabs
-  │   ├── Breadcrumbs
-  │   ├── Pagination
-  │   └── Menu
-  ├── Feedback & Overlays
-  │   ├── Toast / ToastContainer
-  │   ├── Snackbar
-  │   ├── Alert
-  │   ├── Dialog
-  │   ├── Modal
-  │   ├── BottomSheet
-  │   ├── Drawer
-  │   ├── Popover / Popper
-  │   ├── Tooltip
-  │   └── Fab / SpeedDial
-  ├── Media
-  │   ├── Image (RnImage)
-  │   ├── ImageList
-  │   └── Carousel
-  ├── Specialized
-  │   ├── Accordion
-  │   ├── Stepper
-  │   ├── GlassCard (NEW)
-  │   └── LinearGradient (NEW)
-  └── Primitives
-      ├── Pressable (feedbackMode: opacity/scale/scaleSubtle/highlight)
-      ├── Link
-      ├── Icon
-      └── Typography
-```
-
----
-
-## Execution Order (Recommended)
-
-### Phase 1 — Critical UX Fixes (do first)
-1. OTPInput bug fix (border color + example state) — **30 min**
-2. Toast animation smooth fix — **1h**
-3. AnimatedList useCallback fix in example — **15 min**
-4. SegmentedControl layout fix — **2h**
-
-### Phase 2 — Component Enhancements
-5. Input focus speed + FormField semantic padding — **3h**
-6. TextArea counter position fix — **1h**
-7. Typography system extension — **3h**
-8. Checkbox + Radio + Divider showcase additions — **1h**
-
-### Phase 3 — New Features
-9. Skeleton presets + SkeletonGroup — **4h**
-10. EmptyState visual upgrade + presets — **3h**
-11. Select FlashList + async/load-more — **6h**
-12. Slider vertical + custom thumb + range — **8h**
-13. DatePicker calendar grid rebuild — **16h**
-
-### Phase 4 — Polish & Visual
-14. Glassmorphism GlassCard component — **4h**
-15. Gradient token system + LinearGradient component — **2h**
-16. Carousel fix + adaptive text colors — **2h**
-17. Color system refinement — **3h**
-
-### Phase 5 — Documentation
-18. Component tree docs — **2h**
-19. Update UI_REPORT.md with completed items — **1h**
-
----
-
-**Total estimated effort: ~62h across 18 tasks**
+| Task | Risk | Reason |
+|---|---|---|
+| T-01 | LOW | Bug fix -- adds missing prop |
+| T-02 | LOW | Additive a11y props |
+| T-03 | LOW | Deprecation, non-breaking |
+| T-04 | LOW | Type-only |
+| T-05 | LOW | Type-only |
+| T-06 | LOW | Style refactor, same output |
+| T-07 | LOW | Same logic, different shape |
+| T-08 | **MEDIUM** | State management change |
+| T-09 | LOW | Remove one hook call |
+| T-10 | **MEDIUM** | Behavioral -- existing consumers affected |
+| T-11 | LOW | Comment only |
+| T-12 | LOW | Additive tokens |
+| T-13 | **HIGH** | Architecture change |
+| T-14 | **MEDIUM** | Removes exported brand |
+| T-15 | LOW | Git config |
+| T-16 | LOW | Tests only |
+| T-17 | LOW | Docs only |

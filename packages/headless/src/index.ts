@@ -29,6 +29,9 @@ export type { UseDisclosureOptions, UseDisclosureReturn } from "./hooks/useDiscl
 export { useField } from "./hooks/useField";
 export type { UseFieldOptions, UseFieldReturn, FieldValidator } from "./hooks/useField";
 
+export { useHaptics } from "./hooks/useHaptics";
+export type { HapticConfig, HapticIntensity, HapticTrigger } from "./hooks/useHaptics";
+
 export {
   useToast,
   showToast,

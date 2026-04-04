@@ -10,6 +10,7 @@ module.exports = {
   // Bun hoists into node_modules/.bun/.../node_modules/ — need .* so react-native is transformed.
   transformIgnorePatterns: [
     "node_modules/(?!.*((jest-)?react-native|@react-native|@react-native-community|@react-native/js-polyfills|lucide-react-native|@truongdq01/|@shopify/flash-list))",
+    "node_modules/@react-native-community/datetimepicker",
   ],
   moduleNameMapper: {
     "^react-native$": "<rootDir>/../headless/jest/react-native-mock.js",

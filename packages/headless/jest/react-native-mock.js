@@ -112,9 +112,18 @@ const PanResponder = {
 
 const NativeModules = {};
 const UIManager = {};
+const TurboModuleRegistry = {};
 const findNodeHandle = () => null;
 const processColor = (value) => value;
 const requireNativeComponent = (name) => createComponent(name);
+
+// Mock requestAnimationFrame for tests
+global.requestAnimationFrame = (callback) => {
+  return setTimeout(callback, 0);
+};
+global.cancelAnimationFrame = (id) => {
+  clearTimeout(id);
+};
 class NativeEventEmitter {
   addListener() {
     return { remove: () => {} };
@@ -157,6 +166,7 @@ module.exports = {
   NativeModules,
   NativeEventEmitter,
   UIManager,
+  TurboModuleRegistry,
   findNodeHandle,
   processColor,
   requireNativeComponent,

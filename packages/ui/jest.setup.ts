@@ -22,6 +22,12 @@ console.error = (...args: unknown[]) => {
   originalConsoleError(...args as Parameters<typeof originalConsoleError>);
 };
 
+// Mock TurboModuleRegistry at the react-native level
+jest.mock("react-native/Libraries/TurboModule/TurboModuleRegistry", () => ({
+  get: jest.fn(),
+  getEnforcing: jest.fn(),
+}));
+
 jest.mock("react-native-worklets", () => ({
   Worklets: {
     createRunOnJS: (fn: any) => fn,
@@ -53,6 +59,15 @@ jest.mock("@shopify/flash-list", () => {
   const { createFlashListMock } = require("./test-mocks");
   return createFlashListMock();
 });
+
+jest.mock("@react-native-community/datetimepicker", () => {
+  const React = require("react");
+  return React.forwardRef(() => null);
+});
+
+jest.mock("expo-blur", () => ({
+  BlurView: require("react").forwardRef(() => null),
+}));
 
 jest.mock("react-native-svg", () => {
   const React = require("react");

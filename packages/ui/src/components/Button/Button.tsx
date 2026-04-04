@@ -59,7 +59,7 @@ export interface ButtonProps {
   disabled?: boolean;
   /** Show loading spinner, disable interaction */
   loading?: boolean;
-  /** Custom loading indicator */
+  /** @experimental Custom loading nodes, no design guideline */
   loadingIndicator?: React.ReactNode;
   /** Loading indicator placement */
   loadingPosition?: "start" | "end" | "center";
@@ -71,7 +71,7 @@ export interface ButtonProps {
   startIcon?: React.ReactNode;
   /** Alias for trailingIcon */
   endIcon?: React.ReactNode;
-  /** Override press feedback mode */
+  /** @experimental Implementation detail leaking to API */
   feedbackMode?: PressFeedbackMode;
   /** Fill container width */
   fullWidth?: boolean;
@@ -80,7 +80,7 @@ export interface ButtonProps {
   /** Remove drop shadow */
   disableElevation?: boolean;
   /** Additional style override */
-  style?: object;
+  style?: StyleProp<ViewStyle>;
   /** Accessibility label override (defaults to label) */
   accessibilityLabel?: string;
   /** Accessibility hint */
@@ -152,60 +152,17 @@ export const Button = React.memo(({
   }, [variant]);
 
   const resolvedColor = useMemo(() => {
-    if (color === "inherit") {
-      return {
-        main: tokens.color.text.primary,
-        subtle: tokens.color.bg.muted,
-        textOn: tokens.color.text.inverse,
-      };
-    }
-    if (color === "secondary") {
-      return {
-        main: tokens.color.text.secondary,
-        subtle: tokens.color.bg.muted,
-        textOn: tokens.color.text.inverse,
-      };
-    }
-    if (color === "success") {
-      return {
-        main: tokens.color.success.icon,
-        subtle: tokens.color.success.bg,
-        textOn: tokens.color.text.inverse,
-      };
-    }
-    if (color === "warning") {
-      return {
-        main: tokens.color.warning.icon,
-        subtle: tokens.color.warning.bg,
-        textOn: tokens.color.text.inverse,
-      };
-    }
-    if (color === "error") {
-      return {
-        main: tokens.color.error.icon,
-        subtle: tokens.color.error.bg,
-        textOn: tokens.color.text.inverse,
-      };
-    }
-    if (color === "info") {
-      return {
-        main: tokens.color.info.icon,
-        subtle: tokens.color.info.bg,
-        textOn: tokens.color.text.inverse,
-      };
-    }
-    if (color === "accent") {
-      return {
-        main: tokens.color.accent.default,
-        subtle: tokens.color.accent.subtle,
-        textOn: tokens.color.accent.onAccent,
-      };
-    }
-    return {
-      main: tokens.color.brand.default,
-      subtle: tokens.color.brand.subtle,
-      textOn: tokens.color.text.inverse,
+    const map: Record<ButtonColor, { main: string; subtle: string; textOn: string }> = {
+      inherit:   { main: tokens.color.text.primary,   subtle: tokens.color.bg.muted,      textOn: tokens.color.text.inverse },
+      secondary: { main: tokens.color.text.secondary, subtle: tokens.color.bg.muted,      textOn: tokens.color.text.inverse },
+      success:   { main: tokens.color.success.icon,   subtle: tokens.color.success.bg,    textOn: tokens.color.text.inverse },
+      warning:   { main: tokens.color.warning.icon,   subtle: tokens.color.warning.bg,    textOn: tokens.color.text.inverse },
+      error:     { main: tokens.color.error.icon,     subtle: tokens.color.error.bg,      textOn: tokens.color.text.inverse },
+      info:      { main: tokens.color.info.icon,      subtle: tokens.color.info.bg,       textOn: tokens.color.text.inverse },
+      accent:    { main: tokens.color.accent.default, subtle: tokens.color.accent.subtle, textOn: tokens.color.accent.onAccent },
+      primary:   { main: tokens.color.brand.default,  subtle: tokens.color.brand.subtle,  textOn: tokens.color.text.inverse },
     };
+    return map[color];
   }, [color, tokens]);
 
   const handlePress = useCallback(() => {

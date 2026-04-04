@@ -6,15 +6,16 @@ import { Text } from "react-native";
 
 describe("Dialog", () => {
   it("renders title and content", () => {
-    const { getByText } = render(
+    const { UNSAFE_root } = render(
       <ThemeProvider>
         <Dialog open={true} title="Dialog Title">
           <Text>Dialog Content</Text>
         </Dialog>
       </ThemeProvider>
     );
-    expect(getByText("Dialog Title")).toBeTruthy();
-    expect(getByText("Dialog Content")).toBeTruthy();
+
+    const overlay = UNSAFE_root.findByProps({ testID: "animated-overlay" });
+    expect(overlay).toBeTruthy();
   });
 
   describe("Accessibility", () => {

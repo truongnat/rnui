@@ -1,6 +1,8 @@
-import React from "react";
-import { Modal, View, Pressable, StyleSheet, Text } from "react-native";
+import React, { useMemo } from "react";
+import { Modal, View, Pressable, StyleSheet } from "react-native";
 import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import { Typography } from "../Typography";
+import { AnimatedOverlay } from "../AnimatedOverlay";
 
 /**
  * Props for the Dialog component
@@ -48,49 +50,67 @@ export function Dialog({
   const { dialog, modal } = useComponentTokens();
   const tokens = useTokens();
 
+  const styles = useMemo(() => StyleSheet.create({
+    titleContainer: {
+      marginBottom: tokens.spacing[4],
+    },
+    contentContainer: {},
+    contentWithActions: {
+      marginBottom: tokens.spacing[6],
+    },
+    contentWithoutActions: {
+      marginBottom: tokens.spacing[2],
+    },
+  }), [tokens]);
+
   if (!open) return null;
 
   return (
-    <Modal visible={open} transparent animationType="fade" onRequestClose={onClose}>
-      <View style={modal.overlay}>
-        <Pressable
-          style={StyleSheet.absoluteFill}
-          onPress={onClose}
-          accessibilityRole="button"
-          accessibilityLabel={backdropAccessibilityLabel}
-          accessibilityHint="Closes the dialog"
-        />
-        <View
-          accessibilityViewIsModal
-          accessibilityRole="none"
-          accessibilityLabel={accessibilityLabel}
-          style={[
-            modal.container,
-            {
-              padding: tokens.spacing[6],
-              width: fullWidth ? "90%" : "80%",
-            },
-          ] as any}
-        >
-          {title && (
-            <View style={{ marginBottom: tokens.spacing[4] }}>
-              {typeof title === "string" ? (
-                <Text style={{ fontSize: tokens.fontSize.xl, fontWeight: tokens.fontWeight.semibold, color: tokens.color.text.primary }}>
-                  {title}
-                </Text>
-              ) : title}
+    <Modal visible={open} transparent animationType="none" onRequestClose={onClose}>
+      <AnimatedOverlay visible={open} animationType="scale">
+        <View style={modal.overlay}>
+          <Pressable
+            style={StyleSheet.absoluteFill}
+            onPress={onClose}
+            accessibilityRole="button"
+            accessibilityLabel={backdropAccessibilityLabel}
+            accessibilityHint="Closes the dialog"
+            importantForAccessibility="no-hide-descendants"
+          />
+          <View
+            accessibilityViewIsModal
+            accessibilityRole="none"
+            accessibilityLabel={accessibilityLabel}
+            style={[
+              modal.container,
+              {
+                padding: tokens.spacing[6],
+                width: fullWidth ? "90%" : "80%",
+              },
+            ] as any}
+          >
+            {title && (
+              <View style={styles.titleContainer}>
+                {typeof title === "string" ? (
+                  <Typography variant="h5" as="h2" style={dialog.title}>
+                    {title}
+                  </Typography>
+                ) : title}
+              </View>
+            )}
+            <View style={[styles.contentContainer, actions ? styles.contentWithActions : styles.contentWithoutActions]}>
+              {children}
             </View>
-          )}
-          <View style={{ marginBottom: actions ? tokens.spacing[6] : 0 }}>
-            {children}
+            {actions && (
+              <View style={dialog.actions}>
+                {actions}
+              </View>
+            )}
           </View>
-          {actions && (
-            <View style={{ flexDirection: "row", justifyContent: "flex-end", gap: tokens.spacing[2] }}>
-              {actions}
-            </View>
-          )}
         </View>
-      </View>
+      </AnimatedOverlay>
     </Modal>
   );
 }
+
+

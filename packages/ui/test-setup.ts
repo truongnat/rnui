@@ -122,6 +122,25 @@ mock.module("react-native", () => {
     isScreenReaderEnabled: async () => false,
     addEventListener: () => ({ remove: () => {} }),
   },
+
+  // TurboModuleRegistry
+  TurboModuleRegistry: {
+    get: () => null,
+    getEnforcing: () => null,
+  },
+
+  // NativeEventEmitter
+  NativeEventEmitter: class {
+    addListener() {
+      return { remove: () => {} };
+    }
+    removeAllListeners() {}
+    removeListener() {}
+    emit() {}
+  },
+
+  // findNodeHandle
+  findNodeHandle: () => null,
 };
 });
 
