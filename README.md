@@ -218,7 +218,6 @@ function Form() {
 
 ### Core Components (62+)
 
-<<<<<<< HEAD
 - **Primitives**: Button, Input, Card, Badge, Checkbox, Switch
 - **Complex**: Select, List, BottomSheet, Modal, Toast
 - **Layout**: Box, Stack, Grid, Divider

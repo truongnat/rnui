@@ -30,11 +30,6 @@ describe('semantic tokens — light mode', () => {
     expect(lightTokens.color.bg.default).toBe('#F8FAFC');
   });
 
-  test('bg.default is white', () => {
-    expect(lightTokens.color.bg.default).toBe('#FFFFFF');
->>>>>>> nebula-azimuth
-  });
-
   test('text.primary is near-black', () => {
     expect(lightTokens.color.text.primary).toBe(primitive.color.gray[900]);
   });
