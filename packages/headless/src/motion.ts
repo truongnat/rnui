@@ -23,7 +23,7 @@ import {
  * Shared transition animations for layout animations.
  * Note: Preset animations removed in react-native-reanimated v4.
  * These would need to be reimplemented using the new animation builders.
- * Previous implementation used FadeIn*/FadeOut*/ZoomIn/ZoomOut/SlideIn*/SlideOut* presets.
+ * Previous implementation used FadeIn/FadeOut/ZoomIn/ZoomOut/SlideIn/SlideOut presets.
  */
 export const sharedTransition = {
   // TODO: Reimplement with react-native-reanimated v4 animation builders
