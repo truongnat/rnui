@@ -1,6 +1,6 @@
 import '@testing-library/react-native/extend-expect';
 import { configure } from '@testing-library/react-native';
-// Inline mock to avoid module resolution issues in CI
+// Conditionally mock @shopify/flash-list only if the module can be resolved
 
 configure({
   hostComponentNames: {
@@ -58,6 +58,7 @@ jest.mock('react-native-safe-area-context', () => ({
 }));
 
 // Conditionally mock @shopify/flash-list only if the module can be resolved
+// This prevents test failures when the optional dependency is not installed
 try {
   require.resolve('@shopify/flash-list');
   jest.mock('@shopify/flash-list', () => {
@@ -91,7 +92,6 @@ try {
 } catch {
   // Module not available, skip mocking
 }
-
 jest.mock('@react-native-community/datetimepicker', () => {
   const React = require('react');
   return React.forwardRef(() => null);

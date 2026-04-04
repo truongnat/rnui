@@ -9,7 +9,8 @@ import {
 // Preset animations removed in react-native-reanimated v4
 // These were part of the design system but are not currently used in UI components
 // Keeping for future implementation with new animation builders
-
+// Previous imports: FadeInUp, FadeInDown, FadeIn, ZoomIn, SlideInDown, SlideInUp,
+// SlideInRight, FadeOutDown, FadeOutUp, FadeOut, ZoomOut, SlideOutDown, SlideOutUp, SlideOutRight
 import {
   spring,
   timingPreset,
@@ -22,6 +23,7 @@ import {
  * Shared transition animations for layout animations.
  * Note: Preset animations removed in react-native-reanimated v4.
  * These would need to be reimplemented using the new animation builders.
+ * Previous implementation used FadeIn*/FadeOut*/ZoomIn/ZoomOut/SlideIn*/SlideOut* presets.
  */
 export const sharedTransition = {
   // TODO: Reimplement with react-native-reanimated v4 animation builders
@@ -62,18 +64,8 @@ export function resolveTimingPreset(key: TimingPresetKey): {
  * Shared Element Transition preset for Hero images and seamless navigation.
  * Note: SharedTransition removed in react-native-reanimated v4.
  * Hero transitions now use the new Shared Element API.
+ * Previous implementation attempted custom shared transition with spring animations.
  */
 export const heroTransition = null; // TODO: Reimplement with react-native-reanimated v4 Shared Element API
-
-/**
- * Animation presets for common UI transitions.
- * Note: Preset animations removed in react-native-reanimated v4.
- * These would need to be reimplemented using the new animation builders.
- */
-export const motionPresets = {
-  // TODO: Reimplement with react-native-reanimated v4 animation builders
-  enter: {},
-  exit: {},
-};
 
 export { timingPreset, focusRingAnimation, type TimingPresetKey };

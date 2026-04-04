@@ -28,6 +28,20 @@ RNUI provides a comprehensive set of UI components for React Native applications
 | `@truongdq01/ui`       | 1.0.3   | ✅ Built | 62+ styled components                                  |
 | `@truongdq01/themes`   | 1.0.3   | ✅ Built | Multi-brand theme presets                              |
 
+## Usage Examples
+
+```tsx
+// Option A — use styled components out of the box
+import { Button } from '@truongdq01/ui';
+<Button label="Save" variant="solid" onPress={save} />;
+
+// Option B — headless only, bring your own styles
+import { usePressable } from '@truongdq01/headless';
+const { gesture, animatedStyle, accessibilityProps } = usePressable({
+  onPress: save,
+});
+```
+
 ## Requirements
 
 - React Native ≥ 0.83 (New Architecture required)
@@ -119,6 +133,64 @@ function MyComponent() {
 
   return (
     <GestureDetector gesture={gesture}>
+      <Animated.View
+        style={[
+          {
+            backgroundColor: tokens.color.brand.default,
+            padding: tokens.spacing[4],
+            borderRadius: tokens.radius.md,
+          },
+          animatedStyle,
+        ]}
+        {...accessibilityProps}
+      >
+        {children}
+      </Animated.View>
+    </GestureDetector>
+  );
+}
+```
+
+### Theme Override (Brand Customization)
+
+```tsx
+import { usePressable, useTheme } from '@truongdq01/headless';
+import Animated from 'react-native-reanimated';
+import { GestureDetector } from 'react-native-gesture-handler';
+
+function MyButton({ onPress, children }) {
+  const { tokens } = useTheme();
+  const { gesture, animatedStyle, accessibilityProps } = usePressable({
+    onPress,
+    feedbackMode: 'scale',
+    accessibilityLabel: 'My button',
+  });
+
+  return (
+    <GestureDetector gesture={gesture}>
+      <Animated.View
+        style={[
+          {
+            backgroundColor: tokens.color.brand.default,
+            padding: tokens.spacing[4],
+            borderRadius: tokens.radius.md,
+          },
+          animatedStyle,
+        ]}
+        {...accessibilityProps}
+      >
+        {children}
+      </Animated.View>
+    </GestureDetector>
+  );
+}
+```
+
+### Styled Components
+  });
+
+  return (
+    <GestureDetector gesture={gesture}>
       <Animated.View style={animatedStyle} {...accessibilityProps}>
         Press me
       </Animated.View>
@@ -146,6 +218,7 @@ function Form() {
 
 ### Core Components (62+)
 
+<<<<<<< HEAD
 - **Primitives**: Button, Input, Card, Badge, Checkbox, Switch
 - **Complex**: Select, List, BottomSheet, Modal, Toast
 - **Layout**: Box, Stack, Grid, Divider
@@ -187,10 +260,31 @@ function Form() {
 
 ### 📋 Planned
 
-- Virtualized components
-- Advanced data table
-- Drag & drop support
-- Gesture-based interactions
+- [x] 62 UI components
+- [x] 120+ icon library
+- [x] Token system (primitive → semantic → component)
+- [x] Headless hooks (20+)
+- [x] Multi-brand theme support
+- [x] Dark mode support
+- [x] Auto-play Carousel
+- [x] DatePicker with presets
+- [x] Timeline with status variants
+- [x] Password TextField toggle
+
+### 🚧 In Progress
+
+- [ ] E2E test suite (Detox)
+- [ ] Performance regression tests (Reassure)
+- [ ] Accessibility audit (WCAG 2.1 AA)
+- [ ] Documentation site (Docusaurus)
+
+### 📋 Planned
+
+- [ ] Virtualized List with FlashList
+- [ ] Advanced DataTable component
+- [ ] Drag & Drop support
+- [ ] Gesture-based interactions
+- [ ] Animation presets library
 
 ## Scripts
 
