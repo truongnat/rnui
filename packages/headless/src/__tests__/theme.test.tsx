@@ -21,8 +21,8 @@ describe("primitive tokens", () => {
 });
 
 describe("semantic tokens — light mode", () => {
-  test("bg.default is white", () => {
-    expect(lightTokens.color.bg.default).toBe("#FFFFFF");
+  test("bg.default is light gray (Telegram-style)", () => {
+    expect(lightTokens.color.bg.default).toBe("#F8FAFC");
   });
 
   test("text.primary is near-black", () => {

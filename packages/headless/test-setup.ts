@@ -45,6 +45,13 @@ const createReanimatedMock = () => {
     makeMutable: (v: any) => ({ value: v }),
     makeShareable: (v: any) => v,
 
+    Easing: {
+      bezier: (x1: number, y1: number, x2: number, y2: number) => (t: number) => t,
+      linear: (t: number) => t,
+      out: (easing: any) => easing,
+      cubic: (t: number) => t,
+    },
+
     createAnimatedComponent: (c: any) => c,
     View: createAnimatedComponent("Reanimated.View"),
     Text: createAnimatedComponent("Reanimated.Text"),

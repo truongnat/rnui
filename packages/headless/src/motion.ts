@@ -1,27 +1,15 @@
 import {
   Easing,
-  SharedTransition,
   withSpring,
   withTiming,
   type EasingFunction,
   type EasingFunctionFactory,
 } from "react-native-reanimated";
-import {
-    FadeInUp,
-    FadeInDown,
-    FadeIn,
-    ZoomIn,
-    SlideInDown,
-    SlideInUp,
-    SlideInRight,
-    FadeOutDown,
-    FadeOutUp,
-    FadeOut,
-    ZoomOut,
-    SlideOutDown,
-    SlideOutUp,
-    SlideOutRight,
-} from "react-native-reanimated";
+
+// Preset animations removed in react-native-reanimated v4
+// These were part of the design system but are not currently used in UI components
+// Keeping for future implementation with new animation builders
+
 import {
   spring,
   timingPreset,
@@ -31,28 +19,14 @@ import {
 } from "@truongdq01/tokens";
 
 /**
- * Real Reanimated layout classes mapped from design tokens.
- * Use these for `entering` and `exiting` props.
+ * Shared transition animations for layout animations.
+ * Note: Preset animations removed in react-native-reanimated v4.
+ * These would need to be reimplemented using the new animation builders.
  */
-export const motionPresets = {
-    enter: {
-        fadeUp: FadeInUp,
-        fadeDown: FadeInDown,
-        fadeIn: FadeIn,
-        scaleIn: ZoomIn,
-        slideFromBottom: SlideInDown,
-        slideFromTop: SlideInUp,
-        slideFromRight: SlideInRight,
-    },
-    exit: {
-        fadeDown: FadeOutDown,
-        fadeUp: FadeOutUp,
-        fadeOut: FadeOut,
-        scaleOut: ZoomOut,
-        slideToBottom: SlideOutDown,
-        slideToTop: SlideOutUp,
-        slideToRight: SlideOutRight,
-    },
+export const sharedTransition = {
+    // TODO: Reimplement with react-native-reanimated v4 animation builders
+    enter: {},
+    exit: {},
 } as const;
 
 /**
@@ -84,18 +58,20 @@ export function resolveTimingPreset(key: TimingPresetKey): {
 
 /**
  * Shared Element Transition preset for Hero images and seamless navigation.
- * Usage: <Animated.View sharedTransitionTag="hero" sharedTransitionStyle={heroTransition} />
+ * Note: SharedTransition removed in react-native-reanimated v4.
+ * Hero transitions now use the new Shared Element API.
  */
-export const heroTransition = (SharedTransition && (SharedTransition as any).custom)
-    ? (SharedTransition as any).custom((values: any) => {
-        "worklet";
-        return {
-            height: withSpring(values.targetHeight, spring.snappy),
-            width: withSpring(values.targetWidth, spring.snappy),
-            originX: withSpring(values.targetGlobalOriginX, spring.snappy),
-            originY: withSpring(values.targetGlobalOriginY, spring.snappy),
-        };
-    })
-    : null;
+export const heroTransition = null; // TODO: Reimplement with react-native-reanimated v4 Shared Element API
+
+/**
+ * Animation presets for common UI transitions.
+ * Note: Preset animations removed in react-native-reanimated v4.
+ * These would need to be reimplemented using the new animation builders.
+ */
+export const motionPresets = {
+  // TODO: Reimplement with react-native-reanimated v4 animation builders
+  enter: {},
+  exit: {},
+};
 
 export { timingPreset, focusRingAnimation, type TimingPresetKey };
