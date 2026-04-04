@@ -1,10 +1,10 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Popover } from "../Popover";
-import { ThemeProvider } from "@truongdq01/headless";
-import { Text, View } from "react-native";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Popover } from '../Popover';
+import { ThemeProvider } from '@truongdq01/headless';
+import { Text, View } from 'react-native';
 
-test("Popover renders children", () => {
+test('Popover renders children', () => {
   const { getByText } = render(
     <ThemeProvider>
       <Popover open={true}>
@@ -12,5 +12,5 @@ test("Popover renders children", () => {
       </Popover>
     </ThemeProvider>
   );
-  expect(getByText("Popover Content")).toBeTruthy();
+  expect(getByText('Popover Content')).toBeTruthy();
 });

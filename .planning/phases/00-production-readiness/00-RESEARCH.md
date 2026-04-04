@@ -15,11 +15,11 @@
 
 Phase 0 remaining work splits into three buckets:
 
-1) **Packaging hygiene** in `packages/ui/package.json` for `@truongdq01/ui`: `@types/react-native` should be moved to `devDependencies` (types are build-time only), and `@shopify/flash-list` should stop being a hard runtime dependency *or* the code should stop statically importing it so it can become an **optional peer** with a safe fallback.
+1. **Packaging hygiene** in `packages/ui/package.json` for `@truongdq01/ui`: `@types/react-native` should be moved to `devDependencies` (types are build-time only), and `@shopify/flash-list` should stop being a hard runtime dependency _or_ the code should stop statically importing it so it can become an **optional peer** with a safe fallback.
 
-2) **Overlay accessibility baseline**: `Modal`, `Dialog`, and `BottomSheet` currently render RN `Modal` plus a backdrop press target, but do not set `accessibilityViewIsModal` (iOS) and do not consistently expose dialog role/labels. Adding these should be API-additive, with sensible default labels derived from existing props (e.g. dialog title/label).
+2. **Overlay accessibility baseline**: `Modal`, `Dialog`, and `BottomSheet` currently render RN `Modal` plus a backdrop press target, but do not set `accessibilityViewIsModal` (iOS) and do not consistently expose dialog role/labels. Adding these should be API-additive, with sensible default labels derived from existing props (e.g. dialog title/label).
 
-3) **Docs correctness**: Current docs claim peerDependency requirements that don’t match `packages/ui/package.json` (notably Reanimated/gesture/safe-area/worklets), and `docs/docs/components/modal.md` claims keyboard behaviors (ESC/tab-trap) that are not implemented (and are largely non-applicable to native).
+3. **Docs correctness**: Current docs claim peerDependency requirements that don’t match `packages/ui/package.json` (notably Reanimated/gesture/safe-area/worklets), and `docs/docs/components/modal.md` claims keyboard behaviors (ESC/tab-trap) that are not implemented (and are largely non-applicable to native).
 
 **Primary recommendation:** Make `@shopify/flash-list` an **optional peer dependency** and introduce an internal “virtualized list adapter” that uses FlashList when installed and falls back to `FlatList` otherwise, while keeping existing public APIs intact.
 
@@ -67,7 +67,7 @@ Peer dependency requirements in docs are currently inconsistent with `packages/u
 ## Project Constraints (from repo rules)
 
 - **Security verification gate before applying changes:** validate input/data safety, auth boundaries (likely N/A here), secrets handling, dependency/config risk, abuse paths. Report pass/fail + risks + mitigation + residual risk.
-- **Documentation persistence:** if creating *new* documentation under `knowledge-base/documents/`, update `knowledge-base/INDEX.md` and optionally rebuild/verify KB. (Phase 0 work here is primarily package/docs under `docs/`, not KB.)
+- **Documentation persistence:** if creating _new_ documentation under `knowledge-base/documents/`, update `knowledge-base/INDEX.md` and optionally rebuild/verify KB. (Phase 0 work here is primarily package/docs under `docs/`, not KB.)
 - **Avoid mass formatting changes:** keep diffs scoped to touched files.
 
 ## Packaging Hygiene Recommendations
@@ -97,7 +97,7 @@ Below are two viable strategies.
 
 #### Strategy A (Recommended): Optional peerDependency + internal adapter fallback
 
-**Goal:** Reduce consumer burden by *not requiring* FlashList unless they want it, while keeping existing component APIs.
+**Goal:** Reduce consumer burden by _not requiring_ FlashList unless they want it, while keeping existing component APIs.
 
 **Package.json changes:**
 
@@ -194,7 +194,7 @@ Then update callsites to use the adapter:
 For `Modal`, `Dialog`, and `BottomSheet`:
 
 - **iOS modal grouping:** set `accessibilityViewIsModal={open}` (or `{true}` when visible) on the RN `Modal`
-- **Role semantics:** set `accessibilityRole="dialog"` on the *content container* (or nearest stable view)
+- **Role semantics:** set `accessibilityRole="dialog"` on the _content container_ (or nearest stable view)
 - **Labeling:** add `accessibilityLabel?: string` prop and apply:
   - Content container: `accessibilityLabel={...}`
   - Default label heuristics:
@@ -332,11 +332,11 @@ If you implement the optional peer FlashList strategy, add a quick “no flash-l
 
 ## Open Questions / Decisions to Make During Planning
 
-1) **FlashList strategy choice**
+1. **FlashList strategy choice**
    - Recommendation: Strategy A (optional peer + adapter fallback)
    - Decision needed: Do you want to keep apps explicitly depending on FlashList (recommended) or rely on workspace hoisting (not recommended)?
 
-2) **Backdrop accessibility policy**
+2. **Backdrop accessibility policy**
    - Recommendation: Backdrop is accessible with a clear “Close …” label/hint
    - Alternative: backdrop not accessible; require visible close button in content (more intrusive API/UX changes)
 
@@ -362,4 +362,3 @@ If you implement the optional peer FlashList strategy, add a quick “no flash-l
 - Overlay a11y recommendations: MEDIUM — RN a11y varies by platform; must validate with VoiceOver/TalkBack
 
 **Valid until:** 2026-05-03 (re-check peer versions if `packages/ui/package.json` changes)
-

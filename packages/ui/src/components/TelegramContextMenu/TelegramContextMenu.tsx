@@ -1,13 +1,20 @@
-import React, { useCallback } from "react";
-import { View, Text, Pressable, StyleSheet, Modal, useWindowDimensions } from "react-native";
+import React, { useCallback } from 'react';
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Modal,
+  useWindowDimensions,
+} from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   withSpring,
   runOnJS,
-} from "react-native-reanimated";
-import { useTokens } from "@truongdq01/headless";
+} from 'react-native-reanimated';
+import { useTokens } from '@truongdq01/headless';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -93,7 +100,12 @@ export function TelegramContextMenu({
   if (!mounted) return null;
 
   return (
-    <Modal visible={mounted} transparent animationType="none" onRequestClose={onClose}>
+    <Modal
+      visible={mounted}
+      transparent
+      animationType="none"
+      onRequestClose={onClose}
+    >
       <Pressable style={styles.overlay} onPress={onClose} />
       <Animated.View
         onLayout={(e) => {
@@ -106,7 +118,7 @@ export function TelegramContextMenu({
           styles.menu,
           animStyle,
           {
-            position: "absolute",
+            position: 'absolute',
             top,
             left,
             backgroundColor: tokens.color.surface.default,
@@ -129,8 +141,14 @@ export function TelegramContextMenu({
             disabled={item.disabled}
             style={({ pressed }) => [
               styles.item,
-              index === 0 && { borderTopLeftRadius: 14, borderTopRightRadius: 14 },
-              index === items.length - 1 && { borderBottomLeftRadius: 14, borderBottomRightRadius: 14 },
+              index === 0 && {
+                borderTopLeftRadius: 14,
+                borderTopRightRadius: 14,
+              },
+              index === items.length - 1 && {
+                borderBottomLeftRadius: 14,
+                borderBottomRightRadius: 14,
+              },
               pressed && { backgroundColor: tokens.color.surface.hover },
               item.disabled && { opacity: 0.3 },
             ]}
@@ -139,7 +157,11 @@ export function TelegramContextMenu({
             <Text
               style={[
                 styles.itemLabel,
-                { color: item.destructive ? tokens.color.error.text : tokens.color.text.primary },
+                {
+                  color: item.destructive
+                    ? tokens.color.error.text
+                    : tokens.color.text.primary,
+                },
               ]}
             >
               {item.label}
@@ -156,15 +178,15 @@ export function TelegramContextMenu({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.1)",
+    backgroundColor: 'rgba(0,0,0,0.1)',
   },
   menu: {
     minWidth: 180,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   item: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
     minHeight: 48,
@@ -172,13 +194,11 @@ const styles = StyleSheet.create({
   itemIcon: {
     marginRight: 12,
     width: 20,
-    alignItems: "center",
+    alignItems: 'center',
   },
   itemLabel: {
     fontSize: 15,
-    fontWeight: "500",
+    fontWeight: '500',
     lineHeight: 20,
   },
 });
-
-

@@ -8,12 +8,12 @@
 
 ## When to use which
 
-| Concern | Prefer |
-|-----------|--------|
-| Business rules | Unit tests close to the code |
-| SQL/ORM correctness | Integration with real DB or Testcontainers |
-| HTTP contract between services | Contract tests or integration tests |
-| User flows, checkout, auth | Targeted e2e; not every variation |
+| Concern                        | Prefer                                     |
+| ------------------------------ | ------------------------------------------ |
+| Business rules                 | Unit tests close to the code               |
+| SQL/ORM correctness            | Integration with real DB or Testcontainers |
+| HTTP contract between services | Contract tests or integration tests        |
+| User flows, checkout, auth     | Targeted e2e; not every variation          |
 
 ## Risk-based testing
 

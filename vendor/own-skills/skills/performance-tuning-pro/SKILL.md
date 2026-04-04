@@ -18,9 +18,9 @@ Use official [MDN Performance APIs](https://developer.mozilla.org/en-US/docs/Web
 
 ## Related skills (this repo)
 
-| Skill | When to combine |
-|-------|------------------|
-| `testing-pro` | Build regression tests/checks so performance gains are stable over time. |
+| Skill              | When to combine                                                               |
+| ------------------ | ----------------------------------------------------------------------------- |
+| `testing-pro`      | Build regression tests/checks so performance gains are stable over time.      |
 | `repo-tooling-pro` | Use repo scripts for automated benchmarks, diagnostics, and validation loops. |
 
 ## When to use
@@ -74,10 +74,10 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 Use these files for deeper detail when concise guidance in this file is not enough.
 
-| Topic | File |
-|-------|------|
+| Topic                             | File                                                           |
+| --------------------------------- | -------------------------------------------------------------- |
 | Practical performance tips/tricks | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| High-risk performance edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| High-risk performance edge cases  | [references/edge-cases.md](references/edge-cases.md)           |
 
 ## Quick example
 

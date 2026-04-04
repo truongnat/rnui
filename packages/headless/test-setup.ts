@@ -1,5 +1,5 @@
-import React from "react";
-import { mock } from "bun:test";
+import React from 'react';
+import { mock } from 'bun:test';
 
 const createMockComponent = (name: string) => {
   const Component = ({ children, ...props }: any) =>
@@ -28,7 +28,10 @@ const createReanimatedMock = () => {
     useAnimatedRef: () => ({ current: null }),
     useWorkletCallback: (fn: any) => fn,
     useFrameCallback: () => {},
-    useAnimatedKeyboard: () => ({ height: animatedValue, state: animatedValue }),
+    useAnimatedKeyboard: () => ({
+      height: animatedValue,
+      state: animatedValue,
+    }),
     useAnimatedSensor: () => ({ sensor: animatedValue }),
     useScrollViewOffset: () => animatedValue,
 
@@ -46,32 +49,32 @@ const createReanimatedMock = () => {
     makeShareable: (v: any) => v,
 
     createAnimatedComponent: (c: any) => c,
-    View: createAnimatedComponent("Reanimated.View"),
-    Text: createAnimatedComponent("Reanimated.Text"),
-    ScrollView: createAnimatedComponent("Reanimated.ScrollView"),
-    Image: createAnimatedComponent("Reanimated.Image"),
-    FlatList: createAnimatedComponent("Reanimated.FlatList"),
+    View: createAnimatedComponent('Reanimated.View'),
+    Text: createAnimatedComponent('Reanimated.Text'),
+    ScrollView: createAnimatedComponent('Reanimated.ScrollView'),
+    Image: createAnimatedComponent('Reanimated.Image'),
+    FlatList: createAnimatedComponent('Reanimated.FlatList'),
 
     interpolate: (_v: any, _input: any, output: any) => output[0],
     interpolateColor: (_v: any, _input: any, output: any) => output[0],
     Extrapolation: {
-      CLAMP: "clamp",
-      EXTEND: "extend",
-      IDENTITY: "identity",
+      CLAMP: 'clamp',
+      EXTEND: 'extend',
+      IDENTITY: 'identity',
     },
     Extrapolate: {
-      CLAMP: "clamp",
-      EXTEND: "extend",
-      IDENTITY: "identity",
+      CLAMP: 'clamp',
+      EXTEND: 'extend',
+      IDENTITY: 'identity',
     },
   };
 
   const defaultExport = {
-    View: createAnimatedComponent("Reanimated.View"),
-    Text: createAnimatedComponent("Reanimated.Text"),
-    ScrollView: createAnimatedComponent("Reanimated.ScrollView"),
-    Image: createAnimatedComponent("Reanimated.Image"),
-    FlatList: createAnimatedComponent("Reanimated.FlatList"),
+    View: createAnimatedComponent('Reanimated.View'),
+    Text: createAnimatedComponent('Reanimated.Text'),
+    ScrollView: createAnimatedComponent('Reanimated.ScrollView'),
+    Image: createAnimatedComponent('Reanimated.Image'),
+    FlatList: createAnimatedComponent('Reanimated.FlatList'),
     createAnimatedComponent: (c: any) => c,
   };
 
@@ -113,7 +116,7 @@ const createGestureHandlerMock = () => {
 
   return {
     GestureDetector,
-    GestureHandlerRootView: createMockComponent("GestureHandlerRootView"),
+    GestureHandlerRootView: createMockComponent('GestureHandlerRootView'),
     Gesture: {
       Tap: createGestureBuilder,
       Pan: createGestureBuilder,
@@ -146,21 +149,21 @@ const createGestureHandlerMock = () => {
   };
 };
 
-mock.module("react-native", () => ({
-  View: createMockComponent("View"),
-  Text: createMockComponent("Text"),
-  Image: createMockComponent("Image"),
-  ScrollView: createMockComponent("ScrollView"),
-  FlatList: createMockComponent("FlatList"),
-  SectionList: createMockComponent("SectionList"),
-  TextInput: createMockComponent("TextInput"),
-  TouchableOpacity: createMockComponent("TouchableOpacity"),
-  TouchableHighlight: createMockComponent("TouchableHighlight"),
-  TouchableWithoutFeedback: createMockComponent("TouchableWithoutFeedback"),
-  Pressable: createMockComponent("Pressable"),
-  Modal: createMockComponent("Modal"),
-  ActivityIndicator: createMockComponent("ActivityIndicator"),
-  Switch: createMockComponent("Switch"),
+mock.module('react-native', () => ({
+  View: createMockComponent('View'),
+  Text: createMockComponent('Text'),
+  Image: createMockComponent('Image'),
+  ScrollView: createMockComponent('ScrollView'),
+  FlatList: createMockComponent('FlatList'),
+  SectionList: createMockComponent('SectionList'),
+  TextInput: createMockComponent('TextInput'),
+  TouchableOpacity: createMockComponent('TouchableOpacity'),
+  TouchableHighlight: createMockComponent('TouchableHighlight'),
+  TouchableWithoutFeedback: createMockComponent('TouchableWithoutFeedback'),
+  Pressable: createMockComponent('Pressable'),
+  Modal: createMockComponent('Modal'),
+  ActivityIndicator: createMockComponent('ActivityIndicator'),
+  Switch: createMockComponent('Switch'),
 
   StyleSheet: {
     create: (styles: any) => styles,
@@ -169,8 +172,8 @@ mock.module("react-native", () => ({
   },
 
   Platform: {
-    OS: "ios",
-    Version: "17.0",
+    OS: 'ios',
+    Version: '17.0',
     select: (obj: any) => obj.ios || obj.default,
   },
 
@@ -180,15 +183,19 @@ mock.module("react-native", () => ({
   },
 
   Animated: {
-    View: createMockComponent("Animated.View"),
-    Text: createMockComponent("Animated.Text"),
-    Image: createMockComponent("Animated.Image"),
-    ScrollView: createMockComponent("Animated.ScrollView"),
-    FlatList: createMockComponent("Animated.FlatList"),
+    View: createMockComponent('Animated.View'),
+    Text: createMockComponent('Animated.Text'),
+    Image: createMockComponent('Animated.Image'),
+    ScrollView: createMockComponent('Animated.ScrollView'),
+    FlatList: createMockComponent('Animated.FlatList'),
     Value: class {
       constructor(public value: number) {}
-      setValue(v: number) { this.value = v; }
-      interpolate() { return this; }
+      setValue(v: number) {
+        this.value = v;
+      }
+      interpolate() {
+        return this;
+      }
     },
     timing: () => ({ start: (cb?: any) => cb?.() }),
     spring: () => ({ start: (cb?: any) => cb?.() }),
@@ -216,12 +223,17 @@ mock.module("react-native", () => ({
   },
 
   Appearance: {
-    getColorScheme: () => "light",
+    getColorScheme: () => 'light',
     addChangeListener: () => ({ remove: () => {} }),
   },
 
-  useColorScheme: () => "light",
-  useWindowDimensions: () => ({ width: 375, height: 812, scale: 2, fontScale: 1 }),
+  useColorScheme: () => 'light',
+  useWindowDimensions: () => ({
+    width: 375,
+    height: 812,
+    scale: 2,
+    fontScale: 1,
+  }),
 
   PixelRatio: {
     get: () => 2,
@@ -236,9 +248,9 @@ mock.module("react-native", () => ({
   },
 }));
 
-mock.module("react-native-reanimated", () => createReanimatedMock());
-mock.module("react-native-gesture-handler", () => createGestureHandlerMock());
-mock.module("react-native-worklets", () => ({
+mock.module('react-native-reanimated', () => createReanimatedMock());
+mock.module('react-native-gesture-handler', () => createGestureHandlerMock());
+mock.module('react-native-worklets', () => ({
   Worklets: {
     createRunOnJS: (fn: any) => fn,
     createRunOnUI: (fn: any) => fn,
@@ -264,13 +276,15 @@ global.cancelAnimationFrame = (id: any) => clearTimeout(id);
 const shouldSuppressTestWarning = (args: unknown[]) =>
   args.some(
     (arg) =>
-      typeof arg === "string" &&
-      (
-        /react-test-renderer is deprecated/i.test(arg) ||
+      typeof arg === 'string' &&
+      (/react-test-renderer is deprecated/i.test(arg) ||
         /not wrapped in act/i.test(arg) ||
-        /When testing, code that causes React state updates should be wrapped into act/i.test(arg) ||
-        /This ensures that you're testing the behavior the user would see in the browser/i.test(arg)
-      )
+        /When testing, code that causes React state updates should be wrapped into act/i.test(
+          arg
+        ) ||
+        /This ensures that you're testing the behavior the user would see in the browser/i.test(
+          arg
+        ))
   );
 
 const originalConsoleError = console.error.bind(console);

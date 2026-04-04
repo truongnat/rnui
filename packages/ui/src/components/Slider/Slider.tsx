@@ -1,15 +1,15 @@
-import React, { useMemo } from "react";
-import { View, Text, TextInput, type TextStyle } from "react-native";
-import Animated, { useAnimatedProps } from "react-native-reanimated";
-import { GestureDetector } from "react-native-gesture-handler";
-import { useSlider, useTokens, useComponentTokens } from "@truongdq01/headless";
+import React, { useMemo } from 'react';
+import { View, Text, TextInput, type TextStyle } from 'react-native';
+import Animated, { useAnimatedProps } from 'react-native-reanimated';
+import { GestureDetector } from 'react-native-gesture-handler';
+import { useSlider, useTokens, useComponentTokens } from '@truongdq01/headless';
 import type {
   UseSliderOptions,
   UseSliderOptionsRange,
   UseSliderOptionsSingle,
   UseSliderReturnRange,
   UseSliderReturnSingle,
-} from "@truongdq01/headless";
+} from '@truongdq01/headless';
 
 type SliderUiProps = {
   label?: string;
@@ -23,7 +23,7 @@ type SliderUiProps = {
   sliderHeight?: number;
   /** Replace default thumb circle */
   thumbRenderer?: (args: {
-    kind: "single" | "low" | "high";
+    kind: 'single' | 'low' | 'high';
     value: number;
   }) => React.ReactNode;
 };
@@ -35,18 +35,23 @@ export type SliderProps =
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 /** Worklet snap (mirrors headless `snapRatioWorklet` for live labels). */
-function snapSliderValueWorklet(raw: number, minV: number, maxV: number, stepV: number): number {
-  "worklet";
+function snapSliderValueWorklet(
+  raw: number,
+  minV: number,
+  maxV: number,
+  stepV: number
+): number {
+  'worklet';
   if (stepV === 0 || maxV === minV) return Math.max(minV, Math.min(maxV, raw));
   const snapped = Math.round((raw - minV) / stepV) * stepV + minV;
   return Math.max(minV, Math.min(maxV, snapped));
 }
 
-type LiveValueStyle = Pick<TextStyle, "fontSize" | "fontWeight" | "color">;
+type LiveValueStyle = Pick<TextStyle, 'fontSize' | 'fontWeight' | 'color'>;
 
 function SliderLiveSingleValue(props: {
   show: boolean;
-  thumbRatioShared: UseSliderReturnSingle["thumbRatioShared"];
+  thumbRatioShared: UseSliderReturnSingle['thumbRatioShared'];
   min: number;
   max: number;
   step: number;
@@ -72,7 +77,7 @@ function SliderLiveSingleValue(props: {
         padding: 0,
         margin: 0,
         minWidth: 40,
-        textAlign: "right",
+        textAlign: 'right',
       }}
     />
   );
@@ -80,14 +85,22 @@ function SliderLiveSingleValue(props: {
 
 function SliderLiveRangeValue(props: {
   show: boolean;
-  thumbRatioLowShared: UseSliderReturnRange["thumbRatioLowShared"];
-  thumbRatioHighShared: UseSliderReturnRange["thumbRatioHighShared"];
+  thumbRatioLowShared: UseSliderReturnRange['thumbRatioLowShared'];
+  thumbRatioHighShared: UseSliderReturnRange['thumbRatioHighShared'];
   min: number;
   max: number;
   step: number;
   style: LiveValueStyle;
 }) {
-  const { show, thumbRatioLowShared, thumbRatioHighShared, min, max, step, style } = props;
+  const {
+    show,
+    thumbRatioLowShared,
+    thumbRatioHighShared,
+    min,
+    max,
+    step,
+    style,
+  } = props;
   const animatedProps = useAnimatedProps(() => {
     const rawLo = thumbRatioLowShared.value * (max - min) + min;
     const rawHi = thumbRatioHighShared.value * (max - min) + min;
@@ -109,7 +122,7 @@ function SliderLiveRangeValue(props: {
         padding: 0,
         margin: 0,
         minWidth: 56,
-        textAlign: "right",
+        textAlign: 'right',
       }}
     />
   );
@@ -126,13 +139,13 @@ export function Slider({
   min = 0,
   max = 100,
   step = 1,
-  orientation = "horizontal",
+  orientation = 'horizontal',
   range = false,
   ...rest
 }: SliderProps) {
   const tokens = useTokens();
   const { slider } = useComponentTokens();
-  const isVertical = orientation === "vertical";
+  const isVertical = orientation === 'vertical';
 
   const sliderState = useSlider({
     min,
@@ -147,7 +160,10 @@ export function Slider({
 
   const marks =
     showMarks && step > 0
-      ? Array.from({ length: Math.floor((max - min) / step) + 1 }, (_, i) => i * step + min)
+      ? Array.from(
+          { length: Math.floor((max - min) / step) + 1 },
+          (_, i) => i * step + min
+        )
       : [];
 
   const liveValueStyle = useMemo(
@@ -170,14 +186,14 @@ export function Slider({
   const thumbShellStyle = useMemo(() => {
     const chrome = thumbRenderer
       ? {
-          backgroundColor: "transparent" as const,
+          backgroundColor: 'transparent' as const,
           borderWidth: 0,
-          borderColor: "transparent" as const,
+          borderColor: 'transparent' as const,
           elevation: 0,
           shadowOpacity: 0,
           shadowRadius: 0,
           shadowOffset: { width: 0, height: 0 } as const,
-          shadowColor: "transparent" as const,
+          shadowColor: 'transparent' as const,
         }
       : {
           backgroundColor: slider.thumb.bg,
@@ -190,26 +206,24 @@ export function Slider({
           elevation: slider.thumb.elevation,
         };
     return {
-      position: "absolute" as const,
+      position: 'absolute' as const,
       width: thumbW,
       height: thumbH,
       borderRadius: slider.thumb.borderRadius,
       ...chrome,
       ...(isVertical
-        ? { left: "50%" as const, marginLeft: -thumbW / 2, top: (-thumbH / 2) as number }
+        ? {
+            left: '50%' as const,
+            marginLeft: -thumbW / 2,
+            top: (-thumbH / 2) as number,
+          }
         : { left: (-thumbW / 2) as number, top: undefined as undefined }),
     };
-  }, [
-    thumbRenderer,
-    isVertical,
-    thumbW,
-    thumbH,
-    slider.thumb,
-  ]);
+  }, [thumbRenderer, isVertical, thumbW, thumbH, slider.thumb]);
 
   function renderThumb(
     animatedStyle: object,
-    kind: "single" | "low" | "high",
+    kind: 'single' | 'low' | 'high',
     value: number
   ) {
     const custom = thumbRenderer?.({ kind, value });
@@ -220,7 +234,7 @@ export function Slider({
     );
   }
 
-  if (sliderState.mode === "range") {
+  if (sliderState.mode === 'range') {
     const {
       currentValue,
       thumbRatioLowShared,
@@ -239,9 +253,21 @@ export function Slider({
     return (
       <View style={{ opacity: d ? slider.disabledOpacity : 1 }}>
         {(label || showValue) && (
-          <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[2] }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginBottom: tokens.spacing[2],
+            }}
+          >
             {label && (
-              <Text style={{ fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary }}>
+              <Text
+                style={{
+                  fontSize: tokens.fontSize.sm,
+                  fontWeight: tokens.fontWeight.medium,
+                  color: tokens.color.text.secondary,
+                }}
+              >
                 {label}
               </Text>
             )}
@@ -260,40 +286,56 @@ export function Slider({
         )}
 
         <Animated.View
-          style={[
-            {
-              paddingVertical: isVertical ? 0 : trackPad,
-              paddingHorizontal: isVertical ? trackPad : 0,
-            },
-            trackAnimatedStyle,
-          ] as any}
+          style={
+            [
+              {
+                paddingVertical: isVertical ? 0 : trackPad,
+                paddingHorizontal: isVertical ? trackPad : 0,
+              },
+              trackAnimatedStyle,
+            ] as any
+          }
         >
           <View
             style={
               isVertical
-                ? { width: thumbW + trackPad * 2, height: sliderHeight, justifyContent: "center" }
-                : { height: thumbH + trackPad * 2, justifyContent: "center" }
+                ? {
+                    width: thumbW + trackPad * 2,
+                    height: sliderHeight,
+                    justifyContent: 'center',
+                  }
+                : { height: thumbH + trackPad * 2, justifyContent: 'center' }
             }
             onLayout={(e) =>
-              onTrackLayout(isVertical ? e.nativeEvent.layout.height : e.nativeEvent.layout.width)
+              onTrackLayout(
+                isVertical
+                  ? e.nativeEvent.layout.height
+                  : e.nativeEvent.layout.width
+              )
             }
           >
             <View
               style={{
-                position: "absolute",
+                position: 'absolute',
                 ...(isVertical
-                  ? { top: 0, bottom: 0, left: "50%", marginLeft: -trackThickness / 2, width: trackThickness }
+                  ? {
+                      top: 0,
+                      bottom: 0,
+                      left: '50%',
+                      marginLeft: -trackThickness / 2,
+                      width: trackThickness,
+                    }
                   : { left: 0, right: 0, height: trackThickness }),
                 borderRadius: slider.track.borderRadius,
                 backgroundColor: slider.track.bgOff,
-                overflow: "hidden",
+                overflow: 'hidden',
               }}
             >
               <Animated.View
                 style={
                   [
                     {
-                      height: isVertical ? "100%" : slider.track.height,
+                      height: isVertical ? '100%' : slider.track.height,
                       backgroundColor: slider.track.bgOn,
                       borderRadius: slider.track.borderRadius,
                     },
@@ -312,13 +354,15 @@ export function Slider({
                   <View
                     key={mark}
                     style={{
-                      position: "absolute",
+                      position: 'absolute',
                       left: `${markPct * 100}%`,
                       width: 4,
                       height: 4,
                       borderRadius: 2,
                       marginLeft: -2,
-                      backgroundColor: isActive ? slider.track.bgOn : tokens.color.border.strong,
+                      backgroundColor: isActive
+                        ? slider.track.bgOn
+                        : tokens.color.border.strong,
                       top: (thumbH - 4) / 2 + trackPad,
                     }}
                   />
@@ -326,18 +370,38 @@ export function Slider({
               })}
 
             <GestureDetector gesture={panGestureLow}>
-              {renderThumb(thumbLowAnimatedStyle, "low", lo)}
+              {renderThumb(thumbLowAnimatedStyle, 'low', lo)}
             </GestureDetector>
             <GestureDetector gesture={panGestureHigh}>
-              {renderThumb(thumbHighAnimatedStyle, "high", hi)}
+              {renderThumb(thumbHighAnimatedStyle, 'high', hi)}
             </GestureDetector>
           </View>
         </Animated.View>
 
         {showRangeLabels && (
-          <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: -tokens.spacing[1] }}>
-            <Text style={{ fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary }}>{formatValue(min)}</Text>
-            <Text style={{ fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary }}>{formatValue(max)}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: -tokens.spacing[1],
+            }}
+          >
+            <Text
+              style={{
+                fontSize: tokens.fontSize.xs,
+                color: tokens.color.text.tertiary,
+              }}
+            >
+              {formatValue(min)}
+            </Text>
+            <Text
+              style={{
+                fontSize: tokens.fontSize.xs,
+                color: tokens.color.text.tertiary,
+              }}
+            >
+              {formatValue(max)}
+            </Text>
           </View>
         )}
       </View>
@@ -358,9 +422,21 @@ export function Slider({
   return (
     <View style={{ opacity: disabled ? slider.disabledOpacity : 1 }}>
       {(label || showValue) && (
-        <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[2] }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: tokens.spacing[2],
+          }}
+        >
           {label && (
-            <Text style={{ fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary }}>
+            <Text
+              style={{
+                fontSize: tokens.fontSize.sm,
+                fontWeight: tokens.fontWeight.medium,
+                color: tokens.color.text.secondary,
+              }}
+            >
               {label}
             </Text>
           )}
@@ -378,41 +454,57 @@ export function Slider({
       )}
 
       <Animated.View
-        style={[
-          {
-            paddingVertical: isVertical ? 0 : trackPad,
-            paddingHorizontal: isVertical ? trackPad : 0,
-          },
-          trackAnimatedStyle,
-        ] as any}
+        style={
+          [
+            {
+              paddingVertical: isVertical ? 0 : trackPad,
+              paddingHorizontal: isVertical ? trackPad : 0,
+            },
+            trackAnimatedStyle,
+          ] as any
+        }
       >
         <GestureDetector gesture={panGesture}>
           <View
             style={
               isVertical
-                ? { width: thumbW + trackPad * 2, height: sliderHeight, justifyContent: "center" }
-                : { height: thumbH + trackPad * 2, justifyContent: "center" }
+                ? {
+                    width: thumbW + trackPad * 2,
+                    height: sliderHeight,
+                    justifyContent: 'center',
+                  }
+                : { height: thumbH + trackPad * 2, justifyContent: 'center' }
             }
             onLayout={(e) =>
-              onTrackLayout(isVertical ? e.nativeEvent.layout.height : e.nativeEvent.layout.width)
+              onTrackLayout(
+                isVertical
+                  ? e.nativeEvent.layout.height
+                  : e.nativeEvent.layout.width
+              )
             }
           >
             <View
               style={{
-                position: "absolute",
+                position: 'absolute',
                 ...(isVertical
-                  ? { top: 0, bottom: 0, left: "50%", marginLeft: -trackThickness / 2, width: trackThickness }
+                  ? {
+                      top: 0,
+                      bottom: 0,
+                      left: '50%',
+                      marginLeft: -trackThickness / 2,
+                      width: trackThickness,
+                    }
                   : { left: 0, right: 0, height: trackThickness }),
                 borderRadius: slider.track.borderRadius,
                 backgroundColor: slider.track.bgOff,
-                overflow: "hidden",
+                overflow: 'hidden',
               }}
             >
               <Animated.View
                 style={
                   [
                     {
-                      height: isVertical ? "100%" : slider.track.height,
+                      height: isVertical ? '100%' : slider.track.height,
                       backgroundColor: slider.track.bgOn,
                       borderRadius: slider.track.borderRadius,
                     },
@@ -431,28 +523,50 @@ export function Slider({
                   <View
                     key={mark}
                     style={{
-                      position: "absolute",
+                      position: 'absolute',
                       left: `${markPct * 100}%`,
                       width: 4,
                       height: 4,
                       borderRadius: 2,
                       marginLeft: -2,
-                      backgroundColor: isActive ? slider.track.bgOn : tokens.color.border.strong,
+                      backgroundColor: isActive
+                        ? slider.track.bgOn
+                        : tokens.color.border.strong,
                       top: (thumbH - 4) / 2 + trackPad,
                     }}
                   />
                 );
               })}
 
-            {renderThumb(thumbAnimatedStyle, "single", currentValue)}
+            {renderThumb(thumbAnimatedStyle, 'single', currentValue)}
           </View>
         </GestureDetector>
       </Animated.View>
 
       {showRangeLabels && (
-        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: -tokens.spacing[1] }}>
-          <Text style={{ fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary }}>{formatValue(min)}</Text>
-          <Text style={{ fontSize: tokens.fontSize.xs, color: tokens.color.text.tertiary }}>{formatValue(max)}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: -tokens.spacing[1],
+          }}
+        >
+          <Text
+            style={{
+              fontSize: tokens.fontSize.xs,
+              color: tokens.color.text.tertiary,
+            }}
+          >
+            {formatValue(min)}
+          </Text>
+          <Text
+            style={{
+              fontSize: tokens.fontSize.xs,
+              color: tokens.color.text.tertiary,
+            }}
+          >
+            {formatValue(max)}
+          </Text>
         </View>
       )}
     </View>

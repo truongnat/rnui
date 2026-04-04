@@ -19,11 +19,11 @@ Use official [Git documentation](https://git-scm.com/doc) for exact flags; this 
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `git-operations-pro` |
-|-------|------------------------------------------|
-| **`testing-pro`** | **CI** runs tests on PR — **not** the same as local commit style |
-| **`security-pro`** | **Secrets**, **signing**, **supply chain**; never commit credentials |
-| **`deployment-pro`** | **Tag** / **release** cadence vs **Git** tags; **promotion** after merge |
+| Skill                    | When to combine with `git-operations-pro`                                                 |
+| ------------------------ | ----------------------------------------------------------------------------------------- |
+| **`testing-pro`**        | **CI** runs tests on PR — **not** the same as local commit style                          |
+| **`security-pro`**       | **Secrets**, **signing**, **supply chain**; never commit credentials                      |
+| **`deployment-pro`**     | **Tag** / **release** cadence vs **Git** tags; **promotion** after merge                  |
 | **`code-packaging-pro`** | **GitHub Actions** YAML — **when** the ask is **workflow** syntax, not **merge** strategy |
 
 **Boundary:** **`git-operations-pro`** = **version control** habits; **`deployment-pro`** = **where** code runs after merge.
@@ -87,12 +87,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — commits, collaboration, tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| Commits & branching | [references/commits-and-branching.md](references/commits-and-branching.md) |
+| Topic                  | File                                                                             |
+| ---------------------- | -------------------------------------------------------------------------------- |
+| Commits & branching    | [references/commits-and-branching.md](references/commits-and-branching.md)       |
 | Collaboration & safety | [references/collaboration-and-safety.md](references/collaboration-and-safety.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips                   | [references/tips-and-tricks.md](references/tips-and-tricks.md)                   |
+| Edge cases             | [references/edge-cases.md](references/edge-cases.md)                             |
 
 ## Quick example
 

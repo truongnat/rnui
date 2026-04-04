@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 export interface UseSkeletonOptions {
   isLoaded: boolean;
@@ -30,15 +30,20 @@ export function useSkeleton(options: UseSkeletonOptions): UseSkeletonReturn {
     }
   }, [isLoaded]);
 
-  const getStaggerDelay = useCallback((index: number) => {
-    return index * staggerDelay;
-  }, [staggerDelay]);
+  const getStaggerDelay = useCallback(
+    (index: number) => {
+      return index * staggerDelay;
+    },
+    [staggerDelay]
+  );
 
-  const animationStyle = isLoading ? {
-    opacity: 1,
-  } : {
-    opacity: 1,
-  };
+  const animationStyle = isLoading
+    ? {
+        opacity: 1,
+      }
+    : {
+        opacity: 1,
+      };
 
   return {
     isLoading,

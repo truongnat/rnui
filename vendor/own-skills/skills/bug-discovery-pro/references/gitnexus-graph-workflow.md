@@ -9,14 +9,14 @@ Use this when **GitNexus** is available: indexed repo + **MCP server `user-gitne
 
 ## MCP tools (typical order for bug hunting)
 
-| Tool | Use for bug discovery |
-|------|------------------------|
-| **`query`** | Natural-language or keyword search for **execution flows** related to a symptom, feature, or error string — surfaces processes and symbols. |
-| **`context`** | **360°** view of a symbol after `query`: callers, callees, disambiguation via `file_path` or `uid`. |
-| **`impact`** | **Blast radius** upstream/downstream of a symbol — find **related** breakage when one bug hints at shared code. |
-| **`api_impact`** | Before or after suspecting an **API route** bug — consumers, middleware, response-shape risk. |
-| **`shape_check`** | **Response shape vs consumer** key access — mismatch can be a latent bug. |
-| **`detect_changes`** | Map **git diff** to affected processes — good before commit to see what might break. |
+| Tool                 | Use for bug discovery                                                                                                                       |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`query`**          | Natural-language or keyword search for **execution flows** related to a symptom, feature, or error string — surfaces processes and symbols. |
+| **`context`**        | **360°** view of a symbol after `query`: callers, callees, disambiguation via `file_path` or `uid`.                                         |
+| **`impact`**         | **Blast radius** upstream/downstream of a symbol — find **related** breakage when one bug hints at shared code.                             |
+| **`api_impact`**     | Before or after suspecting an **API route** bug — consumers, middleware, response-shape risk.                                               |
+| **`shape_check`**    | **Response shape vs consumer** key access — mismatch can be a latent bug.                                                                   |
+| **`detect_changes`** | Map **git diff** to affected processes — good before commit to see what might break.                                                        |
 
 Optional: **`cypher`**, **`route_map`**, **`rename`**, **`tool_map`** — follow GitNexus docs for advanced graph queries.
 

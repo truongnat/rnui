@@ -1,5 +1,5 @@
-import React, { createContext, useContext } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import React, { createContext, useContext } from 'react';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -7,9 +7,9 @@ import Animated, {
   withTiming,
   interpolateColor,
   interpolate,
-} from "react-native-reanimated";
-import { useTokens, useComponentTokens } from "@truongdq01/headless";
-import { Badge } from "../Badge";
+} from 'react-native-reanimated';
+import { useTokens, useComponentTokens } from '@truongdq01/headless';
+import { Badge } from '../Badge';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -50,7 +50,9 @@ export function TelegramTabBar<T = string>({
   const tokens = useTokens();
   const { bottomNavigation } = useComponentTokens();
 
-  const [internalValue, setInternalValue] = React.useState<T | undefined>(defaultValue);
+  const [internalValue, setInternalValue] = React.useState<T | undefined>(
+    defaultValue
+  );
   const value = controlledValue !== undefined ? controlledValue : internalValue;
 
   const isSelected = (itemValue: T) => value === itemValue;
@@ -98,7 +100,9 @@ export function TelegramTab<T = string>({
   disabled = false,
 }: TelegramTabProps<T>) {
   const tokens = useTokens();
-  const ctx = useContext(TabBarContext as React.Context<TabBarContextValue<T> | null>);
+  const ctx = useContext(
+    TabBarContext as React.Context<TabBarContextValue<T> | null>
+  );
   if (!ctx) return null;
 
   const selected = ctx.isSelected(value);
@@ -150,8 +154,8 @@ export function TelegramTab<T = string>({
 
         {badge !== undefined && badge !== false && (
           <Badge
-            count={typeof badge === "boolean" ? undefined : (badge as number)}
-            dot={typeof badge === "boolean"}
+            count={typeof badge === 'boolean' ? undefined : (badge as number)}
+            dot={typeof badge === 'boolean'}
             style={styles.badge}
           />
         )}
@@ -161,7 +165,13 @@ export function TelegramTab<T = string>({
         {label}
       </Animated.Text>
 
-      <Animated.View style={[styles.activeDot, dotStyle, { backgroundColor: tokens.color.brand.default }]} />
+      <Animated.View
+        style={[
+          styles.activeDot,
+          dotStyle,
+          { backgroundColor: tokens.color.brand.default },
+        ]}
+      />
     </Pressable>
   );
 }
@@ -170,9 +180,9 @@ export function TelegramTab<T = string>({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     paddingHorizontal: 8,
     paddingVertical: 6,
     paddingBottom: 6,
@@ -180,24 +190,24 @@ const styles = StyleSheet.create({
   },
   tabItem: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 4,
     paddingHorizontal: 8,
     minHeight: 48,
   },
   iconContainer: {
-    position: "relative",
+    position: 'relative',
     marginBottom: 2,
   },
   badge: {
-    position: "absolute",
+    position: 'absolute',
     top: -4,
     right: -12,
   },
   tabLabel: {
     fontSize: 11,
-    fontWeight: "500",
+    fontWeight: '500',
     lineHeight: 14,
     marginTop: 2,
   },
@@ -208,5 +218,3 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 });
-
-

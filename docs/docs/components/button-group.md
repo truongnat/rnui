@@ -5,13 +5,13 @@ Group related buttons together.
 ## Usage
 
 ```tsx
-import { ButtonGroup, Button } from "@truongdq01/ui";
+import { ButtonGroup, Button } from '@truongdq01/ui';
 
 <ButtonGroup variant="outlined">
   <Button>Left</Button>
   <Button>Center</Button>
   <Button>Right</Button>
-</ButtonGroup>
+</ButtonGroup>;
 ```
 
 ## Notes

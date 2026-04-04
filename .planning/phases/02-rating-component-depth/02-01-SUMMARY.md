@@ -1,6 +1,6 @@
 ---
 phase: 02-rating-component-depth
-plan: "02-01"
+plan: '02-01'
 subsystem: ui
 tags: [react-native, typescript, reanimated, a11y, tokens]
 
@@ -13,8 +13,8 @@ affects: [phase-03-perf-edges]
 tech-stack:
   added: []
   patterns:
-    - "announceForAccessibility guarded with typeof === \"function\" for test/RN stubs"
-    - "RatingStarButton subcomponent for per-star Reanimated scale + accessible={false}"
+    - 'announceForAccessibility guarded with typeof === "function" for test/RN stubs'
+    - 'RatingStarButton subcomponent for per-star Reanimated scale + accessible={false}'
 
 key-files:
   created: []
@@ -25,8 +25,8 @@ key-files:
     - packages/tokens/src/component.d.ts
 
 key-decisions:
-  - "Single adjustable wrapper + increment/decrement via onAccessibilityAction"
-  - "English announce string + TODO i18n"
+  - 'Single adjustable wrapper + increment/decrement via onAccessibilityAction'
+  - 'English announce string + TODO i18n'
 
 patterns-established: []
 

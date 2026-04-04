@@ -9,7 +9,7 @@ A smooth, GPU-accelerated scrolling text component for React Native, perfect for
 ### Usage
 
 ```tsx
-import { Marquee } from "@truongdq01/ui";
+import { Marquee } from '@truongdq01/ui';
 
 function NewsTicker() {
   return (
@@ -29,19 +29,19 @@ function NewsTicker() {
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Content to scroll |
-| `speed` | `number` | `50` | Pixels per second animation speed |
-| `direction` | `"left" \| "right" \| "up" \| "down"` | `"left"` | Scroll direction |
-| `loop` | `boolean` | `true` | Infinite loop or single pass |
-| `pauseOnHover` | `boolean` | `false` | Pause on touch (for web compatibility) |
-| `pauseOnPress` | `boolean` | `false` | Pause on press |
-| `delay` | `number` | `0` | Delay before starting (ms) |
-| `fadeEdges` | `boolean` | `true` | Gradient fade at edges |
-| `fadeColor` | `string` | - | Custom fade color |
-| `accessibilityLabel` | `string` | - | Screen reader label |
-| `testID` | `string` | - | Test identifier |
+| Prop                 | Type                                  | Default  | Description                            |
+| -------------------- | ------------------------------------- | -------- | -------------------------------------- |
+| `children`           | `ReactNode`                           | -        | Content to scroll                      |
+| `speed`              | `number`                              | `50`     | Pixels per second animation speed      |
+| `direction`          | `"left" \| "right" \| "up" \| "down"` | `"left"` | Scroll direction                       |
+| `loop`               | `boolean`                             | `true`   | Infinite loop or single pass           |
+| `pauseOnHover`       | `boolean`                             | `false`  | Pause on touch (for web compatibility) |
+| `pauseOnPress`       | `boolean`                             | `false`  | Pause on press                         |
+| `delay`              | `number`                              | `0`      | Delay before starting (ms)             |
+| `fadeEdges`          | `boolean`                             | `true`   | Gradient fade at edges                 |
+| `fadeColor`          | `string`                              | -        | Custom fade color                      |
+| `accessibilityLabel` | `string`                              | -        | Screen reader label                    |
+| `testID`             | `string`                              | -        | Test identifier                        |
 
 ### Performance & Accessibility
 
@@ -59,24 +59,24 @@ A comprehensive form management system with validation, state handling, and keyb
 ### Usage
 
 ```tsx
-import { Form, useForm } from "@truongdq01/ui";
-import { Input, Button } from "@truongdq01/ui";
+import { Form, useForm } from '@truongdq01/ui';
+import { Input, Button } from '@truongdq01/ui';
 
 function LoginForm() {
   const handleSubmit = async (values: any) => {
-    console.log("Form submitted:", values);
+    console.log('Form submitted:', values);
   };
 
   const validate = (values: any) => {
     const errors: any = {};
-    if (!values.email) errors.email = "Email required";
-    if (!values.password) errors.password = "Password required";
+    if (!values.email) errors.email = 'Email required';
+    if (!values.password) errors.password = 'Password required';
     return errors;
   };
 
   return (
     <Form
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ email: '', password: '' }}
       validate={validate}
       onSubmit={handleSubmit}
       validateOnChange={true}
@@ -100,10 +100,10 @@ function SubmitButton() {
 
   return (
     <Button
-      onPress={handleSubmit(() => console.log("Submit"))}
+      onPress={handleSubmit(() => console.log('Submit'))}
       disabled={isSubmitting || !isValid}
     >
-      {isSubmitting ? "Submitting..." : "Login"}
+      {isSubmitting ? 'Submitting...' : 'Login'}
     </Button>
   );
 }
@@ -111,31 +111,31 @@ function SubmitButton() {
 
 ### Form Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `initialValues` | `Record<string, any>` | `{}` | Initial form values |
-| `validate` | `(values) => errors` | - | Validation function |
-| `onSubmit` | `(values) => void \| Promise` | - | Submit handler |
-| `validateOnChange` | `boolean` | `true` | Validate on field change |
-| `validateOnBlur` | `boolean` | `true` | Validate on field blur |
-| `scrollable` | `boolean` | `true` | Enable ScrollView |
-| `style` | `ViewStyle` | - | Custom container styles |
-| `testID` | `string` | `"form"` | Test identifier |
+| Prop               | Type                          | Default  | Description              |
+| ------------------ | ----------------------------- | -------- | ------------------------ |
+| `initialValues`    | `Record<string, any>`         | `{}`     | Initial form values      |
+| `validate`         | `(values) => errors`          | -        | Validation function      |
+| `onSubmit`         | `(values) => void \| Promise` | -        | Submit handler           |
+| `validateOnChange` | `boolean`                     | `true`   | Validate on field change |
+| `validateOnBlur`   | `boolean`                     | `true`   | Validate on field blur   |
+| `scrollable`       | `boolean`                     | `true`   | Enable ScrollView        |
+| `style`            | `ViewStyle`                   | -        | Custom container styles  |
+| `testID`           | `string`                      | `"form"` | Test identifier          |
 
 ### useForm Hook
 
 ```tsx
 const {
-  values,        // Current form values
-  errors,        // Validation errors
-  touched,       // Touched fields
-  isSubmitting,  // Submit state
-  isValid,       // Overall validity
-  setValue,      // Update field value
-  setError,      // Set field error
-  setTouched,    // Mark field as touched
-  handleSubmit,  // Get submit handler
-  resetForm      // Reset form state
+  values, // Current form values
+  errors, // Validation errors
+  touched, // Touched fields
+  isSubmitting, // Submit state
+  isValid, // Overall validity
+  setValue, // Update field value
+  setError, // Set field error
+  setTouched, // Mark field as touched
+  handleSubmit, // Get submit handler
+  resetForm, // Reset form state
 } = useForm();
 ```
 
@@ -154,14 +154,15 @@ const {
 ### Marquee in News App
 
 ```tsx
-import { Marquee, Card } from "@truongdq01/ui";
+import { Marquee, Card } from '@truongdq01/ui';
 
 function NewsHeader() {
   return (
-    <Card style={{ height: 40, justifyContent: "center" }}>
+    <Card style={{ height: 40, justifyContent: 'center' }}>
       <Marquee speed={30} direction="left" fadeEdges={true}>
-        <Text style={{ fontWeight: "bold" }}>
-          📰 Latest: RNUI 2026 components now available! Check out the new Form and Marquee components...
+        <Text style={{ fontWeight: 'bold' }}>
+          📰 Latest: RNUI 2026 components now available! Check out the new Form
+          and Marquee components...
         </Text>
       </Marquee>
     </Card>
@@ -172,29 +173,36 @@ function NewsHeader() {
 ### Complete Registration Form
 
 ```tsx
-import { Form, useForm, Input, Button, FormField, Checkbox } from "@truongdq01/ui";
+import {
+  Form,
+  useForm,
+  Input,
+  Button,
+  FormField,
+  Checkbox,
+} from '@truongdq01/ui';
 
 function RegistrationForm() {
   const validate = (values: any) => {
     const errors: any = {};
-    if (!values.email?.includes("@")) errors.email = "Invalid email";
-    if (values.password?.length < 8) errors.password = "Min 8 characters";
-    if (!values.agree) errors.agree = "Must agree to terms";
+    if (!values.email?.includes('@')) errors.email = 'Invalid email';
+    if (values.password?.length < 8) errors.password = 'Min 8 characters';
+    if (!values.agree) errors.agree = 'Must agree to terms';
     return errors;
   };
 
   return (
     <Form
       initialValues={{
-        email: "",
-        password: "",
-        confirmPassword: "",
-        agree: false
+        email: '',
+        password: '',
+        confirmPassword: '',
+        agree: false,
       }}
       validate={validate}
       onSubmit={async (values) => {
         await api.register(values);
-        navigation.navigate("Success");
+        navigation.navigate('Success');
       }}
     >
       <FormField label="Email" error={errors.email}>
@@ -249,7 +257,7 @@ bun run test src/components/Form
 interface MarqueeProps {
   children: React.ReactNode;
   speed?: number;
-  direction?: "left" | "right" | "up" | "down";
+  direction?: 'left' | 'right' | 'up' | 'down';
   loop?: boolean;
   delay?: number;
   fadeEdges?: boolean;
@@ -294,11 +302,13 @@ interface FormContextValue {
 ## 🚀 Performance Optimizations
 
 ### Marquee
+
 - **Reanimated animations** for 60fps performance
 - **Automatic cleanup** prevents memory leaks
 - **Conditional rendering** only animates when needed
 
 ### Form
+
 - **Memoized validation** prevents unnecessary re-computations
 - **Efficient state updates** using React hooks
 - **Keyboard optimization** with ScrollView integration
@@ -322,6 +332,7 @@ All components follow RNUI accessibility standards:
 ### Build Configuration
 
 Components are built with:
+
 - **TypeScript** for type safety
 - **ES2020** target for modern RN support
 - **Tree-shaking** friendly exports
@@ -385,11 +396,13 @@ const { handleSubmit, values, errors } = useForm();
 ## 🐛 Known Issues & Limitations
 
 ### Marquee
+
 - **iOS Simulator**: Animation may stutter in debug mode
 - **Nested scrolling**: May conflict with parent ScrollViews
 - **Long content**: Extremely long content may impact performance
 
 ### Form
+
 - **Keyboard avoiding**: iOS keyboard behavior may vary by device
 - **Complex validation**: Very complex validation rules may impact performance
 - **Large forms**: Consider pagination for forms with 20+ fields
@@ -408,4 +421,4 @@ When contributing to these components:
 
 ---
 
-*These components represent RNUI's commitment to modern React Native development, bringing 2026's high-impact UI patterns to mobile applications.*
+_These components represent RNUI's commitment to modern React Native development, bringing 2026's high-impact UI patterns to mobile applications._

@@ -18,7 +18,9 @@
 
 ```css
 /* Base: narrow screens */
-.layout { padding: 1rem; }
+.layout {
+  padding: 1rem;
+}
 
 @media (min-width: 768px) {
   .layout {

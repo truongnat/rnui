@@ -5,6 +5,7 @@ Generated: 2026-03-31
 ## Summary
 
 Automated validation tools show no current hard gaps:
+
 - `python scripts/analyze_skills.py --self-review` reports no actionable automation gaps, 35 skills audited, tier distribution low/ok/exempt.
 - `python scripts/validate_skills.py` reports `OK` for SKILL frontmatter vs folder names.
 

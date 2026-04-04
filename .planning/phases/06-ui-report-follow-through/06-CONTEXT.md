@@ -23,18 +23,18 @@ Phase này **không lặp** công việc đã hoàn thành (theme toggle wiring,
 
 ## Dependencies on completed phases
 
-| Phase | Cung cấp cho Phase 6 |
-|-------|----------------------|
-| 1–4 | Theme, token, `ThemeProvider`, `useTheme`, component tokens |
-| 5 | OTP/DatePicker — không chồng lấn; example app là nơi tích hợp persistence |
+| Phase | Cung cấp cho Phase 6                                                      |
+| ----- | ------------------------------------------------------------------------- |
+| 1–4   | Theme, token, `ThemeProvider`, `useTheme`, component tokens               |
+| 5     | OTP/DatePicker — không chồng lấn; example app là nơi tích hợp persistence |
 
 ## Links to `UI_REPORT.md`
 
-| Section | Nội dung liên quan Phase 6 |
-|---------|----------------------------|
-| §6 Recommended Next Steps | Thứ tự ưu tiên High → Medium; defer Storybook/tabs |
+| Section                        | Nội dung liên quan Phase 6                          |
+| ------------------------------ | --------------------------------------------------- |
+| §6 Recommended Next Steps      | Thứ tự ưu tiên High → Medium; defer Storybook/tabs  |
 | §7 Architecture Health / Risks | Persistence, memo tokens, FlashList, snapshot tests |
-| §8 Token Quick Reference | API consumer cho ví dụ wire persistence |
+| §8 Token Quick Reference       | API consumer cho ví dụ wire persistence             |
 
 ## Success (phase-level)
 

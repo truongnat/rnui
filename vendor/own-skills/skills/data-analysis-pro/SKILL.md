@@ -19,13 +19,13 @@ Use **[pandas](https://pandas.pydata.org/docs/)** and your stack’s **official*
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `data-analysis-pro` |
-|-------|----------------------------------------|
-| **`content-analysis-pro`** | Unstructured **PDF/image/video** meaning — not pivot tables |
-| **`business-analysis-pro`** | Turn metrics into **requirements**, KPIs, or BRD sections |
-| **`postgresql-pro`** | From ad-hoc SQL to **migrations**, indexing, or RLS when the database becomes the product |
-| **`security-pro`** | Anonymization, **exports** of sensitive data, notebook sharing |
-| **`repo-tooling-pro`** | Batch **KB** queries over this repo’s Markdown — unrelated to pandas unless orchestrating scripts |
+| Skill                       | When to combine with `data-analysis-pro`                                                          |
+| --------------------------- | ------------------------------------------------------------------------------------------------- |
+| **`content-analysis-pro`**  | Unstructured **PDF/image/video** meaning — not pivot tables                                       |
+| **`business-analysis-pro`** | Turn metrics into **requirements**, KPIs, or BRD sections                                         |
+| **`postgresql-pro`**        | From ad-hoc SQL to **migrations**, indexing, or RLS when the database becomes the product         |
+| **`security-pro`**          | Anonymization, **exports** of sensitive data, notebook sharing                                    |
+| **`repo-tooling-pro`**      | Batch **KB** queries over this repo’s Markdown — unrelated to pandas unless orchestrating scripts |
 
 **Boundary:** **`data-analysis-pro`** = **tabular** analytics and **charted** communication; **`content-analysis-pro`** = **interpretation** of documents and media.
 
@@ -94,13 +94,13 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — EDA, visualization, spreadsheets, tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| EDA & cleaning | [references/eda-and-cleaning.md](references/eda-and-cleaning.md) |
-| Visualization | [references/visualization-and-communication.md](references/visualization-and-communication.md) |
+| Topic                             | File                                                                                                 |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| EDA & cleaning                    | [references/eda-and-cleaning.md](references/eda-and-cleaning.md)                                     |
+| Visualization                     | [references/visualization-and-communication.md](references/visualization-and-communication.md)       |
 | Spreadsheets (charts, validation) | [references/spreadsheets-charts-and-validation.md](references/spreadsheets-charts-and-validation.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips                              | [references/tips-and-tricks.md](references/tips-and-tricks.md)                                       |
+| Edge cases                        | [references/edge-cases.md](references/edge-cases.md)                                                 |
 
 ## Quick example
 

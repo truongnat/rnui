@@ -8,7 +8,7 @@
 ## Common plots
 
 - **Distribution:** histogram, KDE (with sample size caveat).
-- **Relationship:** scatter (with transparency for density), hexbin for large *n*.
+- **Relationship:** scatter (with transparency for density), hexbin for large _n_.
 - **Category:** bar counts; avoid pie charts for many slices.
 - **Time series:** sort index, show gaps; avoid implying continuity across missing intervals without note.
 

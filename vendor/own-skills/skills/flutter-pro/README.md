@@ -6,4 +6,4 @@ Professional **Flutter** skill: **widget composition and lifecycle**, Material 3
 - **Widgets (core skill):** [references/widgets.md](references/widgets.md)
 - **Other:** [references/](references/)
 
-*Tip:* Fork and extend `references/` with your design system or internal packages.
+_Tip:_ Fork and extend `references/` with your design system or internal packages.

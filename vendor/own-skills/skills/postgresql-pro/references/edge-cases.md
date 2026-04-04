@@ -51,4 +51,4 @@
 
 ---
 
-*Production incidents often combine long transactions + missing index + lock contention — triangulate with `pg_locks` and `pg_stat_activity`.*
+_Production incidents often combine long transactions + missing index + lock contention — triangulate with `pg_locks` and `pg_stat_activity`._

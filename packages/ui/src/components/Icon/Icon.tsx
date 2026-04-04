@@ -1,6 +1,6 @@
-import React from "react";
-import { View, Text } from "react-native";
-import { useTokens, useComponentTokens } from "@truongdq01/headless";
+import React from 'react';
+import { View, Text } from 'react-native';
+import { useTokens, useComponentTokens } from '@truongdq01/headless';
 import {
   // Navigation & Actions
   Star,
@@ -66,7 +66,7 @@ import {
   StarHalf,
   ThumbsUp,
   ThumbsDown,
-} from "lucide-react-native";
+} from 'lucide-react-native';
 
 export const ICON_MAP = {
   star: Star,
@@ -142,7 +142,17 @@ export interface IconProps {
   /** The name of the icon as text children. */
   children?: IconName | string | React.ReactNode;
   /** Size of the icon. Can be a number or a theme preset. */
-  size?: number | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "small" | "medium" | "large";
+  size?:
+    | number
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl'
+    | 'small'
+    | 'medium'
+    | 'large';
   /** Color of the icon. Can be a raw hex or a theme preset. */
   color?: string;
   style?: any;
@@ -155,22 +165,35 @@ export interface IconProps {
 export function Icon({ name, children, size, color, style }: IconProps) {
   const { icon: iconTokens } = useComponentTokens();
   const tokens = useTokens();
-  
+
   // Resolve the icon name from either prop or children
-  const iconNameString = (name ?? (typeof children === "string" ? children : undefined)) as IconName;
-  
-  const resolvedSize = typeof size === "number" 
-    ? size 
-    : iconTokens.size[(size ?? "md") as keyof typeof iconTokens.size] ?? 20;
-    
-  const resolvedColor = color && color in iconTokens.color
-    ? iconTokens.color[color as keyof typeof iconTokens.color]
-    : color ?? tokens.color.text.primary;
+  const iconNameString = (name ??
+    (typeof children === 'string' ? children : undefined)) as IconName;
+
+  const resolvedSize =
+    typeof size === 'number'
+      ? size
+      : (iconTokens.size[(size ?? 'md') as keyof typeof iconTokens.size] ?? 20);
+
+  const resolvedColor =
+    color && color in iconTokens.color
+      ? iconTokens.color[color as keyof typeof iconTokens.color]
+      : (color ?? tokens.color.text.primary);
 
   const IconComp = ICON_MAP[iconNameString as keyof typeof ICON_MAP] || Info;
 
   return (
-    <View style={[{ width: resolvedSize, height: resolvedSize, alignItems: "center", justifyContent: "center" }, style]}>
+    <View
+      style={[
+        {
+          width: resolvedSize,
+          height: resolvedSize,
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        style,
+      ]}
+    >
       <IconComp size={resolvedSize} color={resolvedColor} />
     </View>
   );
@@ -179,9 +202,18 @@ export function Icon({ name, children, size, color, style }: IconProps) {
 /**
  * A helper to wrap any icon with standard sizing and colors.
  */
-export function IconWrapper({ children, size, color }: { children: React.ReactNode; size?: number; color?: string }) {
+export function IconWrapper({
+  children,
+  size,
+  color,
+}: {
+  children: React.ReactNode;
+  size?: number;
+  color?: string;
+}) {
   const tokens = useTokens();
-  if (!React.isValidElement<Partial<{ color: string; size: number }>>(children)) return null;
+  if (!React.isValidElement<Partial<{ color: string; size: number }>>(children))
+    return null;
   return React.cloneElement(children, {
     color: children.props.color ?? color ?? tokens.color.text.primary,
     size: children.props.size ?? size,

@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: Phase 9 (09-01) complete — improvement plan phase 3 IMP-09..12
 stopped_at: Phase 9 executed — see `09-01-SUMMARY.md`
-last_updated: "2026-04-02T00:00:00.000Z"
+last_updated: '2026-04-02T00:00:00.000Z'
 last_activity: 2026-04-02 — Phase 9 execution (`09-01-PLAN.md`)
 progress:
   total_phases: 9
@@ -43,16 +43,16 @@ Progress: [██████████] 9/9 phase plans (09-01); **IMP-13** b
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 1 | 1 | — | — |
-| 2 | 1 | — | — |
-| 3 | 1 | — | — |
-| 4 | 1 | — | — |
-| 5 | 1 | — | — |
-| 6 | 1 | — | — |
-| 7 | 1 | — | — |
-| 8 | 1 | — | — |
-| 9 | 1 | — | — |
+| ----- | ----- | ----- | -------- |
+| 1     | 1     | —     | —        |
+| 2     | 1     | —     | —        |
+| 3     | 1     | —     | —        |
+| 4     | 1     | —     | —        |
+| 5     | 1     | —     | —        |
+| 6     | 1     | —     | —        |
+| 7     | 1     | —     | —        |
+| 8     | 1     | —     | —        |
+| 9     | 1     | —     | —        |
 
 **Recent trend:** —
 

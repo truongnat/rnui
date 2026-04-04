@@ -1,21 +1,21 @@
-import React from "react";
-import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import { Text, View } from "react-native";
+import React from 'react';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { Text, View } from 'react-native';
 import {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
   useCollapsible,
-} from "../Collapsible";
-import { ThemeProvider } from "@truongdq01/headless";
+} from '../Collapsible';
+import { ThemeProvider } from '@truongdq01/headless';
 
 // Helper to wrap components with ThemeProvider
 const renderWithTheme = (component: React.ReactElement) => {
   return render(<ThemeProvider>{component}</ThemeProvider>);
 };
 
-describe("Collapsible", () => {
-  it("renders children correctly", () => {
+describe('Collapsible', () => {
+  it('renders children correctly', () => {
     const { getByTestId } = renderWithTheme(
       <Collapsible testID="collapsible">
         <CollapsibleTrigger testID="trigger">
@@ -27,12 +27,12 @@ describe("Collapsible", () => {
       </Collapsible>
     );
 
-    expect(getByTestId("collapsible")).toBeTruthy();
-    expect(getByTestId("trigger")).toBeTruthy();
-    expect(getByTestId("content")).toBeTruthy();
+    expect(getByTestId('collapsible')).toBeTruthy();
+    expect(getByTestId('trigger')).toBeTruthy();
+    expect(getByTestId('content')).toBeTruthy();
   });
 
-  it("accepts custom testID", () => {
+  it('accepts custom testID', () => {
     const { getByTestId } = renderWithTheme(
       <Collapsible testID="custom-collapsible">
         <CollapsibleTrigger>
@@ -44,10 +44,10 @@ describe("Collapsible", () => {
       </Collapsible>
     );
 
-    expect(getByTestId("custom-collapsible")).toBeTruthy();
+    expect(getByTestId('custom-collapsible')).toBeTruthy();
   });
 
-  it("starts with defaultOpen when specified", () => {
+  it('starts with defaultOpen when specified', () => {
     const { getByTestId } = renderWithTheme(
       <Collapsible defaultOpen={true}>
         <CollapsibleTrigger testID="trigger">
@@ -59,22 +59,22 @@ describe("Collapsible", () => {
       </Collapsible>
     );
 
-    expect(getByTestId("trigger")).toBeTruthy();
-    expect(getByTestId("content")).toBeTruthy();
+    expect(getByTestId('trigger')).toBeTruthy();
+    expect(getByTestId('content')).toBeTruthy();
   });
 
-  it("useCollapsible throws error outside context", () => {
+  it('useCollapsible throws error outside context', () => {
     const TestComponent = () => {
       useCollapsible();
       return <Text>Test</Text>;
     };
 
     expect(() => render(<TestComponent />)).toThrow(
-      "useCollapsible must be used within a Collapsible component"
+      'useCollapsible must be used within a Collapsible component'
     );
   });
 
-  it("does not toggle when disabled", () => {
+  it('does not toggle when disabled', () => {
     const fn = jest.fn();
     const { getByTestId } = renderWithTheme(
       <Collapsible disabled onOpenChange={fn}>
@@ -86,11 +86,11 @@ describe("Collapsible", () => {
         </CollapsibleContent>
       </Collapsible>
     );
-    fireEvent.press(getByTestId("trigger"));
+    fireEvent.press(getByTestId('trigger'));
     expect(fn).not.toHaveBeenCalled();
   });
 
-  it("calls onOpenChange in controlled mode", () => {
+  it('calls onOpenChange in controlled mode', () => {
     const fn = jest.fn();
     const { getByTestId } = renderWithTheme(
       <Collapsible open={false} onOpenChange={fn}>
@@ -102,7 +102,7 @@ describe("Collapsible", () => {
         </CollapsibleContent>
       </Collapsible>
     );
-    fireEvent.press(getByTestId("trigger"));
+    fireEvent.press(getByTestId('trigger'));
     expect(fn).toHaveBeenCalledWith(true);
   });
 });

@@ -27,10 +27,10 @@
 
 Mục tiêu Nyquist Dimension 8: mỗi thay đổi có lệnh verify tự động (jest / rg / tsc).
 
-| Layer | Method |
-|-------|--------|
-| Unit | `bun test` / `jest` — `useCarousel.test`, `Carousel.test`, `Skeleton.test` |
-| Grep | `rg 'Dimensions.get'` không còn trong Carousel/useCarousel (sau refactor) |
-| Manual | Optional: rotate simulator — carousel padding |
+| Layer  | Method                                                                     |
+| ------ | -------------------------------------------------------------------------- |
+| Unit   | `bun test` / `jest` — `useCarousel.test`, `Carousel.test`, `Skeleton.test` |
+| Grep   | `rg 'Dimensions.get'` không còn trong Carousel/useCarousel (sau refactor)  |
+| Manual | Optional: rotate simulator — carousel padding                              |
 
 **Nyquist Dimension 8:** Mỗi task có lệnh `jest` hoặc `rg` trong `<acceptance_criteria>`.

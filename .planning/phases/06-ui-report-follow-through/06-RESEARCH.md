@@ -17,11 +17,11 @@
 
 ## Risks (from `UI_REPORT.md` §7)
 
-| Risk | Wave 1 response |
-|------|-----------------|
-| No persistence | Tasks 1–2 |
-| Component tokens recompute | Task 4 (audit + fix tối thiểu) |
-| FlashList perf | Task 5 (doc + giá trị hợp lý) |
-| No visual regression | Ghi defer wave 2; không chặn ship wave 1 |
+| Risk                       | Wave 1 response                          |
+| -------------------------- | ---------------------------------------- |
+| No persistence             | Tasks 1–2                                |
+| Component tokens recompute | Task 4 (audit + fix tối thiểu)           |
+| FlashList perf             | Task 5 (doc + giá trị hợp lý)            |
+| No visual regression       | Ghi defer wave 2; không chặn ship wave 1 |
 
 Không cần web research trừ khi executor gặp blocker (ví dụ API AsyncStorage với Expo SDK 55).

@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
-import { View, Text, Pressable } from "react-native";
-import { useComponentTokens, useTokens, useAlert } from "@truongdq01/headless";
-import { Icon } from "../Icon";
+import React, { useMemo } from 'react';
+import { View, Text, Pressable } from 'react-native';
+import { useComponentTokens, useTokens, useAlert } from '@truongdq01/headless';
+import { Icon } from '../Icon';
 
-export type AlertSeverity = "error" | "warning" | "info" | "success";
-export type AlertVariant = "standard" | "filled" | "outlined";
+export type AlertSeverity = 'error' | 'warning' | 'info' | 'success';
+export type AlertVariant = 'standard' | 'filled' | 'outlined';
 
 export interface AlertProps {
   /** Severity of the alert */
@@ -26,15 +26,15 @@ export interface AlertTitleProps {
 }
 
 const SEVERITY_ICONS: Record<AlertSeverity, string> = {
-  info: "info",
-  success: "checkCircle",
-  warning: "warning",
-  error: "error",
+  info: 'info',
+  success: 'checkCircle',
+  warning: 'warning',
+  error: 'error',
 };
 
 export function Alert({
-  severity = "info",
-  variant = "standard",
+  severity = 'info',
+  variant = 'standard',
   icon,
   action,
   onClose,
@@ -49,30 +49,30 @@ export function Alert({
 
   const containerStyle = useMemo(() => {
     const base = [alert.container];
-    if (variant === "filled") {
+    if (variant === 'filled') {
       base.push({
         backgroundColor: severityTokens.icon,
-        borderColor: "transparent",
+        borderColor: 'transparent',
         borderWidth: 0,
       } as any);
-    } else if (variant === "outlined") {
+    } else if (variant === 'outlined') {
       base.push({
-        backgroundColor: "transparent",
+        backgroundColor: 'transparent',
         borderColor: severityTokens.border,
         borderWidth: 1,
       } as any);
     } else {
       base.push({
         backgroundColor: severityTokens.bg,
-        borderColor: "transparent",
+        borderColor: 'transparent',
         borderWidth: 0,
       } as any);
     }
     return base;
   }, [alert, severityTokens, variant]);
 
-  const textColor = variant === "filled" ? "#FFFFFF" : severityTokens.text;
-  const iconColor = variant === "filled" ? "#FFFFFF" : severityTokens.icon;
+  const textColor = variant === 'filled' ? '#FFFFFF' : severityTokens.text;
+  const iconColor = variant === 'filled' ? '#FFFFFF' : severityTokens.icon;
 
   return (
     <View style={containerStyle as any} {...getAlertProps()}>
@@ -85,13 +85,19 @@ export function Alert({
           )}
         </View>
       )}
-      <View style={{ flex: 1 }}>
-        {children}
-      </View>
+      <View style={{ flex: 1 }}>{children}</View>
       {action}
       {onClose && (
-        <Pressable hitSlop={8} style={{ marginTop: 2 }} {...getCloseButtonProps()}>
-          <Icon size={18} color={textColor || tokens.color.text.inverse} name={"close" as any} />
+        <Pressable
+          hitSlop={8}
+          style={{ marginTop: 2 }}
+          {...getCloseButtonProps()}
+        >
+          <Icon
+            size={18}
+            color={textColor || tokens.color.text.inverse}
+            name={'close' as any}
+          />
         </Pressable>
       )}
     </View>
@@ -103,9 +109,5 @@ export function AlertTitle({ children }: AlertTitleProps) {
   // We can't easily get the parent Alert's severity here without context,
   // but we can use a generic color or inherit from View style.
   // For now, let's use a standard bold style.
-  return (
-    <Text style={alert.title}>
-      {children}
-    </Text>
-  );
+  return <Text style={alert.title}>{children}</Text>;
 }

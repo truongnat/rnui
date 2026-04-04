@@ -1,9 +1,9 @@
-| Field | Value |
-|-------|-------|
-| title | Activity and decisions log |
+| Field   | Value                                                                                 |
+| ------- | ------------------------------------------------------------------------------------- |
+| title   | Activity and decisions log                                                            |
 | summary | Dated entries: user/agent decisions, audits, follow-ups for this skills template repo |
-| tags | repo, activity, decisions |
-| updated | 2026-04-01 |
+| tags    | repo, activity, decisions                                                             |
+| updated | 2026-04-01                                                                            |
 
 # Activity and decisions log
 

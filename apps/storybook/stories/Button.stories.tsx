@@ -1,13 +1,11 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Button } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Button } from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
@@ -15,35 +13,41 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 const ButtonWrapper = (props: any) => (
   <Button
     {...props}
-    onPress={props.onPress || (() => { })}
-    onLongPress={props.onLongPress || (() => { })}
+    onPress={props.onPress || (() => {})}
+    onLongPress={props.onLongPress || (() => {})}
     accessibilityLabel={props.accessibilityLabel || props.label}
     accessibilityHint=""
   />
 );
 
 const meta = {
-  title: "Components/Button",
+  title: 'Components/Button',
   component: ButtonWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
     variant: {
-      control: { type: "select" },
-      options: ["solid", "outline", "ghost", "destructive"],
+      control: { type: 'select' },
+      options: ['solid', 'outline', 'ghost', 'destructive'],
     },
     size: {
-      control: { type: "select" },
-      options: ["sm", "md", "lg"],
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg'],
     },
-    disabled: { control: "boolean" },
-    loading: { control: "boolean" },
-    label: { control: "text" },
-    fullWidth: { control: "boolean" },
+    disabled: { control: 'boolean' },
+    loading: { control: 'boolean' },
+    label: { control: 'text' },
+    fullWidth: { control: 'boolean' },
   },
   args: {
-    label: "Button",
-    variant: "solid",
-    size: "md",
+    label: 'Button',
+    variant: 'solid',
+    size: 'md',
     disabled: false,
     loading: false,
     fullWidth: false,
@@ -54,27 +58,27 @@ export default meta;
 type Story = StoryObj<typeof ButtonWrapper>;
 
 export const Solid: Story = {
-  args: { label: "Solid button", variant: "solid" },
+  args: { label: 'Solid button', variant: 'solid' },
 };
 
 export const Outline: Story = {
-  args: { label: "Outline button", variant: "outline" },
+  args: { label: 'Outline button', variant: 'outline' },
 };
 
 export const Ghost: Story = {
-  args: { label: "Ghost button", variant: "ghost" },
+  args: { label: 'Ghost button', variant: 'ghost' },
 };
 
 export const Destructive: Story = {
-  args: { label: "Delete item", variant: "destructive" },
+  args: { label: 'Delete item', variant: 'destructive' },
 };
 
 export const Loading: Story = {
-  args: { label: "Loading...", loading: true },
+  args: { label: 'Loading...', loading: true },
 };
 
 export const Disabled: Story = {
-  args: { label: "Disabled", disabled: true },
+  args: { label: 'Disabled', disabled: true },
 };
 
 export const AllVariants: Story = {

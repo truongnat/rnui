@@ -11,7 +11,7 @@
 
 - **Align numbers** — Right-align numeric columns; use **thousands separators** consistently.
 - **Units** — Always label axes and key metrics (`ms`, `%`, currency).
-- **Empty states** — Explain *why* empty and **next action** (import, filter reset).
+- **Empty states** — Explain _why_ empty and **next action** (import, filter reset).
 
 ## Handoff (design → dev)
 

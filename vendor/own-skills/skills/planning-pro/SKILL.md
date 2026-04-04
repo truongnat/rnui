@@ -19,12 +19,12 @@ Use professional planning references such as [PMI PMBOK](https://www.pmi.org/pmb
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `planning-pro` |
-|-------|-------------------------------------|
-| **`business-analysis-pro`** | Clarify requirements and acceptance criteria before task breakdown |
-| **`strategic-consulting-pro`** | Decide strategic direction before execution planning |
-| **`deployment-pro`** | Plan release windows, canary, and rollback checkpoints |
-| **Domain `*-pro` skills** | Fill technical detail for each phase (backend, frontend, infra, data, security) |
+| Skill                          | When to combine with `planning-pro`                                             |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| **`business-analysis-pro`**    | Clarify requirements and acceptance criteria before task breakdown              |
+| **`strategic-consulting-pro`** | Decide strategic direction before execution planning                            |
+| **`deployment-pro`**           | Plan release windows, canary, and rollback checkpoints                          |
+| **Domain `*-pro` skills**      | Fill technical detail for each phase (backend, frontend, infra, data, security) |
 
 **Boundary:** **`planning-pro`** defines executable sequencing and control points; other skills define domain-specific implementation decisions.
 
@@ -93,13 +93,13 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` - deeper planning material for decomposition, sequencing, estimation, and edge cases.
 
-| Topic | File |
-|-------|------|
-| Scope and decomposition | [references/scope-and-decomposition.md](references/scope-and-decomposition.md) |
-| Sequencing and dependencies | [references/sequencing-and-dependencies.md](references/sequencing-and-dependencies.md) |
+| Topic                        | File                                                                                     |
+| ---------------------------- | ---------------------------------------------------------------------------------------- |
+| Scope and decomposition      | [references/scope-and-decomposition.md](references/scope-and-decomposition.md)           |
+| Sequencing and dependencies  | [references/sequencing-and-dependencies.md](references/sequencing-and-dependencies.md)   |
 | Estimation and risk controls | [references/estimation-and-risk-controls.md](references/estimation-and-risk-controls.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips                         | [references/tips-and-tricks.md](references/tips-and-tricks.md)                           |
+| Edge cases                   | [references/edge-cases.md](references/edge-cases.md)                                     |
 
 ## Quick example
 

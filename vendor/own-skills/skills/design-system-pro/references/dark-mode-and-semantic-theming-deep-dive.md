@@ -4,11 +4,11 @@ Practical detail for shipping **light + dark** (or multi-theme) products without
 
 ## 1. Token layers (recommended mental model)
 
-| Layer | Role | Example names |
-|-------|------|-----------------|
-| **Primitive** | Raw palette | `gray.50` … `gray.950`, `blue.500` |
-| **Semantic** | Meaning in UI | `color.text.primary`, `color.surface.default`, `color.border.subtle` |
-| **Component** | Optional alias | `button.primary.bg` → maps to semantic + primitive |
+| Layer         | Role           | Example names                                                        |
+| ------------- | -------------- | -------------------------------------------------------------------- |
+| **Primitive** | Raw palette    | `gray.50` … `gray.950`, `blue.500`                                   |
+| **Semantic**  | Meaning in UI  | `color.text.primary`, `color.surface.default`, `color.border.subtle` |
+| **Component** | Optional alias | `button.primary.bg` → maps to semantic + primitive                   |
 
 **Rule:** App code and Figma should consume **semantic** (or component) tokens, not primitives directly — except marketing one-offs you accept as debt.
 

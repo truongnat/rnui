@@ -12,12 +12,12 @@ This skill uses **candidate defects** — issues with **evidence** (stack trace,
 
 ## What “related bugs” means
 
-| Relation | How to find |
-|----------|-------------|
-| **Same root cause** | Shared helper, shared config, **same commit** regression |
+| Relation              | How to find                                                               |
+| --------------------- | ------------------------------------------------------------------------- |
+| **Same root cause**   | Shared helper, shared config, **same commit** regression                  |
 | **Same blast radius** | **`impact`** / **`api_impact`** — callers and consumers of changed symbol |
-| **Same symptom** | Search logs, `query` for error string, **duplicate** tickets |
-| **Flaky cluster** | Shared **async** or **timing** code in `process` |
+| **Same symptom**      | Search logs, `query` for error string, **duplicate** tickets              |
+| **Flaky cluster**     | Shared **async** or **timing** code in `process`                          |
 
 ## Triage vocabulary (report)
 

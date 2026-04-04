@@ -1,6 +1,6 @@
-import React from "react";
-import { View, type ViewStyle } from "react-native";
-import { useComponentTokens } from "@truongdq01/headless";
+import React from 'react';
+import { View, type ViewStyle } from 'react-native';
+import { useComponentTokens } from '@truongdq01/headless';
 
 export interface BoxProps {
   children?: React.ReactNode;
@@ -15,12 +15,8 @@ export function Box({ children, style, sx, flex }: BoxProps) {
     box.defaults,
     flex !== undefined ? { flex } : null,
     sx,
-    style
+    style,
   ];
 
-  return (
-    <View style={merged as ViewStyle[]}>
-      {children}
-    </View>
-  );
+  return <View style={merged as ViewStyle[]}>{children}</View>;
 }

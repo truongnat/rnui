@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 export interface UseAlertOptions {
   defaultOpen?: boolean;
@@ -27,13 +27,13 @@ export function useAlert({
     isOpen,
     close,
     getAlertProps: () => ({
-      role: "alert",
-      accessibilityRole: "alert",
+      role: 'alert',
+      accessibilityRole: 'alert',
     }),
     getCloseButtonProps: () => ({
       onPress: close,
-      accessibilityLabel: "Close alert",
-      accessibilityRole: "button",
+      accessibilityLabel: 'Close alert',
+      accessibilityRole: 'button',
     }),
   };
 }

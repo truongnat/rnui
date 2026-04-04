@@ -1,4 +1,4 @@
-const React = require("react");
+const React = require('react');
 
 const createComponent = (name) => {
   const Component = ({ children, ...props }) =>
@@ -7,20 +7,20 @@ const createComponent = (name) => {
   return Component;
 };
 
-const View = createComponent("View");
-const Text = createComponent("Text");
-const Image = createComponent("Image");
-const ScrollView = createComponent("ScrollView");
-const Modal = createComponent("Modal");
-const ActivityIndicator = createComponent("ActivityIndicator");
-const Pressable = createComponent("Pressable");
-const TouchableOpacity = createComponent("TouchableOpacity");
-const TouchableHighlight = createComponent("TouchableHighlight");
-const TouchableWithoutFeedback = createComponent("TouchableWithoutFeedback");
-const TextInput = createComponent("TextInput");
-const Switch = createComponent("Switch");
-const FlatList = createComponent("FlatList");
-const SectionList = createComponent("SectionList");
+const View = createComponent('View');
+const Text = createComponent('Text');
+const Image = createComponent('Image');
+const ScrollView = createComponent('ScrollView');
+const Modal = createComponent('Modal');
+const ActivityIndicator = createComponent('ActivityIndicator');
+const Pressable = createComponent('Pressable');
+const TouchableOpacity = createComponent('TouchableOpacity');
+const TouchableHighlight = createComponent('TouchableHighlight');
+const TouchableWithoutFeedback = createComponent('TouchableWithoutFeedback');
+const TextInput = createComponent('TextInput');
+const Switch = createComponent('Switch');
+const FlatList = createComponent('FlatList');
+const SectionList = createComponent('SectionList');
 const Touchable = {
   Mixin: {
     touchableHandleStartShouldSetResponder: () => false,
@@ -37,13 +37,19 @@ const StyleSheet = {
   create: (styles) => styles,
   flatten: (style) => style,
   hairlineWidth: 1,
-  absoluteFillObject: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0 },
+  absoluteFillObject: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
 };
 
 const Platform = {
-  OS: "ios",
-  Version: "0.0",
-  select: (obj) => (obj ? obj.ios ?? obj.default : undefined),
+  OS: 'ios',
+  Version: '0.0',
+  select: (obj) => (obj ? (obj.ios ?? obj.default) : undefined),
 };
 
 const Dimensions = {
@@ -52,9 +58,9 @@ const Dimensions = {
   removeEventListener: () => {},
 };
 const useWindowDimensions = () => Dimensions.get();
-const useColorScheme = () => "light";
+const useColorScheme = () => 'light';
 const Appearance = {
-  getColorScheme: () => "light",
+  getColorScheme: () => 'light',
   addChangeListener: () => ({ remove: () => {} }),
 };
 

@@ -1,10 +1,16 @@
-import React, { useMemo } from "react";
-import { View, StyleSheet, type ViewProps, type StyleProp, type ViewStyle } from "react-native";
-import { primitive } from "@truongdq01/tokens";
+import React, { useMemo } from 'react';
+import {
+  View,
+  StyleSheet,
+  type ViewProps,
+  type StyleProp,
+  type ViewStyle,
+} from 'react-native';
+import { primitive } from '@truongdq01/tokens';
 
 let ExpoLinearGradient: React.ComponentType<any> | null = null;
 try {
-  ExpoLinearGradient = require("expo-linear-gradient").LinearGradient;
+  ExpoLinearGradient = require('expo-linear-gradient').LinearGradient;
 } catch {
   // expo-linear-gradient not installed — render solid fallback
 }
@@ -75,7 +81,10 @@ export function Gradient({
   }
 
   return (
-    <View style={[{ backgroundColor: resolvedColors[0] as string }, style]} {...rest}>
+    <View
+      style={[{ backgroundColor: resolvedColors[0] as string }, style]}
+      {...rest}
+    >
       {children}
     </View>
   );

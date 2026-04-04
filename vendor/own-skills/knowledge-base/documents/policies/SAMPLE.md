@@ -1,9 +1,9 @@
-| Field | Value |
-|-------|-------|
-| title | Sample policy |
+| Field   | Value                                                   |
+| ------- | ------------------------------------------------------- |
+| title   | Sample policy                                           |
 | summary | Example knowledge-base file — replace with real content |
-| tags | sample, policy |
-| updated | 2026-03-31 |
+| tags    | sample, policy                                          |
+| updated | 2026-03-31                                              |
 
 # Sample policy
 

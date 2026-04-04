@@ -1,6 +1,6 @@
-import type { StoryObj } from "@storybook/react-native";
-import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import {
   ThemeProvider,
   Checkbox,
@@ -15,7 +15,7 @@ import {
   FormHelperText,
   FormField,
   Select,
-} from "@truongdq01/ui";
+} from '@truongdq01/ui';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
@@ -26,9 +26,15 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 );
 
 const meta = {
-  title: "Components/Forms",
+  title: 'Components/Forms',
   component: View,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
 };
 
 export default meta;
@@ -36,18 +42,23 @@ export default meta;
 // ─── Checkbox ────────────────────────────────────────────────────────
 
 export const CheckboxStory: StoryObj = {
-  name: "Checkbox",
+  name: 'Checkbox',
   render: () => {
     const [a, setA] = useState(false);
     const [b, setB] = useState(true);
     return (
       <View style={{ gap: 14 }}>
         <Checkbox label="Unchecked" checked={a} onChange={setA} />
-        <Checkbox label="Checked" description="With description text" checked={b} onChange={setB} />
+        <Checkbox
+          label="Checked"
+          description="With description text"
+          checked={b}
+          onChange={setB}
+        />
         <Checkbox label="Indeterminate" indeterminate />
         <Checkbox label="Disabled unchecked" disabled />
         <Checkbox label="Disabled checked" disabled checked={true} />
-        <View style={{ flexDirection: "row", gap: 24 }}>
+        <View style={{ flexDirection: 'row', gap: 24 }}>
           <Checkbox label="SM" size="sm" checked={true} />
           <Checkbox label="MD" size="md" checked={true} />
           <Checkbox label="LG" size="lg" checked={true} />
@@ -60,10 +71,10 @@ export const CheckboxStory: StoryObj = {
 // ─── Radio ───────────────────────────────────────────────────────────
 
 export const RadioStory: StoryObj = {
-  name: "Radio",
+  name: 'Radio',
   render: () => {
-    const [framework, setFramework] = useState("react");
-    const [size, setSize] = useState("md");
+    const [framework, setFramework] = useState('react');
+    const [size, setSize] = useState('md');
     return (
       <View style={{ gap: 24 }}>
         <RadioGroup
@@ -71,10 +82,23 @@ export const RadioStory: StoryObj = {
           value={framework}
           onChange={(val) => setFramework(val as string)}
           options={[
-            { value: "react", label: "React Native", description: "Cross-platform mobile" },
-            { value: "flutter", label: "Flutter", description: "Google's UI toolkit" },
-            { value: "native", label: "Native", description: "Swift / Kotlin" },
-            { value: "ionic", label: "Ionic", disabled: true, description: "Web-based (deprecated)" },
+            {
+              value: 'react',
+              label: 'React Native',
+              description: 'Cross-platform mobile',
+            },
+            {
+              value: 'flutter',
+              label: 'Flutter',
+              description: "Google's UI toolkit",
+            },
+            { value: 'native', label: 'Native', description: 'Swift / Kotlin' },
+            {
+              value: 'ionic',
+              label: 'Ionic',
+              disabled: true,
+              description: 'Web-based (deprecated)',
+            },
           ]}
         />
         <RadioGroup
@@ -83,9 +107,9 @@ export const RadioStory: StoryObj = {
           onChange={(val) => setSize(val as string)}
           direction="horizontal"
           options={[
-            { value: "sm", label: "Small" },
-            { value: "md", label: "Medium" },
-            { value: "lg", label: "Large" },
+            { value: 'sm', label: 'Small' },
+            { value: 'md', label: 'Medium' },
+            { value: 'lg', label: 'Large' },
           ]}
         />
       </View>
@@ -96,17 +120,22 @@ export const RadioStory: StoryObj = {
 // ─── Switch ──────────────────────────────────────────────────────────
 
 export const SwitchStory: StoryObj = {
-  name: "Switch",
+  name: 'Switch',
   render: () => {
     const [notifications, setNotifications] = useState(true);
     const [analytics, setAnalytics] = useState(false);
     return (
       <View style={{ gap: 16 }}>
-        <Switch label="Push notifications" description="Get notified about activity" on={notifications} onChange={setNotifications} />
+        <Switch
+          label="Push notifications"
+          description="Get notified about activity"
+          on={notifications}
+          onChange={setNotifications}
+        />
         <Switch label="Analytics" on={analytics} onChange={setAnalytics} />
         <Switch label="Disabled (on)" disabled on={true} />
         <Switch label="Disabled (off)" disabled />
-        <View style={{ flexDirection: "row", gap: 24, alignItems: "center" }}>
+        <View style={{ flexDirection: 'row', gap: 24, alignItems: 'center' }}>
           <Switch label="SM" size="sm" on={true} />
           <Switch label="MD" size="md" on={true} />
           <Switch label="LG" size="lg" on={true} />
@@ -119,7 +148,7 @@ export const SwitchStory: StoryObj = {
 // ─── Slider ──────────────────────────────────────────────────────────
 
 export const SliderStory: StoryObj = {
-  name: "Slider",
+  name: 'Slider',
   render: () => {
     const [volume, setVolume] = useState(40);
     const [opacity, setOpacity] = useState(0.8);
@@ -175,9 +204,9 @@ export const SliderStory: StoryObj = {
 // ─── Input ───────────────────────────────────────────────────────────
 
 export const InputStory: StoryObj = {
-  name: "Input",
+  name: 'Input',
   render: () => {
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState('');
     return (
       <View style={{ gap: 20 }}>
         <Input
@@ -186,10 +215,7 @@ export const InputStory: StoryObj = {
           value={email}
           onChangeText={setEmail}
         />
-        <Input
-          label="Search"
-          placeholder="Search items..."
-        />
+        <Input label="Search" placeholder="Search items..." />
         <Input
           label="With error"
           placeholder=""
@@ -215,10 +241,12 @@ export const InputStory: StoryObj = {
 // ─── TextArea ────────────────────────────────────────────────────────
 
 export const TextAreaStory: StoryObj = {
-  name: "TextArea",
+  name: 'TextArea',
   render: () => {
-    const [bio, setBio] = useState("");
-    const [review, setReview] = useState("This is a great product! I've been using it for months and...");
+    const [bio, setBio] = useState('');
+    const [review, setReview] = useState(
+      "This is a great product! I've been using it for months and..."
+    );
     return (
       <View style={{ gap: 20 }}>
         <TextArea
@@ -244,7 +272,7 @@ export const TextAreaStory: StoryObj = {
           label="With error"
           placeholder="Required field"
           value=""
-          onChangeText={() => { }}
+          onChangeText={() => {}}
           error="This field is required"
           minLines={2}
           accessibilityLabel="With error"
@@ -253,7 +281,7 @@ export const TextAreaStory: StoryObj = {
           label="Disabled"
           placeholder=""
           value="Cannot edit this content."
-          onChangeText={() => { }}
+          onChangeText={() => {}}
           disabled
           accessibilityLabel="Disabled"
         />
@@ -265,7 +293,7 @@ export const TextAreaStory: StoryObj = {
 // ─── TextField ───────────────────────────────────────────────────────
 
 export const TextFieldStory: StoryObj = {
-  name: "TextField",
+  name: 'TextField',
   render: () => (
     <View style={{ gap: 12 }}>
       <TextField label="Email" placeholder="name@example.com" />
@@ -279,7 +307,7 @@ export const TextFieldStory: StoryObj = {
 // ─── FormControl ─────────────────────────────────────────────────────
 
 export const FormControlStory: StoryObj = {
-  name: "FormControl",
+  name: 'FormControl',
   render: () => {
     const [terms, setTerms] = useState(false);
     const [notify, setNotify] = useState(true);
@@ -299,14 +327,14 @@ export const FormControlStory: StoryObj = {
         </FormControl>
 
         <FormControl>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <Checkbox checked={terms} onChange={setTerms} />
             <Text>Accept terms</Text>
           </View>
         </FormControl>
 
         <FormControl>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <Switch on={notify} onChange={setNotify} />
             <Text>Enable notifications</Text>
           </View>
@@ -319,15 +347,12 @@ export const FormControlStory: StoryObj = {
 // ─── FormField ───────────────────────────────────────────────────────
 
 export const FormFieldStory: StoryObj = {
-  name: "FormField",
+  name: 'FormField',
   render: () => {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState('');
     return (
       <View style={{ gap: 16 }}>
-        <FormField
-          label="Username"
-          helperText="Must be unique"
-        >
+        <FormField label="Username" helperText="Must be unique">
           <Input
             placeholder="Enter username"
             value={value}
@@ -341,9 +366,7 @@ export const FormFieldStory: StoryObj = {
         >
           <Input placeholder="Required" />
         </FormField>
-        <FormField
-          label="Disabled"
-        >
+        <FormField label="Disabled">
           <Input placeholder="Disabled" disabled />
         </FormField>
       </View>
@@ -354,19 +377,19 @@ export const FormFieldStory: StoryObj = {
 // ─── Select ──────────────────────────────────────────────────────────
 
 export const SelectStory: StoryObj = {
-  name: "Select",
+  name: 'Select',
   render: () => {
-    const [country, setCountry] = useState<string | undefined>("vn");
-    const [tags, setTags] = useState<string[]>(["design"]);
+    const [country, setCountry] = useState<string | undefined>('vn');
+    const [tags, setTags] = useState<string[]>(['design']);
     return (
       <View style={{ gap: 20 }}>
         <Select
           label="Country"
           searchable
           options={[
-            { label: "Vietnam", value: "vn" },
-            { label: "Japan", value: "jp" },
-            { label: "Singapore", value: "sg" },
+            { label: 'Vietnam', value: 'vn' },
+            { label: 'Japan', value: 'jp' },
+            { label: 'Singapore', value: 'sg' },
           ]}
           value={country}
           onChange={(v: any) => setCountry(v as string)}
@@ -376,9 +399,9 @@ export const SelectStory: StoryObj = {
           placeholder="Pick tags..."
           multiple
           options={[
-            { label: "Design", value: "design" },
-            { label: "Engineering", value: "engineering" },
-            { label: "Docs", value: "docs" },
+            { label: 'Design', value: 'design' },
+            { label: 'Engineering', value: 'engineering' },
+            { label: 'Docs', value: 'docs' },
           ]}
           value={tags}
           onChange={(v: any) => setTags(v as string[])}
@@ -387,8 +410,8 @@ export const SelectStory: StoryObj = {
           label="With error"
           error="Please choose a value"
           options={[
-            { label: "Option A", value: "a" },
-            { label: "Option B", value: "b" },
+            { label: 'Option A', value: 'a' },
+            { label: 'Option B', value: 'b' },
           ]}
         />
       </View>

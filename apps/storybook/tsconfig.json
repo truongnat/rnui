@@ -2,9 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "NodeNext",
-    "lib": [
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "allowJs": true,
     "jsx": "react-native",
     "noEmit": true,
@@ -17,15 +15,9 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@truongdq01/ui": [
-        "../../packages/ui/src"
-      ],
-      "@truongdq01/headless": [
-        "../../packages/headless/src"
-      ],
-      "@truongdq01/tokens": [
-        "../../packages/tokens/src"
-      ]
+      "@truongdq01/ui": ["../../packages/ui/src"],
+      "@truongdq01/headless": ["../../packages/headless/src"],
+      "@truongdq01/tokens": ["../../packages/tokens/src"]
     }
   },
   "include": [

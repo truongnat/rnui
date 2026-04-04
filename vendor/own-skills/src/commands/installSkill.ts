@@ -1,4 +1,12 @@
-import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync, cpSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+  cpSync,
+} from 'node:fs';
 import { join, resolve } from 'node:path';
 import matter from 'gray-matter';
 
@@ -29,7 +37,9 @@ function parseName(skillMdText: string): string {
 function ensureExclude(projectDir: string, relPath: string) {
   const excludePath = join(projectDir, '.git', 'info', 'exclude');
   if (!existsSync(join(projectDir, '.git', 'info'))) return;
-  const existing = existsSync(excludePath) ? readFileSync(excludePath, 'utf8') : '';
+  const existing = existsSync(excludePath)
+    ? readFileSync(excludePath, 'utf8')
+    : '';
   const line = `${relPath.replace(/\\/g, '/')}/`;
   if (existing.split(/\r?\n/).includes(line)) return;
   const content = `${existing}${existing.endsWith('\n') || existing.length === 0 ? '' : '\n'}${line}\n`;
@@ -44,7 +54,9 @@ export function installSkill(opts: InstallSkillOptions) {
   const parsedName = parseName(readFileSync(skillMd, 'utf8'));
   const installName = opts.name || parsedName;
 
-  const ides = opts.allIdes ? ['cursor', 'claude', 'antigravity'] : opts.ides || ['cursor'];
+  const ides = opts.allIdes
+    ? ['cursor', 'claude', 'antigravity']
+    : opts.ides || ['cursor'];
   const targets: Record<string, string> = {};
 
   for (const ide of Array.from(new Set(ides))) {
@@ -66,10 +78,16 @@ export function installSkill(opts: InstallSkillOptions) {
       cpSync(skillDir, target, { recursive: true });
     }
     targets[ide] = target;
-    if (!opts.noGitIsolation) ensureExclude(projectDir, `${pair[0]}/${pair[1]}/${installName}`);
+    if (!opts.noGitIsolation)
+      ensureExclude(projectDir, `${pair[0]}/${pair[1]}/${installName}`);
   }
 
-  const manifestDir = join(projectDir, '.cursor', 'skills', '.install-manifest');
+  const manifestDir = join(
+    projectDir,
+    '.cursor',
+    'skills',
+    '.install-manifest'
+  );
   mkdirSync(manifestDir, { recursive: true });
   const manifest = {
     installed_at: new Date().toISOString(),
@@ -80,7 +98,11 @@ export function installSkill(opts: InstallSkillOptions) {
     targets,
     primary_cursor_target: targets.cursor || null,
   };
-  writeFileSync(join(manifestDir, `${installName}.json`), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+  writeFileSync(
+    join(manifestDir, `${installName}.json`),
+    `${JSON.stringify(manifest, null, 2)}\n`,
+    'utf8'
+  );
 
   return { installName, targets };
 }

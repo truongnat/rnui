@@ -50,10 +50,10 @@ export const duration = {
 // CSS cubic-bezier strings (design metadata). For `withTiming`, use `motionEasing` or
 // `resolveTimingPreset` from `@truongdq01/headless` — Reanimated expects `Easing.*` functions.
 export const easing = {
-  easeIn: "cubic-bezier(0.4, 0, 1, 1)",
-  easeOut: "cubic-bezier(0, 0, 0.2, 1)",
-  easeInOut: "cubic-bezier(0.4, 0, 0.2, 1)",
-  linear: "linear",
+  easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
+  easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
+  easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  linear: 'linear',
 } as const;
 
 // ─── Press feedback ───────────────────────────────────────────────
@@ -72,22 +72,22 @@ export const pressFeedback = {
 // @truongdq01/tokens depending on react-native-reanimated.
 export const motionPreset = {
   enter: {
-    fadeUp: "FadeInUp",
-    fadeDown: "FadeInDown",
-    fadeIn: "FadeIn",
-    scaleIn: "ZoomIn",
-    slideFromBottom: "SlideInDown",
-    slideFromTop: "SlideInUp",
-    slideFromRight: "SlideInRight",
+    fadeUp: 'FadeInUp',
+    fadeDown: 'FadeInDown',
+    fadeIn: 'FadeIn',
+    scaleIn: 'ZoomIn',
+    slideFromBottom: 'SlideInDown',
+    slideFromTop: 'SlideInUp',
+    slideFromRight: 'SlideInRight',
   },
   exit: {
-    fadeDown: "FadeOutDown",
-    fadeUp: "FadeOutUp",
-    fadeOut: "FadeOut",
-    scaleOut: "ZoomOut",
-    slideToBottom: "SlideOutDown",
-    slideToTop: "SlideOutUp",
-    slideToRight: "SlideOutRight",
+    fadeDown: 'FadeOutDown',
+    fadeUp: 'FadeOutUp',
+    fadeOut: 'FadeOut',
+    scaleOut: 'ZoomOut',
+    slideToBottom: 'SlideOutDown',
+    slideToTop: 'SlideOutUp',
+    slideToRight: 'SlideOutRight',
   },
 } as const;
 
@@ -96,31 +96,31 @@ export const motionPreset = {
 // compatible with `withTiming`.
 export const timingPreset = {
   // Fade in/out — opacity only
-  fadeIn:  { duration: duration.fast,   easing: easing.easeOut },
-  fadeOut: { duration: duration.fast,   easing: easing.easeIn },
+  fadeIn: { duration: duration.fast, easing: easing.easeOut },
+  fadeOut: { duration: duration.fast, easing: easing.easeIn },
   // Scale up — micro interactions
-  popIn:   { duration: duration.normal, easing: easing.easeOut },
-  popOut:  { duration: duration.fast,   easing: easing.easeIn },
+  popIn: { duration: duration.normal, easing: easing.easeOut },
+  popOut: { duration: duration.fast, easing: easing.easeIn },
   // Slide — panels, sheets
-  slideIn: { duration: duration.slow,   easing: easing.easeOut },
-  slideOut:{ duration: duration.normal, easing: easing.easeIn },
+  slideIn: { duration: duration.slow, easing: easing.easeOut },
+  slideOut: { duration: duration.normal, easing: easing.easeIn },
   // Color transitions — theme switch, hover
-  color:   { duration: duration.fast,   easing: easing.linear },
+  color: { duration: duration.fast, easing: easing.linear },
 } as const;
 
 // ─── Focus ring animation ─────────────────────────────────────────
 export const focusRingAnimation = {
-  in:  { duration: duration.fast, easing: easing.easeOut },
+  in: { duration: duration.fast, easing: easing.easeOut },
   out: { duration: duration.fast, easing: easing.easeIn },
 } as const;
 
 // ─── Typed animation token types ─────────────────────────────────
 export type MotionPresetKey = keyof typeof motionPreset.enter;
-export type MotionExitKey   = keyof typeof motionPreset.exit;
+export type MotionExitKey = keyof typeof motionPreset.exit;
 export type TimingPresetKey = keyof typeof timingPreset;
-export type DurationKey     = keyof typeof duration;
-export type EasingKey       = keyof typeof easing;
+export type DurationKey = keyof typeof duration;
+export type EasingKey = keyof typeof easing;
 
-export type SpringConfig = typeof spring[keyof typeof spring];
-export type PressFeedback = typeof pressFeedback[keyof typeof pressFeedback];
-export type TimingPreset = typeof timingPreset[TimingPresetKey];
+export type SpringConfig = (typeof spring)[keyof typeof spring];
+export type PressFeedback = (typeof pressFeedback)[keyof typeof pressFeedback];
+export type TimingPreset = (typeof timingPreset)[TimingPresetKey];

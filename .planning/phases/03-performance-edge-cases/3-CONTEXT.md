@@ -117,4 +117,4 @@ Phase 3 xử lý **edge case và an toàn hiển thị** cho **Carousel**, **Ske
 
 ---
 
-*Phase: 03-performance-edge-cases*
+_Phase: 03-performance-edge-cases_

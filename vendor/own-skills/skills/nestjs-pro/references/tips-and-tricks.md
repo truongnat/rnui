@@ -48,4 +48,4 @@
 
 ---
 
-*Check Nest release notes when upgrading — decorators and lifecycle hooks occasionally evolve.*
+_Check Nest release notes when upgrading — decorators and lifecycle hooks occasionally evolve._

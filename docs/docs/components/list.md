@@ -32,32 +32,32 @@ const items = [
 
 ## List Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `data` | `T[]` | -- | Array of items |
-| `renderItem` | `(item: T, index: number) => ReactElement` | -- | Render each row |
-| `estimatedItemSize` | `number` | `60` | FlashList estimate for perf |
-| `separator` | `boolean` | `false` | Render simple separators |
-| `emptyComponent` | `ReactElement` | -- | Render when data is empty |
-| `isLoading` | `boolean` | `false` | Show skeleton rows |
-| `loadingCount` | `number` | `5` | Skeleton row count |
+| Prop                | Type                                       | Default | Description                 |
+| ------------------- | ------------------------------------------ | ------- | --------------------------- |
+| `data`              | `T[]`                                      | --      | Array of items              |
+| `renderItem`        | `(item: T, index: number) => ReactElement` | --      | Render each row             |
+| `estimatedItemSize` | `number`                                   | `60`    | FlashList estimate for perf |
+| `separator`         | `boolean`                                  | `false` | Render simple separators    |
+| `emptyComponent`    | `ReactElement`                             | --      | Render when data is empty   |
+| `isLoading`         | `boolean`                                  | `false` | Show skeleton rows          |
+| `loadingCount`      | `number`                                   | `5`     | Skeleton row count          |
 
 `List` also accepts all `FlashList` props (e.g. `contentContainerStyle`, `refreshing`, `onEndReached`).
 
 ## ListItem Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `title` | `string` | -- | Primary text |
-| `subtitle` | `string` | -- | Secondary text |
-| `leading` | `ReactNode` | -- | Leading icon or element |
-| `trailing` | `ReactNode` | -- | Trailing icon or element |
-| `onPress` | `() => void` | -- | Row press handler |
-| `onLongPress` | `() => void` | -- | Long press handler |
-| `leadingActions` | `SwipeAction[]` | `[]` | Swipe-right actions |
-| `trailingActions` | `SwipeAction[]` | `[]` | Swipe-left actions |
-| `disabled` | `boolean` | `false` | Disable interaction |
-| `showSeparator` | `boolean` | `true` | Show bottom separator |
+| Prop              | Type            | Default | Description              |
+| ----------------- | --------------- | ------- | ------------------------ |
+| `title`           | `string`        | --      | Primary text             |
+| `subtitle`        | `string`        | --      | Secondary text           |
+| `leading`         | `ReactNode`     | --      | Leading icon or element  |
+| `trailing`        | `ReactNode`     | --      | Trailing icon or element |
+| `onPress`         | `() => void`    | --      | Row press handler        |
+| `onLongPress`     | `() => void`    | --      | Long press handler       |
+| `leadingActions`  | `SwipeAction[]` | `[]`    | Swipe-right actions      |
+| `trailingActions` | `SwipeAction[]` | `[]`    | Swipe-left actions       |
+| `disabled`        | `boolean`       | `false` | Disable interaction      |
+| `showSeparator`   | `boolean`       | `true`  | Show bottom separator    |
 
 `SwipeAction` shape:
 
@@ -71,8 +71,6 @@ const items = [
 ```tsx
 <ListItem
   title="Delete me"
-  trailingActions={[
-    { label: "Delete", color: "#F44336", onPress: () => {} },
-  ]}
+  trailingActions={[{ label: 'Delete', color: '#F44336', onPress: () => {} }]}
 />
 ```

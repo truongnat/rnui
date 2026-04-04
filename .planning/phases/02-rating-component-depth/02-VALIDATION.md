@@ -15,13 +15,13 @@ created: 2026-04-02
 
 ## Test Infrastructure
 
-| Property | Value |
-|----------|-------|
-| **Framework** | Jest + React Native Testing Library |
-| **Config file** | `packages/ui/jest.config.js` |
-| **Quick run command** | `cd packages/ui && npx jest --config jest.config.js src/components/Rating/__tests__/Rating.test.tsx` |
-| **Full suite command** | `cd packages/ui && npx jest --config jest.config.js` |
-| **Estimated runtime** | ~30–90 seconds (full UI package) |
+| Property               | Value                                                                                                |
+| ---------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Framework**          | Jest + React Native Testing Library                                                                  |
+| **Config file**        | `packages/ui/jest.config.js`                                                                         |
+| **Quick run command**  | `cd packages/ui && npx jest --config jest.config.js src/components/Rating/__tests__/Rating.test.tsx` |
+| **Full suite command** | `cd packages/ui && npx jest --config jest.config.js`                                                 |
+| **Estimated runtime**  | ~30–90 seconds (full UI package)                                                                     |
 
 ---
 
@@ -36,12 +36,12 @@ created: 2026-04-02
 
 ## Per-Task Verification Map
 
-| Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
-|---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 2-01-T1 | 02-01 | 1 | A11Y-02 | unit + grep | `jest Rating.test.tsx` + `rg accessibilityRole` | ✅ | ⬜ pending |
-| 2-01-T2 | 02-01 | 1 | A11Y-02 | unit | `jest Rating.test.tsx` (announce mock) | ✅ | ⬜ pending |
-| 2-01-T3 | 02-01 | 1 | A11Y-02, RATE-03 | tsc + jest | `tsc --noEmit` + `jest Rating.test.tsx` | ✅ | ⬜ pending |
-| 2-01-T4 | 02-01 | 1 | RATE-03 | unit | `jest Rating.test.tsx` (compact/showValue/iconNames) | ✅ | ⬜ pending |
+| Task ID | Plan  | Wave | Requirement      | Test Type   | Automated Command                                    | File Exists | Status     |
+| ------- | ----- | ---- | ---------------- | ----------- | ---------------------------------------------------- | ----------- | ---------- |
+| 2-01-T1 | 02-01 | 1    | A11Y-02          | unit + grep | `jest Rating.test.tsx` + `rg accessibilityRole`      | ✅          | ⬜ pending |
+| 2-01-T2 | 02-01 | 1    | A11Y-02          | unit        | `jest Rating.test.tsx` (announce mock)               | ✅          | ⬜ pending |
+| 2-01-T3 | 02-01 | 1    | A11Y-02, RATE-03 | tsc + jest  | `tsc --noEmit` + `jest Rating.test.tsx`              | ✅          | ⬜ pending |
+| 2-01-T4 | 02-01 | 1    | RATE-03          | unit        | `jest Rating.test.tsx` (compact/showValue/iconNames) | ✅          | ⬜ pending |
 
 ---
 
@@ -49,15 +49,15 @@ created: 2026-04-02
 
 - [x] Existing Jest + `Rating.test.tsx` — extend, no new framework
 
-*Existing infrastructure covers all phase requirements.*
+_Existing infrastructure covers all phase requirements._
 
 ---
 
 ## Manual-Only Verifications
 
-| Behavior | Requirement | Why Manual | Test Instructions |
-|----------|-------------|------------|-------------------|
-| VoiceOver / TalkBack adjustable | A11Y-02 | Simulator/device SR | Enable SR; focus rating; verify single summary + increment/decrement if implemented |
+| Behavior                        | Requirement | Why Manual          | Test Instructions                                                                   |
+| ------------------------------- | ----------- | ------------------- | ----------------------------------------------------------------------------------- |
+| VoiceOver / TalkBack adjustable | A11Y-02     | Simulator/device SR | Enable SR; focus rating; verify single summary + increment/decrement if implemented |
 
 ---
 

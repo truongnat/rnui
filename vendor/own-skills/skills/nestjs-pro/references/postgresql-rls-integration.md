@@ -90,4 +90,4 @@ Verify with your Prisma version docs for **interactive transactions** and connec
 
 ---
 
-*For policy SQL and PostgreSQL semantics, always prefer **`postgresql-pro`**; this file is NestJS integration only.*
+_For policy SQL and PostgreSQL semantics, always prefer **`postgresql-pro`**; this file is NestJS integration only._

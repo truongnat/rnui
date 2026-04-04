@@ -11,7 +11,10 @@ export type SkillInfo = {
   content?: string;
 };
 
-export function listSkillDirs(repoRoot: string, includeTemplate = false): string[] {
+export function listSkillDirs(
+  repoRoot: string,
+  includeTemplate = false
+): string[] {
   const skillsRoot = resolve(repoRoot, 'skills');
   if (!existsSync(skillsRoot)) return [];
   const out: string[] = [];
@@ -36,8 +39,18 @@ export function readSkillInfo(dir: string): SkillInfo {
   }
   const raw = readFileSync(skillMd, 'utf8');
   const parsed = matter(raw);
-  const name = typeof parsed.data.name === 'string' ? parsed.data.name.trim() : undefined;
+  const name =
+    typeof parsed.data.name === 'string' ? parsed.data.name.trim() : undefined;
   const description =
-    typeof parsed.data.description === 'string' ? parsed.data.description.trim() : undefined;
-  return { folder, path: dir, hasSkillMd: true, name, description, content: parsed.content };
+    typeof parsed.data.description === 'string'
+      ? parsed.data.description.trim()
+      : undefined;
+  return {
+    folder,
+    path: dir,
+    hasSkillMd: true,
+    name,
+    description,
+    content: parsed.content,
+  };
 }

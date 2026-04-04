@@ -19,8 +19,8 @@
 
 ## Validation Architecture
 
-| Verify | Method |
-|--------|--------|
-| Headless | `bun test` `useOTPInput.test.tsx`; `bun tsc --noEmit` `packages/headless` |
-| UI | `bun test` `OTPInput.test.tsx`, `DatePicker.test.tsx`; `bun tsc --noEmit` `packages/ui` |
-| BL-01 / BL-02 | Grep prop forward; test paste + locale mock nếu khả thi |
+| Verify        | Method                                                                                  |
+| ------------- | --------------------------------------------------------------------------------------- |
+| Headless      | `bun test` `useOTPInput.test.tsx`; `bun tsc --noEmit` `packages/headless`               |
+| UI            | `bun test` `OTPInput.test.tsx`, `DatePicker.test.tsx`; `bun tsc --noEmit` `packages/ui` |
+| BL-01 / BL-02 | Grep prop forward; test paste + locale mock nếu khả thi                                 |

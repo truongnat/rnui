@@ -5,12 +5,12 @@ Switch between sections.
 ## Usage
 
 ```tsx
-import { Tabs, Tab } from "@truongdq01/ui";
+import { Tabs, Tab } from '@truongdq01/ui';
 
 <Tabs value={0}>
   <Tab value={0} label="Overview" />
   <Tab value={1} label="Details" />
-</Tabs>
+</Tabs>;
 ```
 
 ## Notes

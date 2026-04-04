@@ -1,11 +1,11 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { AppBar, Toolbar } from "../AppBar";
-import { ThemeProvider } from "@truongdq01/headless";
-import { Text } from "react-native";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { AppBar, Toolbar } from '../AppBar';
+import { ThemeProvider } from '@truongdq01/headless';
+import { Text } from 'react-native';
 
-describe("AppBar", () => {
-  it("renders children correctly", () => {
+describe('AppBar', () => {
+  it('renders children correctly', () => {
     const { getByText } = render(
       <ThemeProvider>
         <AppBar>
@@ -16,10 +16,10 @@ describe("AppBar", () => {
       </ThemeProvider>
     );
 
-    expect(getByText("Title")).toBeTruthy();
+    expect(getByText('Title')).toBeTruthy();
   });
 
-  it("applies variant and position styles", () => {
+  it('applies variant and position styles', () => {
     const { root } = render(
       <ThemeProvider>
         <AppBar variant="outlined" position="absolute">

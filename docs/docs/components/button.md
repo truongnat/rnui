@@ -5,28 +5,28 @@ The `Button` component wraps `usePressable` from the headless layer. All animati
 ## Usage
 
 ```tsx
-import { Button } from "@truongdq01/ui";
+import { Button } from '@truongdq01/ui';
 
-<Button label="Save changes" variant="solid" onPress={handleSave} />
+<Button label="Save changes" variant="solid" onPress={handleSave} />;
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `label` | `string` | — | Button text (optional for icon-only) |
-| `variant` | `"solid" \| "outline" \| "ghost" \| "destructive"` | `"solid"` | Visual style |
-| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Height and padding preset |
-| `onPress` | `() => void` | — | Press callback |
-| `onLongPress` | `() => void` | — | Long press callback |
-| `loading` | `boolean` | `false` | Show spinner, disable press |
-| `disabled` | `boolean` | `false` | Disable interaction and dim |
-| `leadingIcon` | `ReactNode` | — | Slot before label (or center if no label) |
-| `trailingIcon` | `ReactNode` | — | Slot after label |
-| `feedbackMode` | `"scale" \| "scaleSubtle" \| "opacity" \| "none"` | `"scale"` | Press animation |
-| `fullWidth` | `boolean` | `false` | Fill container width |
-| `accessibilityLabel` | `string` | `label` | Override a11y label |
-| `accessibilityHint` | `string` | — | Screen reader hint |
+| Prop                 | Type                                               | Default   | Description                               |
+| -------------------- | -------------------------------------------------- | --------- | ----------------------------------------- |
+| `label`              | `string`                                           | —         | Button text (optional for icon-only)      |
+| `variant`            | `"solid" \| "outline" \| "ghost" \| "destructive"` | `"solid"` | Visual style                              |
+| `size`               | `"sm" \| "md" \| "lg"`                             | `"md"`    | Height and padding preset                 |
+| `onPress`            | `() => void`                                       | —         | Press callback                            |
+| `onLongPress`        | `() => void`                                       | —         | Long press callback                       |
+| `loading`            | `boolean`                                          | `false`   | Show spinner, disable press               |
+| `disabled`           | `boolean`                                          | `false`   | Disable interaction and dim               |
+| `leadingIcon`        | `ReactNode`                                        | —         | Slot before label (or center if no label) |
+| `trailingIcon`       | `ReactNode`                                        | —         | Slot after label                          |
+| `feedbackMode`       | `"scale" \| "scaleSubtle" \| "opacity" \| "none"`  | `"scale"` | Press animation                           |
+| `fullWidth`          | `boolean`                                          | `false`   | Fill container width                      |
+| `accessibilityLabel` | `string`                                           | `label`   | Override a11y label                       |
+| `accessibilityHint`  | `string`                                           | —         | Screen reader hint                        |
 
 ## Variants
 
@@ -77,15 +77,15 @@ import { Plus, Send, Mail } from "lucide-react-native";
 ## Headless usage
 
 ```tsx
-import { usePressable } from "@truongdq01/headless";
-import Animated from "react-native-reanimated";
-import { GestureDetector } from "react-native-gesture-handler";
+import { usePressable } from '@truongdq01/headless';
+import Animated from 'react-native-reanimated';
+import { GestureDetector } from 'react-native-gesture-handler';
 
 function MyButton({ label, onPress }) {
   const { tokens } = useTheme();
   const { gesture, animatedStyle, accessibilityProps } = usePressable({
     onPress,
-    feedbackMode: "scale",
+    feedbackMode: 'scale',
     accessibilityLabel: label,
   });
 

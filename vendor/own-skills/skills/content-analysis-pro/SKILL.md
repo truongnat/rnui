@@ -19,15 +19,15 @@ Use this skill when **source material** (files, pasted text, described media) mu
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `content-analysis-pro` |
-|-------|---------------------------------------------|
-| **`business-analysis-pro`** | Turn extracted facts into requirements, decisions, or BRD sections |
-| **`security-pro`** | Redaction, handling credentials or sensitive data seen in screenshots |
-| **`seo-pro`** | Rare — only if analyzing **web** or **marketing** assets for search |
-| **`data-analysis-pro`** | CSV/Parquet/SQLite **numeric** profiling, pivots, charts — not “what does this PDF say?” |
-| **`image-processing-pro`** | Resize, convert, composite **images** — not semantic description of content |
-| **`sql-data-access-pro`** | **Query** attached `.db` / **SQL** exploration with **stdlib** — not Postgres **RLS** tuning |
-| **`postgresql-pro`** | **Server** PostgreSQL schema, migrations, **EXPLAIN**, ops |
+| Skill                       | When to combine with `content-analysis-pro`                                                  |
+| --------------------------- | -------------------------------------------------------------------------------------------- |
+| **`business-analysis-pro`** | Turn extracted facts into requirements, decisions, or BRD sections                           |
+| **`security-pro`**          | Redaction, handling credentials or sensitive data seen in screenshots                        |
+| **`seo-pro`**               | Rare — only if analyzing **web** or **marketing** assets for search                          |
+| **`data-analysis-pro`**     | CSV/Parquet/SQLite **numeric** profiling, pivots, charts — not “what does this PDF say?”     |
+| **`image-processing-pro`**  | Resize, convert, composite **images** — not semantic description of content                  |
+| **`sql-data-access-pro`**   | **Query** attached `.db` / **SQL** exploration with **stdlib** — not Postgres **RLS** tuning |
+| **`postgresql-pro`**        | **Server** PostgreSQL schema, migrations, **EXPLAIN**, ops                                   |
 
 **Boundary:** **`content-analysis-pro`** = **read and report** on provided content (one skill for all modalities — avoid duplicating “read-only” PDF vs doc skills). **`business-analysis-pro`** = **business problem framing** and delivery artifacts. **Authoring** spreadsheets/charts or **pixel** image transforms → **`data-analysis-pro`** / **`image-processing-pro`**.
 
@@ -96,12 +96,12 @@ Details: [references/file-formats-dispatch-and-scope.md](references/file-formats
 
 - `references/` — methods, reporting, tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| Methods & frames | [references/analysis-methods-and-frames.md](references/analysis-methods-and-frames.md) |
-| Reporting & limitations | [references/reporting-and-limitations.md](references/reporting-and-limitations.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Topic                   | File                                                                                           |
+| ----------------------- | ---------------------------------------------------------------------------------------------- |
+| Methods & frames        | [references/analysis-methods-and-frames.md](references/analysis-methods-and-frames.md)         |
+| Reporting & limitations | [references/reporting-and-limitations.md](references/reporting-and-limitations.md)             |
+| Tips and patterns       | [references/tips-and-tricks.md](references/tips-and-tricks.md)                                 |
+| Edge cases              | [references/edge-cases.md](references/edge-cases.md)                                           |
 | Scope & format dispatch | [references/file-formats-dispatch-and-scope.md](references/file-formats-dispatch-and-scope.md) |
 
 ## Quick example

@@ -1,18 +1,23 @@
-import React, { useCallback, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import React, { useCallback, useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   withSpring,
   Easing,
-} from "react-native-reanimated";
-import { useReduceMotionEnabled } from "@truongdq01/headless";
+} from 'react-native-reanimated';
+import { useReduceMotionEnabled } from '@truongdq01/headless';
 
 /**
  * Animation types for overlay transitions
  */
-export type OverlayAnimationType = "scale" | "slideUp" | "slideDown" | "fade" | "none";
+export type OverlayAnimationType =
+  | 'scale'
+  | 'slideUp'
+  | 'slideDown'
+  | 'fade'
+  | 'none';
 
 /**
  * Props for the AnimatedOverlay component
@@ -69,16 +74,16 @@ export interface AnimatedOverlayProps {
  */
 export function AnimatedOverlay({
   visible,
-  animationType = "scale",
+  animationType = 'scale',
   duration = 300,
   useSpring = false,
   springConfig = {},
   children,
   style,
-  accessibilityLabel = "Overlay content",
+  accessibilityLabel = 'Overlay content',
   onAnimationStart,
   onAnimationEnd,
-  testID = "animated-overlay",
+  testID = 'animated-overlay',
 }: AnimatedOverlayProps) {
   const reducedMotion = useReduceMotionEnabled();
 
@@ -88,32 +93,34 @@ export function AnimatedOverlay({
   const translateY = useSharedValue(20);
 
   // Animation configuration
-  const animationConfig = useSpring ? {
-    dampingRatio: springConfig.dampingRatio ?? 0.8, // Balanced underdamped spring
-    mass: springConfig.mass ?? 1,
-  } : {
-    duration: reducedMotion ? 0 : duration,
-    easing: Easing.out(Easing.cubic),
-  };
+  const animationConfig = useSpring
+    ? {
+        dampingRatio: springConfig.dampingRatio ?? 0.8, // Balanced underdamped spring
+        mass: springConfig.mass ?? 1,
+      }
+    : {
+        duration: reducedMotion ? 0 : duration,
+        easing: Easing.out(Easing.cubic),
+      };
 
   // Create animated style based on animation type
   const animatedStyle = useAnimatedStyle(() => {
     let transform: any[] = [];
 
     switch (animationType) {
-      case "scale":
+      case 'scale':
         transform = [{ scale: scale.value }];
         break;
-      case "slideUp":
+      case 'slideUp':
         transform = [{ translateY: translateY.value }];
         break;
-      case "slideDown":
+      case 'slideDown':
         transform = [{ translateY: translateY.value }];
         break;
-      case "fade":
+      case 'fade':
         // No transform for fade-only
         break;
-      case "none":
+      case 'none':
         // No animations - use shared value for consistency
         return {
           opacity: opacity.value,
@@ -127,53 +134,58 @@ export function AnimatedOverlay({
   });
 
   // Animation trigger function
-  const animate = useCallback((entering: boolean) => {
-    onAnimationStart?.(entering);
+  const animate = useCallback(
+    (entering: boolean) => {
+      onAnimationStart?.(entering);
 
-    const targetOpacity = entering ? 1 : 0;
-    const targetScale = entering ? 1 : 0.9;
-    const targetTranslateY = entering ?
-      0 :
-      animationType === "slideUp" ? 20 : -20;
+      const targetOpacity = entering ? 1 : 0;
+      const targetScale = entering ? 1 : 0.9;
+      const targetTranslateY = entering
+        ? 0
+        : animationType === 'slideUp'
+          ? 20
+          : -20;
 
-    const animateValue = (value: any, target: number) => {
-      return useSpring ?
-        withSpring(target, animationConfig) :
-        withTiming(target, animationConfig);
-    };
+      const animateValue = (value: any, target: number) => {
+        return useSpring
+          ? withSpring(target, animationConfig)
+          : withTiming(target, animationConfig);
+      };
 
-    if (animationType === "none") {
-      // Immediate value setting for no animation
-      opacity.value = targetOpacity;
-    } else {
-      opacity.value = animateValue(opacity, targetOpacity);
-      scale.value = animateValue(scale, targetScale);
+      if (animationType === 'none') {
+        // Immediate value setting for no animation
+        opacity.value = targetOpacity;
+      } else {
+        opacity.value = animateValue(opacity, targetOpacity);
+        scale.value = animateValue(scale, targetScale);
 
-      if (animationType === "slideUp" || animationType === "slideDown") {
-        translateY.value = animateValue(translateY, targetTranslateY);
+        if (animationType === 'slideUp' || animationType === 'slideDown') {
+          translateY.value = animateValue(translateY, targetTranslateY);
+        }
       }
-    }
 
-    // Call completion callback after animation
-    if (!reducedMotion) {
-      setTimeout(() => {
+      // Call completion callback after animation
+      if (!reducedMotion) {
+        setTimeout(() => {
+          onAnimationEnd?.(entering);
+        }, duration);
+      } else {
         onAnimationEnd?.(entering);
-      }, duration);
-    } else {
-      onAnimationEnd?.(entering);
-    }
-  }, [
-    animationType,
-    duration,
-    useSpring,
-    animationConfig,
-    onAnimationStart,
-    onAnimationEnd,
-    reducedMotion,
-    opacity,
-    scale,
-    translateY
-  ]);
+      }
+    },
+    [
+      animationType,
+      duration,
+      useSpring,
+      animationConfig,
+      onAnimationStart,
+      onAnimationEnd,
+      reducedMotion,
+      opacity,
+      scale,
+      translateY,
+    ]
+  );
 
   // Trigger animation when visibility changes
   useEffect(() => {
@@ -182,11 +194,7 @@ export function AnimatedOverlay({
 
   return (
     <Animated.View
-      style={[
-        styles.container,
-        animatedStyle,
-        style,
-      ]}
+      style={[styles.container, animatedStyle, style]}
       accessible={false}
       testID={testID}
     >
@@ -198,13 +206,13 @@ export function AnimatedOverlay({
 const styles = StyleSheet.create({
   container: {
     // Base styles for overlay positioning
-    position: "absolute" as const,
+    position: 'absolute' as const,
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     // Ensure content can be properly sized
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

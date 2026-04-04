@@ -51,4 +51,4 @@
 
 ---
 
-*Vercel-specific: regions, fluid compute, and limits — read platform docs for production SLOs.*
+_Vercel-specific: regions, fluid compute, and limits — read platform docs for production SLOs._

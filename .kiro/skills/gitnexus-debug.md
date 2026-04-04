@@ -29,6 +29,7 @@ Debug issues by tracing execution flows and analyzing symbol relationships.
 ```
 
 Workflow:
+
 1. Find flows related to "button press"
 2. Get context on Button component
 3. Check all callers and event handlers

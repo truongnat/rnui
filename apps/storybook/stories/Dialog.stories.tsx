@@ -1,13 +1,11 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Dialog, Button } from "@truongdq01/ui";
-import { View, Text } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Dialog, Button } from '@truongdq01/ui';
+import { View, Text } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
@@ -46,24 +44,30 @@ const DialogWrapper = (props: any) => {
           </>
         }
       >
-        <Text>{props.children ?? "Dialog content goes here"}</Text>
+        <Text>{props.children ?? 'Dialog content goes here'}</Text>
       </Dialog>
     </View>
   );
 };
 
 const meta = {
-  title: "Components/Dialog",
+  title: 'Components/Dialog',
   component: DialogWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
-    title: { control: "text" },
-    fullWidth: { control: "boolean" },
+    title: { control: 'text' },
+    fullWidth: { control: 'boolean' },
   },
   args: {
-    title: "Dialog Title",
+    title: 'Dialog Title',
     fullWidth: false,
-    children: "Are you sure you want to proceed?",
+    children: 'Are you sure you want to proceed?',
   },
 };
 
@@ -71,11 +75,11 @@ export default meta;
 type Story = StoryObj<typeof DialogWrapper>;
 
 export const Default: Story = {
-  args: { title: "Confirm Action" },
+  args: { title: 'Confirm Action' },
 };
 
 export const FullWidth: Story = {
-  args: { title: "Full Width Dialog", fullWidth: true },
+  args: { title: 'Full Width Dialog', fullWidth: true },
 };
 
 export const WithoutTitle: Story = {

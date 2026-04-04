@@ -4,14 +4,14 @@ Use **[Pillow (PIL)](https://pillow.readthedocs.io/)** for raster work: open, co
 
 ## Common patterns
 
-| Task | Approach |
-|------|----------|
-| **Resize** | `Image.resize((w, h), Image.Resampling.LANCZOS)` — preserve aspect with computed second dimension |
-| **Format conversion** | `open()` then `save(..., format="WEBP")` etc.; or `convert("RGB")` before JPEG |
-| **Crop** | `img.crop((left, upper, right, lower))` — box in pixels |
-| **Thumbnail** | `thumbnail(max_size)` — in-place, preserves aspect |
-| **Composite** | `Image.alpha_composite` or paste with mask for transparency |
-| **Metadata** | `getexif()` / `info` — strip GPS if sharing (**`security-pro`**) |
+| Task                  | Approach                                                                                          |
+| --------------------- | ------------------------------------------------------------------------------------------------- |
+| **Resize**            | `Image.resize((w, h), Image.Resampling.LANCZOS)` — preserve aspect with computed second dimension |
+| **Format conversion** | `open()` then `save(..., format="WEBP")` etc.; or `convert("RGB")` before JPEG                    |
+| **Crop**              | `img.crop((left, upper, right, lower))` — box in pixels                                           |
+| **Thumbnail**         | `thumbnail(max_size)` — in-place, preserves aspect                                                |
+| **Composite**         | `Image.alpha_composite` or paste with mask for transparency                                       |
+| **Metadata**          | `getexif()` / `info` — strip GPS if sharing (**`security-pro`**)                                  |
 
 ## Exports
 

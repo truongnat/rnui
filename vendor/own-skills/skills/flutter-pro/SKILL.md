@@ -91,12 +91,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — detailed docs (widgets, UI/UX, tips, edge cases); open when you need depth.
 
-| Topic | File |
-|-------|------|
-| **Widget craft** | [references/widgets.md](references/widgets.md) |
-| UI/UX design | [references/ui-ux-design.md](references/ui-ux-design.md) |
+| Topic             | File                                                           |
+| ----------------- | -------------------------------------------------------------- |
+| **Widget craft**  | [references/widgets.md](references/widgets.md)                 |
+| UI/UX design      | [references/ui-ux-design.md](references/ui-ux-design.md)       |
 | Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Edge cases        | [references/edge-cases.md](references/edge-cases.md)           |
 
 ## Quick example
 

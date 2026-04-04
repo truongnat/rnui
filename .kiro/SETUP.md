@@ -7,12 +7,14 @@
 Two MCP servers configured:
 
 #### GitNexus (Code Intelligence)
+
 - Command: `/opt/homebrew/bin/npx gitnexus@latest mcp`
 - Auto-approved tools: query, context, impact, detect_changes
 - Status: ✅ Ready (v1.4.10 installed)
 - Index: 398,527 symbols, 562,297 relationships, 300 flows
 
 #### Get Shit Done (Task Management)
+
 - Command: `/opt/homebrew/bin/npx get-shit-done-cc@latest`
 - Status: ✅ Configured
 - Purpose: Task tracking integrated with code intelligence
@@ -21,15 +23,15 @@ Two MCP servers configured:
 
 7 skills created for quick access:
 
-| Skill | Command | Purpose |
-|-------|---------|---------|
-| Code Explorer | `/explore <concept>` | Find code by concept |
-| Symbol Context | `/context <symbol>` | 360° symbol view |
-| Impact Analysis | `/impact <symbol>` | Blast radius analysis |
-| Detect Changes | `/changes [scope]` | Verify modifications |
-| Safe Rename | `/rename <old> <new>` | Graph-based rename |
-| Debug Flow | `/debug <issue>` | Debug with flow analysis |
-| Refresh Index | `/refresh [--embeddings]` | Update code graph |
+| Skill           | Command                   | Purpose                  |
+| --------------- | ------------------------- | ------------------------ |
+| Code Explorer   | `/explore <concept>`      | Find code by concept     |
+| Symbol Context  | `/context <symbol>`       | 360° symbol view         |
+| Impact Analysis | `/impact <symbol>`        | Blast radius analysis    |
+| Detect Changes  | `/changes [scope]`        | Verify modifications     |
+| Safe Rename     | `/rename <old> <new>`     | Graph-based rename       |
+| Debug Flow      | `/debug <issue>`          | Debug with flow analysis |
+| Refresh Index   | `/refresh [--embeddings]` | Update code graph        |
 
 ### 3. Steering Files (`.kiro/steering/`)
 
@@ -44,15 +46,20 @@ All set to `inclusion: auto` - automatically loaded in context.
 ## 🚀 Next Steps
 
 ### 1. Restart Kiro
+
 Restart Kiro IDE to load the new MCP servers and configuration.
 
 ### 2. Verify MCP Servers
+
 Check that both servers are connected:
+
 - Open MCP Server view in Kiro feature panel
 - Verify "gitnexus" and "get-shit-done" show as connected
 
 ### 3. Try Slash Commands
+
 Test the skills:
+
 ```
 /explore button component
 /context Button
@@ -60,9 +67,11 @@ Test the skills:
 ```
 
 ### 4. Set Up Hooks (Optional)
+
 Create automatic workflows:
 
 #### Auto-refresh after commit:
+
 ```json
 {
   "name": "Refresh GitNexus After Commit",
@@ -75,6 +84,7 @@ Create automatic workflows:
 ```
 
 #### Pre-commit verification:
+
 ```json
 {
   "name": "Verify Changes Before Commit",
@@ -89,6 +99,7 @@ Create automatic workflows:
 ## 📖 Usage Examples
 
 ### Example 1: Safe Refactoring
+
 ```
 User: "Rename validateUser to verifyUser"
 You: /impact validateUser
@@ -102,6 +113,7 @@ You: /impact validateUser
 ```
 
 ### Example 2: Understanding Code
+
 ```
 User: "How does authentication work?"
 You: /explore authentication flow
@@ -111,6 +123,7 @@ You: /explore authentication flow
 ```
 
 ### Example 3: Debugging
+
 ```
 User: "Button press not working"
 You: /debug button press not responding
@@ -122,7 +135,9 @@ You: /debug button press not responding
 ## 🔧 Customization
 
 ### Add Custom Skills
+
 Create `.kiro/skills/my-skill.md` with frontmatter:
+
 ```markdown
 ---
 name: My Skill
@@ -132,7 +147,9 @@ description: What it does
 ```
 
 ### Add Steering Rules
+
 Create `.kiro/steering/my-rules.md`:
+
 ```markdown
 ---
 title: My Rules
@@ -141,7 +158,9 @@ inclusion: auto
 ```
 
 ### Modify MCP Config
+
 Edit `.kiro/settings/mcp.json` to:
+
 - Add new MCP servers
 - Change auto-approve lists
 - Adjust environment variables
@@ -175,23 +194,28 @@ Remember these rules (enforced by steering files):
 ## 🆘 Troubleshooting
 
 ### MCP Server Not Connecting
+
 1. Check `/opt/homebrew/bin/npx` exists
 2. Verify GitNexus installed: `npx gitnexus --version`
 3. Check MCP Server view for error messages
 4. Restart Kiro IDE
 
 ### Skills Not Working
+
 1. Verify files in `.kiro/skills/` have correct frontmatter
 2. Restart Kiro to reload skills
 3. Check command palette for skill commands
 
 ### Index Stale Warning
+
 Run:
+
 ```bash
 npx gitnexus analyze
 ```
 
 Or use:
+
 ```
 /refresh
 ```

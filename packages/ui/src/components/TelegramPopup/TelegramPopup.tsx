@@ -1,15 +1,22 @@
-import React, { useCallback } from "react";
-import { View, Text, Pressable, StyleSheet, Modal, useWindowDimensions } from "react-native";
+import React, { useCallback } from 'react';
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Modal,
+  useWindowDimensions,
+} from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   withSpring,
   runOnJS,
-} from "react-native-reanimated";
-import { useTokens } from "@truongdq01/headless";
+} from 'react-native-reanimated';
+import { useTokens } from '@truongdq01/headless';
 // @ts-ignore expo-blur is optional peer dependency
-import { BlurView } from "expo-blur";
+import { BlurView } from 'expo-blur';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -27,13 +34,13 @@ export interface TelegramPopupProps {
   /** Duration in ms before auto-hiding */
   autoHideDuration?: number | null;
   /** Position on screen */
-  position?: "top" | "bottom" | "center";
+  position?: 'top' | 'bottom' | 'center';
   /** Blur background */
   blur?: boolean;
   /** Icon */
   icon?: React.ReactNode;
   /** Variant for different types */
-  variant?: "default" | "success" | "error" | "warning" | "info";
+  variant?: 'default' | 'success' | 'error' | 'warning' | 'info';
 }
 
 // ─── Telegram Popup ───────────────────────────────────────────────
@@ -45,16 +52,16 @@ export function TelegramPopup({
   actions,
   onClose,
   autoHideDuration = 3000,
-  position = "top",
+  position = 'top',
   blur = true,
   icon,
-  variant = "default",
+  variant = 'default',
 }: TelegramPopupProps) {
   const tokens = useTokens();
   const { height: windowHeight } = useWindowDimensions();
   const [mounted, setMounted] = React.useState(open);
 
-  const translateY = useSharedValue(position === "bottom" ? 100 : -100);
+  const translateY = useSharedValue(position === 'bottom' ? 100 : -100);
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.95);
 
@@ -64,17 +71,22 @@ export function TelegramPopup({
     scale.value = withSpring(1, { damping: 25, stiffness: 300 });
   }, []);
 
-  const animateOut = useCallback((onDone: () => void) => {
-    translateY.value = withTiming(position === "bottom" ? 100 : -100, { duration: 200 });
-    opacity.value = withTiming(0, { duration: 150 }, (done) => {
-      if (done) runOnJS(onDone)();
-    });
-  }, [position]);
+  const animateOut = useCallback(
+    (onDone: () => void) => {
+      translateY.value = withTiming(position === 'bottom' ? 100 : -100, {
+        duration: 200,
+      });
+      opacity.value = withTiming(0, { duration: 150 }, (done) => {
+        if (done) runOnJS(onDone)();
+      });
+    },
+    [position]
+  );
 
   React.useEffect(() => {
     if (open) {
       setMounted(true);
-      translateY.value = position === "bottom" ? 80 : -80;
+      translateY.value = position === 'bottom' ? 80 : -80;
       opacity.value = 0;
       requestAnimationFrame(animateIn);
     } else if (mounted) {
@@ -89,15 +101,18 @@ export function TelegramPopup({
   }, [open, autoHideDuration, onClose]);
 
   const positionStyle =
-    position === "top"
-      ? { top: 48, alignSelf: "center" as const }
-      : position === "bottom"
-      ? { bottom: 96, alignSelf: "center" as const }
-      : { alignSelf: "center" as const, top: windowHeight / 2 - 50 };
+    position === 'top'
+      ? { top: 48, alignSelf: 'center' as const }
+      : position === 'bottom'
+        ? { bottom: 96, alignSelf: 'center' as const }
+        : { alignSelf: 'center' as const, top: windowHeight / 2 - 50 };
 
   const animStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-    transform: [{ translateY: translateY.value }, { scale: scale.value }] as const,
+    transform: [
+      { translateY: translateY.value },
+      { scale: scale.value },
+    ] as const,
   }));
 
   const variantColors = {
@@ -111,12 +126,17 @@ export function TelegramPopup({
   if (!mounted && !open) return null;
 
   return (
-    <Modal visible={mounted || open} transparent animationType="none" onRequestClose={onClose}>
+    <Modal
+      visible={mounted || open}
+      transparent
+      animationType="none"
+      onRequestClose={onClose}
+    >
       <Pressable style={styles.overlay} onPress={onClose}>
         {blur && (
           <BlurView
             style={StyleSheet.absoluteFill}
-            tint={tokens.color.bg.default === "#FFFFFF" ? "light" : "dark"}
+            tint={tokens.color.bg.default === '#FFFFFF' ? 'light' : 'dark'}
             intensity={20}
           />
         )}
@@ -141,10 +161,19 @@ export function TelegramPopup({
             {icon && <View style={styles.iconContainer}>{icon}</View>}
             <View style={styles.textContent}>
               {title && (
-                <Text style={[styles.title, { color: tokens.color.text.primary }]}>{title}</Text>
+                <Text
+                  style={[styles.title, { color: tokens.color.text.primary }]}
+                >
+                  {title}
+                </Text>
               )}
-              {typeof message === "string" ? (
-                <Text style={[styles.message, { color: tokens.color.text.secondary }]}>
+              {typeof message === 'string' ? (
+                <Text
+                  style={[
+                    styles.message,
+                    { color: tokens.color.text.secondary },
+                  ]}
+                >
                   {message}
                 </Text>
               ) : (
@@ -164,10 +193,10 @@ export function TelegramPopup({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.05)",
+    backgroundColor: 'rgba(0,0,0,0.05)',
   },
   popup: {
-    position: "absolute",
+    position: 'absolute',
     marginHorizontal: 16,
     minWidth: 280,
     maxWidth: 340,
@@ -175,8 +204,8 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   content: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   iconContainer: {
     marginRight: 12,
@@ -186,7 +215,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 15,
-    fontWeight: "600",
+    fontWeight: '600',
     lineHeight: 20,
     marginBottom: 2,
   },
@@ -195,11 +224,9 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   actions: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     marginTop: 12,
     gap: 8,
   },
 });
-
-

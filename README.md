@@ -24,12 +24,14 @@ A high-performance, dual-layer UI design system for React Native (iOS + Android)
 
 ```tsx
 // Option A — use styled components out of the box
-import { Button } from "@truongdq01/ui";
-<Button label="Save" variant="solid" onPress={save} />
+import { Button } from '@truongdq01/ui';
+<Button label="Save" variant="solid" onPress={save} />;
 
 // Option B — headless only, bring your own styles
-import { usePressable } from "@truongdq01/headless";
-const { gesture, animatedStyle, accessibilityProps } = usePressable({ onPress: save });
+import { usePressable } from '@truongdq01/headless';
+const { gesture, animatedStyle, accessibilityProps } = usePressable({
+  onPress: save,
+});
 ```
 
 ---
@@ -76,7 +78,7 @@ bun storybook
 Wrap your app root in `ThemeProvider`:
 
 ```tsx
-import { ThemeProvider } from "@truongdq01/ui";
+import { ThemeProvider } from '@truongdq01/ui';
 
 export default function App() {
   return (
@@ -90,7 +92,7 @@ export default function App() {
 ### 2. Basic Components
 
 ```tsx
-import { Button, Input, Card, Badge } from "@truongdq01/ui";
+import { Button, Input, Card, Badge } from '@truongdq01/ui';
 
 function MyForm() {
   return (
@@ -106,16 +108,16 @@ function MyForm() {
 ### 3. Theme Override (Brand Customization)
 
 ```tsx
-import { ThemeProvider } from "@truongdq01/ui";
-import { loveBrand } from "@truongdq01/themes";
+import { ThemeProvider } from '@truongdq01/ui';
+import { loveBrand } from '@truongdq01/themes';
 
 const brandOverride = {
   light: {
     color: {
       brand: {
-        default: "#E11D48",   // rose-600
-        hover:   "#BE123C",
-        active:  "#9F1239",
+        default: '#E11D48', // rose-600
+        hover: '#BE123C',
+        active: '#9F1239',
       },
     },
   },
@@ -123,22 +125,22 @@ const brandOverride = {
 
 <ThemeProvider brand={loveBrand} override={brandOverride}>
   <App />
-</ThemeProvider>
+</ThemeProvider>;
 ```
 
 ### 4. Headless Example
 
 ```tsx
-import { usePressable, useTheme } from "@truongdq01/headless";
-import Animated from "react-native-reanimated";
-import { GestureDetector } from "react-native-gesture-handler";
+import { usePressable, useTheme } from '@truongdq01/headless';
+import Animated from 'react-native-reanimated';
+import { GestureDetector } from 'react-native-gesture-handler';
 
 function MyButton({ onPress, children }) {
   const { tokens } = useTheme();
   const { gesture, animatedStyle, accessibilityProps } = usePressable({
     onPress,
-    feedbackMode: "scale",
-    accessibilityLabel: "My button",
+    feedbackMode: 'scale',
+    accessibilityLabel: 'My button',
   });
 
   return (
@@ -167,20 +169,20 @@ function MyButton({ onPress, children }) {
 
 ### ✅ Recently Enhanced (v0.1.0)
 
-| Component | Improvement |
-|-----------|-------------|
-| **Badge** | Added size variants (`sm`, `md`, `lg`) with proper padding |
-| **Chip** | Improved avatar/deleteIcon styling, added `lg` size |
-| **Tooltip** | Fixed positioning, added outside click to close |
-| **Input** | Auto-clear error on first keystroke |
-| **Select** | Clear error on selection |
-| **Autocomplete** | Toggle deselect in single mode |
-| **Carousel** | Auto-play mode with customizable interval |
-| **Snackbar** | Smoother spring animation |
-| **TextField** | Password type with show/hide toggle |
-| **Icon** | **120+ icons** from lucide-react-native |
-| **Timeline** | Status variants (pending/active/completed/error) |
-| **DatePicker** | Quick preset buttons (Today, Last 7/30/90 days) |
+| Component        | Improvement                                                |
+| ---------------- | ---------------------------------------------------------- |
+| **Badge**        | Added size variants (`sm`, `md`, `lg`) with proper padding |
+| **Chip**         | Improved avatar/deleteIcon styling, added `lg` size        |
+| **Tooltip**      | Fixed positioning, added outside click to close            |
+| **Input**        | Auto-clear error on first keystroke                        |
+| **Select**       | Clear error on selection                                   |
+| **Autocomplete** | Toggle deselect in single mode                             |
+| **Carousel**     | Auto-play mode with customizable interval                  |
+| **Snackbar**     | Smoother spring animation                                  |
+| **TextField**    | Password type with show/hide toggle                        |
+| **Icon**         | **120+ icons** from lucide-react-native                    |
+| **Timeline**     | Status variants (pending/active/completed/error)           |
+| **DatePicker**   | Quick preset buttons (Today, Last 7/30/90 days)            |
 
 ### 📦 All Components (62+)
 
@@ -217,12 +219,12 @@ bun run changeset      # Create a new changeset for release
 
 ## Packages
 
-| Package | Version | Description |
-|---------|---------|-------------|
-| `@truongdq01/tokens` | 1.0.3 | Design tokens: primitive, semantic, component, motion |
-| `@truongdq01/headless` | 1.0.3 | ThemeProvider, hooks (usePressable, useDisclosure, etc.) |
-| `@truongdq01/ui` | 1.0.3 | 62+ styled components + all headless re-exports |
-| `@truongdq01/themes` | 1.0.3 | Multi-brand presets (love, ocean, forest, sunset, midnight) |
+| Package                | Version | Description                                                 |
+| ---------------------- | ------- | ----------------------------------------------------------- |
+| `@truongdq01/tokens`   | 1.0.3   | Design tokens: primitive, semantic, component, motion       |
+| `@truongdq01/headless` | 1.0.3   | ThemeProvider, hooks (usePressable, useDisclosure, etc.)    |
+| `@truongdq01/ui`       | 1.0.3   | 62+ styled components + all headless re-exports             |
+| `@truongdq01/themes`   | 1.0.3   | Multi-brand presets (love, ocean, forest, sunset, midnight) |
 
 ---
 
@@ -256,6 +258,7 @@ import { Icon } from "@truongdq01/ui";
 ## Roadmap
 
 ### ✅ Completed (v0.1.0)
+
 - [x] 62 UI components
 - [x] 120+ icon library
 - [x] Token system (primitive → semantic → component)
@@ -268,12 +271,14 @@ import { Icon } from "@truongdq01/ui";
 - [x] Password TextField toggle
 
 ### 🚧 In Progress
+
 - [ ] E2E test suite (Detox)
 - [ ] Performance regression tests (Reassure)
 - [ ] Accessibility audit (WCAG 2.1 AA)
 - [ ] Documentation site (Docusaurus)
 
 ### 📋 Planned
+
 - [ ] Virtualized List with FlashList
 - [ ] Advanced DataTable component
 - [ ] Drag & Drop support
@@ -323,4 +328,4 @@ MIT © 2026 RNUI Project
 
 ---
 
-*Last updated: March 20, 2026*
+_Last updated: March 20, 2026_

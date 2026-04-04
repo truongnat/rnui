@@ -74,29 +74,29 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| `text` _(default)_ | `variant="text"` | No background, subtle hover — dùng cho low-priority actions |
-| `contained` | `variant="contained"` | Filled background — dùng cho primary CTA |
-| `outlined` | `variant="outlined"` | Bordered, transparent bg — dùng cho secondary actions |
+| Variant            | Prop                  | Mô tả                                                       |
+| ------------------ | --------------------- | ----------------------------------------------------------- |
+| `text` _(default)_ | `variant="text"`      | No background, subtle hover — dùng cho low-priority actions |
+| `contained`        | `variant="contained"` | Filled background — dùng cho primary CTA                    |
+| `outlined`         | `variant="outlined"`  | Bordered, transparent bg — dùng cho secondary actions       |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `"text" \| "contained" \| "outlined"` | Visual style |
-| `color` | `"inherit" \| "primary" \| "secondary" \| "success" \| "error" \| "info" \| "warning"` | Color theme |
-| `size` | `"small" \| "medium" \| "large"` | Button size |
-| `disabled` | `bool` | Disable interaction |
-| `startIcon` / `endIcon` | `node` | Icon before/after label |
-| `fullWidth` | `bool` | Stretch to container width |
-| `href` | `string` | Renders as `<a>` link |
-| `loading` | `bool` | Loading state (v7+) |
-| `loadingIndicator` | `node` | Custom loader element |
-| `loadingPosition` | `"start" \| "end" \| "center"` | Loader placement |
-| `disableElevation` | `bool` | Remove shadow (contained variant) |
-| `disableRipple` | `bool` | Remove ripple effect |
-| `component` | `elementType` | Polymorphic root element |
+| Prop                    | Type                                                                                   | Mô tả                             |
+| ----------------------- | -------------------------------------------------------------------------------------- | --------------------------------- |
+| `variant`               | `"text" \| "contained" \| "outlined"`                                                  | Visual style                      |
+| `color`                 | `"inherit" \| "primary" \| "secondary" \| "success" \| "error" \| "info" \| "warning"` | Color theme                       |
+| `size`                  | `"small" \| "medium" \| "large"`                                                       | Button size                       |
+| `disabled`              | `bool`                                                                                 | Disable interaction               |
+| `startIcon` / `endIcon` | `node`                                                                                 | Icon before/after label           |
+| `fullWidth`             | `bool`                                                                                 | Stretch to container width        |
+| `href`                  | `string`                                                                               | Renders as `<a>` link             |
+| `loading`               | `bool`                                                                                 | Loading state (v7+)               |
+| `loadingIndicator`      | `node`                                                                                 | Custom loader element             |
+| `loadingPosition`       | `"start" \| "end" \| "center"`                                                         | Loader placement                  |
+| `disableElevation`      | `bool`                                                                                 | Remove shadow (contained variant) |
+| `disableRipple`         | `bool`                                                                                 | Remove ripple effect              |
+| `component`             | `elementType`                                                                          | Polymorphic root element          |
 
 > **Note:** For icon-only buttons, use `IconButton` instead.
 
@@ -109,24 +109,24 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| `outlined` _(default)_ | `variant="outlined"` | Bordered grouped buttons |
-| `contained` | `variant="contained"` | Filled grouped buttons |
-| `text` | `variant="text"` | Text grouped buttons |
-| Vertical | `orientation="vertical"` | Stacked vertical group |
+| Variant                | Prop                     | Mô tả                    |
+| ---------------------- | ------------------------ | ------------------------ |
+| `outlined` _(default)_ | `variant="outlined"`     | Bordered grouped buttons |
+| `contained`            | `variant="contained"`    | Filled grouped buttons   |
+| `text`                 | `variant="text"`         | Text grouped buttons     |
+| Vertical               | `orientation="vertical"` | Stacked vertical group   |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `"text" \| "contained" \| "outlined"` | Button style cho tất cả |
-| `color` | `string` | Color cho tất cả buttons |
-| `size` | `"small" \| "medium" \| "large"` | Size cho tất cả |
-| `orientation` | `"horizontal" \| "vertical"` | Direction |
-| `disabled` | `bool` | Disable all buttons |
-| `disableElevation` | `bool` | Remove shadow |
-| `fullWidth` | `bool` | Stretch group |
+| Prop               | Type                                  | Mô tả                    |
+| ------------------ | ------------------------------------- | ------------------------ |
+| `variant`          | `"text" \| "contained" \| "outlined"` | Button style cho tất cả  |
+| `color`            | `string`                              | Color cho tất cả buttons |
+| `size`             | `"small" \| "medium" \| "large"`      | Size cho tất cả          |
+| `orientation`      | `"horizontal" \| "vertical"`          | Direction                |
+| `disabled`         | `bool`                                | Disable all buttons      |
+| `disableElevation` | `bool`                                | Remove shadow            |
+| `fullWidth`        | `bool`                                | Stretch group            |
 
 ---
 
@@ -137,20 +137,20 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| `circular` _(default)_ | `variant="circular"` | Round FAB |
-| `extended` | `variant="extended"` | Pill shape with text label |
+| Variant                | Prop                 | Mô tả                      |
+| ---------------------- | -------------------- | -------------------------- |
+| `circular` _(default)_ | `variant="circular"` | Round FAB                  |
+| `extended`             | `variant="extended"` | Pill shape with text label |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `"circular" \| "extended"` | Shape variant |
-| `color` | `"default" \| "inherit" \| "primary" \| "secondary" \| ...` | Color |
-| `size` | `"small" \| "medium" \| "large"` | FAB size |
-| `disabled` | `bool` | Disable |
-| `href` | `string` | Render as anchor link |
+| Prop       | Type                                                        | Mô tả                 |
+| ---------- | ----------------------------------------------------------- | --------------------- |
+| `variant`  | `"circular" \| "extended"`                                  | Shape variant         |
+| `color`    | `"default" \| "inherit" \| "primary" \| "secondary" \| ...` | Color                 |
+| `size`     | `"small" \| "medium" \| "large"`                            | FAB size              |
+| `disabled` | `bool`                                                      | Disable               |
+| `href`     | `string`                                                    | Render as anchor link |
 
 ---
 
@@ -161,39 +161,39 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| `outlined` _(default)_ | `variant="outlined"` | Bordered input box |
-| `filled` | `variant="filled"` | Shaded background input |
-| `standard` | `variant="standard"` | Underline-only input |
-| Multiline | `multiline` | Textarea mode |
-| Select | `select` | Renders `<Select>` inside TextField |
+| Variant                | Prop                 | Mô tả                               |
+| ---------------------- | -------------------- | ----------------------------------- |
+| `outlined` _(default)_ | `variant="outlined"` | Bordered input box                  |
+| `filled`               | `variant="filled"`   | Shaded background input             |
+| `standard`             | `variant="standard"` | Underline-only input                |
+| Multiline              | `multiline`          | Textarea mode                       |
+| Select                 | `select`             | Renders `<Select>` inside TextField |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `"filled" \| "outlined" \| "standard"` | Visual style |
-| `label` | `string` | Floating label text |
-| `value` / `defaultValue` | `string` | Controlled / uncontrolled |
-| `onChange` | `func` | Change callback |
-| `type` | `string` | Input type: `text`, `email`, `password`, `number`... |
-| `multiline` | `bool` | Textarea mode |
-| `rows` / `maxRows` / `minRows` | `number` | Row count control |
-| `placeholder` | `string` | Placeholder text |
-| `helperText` | `node` | Below-input helper hoặc error text |
-| `error` | `bool` | Error state (đỏ viền + helperText) |
-| `required` | `bool` | Required indicator (`*`) |
-| `disabled` | `bool` | Disable input |
-| `fullWidth` | `bool` | Full container width |
-| `size` | `"medium" \| "small"` | Input size |
-| `color` | `string` | Focus ring color |
-| `InputProps` | `object` | `startAdornment`, `endAdornment` |
-| `InputLabelProps` | `object` | `shrink`, etc. |
-| `FormHelperTextProps` | `object` | Helper text props |
-| `autoFocus` | `bool` | Auto-focus on mount |
-| `autoComplete` | `string` | Browser autocomplete hint |
-| `select` | `bool` | Renders Select component inside |
+| Prop                           | Type                                   | Mô tả                                                |
+| ------------------------------ | -------------------------------------- | ---------------------------------------------------- |
+| `variant`                      | `"filled" \| "outlined" \| "standard"` | Visual style                                         |
+| `label`                        | `string`                               | Floating label text                                  |
+| `value` / `defaultValue`       | `string`                               | Controlled / uncontrolled                            |
+| `onChange`                     | `func`                                 | Change callback                                      |
+| `type`                         | `string`                               | Input type: `text`, `email`, `password`, `number`... |
+| `multiline`                    | `bool`                                 | Textarea mode                                        |
+| `rows` / `maxRows` / `minRows` | `number`                               | Row count control                                    |
+| `placeholder`                  | `string`                               | Placeholder text                                     |
+| `helperText`                   | `node`                                 | Below-input helper hoặc error text                   |
+| `error`                        | `bool`                                 | Error state (đỏ viền + helperText)                   |
+| `required`                     | `bool`                                 | Required indicator (`*`)                             |
+| `disabled`                     | `bool`                                 | Disable input                                        |
+| `fullWidth`                    | `bool`                                 | Full container width                                 |
+| `size`                         | `"medium" \| "small"`                  | Input size                                           |
+| `color`                        | `string`                               | Focus ring color                                     |
+| `InputProps`                   | `object`                               | `startAdornment`, `endAdornment`                     |
+| `InputLabelProps`              | `object`                               | `shrink`, etc.                                       |
+| `FormHelperTextProps`          | `object`                               | Helper text props                                    |
+| `autoFocus`                    | `bool`                                 | Auto-focus on mount                                  |
+| `autoComplete`                 | `string`                               | Browser autocomplete hint                            |
+| `select`                       | `bool`                                 | Renders Select component inside                      |
 
 ---
 
@@ -204,29 +204,29 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| `outlined` _(default)_ | `variant="outlined"` | Bordered dropdown |
-| `filled` | `variant="filled"` | Shaded background dropdown |
-| `standard` | `variant="standard"` | Underline-only dropdown |
-| Multiple | `multiple` | Multi-select mode |
-| Native | `native` | Browser `<select>` element |
+| Variant                | Prop                 | Mô tả                      |
+| ---------------------- | -------------------- | -------------------------- |
+| `outlined` _(default)_ | `variant="outlined"` | Bordered dropdown          |
+| `filled`               | `variant="filled"`   | Shaded background dropdown |
+| `standard`             | `variant="standard"` | Underline-only dropdown    |
+| Multiple               | `multiple`           | Multi-select mode          |
+| Native                 | `native`             | Browser `<select>` element |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `value` / `defaultValue` | `any` | Controlled / uncontrolled |
-| `multiple` | `bool` | Multi-select |
-| `native` | `bool` | Use HTML native select |
-| `variant` | `"filled" \| "outlined" \| "standard"` | Input style |
-| `label` | `string` | Floating label |
-| `onChange` | `func` | Change callback `(event) => {}` |
-| `open` / `onOpen` / `onClose` | `bool/func` | Dropdown control |
-| `renderValue` | `func` | Custom value display |
-| `displayEmpty` | `bool` | Show empty placeholder option |
-| `MenuProps` | `object` | Dropdown menu props |
-| `autoWidth` | `bool` | Min-width equals anchor |
+| Prop                          | Type                                   | Mô tả                           |
+| ----------------------------- | -------------------------------------- | ------------------------------- |
+| `value` / `defaultValue`      | `any`                                  | Controlled / uncontrolled       |
+| `multiple`                    | `bool`                                 | Multi-select                    |
+| `native`                      | `bool`                                 | Use HTML native select          |
+| `variant`                     | `"filled" \| "outlined" \| "standard"` | Input style                     |
+| `label`                       | `string`                               | Floating label                  |
+| `onChange`                    | `func`                                 | Change callback `(event) => {}` |
+| `open` / `onOpen` / `onClose` | `bool/func`                            | Dropdown control                |
+| `renderValue`                 | `func`                                 | Custom value display            |
+| `displayEmpty`                | `bool`                                 | Show empty placeholder option   |
+| `MenuProps`                   | `object`                               | Dropdown menu props             |
+| `autoWidth`                   | `bool`                                 | Min-width equals anchor         |
 
 > **Note:** Cần wrap trong `FormControl` để label float đúng cách.
 
@@ -239,33 +239,33 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Combo box | `options={array}` | Single-value suggestion list |
-| Multiple | `multiple` | Multi-value với chips |
-| Free solo | `freeSolo` | Cho phép nhập giá trị tùy ý |
-| Grouped | `groupBy={fn}` | Nhóm options theo category |
+| Variant     | Prop               | Mô tả                                 |
+| ----------- | ------------------ | ------------------------------------- |
+| Combo box   | `options={array}`  | Single-value suggestion list          |
+| Multiple    | `multiple`         | Multi-value với chips                 |
+| Free solo   | `freeSolo`         | Cho phép nhập giá trị tùy ý           |
+| Grouped     | `groupBy={fn}`     | Nhóm options theo category            |
 | Virtualized | `ListboxComponent` | Dành cho danh sách lớn (react-window) |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `options` | `array` | Danh sách suggestions |
-| `value` / `defaultValue` | `any` | Controlled / uncontrolled |
-| `multiple` | `bool` | Multi-select mode |
-| `freeSolo` | `bool` | Cho phép arbitrary input |
-| `loading` | `bool` | Show loading spinner |
-| `getOptionLabel` | `func` | Extractor lấy label từ option |
-| `isOptionEqualToValue` | `func` | Value equality check |
-| `filterOptions` | `func` | Custom filter logic |
-| `renderOption` | `func` | Custom option render |
-| `renderTags` | `func` | Custom chip render (multiple) |
-| `groupBy` | `func` | Group options by field |
-| `open` / `onOpen` / `onClose` | `bool/func` | Dropdown control |
-| `inputValue` / `onInputChange` | `string/func` | Input text control |
-| `onChange` | `func` | Value change callback |
-| `disableCloseOnSelect` | `bool` | Keep open after select |
+| Prop                           | Type          | Mô tả                         |
+| ------------------------------ | ------------- | ----------------------------- |
+| `options`                      | `array`       | Danh sách suggestions         |
+| `value` / `defaultValue`       | `any`         | Controlled / uncontrolled     |
+| `multiple`                     | `bool`        | Multi-select mode             |
+| `freeSolo`                     | `bool`        | Cho phép arbitrary input      |
+| `loading`                      | `bool`        | Show loading spinner          |
+| `getOptionLabel`               | `func`        | Extractor lấy label từ option |
+| `isOptionEqualToValue`         | `func`        | Value equality check          |
+| `filterOptions`                | `func`        | Custom filter logic           |
+| `renderOption`                 | `func`        | Custom option render          |
+| `renderTags`                   | `func`        | Custom chip render (multiple) |
+| `groupBy`                      | `func`        | Group options by field        |
+| `open` / `onOpen` / `onClose`  | `bool/func`   | Dropdown control              |
+| `inputValue` / `onInputChange` | `string/func` | Input text control            |
+| `onChange`                     | `func`        | Value change callback         |
+| `disableCloseOnSelect`         | `bool`        | Keep open after select        |
 
 > **Note:** Luôn cần `renderInput` prop (thường dùng `TextField`). Có built-in clear & open buttons.
 
@@ -278,24 +278,24 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Standard checkbox |
-| Indeterminate | `indeterminate` | Trạng thái partially selected |
-| With label | `<FormControlLabel>` | Label qua FormControlLabel wrapper |
+| Variant       | Prop                 | Mô tả                              |
+| ------------- | -------------------- | ---------------------------------- |
+| Default       | —                    | Standard checkbox                  |
+| Indeterminate | `indeterminate`      | Trạng thái partially selected      |
+| With label    | `<FormControlLabel>` | Label qua FormControlLabel wrapper |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `checked` / `defaultChecked` | `bool` | Controlled / uncontrolled |
-| `indeterminate` | `bool` | Hiển thị dash (partial state) |
-| `color` | `"default" \| "primary" \| "secondary" \| "error" \| "info" \| "success" \| "warning"` | Color |
-| `size` | `"small" \| "medium" \| "large"` | Checkbox size |
-| `disabled` | `bool` | Disable |
-| `icon` / `checkedIcon` | `node` | Custom icons |
-| `onChange` | `func` | Change callback |
-| `required` | `bool` | Mark as required |
+| Prop                         | Type                                                                                   | Mô tả                         |
+| ---------------------------- | -------------------------------------------------------------------------------------- | ----------------------------- |
+| `checked` / `defaultChecked` | `bool`                                                                                 | Controlled / uncontrolled     |
+| `indeterminate`              | `bool`                                                                                 | Hiển thị dash (partial state) |
+| `color`                      | `"default" \| "primary" \| "secondary" \| "error" \| "info" \| "success" \| "warning"` | Color                         |
+| `size`                       | `"small" \| "medium" \| "large"`                                                       | Checkbox size                 |
+| `disabled`                   | `bool`                                                                                 | Disable                       |
+| `icon` / `checkedIcon`       | `node`                                                                                 | Custom icons                  |
+| `onChange`                   | `func`                                                                                 | Change callback               |
+| `required`                   | `bool`                                                                                 | Mark as required              |
 
 > **Note:** Wrap với `FormControlLabel` để có accessible label. Dùng `FormGroup` để nhóm nhiều checkboxes.
 
@@ -308,24 +308,24 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Standalone radio button |
+| Variant    | Prop           | Mô tả                          |
+| ---------- | -------------- | ------------------------------ |
+| Default    | —              | Standalone radio button        |
 | RadioGroup | `<RadioGroup>` | Managed group với shared value |
-| Row | `row` | Horizontal layout |
+| Row        | `row`          | Horizontal layout              |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `value` | `any` | Group selected value (RadioGroup) |
-| `defaultValue` | `any` | Default selected value |
-| `onChange` | `func` | Change callback |
-| `row` | `bool` | Horizontal layout |
-| `name` | `string` | Form field name |
-| `color` | `string` | Radio color |
-| `size` | `"small" \| "medium"` | Radio size |
-| `disabled` | `bool` | Disable |
+| Prop           | Type                  | Mô tả                             |
+| -------------- | --------------------- | --------------------------------- |
+| `value`        | `any`                 | Group selected value (RadioGroup) |
+| `defaultValue` | `any`                 | Default selected value            |
+| `onChange`     | `func`                | Change callback                   |
+| `row`          | `bool`                | Horizontal layout                 |
+| `name`         | `string`              | Form field name                   |
+| `color`        | `string`              | Radio color                       |
+| `size`         | `"small" \| "medium"` | Radio size                        |
+| `disabled`     | `bool`                | Disable                           |
 
 ---
 
@@ -336,22 +336,22 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Standard toggle switch |
+| Variant    | Prop                 | Mô tả                      |
+| ---------- | -------------------- | -------------------------- |
+| Default    | —                    | Standard toggle switch     |
 | With label | `<FormControlLabel>` | Label qua FormControlLabel |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `checked` / `defaultChecked` | `bool` | Controlled / uncontrolled |
-| `color` | `"default" \| "primary" \| "secondary" \| ...` | Color |
-| `size` | `"small" \| "medium"` | Switch size |
-| `disabled` | `bool` | Disable |
-| `edge` | `"end" \| "start" \| false` | Negative margin side |
-| `onChange` | `func` | Change callback |
-| `inputProps` | `object` | Props cho input element |
+| Prop                         | Type                                           | Mô tả                     |
+| ---------------------------- | ---------------------------------------------- | ------------------------- |
+| `checked` / `defaultChecked` | `bool`                                         | Controlled / uncontrolled |
+| `color`                      | `"default" \| "primary" \| "secondary" \| ...` | Color                     |
+| `size`                       | `"small" \| "medium"`                          | Switch size               |
+| `disabled`                   | `bool`                                         | Disable                   |
+| `edge`                       | `"end" \| "start" \| false`                    | Negative margin side      |
+| `onChange`                   | `func`                                         | Change callback           |
+| `inputProps`                 | `object`                                       | Props cho input element   |
 
 ---
 
@@ -362,32 +362,32 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Continuous | — | Smooth sliding |
-| Discrete | `step={n}` + `marks` | Snaps to steps với marks |
-| Range | `value={[min, max]}` | Two-thumb range selector |
-| Vertical | `orientation="vertical"` | Vertical slider |
+| Variant    | Prop                     | Mô tả                    |
+| ---------- | ------------------------ | ------------------------ |
+| Continuous | —                        | Smooth sliding           |
+| Discrete   | `step={n}` + `marks`     | Snaps to steps với marks |
+| Range      | `value={[min, max]}`     | Two-thumb range selector |
+| Vertical   | `orientation="vertical"` | Vertical slider          |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `value` / `defaultValue` | `number \| [number, number]` | Controlled value |
-| `min` / `max` | `number` | Value range bounds |
-| `step` | `number \| null` | Increment step |
-| `marks` | `bool \| array` | Step marks / custom marks |
-| `orientation` | `"horizontal" \| "vertical"` | Layout direction |
-| `color` | `"primary" \| "secondary"` | Color |
-| `size` | `"small" \| "medium"` | Track size |
-| `track` | `"inverted" \| "normal" \| false` | Track fill style |
-| `disabled` | `bool` | Disable slider |
-| `onChange` | `func` | Live change callback |
-| `onChangeCommitted` | `func` | Final change (mouse up) |
-| `valueLabelDisplay` | `"auto" \| "off" \| "on"` | Tooltip behavior |
-| `valueLabelFormat` | `func \| string` | Format tooltip value |
-| `scale` | `func` | Custom value scaling |
-| `getAriaLabel` | `func` | Accessibility label |
+| Prop                     | Type                              | Mô tả                     |
+| ------------------------ | --------------------------------- | ------------------------- |
+| `value` / `defaultValue` | `number \| [number, number]`      | Controlled value          |
+| `min` / `max`            | `number`                          | Value range bounds        |
+| `step`                   | `number \| null`                  | Increment step            |
+| `marks`                  | `bool \| array`                   | Step marks / custom marks |
+| `orientation`            | `"horizontal" \| "vertical"`      | Layout direction          |
+| `color`                  | `"primary" \| "secondary"`        | Color                     |
+| `size`                   | `"small" \| "medium"`             | Track size                |
+| `track`                  | `"inverted" \| "normal" \| false` | Track fill style          |
+| `disabled`               | `bool`                            | Disable slider            |
+| `onChange`               | `func`                            | Live change callback      |
+| `onChangeCommitted`      | `func`                            | Final change (mouse up)   |
+| `valueLabelDisplay`      | `"auto" \| "off" \| "on"`         | Tooltip behavior          |
+| `valueLabelFormat`       | `func \| string`                  | Format tooltip value      |
+| `scale`                  | `func`                            | Custom value scaling      |
+| `getAriaLabel`           | `func`                            | Accessibility label       |
 
 ---
 
@@ -398,27 +398,27 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | 5-star interactive rating |
-| Read only | `readOnly` | Display-only, không interact |
-| Half precision | `precision={0.5}` | Half-star increment |
-| Custom icon | `icon` / `emptyIcon` | Custom icon components |
+| Variant        | Prop                 | Mô tả                        |
+| -------------- | -------------------- | ---------------------------- |
+| Default        | —                    | 5-star interactive rating    |
+| Read only      | `readOnly`           | Display-only, không interact |
+| Half precision | `precision={0.5}`    | Half-star increment          |
+| Custom icon    | `icon` / `emptyIcon` | Custom icon components       |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `value` / `defaultValue` | `number` | Controlled / uncontrolled |
-| `max` | `number` | Max stars (default: 5) |
-| `precision` | `number` | Increment step (0.5, 1) |
-| `readOnly` | `bool` | No interaction |
-| `disabled` | `bool` | Grayed out |
-| `size` | `"small" \| "medium" \| "large"` | Star size |
-| `icon` / `emptyIcon` | `node` | Custom icons |
-| `onChange` | `func` | Value change callback |
-| `getLabelText` | `func` | Aria label cho mỗi value |
-| `highlightSelectedOnly` | `bool` | Chỉ selected star được highlight |
+| Prop                     | Type                             | Mô tả                            |
+| ------------------------ | -------------------------------- | -------------------------------- |
+| `value` / `defaultValue` | `number`                         | Controlled / uncontrolled        |
+| `max`                    | `number`                         | Max stars (default: 5)           |
+| `precision`              | `number`                         | Increment step (0.5, 1)          |
+| `readOnly`               | `bool`                           | No interaction                   |
+| `disabled`               | `bool`                           | Grayed out                       |
+| `size`                   | `"small" \| "medium" \| "large"` | Star size                        |
+| `icon` / `emptyIcon`     | `node`                           | Custom icons                     |
+| `onChange`               | `func`                           | Value change callback            |
+| `getLabelText`           | `func`                           | Aria label cho mỗi value         |
+| `highlightSelectedOnly`  | `bool`                           | Chỉ selected star được highlight |
 
 ---
 
@@ -429,25 +429,25 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Exclusive | `exclusive` | Chỉ một item active tại một thời điểm |
-| Multiple | — | Nhiều item được chọn đồng thời |
-| Vertical | `orientation="vertical"` | Vertical layout |
+| Variant   | Prop                     | Mô tả                                 |
+| --------- | ------------------------ | ------------------------------------- |
+| Exclusive | `exclusive`              | Chỉ một item active tại một thời điểm |
+| Multiple  | —                        | Nhiều item được chọn đồng thời        |
+| Vertical  | `orientation="vertical"` | Vertical layout                       |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `value` | `any` | Active value(s) |
-| `exclusive` | `bool` | Single selection only |
-| `onChange` | `func` | Change callback |
-| `color` | `"standard" \| "primary" \| "secondary" \| "error" \| "info" \| "success" \| "warning"` | Active color |
-| `size` | `"small" \| "medium" \| "large"` | Button size |
-| `orientation` | `"horizontal" \| "vertical"` | Layout direction |
-| `fullWidth` | `bool` | Full width |
-| `disabled` | `bool` | Disable all |
-| `enforceValueSet` | `bool` | Ngăn deselect khi exclusive |
+| Prop              | Type                                                                                    | Mô tả                       |
+| ----------------- | --------------------------------------------------------------------------------------- | --------------------------- |
+| `value`           | `any`                                                                                   | Active value(s)             |
+| `exclusive`       | `bool`                                                                                  | Single selection only       |
+| `onChange`        | `func`                                                                                  | Change callback             |
+| `color`           | `"standard" \| "primary" \| "secondary" \| "error" \| "info" \| "success" \| "warning"` | Active color                |
+| `size`            | `"small" \| "medium" \| "large"`                                                        | Button size                 |
+| `orientation`     | `"horizontal" \| "vertical"`                                                            | Layout direction            |
+| `fullWidth`       | `bool`                                                                                  | Full width                  |
+| `disabled`        | `bool`                                                                                  | Disable all                 |
+| `enforceValueSet` | `bool`                                                                                  | Ngăn deselect khi exclusive |
 
 ---
 
@@ -460,17 +460,17 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Renders as `<div>` |
+| Variant     | Prop               | Mô tả                         |
+| ----------- | ------------------ | ----------------------------- |
+| Default     | —                  | Renders as `<div>`            |
 | Polymorphic | `component="span"` | Render as bất kỳ HTML element |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `sx` | `object \| func` | CSS-in-JS với theme access |
-| `component` | `elementType` | Root element override |
+| Prop        | Type             | Mô tả                      |
+| ----------- | ---------------- | -------------------------- |
+| `sx`        | `object \| func` | CSS-in-JS với theme access |
+| `component` | `elementType`    | Root element override      |
 
 > **Note:** Building block chính cho custom layouts. Hỗ trợ tất cả MUI system props (`m`, `p`, `display`, `flexDirection`, v.v.).
 
@@ -483,25 +483,25 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Container | `container` | Flex grid wrapper |
-| v2 Item | `size={n}` | Column span — API mới (v5.9+) |
-| Auto | `size="auto"` | Fit content width |
-| Grow | `size="grow"` | Fill remaining space |
+| Variant   | Prop          | Mô tả                         |
+| --------- | ------------- | ----------------------------- |
+| Container | `container`   | Flex grid wrapper             |
+| v2 Item   | `size={n}`    | Column span — API mới (v5.9+) |
+| Auto      | `size="auto"` | Fit content width             |
+| Grow      | `size="grow"` | Fill remaining space          |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `container` | `bool` | Define as grid container |
-| `size` | `number \| "auto" \| "grow"` | Column span (Grid v2 API) |
-| `spacing` | `number \| string \| object` | Gap giữa các items |
-| `columns` | `number` | Total column count (default: 12) |
-| `direction` | `"row" \| "column" \| "row-reverse" \| "column-reverse"` | Flex direction |
-| `rowSpacing` / `columnSpacing` | `number` | Per-axis gaps |
-| `offset` | `number` | Column offset (v2) |
-| `wrap` | `"nowrap" \| "wrap" \| "wrap-reverse"` | Flex wrap |
+| Prop                           | Type                                                     | Mô tả                            |
+| ------------------------------ | -------------------------------------------------------- | -------------------------------- |
+| `container`                    | `bool`                                                   | Define as grid container         |
+| `size`                         | `number \| "auto" \| "grow"`                             | Column span (Grid v2 API)        |
+| `spacing`                      | `number \| string \| object`                             | Gap giữa các items               |
+| `columns`                      | `number`                                                 | Total column count (default: 12) |
+| `direction`                    | `"row" \| "column" \| "row-reverse" \| "column-reverse"` | Flex direction                   |
+| `rowSpacing` / `columnSpacing` | `number`                                                 | Per-axis gaps                    |
+| `offset`                       | `number`                                                 | Column offset (v2)               |
+| `wrap`                         | `"nowrap" \| "wrap" \| "wrap-reverse"`                   | Flex wrap                        |
 
 > **Note:** Grid v2 thay thế pattern `item` + `xs/sm/md/lg/xl` props cũ. Breakpoint props (`xs`, `sm`...) vẫn hoạt động trong Grid v1.
 
@@ -514,23 +514,23 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Column _(default)_ | `direction="column"` | Vertical stack |
-| Row | `direction="row"` | Horizontal stack |
-| With divider | `divider={<Divider/>}` | Divider between each item |
+| Variant            | Prop                   | Mô tả                     |
+| ------------------ | ---------------------- | ------------------------- |
+| Column _(default)_ | `direction="column"`   | Vertical stack            |
+| Row                | `direction="row"`      | Horizontal stack          |
+| With divider       | `divider={<Divider/>}` | Divider between each item |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `direction` | `"column" \| "column-reverse" \| "row" \| "row-reverse"` | Flex direction |
-| `spacing` | `number \| string \| object` | Gap giữa items |
-| `divider` | `node` | Divider element giữa items |
-| `useFlexGap` | `bool` | Dùng CSS flex gap (v5.10+) |
-| `alignItems` / `justifyContent` | `string` | Flex alignment |
-| `flexWrap` | `string` | Wrap behavior |
-| `component` | `elementType` | Root element |
+| Prop                            | Type                                                     | Mô tả                      |
+| ------------------------------- | -------------------------------------------------------- | -------------------------- |
+| `direction`                     | `"column" \| "column-reverse" \| "row" \| "row-reverse"` | Flex direction             |
+| `spacing`                       | `number \| string \| object`                             | Gap giữa items             |
+| `divider`                       | `node`                                                   | Divider element giữa items |
+| `useFlexGap`                    | `bool`                                                   | Dùng CSS flex gap (v5.10+) |
+| `alignItems` / `justifyContent` | `string`                                                 | Flex alignment             |
+| `flexWrap`                      | `string`                                                 | Wrap behavior              |
+| `component`                     | `elementType`                                            | Root element               |
 
 ---
 
@@ -543,20 +543,20 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Elevation _(default)_ | `variant="elevation"` | Has box-shadow |
-| Outlined | `variant="outlined"` | Border thay vì shadow |
+| Variant               | Prop                  | Mô tả                 |
+| --------------------- | --------------------- | --------------------- |
+| Elevation _(default)_ | `variant="elevation"` | Has box-shadow        |
+| Outlined              | `variant="outlined"`  | Border thay vì shadow |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `color` | `"default" \| "inherit" \| "primary" \| "secondary" \| "transparent"` | Color scheme |
-| `position` | `"absolute" \| "fixed" \| "relative" \| "static" \| "sticky"` | CSS position |
-| `elevation` | `number (0–24)` | Shadow depth |
-| `variant` | `"elevation" \| "outlined"` | Visual style |
-| `enableColorOnDark` | `bool` | Giữ color trong dark mode |
+| Prop                | Type                                                                  | Mô tả                     |
+| ------------------- | --------------------------------------------------------------------- | ------------------------- |
+| `color`             | `"default" \| "inherit" \| "primary" \| "secondary" \| "transparent"` | Color scheme              |
+| `position`          | `"absolute" \| "fixed" \| "relative" \| "static" \| "sticky"`         | CSS position              |
+| `elevation`         | `number (0–24)`                                                       | Shadow depth              |
+| `variant`           | `"elevation" \| "outlined"`                                           | Visual style              |
+| `enableColorOnDark` | `bool`                                                                | Giữ color trong dark mode |
 
 **Sub-components:** `Toolbar`
 
@@ -571,30 +571,30 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Standard _(default)_ | — | Auto-width tabs |
-| Scrollable | `variant="scrollable"` | Horizontal scroll + scroll buttons |
-| Full width | `variant="fullWidth"` | Tabs fill container width |
-| Centered | `centered` | Center-aligned tabs |
-| Vertical | `orientation="vertical"` | Vertical sidebar tabs |
-| Icon only | `icon={}` | Icon-only tabs |
-| Icon + label | `iconPosition="start"` | Icon bên cạnh label |
+| Variant              | Prop                     | Mô tả                              |
+| -------------------- | ------------------------ | ---------------------------------- |
+| Standard _(default)_ | —                        | Auto-width tabs                    |
+| Scrollable           | `variant="scrollable"`   | Horizontal scroll + scroll buttons |
+| Full width           | `variant="fullWidth"`    | Tabs fill container width          |
+| Centered             | `centered`               | Center-aligned tabs                |
+| Vertical             | `orientation="vertical"` | Vertical sidebar tabs              |
+| Icon only            | `icon={}`                | Icon-only tabs                     |
+| Icon + label         | `iconPosition="start"`   | Icon bên cạnh label                |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `value` | `any` | Active tab value |
-| `onChange` | `func` | Tab change callback |
-| `variant` | `"fullWidth" \| "scrollable" \| "standard"` | Layout mode |
-| `centered` | `bool` | Center tabs |
-| `orientation` | `"horizontal" \| "vertical"` | Tab direction |
-| `scrollButtons` | `"auto" \| true \| false` | Show scroll arrows |
-| `allowScrollButtonsMobile` | `bool` | Scroll buttons trên mobile |
-| `indicatorColor` | `"primary" \| "secondary"` | Active indicator color |
-| `textColor` | `"inherit" \| "primary" \| "secondary"` | Label color |
-| `TabIndicatorProps` | `object` | Indicator styling |
+| Prop                       | Type                                        | Mô tả                      |
+| -------------------------- | ------------------------------------------- | -------------------------- |
+| `value`                    | `any`                                       | Active tab value           |
+| `onChange`                 | `func`                                      | Tab change callback        |
+| `variant`                  | `"fullWidth" \| "scrollable" \| "standard"` | Layout mode                |
+| `centered`                 | `bool`                                      | Center tabs                |
+| `orientation`              | `"horizontal" \| "vertical"`                | Tab direction              |
+| `scrollButtons`            | `"auto" \| true \| false`                   | Show scroll arrows         |
+| `allowScrollButtonsMobile` | `bool`                                      | Scroll buttons trên mobile |
+| `indicatorColor`           | `"primary" \| "secondary"`                  | Active indicator color     |
+| `textColor`                | `"inherit" \| "primary" \| "secondary"`     | Label color                |
+| `TabIndicatorProps`        | `object`                                    | Indicator styling          |
 
 **Sub-components:** `Tab`, `TabPanel`, `TabContext`, `TabList`
 
@@ -607,25 +607,25 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Temporary | `variant="temporary"` | Overlay drawer, đóng khi click outside |
-| Persistent | `variant="persistent"` | Toggleable, đẩy content sang bên |
-| Permanent | `variant="permanent"` | Luôn hiển thị (sidebar) |
-| Mini variant | — | Collapsed icon-only sidebar pattern |
+| Variant      | Prop                   | Mô tả                                  |
+| ------------ | ---------------------- | -------------------------------------- |
+| Temporary    | `variant="temporary"`  | Overlay drawer, đóng khi click outside |
+| Persistent   | `variant="persistent"` | Toggleable, đẩy content sang bên       |
+| Permanent    | `variant="permanent"`  | Luôn hiển thị (sidebar)                |
+| Mini variant | —                      | Collapsed icon-only sidebar pattern    |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `open` | `bool` | Control visibility |
-| `variant` | `"permanent" \| "persistent" \| "temporary"` | Drawer type |
-| `anchor` | `"bottom" \| "left" \| "right" \| "top"` | Edge đính vào |
-| `onClose` | `func` | Close callback (temporary) |
-| `ModalProps` | `object` | Props cho Modal wrapper |
-| `PaperProps` | `object` | Props cho inner Paper |
-| `elevation` | `number` | Paper elevation |
-| `keepMounted` | `bool` | Keep in DOM khi đóng |
+| Prop          | Type                                         | Mô tả                      |
+| ------------- | -------------------------------------------- | -------------------------- |
+| `open`        | `bool`                                       | Control visibility         |
+| `variant`     | `"permanent" \| "persistent" \| "temporary"` | Drawer type                |
+| `anchor`      | `"bottom" \| "left" \| "right" \| "top"`     | Edge đính vào              |
+| `onClose`     | `func`                                       | Close callback (temporary) |
+| `ModalProps`  | `object`                                     | Props cho Modal wrapper    |
+| `PaperProps`  | `object`                                     | Props cho inner Paper      |
+| `elevation`   | `number`                                     | Paper elevation            |
+| `keepMounted` | `bool`                                       | Keep in DOM khi đóng       |
 
 ---
 
@@ -636,24 +636,24 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Dropdown từ anchor element |
-| Dense | `MenuListProps={{ dense: true }}` | Compact menu items |
-| Selected | `selected` trên `MenuItem` | Highlight active item |
+| Variant  | Prop                              | Mô tả                      |
+| -------- | --------------------------------- | -------------------------- |
+| Default  | —                                 | Dropdown từ anchor element |
+| Dense    | `MenuListProps={{ dense: true }}` | Compact menu items         |
+| Selected | `selected` trên `MenuItem`        | Highlight active item      |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `open` | `bool` | Show/hide menu |
-| `anchorEl` | `element` | Anchor DOM element |
-| `onClose` | `func` | Close callback |
-| `anchorOrigin` | `object` | Anchor origin point |
-| `transformOrigin` | `object` | Menu transform origin |
-| `keepMounted` | `bool` | Keep in DOM |
-| `PaperProps` | `object` | Paper styling |
-| `disableAutoFocusItem` | `bool` | Không auto-focus item đầu |
+| Prop                   | Type      | Mô tả                     |
+| ---------------------- | --------- | ------------------------- |
+| `open`                 | `bool`    | Show/hide menu            |
+| `anchorEl`             | `element` | Anchor DOM element        |
+| `onClose`              | `func`    | Close callback            |
+| `anchorOrigin`         | `object`  | Anchor origin point       |
+| `transformOrigin`      | `object`  | Menu transform origin     |
+| `keepMounted`          | `bool`    | Keep in DOM               |
+| `PaperProps`           | `object`  | Paper styling             |
+| `disableAutoFocusItem` | `bool`    | Không auto-focus item đầu |
 
 **Sub-components:** `MenuItem`, `MenuList`
 
@@ -666,23 +666,23 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Horizontal _(default)_ | `orientation="horizontal"` | Steps ngang phía trên |
-| Vertical | `orientation="vertical"` | Steps dọc bên trái |
-| Non-linear | `nonLinear` | Random access, bỏ qua bước |
-| Alternative label | `alternativeLabel` | Labels đặt dưới icon |
-| Mobile | `<MobileStepper>` | Dots hoặc progress bar style |
+| Variant                | Prop                       | Mô tả                        |
+| ---------------------- | -------------------------- | ---------------------------- |
+| Horizontal _(default)_ | `orientation="horizontal"` | Steps ngang phía trên        |
+| Vertical               | `orientation="vertical"`   | Steps dọc bên trái           |
+| Non-linear             | `nonLinear`                | Random access, bỏ qua bước   |
+| Alternative label      | `alternativeLabel`         | Labels đặt dưới icon         |
+| Mobile                 | `<MobileStepper>`          | Dots hoặc progress bar style |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `activeStep` | `number` | Current step index |
-| `orientation` | `"horizontal" \| "vertical"` | Layout direction |
-| `alternativeLabel` | `bool` | Labels dưới connector line |
-| `nonLinear` | `bool` | Allow any step access |
-| `connector` | `element` | Custom connector element |
+| Prop               | Type                         | Mô tả                      |
+| ------------------ | ---------------------------- | -------------------------- |
+| `activeStep`       | `number`                     | Current step index         |
+| `orientation`      | `"horizontal" \| "vertical"` | Layout direction           |
+| `alternativeLabel` | `bool`                       | Labels dưới connector line |
+| `nonLinear`        | `bool`                       | Allow any step access      |
+| `connector`        | `element`                    | Custom connector element   |
 
 **Sub-components:** `Step`, `StepLabel`, `StepContent`, `StepButton`, `StepIcon`, `StepConnector`, `MobileStepper`
 
@@ -695,28 +695,28 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Text _(default)_ | `variant="text"` | Text-style page buttons |
-| Outlined | `variant="outlined"` | Bordered page buttons |
-| Rounded | `shape="rounded"` | Rounded button shape |
+| Variant          | Prop                 | Mô tả                   |
+| ---------------- | -------------------- | ----------------------- |
+| Text _(default)_ | `variant="text"`     | Text-style page buttons |
+| Outlined         | `variant="outlined"` | Bordered page buttons   |
+| Rounded          | `shape="rounded"`    | Rounded button shape    |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `count` | `number` | Tổng số trang |
-| `page` / `defaultPage` | `number` | Controlled / uncontrolled |
-| `variant` | `"outlined" \| "text"` | Button style |
-| `shape` | `"circular" \| "rounded"` | Button shape |
-| `size` | `"small" \| "medium" \| "large"` | Component size |
-| `color` | `"primary" \| "secondary" \| "standard"` | Active color |
-| `siblingCount` | `number` | Pages quanh trang hiện tại |
-| `boundaryCount` | `number` | Pages ở đầu/cuối |
-| `showFirstButton` / `showLastButton` | `bool` | Show edge nav buttons |
-| `hidePrevButton` / `hideNextButton` | `bool` | Hide prev/next buttons |
-| `disabled` | `bool` | Disable all |
-| `onChange` | `func` | Page change callback |
+| Prop                                 | Type                                     | Mô tả                      |
+| ------------------------------------ | ---------------------------------------- | -------------------------- |
+| `count`                              | `number`                                 | Tổng số trang              |
+| `page` / `defaultPage`               | `number`                                 | Controlled / uncontrolled  |
+| `variant`                            | `"outlined" \| "text"`                   | Button style               |
+| `shape`                              | `"circular" \| "rounded"`                | Button shape               |
+| `size`                               | `"small" \| "medium" \| "large"`         | Component size             |
+| `color`                              | `"primary" \| "secondary" \| "standard"` | Active color               |
+| `siblingCount`                       | `number`                                 | Pages quanh trang hiện tại |
+| `boundaryCount`                      | `number`                                 | Pages ở đầu/cuối           |
+| `showFirstButton` / `showLastButton` | `bool`                                   | Show edge nav buttons      |
+| `hidePrevButton` / `hideNextButton`  | `bool`                                   | Hide prev/next buttons     |
+| `disabled`                           | `bool`                                   | Disable all                |
+| `onChange`                           | `func`                                   | Page change callback       |
 
 ---
 
@@ -727,17 +727,17 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| With labels | `showLabels` | Luôn show tất cả labels |
-| Without labels | — | Labels chỉ show ở selected item |
+| Variant        | Prop         | Mô tả                           |
+| -------------- | ------------ | ------------------------------- |
+| With labels    | `showLabels` | Luôn show tất cả labels         |
+| Without labels | —            | Labels chỉ show ở selected item |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `value` | `any` | Active item value |
-| `onChange` | `func` | Change callback |
+| Prop         | Type   | Mô tả                  |
+| ------------ | ------ | ---------------------- |
+| `value`      | `any`  | Active item value      |
+| `onChange`   | `func` | Change callback        |
 | `showLabels` | `bool` | Show all labels always |
 
 **Sub-components:** `BottomNavigationAction` (props: `label`, `value`, `icon`)
@@ -751,21 +751,21 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Slash-separated path links |
+| Variant          | Prop               | Mô tả                      |
+| ---------------- | ------------------ | -------------------------- |
+| Default          | —                  | Slash-separated path links |
 | Custom separator | `separator={node}` | Custom separator character |
-| Collapsed | `maxItems={n}` | Auto-collapse với expander |
+| Collapsed        | `maxItems={n}`     | Auto-collapse với expander |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `separator` | `node` | Separator element (default: `/`) |
-| `maxItems` | `number` | Max items trước khi collapse |
-| `itemsBeforeCollapse` | `number` | Items hiện trước `...` |
-| `itemsAfterCollapse` | `number` | Items hiện sau `...` |
-| `expandText` | `string` | Expand button aria-label |
+| Prop                  | Type     | Mô tả                            |
+| --------------------- | -------- | -------------------------------- |
+| `separator`           | `node`   | Separator element (default: `/`) |
+| `maxItems`            | `number` | Max items trước khi collapse     |
+| `itemsBeforeCollapse` | `number` | Items hiện trước `...`           |
+| `itemsAfterCollapse`  | `number` | Items hiện sau `...`             |
+| `expandText`          | `string` | Expand button aria-label         |
 
 ---
 
@@ -776,23 +776,23 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Up _(default)_ | `direction="up"` | Actions expand lên trên |
-| Down | `direction="down"` | Actions expand xuống |
-| Left | `direction="left"` | Actions expand sang trái |
-| Right | `direction="right"` | Actions expand sang phải |
+| Variant        | Prop                | Mô tả                    |
+| -------------- | ------------------- | ------------------------ |
+| Up _(default)_ | `direction="up"`    | Actions expand lên trên  |
+| Down           | `direction="down"`  | Actions expand xuống     |
+| Left           | `direction="left"`  | Actions expand sang trái |
+| Right          | `direction="right"` | Actions expand sang phải |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `ariaLabel` | `string` | Accessibility label (**required**) |
-| `icon` | `node` | Trigger icon |
-| `direction` | `"down" \| "left" \| "right" \| "up"` | Action spread direction |
-| `open` / `onOpen` / `onClose` | `bool/func` | Controlled open state |
-| `hidden` | `bool` | Hide SpeedDial |
-| `FabProps` | `object` | Props cho main FAB button |
+| Prop                          | Type                                  | Mô tả                              |
+| ----------------------------- | ------------------------------------- | ---------------------------------- |
+| `ariaLabel`                   | `string`                              | Accessibility label (**required**) |
+| `icon`                        | `node`                                | Trigger icon                       |
+| `direction`                   | `"down" \| "left" \| "right" \| "up"` | Action spread direction            |
+| `open` / `onOpen` / `onClose` | `bool/func`                           | Controlled open state              |
+| `hidden`                      | `bool`                                | Hide SpeedDial                     |
+| `FabProps`                    | `object`                              | Props cho main FAB button          |
 
 **Sub-components:** `SpeedDialAction`, `SpeedDialIcon`
 
@@ -805,20 +805,20 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Underlined text link |
+| Variant      | Prop                 | Mô tả                        |
+| ------------ | -------------------- | ---------------------------- |
+| Default      | —                    | Underlined text link         |
 | Button style | `component="button"` | Link style, button semantics |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `color` | `string` | Text color |
-| `underline` | `"always" \| "hover" \| "none"` | Underline behavior |
-| `variant` | `typography variant` | Text style |
-| `component` | `elementType` | Root element (`RouterLink`, etc.) |
-| `href` | `string` | Link destination |
+| Prop        | Type                            | Mô tả                             |
+| ----------- | ------------------------------- | --------------------------------- |
+| `color`     | `string`                        | Text color                        |
+| `underline` | `"always" \| "hover" \| "none"` | Underline behavior                |
+| `variant`   | `typography variant`            | Text style                        |
+| `component` | `elementType`                   | Root element (`RouterLink`, etc.) |
+| `href`      | `string`                        | Link destination                  |
 
 ---
 
@@ -831,19 +831,19 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Elevation _(default)_ | `variant="elevation"` | Box shadow |
-| Outlined | `variant="outlined"` | Border, không có shadow |
+| Variant               | Prop                  | Mô tả                   |
+| --------------------- | --------------------- | ----------------------- |
+| Elevation _(default)_ | `variant="elevation"` | Box shadow              |
+| Outlined              | `variant="outlined"`  | Border, không có shadow |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `"elevation" \| "outlined"` | Surface style |
-| `elevation` | `number (0–24)` | Shadow depth |
-| `square` | `bool` | Remove border-radius |
-| `component` | `elementType` | Root element |
+| Prop        | Type                        | Mô tả                |
+| ----------- | --------------------------- | -------------------- |
+| `variant`   | `"elevation" \| "outlined"` | Surface style        |
+| `elevation` | `number (0–24)`             | Shadow depth         |
+| `square`    | `bool`                      | Remove border-radius |
+| `component` | `elementType`               | Root element         |
 
 > **Note:** Base component cho `Card`, `Dialog`, `Menu`, `Drawer` Paper surfaces.
 
@@ -856,19 +856,19 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Elevation _(default)_ | `variant="elevation"` | Shadow depth card |
-| Outlined | `variant="outlined"` | Border, không có shadow |
+| Variant               | Prop                  | Mô tả                   |
+| --------------------- | --------------------- | ----------------------- |
+| Elevation _(default)_ | `variant="elevation"` | Shadow depth card       |
+| Outlined              | `variant="outlined"`  | Border, không có shadow |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `"elevation" \| "outlined"` | Surface style |
-| `elevation` | `number (0–24)` | Shadow intensity |
-| `raised` | `bool` | Higher elevation |
-| `square` | `bool` | Remove border-radius |
+| Prop        | Type                        | Mô tả                |
+| ----------- | --------------------------- | -------------------- |
+| `variant`   | `"elevation" \| "outlined"` | Surface style        |
+| `elevation` | `number (0–24)`             | Shadow intensity     |
+| `raised`    | `bool`                      | Higher elevation     |
+| `square`    | `bool`                      | Remove border-radius |
 
 **Sub-components:** `CardHeader`, `CardMedia`, `CardContent`, `CardActions`, `CardActionArea`
 
@@ -883,21 +883,21 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Standard với elevation shadow |
+| Variant  | Prop                 | Mô tả                          |
+| -------- | -------------------- | ------------------------------ |
+| Default  | —                    | Standard với elevation shadow  |
 | Outlined | `variant="outlined"` | Flat bordered, không có shadow |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `expanded` | `bool` | Control expanded state |
-| `defaultExpanded` | `bool` | Initially expanded |
-| `disabled` | `bool` | Disable interaction |
-| `disableGutters` | `bool` | Remove padding |
-| `square` | `bool` | Remove border-radius |
-| `onChange` | `func` | Callback khi change |
+| Prop                  | Type          | Mô tả                       |
+| --------------------- | ------------- | --------------------------- |
+| `expanded`            | `bool`        | Control expanded state      |
+| `defaultExpanded`     | `bool`        | Initially expanded          |
+| `disabled`            | `bool`        | Disable interaction         |
+| `disableGutters`      | `bool`        | Remove padding              |
+| `square`              | `bool`        | Remove border-radius        |
+| `onChange`            | `func`        | Callback khi change         |
 | `TransitionComponent` | `elementType` | Custom transition component |
 
 **Sub-components:** `AccordionSummary`, `AccordionDetails`, `AccordionActions`
@@ -915,30 +915,30 @@
 
 #### Variants
 
-| Variant | Prop | Default element | Mô tả |
-|---------|------|-----------------|--------|
-| `h1` – `h6` | `variant="h1"` | `<h1>` – `<h6>` | Heading levels |
-| `subtitle1` | `variant="subtitle1"` | `<h6>` | Primary subtitle |
-| `subtitle2` | `variant="subtitle2"` | `<h6>` | Secondary subtitle |
-| `body1` _(default)_ | `variant="body1"` | `<p>` | Main body text |
-| `body2` | `variant="body2"` | `<p>` | Secondary body text |
-| `caption` | `variant="caption"` | `<span>` | Small caption text |
-| `button` | `variant="button"` | `<span>` | Button label style |
-| `overline` | `variant="overline"` | `<span>` | All-caps label text |
-| `inherit` | `variant="inherit"` | `<span>` | Kế thừa parent styles |
+| Variant             | Prop                  | Default element | Mô tả                 |
+| ------------------- | --------------------- | --------------- | --------------------- |
+| `h1` – `h6`         | `variant="h1"`        | `<h1>` – `<h6>` | Heading levels        |
+| `subtitle1`         | `variant="subtitle1"` | `<h6>`          | Primary subtitle      |
+| `subtitle2`         | `variant="subtitle2"` | `<h6>`          | Secondary subtitle    |
+| `body1` _(default)_ | `variant="body1"`     | `<p>`           | Main body text        |
+| `body2`             | `variant="body2"`     | `<p>`           | Secondary body text   |
+| `caption`           | `variant="caption"`   | `<span>`        | Small caption text    |
+| `button`            | `variant="button"`    | `<span>`        | Button label style    |
+| `overline`          | `variant="overline"`  | `<span>`        | All-caps label text   |
+| `inherit`           | `variant="inherit"`   | `<span>`        | Kế thừa parent styles |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `string` | Text style |
-| `component` | `elementType` | Override HTML element |
-| `align` | `"center" \| "inherit" \| "justify" \| "left" \| "right"` | Text alignment |
-| `color` | `string` | Text color (theme token hoặc CSS) |
-| `gutterBottom` | `bool` | Thêm bottom margin |
-| `noWrap` | `bool` | Truncate với ellipsis |
-| `paragraph` | `bool` | Render as `<p>` với margin |
-| `display` | `"block" \| "initial" \| "inline"` | Display override |
+| Prop           | Type                                                      | Mô tả                             |
+| -------------- | --------------------------------------------------------- | --------------------------------- |
+| `variant`      | `string`                                                  | Text style                        |
+| `component`    | `elementType`                                             | Override HTML element             |
+| `align`        | `"center" \| "inherit" \| "justify" \| "left" \| "right"` | Text alignment                    |
+| `color`        | `string`                                                  | Text color (theme token hoặc CSS) |
+| `gutterBottom` | `bool`                                                    | Thêm bottom margin                |
+| `noWrap`       | `bool`                                                    | Truncate với ellipsis             |
+| `paragraph`    | `bool`                                                    | Render as `<p>` với margin        |
+| `display`      | `"block" \| "initial" \| "inline"`                        | Display override                  |
 
 ---
 
@@ -949,19 +949,19 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Standard table |
-| Dense | `size="small"` | Compact row heights |
+| Variant       | Prop           | Mô tả                   |
+| ------------- | -------------- | ----------------------- |
+| Default       | —              | Standard table          |
+| Dense         | `size="small"` | Compact row heights     |
 | Sticky header | `stickyHeader` | Fixed header khi scroll |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `size` | `"medium" \| "small"` | Row density |
-| `stickyHeader` | `bool` | Fix header khi scroll |
-| `padding` | `"checkbox" \| "none" \| "normal"` | Cell padding |
+| Prop           | Type                               | Mô tả                 |
+| -------------- | ---------------------------------- | --------------------- |
+| `size`         | `"medium" \| "small"`              | Row density           |
+| `stickyHeader` | `bool`                             | Fix header khi scroll |
+| `padding`      | `"checkbox" \| "none" \| "normal"` | Cell padding          |
 
 **Sub-components:** `TableHead`, `TableBody`, `TableRow`, `TableCell`, `TableFooter`, `TableContainer`, `TablePagination`, `TableSortLabel`
 
@@ -976,20 +976,20 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Basic list |
-| Dense | `dense` | Reduced padding |
+| Variant    | Prop             | Mô tả                   |
+| ---------- | ---------------- | ----------------------- |
+| Default    | —                | Basic list              |
+| Dense      | `dense`          | Reduced padding         |
 | No padding | `disablePadding` | Remove vertical padding |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `dense` | `bool` | Compact variant |
-| `disablePadding` | `bool` | Remove list padding |
-| `subheader` | `node` | Sticky subheader |
-| `component` | `elementType` | Root element |
+| Prop             | Type          | Mô tả               |
+| ---------------- | ------------- | ------------------- |
+| `dense`          | `bool`        | Compact variant     |
+| `disablePadding` | `bool`        | Remove list padding |
+| `subheader`      | `node`        | Sticky subheader    |
+| `component`      | `elementType` | Root element        |
 
 **Sub-components:** `ListItem`, `ListItemButton`, `ListItemText`, `ListItemIcon`, `ListItemAvatar`, `ListItemSecondaryAction`, `ListSubheader`
 
@@ -1004,26 +1004,26 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Filled _(default)_ | `variant="filled"` | Solid background |
-| Outlined | `variant="outlined"` | Transparent với border |
+| Variant            | Prop                 | Mô tả                  |
+| ------------------ | -------------------- | ---------------------- |
+| Filled _(default)_ | `variant="filled"`   | Solid background       |
+| Outlined           | `variant="outlined"` | Transparent với border |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `label` | `node` | Chip text content |
-| `variant` | `"filled" \| "outlined"` | Visual style |
-| `color` | `"default" \| "primary" \| "secondary" \| "error" \| "info" \| "success" \| "warning"` | Color |
-| `size` | `"small" \| "medium"` | Chip size |
-| `avatar` | `element` | Leading avatar |
-| `icon` | `element` | Leading icon |
-| `deleteIcon` | `element` | Custom delete icon |
-| `onDelete` | `func` | Enables delete button |
-| `onClick` | `func` | Makes chip clickable |
-| `disabled` | `bool` | Disable chip |
-| `clickable` | `bool` | Force clickable styles |
+| Prop         | Type                                                                                   | Mô tả                  |
+| ------------ | -------------------------------------------------------------------------------------- | ---------------------- |
+| `label`      | `node`                                                                                 | Chip text content      |
+| `variant`    | `"filled" \| "outlined"`                                                               | Visual style           |
+| `color`      | `"default" \| "primary" \| "secondary" \| "error" \| "info" \| "success" \| "warning"` | Color                  |
+| `size`       | `"small" \| "medium"`                                                                  | Chip size              |
+| `avatar`     | `element`                                                                              | Leading avatar         |
+| `icon`       | `element`                                                                              | Leading icon           |
+| `deleteIcon` | `element`                                                                              | Custom delete icon     |
+| `onDelete`   | `func`                                                                                 | Enables delete button  |
+| `onClick`    | `func`                                                                                 | Makes chip clickable   |
+| `disabled`   | `bool`                                                                                 | Disable chip           |
+| `clickable`  | `bool`                                                                                 | Force clickable styles |
 
 ---
 
@@ -1034,21 +1034,21 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Image | `src="url"` | Photo avatar |
-| Letter | `children` | Initials/text avatar |
-| Icon | `children={<Icon/>}` | Icon avatar |
+| Variant | Prop                 | Mô tả                |
+| ------- | -------------------- | -------------------- |
+| Image   | `src="url"`          | Photo avatar         |
+| Letter  | `children`           | Initials/text avatar |
+| Icon    | `children={<Icon/>}` | Icon avatar          |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `src` | `string` | Image URL |
-| `alt` | `string` | Image alt text |
-| `variant` | `"circular" \| "rounded" \| "square"` | Shape |
-| `imgProps` | `object` | Props cho `<img>` element |
-| `sx` | `object` | Custom size & color |
+| Prop       | Type                                  | Mô tả                     |
+| ---------- | ------------------------------------- | ------------------------- |
+| `src`      | `string`                              | Image URL                 |
+| `alt`      | `string`                              | Image alt text            |
+| `variant`  | `"circular" \| "rounded" \| "square"` | Shape                     |
+| `imgProps` | `object`                              | Props cho `<img>` element |
+| `sx`       | `object`                              | Custom size & color       |
 
 **Sub-components:** `AvatarGroup` — stacks nhiều avatars; dùng `max` prop để giới hạn số hiện ra.
 
@@ -1061,23 +1061,23 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Standard _(default)_ | `badgeContent={n}` | Number/text badge |
-| Dot | `variant="dot"` | Small dot indicator |
+| Variant              | Prop               | Mô tả               |
+| -------------------- | ------------------ | ------------------- |
+| Standard _(default)_ | `badgeContent={n}` | Number/text badge   |
+| Dot                  | `variant="dot"`    | Small dot indicator |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `badgeContent` | `node` | Badge label/count |
-| `variant` | `"dot" \| "standard"` | Badge shape |
-| `color` | `"default" \| "primary" \| "secondary" \| "error" \| "info" \| "success" \| "warning"` | Badge color |
-| `max` | `number` | Max count trước khi hiện `+` |
-| `invisible` | `bool` | Ẩn badge |
-| `showZero` | `bool` | Hiện khi count = 0 |
-| `anchorOrigin` | `{ vertical, horizontal }` | Badge position |
-| `overlap` | `"circular" \| "rectangular"` | Shape overlap style |
+| Prop           | Type                                                                                   | Mô tả                        |
+| -------------- | -------------------------------------------------------------------------------------- | ---------------------------- |
+| `badgeContent` | `node`                                                                                 | Badge label/count            |
+| `variant`      | `"dot" \| "standard"`                                                                  | Badge shape                  |
+| `color`        | `"default" \| "primary" \| "secondary" \| "error" \| "info" \| "success" \| "warning"` | Badge color                  |
+| `max`          | `number`                                                                               | Max count trước khi hiện `+` |
+| `invisible`    | `bool`                                                                                 | Ẩn badge                     |
+| `showZero`     | `bool`                                                                                 | Hiện khi count = 0           |
+| `anchorOrigin` | `{ vertical, horizontal }`                                                             | Badge position               |
+| `overlap`      | `"circular" \| "rectangular"`                                                          | Shape overlap style          |
 
 ---
 
@@ -1088,30 +1088,30 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Hover tooltip |
-| Arrow | `arrow` | With directional arrow |
-| Controlled | `open` / `onOpen` / `onClose` | Programmatic control |
-| Follow cursor | `followCursor` | Tracks mouse position |
-| Rich content | `title={node}` | HTML/component content trong tooltip |
+| Variant       | Prop                          | Mô tả                                |
+| ------------- | ----------------------------- | ------------------------------------ |
+| Default       | —                             | Hover tooltip                        |
+| Arrow         | `arrow`                       | With directional arrow               |
+| Controlled    | `open` / `onOpen` / `onClose` | Programmatic control                 |
+| Follow cursor | `followCursor`                | Tracks mouse position                |
+| Rich content  | `title={node}`                | HTML/component content trong tooltip |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `title` | `node` | Tooltip content |
-| `placement` | `string` | 12 positions: `top`, `bottom-start`, `right-end`... |
-| `arrow` | `bool` | Show arrow |
-| `open` / `onOpen` / `onClose` | `bool/func` | Controlled state |
-| `disableHoverListener` | `bool` | No hover trigger |
-| `disableFocusListener` | `bool` | No focus trigger |
-| `disableTouchListener` | `bool` | No touch trigger |
-| `enterDelay` / `leaveDelay` | `number` | Show/hide delays (ms) |
-| `enterTouchDelay` / `leaveTouchDelay` | `number` | Touch delays |
-| `followCursor` | `bool` | Track cursor position |
-| `PopperProps` | `object` | Popper config |
-| `disableInteractive` | `bool` | Tooltip không interactive |
+| Prop                                  | Type        | Mô tả                                               |
+| ------------------------------------- | ----------- | --------------------------------------------------- |
+| `title`                               | `node`      | Tooltip content                                     |
+| `placement`                           | `string`    | 12 positions: `top`, `bottom-start`, `right-end`... |
+| `arrow`                               | `bool`      | Show arrow                                          |
+| `open` / `onOpen` / `onClose`         | `bool/func` | Controlled state                                    |
+| `disableHoverListener`                | `bool`      | No hover trigger                                    |
+| `disableFocusListener`                | `bool`      | No focus trigger                                    |
+| `disableTouchListener`                | `bool`      | No touch trigger                                    |
+| `enterDelay` / `leaveDelay`           | `number`    | Show/hide delays (ms)                               |
+| `enterTouchDelay` / `leaveTouchDelay` | `number`    | Touch delays                                        |
+| `followCursor`                        | `bool`      | Track cursor position                               |
+| `PopperProps`                         | `object`    | Popper config                                       |
+| `disableInteractive`                  | `bool`      | Tooltip không interactive                           |
 
 > **Note:** Wraps single child element. Child phải accept `ref` và event handlers.
 
@@ -1124,22 +1124,22 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Full width _(default)_ | `variant="fullWidth"` | Full width line |
-| Inset | `variant="inset"` | Indented từ bên trái |
-| Middle | `variant="middle"` | Inset cả hai phía |
-| With text | `children` | Text/chip label trên line |
+| Variant                | Prop                  | Mô tả                     |
+| ---------------------- | --------------------- | ------------------------- |
+| Full width _(default)_ | `variant="fullWidth"` | Full width line           |
+| Inset                  | `variant="inset"`     | Indented từ bên trái      |
+| Middle                 | `variant="middle"`    | Inset cả hai phía         |
+| With text              | `children`            | Text/chip label trên line |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `"fullWidth" \| "inset" \| "middle"` | Inset style |
-| `orientation` | `"horizontal" \| "vertical"` | Line direction |
-| `flexItem` | `bool` | Stretch trong flex container |
-| `textAlign` | `"center" \| "left" \| "right"` | Text position |
-| `children` | `node` | Text/chip on divider |
+| Prop          | Type                                 | Mô tả                        |
+| ------------- | ------------------------------------ | ---------------------------- |
+| `variant`     | `"fullWidth" \| "inset" \| "middle"` | Inset style                  |
+| `orientation` | `"horizontal" \| "vertical"`         | Line direction               |
+| `flexItem`    | `bool`                               | Stretch trong flex container |
+| `textAlign`   | `"center" \| "left" \| "right"`      | Text position                |
+| `children`    | `node`                               | Text/chip on divider         |
 
 ---
 
@@ -1150,21 +1150,21 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Standard _(default)_ | `variant="standard"` | Fixed-size cells |
-| Woven | `variant="woven"` | Alternating row heights |
-| Masonry | `variant="masonry"` | Pinterest-style variable heights |
-| Quilted | `variant="quilted"` | Cells span multiple rows/cols |
+| Variant              | Prop                 | Mô tả                            |
+| -------------------- | -------------------- | -------------------------------- |
+| Standard _(default)_ | `variant="standard"` | Fixed-size cells                 |
+| Woven                | `variant="woven"`    | Alternating row heights          |
+| Masonry              | `variant="masonry"`  | Pinterest-style variable heights |
+| Quilted              | `variant="quilted"`  | Cells span multiple rows/cols    |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `"masonry" \| "quilted" \| "standard" \| "woven"` | Layout style |
-| `cols` | `number` | Column count |
-| `gap` | `number` | Gap giữa items |
-| `rowHeight` | `number \| "auto"` | Row height |
+| Prop        | Type                                              | Mô tả          |
+| ----------- | ------------------------------------------------- | -------------- |
+| `variant`   | `"masonry" \| "quilted" \| "standard" \| "woven"` | Layout style   |
+| `cols`      | `number`                                          | Column count   |
+| `gap`       | `number`                                          | Gap giữa items |
+| `rowHeight` | `number \| "auto"`                                | Row height     |
 
 **Sub-components:** `ImageListItem`, `ImageListItemBar`
 
@@ -1177,17 +1177,17 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Right _(default)_ | `position="right"` | Tất cả content bên phải |
-| Left | `position="left"` | Tất cả content bên trái |
-| Alternate | `position="alternate"` | Items xen kẽ trái/phải |
-| Alternate reverse | `position="alternate-reverse"` | Reverse alternate |
+| Variant           | Prop                           | Mô tả                   |
+| ----------------- | ------------------------------ | ----------------------- |
+| Right _(default)_ | `position="right"`             | Tất cả content bên phải |
+| Left              | `position="left"`              | Tất cả content bên trái |
+| Alternate         | `position="alternate"`         | Items xen kẽ trái/phải  |
+| Alternate reverse | `position="alternate-reverse"` | Reverse alternate       |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
+| Prop       | Type                                                      | Mô tả             |
+| ---------- | --------------------------------------------------------- | ----------------- |
 | `position` | `"alternate" \| "alternate-reverse" \| "left" \| "right"` | Content alignment |
 
 **Sub-components:** `TimelineItem`, `TimelineSeparator`, `TimelineDot`, `TimelineConnector`, `TimelineContent`, `TimelineOppositeContent`
@@ -1203,19 +1203,19 @@
 
 #### Variants
 
-| Variant | Cách dùng | Mô tả |
-|---------|-----------|--------|
-| Font Icon | `<Icon>star</Icon>` | Dùng Material Icons font |
-| SvgIcon | `<SvgIcon><path/></SvgIcon>` | SVG-based icon |
+| Variant   | Cách dùng                              | Mô tả                       |
+| --------- | -------------------------------------- | --------------------------- |
+| Font Icon | `<Icon>star</Icon>`                    | Dùng Material Icons font    |
+| SvgIcon   | `<SvgIcon><path/></SvgIcon>`           | SVG-based icon              |
 | Pre-built | `<StarIcon/>` từ `@mui/icons-material` | Ready-to-use SVG components |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `color` | `"inherit" \| "action" \| "disabled" \| "primary" \| "secondary" \| "error" \| "info" \| "success" \| "warning"` | Icon color |
-| `fontSize` | `"inherit" \| "small" \| "medium" \| "large"` | Icon size |
-| `sx` | `object` | Custom size & color |
+| Prop       | Type                                                                                                             | Mô tả               |
+| ---------- | ---------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `color`    | `"inherit" \| "action" \| "disabled" \| "primary" \| "secondary" \| "error" \| "info" \| "success" \| "warning"` | Icon color          |
+| `fontSize` | `"inherit" \| "small" \| "medium" \| "large"`                                                                    | Icon size           |
+| `sx`       | `object`                                                                                                         | Custom size & color |
 
 ---
 
@@ -1228,31 +1228,31 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Standard _(default)_ | `variant="standard"` | Light tinted background |
-| Filled | `variant="filled"` | Solid background color |
-| Outlined | `variant="outlined"` | Bordered, transparent bg |
+| Variant              | Prop                 | Mô tả                    |
+| -------------------- | -------------------- | ------------------------ |
+| Standard _(default)_ | `variant="standard"` | Light tinted background  |
+| Filled               | `variant="filled"`   | Solid background color   |
+| Outlined             | `variant="outlined"` | Bordered, transparent bg |
 
 #### Severity Values
 
-| Severity | Màu |
-|----------|-----|
-| `error` | Đỏ |
-| `warning` | Cam |
-| `info` | Xanh dương |
-| `success` | Xanh lá |
+| Severity  | Màu        |
+| --------- | ---------- |
+| `error`   | Đỏ         |
+| `warning` | Cam        |
+| `info`    | Xanh dương |
+| `success` | Xanh lá    |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `severity` | `"error" \| "warning" \| "info" \| "success"` | Alert color & icon |
-| `variant` | `"filled" \| "outlined" \| "standard"` | Visual style |
-| `icon` | `node \| false` | Override hoặc ẩn icon |
-| `action` | `node` | Action element (ví dụ: close button) |
-| `onClose` | `func` | Enables close icon |
-| `color` | `string` | Override alert color |
+| Prop       | Type                                          | Mô tả                                |
+| ---------- | --------------------------------------------- | ------------------------------------ |
+| `severity` | `"error" \| "warning" \| "info" \| "success"` | Alert color & icon                   |
+| `variant`  | `"filled" \| "outlined" \| "standard"`        | Visual style                         |
+| `icon`     | `node \| false`                               | Override hoặc ẩn icon                |
+| `action`   | `node`                                        | Action element (ví dụ: close button) |
+| `onClose`  | `func`                                        | Enables close icon                   |
+| `color`    | `string`                                      | Override alert color                 |
 
 **Sub-components:** `AlertTitle` — renders bold title bên trong Alert.
 
@@ -1265,27 +1265,27 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Centered modal dialog |
-| Full width | `fullWidth` | Stretches đến maxWidth |
-| Full screen | `fullScreen` | Fills toàn bộ viewport |
+| Variant      | Prop             | Mô tả                           |
+| ------------ | ---------------- | ------------------------------- |
+| Default      | —                | Centered modal dialog           |
+| Full width   | `fullWidth`      | Stretches đến maxWidth          |
+| Full screen  | `fullScreen`     | Fills toàn bộ viewport          |
 | Scroll paper | `scroll="paper"` | Content scroll bên trong dialog |
-| Scroll body | `scroll="body"` | Page body scroll |
+| Scroll body  | `scroll="body"`  | Page body scroll                |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `open` | `bool` | Control visibility |
-| `onClose` | `func` | Close callback |
-| `maxWidth` | `"xs" \| "sm" \| "md" \| "lg" \| "xl" \| false` | Max width constraint |
-| `fullWidth` | `bool` | Expand to maxWidth |
-| `fullScreen` | `bool` | Full viewport |
-| `scroll` | `"body" \| "paper"` | Scroll container |
-| `disableEscapeKeyDown` | `bool` | Không close khi nhấn Escape |
-| `TransitionComponent` | `elementType` | Custom transition |
-| `keepMounted` | `bool` | Keep DOM mounted khi đóng |
+| Prop                   | Type                                            | Mô tả                       |
+| ---------------------- | ----------------------------------------------- | --------------------------- |
+| `open`                 | `bool`                                          | Control visibility          |
+| `onClose`              | `func`                                          | Close callback              |
+| `maxWidth`             | `"xs" \| "sm" \| "md" \| "lg" \| "xl" \| false` | Max width constraint        |
+| `fullWidth`            | `bool`                                          | Expand to maxWidth          |
+| `fullScreen`           | `bool`                                          | Full viewport               |
+| `scroll`               | `"body" \| "paper"`                             | Scroll container            |
+| `disableEscapeKeyDown` | `bool`                                          | Không close khi nhấn Escape |
+| `TransitionComponent`  | `elementType`                                   | Custom transition           |
+| `keepMounted`          | `bool`                                          | Keep DOM mounted khi đóng   |
 
 **Sub-components:** `DialogTitle`, `DialogContent`, `DialogContentText`, `DialogActions`
 
@@ -1300,25 +1300,25 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Bottom-left message |
-| With action | `action={node}` | Có undo/action button |
-| With Alert | `<Alert>` as message | Styled feedback snackbar |
+| Variant     | Prop                 | Mô tả                    |
+| ----------- | -------------------- | ------------------------ |
+| Default     | —                    | Bottom-left message      |
+| With action | `action={node}`      | Có undo/action button    |
+| With Alert  | `<Alert>` as message | Styled feedback snackbar |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `open` | `bool` | Control visibility |
-| `onClose` | `func` | Close callback |
-| `message` | `node` | Snackbar text |
-| `autoHideDuration` | `number` | Auto-close (ms), `null` = never |
-| `action` | `node` | Action button |
-| `anchorOrigin` | `{ vertical, horizontal }` | Screen position |
-| `resumeHideDuration` | `number` | Delay sau khi focus return |
-| `TransitionComponent` | `elementType` | Custom transition |
-| `key` | `any` | Force re-render khi message thay đổi |
+| Prop                  | Type                       | Mô tả                                |
+| --------------------- | -------------------------- | ------------------------------------ |
+| `open`                | `bool`                     | Control visibility                   |
+| `onClose`             | `func`                     | Close callback                       |
+| `message`             | `node`                     | Snackbar text                        |
+| `autoHideDuration`    | `number`                   | Auto-close (ms), `null` = never      |
+| `action`              | `node`                     | Action button                        |
+| `anchorOrigin`        | `{ vertical, horizontal }` | Screen position                      |
+| `resumeHideDuration`  | `number`                   | Delay sau khi focus return           |
+| `TransitionComponent` | `elementType`              | Custom transition                    |
+| `key`                 | `any`                      | Force re-render khi message thay đổi |
 
 ---
 
@@ -1329,21 +1329,21 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Indeterminate _(default)_ | `variant="indeterminate"` | Continuous spinning animation |
-| Determinate | `variant="determinate"` | Hiển thị specific progress value |
+| Variant                   | Prop                      | Mô tả                            |
+| ------------------------- | ------------------------- | -------------------------------- |
+| Indeterminate _(default)_ | `variant="indeterminate"` | Continuous spinning animation    |
+| Determinate               | `variant="determinate"`   | Hiển thị specific progress value |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `"determinate" \| "indeterminate"` | Animation type |
-| `value` | `number (0–100)` | Progress value (determinate) |
-| `color` | `"inherit" \| "primary" \| "secondary" \| ...` | Color |
-| `size` | `number \| string` | Diameter (px) |
-| `thickness` | `number` | Circle stroke width |
-| `disableShrink` | `bool` | Disable shrink animation |
+| Prop            | Type                                           | Mô tả                        |
+| --------------- | ---------------------------------------------- | ---------------------------- |
+| `variant`       | `"determinate" \| "indeterminate"`             | Animation type               |
+| `value`         | `number (0–100)`                               | Progress value (determinate) |
+| `color`         | `"inherit" \| "primary" \| "secondary" \| ...` | Color                        |
+| `size`          | `number \| string`                             | Diameter (px)                |
+| `thickness`     | `number`                                       | Circle stroke width          |
+| `disableShrink` | `bool`                                         | Disable shrink animation     |
 
 ---
 
@@ -1354,21 +1354,21 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Indeterminate _(default)_ | `variant="indeterminate"` | Animated continuous bar |
-| Determinate | `variant="determinate"` | Specific progress value 0–100 |
-| Buffer | `variant="buffer"` | Primary + buffer bar |
-| Query | `variant="query"` | Reverse-direction indeterminate |
+| Variant                   | Prop                      | Mô tả                           |
+| ------------------------- | ------------------------- | ------------------------------- |
+| Indeterminate _(default)_ | `variant="indeterminate"` | Animated continuous bar         |
+| Determinate               | `variant="determinate"`   | Specific progress value 0–100   |
+| Buffer                    | `variant="buffer"`        | Primary + buffer bar            |
+| Query                     | `variant="query"`         | Reverse-direction indeterminate |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `"buffer" \| "determinate" \| "indeterminate" \| "query"` | Progress type |
-| `value` | `number (0–100)` | Progress value (determinate) |
-| `valueBuffer` | `number` | Buffer bar value (buffer variant) |
-| `color` | `string` | Bar color |
+| Prop          | Type                                                      | Mô tả                             |
+| ------------- | --------------------------------------------------------- | --------------------------------- |
+| `variant`     | `"buffer" \| "determinate" \| "indeterminate" \| "query"` | Progress type                     |
+| `value`       | `number (0–100)`                                          | Progress value (determinate)      |
+| `valueBuffer` | `number`                                                  | Buffer bar value (buffer variant) |
+| `color`       | `string`                                                  | Bar color                         |
 
 ---
 
@@ -1379,21 +1379,21 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Text _(default)_ | `variant="text"` | Text line placeholder |
-| Circular | `variant="circular"` | Circle placeholder |
-| Rectangular | `variant="rectangular"` | Box placeholder |
-| Rounded | `variant="rounded"` | Rounded box placeholder |
+| Variant          | Prop                    | Mô tả                   |
+| ---------------- | ----------------------- | ----------------------- |
+| Text _(default)_ | `variant="text"`        | Text line placeholder   |
+| Circular         | `variant="circular"`    | Circle placeholder      |
+| Rectangular      | `variant="rectangular"` | Box placeholder         |
+| Rounded          | `variant="rounded"`     | Rounded box placeholder |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `variant` | `"circular" \| "rectangular" \| "rounded" \| "text"` | Shape |
-| `animation` | `"pulse" \| "wave" \| false` | Animation style |
-| `width` | `number \| string` | Override width |
-| `height` | `number \| string` | Override height |
+| Prop        | Type                                                 | Mô tả           |
+| ----------- | ---------------------------------------------------- | --------------- |
+| `variant`   | `"circular" \| "rectangular" \| "rounded" \| "text"` | Shape           |
+| `animation` | `"pulse" \| "wave" \| false`                         | Animation style |
+| `width`     | `number \| string`                                   | Override width  |
+| `height`    | `number \| string`                                   | Override height |
 
 ---
 
@@ -1406,23 +1406,23 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Focus trap với backdrop |
+| Variant          | Prop           | Mô tả                   |
+| ---------------- | -------------- | ----------------------- |
+| Default          | —              | Focus trap với backdrop |
 | Without backdrop | `hideBackdrop` | Không có dimmed overlay |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `open` | `bool` | Control visibility |
-| `onClose` | `func` | Close callback |
-| `keepMounted` | `bool` | Render khi đóng |
-| `hideBackdrop` | `bool` | Không có backdrop overlay |
-| `disableAutoFocus` | `bool` | Không auto-focus khi mở |
-| `disableEscapeKeyDown` | `bool` | Không close khi Escape |
-| `BackdropComponent` | `elementType` | Custom backdrop |
-| `BackdropProps` | `object` | Backdrop config |
+| Prop                   | Type          | Mô tả                     |
+| ---------------------- | ------------- | ------------------------- |
+| `open`                 | `bool`        | Control visibility        |
+| `onClose`              | `func`        | Close callback            |
+| `keepMounted`          | `bool`        | Render khi đóng           |
+| `hideBackdrop`         | `bool`        | Không có backdrop overlay |
+| `disableAutoFocus`     | `bool`        | Không auto-focus khi mở   |
+| `disableEscapeKeyDown` | `bool`        | Không close khi Escape    |
+| `BackdropComponent`    | `elementType` | Custom backdrop           |
+| `BackdropProps`        | `object`      | Backdrop config           |
 
 > **Note:** `Dialog` và `Drawer` đều được build trên Modal.
 
@@ -1435,16 +1435,16 @@
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `open` | `bool` | Show/hide |
-| `anchorEl` | `element` | Anchor reference element |
-| `onClose` | `func` | Close callback |
-| `anchorOrigin` | `object` | Anchor attachment point |
-| `transformOrigin` | `object` | Popover origin point |
-| `elevation` | `number` | Shadow depth |
-| `PaperProps` | `object` | Inner Paper props |
-| `marginThreshold` | `number` | Screen edge margin |
+| Prop              | Type      | Mô tả                    |
+| ----------------- | --------- | ------------------------ |
+| `open`            | `bool`    | Show/hide                |
+| `anchorEl`        | `element` | Anchor reference element |
+| `onClose`         | `func`    | Close callback           |
+| `anchorOrigin`    | `object`  | Anchor attachment point  |
+| `transformOrigin` | `object`  | Popover origin point     |
+| `elevation`       | `number`  | Shadow depth             |
+| `PaperProps`      | `object`  | Inner Paper props        |
+| `marginThreshold` | `number`  | Screen edge margin       |
 
 ---
 
@@ -1455,22 +1455,22 @@
 
 #### Variants
 
-| Variant | Prop | Mô tả |
-|---------|------|--------|
-| Default | — | Basic Popper |
+| Variant         | Prop         | Mô tả               |
+| --------------- | ------------ | ------------------- |
+| Default         | —            | Basic Popper        |
 | With transition | `transition` | Animated open/close |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `open` | `bool` | Show/hide |
-| `anchorEl` | `element \| func` | Anchor element |
-| `placement` | `string` | 12 placement options (`top`, `bottom-start`...) |
-| `disablePortal` | `bool` | Render tại vị trí DOM |
-| `modifiers` | `array` | Popper.js modifiers |
-| `transition` | `bool` | Enable transition |
-| `keepMounted` | `bool` | Keep in DOM |
+| Prop            | Type              | Mô tả                                           |
+| --------------- | ----------------- | ----------------------------------------------- |
+| `open`          | `bool`            | Show/hide                                       |
+| `anchorEl`      | `element \| func` | Anchor element                                  |
+| `placement`     | `string`          | 12 placement options (`top`, `bottom-start`...) |
+| `disablePortal` | `bool`            | Render tại vị trí DOM                           |
+| `modifiers`     | `array`           | Popper.js modifiers                             |
+| `transition`    | `bool`            | Enable transition                               |
+| `keepMounted`   | `bool`            | Keep in DOM                                     |
 
 ---
 
@@ -1481,23 +1481,23 @@
 
 #### Variants
 
-| Variant | Mô tả |
-|---------|--------|
+| Variant       | Mô tả                                           |
+| ------------- | ----------------------------------------------- |
 | `FormControl` | Context wrapper cho `Select`, `TextField`, v.v. |
-| `FormGroup` | Row/column layout cho checkboxes/switches |
+| `FormGroup`   | Row/column layout cho checkboxes/switches       |
 
 #### Key Props
 
-| Prop | Type | Mô tả |
-|------|------|--------|
-| `error` | `bool` | Error state (propagate tới children) |
-| `required` | `bool` | Required indicator |
-| `disabled` | `bool` | Disable tất cả children |
-| `fullWidth` | `bool` | Full container width |
-| `focused` | `bool` | Force focused state |
-| `variant` | `"filled" \| "outlined" \| "standard"` | Input variant context |
-| `margin` | `"dense" \| "none" \| "normal"` | Vertical spacing |
-| `row` | `bool` | Horizontal layout (FormGroup) |
+| Prop        | Type                                   | Mô tả                                |
+| ----------- | -------------------------------------- | ------------------------------------ |
+| `error`     | `bool`                                 | Error state (propagate tới children) |
+| `required`  | `bool`                                 | Required indicator                   |
+| `disabled`  | `bool`                                 | Disable tất cả children              |
+| `fullWidth` | `bool`                                 | Full container width                 |
+| `focused`   | `bool`                                 | Force focused state                  |
+| `variant`   | `"filled" \| "outlined" \| "standard"` | Input variant context                |
+| `margin`    | `"dense" \| "none" \| "normal"`        | Vertical spacing                     |
+| `row`       | `bool`                                 | Horizontal layout (FormGroup)        |
 
 **Sub-components:** `FormLabel`, `FormHelperText`, `FormControlLabel`, `FormGroup`
 
@@ -1541,13 +1541,19 @@
 ### Alert Severity × Variant
 
 ```jsx
-{['error', 'warning', 'info', 'success'].map(severity =>
-  ['standard', 'filled', 'outlined'].map(variant =>
-    <Alert key={`${severity}-${variant}`} severity={severity} variant={variant}>
-      {severity} / {variant}
-    </Alert>
-  )
-)}
+{
+  ['error', 'warning', 'info', 'success'].map((severity) =>
+    ['standard', 'filled', 'outlined'].map((variant) => (
+      <Alert
+        key={`${severity}-${variant}`}
+        severity={severity}
+        variant={variant}
+      >
+        {severity} / {variant}
+      </Alert>
+    ))
+  );
+}
 ```
 
 ### Progress Variants
@@ -1565,4 +1571,4 @@
 
 ---
 
-*Tài liệu đầy đủ: https://mui.com/material-ui/getting-started/supported-components/*
+_Tài liệu đầy đủ: https://mui.com/material-ui/getting-started/supported-components/_

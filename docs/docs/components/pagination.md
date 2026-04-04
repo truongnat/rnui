@@ -5,9 +5,9 @@ Page navigation controls.
 ## Usage
 
 ```tsx
-import { Pagination } from "@truongdq01/ui";
+import { Pagination } from '@truongdq01/ui';
 
-<Pagination count={10} page={1} onChange={() => {}} />
+<Pagination count={10} page={1} onChange={() => {}} />;
 ```
 
 ## Notes

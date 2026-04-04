@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { AccessibilityInfo } from "react-native";
+import { useEffect, useState } from 'react';
+import { AccessibilityInfo } from 'react-native';
 
 /**
  * Tracks the OS “reduce motion” / “prefer reduced motion” setting.
@@ -11,7 +11,7 @@ export function useReduceMotionEnabled(): boolean {
   useEffect(() => {
     let mounted = true;
     const initial =
-      typeof AccessibilityInfo.isReduceMotionEnabled === "function"
+      typeof AccessibilityInfo.isReduceMotionEnabled === 'function'
         ? AccessibilityInfo.isReduceMotionEnabled()
         : Promise.resolve(false);
     initial
@@ -21,10 +21,13 @@ export function useReduceMotionEnabled(): boolean {
       .catch(() => {});
 
     let subscription: { remove: () => void } | undefined;
-    if (typeof AccessibilityInfo.addEventListener === "function") {
-      subscription = AccessibilityInfo.addEventListener("reduceMotionChanged", (v) => {
-        setReduceMotion(v);
-      });
+    if (typeof AccessibilityInfo.addEventListener === 'function') {
+      subscription = AccessibilityInfo.addEventListener(
+        'reduceMotionChanged',
+        (v) => {
+          setReduceMotion(v);
+        }
+      );
     }
 
     return () => {

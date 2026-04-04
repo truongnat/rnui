@@ -1,27 +1,43 @@
-import type { StoryObj } from "@storybook/react-native";
-import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import {
   ThemeProvider,
   Divider,
-  Skeleton, SkeletonText, SkeletonCard, SkeletonListItem,
+  Skeleton,
+  SkeletonText,
+  SkeletonCard,
+  SkeletonListItem,
   EmptyState,
-  FormField, FormGroup,
-  Input, TextArea, Select, Checkbox, Button,
+  FormField,
+  FormGroup,
+  Input,
+  TextArea,
+  Select,
+  Checkbox,
+  Button,
   Icon,
   useTheme,
-} from "@truongdq01/ui";
-import { useField } from "@truongdq01/headless";
+} from '@truongdq01/ui';
+import { useField } from '@truongdq01/headless';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>{children}</ScrollView>
+    <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>
+      {children}
+    </ScrollView>
   </ThemeProvider>
 );
 
 const meta = {
-  title: "Components/Utility",
-  decorators: [(S: React.ComponentType) => <Wrap><S /></Wrap>],
+  title: 'Components/Utility',
+  decorators: [
+    (S: React.ComponentType) => (
+      <Wrap>
+        <S />
+      </Wrap>
+    ),
+  ],
 };
 
 export default meta;
@@ -29,7 +45,7 @@ export default meta;
 // ─── Divider ──────────────────────────────────────────────────────
 
 export const DividerStory: StoryObj = {
-  name: "Divider",
+  name: 'Divider',
   render: () => {
     const { tokens } = useTheme();
     return (
@@ -40,7 +56,14 @@ export const DividerStory: StoryObj = {
         <Divider label="OR" />
         <Text style={{ color: tokens.color.text.primary }}>Section C</Text>
         <Divider emphasis />
-        <View style={{ flexDirection: "row", height: 48, alignItems: "center", gap: 12 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            height: 48,
+            alignItems: 'center',
+            gap: 12,
+          }}
+        >
           <Text style={{ color: tokens.color.text.primary }}>Left</Text>
           <Divider orientation="vertical" />
           <Text style={{ color: tokens.color.text.primary }}>Right</Text>
@@ -53,7 +76,7 @@ export const DividerStory: StoryObj = {
 // ─── Skeleton ─────────────────────────────────────────────────────
 
 export const SkeletonStory: StoryObj = {
-  name: "Skeleton",
+  name: 'Skeleton',
   render: () => (
     <View style={{ gap: 20 }}>
       <Skeleton width="100%" height={20} />
@@ -70,27 +93,27 @@ export const SkeletonStory: StoryObj = {
 // ─── EmptyState ───────────────────────────────────────────────────
 
 export const EmptyStateStory: StoryObj = {
-  name: "EmptyState",
+  name: 'EmptyState',
   render: () => (
     <View style={{ gap: 32 }}>
       <EmptyState
         title="No messages yet"
         description="When you receive messages, they will appear here. Start a conversation now."
         icon={<Icon>mail</Icon>}
-        action={(
-          <View style={{ flexDirection: "row", gap: 12 }}>
-            <Button label="New Message" onPress={() => { }} />
-            <Button label="Learn more" variant="outline" onPress={() => { }} />
+        action={
+          <View style={{ flexDirection: 'row', gap: 12 }}>
+            <Button label="New Message" onPress={() => {}} />
+            <Button label="Learn more" variant="outline" onPress={() => {}} />
           </View>
-        )}
+        }
       />
       <EmptyState
         title="Search returned no results"
         description="Try adjusting your filters or searching for something else."
         icon={<Icon>search</Icon>}
-        action={(
-          <Button label="Clear search" variant="outline" onPress={() => { }} />
-        )}
+        action={
+          <Button label="Clear search" variant="outline" onPress={() => {}} />
+        }
       />
     </View>
   ),
@@ -102,17 +125,25 @@ const SignupForm = () => {
   const [terms, setTerms] = useState(false);
   const [country, setCountry] = useState<string>();
 
-  const name = useField({ defaultValue: "", validate: (v: string) => (!v ? "Required" : undefined) });
+  const name = useField({
+    defaultValue: '',
+    validate: (v: string) => (!v ? 'Required' : undefined),
+  });
   const email = useField({
-    defaultValue: "",
-    validate: (v: string) => (!v.includes("@") ? "Invalid email" : undefined),
+    defaultValue: '',
+    validate: (v: string) => (!v.includes('@') ? 'Invalid email' : undefined),
   });
 
   const handleSubmit = async () => {
     await name.validate();
     await email.validate();
     if (name.error || email.error || !terms) return;
-    console.log("Success:", { name: name.value, email: email.value, country, terms });
+    console.log('Success:', {
+      name: name.value,
+      email: email.value,
+      country,
+      terms,
+    });
   };
 
   return (
@@ -149,9 +180,9 @@ const SignupForm = () => {
       <FormField label="Country">
         <Select
           options={[
-            { label: "Việt Nam", value: "vn" },
-            { label: "Japan", value: "jp" },
-            { label: "Singapore", value: "sg" },
+            { label: 'Việt Nam', value: 'vn' },
+            { label: 'Japan', value: 'jp' },
+            { label: 'Singapore', value: 'sg' },
           ]}
           value={country}
           onChange={(v: any) => setCountry(v as string)}
@@ -159,11 +190,12 @@ const SignupForm = () => {
         />
       </FormField>
 
-      <FormField
-        label="Bio"
-        helperText="Optional — max 200 characters"
-      >
-        <TextArea placeholder="Tell us about yourself…" maxLength={200} minLines={3} />
+      <FormField label="Bio" helperText="Optional — max 200 characters">
+        <TextArea
+          placeholder="Tell us about yourself…"
+          maxLength={200}
+          minLines={3}
+        />
       </FormField>
 
       <Checkbox
@@ -183,6 +215,6 @@ const SignupForm = () => {
 };
 
 export const SignupStory: StoryObj = {
-  name: "Example: Signup Form",
+  name: 'Example: Signup Form',
   render: () => <SignupForm />,
 };

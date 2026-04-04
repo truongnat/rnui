@@ -5,13 +5,13 @@ Exclusive or multi select toggle group.
 ## Usage
 
 ```tsx
-import { ToggleButtonGroup, ToggleButton } from "@truongdq01/ui";
+import { ToggleButtonGroup, ToggleButton } from '@truongdq01/ui';
 
 <ToggleButtonGroup exclusive>
   <ToggleButton value="left">Left</ToggleButton>
   <ToggleButton value="center">Center</ToggleButton>
   <ToggleButton value="right">Right</ToggleButton>
-</ToggleButtonGroup>
+</ToggleButtonGroup>;
 ```
 
 ## Notes

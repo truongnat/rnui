@@ -1,24 +1,32 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Table, TableHead, TableBody, TableRow, TableCell, TableContainer } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import {
+  ThemeProvider,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableContainer,
+} from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
 const TableWrapper = (props: any) => (
   <TableContainer>
-    <Table size={props.size ?? "medium"}>
+    <Table size={props.size ?? 'medium'}>
       <TableHead>
         <TableRow>
           <TableCell variant="head">Name</TableCell>
           <TableCell variant="head">Role</TableCell>
-          <TableCell variant="head" align="right">Status</TableCell>
+          <TableCell variant="head" align="right">
+            Status
+          </TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -43,17 +51,23 @@ const TableWrapper = (props: any) => (
 );
 
 const meta = {
-  title: "Components/Table",
+  title: 'Components/Table',
   component: TableWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
     size: {
-      control: { type: "select" },
-      options: ["small", "medium"],
+      control: { type: 'select' },
+      options: ['small', 'medium'],
     },
   },
   args: {
-    size: "medium",
+    size: 'medium',
   },
 };
 
@@ -63,5 +77,5 @@ type Story = StoryObj<typeof TableWrapper>;
 export const Default: Story = {};
 
 export const Small: Story = {
-  args: { size: "small" },
+  args: { size: 'small' },
 };

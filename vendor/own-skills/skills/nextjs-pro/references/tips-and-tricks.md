@@ -59,4 +59,4 @@
 
 ---
 
-*Prefer official Next.js examples for your version when scaffolding auth and CMS patterns.*
+_Prefer official Next.js examples for your version when scaffolding auth and CMS patterns._

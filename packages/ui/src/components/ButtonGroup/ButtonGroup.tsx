@@ -1,27 +1,34 @@
-import React from "react";
-import { View } from "react-native";
-import { useTokens, useComponentTokens } from "@truongdq01/headless";
+import React from 'react';
+import { View } from 'react-native';
+import { useTokens, useComponentTokens } from '@truongdq01/headless';
 
 export interface ButtonGroupProps {
   children?: React.ReactNode;
-  variant?: "solid" | "outline" | "ghost" | "destructive" | "text" | "contained" | "outlined";
-  size?: "sm" | "md" | "lg";
-  orientation?: "horizontal" | "vertical";
+  variant?:
+    | 'solid'
+    | 'outline'
+    | 'ghost'
+    | 'destructive'
+    | 'text'
+    | 'contained'
+    | 'outlined';
+  size?: 'sm' | 'md' | 'lg';
+  orientation?: 'horizontal' | 'vertical';
   disabled?: boolean;
   fullWidth?: boolean;
 }
 
 export function ButtonGroup({
   children,
-  variant = "outlined",
-  size = "md",
-  orientation = "horizontal",
+  variant = 'outlined',
+  size = 'md',
+  orientation = 'horizontal',
   disabled = false,
   fullWidth = false,
 }: ButtonGroupProps) {
   const tokens = useTokens();
   const { buttonGroup } = useComponentTokens();
-  const isRow = orientation === "horizontal";
+  const isRow = orientation === 'horizontal';
 
   const items = React.Children.toArray(children);
 
@@ -29,18 +36,21 @@ export function ButtonGroup({
     <View
       style={{
         ...buttonGroup.container,
-        flexDirection: isRow ? "row" : "column",
-        alignSelf: fullWidth ? "stretch" : "flex-start",
+        flexDirection: isRow ? 'row' : 'column',
+        alignSelf: fullWidth ? 'stretch' : 'flex-start',
       }}
     >
       {items.map((child, i) => {
-        if (!React.isValidElement<{
-          variant?: string;
-          size?: string;
-          disabled?: boolean;
-          fullWidth?: boolean;
-          style?: any;
-        }>(child)) return child;
+        if (
+          !React.isValidElement<{
+            variant?: string;
+            size?: string;
+            disabled?: boolean;
+            fullWidth?: boolean;
+            style?: any;
+          }>(child)
+        )
+          return child;
         const isFirst = i === 0;
         const isLast = i === items.length - 1;
 
@@ -56,13 +66,25 @@ export function ButtonGroup({
 
         const radiusStyle = isFirst
           ? isRow
-            ? { borderTopLeftRadius: buttonGroup.container.borderRadius, borderBottomLeftRadius: buttonGroup.container.borderRadius }
-            : { borderTopLeftRadius: buttonGroup.container.borderRadius, borderTopRightRadius: buttonGroup.container.borderRadius }
+            ? {
+                borderTopLeftRadius: buttonGroup.container.borderRadius,
+                borderBottomLeftRadius: buttonGroup.container.borderRadius,
+              }
+            : {
+                borderTopLeftRadius: buttonGroup.container.borderRadius,
+                borderTopRightRadius: buttonGroup.container.borderRadius,
+              }
           : isLast
-          ? isRow
-            ? { borderTopRightRadius: buttonGroup.container.borderRadius, borderBottomRightRadius: buttonGroup.container.borderRadius }
-            : { borderBottomLeftRadius: buttonGroup.container.borderRadius, borderBottomRightRadius: buttonGroup.container.borderRadius }
-          : { borderRadius: 0 };
+            ? isRow
+              ? {
+                  borderTopRightRadius: buttonGroup.container.borderRadius,
+                  borderBottomRightRadius: buttonGroup.container.borderRadius,
+                }
+              : {
+                  borderBottomLeftRadius: buttonGroup.container.borderRadius,
+                  borderBottomRightRadius: buttonGroup.container.borderRadius,
+                }
+            : { borderRadius: 0 };
 
         return React.cloneElement(child, {
           variant,

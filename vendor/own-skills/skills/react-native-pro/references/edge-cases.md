@@ -64,4 +64,4 @@
 
 ---
 
-*When in doubt, reproduce on a physical device in Release mode with the same OS version as the reported bug.*
+_When in doubt, reproduce on a physical device in Release mode with the same OS version as the reported bug._

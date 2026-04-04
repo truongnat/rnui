@@ -1,6 +1,6 @@
 ---
 phase: 01-critical-fixes
-plan: "01"
+plan: '01'
 subsystem: ui
 tags: [react-native, typescript, reanimated, a11y, tokens]
 
@@ -13,7 +13,7 @@ affects: [phase-02-rating-depth]
 tech-stack:
   added: []
   patterns:
-    - "resolvedLabelColor via switch(resolvedVariant) for Button icon/text color without casts"
+    - 'resolvedLabelColor via switch(resolvedVariant) for Button icon/text color without casts'
 
 key-files:
   created: []
@@ -21,7 +21,7 @@ key-files:
     - packages/ui/src/components/Button/Button.tsx
 
 key-decisions:
-  - "Execution verified plan 01-01; Button typing already merged in prior commit"
+  - 'Execution verified plan 01-01; Button typing already merged in prior commit'
 
 patterns-established: []
 

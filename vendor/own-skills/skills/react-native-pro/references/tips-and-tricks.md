@@ -57,4 +57,4 @@
 
 ---
 
-*Always profile with Release builds on real devices for list and animation work.*
+_Always profile with Release builds on real devices for list and animation work._

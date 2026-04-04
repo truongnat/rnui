@@ -1,13 +1,11 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Menu, MenuItem, Button } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Menu, MenuItem, Button } from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
@@ -32,9 +30,15 @@ const MenuWrapper = (props: any) => {
 };
 
 const meta = {
-  title: "Components/Menu",
+  title: 'Components/Menu',
   component: MenuWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {},
   args: {},
 };

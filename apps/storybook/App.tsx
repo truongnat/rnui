@@ -1,5 +1,5 @@
-import React from "react";
-import { view } from "./.storybook/storybook.requires";
+import React from 'react';
+import { view } from './.storybook/storybook.requires';
 
 // Mock storage to prevent AsyncStorage errors in Expo Go
 const mockStorage = {

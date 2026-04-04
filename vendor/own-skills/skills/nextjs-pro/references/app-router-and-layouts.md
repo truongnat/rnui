@@ -48,4 +48,4 @@
 
 ---
 
-*Follow the Next.js version in your repo — App Router APIs evolved quickly across majors.*
+_Follow the Next.js version in your repo — App Router APIs evolved quickly across majors._

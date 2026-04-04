@@ -19,9 +19,9 @@ import { ThemeProvider } from "@truongdq01/ui";
 
 ```tsx
 const { tokens, components, colorScheme, setColorScheme } = useTheme();
-const tokens = useTokens();               // semantic tokens only
-const { button, input } = useComponentTokens();  // component recipes
-const isDark = useIsDark();               // boolean
+const tokens = useTokens(); // semantic tokens only
+const { button, input } = useComponentTokens(); // component recipes
+const isDark = useIsDark(); // boolean
 ```
 
 ## usePressable
@@ -32,26 +32,32 @@ const { gesture, animatedStyle, accessibilityProps, isPressed } = usePressable({
   onLongPress,
   longPressMinDuration: 500,
   disabled: false,
-  feedbackMode: "scale",         // "scale" | "scaleSubtle" | "opacity" | "none"
-  accessibilityLabel: "Button",
-  accessibilityHint: "Saves changes",
-  accessibilityRole: "button",
+  feedbackMode: 'scale', // "scale" | "scaleSubtle" | "opacity" | "none"
+  accessibilityLabel: 'Button',
+  accessibilityHint: 'Saves changes',
+  accessibilityRole: 'button',
   haptic: true,
-  hitSlop: 8,                    // auto-expands touch target to min 44px
+  hitSlop: 8, // auto-expands touch target to min 44px
 });
 ```
 
 ## useTable
 
 ```tsx
-const { 
-  page, rowsPerPage, sort, selected, 
-  paginatedData, totalPages, 
-  setPage, handleSort, toggleSelect 
+const {
+  page,
+  rowsPerPage,
+  sort,
+  selected,
+  paginatedData,
+  totalPages,
+  setPage,
+  handleSort,
+  toggleSelect,
 } = useTable({
   data: myData,
   rowsPerPage: 10,
-  initialSort: { key: 'name', direction: 'asc' }
+  initialSort: { key: 'name', direction: 'asc' },
 });
 ```
 
@@ -60,7 +66,7 @@ const {
 ```tsx
 const { isOpen, close, getAlertProps, getCloseButtonProps } = useAlert({
   defaultOpen: true,
-  onClose: () => console.log("Closed")
+  onClose: () => console.log('Closed'),
 });
 ```
 
@@ -71,7 +77,7 @@ const { inputRef, isFocused, getOtpProps, handlePress } = useOTPInput({
   length: 6,
   value: otp,
   onChange: setOtp,
-  onComplete: (val) => verify(val)
+  onComplete: (val) => verify(val),
 });
 ```
 
@@ -80,7 +86,7 @@ const { inputRef, isFocused, getOtpProps, handlePress } = useOTPInput({
 ```tsx
 const { value, isSelected, getTabProps } = useSegmentedControl({
   value: activeIndex,
-  onChange: (i) => setActiveIndex(i)
+  onChange: (i) => setActiveIndex(i),
 });
 ```
 
@@ -89,7 +95,7 @@ const { value, isSelected, getTabProps } = useSegmentedControl({
 ```tsx
 const { value, isSelected, getItemProps } = useBottomNavigation({
   value: currentRoute,
-  onChange: (val) => router.push(val)
+  onChange: (val) => router.push(val),
 });
 ```
 
@@ -97,42 +103,53 @@ const { value, isSelected, getItemProps } = useBottomNavigation({
 
 ```tsx
 const { isOpen, open, close, getTriggerProps, getItemProps } = useMenu({
-  onClose: () => console.log("Menu closed")
+  onClose: () => console.log('Menu closed'),
 });
 ```
 
 ## useDisclosure
 
 ```tsx
-const { isOpen, open, close, toggle, triggerProps, contentProps } = useDisclosure({
-  defaultOpen: false,
-  isOpen: controlled,           // optional controlled value
-  onOpen: () => {},
-  onClose: () => {},
-});
+const { isOpen, open, close, toggle, triggerProps, contentProps } =
+  useDisclosure({
+    defaultOpen: false,
+    isOpen: controlled, // optional controlled value
+    onOpen: () => {},
+    onClose: () => {},
+  });
 ```
 
 ## useField
 
 ```tsx
-const { value, error, touched, isValidating, onChange, onBlur, reset, setError, inputProps } =
-  useField({
-    defaultValue: "",
-    validate: async (v) => v.length < 3 ? "Too short" : undefined,
-    validateOnChange: false,
-  });
+const {
+  value,
+  error,
+  touched,
+  isValidating,
+  onChange,
+  onBlur,
+  reset,
+  setError,
+  inputProps,
+} = useField({
+  defaultValue: '',
+  validate: async (v) => (v.length < 3 ? 'Too short' : undefined),
+  validateOnChange: false,
+});
 ```
 
 ## useCheckbox
 
 ```tsx
-const { isChecked, isIndeterminate, isDisabled, toggle, accessibilityProps } = useCheckbox({
-  defaultChecked: false,
-  checked: controlled,
-  onChange: (v) => {},
-  disabled: false,
-  indeterminate: false,
-});
+const { isChecked, isIndeterminate, isDisabled, toggle, accessibilityProps } =
+  useCheckbox({
+    defaultChecked: false,
+    checked: controlled,
+    onChange: (v) => {},
+    disabled: false,
+    indeterminate: false,
+  });
 ```
 
 ## useSwitch
@@ -164,65 +181,93 @@ const { selected, isOpen, open, close, toggle, selectOption, clearSelection, isS
 ## useRadioGroup
 
 ```tsx
-const { selectedValue, select, isSelected, isDisabled, getItemProps } = useRadioGroup({
-  defaultValue: "a",
-  value: controlled,
-  onChange: (v) => {},
-  disabled: false,
-});
+const { selectedValue, select, isSelected, isDisabled, getItemProps } =
+  useRadioGroup({
+    defaultValue: 'a',
+    value: controlled,
+    onChange: (v) => {},
+    disabled: false,
+  });
 
 // Use getItemProps to wire up each radio item:
-const { onPress, accessibilityRole, accessibilityState } = getItemProps("a");
+const { onPress, accessibilityRole, accessibilityState } = getItemProps('a');
 ```
 
 ## useSlider
 
 ```tsx
-const { currentValue, thumbAnimatedStyle, fillAnimatedStyle, trackAnimatedStyle, panGesture, onTrackLayout, percentage } =
-  useSlider({
-    min: 0,
-    max: 100,
-    step: 1,
-    defaultValue: 50,
-    value: controlled,
-    onChange: (v) => {},
-    onChangeEnd: (v) => {},
-    disabled: false,
-  });
+const {
+  currentValue,
+  thumbAnimatedStyle,
+  fillAnimatedStyle,
+  trackAnimatedStyle,
+  panGesture,
+  onTrackLayout,
+  percentage,
+} = useSlider({
+  min: 0,
+  max: 100,
+  step: 1,
+  defaultValue: 50,
+  value: controlled,
+  onChange: (v) => {},
+  onChangeEnd: (v) => {},
+  disabled: false,
+});
 ```
 
 ## useListItem
 
 ```tsx
-const { itemAnimatedStyle, trailingActionsStyle, leadingActionsStyle, gesture, accessibilityProps, isRevealed, close } =
-  useListItem({
-    onPress,
-    onLongPress,
-    trailingActions: [{ label: "Delete", color: "#ef4444", onPress: handleDelete }],
-    leadingActions:  [{ label: "Star",   color: "#f59e0b", onPress: handleStar   }],
-    disabled: false,
-  });
+const {
+  itemAnimatedStyle,
+  trailingActionsStyle,
+  leadingActionsStyle,
+  gesture,
+  accessibilityProps,
+  isRevealed,
+  close,
+} = useListItem({
+  onPress,
+  onLongPress,
+  trailingActions: [
+    { label: 'Delete', color: '#ef4444', onPress: handleDelete },
+  ],
+  leadingActions: [{ label: 'Star', color: '#f59e0b', onPress: handleStar }],
+  disabled: false,
+});
 ```
 
 ## useToast
 
 ```tsx
-const { toasts, show, dismiss, dismissAll, success, error, warning, info } = useToast();
+const { toasts, show, dismiss, dismissAll, success, error, warning, info } =
+  useToast();
 
 // Imperative (works outside React):
-import { showToast, dismissToast, dismissAllToasts } from "@truongdq01/headless";
-showToast({ message: "Saved!", variant: "success", duration: 3500 });
+import {
+  showToast,
+  dismissToast,
+  dismissAllToasts,
+} from '@truongdq01/headless';
+showToast({ message: 'Saved!', variant: 'success', duration: 3500 });
 ```
 
 ## useBottomSheet
 
 ```tsx
 const {
-  isOpen, open, close, snapTo, currentSnapIndex,
-  sheetAnimatedStyle, backdropAnimatedStyle,
-  panGesture, backdropTapGesture,
+  isOpen,
+  open,
+  close,
+  snapTo,
+  currentSnapIndex,
+  sheetAnimatedStyle,
+  backdropAnimatedStyle,
+  panGesture,
+  backdropTapGesture,
 } = useBottomSheet({
-  snapPoints: ["50%", "90%"],
+  snapPoints: ['50%', '90%'],
   initialSnapIndex: 0,
   onClose: () => {},
   onSnapChange: (i) => {},

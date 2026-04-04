@@ -6,4 +6,4 @@ Professional **PostgreSQL** skill: schema and query design, indexing, migrations
 - **RLS deep dive:** [references/row-level-security.md](references/row-level-security.md)
 - **Other references:** [references/](references/)
 
-*Tip:* Fork and add `references/` for your internal replication, backup, and monitoring standards.
+_Tip:_ Fork and add `references/` for your internal replication, backup, and monitoring standards.

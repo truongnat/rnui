@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 export interface UseMenuOptions {
   onClose?: () => void;
@@ -42,8 +42,8 @@ export function useMenu({
     toggle,
     getTriggerProps: () => ({
       onPress: toggle,
-      accessibilityRole: "button",
-      accessibilityHasPopup: "menu",
+      accessibilityRole: 'button',
+      accessibilityHasPopup: 'menu',
       accessibilityState: { expanded: isOpen },
     }),
     getItemProps: (options = {}) => ({
@@ -52,7 +52,7 @@ export function useMenu({
         options.onClick?.();
         close();
       },
-      accessibilityRole: "menuitem",
+      accessibilityRole: 'menuitem',
       accessibilityState: { disabled: options.disabled },
     }),
   };

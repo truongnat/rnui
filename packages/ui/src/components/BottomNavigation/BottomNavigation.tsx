@@ -1,6 +1,10 @@
-import React, { createContext, useContext, useMemo } from "react";
-import { View, Text, Pressable } from "react-native";
-import { useTokens, useComponentTokens, useBottomNavigation } from "@truongdq01/headless";
+import React, { createContext, useContext, useMemo } from 'react';
+import { View, Text, Pressable } from 'react-native';
+import {
+  useTokens,
+  useComponentTokens,
+  useBottomNavigation,
+} from '@truongdq01/headless';
 
 export interface BottomNavigationProps<T = string> {
   value?: T;
@@ -39,30 +43,59 @@ export function BottomNavigation<T = string>({
     onChange,
   });
 
-  const ctx = useMemo(() => ({ value, isSelected, getItemProps, showLabels }), [value, isSelected, getItemProps, showLabels]);
+  const ctx = useMemo(
+    () => ({ value, isSelected, getItemProps, showLabels }),
+    [value, isSelected, getItemProps, showLabels]
+  );
 
   return (
     <BottomNavContext.Provider value={ctx}>
-      <View style={[bottomNavigation.container, { flexDirection: "row", justifyContent: "space-around" }]}>
+      <View
+        style={[
+          bottomNavigation.container,
+          { flexDirection: 'row', justifyContent: 'space-around' },
+        ]}
+      >
         {children}
       </View>
     </BottomNavContext.Provider>
   );
 }
 
-export function BottomNavigationAction<T = string>({ value, label, icon }: BottomNavigationActionProps<T>) {
+export function BottomNavigationAction<T = string>({
+  value,
+  label,
+  icon,
+}: BottomNavigationActionProps<T>) {
   const { bottomNavigation } = useComponentTokens();
   const tokens = useTokens();
-  const ctx = useContext(BottomNavContext as React.Context<BottomNavContextValue<T> | null>);
+  const ctx = useContext(
+    BottomNavContext as React.Context<BottomNavContextValue<T> | null>
+  );
   if (!ctx) return null;
 
   const selected = ctx.isSelected(value);
 
   return (
-    <Pressable {...ctx.getItemProps(value)} style={{ alignItems: "center", gap: 4, paddingHorizontal: 12, paddingVertical: 6 }}>
+    <Pressable
+      {...ctx.getItemProps(value)}
+      style={{
+        alignItems: 'center',
+        gap: 4,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+      }}
+    >
       {icon}
       {(ctx.showLabels || selected) && label && (
-        <Text style={{ fontSize: tokens.fontSize.xs, color: selected ? bottomNavigation.item.active.color : bottomNavigation.item.inactive.color }}>
+        <Text
+          style={{
+            fontSize: tokens.fontSize.xs,
+            color: selected
+              ? bottomNavigation.item.active.color
+              : bottomNavigation.item.inactive.color,
+          }}
+        >
           {label}
         </Text>
       )}

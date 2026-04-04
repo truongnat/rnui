@@ -9,22 +9,22 @@ A versatile container component with MUI-style `sx` prop for rapid styling.
 ## Usage
 
 ```tsx
-import { Box } from "@truongdq01/ui";
+import { Box } from '@truongdq01/ui';
 
 <Box style={{ padding: 16, backgroundColor: '#f5f5f5' }}>
   <Text>Content</Text>
-</Box>
+</Box>;
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | Container content |
-| `style` | `StyleProp<ViewStyle>` | — | Inline styles |
-| `sx` | `ViewStyle` | — | MUI-style prop for quick styling |
-| `flex` | `number` | — | Flex grow/shrink value |
-| `testID` | `string` | — | Test identifier |
+| Prop       | Type                   | Default | Description                      |
+| ---------- | ---------------------- | ------- | -------------------------------- |
+| `children` | `ReactNode`            | —       | Container content                |
+| `style`    | `StyleProp<ViewStyle>` | —       | Inline styles                    |
+| `sx`       | `ViewStyle`            | —       | MUI-style prop for quick styling |
+| `flex`     | `number`               | —       | Flex grow/shrink value           |
+| `testID`   | `string`               | —       | Test identifier                  |
 
 All `ViewProps` from React Native are supported.
 
@@ -91,7 +91,9 @@ All `ViewProps` from React Native are supported.
     elevation: 3,
   }}
 >
-  <Typography variant="h6" gutterBottom>Card Title</Typography>
+  <Typography variant="h6" gutterBottom>
+    Card Title
+  </Typography>
   <Typography variant="body2">Card content goes here.</Typography>
 </Box>
 ```
@@ -103,9 +105,7 @@ All `ViewProps` from React Native are supported.
 ```tsx
 <Box style={{ flex: 1, padding: 16 }}>
   <AppBar title="My App" />
-  <Box style={{ flex: 1 }}>
-    {/* Main content */}
-  </Box>
+  <Box style={{ flex: 1 }}>{/* Main content */}</Box>
   <BottomNavigation />
 </Box>
 ```
@@ -151,12 +151,14 @@ All `ViewProps` from React Native are supported.
 ## Best Practices
 
 ### ✅ Do
+
 - Use for layout containers and spacing
 - Combine with `sx` for quick prototyping
 - Use semantic components when possible (Card, Paper)
 - Keep styling consistent with theme tokens
 
 ### ❌ Don't
+
 - Don't overuse for simple View containers
 - Don't nest too deeply (consider Grid or Flex)
 - Don't use for complex styling (create custom component)

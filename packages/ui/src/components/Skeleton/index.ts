@@ -9,9 +9,9 @@ export {
   SkeletonForm,
   SkeletonGrid,
   SkeletonTable,
-} from "./Skeleton";
+} from './Skeleton';
 export type {
   SkeletonProps,
   SkeletonShimmerDirection,
   SkeletonGroupProps,
-} from "./Skeleton";
+} from './Skeleton';

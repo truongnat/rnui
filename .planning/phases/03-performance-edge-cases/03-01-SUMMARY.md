@@ -1,6 +1,6 @@
 ---
 phase: 03-performance-edge-cases
-plan: "03-01"
+plan: '03-01'
 subsystem: ui
 tags: [react-native, reanimated, carousel, skeleton, switch]
 
@@ -15,8 +15,8 @@ affects: [phase-04-ds-enhancements]
 tech-stack:
   added: []
   patterns:
-    - "useWindowDimensions + Math.max(1, width || 375) for carousel defaults"
-    - "cancelAnimation(shimmer) when animate toggles off or unmount"
+    - 'useWindowDimensions + Math.max(1, width || 375) for carousel defaults'
+    - 'cancelAnimation(shimmer) when animate toggles off or unmount'
 
 key-files:
   created: []

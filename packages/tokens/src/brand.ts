@@ -12,7 +12,7 @@
  * which are built by merging the base scale with a Brand's color group.
  */
 
-import type { ColorScheme } from "./semantic";
+import type { ColorScheme } from './semantic';
 
 // ─── Color Group — the "color" section of SemanticTokens ─────────
 // A Brand must supply a full ColorGroup for each mode.
@@ -83,8 +83,8 @@ export interface BrandColorGroup {
   };
   success: { bg: string; text: string; border: string; icon: string };
   warning: { bg: string; text: string; border: string; icon: string };
-  error:   { bg: string; text: string; border: string; icon: string };
-  info:    { bg: string; text: string; border: string; icon: string };
+  error: { bg: string; text: string; border: string; icon: string };
+  info: { bg: string; text: string; border: string; icon: string };
 }
 
 // ─── Brand — the root plugin unit ────────────────────────────────
@@ -139,6 +139,9 @@ export function defineBrand(brand: Brand): Brand {
 /**
  * Get the color group for the active color scheme.
  */
-export function getBrandColors(brand: Brand, scheme: ColorScheme): BrandColorGroup {
-  return scheme === "dark" ? brand.dark : brand.light;
+export function getBrandColors(
+  brand: Brand,
+  scheme: ColorScheme
+): BrandColorGroup {
+  return scheme === 'dark' ? brand.dark : brand.light;
 }

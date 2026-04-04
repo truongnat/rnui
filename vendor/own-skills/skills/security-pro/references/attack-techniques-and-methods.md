@@ -17,14 +17,14 @@ Understanding **attacker goals** (CIA triad, fraud, persistence) improves **thre
 
 ## Web / API / app (OWASP-aligned)
 
-| Class | Examples (names only) | Defensive anchor |
-|-------|----------------------|------------------|
-| Injection | SQL, NoSQL, OS command, LDAP | Parameterized APIs, shell **avoidance**, input validation |
-| Broken access control | IDOR, forced browsing, mass assignment | Server-side authz on **every** resource |
-| Cryptographic failures | Weak TLS, bad KDF, keys in client | Standards, vault, no secrets in JS bundles |
-| SSRF | Internal metadata, cloud APIs | Egress policy, URL allowlist, IMDS v2 |
-| XSS | Stored/reflected/DOM | CSP, encode, sanitize by context |
-| Deserialization | Pickle/YAML gadgets | Never trust pickled blobs; schema validation |
+| Class                  | Examples (names only)                  | Defensive anchor                                          |
+| ---------------------- | -------------------------------------- | --------------------------------------------------------- |
+| Injection              | SQL, NoSQL, OS command, LDAP           | Parameterized APIs, shell **avoidance**, input validation |
+| Broken access control  | IDOR, forced browsing, mass assignment | Server-side authz on **every** resource                   |
+| Cryptographic failures | Weak TLS, bad KDF, keys in client      | Standards, vault, no secrets in JS bundles                |
+| SSRF                   | Internal metadata, cloud APIs          | Egress policy, URL allowlist, IMDS v2                     |
+| XSS                    | Stored/reflected/DOM                   | CSP, encode, sanitize by context                          |
+| Deserialization        | Pickle/YAML gadgets                    | Never trust pickled blobs; schema validation              |
 
 ## Network-layer patterns (names)
 

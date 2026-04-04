@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { View, Text, StyleSheet, AccessibilityInfo } from "react-native";
+import React, { useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, AccessibilityInfo } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,8 +9,8 @@ import Animated, {
   cancelAnimation,
   runOnJS,
   Easing,
-} from "react-native-reanimated";
-import { useTokens } from "@truongdq01/headless";
+} from 'react-native-reanimated';
+import { useTokens } from '@truongdq01/headless';
 
 export interface MarqueeProps {
   /** Content to scroll */
@@ -18,7 +18,7 @@ export interface MarqueeProps {
   /** Speed of animation (pixels per second) */
   speed?: number;
   /** Direction of scroll */
-  direction?: "left" | "right" | "up" | "down";
+  direction?: 'left' | 'right' | 'up' | 'down';
   /** Whether to pause on hover/press (for web compatibility) */
   pauseOnHover?: boolean;
   /** Whether to pause on press */
@@ -44,15 +44,15 @@ export interface MarqueeProps {
 export function Marquee({
   children,
   speed = 50,
-  direction = "left",
+  direction = 'left',
   pauseOnHover = false,
   pauseOnPress = false,
   loop = true,
   delay = 0,
   fadeEdges = true,
   fadeColor,
-  accessibilityLabel = "Scrolling content",
-  testID = "marquee",
+  accessibilityLabel = 'Scrolling content',
+  testID = 'marquee',
 }: MarqueeProps) {
   const tokens = useTokens();
   const containerRef = useRef<View>(null);
@@ -63,7 +63,7 @@ export function Marquee({
   const isPaused = useSharedValue(false);
 
   const animatedStyle = useAnimatedStyle(() => {
-    if (direction === "left" || direction === "right") {
+    if (direction === 'left' || direction === 'right') {
       return {
         transform: [{ translateX: translateX.value }],
       };
@@ -80,10 +80,10 @@ export function Marquee({
     const distance = contentWidth - containerWidth;
     const duration = (distance / speed) * 1000; // Convert to milliseconds
 
-    const startValue = direction === "left" ? 0 : -distance;
-    const endValue = direction === "left" ? -distance : 0;
+    const startValue = direction === 'left' ? 0 : -distance;
+    const endValue = direction === 'left' ? -distance : 0;
 
-    if (direction === "left" || direction === "right") {
+    if (direction === 'left' || direction === 'right') {
       translateX.value = startValue;
     } else {
       translateY.value = startValue;
@@ -98,23 +98,23 @@ export function Marquee({
       ? withRepeat(
           withSequence(
             withTiming(endValue, { duration, easing: Easing.linear }),
-            withTiming(startValue, { duration: 0 }), // Reset instantly
+            withTiming(startValue, { duration: 0 }) // Reset instantly
           ),
           -1, // Infinite
-          false,
+          false
         )
       : animation;
 
     if (delay > 0) {
       setTimeout(() => {
-        if (direction === "left" || direction === "right") {
+        if (direction === 'left' || direction === 'right') {
           translateX.value = repeatedAnimation;
         } else {
           translateY.value = repeatedAnimation;
         }
       }, delay);
     } else {
-      if (direction === "left" || direction === "right") {
+      if (direction === 'left' || direction === 'right') {
         translateX.value = repeatedAnimation;
       } else {
         translateY.value = repeatedAnimation;
@@ -137,7 +137,7 @@ export function Marquee({
   const measureAndStart = () => {
     containerRef.current?.measure((x, y, width, height) => {
       contentRef.current?.measure((cx, cy, cWidth, cHeight) => {
-        if (direction === "left" || direction === "right") {
+        if (direction === 'left' || direction === 'right') {
           startAnimation(width, cWidth);
         } else {
           startAnimation(height, cHeight);
@@ -184,14 +184,18 @@ export function Marquee({
             style={[
               styles.fadeLeft,
               { backgroundColor: fadeGradient },
-              direction === "up" || direction === "down" ? styles.fadeTop : undefined,
+              direction === 'up' || direction === 'down'
+                ? styles.fadeTop
+                : undefined,
             ]}
           />
           <View
             style={[
               styles.fadeRight,
               { backgroundColor: fadeGradient },
-              direction === "up" || direction === "down" ? styles.fadeBottom : undefined,
+              direction === 'up' || direction === 'down'
+                ? styles.fadeBottom
+                : undefined,
             ]}
           />
         </>
@@ -200,7 +204,9 @@ export function Marquee({
         ref={contentRef}
         style={[
           animatedStyle,
-          direction === "up" || direction === "down" ? styles.vertical : styles.horizontal,
+          direction === 'up' || direction === 'down'
+            ? styles.vertical
+            : styles.horizontal,
         ]}
         onTouchStart={handlePressIn}
         onTouchEnd={handlePressOut}
@@ -214,17 +220,17 @@ export function Marquee({
 
 const styles = StyleSheet.create({
   container: {
-    overflow: "hidden",
-    position: "relative",
+    overflow: 'hidden',
+    position: 'relative',
   },
   horizontal: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   vertical: {
-    flexDirection: "column",
+    flexDirection: 'column',
   },
   fadeLeft: {
-    position: "absolute",
+    position: 'absolute',
     left: 0,
     top: 0,
     bottom: 0,
@@ -232,7 +238,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   fadeRight: {
-    position: "absolute",
+    position: 'absolute',
     right: 0,
     top: 0,
     bottom: 0,

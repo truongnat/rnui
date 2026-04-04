@@ -1,31 +1,31 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { DatePicker } from "../DatePicker";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { DatePicker } from '../DatePicker';
+import { ThemeProvider } from '@truongdq01/headless';
 
-jest.mock("@react-native-community/datetimepicker", () => ({
+jest.mock('@react-native-community/datetimepicker', () => ({
   __esModule: true,
   default: jest.fn(() => null),
 }));
 
 const DateTimePickerMock = DateTimePicker as unknown as jest.Mock;
 
-describe("DatePicker", () => {
+describe('DatePicker', () => {
   beforeEach(() => {
     DateTimePickerMock.mockClear();
   });
 
-  test("renders with label", () => {
+  test('renders with label', () => {
     const { getByText } = render(
       <ThemeProvider>
         <DatePicker label="Pick Date" date={new Date()} onChange={() => {}} />
       </ThemeProvider>
     );
-    expect(getByText("Pick Date")).toBeTruthy();
+    expect(getByText('Pick Date')).toBeTruthy();
   });
 
-  test("forwards locale and timezone props to DateTimePicker", () => {
+  test('forwards locale and timezone props to DateTimePicker', () => {
     const onChange = jest.fn();
     const { getByText } = render(
       <ThemeProvider>
@@ -42,12 +42,15 @@ describe("DatePicker", () => {
         />
       </ThemeProvider>
     );
-    fireEvent.press(getByText("Pick date"));
+    fireEvent.press(getByText('Pick date'));
     expect(DateTimePickerMock).toHaveBeenCalled();
-    const lastCall = DateTimePickerMock.mock.calls[DateTimePickerMock.mock.calls.length - 1][0];
-    expect(lastCall.locale).toBe("vi-VN");
+    const lastCall =
+      DateTimePickerMock.mock.calls[
+        DateTimePickerMock.mock.calls.length - 1
+      ][0];
+    expect(lastCall.locale).toBe('vi-VN');
     expect(lastCall.timeZoneOffsetInMinutes).toBe(420);
     expect(lastCall.timeZoneOffsetInSeconds).toBe(3600);
-    expect(lastCall.timeZoneName).toBe("Asia/Ho_Chi_Minh");
+    expect(lastCall.timeZoneName).toBe('Asia/Ho_Chi_Minh');
   });
 });

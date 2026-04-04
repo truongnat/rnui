@@ -1,2 +1,5 @@
-export { AnimatedOverlay } from "./AnimatedOverlay";
-export type { AnimatedOverlayProps, OverlayAnimationType } from "./AnimatedOverlay";
+export { AnimatedOverlay } from './AnimatedOverlay';
+export type {
+  AnimatedOverlayProps,
+  OverlayAnimationType,
+} from './AnimatedOverlay';

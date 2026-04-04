@@ -11,13 +11,13 @@ bun turbo build
 
 ## Monorepo structure
 
-| Package | Role |
-|---|---|
-| `packages/tokens` | Design tokens — edit here to change visual language |
-| `packages/headless` | Logic hooks — no styles, pure React |
-| `packages/ui` | Styled components — wrap headless, use tokens |
-| `apps/example` | Expo app kitchen sink |
-| `apps/storybook` | RN Storybook on-device |
+| Package             | Role                                                |
+| ------------------- | --------------------------------------------------- |
+| `packages/tokens`   | Design tokens — edit here to change visual language |
+| `packages/headless` | Logic hooks — no styles, pure React                 |
+| `packages/ui`       | Styled components — wrap headless, use tokens       |
+| `apps/example`      | Expo app kitchen sink                               |
+| `apps/storybook`    | RN Storybook on-device                              |
 
 ## Rules
 
@@ -62,6 +62,7 @@ bun run changeset
 ## Token changes
 
 When changing tokens, think in order:
+
 1. Does the change belong in `primitive.ts`? (new raw value)
 2. Does it need a new semantic mapping? (`semantic.ts`)
 3. Does it need a new component-level recipe? (`component.ts`)

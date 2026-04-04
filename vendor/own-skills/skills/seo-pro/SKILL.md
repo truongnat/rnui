@@ -19,12 +19,12 @@ Use [Google Search Central](https://developers.google.com/search/docs) and [Bing
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `seo-pro` |
-|-------|--------------------------------|
-| **`nextjs-pro`** | `generateMetadata`, `sitemap.ts` / `robots.ts`, App Router SSR/SSG, URL structure |
-| **`react-pro`** | Client-heavy apps; head management; hydration and crawlable output |
-| **`deployment-pro`** | CDN, edge caching, headers affecting TTFB and global crawl |
-| **`testing-pro`** | Contract or smoke tests for critical meta/HTTP status in CI (optional) |
+| Skill                | When to combine with `seo-pro`                                                    |
+| -------------------- | --------------------------------------------------------------------------------- |
+| **`nextjs-pro`**     | `generateMetadata`, `sitemap.ts` / `robots.ts`, App Router SSR/SSG, URL structure |
+| **`react-pro`**      | Client-heavy apps; head management; hydration and crawlable output                |
+| **`deployment-pro`** | CDN, edge caching, headers affecting TTFB and global crawl                        |
+| **`testing-pro`**    | Contract or smoke tests for critical meta/HTTP status in CI (optional)            |
 
 Do **not** duplicate framework API tutorials; state **SEO requirement** here and **implementation hook** in the sibling skill.
 
@@ -86,12 +86,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — lifecycle, technical SEO, tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| Flow & lifecycle | [references/seo-flow-and-lifecycle.md](references/seo-flow-and-lifecycle.md) |
+| Topic                 | File                                                                           |
+| --------------------- | ------------------------------------------------------------------------------ |
+| Flow & lifecycle      | [references/seo-flow-and-lifecycle.md](references/seo-flow-and-lifecycle.md)   |
 | Technical SEO & crawl | [references/technical-seo-and-crawl.md](references/technical-seo-and-crawl.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips and patterns     | [references/tips-and-tricks.md](references/tips-and-tricks.md)                 |
+| Edge cases            | [references/edge-cases.md](references/edge-cases.md)                           |
 
 ## Quick example
 

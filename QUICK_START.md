@@ -6,19 +6,20 @@
 
 ## 📚 Key Documents
 
-| Document | Purpose | When to Use |
-|----------|---------|-------------|
-| `STATUS_REPORT.md` | Gap analysis & metrics | Understanding what needs fixing |
-| `TASK_PLAN.md` | 24 tasks, 3-week plan | Daily task execution |
-| `BUGS.md` | Bug tracking (100% complete) | Reference for past fixes |
-| `GAPS.md` | Original gap analysis | Historical context |
-| `AGENTS.md` | GitNexus integration | Code intelligence workflow |
+| Document           | Purpose                      | When to Use                     |
+| ------------------ | ---------------------------- | ------------------------------- |
+| `STATUS_REPORT.md` | Gap analysis & metrics       | Understanding what needs fixing |
+| `TASK_PLAN.md`     | 24 tasks, 3-week plan        | Daily task execution            |
+| `BUGS.md`          | Bug tracking (100% complete) | Reference for past fixes        |
+| `GAPS.md`          | Original gap analysis        | Historical context              |
+| `AGENTS.md`        | GitNexus integration         | Code intelligence workflow      |
 
 ---
 
 ## 🚀 Getting Started (5 minutes)
 
 ### 1. Read the Status Report
+
 ```bash
 # Open and review
 cat STATUS_REPORT.md
@@ -31,6 +32,7 @@ cat STATUS_REPORT.md
 ```
 
 ### 2. Review the Task Plan
+
 ```bash
 # Open and review
 cat TASK_PLAN.md
@@ -43,6 +45,7 @@ cat TASK_PLAN.md
 ```
 
 ### 3. Setup Your Environment
+
 ```bash
 # Install dependencies
 bun install
@@ -64,6 +67,7 @@ npx gitnexus --version  # Should show v1.4.10
 ### Days 1-2: Critical Issues (P0)
 
 **Task 1: Fix CI Branch** (5 min)
+
 ```bash
 # Edit .github/workflows/ci.yml
 # Add 'master' to branches array
@@ -71,6 +75,7 @@ npx gitnexus --version  # Should show v1.4.10
 ```
 
 **Task 2: Setup NPM** (30 min)
+
 ```bash
 # 1. Create NPM account at npmjs.com
 # 2. Generate automation token
@@ -79,6 +84,7 @@ npx gitnexus --version  # Should show v1.4.10
 ```
 
 **Task 3: Create Changeset** (15 min)
+
 ```bash
 bun changeset
 # Select all 4 packages
@@ -89,6 +95,7 @@ git commit -m "chore: add changeset for v0.1.0"
 ```
 
 **Task 4: Publish to NPM** (15 min)
+
 ```bash
 # Merge to master to trigger release
 git checkout master
@@ -241,6 +248,7 @@ bun run storybook
 ## 🎯 Daily Routine
 
 ### Every Morning (10 min)
+
 ```bash
 # 1. Open TASK_PLAN.md
 # 2. Find next task
@@ -251,6 +259,7 @@ bun run storybook
 ```
 
 ### During Work (continuous)
+
 ```bash
 # 1. Implement with safety rules
 # 2. Test continuously
@@ -259,6 +268,7 @@ bun run storybook
 ```
 
 ### Every Evening (10 min)
+
 ```bash
 # 1. Verify changes
 /changes staged --repo rnui
@@ -301,12 +311,14 @@ npx gitnexus analyze
 ## ⚠️ Safety Rules
 
 ### MUST DO ✅
+
 - Run `/impact` before editing
 - Warn if HIGH/CRITICAL risk
 - Run `/changes` before commit
 - Update all d=1 dependents
 
 ### NEVER DO ❌
+
 - Edit without impact analysis
 - Ignore HIGH/CRITICAL warnings
 - Use find-and-replace for rename
@@ -320,11 +332,12 @@ Update TASK_PLAN.md daily:
 
 ```markdown
 ### Week 1
-| Day | Phase | Tasks | Status |
-|-----|-------|-------|--------|
-| Mon | P0 | 1-4 | ✅ Complete |
-| Tue | P0 | 1-4 | 🚧 In Progress |
-| Wed | P1 | 5-7 | ⬜ Not Started |
+
+| Day | Phase | Tasks | Status         |
+| --- | ----- | ----- | -------------- |
+| Mon | P0    | 1-4   | ✅ Complete    |
+| Tue | P0    | 1-4   | 🚧 In Progress |
+| Wed | P1    | 5-7   | ⬜ Not Started |
 ```
 
 ---
@@ -332,17 +345,20 @@ Update TASK_PLAN.md daily:
 ## 🎉 Success Criteria
 
 ### Week 1 Complete
+
 - ✅ Packages published to npm
 - ✅ CI runs on all branches
 - ✅ All components documented
 - ✅ 5 components have tokens
 
 ### Week 2 Complete
+
 - ✅ 4 critical hooks implemented
 - ✅ 4 components tested
 - ✅ Test coverage: 20%
 
 ### Week 3 Complete
+
 - ✅ Storybook: 100% coverage
 - ✅ Landing page live
 - ✅ All 24 tasks complete
@@ -357,6 +373,7 @@ Update TASK_PLAN.md daily:
    - Try alternative approach
 
 2. **Build failing?**
+
    ```bash
    bun run clean
    bun install
@@ -364,6 +381,7 @@ Update TASK_PLAN.md daily:
    ```
 
 3. **Tests failing?**
+
    ```bash
    bun test --verbose
    # Check error messages

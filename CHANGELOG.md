@@ -5,6 +5,7 @@
 ### 🎉 Major Release - Production Ready
 
 #### Fixed
+
 - **Badge**: Added proper padding with size variants (`sm`, `md`, `lg`)
 - **Chip**: Improved styling with better avatar/deleteIcon support, added `lg` size
 - **Tooltip**: Removed flicker animation, simplified to fade-only, better positioning
@@ -19,6 +20,7 @@
 - **DatePicker**: Added preset buttons (Today, Last 7/30/90 days), clear button
 
 #### Added
+
 - **Carousel**: Auto-play functionality with customizable interval
 - **TextField**: `type` prop for password/email/number inputs
 - **Icon**: 100+ new icons from lucide-react-native
@@ -37,11 +39,13 @@
 - **DatePicker**: Quick preset buttons, clearable option, `onPresetChange` callback
 
 #### Changed
+
 - **Tooltip**: Simplified animation pipeline, removed complex scale/translate
 - **Timeline**: Improved dot sizing (16px), added shadows, better spacing
 - **DatePicker**: Better UX with one-tap preset selection
 
 #### Technical
+
 - Fixed TypeScript build configuration for all packages
 - Updated tsup config for proper type generation
 - Added `tsconfig.types.json` for declaration files
@@ -54,12 +58,14 @@
 ### Initial Release
 
 #### Packages
+
 - **@truongdq01/tokens**: Design tokens (primitive, semantic, component, motion)
 - **@truongdq01/headless**: Headless hooks (ThemeProvider, usePressable, useDisclosure, etc.)
 - **@truongdq01/ui**: 62 UI components
 - **@truongdq01/themes**: Multi-brand plugin system
 
 #### Components (62)
+
 Accordion, Alert, AnimatedList, AppBar, Autocomplete, Avatar, Badge, BottomNavigation,
 BottomSheet, Box, Breadcrumbs, Button, ButtonGroup, Card, Carousel, Checkbox, Chip,
 CircularProgress, DatePicker, Dialog, Divider, Drawer, EmptyState, Fab, FormControl,

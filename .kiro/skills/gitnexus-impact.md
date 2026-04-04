@@ -29,6 +29,7 @@ Run impact analysis on a symbol before making changes.
 ```
 
 Output:
+
 - Risk Level: HIGH
 - Direct Callers (d=1): 12 files
 - Indirect Dependencies (d=2): 45 files

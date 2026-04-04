@@ -3,9 +3,7 @@
   "mode": "symlink",
   "skill_name": "strategic-consulting-pro",
   "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/strategic-consulting-pro",
-  "ides": [
-    "cursor"
-  ],
+  "ides": ["cursor"],
   "targets": {
     "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/strategic-consulting-pro"
   },

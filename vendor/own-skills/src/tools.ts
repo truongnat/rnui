@@ -56,10 +56,15 @@ function cmdListSkills(args: minimist.ParsedArgs, repoRoot: string) {
   if (asJson) {
     console.log(
       JSON.stringify(
-        rows.map((r) => ({ folder: r.folder, name: r.name || null, path: r.path, has_skill_md: r.hasSkillMd })),
+        rows.map((r) => ({
+          folder: r.folder,
+          name: r.name || null,
+          path: r.path,
+          has_skill_md: r.hasSkillMd,
+        })),
         null,
-        2,
-      ),
+        2
+      )
     );
     return;
   }
@@ -80,7 +85,9 @@ function cmdValidateSkills(args: minimist.ParsedArgs, repoRoot: string) {
       continue;
     }
     if (info.name !== folder) {
-      errs.push(`${folder}: frontmatter name '${info.name}' must match folder name`);
+      errs.push(
+        `${folder}: frontmatter name '${info.name}' must match folder name`
+      );
     }
   }
   if (errs.length > 0) {
@@ -112,7 +119,9 @@ function extractWhenToUse(content: string): string[] {
 function extractReferences(skillDir: string): string[] {
   const refDir = join(skillDir, 'references');
   if (!existsSync(refDir)) return [];
-  return readdirSync(refDir).filter((f) => f.endsWith('.md')).sort();
+  return readdirSync(refDir)
+    .filter((f) => f.endsWith('.md'))
+    .sort();
 }
 
 function cmdBuildSkillIndex(args: minimist.ParsedArgs, repoRoot: string) {
@@ -141,7 +150,9 @@ function cmdBuildSkillIndex(args: minimist.ParsedArgs, repoRoot: string) {
   writeFileSync(output, `${JSON.stringify(rows, null, 2)}\n`, 'utf8');
   console.log(`Wrote ${rows.length} skills to ${relative(repoRoot, output)}`);
   if (withEmbeddings) {
-    const vectors = rows.map((r) => embedText(`${r.name}\n${r.description}\n${r.triggers.join(', ')}`));
+    const vectors = rows.map((r) =>
+      embedText(`${r.name}\n${r.description}\n${r.triggers.join(', ')}`)
+    );
     const embPath = resolve(repoRoot, cfg.skillEmbeddingsPath);
     mkdirSync(join(embPath, '..'), { recursive: true });
     writeFileSync(embPath, `${JSON.stringify(vectors)}\n`, 'utf8');
@@ -161,7 +172,8 @@ function cmdAnalyzeSkills(args: minimist.ParsedArgs, repoRoot: string) {
     const refCount = extractReferences(dir).length;
     const hasWorkflow = /workflow|steps|checklist/i.test(content);
     const hasScriptHints = /script|automation|ci|validate|build/i.test(content);
-    const score = (hasWorkflow ? 2 : 0) + (hasScriptHints ? 2 : 0) + (refCount > 0 ? 1 : 0);
+    const score =
+      (hasWorkflow ? 2 : 0) + (hasScriptHints ? 2 : 0) + (refCount > 0 ? 1 : 0);
     const tier = score >= 4 ? 'strong' : score >= 2 ? 'consider' : 'low';
     return {
       skill: i.folder,
@@ -169,10 +181,16 @@ function cmdAnalyzeSkills(args: minimist.ParsedArgs, repoRoot: string) {
       tier,
       references: refCount,
       recommendation:
-        tier === 'strong' ? 'Keep current automation links.' : tier === 'consider' ? 'Add or refine script helpers.' : 'Add references and actionable automation guidance.',
+        tier === 'strong'
+          ? 'Keep current automation links.'
+          : tier === 'consider'
+            ? 'Add or refine script helpers.'
+            : 'Add references and actionable automation guidance.',
     };
   });
-  const outRows = onlyActionable ? rows.filter((r) => r.tier !== 'strong') : rows;
+  const outRows = onlyActionable
+    ? rows.filter((r) => r.tier !== 'strong')
+    : rows;
   if (json) {
     console.log(JSON.stringify(outRows, null, 2));
     return;
@@ -182,17 +200,25 @@ function cmdAnalyzeSkills(args: minimist.ParsedArgs, repoRoot: string) {
     console.log('');
     console.log('| Skill | Tier | Score | References | Recommendation |');
     console.log('|---|---:|---:|---:|---|');
-    outRows.forEach((r) => console.log(`| ${r.skill} | ${r.tier} | ${r.score} | ${r.references} | ${r.recommendation} |`));
+    outRows.forEach((r) =>
+      console.log(
+        `| ${r.skill} | ${r.tier} | ${r.score} | ${r.references} | ${r.recommendation} |`
+      )
+    );
     return;
   }
-  outRows.forEach((r) => console.log(`${r.skill}\t${r.tier}\t${r.score}\t${r.recommendation}`));
+  outRows.forEach((r) =>
+    console.log(`${r.skill}\t${r.tier}\t${r.score}\t${r.recommendation}`)
+  );
   if (withRefs) {
     console.log('\n(reference counts included above)');
   }
 }
 
 function cmdInstallSkill(args: minimist.ParsedArgs, _repoRoot: string) {
-  const skillPath = args._[1] ? String(args._[1]) : String(args['skill-dir'] || '.');
+  const skillPath = args._[1]
+    ? String(args._[1])
+    : String(args['skill-dir'] || '.');
   const ides = String(args.ides || 'cursor')
     .split(',')
     .map((x) => x.trim())
@@ -215,15 +241,21 @@ function cmdVerifyBundleInstall(args: minimist.ParsedArgs, repoRoot: string) {
   const vendor = join(projectDir, 'vendor', 'own-skills');
   const errs: string[] = [];
   if (!existsSync(vendor)) errs.push(`Missing ${vendor}`);
-  if (!existsSync(join(vendor, '.own-skills-bundle'))) errs.push('Missing .own-skills-bundle marker');
+  if (!existsSync(join(vendor, '.own-skills-bundle')))
+    errs.push('Missing .own-skills-bundle marker');
   if (!existsSync(join(vendor, 'scripts'))) errs.push('Missing vendor/scripts');
-  if (!existsSync(join(projectDir, '.cursor', 'skills'))) errs.push('Missing .cursor/skills');
+  if (!existsSync(join(projectDir, '.cursor', 'skills')))
+    errs.push('Missing .cursor/skills');
   if (!Boolean(args['skip-validate-skills'])) {
     try {
-      execFileSync('node', [join(repoRoot, 'dist', 'tools.js'), 'validate-skills'], {
-        cwd: vendor,
-        stdio: 'pipe',
-      });
+      execFileSync(
+        'node',
+        [join(repoRoot, 'dist', 'tools.js'), 'validate-skills'],
+        {
+          cwd: vendor,
+          stdio: 'pipe',
+        }
+      );
     } catch {
       errs.push('validate-skills failed in vendor bundle');
     }
@@ -248,12 +280,20 @@ function buildKb(repoRoot: string, dry = false) {
     const chunks = chunkText(p.content || '', cfg.chunkSize, cfg.chunkOverlap);
     chunks.forEach((c, i) => {
       const id = `chunk_${idx++}`;
-      manifest.push({ id, path: relative(repoRoot, f).replace(/\\/g, '/'), title: p.data.title || undefined, chunk_index: i, text: c });
+      manifest.push({
+        id,
+        path: relative(repoRoot, f).replace(/\\/g, '/'),
+        title: p.data.title || undefined,
+        chunk_index: i,
+        text: c,
+      });
       vectors.push(embedText(c));
     });
   }
   if (dry) {
-    console.log(`Would index ${files.length} files -> ${manifest.length} chunks`);
+    console.log(
+      `Would index ${files.length} files -> ${manifest.length} chunks`
+    );
     return;
   }
   const embPath = resolve(repoRoot, cfg.embeddingsPath);
@@ -261,7 +301,9 @@ function buildKb(repoRoot: string, dry = false) {
   mkdirSync(join(embPath, '..'), { recursive: true });
   writeFileSync(embPath, `${JSON.stringify(vectors)}\n`, 'utf8');
   writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
-  console.log(`Wrote embeddings: ${relative(repoRoot, embPath)} (${vectors.length} vectors)`);
+  console.log(
+    `Wrote embeddings: ${relative(repoRoot, embPath)} (${vectors.length} vectors)`
+  );
   console.log(`Wrote manifest: ${relative(repoRoot, manifestPath)}`);
 }
 
@@ -273,7 +315,9 @@ function loadKbData(repoRoot: string) {
     throw new Error('Missing KB artifacts. Run build-kb first.');
   }
   const vectors = JSON.parse(readFileSync(embPath, 'utf8')) as number[][];
-  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as ManifestItem[];
+  const manifest = JSON.parse(
+    readFileSync(manifestPath, 'utf8')
+  ) as ManifestItem[];
   return { vectors, manifest };
 }
 
@@ -293,7 +337,9 @@ function cmdQueryKb(args: minimist.ParsedArgs, repoRoot: string) {
   const topK = Number(args.k || args['top-k'] || 5);
   const rows = queryKb(repoRoot, q, topK);
   rows.forEach((r, idx) => {
-    console.log(`${idx + 1}. score=${r.score.toFixed(4)} path=${r.item.path} chunk=${r.item.chunk_index}`);
+    console.log(
+      `${idx + 1}. score=${r.score.toFixed(4)} path=${r.item.path} chunk=${r.item.chunk_index}`
+    );
     console.log(`   ${r.item.text.slice(0, 180).replace(/\s+/g, ' ')}...`);
   });
 }
@@ -312,8 +358,12 @@ function cmdQueryKbBatch(args: minimist.ParsedArgs, repoRoot: string) {
       .filter(Boolean);
     queries.push(...lines);
   }
-  if (queries.length === 0) throw new Error('query-kb-batch requires -q/--query or -f/--file');
-  const out = queries.map((q) => ({ query: q, results: queryKb(repoRoot, q, topK) }));
+  if (queries.length === 0)
+    throw new Error('query-kb-batch requires -q/--query or -f/--file');
+  const out = queries.map((q) => ({
+    query: q,
+    results: queryKb(repoRoot, q, topK),
+  }));
   if (args.json) {
     console.log(JSON.stringify(out, null, 2));
     return;
@@ -321,7 +371,9 @@ function cmdQueryKbBatch(args: minimist.ParsedArgs, repoRoot: string) {
   out.forEach((item) => {
     console.log(`\nQuery: ${item.query}`);
     item.results.forEach((r, idx) => {
-      console.log(`  ${idx + 1}. ${r.score.toFixed(4)}  ${r.item.path}#${r.item.chunk_index}`);
+      console.log(
+        `  ${idx + 1}. ${r.score.toFixed(4)}  ${r.item.path}#${r.item.chunk_index}`
+      );
     });
   });
 }
@@ -332,12 +384,15 @@ function cmdVerifyKb(_args: minimist.ParsedArgs, repoRoot: string) {
   const manifestPath = resolve(repoRoot, cfg.manifestPath);
   const errors: string[] = [];
   if (!existsSync(embPath)) errors.push(`Missing embeddings: ${embPath}`);
-  if (!existsSync(manifestPath)) errors.push(`Missing manifest: ${manifestPath}`);
+  if (!existsSync(manifestPath))
+    errors.push(`Missing manifest: ${manifestPath}`);
   if (errors.length === 0) {
     const v = JSON.parse(readFileSync(embPath, 'utf8')) as number[][];
     const m = JSON.parse(readFileSync(manifestPath, 'utf8')) as ManifestItem[];
-    if (!Array.isArray(v) || !Array.isArray(m)) errors.push('Embeddings/manifest format invalid');
-    if (v.length !== m.length) errors.push(`Vector count (${v.length}) != manifest count (${m.length})`);
+    if (!Array.isArray(v) || !Array.isArray(m))
+      errors.push('Embeddings/manifest format invalid');
+    if (v.length !== m.length)
+      errors.push(`Vector count (${v.length}) != manifest count (${m.length})`);
   }
   if (errors.length > 0) {
     errors.forEach((e) => console.error(`- ${e}`));
@@ -364,8 +419,32 @@ Commands:
 
 function main() {
   const args = minimist(process.argv.slice(2), {
-    boolean: ['json', 'markdown', 'self-review', 'with-references', 'include-template', 'with-embeddings', 'dry-run', 'force', 'all-ides', 'skip-validate-skills'],
-    string: ['output', 'project-dir', 'mode', 'name', 'ides', 'skill-dir', 'k', 'top-k', 'q', 'query', 'f', 'file'],
+    boolean: [
+      'json',
+      'markdown',
+      'self-review',
+      'with-references',
+      'include-template',
+      'with-embeddings',
+      'dry-run',
+      'force',
+      'all-ides',
+      'skip-validate-skills',
+    ],
+    string: [
+      'output',
+      'project-dir',
+      'mode',
+      'name',
+      'ides',
+      'skill-dir',
+      'k',
+      'top-k',
+      'q',
+      'query',
+      'f',
+      'file',
+    ],
   });
   const cmd = String(args._[0] || '');
   const root = process.cwd();

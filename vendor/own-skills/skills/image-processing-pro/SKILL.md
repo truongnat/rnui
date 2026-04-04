@@ -19,11 +19,11 @@ Use **[Pillow](https://pillow.readthedocs.io/)** for API truth; this skill encod
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `image-processing-pro` |
-|-------|---------------------------------------------|
-| **`content-analysis-pro`** | **Semantic** analysis, OCR, video **meaning** — not just pixels |
-| **`security-pro`** | Redaction, **EXIF** removal before sharing, **screenshots** with secrets |
-| **`data-analysis-pro`** | Plots and **charts** as data; **this** skill for **raster** file ops |
+| Skill                      | When to combine with `image-processing-pro`                              |
+| -------------------------- | ------------------------------------------------------------------------ |
+| **`content-analysis-pro`** | **Semantic** analysis, OCR, video **meaning** — not just pixels          |
+| **`security-pro`**         | Redaction, **EXIF** removal before sharing, **screenshots** with secrets |
+| **`data-analysis-pro`**    | Plots and **charts** as data; **this** skill for **raster** file ops     |
 
 **Boundary:** **`image-processing-pro`** = **transform** images; **`content-analysis-pro`** = **interpret** them.
 
@@ -79,11 +79,11 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — Pillow ops, tips, edge cases.
 
-| Topic | File |
-|-------|------|
+| Topic             | File                                                               |
+| ----------------- | ------------------------------------------------------------------ |
 | Pillow operations | [references/pillow-operations.md](references/pillow-operations.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips              | [references/tips-and-tricks.md](references/tips-and-tricks.md)     |
+| Edge cases        | [references/edge-cases.md](references/edge-cases.md)               |
 
 ## Quick example
 

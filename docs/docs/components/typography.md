@@ -9,24 +9,24 @@ Typography component for consistent text styling with predefined variants.
 ## Usage
 
 ```tsx
-import { Typography } from "@truongdq01/ui";
+import { Typography } from '@truongdq01/ui';
 
-<Typography variant="h1">Heading 1</Typography>
+<Typography variant="h1">Heading 1</Typography>;
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | Text content |
-| `variant` | `TypographyVariant` | `"body1"` | Text style variant |
-| `align` | `"left" \| "right" \| "center" \| "justify" \| "inherit"` | `"left"` | Text alignment |
-| `color` | `"primary" \| "secondary" \| "tertiary" \| "disabled" \| "brand" \| "error" \| string` | `"primary"` | Text color |
-| `gutterBottom` | `boolean` | `false` | Add margin bottom |
-| `noWrap` | `boolean` | `false` | Truncate to single line |
-| `paragraph` | `boolean` | `false` | Add paragraph margin |
-| `display` | `"none" \| "flex" \| "contents" \| "block" \| "inline" \| "inline-flex"` | — | CSS display property |
-| `style` | `TextStyle` | — | Additional inline styles |
+| Prop           | Type                                                                                   | Default     | Description              |
+| -------------- | -------------------------------------------------------------------------------------- | ----------- | ------------------------ |
+| `children`     | `ReactNode`                                                                            | —           | Text content             |
+| `variant`      | `TypographyVariant`                                                                    | `"body1"`   | Text style variant       |
+| `align`        | `"left" \| "right" \| "center" \| "justify" \| "inherit"`                              | `"left"`    | Text alignment           |
+| `color`        | `"primary" \| "secondary" \| "tertiary" \| "disabled" \| "brand" \| "error" \| string` | `"primary"` | Text color               |
+| `gutterBottom` | `boolean`                                                                              | `false`     | Add margin bottom        |
+| `noWrap`       | `boolean`                                                                              | `false`     | Truncate to single line  |
+| `paragraph`    | `boolean`                                                                              | `false`     | Add paragraph margin     |
+| `display`      | `"none" \| "flex" \| "contents" \| "block" \| "inline" \| "inline-flex"`               | —           | CSS display property     |
+| `style`        | `TextStyle`                                                                            | —           | Additional inline styles |
 
 ## Variants
 
@@ -90,7 +90,8 @@ import { Typography } from "@truongdq01/ui";
 ```tsx
 // Single line with ellipsis
 <Typography noWrap>
-  This is a very long text that will be truncated with an ellipsis if it exceeds the container width
+  This is a very long text that will be truncated with an ellipsis if it exceeds
+  the container width
 </Typography>
 ```
 
@@ -130,7 +131,9 @@ import { Typography } from "@truongdq01/ui";
 
 ```tsx
 <Card>
-  <Typography variant="h6" gutterBottom>Card Title</Typography>
+  <Typography variant="h6" gutterBottom>
+    Card Title
+  </Typography>
   <Typography variant="body2" color="secondary">
     Card description text goes here.
   </Typography>
@@ -166,12 +169,14 @@ import { Typography } from "@truongdq01/ui";
 ## Best Practices
 
 ### ✅ Do
+
 - Use semantic heading hierarchy (h1 → h2 → h3)
 - Keep body text at readable size (16px minimum)
 - Use appropriate line height for readability
 - Maintain color contrast for accessibility
 
 ### ❌ Don't
+
 - Don't skip heading levels (h1 → h3)
 - Don't use tiny text (< 12px)
 - Don't use low contrast colors for body text
@@ -180,15 +185,15 @@ import { Typography } from "@truongdq01/ui";
 ## Accessibility
 
 ```tsx
-<Typography 
-  variant="h2" 
+<Typography
+  variant="h2"
   accessibilityRole="header"
   accessibilityLevel={2}
 >
   Section Title
 </Typography>
 
-<Typography 
+<Typography
   variant="body1"
   accessibilityRole="text"
 >
@@ -198,21 +203,21 @@ import { Typography } from "@truongdq01/ui";
 
 ## Typography Scale Reference
 
-| Variant | Font Size | Line Height | Weight | Use Case |
-|---------|-----------|-------------|--------|----------|
-| h1 | 2.5rem (40px) | 1.2 | 700 | Page titles |
-| h2 | 2rem (32px) | 1.2 | 600 | Section headers |
-| h3 | 1.75rem (28px) | 1.3 | 600 | Subsections |
-| h4 | 1.5rem (24px) | 1.3 | 600 | Card titles |
-| h5 | 1.25rem (20px) | 1.4 | 600 | Group headers |
-| h6 | 1rem (16px) | 1.4 | 600 | Item headers |
-| subtitle1 | 1rem (16px) | 1.5 | 500 | Secondary headings |
-| subtitle2 | 0.875rem (14px) | 1.5 | 500 | Small subtitles |
-| body1 | 1rem (16px) | 1.6 | 400 | Body text (default) |
-| body2 | 0.875rem (14px) | 1.6 | 400 | Secondary body |
-| caption | 0.75rem (12px) | 1.5 | 400 | Captions, hints |
-| button | 0.875rem (14px) | 1.5 | 500 | Button text |
-| overline | 0.75rem (12px) | 1.5 | 500 | Labels, overlines |
+| Variant   | Font Size       | Line Height | Weight | Use Case            |
+| --------- | --------------- | ----------- | ------ | ------------------- |
+| h1        | 2.5rem (40px)   | 1.2         | 700    | Page titles         |
+| h2        | 2rem (32px)     | 1.2         | 600    | Section headers     |
+| h3        | 1.75rem (28px)  | 1.3         | 600    | Subsections         |
+| h4        | 1.5rem (24px)   | 1.3         | 600    | Card titles         |
+| h5        | 1.25rem (20px)  | 1.4         | 600    | Group headers       |
+| h6        | 1rem (16px)     | 1.4         | 600    | Item headers        |
+| subtitle1 | 1rem (16px)     | 1.5         | 500    | Secondary headings  |
+| subtitle2 | 0.875rem (14px) | 1.5         | 500    | Small subtitles     |
+| body1     | 1rem (16px)     | 1.6         | 400    | Body text (default) |
+| body2     | 0.875rem (14px) | 1.6         | 400    | Secondary body      |
+| caption   | 0.75rem (12px)  | 1.5         | 400    | Captions, hints     |
+| button    | 0.875rem (14px) | 1.5         | 500    | Button text         |
+| overline  | 0.75rem (12px)  | 1.5         | 500    | Labels, overlines   |
 
 ## Related Components
 

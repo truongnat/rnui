@@ -18,10 +18,10 @@ Use official [WebRTC specification](https://w3c.github.io/webrtc-pc/), [IETF RTP
 
 ## Related skills (this repo)
 
-| Skill | When to combine |
-|-------|------------------|
-| `websocket-pro` | Build robust signaling/reconnect flow for offers/answers/ICE updates. |
-| `performance-tuning-pro` | Tune end-to-end media quality, latency, and resource usage. |
+| Skill                    | When to combine                                                       |
+| ------------------------ | --------------------------------------------------------------------- |
+| `websocket-pro`          | Build robust signaling/reconnect flow for offers/answers/ICE updates. |
+| `performance-tuning-pro` | Tune end-to-end media quality, latency, and resource usage.           |
 
 ## When to use
 
@@ -74,10 +74,10 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 Use these files for deeper detail when concise guidance in this file is not enough.
 
-| Topic | File |
-|-------|------|
-| Practical stream/RTC patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Realtime media failure modes and edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Topic                                       | File                                                           |
+| ------------------------------------------- | -------------------------------------------------------------- |
+| Practical stream/RTC patterns               | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
+| Realtime media failure modes and edge cases | [references/edge-cases.md](references/edge-cases.md)           |
 
 ## Quick example
 

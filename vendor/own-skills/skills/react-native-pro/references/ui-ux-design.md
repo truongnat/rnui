@@ -54,14 +54,14 @@
 
 Every screen that fetches data should define:
 
-| State | User sees |
-|-------|-----------|
-| Loading | Skeleton or spinner; avoid layout jump if possible |
-| Empty | Clear message + primary action (e.g. “Add item”) |
-| Error | Retry affordance; non-technical copy + optional detail |
+| State   | User sees                                              |
+| ------- | ------------------------------------------------------ |
+| Loading | Skeleton or spinner; avoid layout jump if possible     |
+| Empty   | Clear message + primary action (e.g. “Add item”)       |
+| Error   | Retry affordance; non-technical copy + optional detail |
 
 Avoid infinite spinners with no timeout or cancel.
 
 ---
 
-*Verify layout APIs against your React Native version — defaults change across releases.*
+_Verify layout APIs against your React Native version — defaults change across releases._

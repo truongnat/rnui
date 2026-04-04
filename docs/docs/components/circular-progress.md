@@ -5,9 +5,9 @@ Circular loading indicator.
 ## Usage
 
 ```tsx
-import { CircularProgress } from "@truongdq01/ui";
+import { CircularProgress } from '@truongdq01/ui';
 
-<CircularProgress />
+<CircularProgress />;
 ```
 
 ## Notes

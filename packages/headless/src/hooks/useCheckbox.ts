@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
 export interface UseCheckboxOptions {
   defaultChecked?: boolean;
@@ -15,8 +15,8 @@ export interface UseCheckboxReturn {
   toggle: () => void;
   accessibilityProps: {
     accessible: boolean;
-    accessibilityRole: "checkbox";
-    accessibilityState: { checked: boolean | "mixed"; disabled: boolean };
+    accessibilityRole: 'checkbox';
+    accessibilityState: { checked: boolean | 'mixed'; disabled: boolean };
   };
 }
 
@@ -28,7 +28,8 @@ export function useCheckbox({
   indeterminate = false,
 }: UseCheckboxOptions = {}): UseCheckboxReturn {
   const [internalChecked, setInternalChecked] = useState(defaultChecked);
-  const isChecked = controlledChecked !== undefined ? controlledChecked : internalChecked;
+  const isChecked =
+    controlledChecked !== undefined ? controlledChecked : internalChecked;
 
   const toggle = useCallback(() => {
     if (disabled) return;
@@ -44,9 +45,9 @@ export function useCheckbox({
     toggle,
     accessibilityProps: {
       accessible: true,
-      accessibilityRole: "checkbox",
+      accessibilityRole: 'checkbox',
       accessibilityState: {
-        checked: indeterminate ? "mixed" : isChecked,
+        checked: indeterminate ? 'mixed' : isChecked,
         disabled,
       },
     },

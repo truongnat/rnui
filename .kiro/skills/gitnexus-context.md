@@ -29,6 +29,7 @@ Get complete context for a specific symbol including callers, callees, and execu
 ```
 
 Output:
+
 - Location: packages/ui/src/Button.tsx
 - Called by: 45 components
 - Calls: 3 internal functions

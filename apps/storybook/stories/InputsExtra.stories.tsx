@@ -1,6 +1,6 @@
-import type { StoryObj } from "@storybook/react-native";
-import React, { useState } from "react";
-import { View, ScrollView } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React, { useState } from 'react';
+import { View, ScrollView } from 'react-native';
 import {
   ThemeProvider,
   Button,
@@ -18,7 +18,7 @@ import {
   Checkbox,
   Switch,
   Input,
-} from "@truongdq01/ui";
+} from '@truongdq01/ui';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
@@ -29,33 +29,37 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 );
 
 const meta = {
-  title: "Components/Inputs",
+  title: 'Components/Inputs',
   component: View,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
 };
 
 export default meta;
 
 export const ButtonGroupStory: StoryObj = {
-  name: "ButtonGroup",
+  name: 'ButtonGroup',
   render: () => (
     <ButtonGroup variant="outlined">
-      <Button label="Left" onPress={() => { }} />
-      <Button label="Center" onPress={() => { }} />
-      <Button label="Right" onPress={() => { }} />
+      <Button label="Left" onPress={() => {}} />
+      <Button label="Center" onPress={() => {}} />
+      <Button label="Right" onPress={() => {}} />
     </ButtonGroup>
   ),
 };
 
 export const FabStory: StoryObj = {
-  name: "Fab",
-  render: () => (
-    <Fab label="Create" onPress={() => { }} />
-  ),
+  name: 'Fab',
+  render: () => <Fab label="Create" onPress={() => {}} />,
 };
 
 export const TextFieldStory: StoryObj = {
-  name: "TextField",
+  name: 'TextField',
   render: () => (
     <View style={{ gap: 12 }}>
       <TextField label="Email" placeholder="name@example.com" />
@@ -66,14 +70,14 @@ export const TextFieldStory: StoryObj = {
 };
 
 export const AutocompleteStory: StoryObj = {
-  name: "Autocomplete",
+  name: 'Autocomplete',
   render: () => (
-    <Autocomplete options={["React", "Vue", "Svelte", "Angular"]} />
+    <Autocomplete options={['React', 'Vue', 'Svelte', 'Angular']} />
   ),
 };
 
 export const RatingStory: StoryObj = {
-  name: "Rating",
+  name: 'Rating',
   render: () => {
     const [value, setValue] = useState(3);
     return <Rating value={value} onChange={setValue} />;
@@ -81,11 +85,15 @@ export const RatingStory: StoryObj = {
 };
 
 export const ToggleButtonStory: StoryObj = {
-  name: "ToggleButton",
+  name: 'ToggleButton',
   render: () => {
-    const [value, setValue] = useState("left");
+    const [value, setValue] = useState('left');
     return (
-      <ToggleButtonGroup value={value} exclusive onChange={(val: any) => setValue(val as string)}>
+      <ToggleButtonGroup
+        value={value}
+        exclusive
+        onChange={(val: any) => setValue(val as string)}
+      >
         <ToggleButton value="left">Left</ToggleButton>
         <ToggleButton value="center">Center</ToggleButton>
         <ToggleButton value="right">Right</ToggleButton>
@@ -95,7 +103,7 @@ export const ToggleButtonStory: StoryObj = {
 };
 
 export const FormControlStory: StoryObj = {
-  name: "FormControl",
+  name: 'FormControl',
   render: () => {
     const [terms, setTerms] = useState(false);
     const [notify, setNotify] = useState(true);

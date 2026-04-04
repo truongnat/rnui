@@ -13,11 +13,11 @@
 
 ## When to switch skills
 
-| Situation | Skill |
-|-----------|--------|
-| **File** `.db`, local scripts, quick queries | **`sql-data-access-pro`** |
-| **Server** Postgres, migrations, RLS, `EXPLAIN`, vacuum | **`postgresql-pro`** |
-| **Analytics** on exported CSV / Parquet | **`data-analysis-pro`** |
+| Situation                                               | Skill                     |
+| ------------------------------------------------------- | ------------------------- |
+| **File** `.db`, local scripts, quick queries            | **`sql-data-access-pro`** |
+| **Server** Postgres, migrations, RLS, `EXPLAIN`, vacuum | **`postgresql-pro`**      |
+| **Analytics** on exported CSV / Parquet                 | **`data-analysis-pro`**   |
 
 ## Read-only analysis
 

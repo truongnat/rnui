@@ -6,4 +6,4 @@ Professional **NestJS** skill: API design and developer experience, DI and cross
 - **Nest + RLS:** [references/postgresql-rls-integration.md](references/postgresql-rls-integration.md) (SQL policies: skill **`postgresql-pro`**, [row-level-security.md](../postgresql-pro/references/row-level-security.md))
 - **Other references:** [references/](references/)
 
-*Tip:* Fork and add `references/` for your internal auth, events, and schema conventions.
+_Tip:_ Fork and add `references/` for your internal auth, events, and schema conventions.

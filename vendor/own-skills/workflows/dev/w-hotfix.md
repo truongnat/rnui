@@ -8,26 +8,26 @@
 
 ## Metadata
 
-| Field | Value |
-|-------|-------|
-| **id** | `hotfix` |
-| **version** | 1.0 |
+| Field       | Value    |
+| ----------- | -------- |
+| **id**      | `hotfix` |
+| **version** | 1.0      |
 
 ## Inputs
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `symptom` | Yes | What broke in prod (error, Sentry, customer report, metric) |
-| `prod_ref` | No | Branch or tag to branch from (e.g. `main`, `release/x.y`, deploy tag) — ask if unclear |
-| `stack` | No | Runtime/framework for the fix (for the right `*-pro` skill) |
+| Variable   | Required | Description                                                                            |
+| ---------- | -------- | -------------------------------------------------------------------------------------- |
+| `symptom`  | Yes      | What broke in prod (error, Sentry, customer report, metric)                            |
+| `prod_ref` | No       | Branch or tag to branch from (e.g. `main`, `release/x.y`, deploy tag) — ask if unclear |
+| `stack`    | No       | Runtime/framework for the fix (for the right `*-pro` skill)                            |
 
 ## Outputs
 
-| Variable | Description |
-|----------|-------------|
-| `hotfix_branch` | Branch name and base ref |
-| `fix` | Minimal code/config change + tests |
-| `deploy_notes` | How/where promoted; rollback lever |
+| Variable         | Description                                                    |
+| ---------------- | -------------------------------------------------------------- |
+| `hotfix_branch`  | Branch name and base ref                                       |
+| `fix`            | Minimal code/config change + tests                             |
+| `deploy_notes`   | How/where promoted; rollback lever                             |
 | `merge_followup` | Back-merge or cherry-pick plan to `develop` / feature branches |
 
 ## Steps

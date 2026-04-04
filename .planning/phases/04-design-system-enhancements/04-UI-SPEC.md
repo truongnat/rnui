@@ -17,13 +17,13 @@ requirements:
 
 ## Design System
 
-| Property | Value |
-|----------|-------|
-| Tool | none (React Native library) |
-| Preset | `@truongdq01/tokens` semantic + primitive |
-| Component library | `@truongdq01/ui` (internal) |
-| Icon library | Theo từng component (không đổi trong phase này) |
-| Font | **Mặc định:** system sans (`undefined` trên `fontFamily.sans`). **Tùy chọn:** brand/consumer set chuỗi qua token sau này. |
+| Property          | Value                                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Tool              | none (React Native library)                                                                                               |
+| Preset            | `@truongdq01/tokens` semantic + primitive                                                                                 |
+| Component library | `@truongdq01/ui` (internal)                                                                                               |
+| Icon library      | Theo từng component (không đổi trong phase này)                                                                           |
+| Font              | **Mặc định:** system sans (`undefined` trên `fontFamily.sans`). **Tùy chọn:** brand/consumer set chuỗi qua token sau này. |
 
 ---
 
@@ -31,10 +31,10 @@ requirements:
 
 Kế thừa **primitive spacing** (base 4px, có bước phân `0.5`, `1.5`, … cho fine-tune). Trong phase này **chỉ** dùng token — không magic number mới ngoài plan.
 
-| Contract | Token / usage |
-|----------|----------------|
-| Switch row gap | `tokens.spacing[3]` (12px) |
-| Switch thumb vertical nudge | `tokens.spacing[0.5]` (2px) — *micro-alignment thumb vs track; justified exception to pure 4-multiple grid on the row* |
+| Contract                    | Token / usage                                                                                                          |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Switch row gap              | `tokens.spacing[3]` (12px)                                                                                             |
+| Switch thumb vertical nudge | `tokens.spacing[0.5]` (2px) — _micro-alignment thumb vs track; justified exception to pure 4-multiple grid on the row_ |
 
 **Exceptions (phase):** không thêm `spacing[18]` / `[28]` trừ khi mở lại D-44 trong roadmap.
 
@@ -42,11 +42,11 @@ Kế thừa **primitive spacing** (base 4px, có bước phân `0.5`, `1.5`, …
 
 ## Typography
 
-| Role | Contract |
-|------|-----------|
-| Scale | Giữ nguyên **semantic `text.*`** (size/weight/lineHeight) — không khai báo thêm bậc pixel mới trong phase này. |
+| Role        | Contract                                                                                                                         |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Scale       | Giữ nguyên **semantic `text.*`** (size/weight/lineHeight) — không khai báo thêm bậc pixel mới trong phase này.                   |
 | Font family | `tokens.fontFamily.sans` áp lên `Typography` khi **khác `undefined` và khác `""`** — overlay trên variant; không thay thế scale. |
-| Mono | `tokens.fontFamily.mono` dự phòng (brand/code); Typography phase này chỉ bắt buộc `sans` theo plan. |
+| Mono        | `tokens.fontFamily.mono` dự phòng (brand/code); Typography phase này chỉ bắt buộc `sans` theo plan.                              |
 
 **Giới hạn:** tối đa **một** family override cho body/heading qua `sans` — không nhân đôi weights/sizes.
 
@@ -54,11 +54,11 @@ Kế thừa **primitive spacing** (base 4px, có bước phân `0.5`, `1.5`, …
 
 ## Color
 
-| Role | Contract |
-|------|-----------|
-| Dark `surface.hover` | Phải **tham chiếu primitive** (`color.gray[…]`), không literal `#1A1A28` trong semantic. Quan hệ: hover sáng hơn một bậc so với `raised` (gray[800]) — ghi trong code. |
+| Role                            | Contract                                                                                                                                                                 |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Dark `surface.hover`            | Phải **tham chiếu primitive** (`color.gray[…]`), không literal `#1A1A28` trong semantic. Quan hệ: hover sáng hơn một bậc so với `raised` (gray[800]) — ghi trong code.   |
 | loveBrand light `text.disabled` | Một giá trị **đạt ≥ 3:1** trên `#FFFFFF` (UI text / WCAG non-text không áp vào label nhỏ nếu dùng làm “disabled” — ưu tiên đọc được). Ghi hex + comment trong `love.ts`. |
-| Accent | Không mở rộng “accent cho mọi interactive” — phase không đổi quy tắc accent toàn lib. |
+| Accent                          | Không mở rộng “accent cho mọi interactive” — phase không đổi quy tắc accent toàn lib.                                                                                    |
 
 **60/30/10:** không áp dụng màn hình mới; brand preset love giữ hierarchy rose + neutrals như hiện có, chỉ sửa **disabled** theo contrast.
 
@@ -66,8 +66,8 @@ Kế thừa **primitive spacing** (base 4px, có bước phân `0.5`, `1.5`, …
 
 ## Motion & shadow (Switch)
 
-| Element | Contract |
-|---------|-----------|
+| Element         | Contract                                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------------------- |
 | Thumb elevation | Dùng **`tokens.shadow.sm`** (hoặc map đầy đủ shadow props từ token) — không `shadowColor: "#000"` cứng. |
 
 ---
@@ -76,39 +76,39 @@ Kế thừa **primitive spacing** (base 4px, có bước phân `0.5`, `1.5`, …
 
 Phase **không** thêm màn hình hay CTA mới.
 
-| Element | Copy |
-|---------|------|
+| Element              | Copy                                                                 |
+| -------------------- | -------------------------------------------------------------------- |
 | User-visible strings | **Không thay đổi** trong scope 04-01 (token/component styling only). |
 
 ---
 
 ## Registry Safety
 
-| Registry | Blocks Used | Safety Gate |
-|----------|-------------|-------------|
-| — | — | **Not applicable** — không shadcn / không third-party UI registry trong phase này. |
+| Registry | Blocks Used | Safety Gate                                                                        |
+| -------- | ----------- | ---------------------------------------------------------------------------------- |
+| —        | —           | **Not applicable** — không shadcn / không third-party UI registry trong phase này. |
 
 ---
 
 ## Traceability → Plan tasks
 
-| UI contract | `04-01-PLAN` task |
-|-------------|-------------------|
-| `fontFamily` + Typography | Task 1–2 |
-| `surface.hover` | Task 3 |
-| loveBrand `text.disabled` | Task 4 |
-| Switch shadow + spacing | Task 5 |
+| UI contract               | `04-01-PLAN` task |
+| ------------------------- | ----------------- |
+| `fontFamily` + Typography | Task 1–2          |
+| `surface.hover`           | Task 3            |
+| loveBrand `text.disabled` | Task 4            |
+| Switch shadow + spacing   | Task 5            |
 
 ---
 
 ## Checker Sign-Off
 
-- [x] Dimension 1 Copywriting: PASS *(không CTA generic mới; scope token-only)*
-- [x] Dimension 2 Visuals: PASS *(hierarchy: Switch thumb + label row; Typography là text mặc định)*
-- [x] Dimension 3 Color: PASS *(accent không “all interactive”; disabled + surface.hover cụ thể)*
-- [x] Dimension 4 Typography: PASS *(scale = semantic `text.*`; + optional `fontFamily.sans`)*
-- [x] Dimension 5 Spacing: PASS *(chỉ token; 2px qua `spacing[0.5]` có lý do)*
-- [x] Dimension 6 Registry Safety: PASS *(không registry ngoài)*
+- [x] Dimension 1 Copywriting: PASS _(không CTA generic mới; scope token-only)_
+- [x] Dimension 2 Visuals: PASS _(hierarchy: Switch thumb + label row; Typography là text mặc định)_
+- [x] Dimension 3 Color: PASS _(accent không “all interactive”; disabled + surface.hover cụ thể)_
+- [x] Dimension 4 Typography: PASS _(scale = semantic `text._`; + optional `fontFamily.sans`)\*
+- [x] Dimension 5 Spacing: PASS _(chỉ token; 2px qua `spacing[0.5]` có lý do)_
+- [x] Dimension 6 Registry Safety: PASS _(không registry ngoài)_
 
 **Approval:** approved 2026-04-02
 

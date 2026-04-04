@@ -1,9 +1,9 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
-import { Input } from "../Input/Input";
-import { PasswordInput } from "../Input/PasswordInput";
-import { FormGroupContext, useFormGroupVariant } from "./FormGroupContext";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { Input } from '../Input/Input';
+import { PasswordInput } from '../Input/PasswordInput';
+import { FormGroupContext, useFormGroupVariant } from './FormGroupContext';
 
 function isInputLikeElement(el: React.ReactElement): boolean {
   const C = el.type;
@@ -12,16 +12,19 @@ function isInputLikeElement(el: React.ReactElement): boolean {
 
 function enhanceChildForGroupedField(
   child: React.ReactNode,
-  label: string | undefined,
+  label: string | undefined
 ): React.ReactNode {
   if (!label || !React.isValidElement(child)) return child;
   if (!isInputLikeElement(child)) return child;
   const props = child.props as { placeholder?: string };
-  return React.cloneElement(child as React.ReactElement<Record<string, unknown>>, {
-    floatingLabel: true,
-    label,
-    placeholder: props.placeholder ?? label,
-  });
+  return React.cloneElement(
+    child as React.ReactElement<Record<string, unknown>>,
+    {
+      floatingLabel: true,
+      label,
+      placeholder: props.placeholder ?? label,
+    }
+  );
 }
 
 export interface FormFieldProps {
@@ -44,13 +47,17 @@ export function FormField({
   const { formField, formControl, formGroup } = useComponentTokens();
   const tokens = useTokens();
   const groupVariant = useFormGroupVariant();
-  const isGrouped = groupVariant === "grouped";
+  const isGrouped = groupVariant === 'grouped';
 
   const childEl = React.isValidElement(children) ? children : null;
-  const showFloatingClone = Boolean(isGrouped && label && childEl && isInputLikeElement(childEl));
+  const showFloatingClone = Boolean(
+    isGrouped && label && childEl && isInputLikeElement(childEl)
+  );
   const showLabelRow = Boolean((label || labelTrailing) && !showFloatingClone);
 
-  const renderedChild = showFloatingClone ? enhanceChildForGroupedField(children, label) : children;
+  const renderedChild = showFloatingClone
+    ? enhanceChildForGroupedField(children, label)
+    : children;
 
   const showMessagesBelowField = !isGrouped;
 
@@ -70,14 +77,14 @@ export function FormField({
       {showLabelRow && (label || labelTrailing) ? (
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             marginBottom: tokens.spacing[1.5],
           }}
         >
           {label ? (
-            <View style={{ flexDirection: "row", gap: 3 }}>
+            <View style={{ flexDirection: 'row', gap: 3 }}>
               <Text style={formControl.label as any}>{label}</Text>
               {required ? (
                 <Text
@@ -101,14 +108,22 @@ export function FormField({
       {showMessagesBelowField ? (
         error ? (
           <Text
-            style={[formControl.errorText, { marginTop: tokens.spacing[2] }] as any}
+            style={
+              [formControl.errorText, { marginTop: tokens.spacing[2] }] as any
+            }
             accessibilityRole="alert"
             accessibilityLiveRegion="polite"
           >
             {error}
           </Text>
         ) : helperText ? (
-          <Text style={[formControl.helperText, { marginTop: tokens.spacing[2] }] as any}>{helperText}</Text>
+          <Text
+            style={
+              [formControl.helperText, { marginTop: tokens.spacing[2] }] as any
+            }
+          >
+            {helperText}
+          </Text>
         ) : null
       ) : null}
     </View>
@@ -117,8 +132,8 @@ export function FormField({
 
 export interface FormGroupProps {
   children: React.ReactNode;
-  gap?: "sm" | "md" | "lg";
-  variant?: "standard" | "grouped";
+  gap?: 'sm' | 'md' | 'lg';
+  variant?: 'standard' | 'grouped';
   /** Shown under the grouped card (tertiary). */
   footer?: string;
   /** Validation or alert copy under the grouped card (e.g. from `useField`). */
@@ -127,16 +142,20 @@ export interface FormGroupProps {
 
 export function FormGroup({
   children,
-  gap = "md",
-  variant = "standard",
+  gap = 'md',
+  variant = 'standard',
   footer,
   error,
 }: FormGroupProps) {
   const tokens = useTokens();
   const { formGroup } = useComponentTokens();
-  const gapSize = { sm: tokens.spacing[3], md: tokens.spacing[5], lg: tokens.spacing[7] }[gap];
+  const gapSize = {
+    sm: tokens.spacing[3],
+    md: tokens.spacing[5],
+    lg: tokens.spacing[7],
+  }[gap];
 
-  if (variant === "standard") {
+  if (variant === 'standard') {
     return (
       <FormGroupContext.Provider value="standard">
         <View style={{ gap: gapSize }}>{children}</View>
@@ -165,7 +184,9 @@ export function FormGroup({
             </React.Fragment>
           ))}
         </View>
-        {error ? <Text style={formGroup.errorBelowCard as any}>{error}</Text> : null}
+        {error ? (
+          <Text style={formGroup.errorBelowCard as any}>{error}</Text>
+        ) : null}
         {footer ? <Text style={formGroup.footer as any}>{footer}</Text> : null}
       </View>
     </FormGroupContext.Provider>

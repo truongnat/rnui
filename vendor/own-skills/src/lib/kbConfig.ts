@@ -58,7 +58,9 @@ export function loadKbConfig(cwd: string): KbConfig {
         out.embeddingModel = val;
         break;
       case 'embeddings_path':
-        out.embeddingsPath = val.endsWith('.npy') ? val.replace(/\.npy$/i, '.json') : val;
+        out.embeddingsPath = val.endsWith('.npy')
+          ? val.replace(/\.npy$/i, '.json')
+          : val;
         break;
       case 'manifest_path':
         out.manifestPath = val;
@@ -73,7 +75,9 @@ export function loadKbConfig(cwd: string): KbConfig {
         out.skillIndexPath = val;
         break;
       case 'skill_embeddings_path':
-        out.skillEmbeddingsPath = val.endsWith('.npy') ? val.replace(/\.npy$/i, '.json') : val;
+        out.skillEmbeddingsPath = val.endsWith('.npy')
+          ? val.replace(/\.npy$/i, '.json')
+          : val;
         break;
       default:
         break;

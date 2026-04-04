@@ -1,6 +1,6 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { View, Text } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { View, Text } from 'react-native';
 import {
   ThemeProvider,
   Accordion,
@@ -8,20 +8,24 @@ import {
   AccordionDetails,
   AccordionActions,
   Button,
-} from "@truongdq01/ui";
+} from '@truongdq01/ui';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24, gap: 16 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24, gap: 16 }}>{children}</View>
   </ThemeProvider>
 );
 
 const meta = {
-  title: "Components/Accordion",
+  title: 'Components/Accordion',
   component: Accordion,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
 };
 
 export default meta;
@@ -37,8 +41,13 @@ export const Basic: Story = {
           <Text>Manage profile, security, and connected services.</Text>
         </AccordionDetails>
         <AccordionActions>
-          <Button label="Cancel" variant="ghost" onPress={() => { }} accessibilityLabel="Cancel" />
-          <Button label="Save" onPress={() => { }} accessibilityLabel="Save" />
+          <Button
+            label="Cancel"
+            variant="ghost"
+            onPress={() => {}}
+            accessibilityLabel="Cancel"
+          />
+          <Button label="Save" onPress={() => {}} accessibilityLabel="Save" />
         </AccordionActions>
       </Accordion>
       <Accordion>

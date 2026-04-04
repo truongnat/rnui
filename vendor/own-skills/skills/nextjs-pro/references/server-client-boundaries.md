@@ -46,4 +46,4 @@
 
 ---
 
-*Cross-check with your Next.js major release notes — RSC rules tightened over time.*
+_Cross-check with your Next.js major release notes — RSC rules tightened over time._

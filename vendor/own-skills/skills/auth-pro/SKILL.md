@@ -19,12 +19,12 @@ Use standards and vendor docs as authority for protocol details: [OAuth 2.0 (RFC
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `auth-pro` |
-|-------|---------------------------------|
-| **`security-pro`** | Threat modeling, abuse scenarios, defense-in-depth controls |
-| **`nestjs-pro`** / **`nextjs-pro`** | Guards/middleware/session wiring and framework APIs |
-| **`postgresql-pro`** | RLS and data ownership constraints for authz enforcement |
-| **`testing-pro`** | Auth flow tests, permission regression, token/session abuse tests |
+| Skill                               | When to combine with `auth-pro`                                   |
+| ----------------------------------- | ----------------------------------------------------------------- |
+| **`security-pro`**                  | Threat modeling, abuse scenarios, defense-in-depth controls       |
+| **`nestjs-pro`** / **`nextjs-pro`** | Guards/middleware/session wiring and framework APIs               |
+| **`postgresql-pro`**                | RLS and data ownership constraints for authz enforcement          |
+| **`testing-pro`**                   | Auth flow tests, permission regression, token/session abuse tests |
 
 **Boundary:** **`auth-pro`** focuses on authn/authz methods and policy architecture; framework and platform skills own implementation-specific APIs and deployment details.
 
@@ -93,13 +93,13 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` - deep guidance for method selection, policy design, and lifecycle hardening.
 
-| Topic | File |
-|-------|------|
+| Topic                                | File                                                                                                     |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------- |
 | Authentication methods and selection | [references/authentication-methods-and-selection.md](references/authentication-methods-and-selection.md) |
-| Authorization models and policy | [references/authorization-models-and-policy.md](references/authorization-models-and-policy.md) |
-| Token/session lifecycle | [references/token-session-lifecycle.md](references/token-session-lifecycle.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Authorization models and policy      | [references/authorization-models-and-policy.md](references/authorization-models-and-policy.md)           |
+| Token/session lifecycle              | [references/token-session-lifecycle.md](references/token-session-lifecycle.md)                           |
+| Tips                                 | [references/tips-and-tricks.md](references/tips-and-tricks.md)                                           |
+| Edge cases                           | [references/edge-cases.md](references/edge-cases.md)                                                     |
 
 ## Quick example
 

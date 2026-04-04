@@ -59,4 +59,4 @@
 
 ---
 
-*Production behavior differs from `nest start --watch` — always validate under load and with real infra.*
+_Production behavior differs from `nest start --watch` — always validate under load and with real infra._

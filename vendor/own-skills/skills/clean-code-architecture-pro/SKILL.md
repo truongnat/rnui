@@ -18,10 +18,10 @@ Use official [Clean Architecture by Robert C. Martin](https://blog.cleancoder.co
 
 ## Related skills (this repo)
 
-| Skill | When to combine |
-|-------|------------------|
-| `testing-pro` | Convert architectural decisions into tests and protect refactors from regressions. |
-| `git-operations-pro` | Split risky refactors into safe, reviewable commits and branches. |
+| Skill                | When to combine                                                                    |
+| -------------------- | ---------------------------------------------------------------------------------- |
+| `testing-pro`        | Convert architectural decisions into tests and protect refactors from regressions. |
+| `git-operations-pro` | Split risky refactors into safe, reviewable commits and branches.                  |
 
 ## When to use
 
@@ -74,10 +74,10 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 Use these files for deeper detail when concise guidance in this file is not enough.
 
-| Topic | File |
-|-------|------|
-| Practical clean code patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Architectural failure modes and edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Topic                                      | File                                                           |
+| ------------------------------------------ | -------------------------------------------------------------- |
+| Practical clean code patterns              | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
+| Architectural failure modes and edge cases | [references/edge-cases.md](references/edge-cases.md)           |
 
 ## Quick example
 

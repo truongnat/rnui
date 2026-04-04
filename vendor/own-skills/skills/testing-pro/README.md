@@ -11,4 +11,4 @@ Professional **testing and test automation** skill: test pyramid, unit/integrati
 - **With PostgreSQL in tests:** skill **`postgresql-pro`**
 - **Deep dives:** [references/](references/)
 
-*Tip:* Fork and extend `references/` with your org’s CI templates (GitHub Actions, Jenkins, etc.).
+_Tip:_ Fork and extend `references/` with your org’s CI templates (GitHub Actions, Jenkins, etc.).

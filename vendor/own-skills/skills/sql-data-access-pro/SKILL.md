@@ -19,11 +19,11 @@ Use [SQLite](https://www.sqlite.org/docs.html) and [Python sqlite3](https://docs
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `sql-data-access-pro` |
-|-------|---------------------------------------------|
-| **`postgresql-pro`** | **Server** Postgres, **migrations**, **RLS**, performance, **vacuum** |
-| **`data-analysis-pro`** | **Pandas** / **Parquet** analytics after **SQL** export |
-| **`security-pro`** | **SQL injection** in apps, **least privilege**, **credentials** |
+| Skill                      | When to combine with `sql-data-access-pro`                                                 |
+| -------------------------- | ------------------------------------------------------------------------------------------ |
+| **`postgresql-pro`**       | **Server** Postgres, **migrations**, **RLS**, performance, **vacuum**                      |
+| **`data-analysis-pro`**    | **Pandas** / **Parquet** analytics after **SQL** export                                    |
+| **`security-pro`**         | **SQL injection** in apps, **least privilege**, **credentials**                            |
 | **`content-analysis-pro`** | User **attached** a `.db` **without** SQL context — clarify **goal** (schema vs narrative) |
 
 **Boundary:** **`sql-data-access-pro`** = **SQLite** + **portable** SQL habits; **`postgresql-pro`** = **PostgreSQL** **production** concerns.
@@ -86,12 +86,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — SQLite, safety, tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| SQLite & stdlib | [references/sqlite-and-stdlib.md](references/sqlite-and-stdlib.md) |
+| Topic               | File                                                                                               |
+| ------------------- | -------------------------------------------------------------------------------------------------- |
+| SQLite & stdlib     | [references/sqlite-and-stdlib.md](references/sqlite-and-stdlib.md)                                 |
 | Safety & PG handoff | [references/sql-safety-and-postgresql-handoff.md](references/sql-safety-and-postgresql-handoff.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips                | [references/tips-and-tricks.md](references/tips-and-tricks.md)                                     |
+| Edge cases          | [references/edge-cases.md](references/edge-cases.md)                                               |
 
 ## Quick example
 

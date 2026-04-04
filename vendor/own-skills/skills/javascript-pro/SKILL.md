@@ -18,9 +18,9 @@ Use official [MDN JavaScript docs](https://developer.mozilla.org/en-US/docs/Web/
 
 ## Related skills (this repo)
 
-| Skill | When to combine |
-|-------|------------------|
-| `testing-pro` | Turn edge cases into deterministic unit/integration coverage. |
+| Skill          | When to combine                                                                       |
+| -------------- | ------------------------------------------------------------------------------------- |
+| `testing-pro`  | Turn edge cases into deterministic unit/integration coverage.                         |
 | `security-pro` | Evaluate prototype pollution, unsafe eval/dynamic code, and input sanitization risks. |
 
 ## When to use
@@ -74,10 +74,10 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 Use these files for deeper detail when concise guidance in this file is not enough.
 
-| Topic | File |
-|-------|------|
+| Topic                             | File                                                           |
+| --------------------------------- | -------------------------------------------------------------- |
 | High-level JavaScript tips/tricks | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Runtime and language edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Runtime and language edge cases   | [references/edge-cases.md](references/edge-cases.md)           |
 
 ## Quick example
 

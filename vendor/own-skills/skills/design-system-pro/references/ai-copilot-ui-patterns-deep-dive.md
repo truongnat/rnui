@@ -4,12 +4,12 @@ Detail patterns for **assistant surfaces** embedded in products (side panel, inl
 
 ## 1. Layout archetypes
 
-| Pattern | Best for | Watchouts |
-|---------|----------|-----------|
-| **Side dock** | IDE, admin, email | Width persistence; **resize**; don’t shrink main content below usable min |
-| **Inline** | Forms, docs | **Layout shift** when streaming; reserve min-height |
-| **Modal chat** | Short tasks | Focus trap; **Esc** to close; return focus to trigger |
-| **Full-page** | Primary mode | **Navigation** back to non-AI views; session history |
+| Pattern        | Best for          | Watchouts                                                                 |
+| -------------- | ----------------- | ------------------------------------------------------------------------- |
+| **Side dock**  | IDE, admin, email | Width persistence; **resize**; don’t shrink main content below usable min |
+| **Inline**     | Forms, docs       | **Layout shift** when streaming; reserve min-height                       |
+| **Modal chat** | Short tasks       | Focus trap; **Esc** to close; return focus to trigger                     |
+| **Full-page**  | Primary mode      | **Navigation** back to non-AI views; session history                      |
 
 ## 2. Message structure
 

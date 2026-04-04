@@ -19,12 +19,12 @@ Use quality-improvement references such as [Deming cycle (PDCA)](https://en.wiki
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `self-improve-agent-pro` |
-|-------|-----------------------------------------------|
-| **`feedback-pro`** | Generate deep, prioritized, evidence-based findings |
-| **`planning-pro`** | Convert findings into phased improvement plan |
-| **`testing-pro`** | Validate improvements via regression and scenario tests |
-| **`repo-tooling-pro`** | Use repo scripts to track and audit quality trends |
+| Skill                  | When to combine with `self-improve-agent-pro`           |
+| ---------------------- | ------------------------------------------------------- |
+| **`feedback-pro`**     | Generate deep, prioritized, evidence-based findings     |
+| **`planning-pro`**     | Convert findings into phased improvement plan           |
+| **`testing-pro`**      | Validate improvements via regression and scenario tests |
+| **`repo-tooling-pro`** | Use repo scripts to track and audit quality trends      |
 
 **Boundary:** **`self-improve-agent-pro`** defines the improvement loop and control framework; paired skills provide domain-specific review, planning, and verification depth.
 
@@ -93,13 +93,13 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` - deeper playbooks for diagnosis, iteration design, and measurable verification.
 
-| Topic | File |
-|-------|------|
+| Topic                          | File                                                                                         |
+| ------------------------------ | -------------------------------------------------------------------------------------------- |
 | Failure diagnosis and patterns | [references/failure-diagnosis-and-patterns.md](references/failure-diagnosis-and-patterns.md) |
-| Improvement loop design | [references/improvement-loop-design.md](references/improvement-loop-design.md) |
-| Metrics and verification | [references/metrics-and-verification.md](references/metrics-and-verification.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Improvement loop design        | [references/improvement-loop-design.md](references/improvement-loop-design.md)               |
+| Metrics and verification       | [references/metrics-and-verification.md](references/metrics-and-verification.md)             |
+| Tips                           | [references/tips-and-tricks.md](references/tips-and-tricks.md)                               |
+| Edge cases                     | [references/edge-cases.md](references/edge-cases.md)                                         |
 
 ## Quick example
 

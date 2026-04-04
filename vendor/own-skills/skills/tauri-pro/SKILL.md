@@ -21,11 +21,11 @@ Webview UI component patterns: skill **`react-pro`** when using React.
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `tauri-pro` |
-|-------|----------------------------------|
-| **`react-pro`** | React (or solid) in webview — hooks, state, a11y |
-| **`security-pro`** | Threat modeling, CSP, path/shell abuse cases |
-| **`testing-pro`** | Rust tests, web E2E against built app, CI matrices |
+| Skill              | When to combine with `tauri-pro`                   |
+| ------------------ | -------------------------------------------------- |
+| **`react-pro`**    | React (or solid) in webview — hooks, state, a11y   |
+| **`security-pro`** | Threat modeling, CSP, path/shell abuse cases       |
+| **`testing-pro`**  | Rust tests, web E2E against built app, CI matrices |
 
 **`electron-pro`** — Node/Chromium desktop stack; use when the project is Electron, not Tauri.
 
@@ -83,11 +83,11 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — Rust/commands, tips, edge cases.
 
-| Topic | File |
-|-------|------|
+| Topic                | File                                                                         |
+| -------------------- | ---------------------------------------------------------------------------- |
 | Rust core & commands | [references/rust-core-and-commands.md](references/rust-core-and-commands.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips and patterns    | [references/tips-and-tricks.md](references/tips-and-tricks.md)               |
+| Edge cases           | [references/edge-cases.md](references/edge-cases.md)                         |
 
 ## Quick example
 

@@ -5,13 +5,13 @@ Top application bar.
 ## Usage
 
 ```tsx
-import { AppBar, Toolbar, Typography } from "@truongdq01/ui";
+import { AppBar, Toolbar, Typography } from '@truongdq01/ui';
 
 <AppBar>
   <Toolbar>
     <Typography variant="h6">Title</Typography>
   </Toolbar>
-</AppBar>
+</AppBar>;
 ```
 
 ## Notes

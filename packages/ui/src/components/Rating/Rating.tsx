@@ -1,21 +1,29 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback } from 'react';
 import {
   View,
   Pressable,
   Text,
   AccessibilityInfo,
   type AccessibilityActionEvent,
-} from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
-import { spring } from "@truongdq01/tokens";
-import { useRating, useComponentTokens, useReduceMotionEnabled } from "@truongdq01/headless";
-import { Icon } from "../Icon";
-import type { IconName } from "../Icon";
+} from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+import { spring } from '@truongdq01/tokens';
+import {
+  useRating,
+  useComponentTokens,
+  useReduceMotionEnabled,
+} from '@truongdq01/headless';
+import { Icon } from '../Icon';
+import type { IconName } from '../Icon';
 
 const DEFAULT_ICON_NAMES = {
-  filled: "star" as const,
-  empty: "star" as const,
-  half: "starHalf" as const,
+  filled: 'star' as const,
+  empty: 'star' as const,
+  half: 'starHalf' as const,
 };
 
 function clamp(n: number, lo: number, hi: number) {
@@ -23,7 +31,7 @@ function clamp(n: number, lo: number, hi: number) {
 }
 
 /** State of a single star slot */
-export type RatingStarState = "filled" | "half" | "empty";
+export type RatingStarState = 'filled' | 'half' | 'empty';
 
 /**
  * Star row item: press feedback uses Reanimated; stars are not separate a11y nodes.
@@ -36,12 +44,12 @@ export interface RatingProps {
   precision?: number;
   readOnly?: boolean;
   disabled?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: 'sm' | 'md' | 'lg';
   onChange?: (value: number) => void;
   /** When true, show numeric value next to stars (e.g. `3/5`). */
   showValue?: boolean;
   /** Where `showValue` sits relative to the star row. Default `end`. */
-  valuePosition?: "start" | "end";
+  valuePosition?: 'start' | 'end';
   /** Tighter gap between stars (uses `rating.containerCompact`). */
   compact?: boolean;
   /**
@@ -53,7 +61,11 @@ export interface RatingProps {
    * Fully custom icon renderer. Overrides `iconNames` when provided.
    * Receives the star state, dp size, and theme color — return any React node (emoji, SVG, etc.).
    */
-  renderIcon?: (state: RatingStarState, size: number, color: string) => React.ReactNode;
+  renderIcon?: (
+    state: RatingStarState,
+    size: number,
+    color: string
+  ) => React.ReactNode;
   /** Number of ratings/reviews — shown as `★ 4.3 (128)` when combined with `showValue`. */
   ratingCount?: number;
   /**
@@ -73,7 +85,11 @@ type RatingStarButtonProps = {
   readOnly: boolean;
   reduceMotion: boolean;
   onPress: (index: number) => void;
-  renderIcon?: (state: RatingStarState, size: number, color: string) => React.ReactNode;
+  renderIcon?: (
+    state: RatingStarState,
+    size: number,
+    color: string
+  ) => React.ReactNode;
 };
 
 function RatingStarButton({
@@ -107,9 +123,13 @@ function RatingStarButton({
     scale.value = withSpring(1, spring.snappy);
   };
 
-  const iconContent = renderIcon
-    ? renderIcon(starState, iconSize, iconColor)
-    : <Icon size={iconSize} color={iconColor}>{iconName}</Icon>;
+  const iconContent = renderIcon ? (
+    renderIcon(starState, iconSize, iconColor)
+  ) : (
+    <Icon size={iconSize} color={iconColor}>
+      {iconName}
+    </Icon>
+  );
 
   return (
     <Pressable
@@ -122,9 +142,7 @@ function RatingStarButton({
       onPressOut={handlePressOut}
       style={{ opacity: disabled ? 0.5 : 1 }}
     >
-      <Animated.View style={animStyle}>
-        {iconContent}
-      </Animated.View>
+      <Animated.View style={animStyle}>{iconContent}</Animated.View>
     </Pressable>
   );
 }
@@ -136,10 +154,10 @@ function RatingInner({
   precision = 1,
   readOnly = false,
   disabled = false,
-  size = "md",
+  size = 'md',
   onChange,
   showValue = false,
-  valuePosition = "end",
+  valuePosition = 'end',
   compact = false,
   iconNames: iconNamesProp,
   renderIcon,
@@ -150,7 +168,11 @@ function RatingInner({
   const reduceMotion = useReduceMotionEnabled();
   const icons = { ...DEFAULT_ICON_NAMES, ...iconNamesProp };
 
-  const { value: ratingValue, setValue, precision: effectivePrecision } = useRating({
+  const {
+    value: ratingValue,
+    setValue,
+    precision: effectivePrecision,
+  } = useRating({
     value,
     defaultValue,
     max,
@@ -169,7 +191,7 @@ function RatingInner({
     (next: number) => {
       // TODO i18n — fixed English for library default
       const announce = AccessibilityInfo.announceForAccessibility;
-      if (typeof announce === "function") {
+      if (typeof announce === 'function') {
         announce(`${next} out of ${max} stars`);
       }
     },
@@ -179,7 +201,8 @@ function RatingInner({
   const handlePress = (index: number) => {
     if (disabled || readOnly) return;
     const tapTarget = index + 1;
-    const snapped = Math.round(tapTarget / effectivePrecision) * effectivePrecision;
+    const snapped =
+      Math.round(tapTarget / effectivePrecision) * effectivePrecision;
     const newVal = ratingValue === snapped ? 0 : snapped;
     setValue(newVal);
     announceValue(newVal);
@@ -198,9 +221,9 @@ function RatingInner({
 
   const onAccessibilityAction = (event: AccessibilityActionEvent) => {
     const name = event.nativeEvent.actionName;
-    if (name === "increment") {
+    if (name === 'increment') {
       applyAccessibilityStep(1);
-    } else if (name === "decrement") {
+    } else if (name === 'decrement') {
       applyAccessibilityStep(-1);
     }
   };
@@ -220,7 +243,11 @@ function RatingInner({
       accessibilityElementsHidden
       importantForAccessibility="no"
       accessible={false}
-      style={{ fontSize: iconSize * 0.7, color: activeColor, marginHorizontal: 4 }}
+      style={{
+        fontSize: iconSize * 0.7,
+        color: activeColor,
+        marginHorizontal: 4,
+      }}
     >
       {labelText}
     </Text>
@@ -229,7 +256,7 @@ function RatingInner({
   const starsRow = (
     <View
       accessible={interactive || readOnly || disabled}
-      accessibilityRole={interactive ? "adjustable" : "none"}
+      accessibilityRole={interactive ? 'adjustable' : 'none'}
       accessibilityValue={
         interactive
           ? {
@@ -241,7 +268,7 @@ function RatingInner({
       }
       accessibilityHint={
         interactive
-          ? "Swipe up or down to adjust rating" // TODO i18n
+          ? 'Swipe up or down to adjust rating' // TODO i18n
           : undefined
       }
       accessibilityLabel={
@@ -258,13 +285,23 @@ function RatingInner({
         const starNumber = i + 1;
         const filled = ratingValue >= starNumber;
         const halfFilled =
-          !filled && ratingValue >= starNumber - 0.5 && effectivePrecision <= 0.5;
+          !filled &&
+          ratingValue >= starNumber - 0.5 &&
+          effectivePrecision <= 0.5;
 
-        const starState: RatingStarState = halfFilled ? "half" : filled ? "filled" : "empty";
+        const starState: RatingStarState = halfFilled
+          ? 'half'
+          : filled
+            ? 'filled'
+            : 'empty';
         let iconName: IconName = icons.empty;
         if (halfFilled) iconName = icons.half;
         else if (filled) iconName = icons.filled;
-        const iconColor = halfFilled ? halfColor : filled ? activeColor : inactiveColor;
+        const iconColor = halfFilled
+          ? halfColor
+          : filled
+            ? activeColor
+            : inactiveColor;
 
         return (
           <RatingStarButton
@@ -290,13 +327,13 @@ function RatingInner({
   }
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
-      {valuePosition === "start" ? valueLabel : null}
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      {valuePosition === 'start' ? valueLabel : null}
       {starsRow}
-      {valuePosition === "end" ? valueLabel : null}
+      {valuePosition === 'end' ? valueLabel : null}
     </View>
   );
 }
 
 export const Rating = memo(RatingInner);
-Rating.displayName = "Rating";
+Rating.displayName = 'Rating';

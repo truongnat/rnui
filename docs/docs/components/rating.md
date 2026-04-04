@@ -5,9 +5,9 @@ Star rating input.
 ## Usage
 
 ```tsx
-import { Rating } from "@truongdq01/ui";
+import { Rating } from '@truongdq01/ui';
 
-<Rating value={3} onChange={() => {}} />
+<Rating value={3} onChange={() => {}} />;
 ```
 
 ## Notes

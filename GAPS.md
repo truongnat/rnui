@@ -8,6 +8,7 @@
 ## ✅ Resolved (Previously Critical)
 
 ### 1. Packages published to npm ✅
+
 - `@truongdq01/tokens` — v1.0.3 ✅ PUBLISHED
 - `@truongdq01/headless` — v1.0.3 ✅ PUBLISHED
 - `@truongdq01/ui` — v1.0.3 ✅ PUBLISHED
@@ -16,14 +17,17 @@
 All packages available at: https://www.npmjs.com/package/@truongdq01/ui
 
 ### 2. CI runs on `master` branch ✅
+
 CI workflow updated to trigger on `master` and `develop` branches.
 File: `.github/workflows/ci.yml` — confirmed working.
 
 ### 3. Token coverage: 100% ✅
+
 All 62 components have dedicated token functions in `@truongdq01/tokens`.
 Previously reported 49 missing — all have been implemented.
 
 ### 4. Changeset system working ✅
+
 CHANGELOG.md exists with v0.1.0 and v1.0.3 entries.
 Version history tracked via npm releases.
 
@@ -42,6 +46,7 @@ useRating, useScrollHeader, useSegmentedControl, useSelect, useSkeleton, useSlid
 useStepper, useSwitch, useTable, useTabs, useTimeline, useToast, useToggleGroup`
 
 **Newly added hooks (2026-04-03):**
+
 - `useDatePicker` — calendar logic, presets, month navigation, range selection ✅
 - `useTimeline` — step state, expand/collapse, navigation ✅
 - `useSkeleton` — loading state, stagger delay ✅
@@ -56,6 +61,7 @@ Most remaining components are either visual-only (Avatar, Badge, Icon), layout-o
 ### 2. Storybook coverage (25/62 components = 40%) ✅ UPDATED
 
 New stories added (2026-04-03):
+
 - `Forms.stories.tsx` — Checkbox, Radio, Switch, Slider, Input, TextArea, TextField, FormControl, FormField, Select
 - `MissingComponents.stories.tsx` — Divider, EmptyState, FormField, Modal, Popover, Popper, Skeleton
 
@@ -83,6 +89,7 @@ Note: Many of these are covered in grouped stories (FormControls, Feedback, Data
 ### 3. Documentation: COMPLETE ✅
 
 All component documentation exists:
+
 - ✅ All 62 components have doc files in `docs/docs/components/`
 - ✅ Previously "missing" 5 docs verified: animated-list, carousel, date-picker, otp-input, segmented-control
 
@@ -93,6 +100,7 @@ All component documentation exists:
 ### 4. UI Bugs Status from UI_REPORT.md
 
 **Already Fixed:**
+
 - ✅ OTPInput border color — uses `filled.borderColor` correctly
 - ✅ OTPInput useState — example uses `useState("")` properly
 - ✅ Theme switching — `setColorScheme` wired to buttons
@@ -100,6 +108,7 @@ All component documentation exists:
 - ✅ Carousel colors — uses theme colors
 
 **Remaining UI Improvements (from IMPROVEMENT_PLAN.md):**
+
 - Input focus speed (reduce 200ms → 120ms)
 - FormField semantic padding (label hierarchy)
 - TextArea counter position
@@ -128,16 +137,16 @@ All component documentation exists:
 
 ## 🎯 Updated Priority Roadmap
 
-| Priority | Task | Effort | Status |
-|---|---|---|---|
-| 🟡 P1 | Individual Storybook stories (~37 components) | M | Pending |
-| 🟢 P2 | Input focus speed optimization (200ms → 120ms) | S | Planned |
-| 🟢 P2 | Toast animation smoothness | S | Planned |
-| 🟢 P2 | DatePicker calendar grid redesign | XL | Planned |
-| 🟢 P2 | Slider vertical + range mode | L | Planned |
-| 🟢 P2 | EmptyState visual presets | M | Planned |
-| 🟢 P2 | Skeleton presets expansion | M | Planned |
+| Priority | Task                                           | Effort | Status  |
+| -------- | ---------------------------------------------- | ------ | ------- |
+| 🟡 P1    | Individual Storybook stories (~37 components)  | M      | Pending |
+| 🟢 P2    | Input focus speed optimization (200ms → 120ms) | S      | Planned |
+| 🟢 P2    | Toast animation smoothness                     | S      | Planned |
+| 🟢 P2    | DatePicker calendar grid redesign              | XL     | Planned |
+| 🟢 P2    | Slider vertical + range mode                   | L      | Planned |
+| 🟢 P2    | EmptyState visual presets                      | M      | Planned |
+| 🟢 P2    | Skeleton presets expansion                     | M      | Planned |
 
 ---
 
-*Last updated: 2026-04-03*
+_Last updated: 2026-04-03_

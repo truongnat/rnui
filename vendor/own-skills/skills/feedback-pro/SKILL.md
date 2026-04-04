@@ -19,12 +19,12 @@ Use professional review communication references such as [Google Engineering Pra
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `feedback-pro` |
-|-------|-------------------------------------|
-| **`testing-pro`** | Evaluate missing coverage, flaky tests, and verification gaps |
-| **`security-pro`** | Classify security findings and mitigation urgency |
-| **Domain `*-pro` skills** | Validate correctness and architecture details for specialized stacks |
-| **`business-analysis-pro`** | Align feedback with requirement intent and stakeholder priorities |
+| Skill                       | When to combine with `feedback-pro`                                  |
+| --------------------------- | -------------------------------------------------------------------- |
+| **`testing-pro`**           | Evaluate missing coverage, flaky tests, and verification gaps        |
+| **`security-pro`**          | Classify security findings and mitigation urgency                    |
+| **Domain `*-pro` skills**   | Validate correctness and architecture details for specialized stacks |
+| **`business-analysis-pro`** | Align feedback with requirement intent and stakeholder priorities    |
 
 **Boundary:** **`feedback-pro`** owns how to structure, prioritize, and communicate feedback deeply; other skills provide domain-specific truth for each finding.
 
@@ -93,13 +93,13 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` - deeper material for evidence quality, severity, and feedback closure.
 
-| Topic | File |
-|-------|------|
+| Topic                          | File                                                                                         |
+| ------------------------------ | -------------------------------------------------------------------------------------------- |
 | Finding structure and evidence | [references/finding-structure-and-evidence.md](references/finding-structure-and-evidence.md) |
-| Severity and prioritization | [references/severity-and-prioritization.md](references/severity-and-prioritization.md) |
-| Action planning and closure | [references/action-planning-and-closure.md](references/action-planning-and-closure.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Severity and prioritization    | [references/severity-and-prioritization.md](references/severity-and-prioritization.md)       |
+| Action planning and closure    | [references/action-planning-and-closure.md](references/action-planning-and-closure.md)       |
+| Tips                           | [references/tips-and-tricks.md](references/tips-and-tricks.md)                               |
+| Edge cases                     | [references/edge-cases.md](references/edge-cases.md)                                         |
 
 ## Quick example
 

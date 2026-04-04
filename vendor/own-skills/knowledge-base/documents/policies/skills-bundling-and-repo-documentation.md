@@ -1,10 +1,10 @@
-| Field | Value |
-|-------|-------|
-| title | Skills bundling and repository documentation |
+| Field   | Value                                                                                   |
+| ------- | --------------------------------------------------------------------------------------- |
+| title   | Skills bundling and repository documentation                                            |
 | summary | Rules for adding bundled skills and keeping README, AGENTS, and KB in sync in this repo |
-| tags | policy, skills, repo, contribution |
-| updated | 2026-03-31 |
-| status | active |
+| tags    | policy, skills, repo, contribution                                                      |
+| updated | 2026-03-31                                                                              |
+| status  | active                                                                                  |
 
 # Policy: skills bundling and repository documentation
 

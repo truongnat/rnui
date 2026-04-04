@@ -44,4 +44,4 @@ Phase 5 theo **ROADMAP**: OTP paste, DatePicker locale/TZ, và **component backl
 
 ---
 
-*Phase: 05-backlog-components-integrations*
+_Phase: 05-backlog-components-integrations_

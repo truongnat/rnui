@@ -1,35 +1,39 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Link } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Link } from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
 const LinkWrapper = (props: any) => (
-  <Link {...props}>{props.children ?? "Open link"}</Link>
+  <Link {...props}>{props.children ?? 'Open link'}</Link>
 );
 
 const meta = {
-  title: "Components/Link",
+  title: 'Components/Link',
   component: LinkWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
-    href: { control: "text" },
+    href: { control: 'text' },
     underline: {
-      control: { type: "select" },
-      options: ["always", "hover", "none"],
+      control: { type: 'select' },
+      options: ['always', 'hover', 'none'],
     },
   },
   args: {
-    href: "https://example.com",
-    underline: "always",
-    children: "Visit example.com",
+    href: 'https://example.com',
+    underline: 'always',
+    children: 'Visit example.com',
   },
 };
 
@@ -39,7 +43,7 @@ type Story = StoryObj<typeof LinkWrapper>;
 export const Default: Story = {};
 
 export const NoUnderline: Story = {
-  args: { underline: "none" },
+  args: { underline: 'none' },
 };
 
 export const Inline: Story = {

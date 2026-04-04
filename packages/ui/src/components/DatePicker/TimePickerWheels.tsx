@@ -1,12 +1,12 @@
-import React, { useCallback, useMemo } from "react";
-import { View, Text, ScrollView, Pressable } from "react-native";
-import { useTokens } from "@truongdq01/headless";
+import React, { useCallback, useMemo } from 'react';
+import { View, Text, ScrollView, Pressable } from 'react-native';
+import { useTokens } from '@truongdq01/headless';
 
 const ROW = 40;
 const VISIBLE = 5;
 
 function pad2(n: number): string {
-  return n.toString().padStart(2, "0");
+  return n.toString().padStart(2, '0');
 }
 
 export interface TimePickerWheelsProps {
@@ -37,7 +37,7 @@ export function TimePickerWheels({ value, onChange }: TimePickerWheelsProps) {
     <View style={{ width: 80 }}>
       <Text
         style={{
-          textAlign: "center",
+          textAlign: 'center',
           fontSize: t.fontSize.xs,
           fontWeight: t.fontWeight.medium,
           color: t.color.text.tertiary,
@@ -46,7 +46,10 @@ export function TimePickerWheels({ value, onChange }: TimePickerWheelsProps) {
       >
         {label}
       </Text>
-      <ScrollView style={{ height: ROW * VISIBLE }} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={{ height: ROW * VISIBLE }}
+        showsVerticalScrollIndicator={false}
+      >
         {child}
       </ScrollView>
     </View>
@@ -55,30 +58,32 @@ export function TimePickerWheels({ value, onChange }: TimePickerWheelsProps) {
   return (
     <View
       style={{
-        flexDirection: "row",
+        flexDirection: 'row',
         gap: t.spacing[4],
-        justifyContent: "center",
+        justifyContent: 'center',
         paddingVertical: t.spacing[3],
       }}
     >
       {col(
-        "Hour",
+        'Hour',
         hours.map((hour) => (
           <Pressable
             key={hour}
             onPress={() => setHM(hour, m)}
             style={{
               height: ROW,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
               borderRadius: t.radius.md,
-              backgroundColor: hour === h ? t.color.brand.subtle : "transparent",
+              backgroundColor:
+                hour === h ? t.color.brand.subtle : 'transparent',
             }}
           >
             <Text
               style={{
                 fontSize: t.fontSize.lg,
-                fontWeight: hour === h ? t.fontWeight.semibold : t.fontWeight.regular,
+                fontWeight:
+                  hour === h ? t.fontWeight.semibold : t.fontWeight.regular,
                 color: hour === h ? t.color.brand.text : t.color.text.primary,
               }}
             >
@@ -88,23 +93,25 @@ export function TimePickerWheels({ value, onChange }: TimePickerWheelsProps) {
         ))
       )}
       {col(
-        "Min",
+        'Min',
         minutes.map((minute) => (
           <Pressable
             key={minute}
             onPress={() => setHM(h, minute)}
             style={{
               height: ROW,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
               borderRadius: t.radius.md,
-              backgroundColor: minute === m ? t.color.brand.subtle : "transparent",
+              backgroundColor:
+                minute === m ? t.color.brand.subtle : 'transparent',
             }}
           >
             <Text
               style={{
                 fontSize: t.fontSize.lg,
-                fontWeight: minute === m ? t.fontWeight.semibold : t.fontWeight.regular,
+                fontWeight:
+                  minute === m ? t.fontWeight.semibold : t.fontWeight.regular,
                 color: minute === m ? t.color.brand.text : t.color.text.primary,
               }}
             >

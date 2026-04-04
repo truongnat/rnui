@@ -11,13 +11,13 @@ Structured way to **find bugs before attackers**: authorized testing, safe envir
 
 ## Models (pick what fits the org)
 
-| Model | What it is | Good for |
-|-------|------------|----------|
-| **Vulnerability assessment** | Automated + manual checklist | Baseline, CI gates |
-| **Penetration test** | Simulated attacker, time-boxed | Realistic exploit paths |
-| **Red team** | Goal-oriented adversary simulation | Detect response/detection gaps |
-| **Purple team** | Red + blue collaborate | Tune detections and controls faster |
-| **Bug bounty** | External researchers, scoped | Continuous, diverse perspectives |
+| Model                        | What it is                         | Good for                            |
+| ---------------------------- | ---------------------------------- | ----------------------------------- |
+| **Vulnerability assessment** | Automated + manual checklist       | Baseline, CI gates                  |
+| **Penetration test**         | Simulated attacker, time-boxed     | Realistic exploit paths             |
+| **Red team**                 | Goal-oriented adversary simulation | Detect response/detection gaps      |
+| **Purple team**              | Red + blue collaborate             | Tune detections and controls faster |
+| **Bug bounty**               | External researchers, scoped       | Continuous, diverse perspectives    |
 
 ## “Simulator” stack (tool categories — not endorsements)
 

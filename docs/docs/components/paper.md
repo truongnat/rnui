@@ -5,9 +5,11 @@ Surface container with elevation or outline.
 ## Usage
 
 ```tsx
-import { Paper } from "@truongdq01/ui";
+import { Paper } from '@truongdq01/ui';
 
-<Paper elevation={2} style={{ padding: 16 }}>Content</Paper>
+<Paper elevation={2} style={{ padding: 16 }}>
+  Content
+</Paper>;
 ```
 
 ## Notes

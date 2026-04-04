@@ -1,9 +1,15 @@
-import { Platform } from "react-native";
+import { Platform } from 'react-native';
 
 /**
  * Haptic feedback intensity levels
  */
-export type HapticIntensity = "light" | "medium" | "heavy" | "success" | "warning" | "error";
+export type HapticIntensity =
+  | 'light'
+  | 'medium'
+  | 'heavy'
+  | 'success'
+  | 'warning'
+  | 'error';
 
 /**
  * Haptic feedback trigger function
@@ -19,7 +25,7 @@ export interface HapticConfig {
   /** Custom vibration pattern for Android */
   androidPattern?: number[];
   /** iOS feedback style override */
-  iosStyle?: "light" | "medium" | "heavy" | "soft" | "rigid";
+  iosStyle?: 'light' | 'medium' | 'heavy' | 'soft' | 'rigid';
 }
 
 /**
@@ -48,11 +54,7 @@ export interface HapticConfig {
  * ```
  */
 export function useHaptics(config: HapticConfig = {}) {
-  const {
-    enabled = true,
-    androidPattern,
-    iosStyle,
-  } = config;
+  const { enabled = true, androidPattern, iosStyle } = config;
 
   // Check if haptics are supported on this platform
   const isSupported = Platform.select({
@@ -65,18 +67,18 @@ export function useHaptics(config: HapticConfig = {}) {
     if (!enabled || !isSupported) return;
 
     try {
-      if (Platform.OS === "ios") {
+      if (Platform.OS === 'ios') {
         // iOS implementation using native haptic feedback
         const feedbackType = iosStyle || getIOSFeedbackType(intensity);
         triggerIOSHaptics(feedbackType);
-      } else if (Platform.OS === "android") {
+      } else if (Platform.OS === 'android') {
         // Android implementation using vibration
         const pattern = androidPattern || getAndroidVibrationPattern(intensity);
         triggerAndroidVibration(pattern);
       }
     } catch (error) {
       // Silently fail if haptic feedback is not available
-      console.warn("[Haptics] Failed to trigger haptic feedback:", error);
+      console.warn('[Haptics] Failed to trigger haptic feedback:', error);
     }
   };
 
@@ -90,19 +92,21 @@ export function useHaptics(config: HapticConfig = {}) {
 /**
  * Get appropriate iOS haptic feedback type based on intensity
  */
-function getIOSFeedbackType(intensity: HapticIntensity): "light" | "medium" | "heavy" {
+function getIOSFeedbackType(
+  intensity: HapticIntensity
+): 'light' | 'medium' | 'heavy' {
   switch (intensity) {
-    case "light":
-      return "light";
-    case "medium":
-    case "success":
-      return "medium";
-    case "heavy":
-    case "warning":
-    case "error":
-      return "heavy";
+    case 'light':
+      return 'light';
+    case 'medium':
+    case 'success':
+      return 'medium';
+    case 'heavy':
+    case 'warning':
+    case 'error':
+      return 'heavy';
     default:
-      return "medium";
+      return 'medium';
   }
 }
 
@@ -111,17 +115,17 @@ function getIOSFeedbackType(intensity: HapticIntensity): "light" | "medium" | "h
  */
 function getAndroidVibrationPattern(intensity: HapticIntensity): number[] {
   switch (intensity) {
-    case "light":
+    case 'light':
       return [0, 10]; // Short vibration
-    case "medium":
+    case 'medium':
       return [0, 20, 10, 20]; // Double pulse
-    case "heavy":
+    case 'heavy':
       return [0, 50]; // Longer vibration
-    case "success":
+    case 'success':
       return [0, 30, 50, 30]; // Success pattern
-    case "warning":
+    case 'warning':
       return [0, 100, 50, 100]; // Warning pattern
-    case "error":
+    case 'error':
       return [0, 50, 50, 50, 50, 50]; // Error pattern
     default:
       return [0, 20];
@@ -132,7 +136,9 @@ function getAndroidVibrationPattern(intensity: HapticIntensity): number[] {
  * Trigger iOS haptic feedback
  * Note: This is a placeholder - actual implementation requires react-native-haptic-feedback
  */
-function triggerIOSHaptics(style: "light" | "medium" | "heavy" | "soft" | "rigid"): void {
+function triggerIOSHaptics(
+  style: 'light' | 'medium' | 'heavy' | 'soft' | 'rigid'
+): void {
   // Placeholder for actual iOS haptic implementation
   // Would use react-native-haptic-feedback or similar library
   if (__DEV__) {
@@ -148,7 +154,7 @@ function triggerAndroidVibration(pattern: number[]): void {
   // Placeholder for actual Android vibration implementation
   // Would use Vibration.vibrate(pattern)
   if (__DEV__) {
-    console.log(`[Haptics] Android vibration pattern: [${pattern.join(", ")}]`);
+    console.log(`[Haptics] Android vibration pattern: [${pattern.join(', ')}]`);
   }
 }
 
@@ -157,23 +163,23 @@ function triggerAndroidVibration(pattern: number[]): void {
  */
 export const hapticPatterns = {
   // Navigation
-  navigate: "light" as HapticIntensity,
-  back: "light" as HapticIntensity,
+  navigate: 'light' as HapticIntensity,
+  back: 'light' as HapticIntensity,
 
   // Actions
-  tap: "light" as HapticIntensity,
-  press: "medium" as HapticIntensity,
-  longPress: "medium" as HapticIntensity,
+  tap: 'light' as HapticIntensity,
+  press: 'medium' as HapticIntensity,
+  longPress: 'medium' as HapticIntensity,
 
   // Feedback
-  success: "success" as HapticIntensity,
-  error: "error" as HapticIntensity,
-  warning: "warning" as HapticIntensity,
+  success: 'success' as HapticIntensity,
+  error: 'error' as HapticIntensity,
+  warning: 'warning' as HapticIntensity,
 
   // States
-  toggleOn: "medium" as HapticIntensity,
-  toggleOff: "medium" as HapticIntensity,
-  selection: "light" as HapticIntensity,
+  toggleOn: 'medium' as HapticIntensity,
+  toggleOff: 'medium' as HapticIntensity,
+  selection: 'light' as HapticIntensity,
 } as const;
 
 /**
@@ -181,21 +187,21 @@ export const hapticPatterns = {
  */
 export const hapticGuidelines = {
   /** Primary actions (submit, save, confirm) */
-  primaryActions: "medium",
+  primaryActions: 'medium',
   /** Secondary actions (cancel, dismiss) */
-  secondaryActions: "light",
+  secondaryActions: 'light',
   /** Destructive actions (delete, reset) */
-  destructiveActions: "heavy",
+  destructiveActions: 'heavy',
   /** Success states (form submitted, task completed) */
-  success: "success",
+  success: 'success',
   /** Error states (validation failed, action blocked) */
-  error: "error",
+  error: 'error',
   /** Warning states (unsaved changes, confirmation needed) */
-  warning: "warning",
+  warning: 'warning',
   /** Navigation (tab switch, screen transition) */
-  navigation: "light",
+  navigation: 'light',
   /** Selection (picker choice, radio button) */
-  selection: "light",
+  selection: 'light',
   /** Toggle states (switch, checkbox) */
-  toggle: "medium",
+  toggle: 'medium',
 } as const;

@@ -58,4 +58,4 @@ For **StatelessWidget vs StatefulWidget**, `build` purity, **Keys**, `BuildConte
 
 ---
 
-*Profile before optimizing — Flutter’s defaults are good until proven otherwise.*
+_Profile before optimizing — Flutter’s defaults are good until proven otherwise._

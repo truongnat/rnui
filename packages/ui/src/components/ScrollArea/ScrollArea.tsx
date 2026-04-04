@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   ScrollView,
   View,
@@ -7,18 +7,18 @@ import {
   type ScrollViewProps,
   type ViewStyle,
   type StyleProp,
-} from "react-native";
-import { useTokens, useComponentTokens } from "@truongdq01/headless";
+} from 'react-native';
+import { useTokens, useComponentTokens } from '@truongdq01/headless';
 
 /**
  * Scroll indicator style options
  */
-export type ScrollIndicatorStyle = "default" | "black" | "white";
+export type ScrollIndicatorStyle = 'default' | 'black' | 'white';
 
 /**
  * Props for the ScrollArea component
  */
-export interface ScrollAreaProps extends Omit<ScrollViewProps, "style"> {
+export interface ScrollAreaProps extends Omit<ScrollViewProps, 'style'> {
   /** Children to render inside the scroll area */
   children: React.ReactNode;
   /** Custom styles for the scroll view */
@@ -28,7 +28,7 @@ export interface ScrollAreaProps extends Omit<ScrollViewProps, "style"> {
   /** Whether to show vertical scroll indicator */
   showVerticalScrollIndicator?: boolean;
   /** Scroll direction */
-  direction?: "vertical" | "horizontal" | "both";
+  direction?: 'vertical' | 'horizontal' | 'both';
   /** Scroll indicator style (iOS only) */
   indicatorStyle?: ScrollIndicatorStyle;
   /** Custom indicator color (Android only) */
@@ -84,25 +84,26 @@ export function ScrollArea({
   style,
   showHorizontalScrollIndicator = true,
   showVerticalScrollIndicator = true,
-  direction = "vertical",
-  indicatorStyle = "default",
+  direction = 'vertical',
+  indicatorStyle = 'default',
   indicatorColor,
   fadeEdges = false,
   fadeColor,
   fadeSize = 20,
   pagingEnabled = false,
   snapToInterval,
-  testID = "scroll-area",
+  testID = 'scroll-area',
   ...scrollViewProps
 }: ScrollAreaProps) {
   const tokens = useTokens();
 
   // Determine scroll directions based on direction prop
-  const horizontal = direction === "horizontal" || direction === "both";
-  const vertical = direction === "vertical" || direction === "both";
+  const horizontal = direction === 'horizontal' || direction === 'both';
+  const vertical = direction === 'vertical' || direction === 'both';
 
   // Indicator styling (iOS supports different styles, Android uses default)
-  const platformIndicatorStyle = Platform.OS === "ios" ? indicatorStyle : "default";
+  const platformIndicatorStyle =
+    Platform.OS === 'ios' ? indicatorStyle : 'default';
 
   // Default fade color from tokens
   const resolvedFadeColor = fadeColor || tokens.color.surface.default;
@@ -137,7 +138,11 @@ export function ScrollArea({
           style={[
             styles.fadeTop,
             horizontal ? styles.fadeLeft : styles.fadeTop,
-            { backgroundColor: resolvedFadeColor, width: fadeSize, height: fadeSize }
+            {
+              backgroundColor: resolvedFadeColor,
+              width: fadeSize,
+              height: fadeSize,
+            },
           ]}
           pointerEvents="none"
         />
@@ -146,7 +151,11 @@ export function ScrollArea({
           style={[
             styles.fadeBottom,
             horizontal ? styles.fadeRight : styles.fadeBottom,
-            { backgroundColor: resolvedFadeColor, width: fadeSize, height: fadeSize }
+            {
+              backgroundColor: resolvedFadeColor,
+              width: fadeSize,
+              height: fadeSize,
+            },
           ]}
           pointerEvents="none"
         />
@@ -160,28 +169,28 @@ export function ScrollArea({
 const styles = StyleSheet.create({
   container: {},
   fadeContainer: {
-    position: "relative",
+    position: 'relative',
   },
   fadeTop: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
   },
   fadeBottom: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
   },
   fadeLeft: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
   },
   fadeRight: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     bottom: 0,
     right: 0,

@@ -19,14 +19,14 @@ Use platform **Human Interface Guidelines** and **Material Design** (or your cho
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `design-system-pro` |
-|-------|----------------------------------------|
-| **`react-pro`** / **`nextjs-pro`** | Implementing components, CSS/Tailwind, App Router layouts |
-| **`mobile-design-pro`** | Touch targets, safe areas, mobile navigation, iOS vs Material — **before** pixel-pushing in code |
-| **`react-native-pro`** / **`flutter-pro`** | RN/Flutter APIs, navigation implementation, lists, performance |
-| **`electron-pro`** / **`tauri-pro`** | Desktop windowing, shortcuts, dense layouts |
-| **`testing-pro`** | Visual regression, a11y checks in CI |
-| **`seo-pro`** | Content hierarchy and heading structure for marketing pages |
+| Skill                                      | When to combine with `design-system-pro`                                                         |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| **`react-pro`** / **`nextjs-pro`**         | Implementing components, CSS/Tailwind, App Router layouts                                        |
+| **`mobile-design-pro`**                    | Touch targets, safe areas, mobile navigation, iOS vs Material — **before** pixel-pushing in code |
+| **`react-native-pro`** / **`flutter-pro`** | RN/Flutter APIs, navigation implementation, lists, performance                                   |
+| **`electron-pro`** / **`tauri-pro`**       | Desktop windowing, shortcuts, dense layouts                                                      |
+| **`testing-pro`**                          | Visual regression, a11y checks in CI                                                             |
+| **`seo-pro`**                              | Content hierarchy and heading structure for marketing pages                                      |
 
 **Boundary:** **`design-system-pro`** = **what** should look and behave like at the UX/UI layer; framework skills = **how** to code it.
 
@@ -125,18 +125,18 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — foundations, system guidelines, platforms, trends, **two hot-topic deep dives** (dark semantic theme, AI/copilot UI), tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| Foundations & data UI | [references/foundations-baseline-and-data-ui.md](references/foundations-baseline-and-data-ui.md) |
-| **A11y, responsive web, fonts** | [references/a11y-responsive-and-web-typography.md](references/a11y-responsive-and-web-typography.md) |
-| Web performance (basics) | [references/web-performance-basics.md](references/web-performance-basics.md) |
-| Guidelines & consistency | [references/design-system-guidelines-and-consistency.md](references/design-system-guidelines-and-consistency.md) |
-| Web / app / desktop | [references/platforms-web-app-desktop.md](references/platforms-web-app-desktop.md) |
-| Trends & themes (overview) | [references/trends-themes-and-visual-language.md](references/trends-themes-and-visual-language.md) |
+| Topic                                        | File                                                                                                             |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Foundations & data UI                        | [references/foundations-baseline-and-data-ui.md](references/foundations-baseline-and-data-ui.md)                 |
+| **A11y, responsive web, fonts**              | [references/a11y-responsive-and-web-typography.md](references/a11y-responsive-and-web-typography.md)             |
+| Web performance (basics)                     | [references/web-performance-basics.md](references/web-performance-basics.md)                                     |
+| Guidelines & consistency                     | [references/design-system-guidelines-and-consistency.md](references/design-system-guidelines-and-consistency.md) |
+| Web / app / desktop                          | [references/platforms-web-app-desktop.md](references/platforms-web-app-desktop.md)                               |
+| Trends & themes (overview)                   | [references/trends-themes-and-visual-language.md](references/trends-themes-and-visual-language.md)               |
 | **Dark mode & semantic theming (deep dive)** | [references/dark-mode-and-semantic-theming-deep-dive.md](references/dark-mode-and-semantic-theming-deep-dive.md) |
-| **AI & copilot UI (deep dive)** | [references/ai-copilot-ui-patterns-deep-dive.md](references/ai-copilot-ui-patterns-deep-dive.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| **AI & copilot UI (deep dive)**              | [references/ai-copilot-ui-patterns-deep-dive.md](references/ai-copilot-ui-patterns-deep-dive.md)                 |
+| Tips and patterns                            | [references/tips-and-tricks.md](references/tips-and-tricks.md)                                                   |
+| Edge cases                                   | [references/edge-cases.md](references/edge-cases.md)                                                             |
 
 ## Quick example
 

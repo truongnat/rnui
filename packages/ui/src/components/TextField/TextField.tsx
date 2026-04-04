@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Input, type InputProps } from "../Input/Input";
-import { TextArea } from "../TextArea/TextArea";
-import { Select, type SelectProps } from "../Select/Select";
-import { Pressable } from "react-native";
-import { useComponentTokens } from "@truongdq01/headless";
-import { Icon } from "../Icon";
+import React, { useState } from 'react';
+import { Input, type InputProps } from '../Input/Input';
+import { TextArea } from '../TextArea/TextArea';
+import { Select, type SelectProps } from '../Select/Select';
+import { Pressable } from 'react-native';
+import { useComponentTokens } from '@truongdq01/headless';
+import { Icon } from '../Icon';
 
-export interface TextFieldProps extends Omit<InputProps, "error"> {
-  variant?: "outlined" | "filled" | "standard";
+export interface TextFieldProps extends Omit<InputProps, 'error'> {
+  variant?: 'outlined' | 'filled' | 'standard';
   multiline?: boolean;
   rows?: number;
   maxRows?: number;
@@ -17,11 +17,11 @@ export interface TextFieldProps extends Omit<InputProps, "error"> {
   required?: boolean;
   select?: boolean;
   selectProps?: SelectProps<any>;
-  type?: "text" | "password" | "email" | "number";
+  type?: 'text' | 'password' | 'email' | 'number';
 }
 
 export function TextField({
-  variant = "outlined",
+  variant = 'outlined',
   multiline = false,
   rows,
   maxRows,
@@ -31,36 +31,35 @@ export function TextField({
   required = false,
   select = false,
   selectProps,
-  type = "text",
+  type = 'text',
   label,
   ...rest
 }: TextFieldProps) {
   const { textField } = useComponentTokens();
   const [showPassword, setShowPassword] = useState(false);
-  const isPassword = type === "password";
-  
+  const isPassword = type === 'password';
+
   const labelText = required && label ? `${label} *` : label;
-  const errorText = typeof error === "string" ? error : error ? helperText : undefined;
+  const errorText =
+    typeof error === 'string' ? error : error ? helperText : undefined;
 
   const trailingElement = isPassword ? (
-    <Pressable 
+    <Pressable
       onPress={() => setShowPassword(!showPassword)}
       style={{ padding: 4 }}
       hitSlop={8}
     >
       <Icon size={20} color={textField.text.placeholderColor}>
-        {showPassword ? "eyeOff" : "eye"}
+        {showPassword ? 'eyeOff' : 'eye'}
       </Icon>
     </Pressable>
-  ) : rest.trailingElement;
+  ) : (
+    rest.trailingElement
+  );
 
   if (select) {
     return (
-      <Select
-        label={labelText}
-        error={errorText}
-        {...(selectProps as any)}
-      />
+      <Select label={labelText} error={errorText} {...(selectProps as any)} />
     );
   }
 

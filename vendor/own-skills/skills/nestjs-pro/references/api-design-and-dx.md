@@ -46,4 +46,4 @@
 
 ---
 
-*Align with your organization’s API guidelines; Nest gives the tools — consistency is a team choice.*
+_Align with your organization’s API guidelines; Nest gives the tools — consistency is a team choice._

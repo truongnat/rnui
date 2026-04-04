@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
-import { useTokens } from "@truongdq01/headless";
-import { List, ListItem, ListItemText, ListItemIcon } from "../List";
-import { Divider } from "../Divider";
+import React from 'react';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { useTokens } from '@truongdq01/headless';
+import { List, ListItem, ListItemText, ListItemIcon } from '../List';
+import { Divider } from '../Divider';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -24,12 +24,15 @@ export interface TelegramSettingsSection {
 
 export interface TelegramSettingsMenuProps {
   sections: TelegramSettingsSection[];
-  variant?: "default" | "grouped";
+  variant?: 'default' | 'grouped';
 }
 
 // ─── Telegram Settings Menu ───────────────────────────────────────
 
-export function TelegramSettingsMenu({ sections, variant = "grouped" }: TelegramSettingsMenuProps) {
+export function TelegramSettingsMenu({
+  sections,
+  variant = 'grouped',
+}: TelegramSettingsMenuProps) {
   const tokens = useTokens();
 
   return (
@@ -38,7 +41,12 @@ export function TelegramSettingsMenu({ sections, variant = "grouped" }: Telegram
         <React.Fragment key={sectionIndex}>
           {section.title && (
             <View style={styles.sectionHeader}>
-              <Text style={[styles.sectionTitle, { color: tokens.color.text.secondary }]}>
+              <Text
+                style={[
+                  styles.sectionTitle,
+                  { color: tokens.color.text.secondary },
+                ]}
+              >
                 {section.title}
               </Text>
             </View>
@@ -46,11 +54,11 @@ export function TelegramSettingsMenu({ sections, variant = "grouped" }: Telegram
           <View
             style={[
               styles.section,
-              variant === "grouped" && {
+              variant === 'grouped' && {
                 backgroundColor: tokens.color.surface.default,
                 borderRadius: 12,
                 marginHorizontal: 16,
-                overflow: "hidden",
+                overflow: 'hidden',
               },
             ]}
           >
@@ -70,29 +78,41 @@ export function TelegramSettingsMenu({ sections, variant = "grouped" }: Telegram
                   },
                 ]}
               >
-                {item.icon && (
-                  <View style={styles.itemIcon}>
-                    {item.icon}
-                  </View>
-                )}
+                {item.icon && <View style={styles.itemIcon}>{item.icon}</View>}
                 <View style={styles.itemContent}>
                   <Text
                     style={[
                       styles.itemLabel,
-                      { color: item.destructive ? tokens.color.error.text : tokens.color.text.primary },
+                      {
+                        color: item.destructive
+                          ? tokens.color.error.text
+                          : tokens.color.text.primary,
+                      },
                     ]}
                   >
                     {item.label}
                   </Text>
                   {item.subtitle && (
-                    <Text style={[styles.itemSubtitle, { color: tokens.color.text.secondary }]}>
+                    <Text
+                      style={[
+                        styles.itemSubtitle,
+                        { color: tokens.color.text.secondary },
+                      ]}
+                    >
                       {item.subtitle}
                     </Text>
                   )}
                 </View>
                 <View style={styles.itemRight}>
                   {item.value}
-                  <Text style={[styles.chevron, { color: tokens.color.text.tertiary }]}>›</Text>
+                  <Text
+                    style={[
+                      styles.chevron,
+                      { color: tokens.color.text.tertiary },
+                    ]}
+                  >
+                    ›
+                  </Text>
                 </View>
               </Pressable>
             ))}
@@ -115,17 +135,17 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 13,
-    fontWeight: "600",
+    fontWeight: '600',
     lineHeight: 16,
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   section: {
     marginBottom: 24,
   },
   item: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
     minHeight: 52,
@@ -133,14 +153,14 @@ const styles = StyleSheet.create({
   itemIcon: {
     width: 28,
     marginRight: 12,
-    alignItems: "center",
+    alignItems: 'center',
   },
   itemContent: {
     flex: 1,
   },
   itemLabel: {
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: '500',
     lineHeight: 22,
   },
   itemSubtitle: {
@@ -149,14 +169,12 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   itemRight: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 8,
   },
   chevron: {
     fontSize: 20,
-    fontWeight: "400",
+    fontWeight: '400',
   },
 });
-
-

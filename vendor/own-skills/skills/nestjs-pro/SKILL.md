@@ -92,13 +92,13 @@ Details: [references/postgresql-rls-integration.md](references/postgresql-rls-in
 
 - `references/` — API design, tips, edge cases, Postgres RLS integration.
 
-| Topic | File |
-|-------|------|
-| API design and DX | [references/api-design-and-dx.md](references/api-design-and-dx.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
-| **PostgreSQL RLS + Nest** | [references/postgresql-rls-integration.md](references/postgresql-rls-integration.md) |
-| RLS SQL (PostgreSQL) | [postgresql-pro row-level-security.md](../postgresql-pro/references/row-level-security.md) |
+| Topic                     | File                                                                                       |
+| ------------------------- | ------------------------------------------------------------------------------------------ |
+| API design and DX         | [references/api-design-and-dx.md](references/api-design-and-dx.md)                         |
+| Tips and patterns         | [references/tips-and-tricks.md](references/tips-and-tricks.md)                             |
+| Edge cases                | [references/edge-cases.md](references/edge-cases.md)                                       |
+| **PostgreSQL RLS + Nest** | [references/postgresql-rls-integration.md](references/postgresql-rls-integration.md)       |
+| RLS SQL (PostgreSQL)      | [postgresql-pro row-level-security.md](../postgresql-pro/references/row-level-security.md) |
 
 ## Quick example
 

@@ -64,4 +64,4 @@
 
 ---
 
-*See [React — Learn](https://react.dev/learn) for official patterns.*
+_See [React — Learn](https://react.dev/learn) for official patterns._

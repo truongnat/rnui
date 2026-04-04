@@ -50,4 +50,4 @@
 
 ---
 
-*Verify behavior with your PostgreSQL major version — minor releases still fix planner bugs.*
+_Verify behavior with your PostgreSQL major version — minor releases still fix planner bugs._

@@ -8,27 +8,27 @@ Turn **release notes** (bullets, changelog intent, stakeholder summary) into **a
 
 ## Metadata
 
-| Field | Value |
-|-------|-------|
-| **id** | `release` |
-| **version** | 1.0 |
+| Field       | Value     |
+| ----------- | --------- |
+| **id**      | `release` |
+| **version** | 1.0       |
 
 ## Inputs
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `release_notes` | Yes | What ships (Markdown, bullets, link to doc, or pasted text) |
-| `version_target` | No | Semver or release name (e.g. `2.4.0`, `2026-Q2`) — ask if unclear |
-| `stack` | No | Primary runtime(s) for mapping tasks to `*-pro` skills |
+| Variable         | Required | Description                                                       |
+| ---------------- | -------- | ----------------------------------------------------------------- |
+| `release_notes`  | Yes      | What ships (Markdown, bullets, link to doc, or pasted text)       |
+| `version_target` | No       | Semver or release name (e.g. `2.4.0`, `2026-Q2`) — ask if unclear |
+| `stack`          | No       | Primary runtime(s) for mapping tasks to `*-pro` skills            |
 
 ## Outputs
 
-| Variable | Description |
-|----------|-------------|
-| `parsed_scope` | Themes, must-ship vs nice-to-have, dependencies |
-| `implementation_plan` | Phased tasks with owners/skills, risks |
-| `ship_definition` | Environments, ordering, rollback, feature flags if any |
-| `verification` | Test/QA gates and sign-off checklist |
+| Variable              | Description                                            |
+| --------------------- | ------------------------------------------------------ |
+| `parsed_scope`        | Themes, must-ship vs nice-to-have, dependencies        |
+| `implementation_plan` | Phased tasks with owners/skills, risks                 |
+| `ship_definition`     | Environments, ordering, rollback, feature flags if any |
+| `verification`        | Test/QA gates and sign-off checklist                   |
 
 ## Steps
 

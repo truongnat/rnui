@@ -13,20 +13,19 @@ Each skill needs a `SKILL.md` with clear frontmatter `name` and `description`.
 
 **New skills:** read [`skills/SKILL_AUTHORING_RULES.md`](skills/SKILL_AUTHORING_RULES.md) first. Do not create a new skill directory unless those mandatory rules are met. When you add, remove, or rename a bundled skill, update **§8** there (README files, **§1** list, **`knowledge-base/documents/repo/skills-layout.md`**) in the same change.
 
-
 ## Prompt routing (Claude Code slash commands)
 
 Use these commands to analyze, optimize, and route prompts to the best skills:
 
-| Command | Purpose |
-|---------|---------|
-| `/route <prompt>` | Full pipeline: analyze + optimize + match skills + suggest workflow |
-| `/optimize <prompt>` | Reduce prompt tokens while preserving meaning |
-| `/find-skill <prompt>` | Find best matching skill(s) for a prompt |
-| `/run-workflow <prompt>` | Match prompt to workflows under `workflows/` and skills, guide execution |
-| `/w-ticket` | Run the **ticket** workflow ([`workflows/dev/w-ticket.md`](workflows/dev/w-ticket.md)) — Kanban; layout and phases in that file (skills under [`skills/`](skills/)) |
-| `/w-release` | Run the **release** workflow ([`workflows/dev/w-release.md`](workflows/dev/w-release.md)) — release notes → implementation detail |
-| `/w-hotfix` | Run the **hotfix** workflow ([`workflows/dev/w-hotfix.md`](workflows/dev/w-hotfix.md)) — prod-urgent fix path |
+| Command                  | Purpose                                                                                                                                                             |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/route <prompt>`        | Full pipeline: analyze + optimize + match skills + suggest workflow                                                                                                 |
+| `/optimize <prompt>`     | Reduce prompt tokens while preserving meaning                                                                                                                       |
+| `/find-skill <prompt>`   | Find best matching skill(s) for a prompt                                                                                                                            |
+| `/run-workflow <prompt>` | Match prompt to workflows under `workflows/` and skills, guide execution                                                                                            |
+| `/w-ticket`              | Run the **ticket** workflow ([`workflows/dev/w-ticket.md`](workflows/dev/w-ticket.md)) — Kanban; layout and phases in that file (skills under [`skills/`](skills/)) |
+| `/w-release`             | Run the **release** workflow ([`workflows/dev/w-release.md`](workflows/dev/w-release.md)) — release notes → implementation detail                                   |
+| `/w-hotfix`              | Run the **hotfix** workflow ([`workflows/dev/w-hotfix.md`](workflows/dev/w-hotfix.md)) — prod-urgent fix path                                                       |
 
 Commands read from `knowledge-base/embeddings/skill_index.json`. Rebuild after adding/changing skills:
 

@@ -8,11 +8,11 @@
 
 ## Branching models (pick one per repo; document in README)
 
-| Model | When |
-|-------|------|
-| **Trunk-based** | Small PRs, short-lived branches, `main` always releasable |
-| **Git Flow** | Release branches + hotfixes — heavier; still common in regulated orgs |
-| **GitHub Flow** | Feature branch → PR → merge to `main` — default for many web apps |
+| Model           | When                                                                  |
+| --------------- | --------------------------------------------------------------------- |
+| **Trunk-based** | Small PRs, short-lived branches, `main` always releasable             |
+| **Git Flow**    | Release branches + hotfixes — heavier; still common in regulated orgs |
+| **GitHub Flow** | Feature branch → PR → merge to `main` — default for many web apps     |
 
 ## Merge vs rebase
 

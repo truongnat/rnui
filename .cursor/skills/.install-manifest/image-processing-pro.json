@@ -3,9 +3,7 @@
   "mode": "symlink",
   "skill_name": "image-processing-pro",
   "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/image-processing-pro",
-  "ides": [
-    "cursor"
-  ],
+  "ides": ["cursor"],
   "targets": {
     "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/image-processing-pro"
   },

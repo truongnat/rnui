@@ -1,18 +1,18 @@
-import { renderHook } from "@testing-library/react-native";
-import { useListItem } from "../useListItem";
+import { renderHook } from '@testing-library/react-native';
+import { useListItem } from '../useListItem';
 
 // Mock Reanimated
-jest.mock("react-native-reanimated", () => ({
+jest.mock('react-native-reanimated', () => ({
   useSharedValue: jest.fn((v) => ({ value: v })),
   useAnimatedStyle: jest.fn((cb) => cb()),
   withSpring: jest.fn(),
   withTiming: jest.fn(),
   interpolate: jest.fn(),
-  Extrapolation: { CLAMP: "clamp" },
+  Extrapolation: { CLAMP: 'clamp' },
 }));
 
 // Mock Gesture Handler
-jest.mock("react-native-gesture-handler", () => ({
+jest.mock('react-native-gesture-handler', () => ({
   Gesture: {
     Tap: () => {
       const chain = {
@@ -106,20 +106,24 @@ jest.mock("react-native-gesture-handler", () => ({
   },
 }));
 
-describe("useListItem", () => {
-  it("should return accessibility props", () => {
+describe('useListItem', () => {
+  it('should return accessibility props', () => {
     const { result } = renderHook(() => useListItem({ disabled: false }));
     expect(result.current.accessibilityProps.accessible).toBe(true);
-    expect(result.current.accessibilityProps.accessibilityRole).toBe("button");
-    expect(result.current.accessibilityProps.accessibilityState.disabled).toBe(false);
+    expect(result.current.accessibilityProps.accessibilityRole).toBe('button');
+    expect(result.current.accessibilityProps.accessibilityState.disabled).toBe(
+      false
+    );
   });
 
-  it("should respect disabled state in accessibility props", () => {
+  it('should respect disabled state in accessibility props', () => {
     const { result } = renderHook(() => useListItem({ disabled: true }));
-    expect(result.current.accessibilityProps.accessibilityState.disabled).toBe(true);
+    expect(result.current.accessibilityProps.accessibilityState.disabled).toBe(
+      true
+    );
   });
 
-  it("should provide animated styles", () => {
+  it('should provide animated styles', () => {
     const { result } = renderHook(() => useListItem());
     expect(result.current.itemAnimatedStyle).toBeDefined();
     expect(result.current.trailingActionsStyle).toBeDefined();

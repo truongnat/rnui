@@ -34,6 +34,7 @@ Search for code by concept and understand execution flows.
 ```
 
 Output:
+
 - Process: UserAuthenticationFlow
   - Step 1: validateCredentials (auth/validator.ts)
   - Step 2: generateToken (auth/token.ts)
@@ -42,6 +43,7 @@ Output:
 ## Multi-Repo Support
 
 If GitNexus has multiple repos indexed, you'll see an error like:
+
 ```
 Error: Multiple repositories indexed. Specify which one with the "repo" parameter.
 Available: lachonglvn, lachonglvn-be, emplus, rnui

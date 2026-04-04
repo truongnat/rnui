@@ -66,4 +66,4 @@
 
 ---
 
-*Profile before optimizing — re-renders are often cheaper than broken memoization.*
+_Profile before optimizing — re-renders are often cheaper than broken memoization._

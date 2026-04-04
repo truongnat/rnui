@@ -1,40 +1,42 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Divider } from "@truongdq01/ui";
-import { View, Text } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Divider } from '@truongdq01/ui';
+import { View, Text } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
-const DividerWrapper = (props: any) => (
-  <Divider {...props} />
-);
+const DividerWrapper = (props: any) => <Divider {...props} />;
 
 const meta = {
-  title: "Components/Divider",
+  title: 'Components/Divider',
   component: DividerWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
-    label: { control: "text" },
+    label: { control: 'text' },
     orientation: {
-      control: { type: "select" },
-      options: ["horizontal", "vertical"],
+      control: { type: 'select' },
+      options: ['horizontal', 'vertical'],
     },
-    emphasis: { control: "boolean" },
+    emphasis: { control: 'boolean' },
     spacing: {
-      control: { type: "select" },
-      options: ["none", "sm", "md", "lg"],
+      control: { type: 'select' },
+      options: ['none', 'sm', 'md', 'lg'],
     },
   },
   args: {
-    orientation: "horizontal",
+    orientation: 'horizontal',
     emphasis: false,
-    spacing: "md",
+    spacing: 'md',
   },
 };
 
@@ -44,7 +46,7 @@ type Story = StoryObj<typeof DividerWrapper>;
 export const Default: Story = {};
 
 export const WithLabel: Story = {
-  args: { label: "OR" },
+  args: { label: 'OR' },
 };
 
 export const Emphasis: Story = {
@@ -64,7 +66,14 @@ export const SpacingVariants: Story = {
 
 export const Vertical: Story = {
   render: (args: any) => (
-    <View style={{ flexDirection: "row", height: 40, alignItems: "center", gap: 12 }}>
+    <View
+      style={{
+        flexDirection: 'row',
+        height: 40,
+        alignItems: 'center',
+        gap: 12,
+      }}
+    >
       <Text>Item 1</Text>
       <DividerWrapper {...args} orientation="vertical" />
       <Text>Item 2</Text>

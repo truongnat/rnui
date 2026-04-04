@@ -1,4 +1,4 @@
-import type { SemanticTokens } from "./semantic";
+import type { SemanticTokens } from './semantic';
 
 /**
  * Component tokens — computed per component from semantic tokens.
@@ -10,9 +10,9 @@ import type { SemanticTokens } from "./semantic";
 export function buttonTokens(t: SemanticTokens) {
   const base = {
     borderRadius: t.brandStyle?.buttonRadius ?? t.radius.full,
-    flexDirection: "row" as const,
-    alignItems: "center" as const,
-    justifyContent: "center" as const,
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
     gap: t.spacing[2],
   };
 
@@ -25,21 +25,40 @@ export function buttonTokens(t: SemanticTokens) {
           borderWidth: 0,
           ...t.shadow.md,
         },
-        text: { color: t.color.text.onBrand, fontWeight: t.fontWeight.semibold },
+        text: {
+          color: t.color.text.onBrand,
+          fontWeight: t.fontWeight.semibold,
+        },
         pressed: { backgroundColor: t.color.brand.active, ...t.shadow.none },
       },
       outline: {
-        container: { ...base, backgroundColor: "transparent", borderWidth: 1.5, borderColor: t.color.border.default },
-        text: { color: t.color.text.primary, fontWeight: t.fontWeight.semibold },
+        container: {
+          ...base,
+          backgroundColor: 'transparent',
+          borderWidth: 1.5,
+          borderColor: t.color.border.default,
+        },
+        text: {
+          color: t.color.text.primary,
+          fontWeight: t.fontWeight.semibold,
+        },
         pressed: { backgroundColor: t.color.bg.muted },
       },
       ghost: {
-        container: { ...base, backgroundColor: "transparent", borderWidth: 0 },
-        text: { color: t.color.brand.default, fontWeight: t.fontWeight.semibold },
+        container: { ...base, backgroundColor: 'transparent', borderWidth: 0 },
+        text: {
+          color: t.color.brand.default,
+          fontWeight: t.fontWeight.semibold,
+        },
         pressed: { backgroundColor: t.color.brand.subtle },
       },
       destructive: {
-        container: { ...base, backgroundColor: t.color.error.bg, borderWidth: 1, borderColor: t.color.error.border },
+        container: {
+          ...base,
+          backgroundColor: t.color.error.bg,
+          borderWidth: 1,
+          borderColor: t.color.error.border,
+        },
         text: { color: t.color.error.text, fontWeight: t.fontWeight.semibold },
         pressed: { backgroundColor: t.color.error.border },
       },
@@ -51,14 +70,26 @@ export function buttonTokens(t: SemanticTokens) {
           borderWidth: 0,
           ...t.shadow.md,
         },
-        text: { color: t.color.accent.onAccent, fontWeight: t.fontWeight.semibold },
+        text: {
+          color: t.color.accent.onAccent,
+          fontWeight: t.fontWeight.semibold,
+        },
         pressed: { backgroundColor: t.color.accent.active, ...t.shadow.none },
       },
     },
     size: {
-      sm: { container: { height: 36, paddingHorizontal: t.spacing[4] }, text: { fontSize: t.fontSize.sm } },
-      md: { container: { height: 44, paddingHorizontal: t.spacing[6] }, text: { fontSize: t.fontSize.md } },
-      lg: { container: { height: 54, paddingHorizontal: t.spacing[8] }, text: { fontSize: t.fontSize.lg } },
+      sm: {
+        container: { height: 36, paddingHorizontal: t.spacing[4] },
+        text: { fontSize: t.fontSize.sm },
+      },
+      md: {
+        container: { height: 44, paddingHorizontal: t.spacing[6] },
+        text: { fontSize: t.fontSize.md },
+      },
+      lg: {
+        container: { height: 54, paddingHorizontal: t.spacing[8] },
+        text: { fontSize: t.fontSize.lg },
+      },
     },
     disabled: {
       container: { opacity: t.opacity[40], ...t.shadow.none },
@@ -74,8 +105,8 @@ export function inputTokens(t: SemanticTokens) {
       borderColor: t.color.border.input,
       borderRadius: t.radius.lg,
       backgroundColor: t.color.surface.default,
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       paddingHorizontal: t.spacing[3],
       gap: t.spacing[2],
     },
@@ -94,10 +125,22 @@ export function inputTokens(t: SemanticTokens) {
         paddingVertical: t.spacing[1.5],
       },
       /** Issue #1: spacing[3] vertical padding inside ~48dp target */
-      md: { height: 48, fontSize: t.fontSize.md, paddingVertical: t.spacing[3] },
-      lg: { height: 56, fontSize: t.fontSize.lg, paddingVertical: t.spacing[3] },
+      md: {
+        height: 48,
+        fontSize: t.fontSize.md,
+        paddingVertical: t.spacing[3],
+      },
+      lg: {
+        height: 56,
+        fontSize: t.fontSize.lg,
+        paddingVertical: t.spacing[3],
+      },
     },
-    focusRing: { borderColor: t.color.border.focus, borderWidth: 2, outlineOffset: t.focusRing.offset },
+    focusRing: {
+      borderColor: t.color.border.focus,
+      borderWidth: 2,
+      outlineOffset: t.focusRing.offset,
+    },
     state: {
       default: { borderColor: t.color.border.default },
       /** Match default borderWidth — avoids layout shift on focus */
@@ -159,21 +202,33 @@ export function badgeTokens(t: SemanticTokens) {
   return {
     base: {
       borderRadius: t.radius.full,
-      alignSelf: "flex-start" as const,
+      alignSelf: 'flex-start' as const,
     },
     size: {
-      sm: { paddingHorizontal: t.spacing[2],   paddingVertical: t.spacing[0.5], fontSize: t.fontSize.xs  },
-      md: { paddingHorizontal: t.spacing[2.5], paddingVertical: t.spacing[1],   fontSize: t.fontSize.xs  },
-      lg: { paddingHorizontal: t.spacing[3],   paddingVertical: t.spacing[1.5], fontSize: t.fontSize.sm  },
+      sm: {
+        paddingHorizontal: t.spacing[2],
+        paddingVertical: t.spacing[0.5],
+        fontSize: t.fontSize.xs,
+      },
+      md: {
+        paddingHorizontal: t.spacing[2.5],
+        paddingVertical: t.spacing[1],
+        fontSize: t.fontSize.xs,
+      },
+      lg: {
+        paddingHorizontal: t.spacing[3],
+        paddingVertical: t.spacing[1.5],
+        fontSize: t.fontSize.sm,
+      },
     },
     variant: {
-      default: { bg: t.color.bg.emphasis,     text: t.color.text.secondary  },
-      brand:   { bg: t.color.brand.subtle,    text: t.color.brand.text      },
-      accent:  { bg: t.color.accent.subtle,   text: t.color.accent.text     },
-      success: { bg: t.color.success.bg,      text: t.color.success.text    },
-      warning: { bg: t.color.warning.bg,      text: t.color.warning.text    },
-      error:   { bg: t.color.error.bg,        text: t.color.error.text      },
-      info:    { bg: t.color.info.bg,         text: t.color.info.text       },
+      default: { bg: t.color.bg.emphasis, text: t.color.text.secondary },
+      brand: { bg: t.color.brand.subtle, text: t.color.brand.text },
+      accent: { bg: t.color.accent.subtle, text: t.color.accent.text },
+      success: { bg: t.color.success.bg, text: t.color.success.text },
+      warning: { bg: t.color.warning.bg, text: t.color.warning.text },
+      error: { bg: t.color.error.bg, text: t.color.error.text },
+      info: { bg: t.color.info.bg, text: t.color.info.text },
     },
     text: {
       fontWeight: t.fontWeight.semibold,
@@ -192,17 +247,33 @@ export function toastTokens(t: SemanticTokens) {
       borderRadius: t.radius.lg,
       paddingHorizontal: t.spacing[6],
       paddingVertical: t.spacing[5],
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       gap: t.spacing[4],
       ...t.shadow.lg,
     },
     variant: {
       default: { backgroundColor: t.color.bg.inverse, borderWidth: 0 },
-      success: { backgroundColor: t.color.bg.inverse, borderLeftWidth: 4, borderLeftColor: t.color.success.icon },
-      warning: { backgroundColor: t.color.bg.inverse, borderLeftWidth: 4, borderLeftColor: t.color.warning.icon },
-      error: { backgroundColor: t.color.bg.inverse, borderLeftWidth: 4, borderLeftColor: t.color.error.icon },
-      info: { backgroundColor: t.color.bg.inverse, borderLeftWidth: 4, borderLeftColor: t.color.info.icon },
+      success: {
+        backgroundColor: t.color.bg.inverse,
+        borderLeftWidth: 4,
+        borderLeftColor: t.color.success.icon,
+      },
+      warning: {
+        backgroundColor: t.color.bg.inverse,
+        borderLeftWidth: 4,
+        borderLeftColor: t.color.warning.icon,
+      },
+      error: {
+        backgroundColor: t.color.bg.inverse,
+        borderLeftWidth: 4,
+        borderLeftColor: t.color.error.icon,
+      },
+      info: {
+        backgroundColor: t.color.bg.inverse,
+        borderLeftWidth: 4,
+        borderLeftColor: t.color.info.icon,
+      },
     },
     text: {
       fontSize: t.fontSize.sm,
@@ -217,8 +288,8 @@ export function avatarTokens(t: SemanticTokens) {
   return {
     container: {
       backgroundColor: t.color.bg.muted,
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
     },
     size: {
       xs: { width: 24, height: 24, borderRadius: 12, fontSize: t.fontSize.xs },
@@ -226,7 +297,12 @@ export function avatarTokens(t: SemanticTokens) {
       md: { width: 40, height: 40, borderRadius: 20, fontSize: t.fontSize.md },
       lg: { width: 48, height: 48, borderRadius: 24, fontSize: t.fontSize.lg },
       xl: { width: 64, height: 64, borderRadius: 32, fontSize: t.fontSize.xl },
-      "2xl": { width: 80, height: 80, borderRadius: 40, fontSize: t.fontSize["2xl"] },
+      '2xl': {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        fontSize: t.fontSize['2xl'],
+      },
     },
     text: {
       color: t.color.brand.default,
@@ -248,18 +324,46 @@ export function avatarTokens(t: SemanticTokens) {
 export function checkboxTokens(t: SemanticTokens) {
   return {
     size: {
-      sm: { width: 16, height: 16, borderRadius: t.radius.xs, borderWidth: 1.5, iconSize: 10 },
-      md: { width: 20, height: 20, borderRadius: t.radius.xs, borderWidth: 2,   iconSize: 12 },
-      lg: { width: 24, height: 24, borderRadius: t.radius.sm, borderWidth: 2,   iconSize: 14 },
+      sm: {
+        width: 16,
+        height: 16,
+        borderRadius: t.radius.xs,
+        borderWidth: 1.5,
+        iconSize: 10,
+      },
+      md: {
+        width: 20,
+        height: 20,
+        borderRadius: t.radius.xs,
+        borderWidth: 2,
+        iconSize: 12,
+      },
+      lg: {
+        width: 24,
+        height: 24,
+        borderRadius: t.radius.sm,
+        borderWidth: 2,
+        iconSize: 14,
+      },
     },
     container: {
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
     },
-    focusRing: { borderColor: t.color.border.focus, borderWidth: 2, outlineOffset: t.focusRing.offset },
+    focusRing: {
+      borderColor: t.color.border.focus,
+      borderWidth: 2,
+      outlineOffset: t.focusRing.offset,
+    },
     state: {
-      default: { borderColor: t.color.border.strong, backgroundColor: "transparent" },
-      checked: { borderColor: t.color.brand.default, backgroundColor: t.color.brand.default },
+      default: {
+        borderColor: t.color.border.strong,
+        backgroundColor: 'transparent',
+      },
+      checked: {
+        borderColor: t.color.brand.default,
+        backgroundColor: t.color.brand.default,
+      },
       disabled: { opacity: t.opacity[40] },
     },
   };
@@ -303,8 +407,8 @@ export function radioTokens(t: SemanticTokens) {
     colors: {
       borderOff: t.color.border.strong,
       borderOn: t.color.brand.default,
-      bgOff: "transparent",
-      bgOn: "transparent",
+      bgOff: 'transparent',
+      bgOn: 'transparent',
       dot: t.color.brand.default,
       disabledOpacity: t.opacity[40],
     },
@@ -338,21 +442,49 @@ export function chipTokens(t: SemanticTokens) {
   return {
     container: {
       borderRadius: t.radius.full,
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       gap: t.spacing[1],
     },
     size: {
-      sm: { height: 24, paddingHorizontal: t.spacing[2],   fontSize: t.fontSize.xs },
-      md: { height: 32, paddingHorizontal: t.spacing[3],   fontSize: t.fontSize.sm },
-      lg: { height: 40, paddingHorizontal: t.spacing[4],   fontSize: t.fontSize.md },
+      sm: {
+        height: 24,
+        paddingHorizontal: t.spacing[2],
+        fontSize: t.fontSize.xs,
+      },
+      md: {
+        height: 32,
+        paddingHorizontal: t.spacing[3],
+        fontSize: t.fontSize.sm,
+      },
+      lg: {
+        height: 40,
+        paddingHorizontal: t.spacing[4],
+        fontSize: t.fontSize.md,
+      },
     },
     variant: {
-      solid:   { bg: t.color.bg.emphasis,   text: t.color.text.inverse,  border: "transparent" },
-      outlined:{ bg: "transparent",         text: t.color.text.primary,  border: t.color.border.default },
-      subtle:  { bg: t.color.brand.subtle,  text: t.color.brand.text,    border: "transparent" },
-      accent:  { bg: t.color.accent.subtle, text: t.color.accent.text,   border: "transparent" },
+      solid: {
+        bg: t.color.bg.emphasis,
+        text: t.color.text.inverse,
+        border: 'transparent',
+      },
+      outlined: {
+        bg: 'transparent',
+        text: t.color.text.primary,
+        border: t.color.border.default,
+      },
+      subtle: {
+        bg: t.color.brand.subtle,
+        text: t.color.brand.text,
+        border: 'transparent',
+      },
+      accent: {
+        bg: t.color.accent.subtle,
+        text: t.color.accent.text,
+        border: 'transparent',
+      },
     },
     deleteIcon: { color: t.color.text.tertiary, size: 16 },
   };
@@ -362,8 +494,8 @@ export function chipTokens(t: SemanticTokens) {
 export function fabTokens(t: SemanticTokens) {
   return {
     container: {
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       ...t.shadow.lg,
     },
     size: {
@@ -400,8 +532,8 @@ export function dialogTokens(t: SemanticTokens) {
     },
     actions: {
       marginTop: t.spacing[6],
-      flexDirection: "row" as const,
-      justifyContent: "flex-end" as const,
+      flexDirection: 'row' as const,
+      justifyContent: 'flex-end' as const,
       gap: t.spacing[2],
     },
   };
@@ -446,7 +578,7 @@ export function alertTokens(t: SemanticTokens) {
       padding: t.spacing[4],
       borderRadius: t.radius.md,
       borderWidth: 1,
-      flexDirection: "row" as const,
+      flexDirection: 'row' as const,
       gap: t.spacing[3],
     },
     variant: {
@@ -522,9 +654,9 @@ export function appBarTokens(t: SemanticTokens) {
       height: 64,
       backgroundColor: t.color.surface.default,
       paddingHorizontal: t.spacing[4],
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
-      justifyContent: "space-between" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
+      justifyContent: 'space-between' as const,
       ...t.shadow.md,
       zIndex: t.zIndex.sticky,
     },
@@ -540,7 +672,7 @@ export function appBarTokens(t: SemanticTokens) {
 export function autocompleteTokens(t: SemanticTokens) {
   return {
     container: {
-      width: "100%",
+      width: '100%',
     },
     menu: {
       backgroundColor: t.color.surface.overlay,
@@ -565,15 +697,15 @@ export function bottomNavigationTokens(t: SemanticTokens) {
     container: {
       height: 56,
       backgroundColor: t.color.surface.default,
-      flexDirection: "row" as const,
+      flexDirection: 'row' as const,
       borderTopWidth: 1,
       borderTopColor: t.color.border.subtle,
       paddingBottom: t.spacing[2],
     },
     item: {
       flex: 1,
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       active: { color: t.color.brand.default },
       inactive: { color: t.color.text.tertiary },
     },
@@ -598,7 +730,7 @@ export function bottomSheetTokens(t: SemanticTokens) {
       height: 4,
       borderRadius: 2,
       backgroundColor: t.color.border.strong,
-      alignSelf: "center" as const,
+      alignSelf: 'center' as const,
       marginVertical: t.spacing[3],
     },
     backdrop: {
@@ -612,7 +744,7 @@ export function boxTokens(t: SemanticTokens) {
   return {
     // Box is a layout primitive, usually just provides access to spacing/theme
     defaults: {
-      backgroundColor: "transparent",
+      backgroundColor: 'transparent',
     },
   } as const;
 }
@@ -621,8 +753,8 @@ export function boxTokens(t: SemanticTokens) {
 export function breadcrumbsTokens(t: SemanticTokens) {
   return {
     container: {
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       gap: t.spacing[2],
     },
     separator: {
@@ -641,9 +773,9 @@ export function breadcrumbsTokens(t: SemanticTokens) {
 export function buttonGroupTokens(t: SemanticTokens) {
   return {
     container: {
-      flexDirection: "row" as const,
+      flexDirection: 'row' as const,
       borderRadius: t.radius.md,
-      overflow: "hidden" as const,
+      overflow: 'hidden' as const,
       borderWidth: 1,
       borderColor: t.color.border.default,
     },
@@ -682,18 +814,21 @@ export function datePickerTokens(t: SemanticTokens) {
       ...t.shadow.lg,
     },
     header: {
-      flexDirection: "row" as const,
-      justifyContent: "space-between" as const,
-      alignItems: "center" as const,
+      flexDirection: 'row' as const,
+      justifyContent: 'space-between' as const,
+      alignItems: 'center' as const,
       marginBottom: t.spacing[4],
     },
     day: {
       width: 40,
       height: 40,
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       borderRadius: t.radius.full,
-      selected: { backgroundColor: t.color.brand.default, color: t.color.text.onBrand },
+      selected: {
+        backgroundColor: t.color.brand.default,
+        color: t.color.text.onBrand,
+      },
       today: { borderColor: t.color.brand.default, borderWidth: 1 },
       outside: { color: t.color.text.disabled },
     },
@@ -715,7 +850,7 @@ export function drawerTokens(t: SemanticTokens) {
     container: {
       backgroundColor: t.color.surface.default,
       width: 280,
-      height: "100%",
+      height: '100%',
       ...t.shadow.xl,
     },
     overlay: {
@@ -729,8 +864,8 @@ export function emptyStateTokens(t: SemanticTokens) {
   return {
     container: {
       padding: t.spacing[8],
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       gap: t.spacing[4],
     },
     containerSize: {
@@ -742,8 +877,8 @@ export function emptyStateTokens(t: SemanticTokens) {
       width: 64,
       height: 64,
       borderRadius: t.radius.full,
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       backgroundColor: t.color.brand.subtle,
     },
     icon: {
@@ -754,17 +889,17 @@ export function emptyStateTokens(t: SemanticTokens) {
       fontSize: t.fontSize.xl,
       fontWeight: t.fontWeight.semibold,
       color: t.color.text.primary,
-      textAlign: "center" as const,
+      textAlign: 'center' as const,
     },
     titleSize: {
       sm: { fontSize: t.fontSize.lg },
       md: { fontSize: t.fontSize.xl },
-      lg: { fontSize: t.fontSize["2xl"] },
+      lg: { fontSize: t.fontSize['2xl'] },
     },
     description: {
       fontSize: t.fontSize.md,
       color: t.color.text.secondary,
-      textAlign: "center" as const,
+      textAlign: 'center' as const,
     },
     descriptionSize: {
       sm: { fontSize: t.fontSize.sm },
@@ -778,7 +913,7 @@ export function emptyStateTokens(t: SemanticTokens) {
 export function formControlTokens(t: SemanticTokens) {
   return {
     container: {
-      width: "100%",
+      width: '100%',
       gap: t.spacing[1.5],
     },
     label: {
@@ -816,7 +951,7 @@ export function formGroupTokens(t: SemanticTokens) {
       card: {
         backgroundColor: t.color.surface.default,
         borderRadius: t.radius.xl,
-        overflow: "hidden" as const,
+        overflow: 'hidden' as const,
       },
     },
     footer: {
@@ -838,8 +973,8 @@ export function formGroupTokens(t: SemanticTokens) {
 export function gridTokens(t: SemanticTokens) {
   return {
     container: {
-      flexDirection: "row" as const,
-      flexWrap: "wrap" as const,
+      flexDirection: 'row' as const,
+      flexWrap: 'wrap' as const,
     },
     gap: {
       sm: t.spacing[2],
@@ -858,7 +993,7 @@ export function iconTokens(t: SemanticTokens) {
       md: 20,
       lg: 24,
       xl: 32,
-      "2xl": 48,
+      '2xl': 48,
       // Aliases for compatibility
       small: 16,
       medium: 20,
@@ -890,13 +1025,13 @@ export function imageTokens(t: SemanticTokens) {
 export function imageListTokens(t: SemanticTokens) {
   return {
     container: {
-      flexDirection: "row" as const,
-      flexWrap: "wrap" as const,
+      flexDirection: 'row' as const,
+      flexWrap: 'wrap' as const,
       gap: t.spacing[1],
     },
     item: {
       borderRadius: t.radius.sm,
-      overflow: "hidden" as const,
+      overflow: 'hidden' as const,
     },
   } as const;
 }
@@ -908,10 +1043,10 @@ export function linearProgressTokens(t: SemanticTokens) {
       height: 4,
       backgroundColor: t.color.bg.muted,
       borderRadius: t.radius.full,
-      overflow: "hidden" as const,
+      overflow: 'hidden' as const,
     },
     indicator: {
-      height: "100%",
+      height: '100%',
       backgroundColor: t.color.brand.default,
     },
     variant: {
@@ -929,10 +1064,10 @@ export function linkTokens(t: SemanticTokens) {
     text: {
       color: t.color.text.link,
       fontSize: t.fontSize.md,
-      textDecorationLine: "none" as const,
+      textDecorationLine: 'none' as const,
     },
     hover: {
-      textDecorationLine: "underline" as const,
+      textDecorationLine: 'underline' as const,
     },
     pressed: {
       opacity: t.opacity[70],
@@ -950,8 +1085,8 @@ export function listTokens(t: SemanticTokens) {
     },
     item: {
       padding: t.spacing[4],
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       gap: t.spacing[3],
       backgroundColor: t.color.surface.default,
       pressed: { backgroundColor: t.color.bg.hover },
@@ -990,8 +1125,8 @@ export function menuTokens(t: SemanticTokens) {
       paddingHorizontal: t.spacing[3],
       paddingVertical: t.spacing[2],
       borderRadius: t.radius.sm,
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       gap: t.spacing[2],
       pressed: { backgroundColor: t.color.bg.hover },
     },
@@ -1008,17 +1143,17 @@ export function modalTokens(t: SemanticTokens) {
     overlay: {
       backgroundColor: t.color.bg.overlay,
       flex: 1,
-      justifyContent: "center" as const,
-      alignItems: "center" as const,
+      justifyContent: 'center' as const,
+      alignItems: 'center' as const,
       padding: t.spacing[4],
     },
     container: {
       backgroundColor: t.color.surface.overlay,
       borderRadius: t.radius.xl,
-      width: "100%",
+      width: '100%',
       maxWidth: 500,
       ...t.shadow.xl,
-      overflow: "hidden" as const,
+      overflow: 'hidden' as const,
     },
   } as const;
 }
@@ -1027,9 +1162,9 @@ export function modalTokens(t: SemanticTokens) {
 export function otpInputTokens(t: SemanticTokens) {
   return {
     container: {
-      flexDirection: "row" as const,
+      flexDirection: 'row' as const,
       gap: t.spacing[2],
-      justifyContent: "center" as const,
+      justifyContent: 'center' as const,
     },
     cell: {
       width: 48,
@@ -1038,8 +1173,8 @@ export function otpInputTokens(t: SemanticTokens) {
       borderColor: t.color.border.input,
       borderRadius: t.radius.md,
       backgroundColor: t.color.surface.default,
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       fontSize: t.fontSize.xl,
       fontWeight: t.fontWeight.semibold,
       color: t.color.text.primary,
@@ -1108,10 +1243,10 @@ export function pressableTokens(t: SemanticTokens) {
   return {
     container: {
       opacity: t.opacity[70],
-      backgroundColor: "transparent" as const,
+      backgroundColor: 'transparent' as const,
     },
     opacity: t.opacity[70],
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     hover: { backgroundColor: t.color.bg.hover },
   } as const;
 }
@@ -1120,7 +1255,7 @@ export function pressableTokens(t: SemanticTokens) {
 export function segmentedControlTokens(t: SemanticTokens) {
   return {
     container: {
-      flexDirection: "row" as const,
+      flexDirection: 'row' as const,
       backgroundColor: t.color.bg.muted,
       borderRadius: t.radius.lg,
       padding: 2,
@@ -1128,11 +1263,15 @@ export function segmentedControlTokens(t: SemanticTokens) {
     item: {
       flex: 1,
       paddingVertical: t.spacing[1.5],
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       borderRadius: t.radius.md,
       active: { backgroundColor: t.color.surface.default, ...t.shadow.sm },
-      text: { fontSize: t.fontSize.sm, fontWeight: t.fontWeight.medium, color: t.color.text.primary },
+      text: {
+        fontSize: t.fontSize.sm,
+        fontWeight: t.fontWeight.medium,
+        color: t.color.text.primary,
+      },
       activeText: { color: t.color.brand.default },
     },
   } as const;
@@ -1158,9 +1297,9 @@ export function snackbarTokens(t: SemanticTokens) {
       borderRadius: t.radius.md,
       paddingHorizontal: t.spacing[4],
       paddingVertical: t.spacing[3],
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
-      justifyContent: "space-between" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
+      justifyContent: 'space-between' as const,
       ...t.shadow.lg,
       minWidth: 280,
     },
@@ -1180,7 +1319,7 @@ export function snackbarTokens(t: SemanticTokens) {
 export function speedDialTokens(t: SemanticTokens) {
   return {
     container: {
-      alignItems: "center" as const,
+      alignItems: 'center' as const,
       gap: t.spacing[3],
     },
     action: {
@@ -1188,8 +1327,8 @@ export function speedDialTokens(t: SemanticTokens) {
       height: 40,
       borderRadius: 20,
       backgroundColor: t.color.surface.raised,
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       ...t.shadow.md,
     },
   } as const;
@@ -1212,13 +1351,13 @@ export function stackTokens(t: SemanticTokens) {
 export function stepperTokens(t: SemanticTokens) {
   return {
     container: {
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       gap: t.spacing[4],
     },
     step: {
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       gap: t.spacing[2],
       active: { color: t.color.brand.default },
       completed: { color: t.color.success.icon },
@@ -1237,11 +1376,11 @@ export function stepperTokens(t: SemanticTokens) {
 export function tableTokens(t: SemanticTokens) {
   return {
     container: {
-      width: "100%",
+      width: '100%',
       borderWidth: 1,
       borderColor: t.color.border.default,
       borderRadius: t.radius.md,
-      overflow: "hidden" as const,
+      overflow: 'hidden' as const,
     },
     header: {
       backgroundColor: t.color.bg.subtle,
@@ -1249,7 +1388,7 @@ export function tableTokens(t: SemanticTokens) {
       borderBottomColor: t.color.border.default,
     },
     row: {
-      flexDirection: "row" as const,
+      flexDirection: 'row' as const,
       borderBottomWidth: 1,
       borderBottomColor: t.color.border.subtle,
       hover: { backgroundColor: t.color.bg.hover },
@@ -1269,13 +1408,13 @@ export function textAreaTokens(t: SemanticTokens) {
     container: {
       ...inputTokens(t).container,
       /** Multiline: column + stretch so TextInput fills height; row/center caused overlap with sibling helper */
-      flexDirection: "column" as const,
-      alignItems: "stretch" as const,
-      overflow: "hidden" as const,
-      height: "auto",
+      flexDirection: 'column' as const,
+      alignItems: 'stretch' as const,
+      overflow: 'hidden' as const,
+      height: 'auto',
       minHeight: 100,
       paddingVertical: t.spacing[2],
-      textAlignVertical: "top" as const,
+      textAlignVertical: 'top' as const,
     },
   } as const;
 }
@@ -1300,8 +1439,8 @@ export function toggleButtonTokens(t: SemanticTokens) {
       borderWidth: 1,
       borderColor: t.color.border.default,
       backgroundColor: t.color.surface.default,
-      alignItems: "center" as const,
-      justifyContent: "center" as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       selected: {
         backgroundColor: t.color.brand.subtle,
         borderColor: t.color.brand.default,
@@ -1354,9 +1493,21 @@ export function typographyTokens(t: SemanticTokens) {
       overline: ramp.overline,
       label: ramp.label,
       code: ramp.code,
-      subtitle1: { fontSize: t.fontSize.md, fontWeight: t.fontWeight.medium, lineHeight: t.fontSize.md * 1.4 },
-      subtitle2: { fontSize: t.fontSize.sm, fontWeight: t.fontWeight.medium, lineHeight: t.fontSize.sm * 1.4 },
-      button: { fontSize: t.fontSize.sm, fontWeight: t.fontWeight.semibold, textTransform: "uppercase" as const },
+      subtitle1: {
+        fontSize: t.fontSize.md,
+        fontWeight: t.fontWeight.medium,
+        lineHeight: t.fontSize.md * 1.4,
+      },
+      subtitle2: {
+        fontSize: t.fontSize.sm,
+        fontWeight: t.fontWeight.medium,
+        lineHeight: t.fontSize.sm * 1.4,
+      },
+      button: {
+        fontSize: t.fontSize.sm,
+        fontWeight: t.fontWeight.semibold,
+        textTransform: 'uppercase' as const,
+      },
     },
     colors: {
       primary: t.color.text.primary,
@@ -1449,7 +1600,7 @@ export function tabsTokens(t: SemanticTokens) {
   return {
     indicator: { bg: t.color.brand.default, height: 2 },
     tab: {
-      active: { color: t.color.brand.default, fontWeight: "600" },
+      active: { color: t.color.brand.default, fontWeight: '600' },
       inactive: { color: t.color.text.secondary },
       hover: { bg: t.color.bg.hover },
     },
@@ -1486,14 +1637,14 @@ export function ratingTokens(t: SemanticTokens) {
   const accent = t.color.accent.default;
   return {
     container: {
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       gap: t.spacing[1],
     },
     /** Tighter row for `compact` Rating — same flex as `container`, smaller gap */
     containerCompact: {
-      flexDirection: "row" as const,
-      alignItems: "center" as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       gap: 2,
     },
     star: {
@@ -1509,10 +1660,21 @@ export function ratingTokens(t: SemanticTokens) {
 export function paginationTokens(t: SemanticTokens) {
   return {
     item: {
-      active: { bg: t.color.brand.default, color: t.color.text.inverse, borderColor: t.color.brand.default },
-      default: { bg: "transparent", color: t.color.text.primary, borderColor: t.color.border.default },
+      active: {
+        bg: t.color.brand.default,
+        color: t.color.text.inverse,
+        borderColor: t.color.brand.default,
+      },
+      default: {
+        bg: 'transparent',
+        color: t.color.text.primary,
+        borderColor: t.color.border.default,
+      },
       hover: { bg: t.color.bg.hover },
-      disabled: { color: t.color.text.disabled, borderColor: t.color.border.default },
+      disabled: {
+        color: t.color.text.disabled,
+        borderColor: t.color.border.default,
+      },
     },
     size: { sm: 28, md: 36, lg: 44 },
     gap: t.spacing[1],
@@ -1524,9 +1686,18 @@ export function timelineTokens(t: SemanticTokens) {
   return {
     connector: { color: t.color.border.default, width: 2 },
     dot: {
-      completed: { bg: t.color.brand.default, borderColor: t.color.brand.default },
-      active: { bg: t.color.surface.default, borderColor: t.color.brand.default },
-      pending: { bg: t.color.surface.default, borderColor: t.color.border.strong },
+      completed: {
+        bg: t.color.brand.default,
+        borderColor: t.color.brand.default,
+      },
+      active: {
+        bg: t.color.surface.default,
+        borderColor: t.color.brand.default,
+      },
+      pending: {
+        bg: t.color.surface.default,
+        borderColor: t.color.border.strong,
+      },
       size: 12,
     },
     content: { gap: t.spacing[2] },

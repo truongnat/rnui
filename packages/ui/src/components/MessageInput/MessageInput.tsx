@@ -1,11 +1,27 @@
-import React, { useRef, useState } from "react";
-import { View, TextInput as RNTextInput, Pressable, StyleSheet, type TextInputProps, Text } from "react-native";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from "react-native-reanimated";
-import { useTokens, useComponentTokens, useIconStyle } from "@truongdq01/headless";
+import React, { useRef, useState } from 'react';
+import {
+  View,
+  TextInput as RNTextInput,
+  Pressable,
+  StyleSheet,
+  type TextInputProps,
+  Text,
+} from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withSpring,
+} from 'react-native-reanimated';
+import {
+  useTokens,
+  useComponentTokens,
+  useIconStyle,
+} from '@truongdq01/headless';
 
 // ─── Types ────────────────────────────────────────────────────────
 
-export interface MessageInputProps extends Omit<TextInputProps, "style"> {
+export interface MessageInputProps extends Omit<TextInputProps, 'style'> {
   /** Left action buttons (attach, sticker, etc.) */
   leftActions?: React.ReactNode;
   /** Right action buttons (send, voice, etc.) */
@@ -46,15 +62,15 @@ export function MessageInput({
   disabled = false,
   value,
   onChangeText,
-  placeholder = "Type a message...",
+  placeholder = 'Type a message...',
   ...rest
 }: MessageInputProps) {
   const tokens = useTokens();
   const { input } = useComponentTokens();
-  const { size: iconSize } = useIconStyle("input");
+  const { size: iconSize } = useIconStyle('input');
   const inputRef = useRef<RNTextInput>(null);
   const [focused, setFocused] = useState(false);
-  const [text, setText] = useState(value ?? "");
+  const [text, setText] = useState(value ?? '');
 
   const height = useSharedValue(48);
   const attachVisible = useSharedValue(1);
@@ -78,7 +94,7 @@ export function MessageInput({
   const handleSend = () => {
     if (text.trim() && onSend) {
       onSend(text.trim());
-      setText("");
+      setText('');
     }
   };
 
@@ -111,7 +127,9 @@ export function MessageInput({
             disabled={disabled}
             hitSlop={8}
           >
-            <View style={[styles.iconButton, { opacity: disabled ? 0.3 : 0.7 }]}>
+            <View
+              style={[styles.iconButton, { opacity: disabled ? 0.3 : 0.7 }]}
+            >
               <Text style={styles.icon}>📎</Text>
             </View>
           </Pressable>
@@ -147,15 +165,17 @@ export function MessageInput({
             disabled={disabled}
             hitSlop={8}
           >
-            <Text style={[styles.icon, { opacity: disabled ? 0.3 : 0.7 }]}>😊</Text>
+            <Text style={[styles.icon, { opacity: disabled ? 0.3 : 0.7 }]}>
+              😊
+            </Text>
           </Pressable>
         )}
       </Animated.View>
 
       {rightActions}
 
-      {showSend && (
-        sendButton ?? (
+      {showSend &&
+        (sendButton ?? (
           <Pressable
             style={[
               styles.sendButton,
@@ -166,12 +186,11 @@ export function MessageInput({
             disabled={disabled || !hasText}
             hitSlop={8}
           >
-            <Text style={[styles.sendIcon, hasText && { color: "#FFFFFF" }]}>
-              {hasText ? "➤" : "🎤"}
+            <Text style={[styles.sendIcon, hasText && { color: '#FFFFFF' }]}>
+              {hasText ? '➤' : '🎤'}
             </Text>
           </Pressable>
-        )
-      )}
+        ))}
     </View>
   );
 }
@@ -180,32 +199,32 @@ export function MessageInput({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "flex-end",
+    flexDirection: 'row',
+    alignItems: 'flex-end',
     paddingHorizontal: 8,
     paddingVertical: 8,
     minHeight: 56,
   },
   actionButton: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   iconButton: {
     width: 40,
     height: 40,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   inputWrapper: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "flex-end",
+    flexDirection: 'row',
+    alignItems: 'flex-end',
     marginHorizontal: 4,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: "rgba(0,0,0,0.1)",
-    backgroundColor: "rgba(0,0,0,0.03)",
-    overflow: "hidden",
+    borderColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: 'rgba(0,0,0,0.03)',
+    overflow: 'hidden',
     minHeight: 40,
   },
   input: {
@@ -217,20 +236,20 @@ const styles = StyleSheet.create({
     maxHeight: 120,
   },
   stickerButton: {
-    position: "absolute",
+    position: 'absolute',
     right: 4,
     bottom: 4,
     width: 32,
     height: 32,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   sendButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginLeft: 4,
   },
   icon: {
@@ -238,9 +257,7 @@ const styles = StyleSheet.create({
   },
   sendIcon: {
     fontSize: 18,
-    fontWeight: "600",
-    color: "rgba(0,0,0,0.3)",
+    fontWeight: '600',
+    color: 'rgba(0,0,0,0.3)',
   },
 });
-
-

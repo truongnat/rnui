@@ -5,7 +5,14 @@ Chronological event list.
 ## Usage
 
 ```tsx
-import { Timeline, TimelineItem, TimelineSeparator, TimelineDot, TimelineConnector, TimelineContent } from "@truongdq01/ui";
+import {
+  Timeline,
+  TimelineItem,
+  TimelineSeparator,
+  TimelineDot,
+  TimelineConnector,
+  TimelineContent,
+} from '@truongdq01/ui';
 
 <Timeline>
   <TimelineItem>
@@ -15,7 +22,7 @@ import { Timeline, TimelineItem, TimelineSeparator, TimelineDot, TimelineConnect
     </TimelineSeparator>
     <TimelineContent>Step 1</TimelineContent>
   </TimelineItem>
-</Timeline>
+</Timeline>;
 ```
 
 ## Notes

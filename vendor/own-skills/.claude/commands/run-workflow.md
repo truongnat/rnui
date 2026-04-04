@@ -16,6 +16,7 @@ $ARGUMENTS
 ### Stage 2: Optimize the prompt
 
 Rewrite to reduce tokens:
+
 1. Remove filler phrases ("I want you to", "please help me", etc.).
 2. Remove redundancy, shorten verbose patterns.
 3. Keep all technical content intact.
@@ -40,11 +41,13 @@ Rewrite to reduce tokens:
 ### Stage 5: Present routing decision
 
 If a workflow matches:
+
 - Show the workflow name, its steps, and which skill each step uses.
 - Show the optimized prompt ready to feed into Step 1 of the workflow.
 - Highlight any additional skills detected from the prompt that the workflow does NOT cover.
 
 If no workflow matches:
+
 - Fall back to skill-only routing (show matched skills with reading order).
 - Suggest the user creates a workflow if the task is multi-step.
 

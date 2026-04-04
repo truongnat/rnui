@@ -10,97 +10,103 @@
 
 **RNUI** is a production-grade React Native UI component library built as a monorepo (Bun + Turbo). It targets iOS and Android with full dark/light mode support, a 3-tier design token system, and 62 components.
 
-| Package | Purpose |
-|---|---|
-| `@truongdq01/tokens` | Primitive + semantic + component tokens |
+| Package                | Purpose                                   |
+| ---------------------- | ----------------------------------------- |
+| `@truongdq01/tokens`   | Primitive + semantic + component tokens   |
 | `@truongdq01/headless` | Theme context, hooks, behavior primitives |
-| `@truongdq01/ui` | 62 styled components |
-| `apps/example` | Kitchen-sink showcase app |
+| `@truongdq01/ui`       | 62 styled components                      |
+| `apps/example`         | Kitchen-sink showcase app                 |
 
 ---
 
 ## 2. Component Inventory (62 total)
 
 ### Forms & Inputs (10)
-| Component | Status | Notes |
-|---|---|---|
-| Button | Good | 5 variants, 3 sizes, loading/disabled states |
-| Input | Good | Leading/trailing elements |
-| PasswordInput | Good | Toggle visibility |
-| TextArea | Good | minLines, maxLength, char counter |
-| Select | Good | Searchable, BottomSheet modal |
-| Checkbox | Good | Animated, indeterminate state |
-| Switch | Good | 3 sizes, animated track |
-| RadioGroup | Good | With label + description |
-| Slider | Good | Marks, range display, animated thumb |
-| OTPInput | Good | 6-digit, focus management |
+
+| Component     | Status | Notes                                        |
+| ------------- | ------ | -------------------------------------------- |
+| Button        | Good   | 5 variants, 3 sizes, loading/disabled states |
+| Input         | Good   | Leading/trailing elements                    |
+| PasswordInput | Good   | Toggle visibility                            |
+| TextArea      | Good   | minLines, maxLength, char counter            |
+| Select        | Good   | Searchable, BottomSheet modal                |
+| Checkbox      | Good   | Animated, indeterminate state                |
+| Switch        | Good   | 3 sizes, animated track                      |
+| RadioGroup    | Good   | With label + description                     |
+| Slider        | Good   | Marks, range display, animated thumb         |
+| OTPInput      | Good   | 6-digit, focus management                    |
 
 ### Layout & Structure (6)
+
 | Component | Status |
-|---|---|
-| Box | Good |
-| Stack | Good |
-| Grid | Good |
-| Paper | Good |
-| FormField | Good |
-| FormGroup | Good |
+| --------- | ------ |
+| Box       | Good   |
+| Stack     | Good   |
+| Grid      | Good   |
+| Paper     | Good   |
+| FormField | Good   |
+| FormGroup | Good   |
 
 ### Data Display (14)
-| Component | Status | Notes |
-|---|---|---|
-| Avatar | Good | 6 sizes, 4 status indicators |
-| AvatarGroup | Good | Overlap stack with max overflow |
-| Badge | Good | 6 color variants, icon support |
-| Card | Good | |
-| List / ListItem | Good | Dense mode, dividers |
-| AnimatedList | Good | FlashList-backed |
-| Typography | Good | h1–h6, body, caption |
-| Skeleton / SkeletonCard | Good | Shimmer animation |
-| EmptyState | Good | Title, desc, action |
-| Table | Good | |
-| Timeline | Good | |
-| Chip | Good | |
-| Rating | Good | |
-| LinearProgress / CircularProgress | Good | |
+
+| Component                         | Status | Notes                           |
+| --------------------------------- | ------ | ------------------------------- |
+| Avatar                            | Good   | 6 sizes, 4 status indicators    |
+| AvatarGroup                       | Good   | Overlap stack with max overflow |
+| Badge                             | Good   | 6 color variants, icon support  |
+| Card                              | Good   |                                 |
+| List / ListItem                   | Good   | Dense mode, dividers            |
+| AnimatedList                      | Good   | FlashList-backed                |
+| Typography                        | Good   | h1–h6, body, caption            |
+| Skeleton / SkeletonCard           | Good   | Shimmer animation               |
+| EmptyState                        | Good   | Title, desc, action             |
+| Table                             | Good   |                                 |
+| Timeline                          | Good   |                                 |
+| Chip                              | Good   |                                 |
+| Rating                            | Good   |                                 |
+| LinearProgress / CircularProgress | Good   |                                 |
 
 ### Navigation (8)
-| Component | Status |
-|---|---|
-| Tabs | Good |
-| SegmentedControl | Good |
-| BottomNavigation | Good |
-| Breadcrumbs | Good |
-| Pagination | Good |
-| AppBar | Good |
-| Menu | Good |
-| ToggleButton | Good |
+
+| Component        | Status |
+| ---------------- | ------ |
+| Tabs             | Good   |
+| SegmentedControl | Good   |
+| BottomNavigation | Good   |
+| Breadcrumbs      | Good   |
+| Pagination       | Good   |
+| AppBar           | Good   |
+| Menu             | Good   |
+| ToggleButton     | Good   |
 
 ### Feedback & Overlays (11)
-| Component | Status |
-|---|---|
-| Toast / ToastContainer | Good |
-| Snackbar | Good |
-| Alert | Good |
-| Dialog | Good |
-| Modal | Good |
-| BottomSheet | Good |
-| Drawer | Good |
-| Popover | Good |
-| Popper | Good |
-| Tooltip | Good |
-| Fab / SpeedDial | Good |
+
+| Component              | Status |
+| ---------------------- | ------ |
+| Toast / ToastContainer | Good   |
+| Snackbar               | Good   |
+| Alert                  | Good   |
+| Dialog                 | Good   |
+| Modal                  | Good   |
+| BottomSheet            | Good   |
+| Drawer                 | Good   |
+| Popover                | Good   |
+| Popper                 | Good   |
+| Tooltip                | Good   |
+| Fab / SpeedDial        | Good   |
 
 ### Specialized (8)
-| Component | Status |
-|---|---|
-| Carousel | Good |
-| DatePicker | Good |
-| Autocomplete | Good |
-| Image (RnImage) | Good |
-| ImageList | Good |
-| Link | Good |
-| Pressable | Good |
-| ButtonGroup | Good |
+
+| Component       | Status |
+| --------------- | ------ |
+| Carousel        | Good   |
+| DatePicker      | Good   |
+| Autocomplete    | Good   |
+| Image (RnImage) | Good   |
+| ImageList       | Good   |
+| Link            | Good   |
+| Pressable       | Good   |
+| ButtonGroup     | Good   |
 
 ---
 
@@ -115,21 +121,21 @@ Primitive Tokens  →  Semantic Tokens  →  Component Tokens
 
 ### Color Palette
 
-| Role | Light | Dark |
-|---|---|---|
-| Background default | `#FFFFFF` | `#0D0D14` |
-| Background subtle | `#F8FAFC` | `#0F172A` |
-| Surface default | `#FFFFFF` | `#0F172A` |
-| Surface raised | `#FFFFFF` | `#1E293B` |
-| Text primary | `#020617` | `#F8FAFC` |
-| Text secondary | `#334155` | `#94A3B8` |
-| Text tertiary | `#64748B` | `#64748B` |
-| Brand default | `#7C3AED` (violet-600) | `#A78BFA` (violet-400) |
-| Brand subtle | `#EDE9FE` | `#2E1065` |
-| Accent default | `#F59E0B` (amber-500) | `#FBBF24` (amber-400) |
-| Border default | `#CBD5E1` | `#334155` |
-| Border subtle | `#E2E8F0` | `#1E293B` |
-| Focus ring | `#7C3AED` | `#A78BFA` |
+| Role               | Light                  | Dark                   |
+| ------------------ | ---------------------- | ---------------------- |
+| Background default | `#FFFFFF`              | `#0D0D14`              |
+| Background subtle  | `#F8FAFC`              | `#0F172A`              |
+| Surface default    | `#FFFFFF`              | `#0F172A`              |
+| Surface raised     | `#FFFFFF`              | `#1E293B`              |
+| Text primary       | `#020617`              | `#F8FAFC`              |
+| Text secondary     | `#334155`              | `#94A3B8`              |
+| Text tertiary      | `#64748B`              | `#64748B`              |
+| Brand default      | `#7C3AED` (violet-600) | `#A78BFA` (violet-400) |
+| Brand subtle       | `#EDE9FE`              | `#2E1065`              |
+| Accent default     | `#F59E0B` (amber-500)  | `#FBBF24` (amber-400)  |
+| Border default     | `#CBD5E1`              | `#334155`              |
+| Border subtle      | `#E2E8F0`              | `#1E293B`              |
+| Focus ring         | `#7C3AED`              | `#A78BFA`              |
 
 ### Spacing Scale (4px base unit)
 
@@ -138,14 +144,14 @@ Primitive Tokens  →  Semantic Tokens  →  Component Tokens
 ### Typography
 
 | Scale | Size | Weight |
-|---|---|---|
-| xs | 12px | 400 |
-| sm | 14px | 400 |
-| md | 16px | 400 |
-| lg | 18px | 400 |
-| xl | 20px | 500 |
-| 2xl | 24px | 500 |
-| 3xl | 30px | 600 |
+| ----- | ---- | ------ |
+| xs    | 12px | 400    |
+| sm    | 14px | 400    |
+| md    | 16px | 400    |
+| lg    | 18px | 400    |
+| xl    | 20px | 500    |
+| 2xl   | 24px | 500    |
+| 3xl   | 30px | 600    |
 
 ### Border Radius
 
@@ -154,12 +160,12 @@ Primitive Tokens  →  Semantic Tokens  →  Component Tokens
 ### Shadows (cross-platform)
 
 | Level | Opacity Light | Opacity Dark | Elevation |
-|---|---|---|---|
-| none | 0 | 0 | 0 |
-| sm | 0.08 | 0.25 | 2 |
-| md | 0.12 | 0.35 | 4 |
-| lg | 0.16 | 0.45 | 8 |
-| xl | 0.20 | 0.55 | 16 |
+| ----- | ------------- | ------------ | --------- |
+| none  | 0             | 0            | 0         |
+| sm    | 0.08          | 0.25         | 2         |
+| md    | 0.12          | 0.35         | 4         |
+| lg    | 0.16          | 0.45         | 8         |
+| xl    | 0.20          | 0.55         | 16        |
 
 ---
 
@@ -216,11 +222,19 @@ const { setColorScheme, colorScheme } = useTheme();
 
 ```tsx
 // BEFORE (hardcoded)
-<SegmentedControl options={["Daily","Weekly","Monthly"]} selectedIndex={0} onChange={() => {}} />
+<SegmentedControl
+  options={['Daily', 'Weekly', 'Monthly']}
+  selectedIndex={0}
+  onChange={() => {}}
+/>;
 
 // AFTER (stateful)
 const [segIndex, setSegIndex] = useState(0);
-<SegmentedControl options={["Daily","Weekly","Monthly"]} selectedIndex={segIndex} onChange={setSegIndex} />
+<SegmentedControl
+  options={['Daily', 'Weekly', 'Monthly']}
+  selectedIndex={segIndex}
+  onChange={setSegIndex}
+/>;
 ```
 
 ---
@@ -253,27 +267,29 @@ color: t.color.text.tertiary
 
 ### Current State Assessment
 
-| Dimension | Score | Notes |
-|---|---|---|
-| Visual hierarchy | 5/10 | Flat list of sections, no grouping |
-| Color consistency | 6/10 | Hardcoded colors mixed with tokens |
-| Dark mode | 3/10 | Non-functional (bug) |
-| Component density | 6/10 | Cards too sparse |
-| Typography | 6/10 | Raw `<Text>` instead of `<Typography>` |
-| Interactive feedback | 7/10 | Animations good, some dead buttons |
-| Navigation | 4/10 | No header, no tab structure |
+| Dimension            | Score | Notes                                  |
+| -------------------- | ----- | -------------------------------------- |
+| Visual hierarchy     | 5/10  | Flat list of sections, no grouping     |
+| Color consistency    | 6/10  | Hardcoded colors mixed with tokens     |
+| Dark mode            | 3/10  | Non-functional (bug)                   |
+| Component density    | 6/10  | Cards too sparse                       |
+| Typography           | 6/10  | Raw `<Text>` instead of `<Typography>` |
+| Interactive feedback | 7/10  | Animations good, some dead buttons     |
+| Navigation           | 4/10  | No header, no tab structure            |
 
 ---
 
 ### Improvements Implemented (Session 2026-04-02)
 
 #### Header Bar
+
 - Added sticky top bar with app name + subtitle
 - 3 icon buttons (Sun / Moon / Monitor) with active highlight in `brand.subtle`
 - Active icon tints in `brand.default`
 - Separated from scroll content with hairline border
 
 #### Section Cards
+
 - Replaced flat sections with `<Section>` wrapper component:
   - `surface.default` background
   - `radius.xl` corners (16px)
@@ -282,23 +298,28 @@ color: t.color.text.tertiary
 - Section headers now include a hairline extending rule for visual rhythm
 
 #### Background Layering
+
 - Page background: `bg.subtle` (off-white / dark gray)
 - Card background: `surface.default` (pure white / gray-900)
 - Creates visual depth like Telegram / Facebook Messenger chat screens
 
 #### Typography
+
 - Section headers: `fontWeight: 700`, `letterSpacing: 1.2`, uppercase, `text.tertiary`
 - List item names: `fontWeight: "600"` (string literal for TS)
 - Used `<Typography>` for header title
 
 #### Interactive States
+
 - Theme buttons show active variant (`solid` when current scheme matches)
 - All previously dead buttons now functional
 
 #### Carousel Colors
+
 - Changed from flat `#f87171/#34d399/#60a5fa` to `brand/sky/emerald` theme-aligned palette
 
 #### List Card
+
 - Added `surface.raised` background so list items feel elevated
 - Hairline border with `border.subtle`
 
@@ -308,35 +329,36 @@ color: t.color.text.tertiary
 
 ### High Priority
 
-| Item | Effort | Impact |
-|---|---|---|
-| Persist `colorScheme` to AsyncStorage | Small | Users keep their preference across launches |
-| Add `ThemeProvider` `colorScheme` persistence hook in headless | Medium | Reusable across all apps |
-| Fix `fontWeight` TS types (number `600` vs string `"600"`) | Small | Build warnings |
+| Item                                                           | Effort | Impact                                      |
+| -------------------------------------------------------------- | ------ | ------------------------------------------- |
+| Persist `colorScheme` to AsyncStorage                          | Small  | Users keep their preference across launches |
+| Add `ThemeProvider` `colorScheme` persistence hook in headless | Medium | Reusable across all apps                    |
+| Fix `fontWeight` TS types (number `600` vs string `"600"`)     | Small  | Build warnings                              |
 
 ### Medium Priority
 
-| Item | Effort | Impact |
-|---|---|---|
+| Item                                                                        | Effort | Impact                     |
+| --------------------------------------------------------------------------- | ------ | -------------------------- |
 | Replace example app with tab navigation (Buttons / Forms / Data / Feedback) | Medium | Easier showcase navigation |
-| Add proper app icon + splash screen | Small | Professionalism |
-| Add Storybook stories for each component | Large | Developer DX |
-| Add `react-native-haptics` feedback on interactive components | Small | iOS native feel |
+| Add proper app icon + splash screen                                         | Small  | Professionalism            |
+| Add Storybook stories for each component                                    | Large  | Developer DX               |
+| Add `react-native-haptics` feedback on interactive components               | Small  | iOS native feel            |
 
 ### Low Priority
 
-| Item | Effort | Impact |
-|---|---|---|
-| Add RTL support | Medium | Global market |
-| Custom font support (Inter / SF Pro) | Small | Premium polish |
-| Animation speed tokens (respect `prefers-reduced-motion`) | Medium | Accessibility |
-| Add `accent` Button variant to kitchen sink | Trivial | Completeness |
+| Item                                                      | Effort  | Impact         |
+| --------------------------------------------------------- | ------- | -------------- |
+| Add RTL support                                           | Medium  | Global market  |
+| Custom font support (Inter / SF Pro)                      | Small   | Premium polish |
+| Animation speed tokens (respect `prefers-reduced-motion`) | Medium  | Accessibility  |
+| Add `accent` Button variant to kitchen sink               | Trivial | Completeness   |
 
 ---
 
 ## 7. Architecture Health
 
 ### Strengths
+
 - Clean 3-tier token separation (primitive → semantic → component)
 - Correct WCAG AA contrast ratios documented in token comments
 - Warm dark mode (`#0D0D14`) instead of cold black — reduces eye strain
@@ -345,6 +367,7 @@ color: t.color.text.tertiary
 - Gesture Handler for all touchables
 
 ### Risks
+
 - No token persistence layer — color scheme resets on app restart
 - `packages/tokens/src/component.ts` — component tokens are recomputed on every render unless memoized at the ThemeProvider level (needs audit)
 - `AnimatedList` uses `FlashList` — requires correct `estimatedItemSize` or perf degrades silently
@@ -355,42 +378,42 @@ color: t.color.text.tertiary
 ## 8. Token Quick Reference
 
 ```tsx
-import { useTokens, useTheme } from "@truongdq01/headless";
+import { useTokens, useTheme } from '@truongdq01/headless';
 
 const t = useTokens();
 const { setColorScheme, colorScheme } = useTheme();
 
 // Colors
-t.color.bg.default          // page background
-t.color.bg.subtle           // slightly off-white / dark gray
-t.color.surface.default     // card background
-t.color.surface.raised      // elevated card
-t.color.text.primary        // headings
-t.color.text.secondary      // body
-t.color.text.tertiary       // captions, labels
-t.color.brand.default       // primary violet
-t.color.brand.subtle        // light violet tint (bg)
-t.color.border.subtle       // hairline borders
-t.color.border.input        // form field borders
+t.color.bg.default; // page background
+t.color.bg.subtle; // slightly off-white / dark gray
+t.color.surface.default; // card background
+t.color.surface.raised; // elevated card
+t.color.text.primary; // headings
+t.color.text.secondary; // body
+t.color.text.tertiary; // captions, labels
+t.color.brand.default; // primary violet
+t.color.brand.subtle; // light violet tint (bg)
+t.color.border.subtle; // hairline borders
+t.color.border.input; // form field borders
 
 // Spacing (multiples of 4px)
-t.spacing[1]  // 4px
-t.spacing[2]  // 8px
-t.spacing[3]  // 12px
-t.spacing[4]  // 16px
-t.spacing[6]  // 24px
+t.spacing[1]; // 4px
+t.spacing[2]; // 8px
+t.spacing[3]; // 12px
+t.spacing[4]; // 16px
+t.spacing[6]; // 24px
 
 // Radius
-t.radius.sm   // small (4px)
-t.radius.md   // medium (8px)
-t.radius.lg   // large (12px)
-t.radius.xl   // extra-large (16px)
-t.radius.full // pill (999px)
+t.radius.sm; // small (4px)
+t.radius.md; // medium (8px)
+t.radius.lg; // large (12px)
+t.radius.xl; // extra-large (16px)
+t.radius.full; // pill (999px)
 
 // Shadows
-t.shadow.sm   // subtle card shadow
-t.shadow.md   // dialog / sheet shadow
-t.shadow.lg   // FAB / elevated modal
+t.shadow.sm; // subtle card shadow
+t.shadow.md; // dialog / sheet shadow
+t.shadow.lg; // FAB / elevated modal
 ```
 
 ---
@@ -401,63 +424,63 @@ Section 9 was reconciled against the repo: **13** items previously listed as “
 
 ### Completed (P0–P5 + prior IMPROVEMENT_PLAN items)
 
-| # | Item | Phase | Status |
-|---|---|---|---|
-| — | Toast Icon variant lookup bug (literal string) | P0 | **Fixed** |
-| — | `useSlider` division by zero when `max === min` | P0 | **Fixed** |
-| — | `useTable` division by zero when `rowsPerPage === 0` | P0 | **Fixed** |
-| — | `useTimeline` empty steps guard | P0 | **Fixed** |
-| — | `useBottomSheet` empty snapPoints guard | P0 | **Fixed** |
-| — | `@shopify/flash-list` → optional peerDependency | P0 | **Fixed** |
-| — | `Accordion` — `accessibilityState.expanded` | P1 | **Fixed** |
-| — | `ToastContainer` — `accessibilityLiveRegion` + `role` | P1 | **Fixed** |
-| — | `Pagination` — hardcoded `#fff` → `text.inverse` token | P2 | **Fixed** |
-| — | `Carousel` — `PaginationDot` token drilling (perf) | P2 | **Fixed** |
-| — | `Skeleton` — 8 presets wrapped with `React.memo` | P2 | **Fixed** |
-| — | `Pagination` — `accessibilityRole`, `Label`, `State` | P2 | **Fixed** |
-| — | `Chip` — delete button a11y + 28dp touch target | P2 | **Fixed** |
-| — | `Tooltip` — trigger `accessibilityRole` + `Hint` | P2 | **Fixed** |
-| — | `Carousel` — `setTimeout` leak in loop-jump logic | P2 | **Fixed** |
-| 2 | Typography system extension (display / overline / label / code) | P3 | **Done** |
-| — | `spacing[18]` (72px) + `spacing[28]` (112px) | P3 | **Done** |
-| — | `text["4xl"]` composite typography | P3 | **Done** |
-| — | `elastic` spring preset | P3 | **Done** |
-| — | `useRating` controlled→uncontrolled state guard | P3 | **Done** |
-| — | Haptic feedback lazy resolution + caching | P3 | **Done** |
-| — | `"highlight"` press feedback mode | P3 | **Done** |
-| — | Brand `fontFamily` + `style.buttonRadius` overrides | P3 | **Done** |
-| — | Dark mode brand-tinted shadows | P3 | **Done** |
-| — | `ShimmerProvider` + `useShimmerValue` synchronized skeletons | P3 | **Done** |
-| — | `ThemeProvider` `animateTransition` cross-fade | P3 | **Done** |
-| + | Glass surface tokens (`surface.glass` / `glassBorder`) | P4 | **Done** |
-| + | Gradient tokens (6 presets: brand / accent / success / sunrise / ocean / midnight) | P4 | **Done** |
-| + | `GlassCard` component (expo-blur optional) | P4 | **Done** |
-| + | `Gradient` component (expo-linear-gradient optional) | P4 | **Done** |
-| + | Color refinement — `brand.550` mid-step + `warmNeutral` palette | P4 | **Done** |
-| 14 | Carousel adaptive text colors in example | P4 | **Done** |
-| 18 | Component tree documentation | P5 | **Done** |
-| 19 | UI_REPORT.md completion status update | P5 | **Done** |
-| 1 | Input focus lag + FormField padding + TextArea counter (`FOCUS_BORDER_DURATION_MS` 120, label spacing, counter `inside`) | Prior | **Done** |
-| 3 | Divider vertical showcase (`apps/example/app/index.tsx`, `Utility.stories.tsx`) | Prior | **Done** |
-| 4 | Select FlashList + `loading` / `onLoadMore` / `hasMore` / `loadingMore` | Prior | **Done** |
-| 5 | Radio `RadioItem` export + `direction="horizontal"` + Storybook | Prior | **Done** |
-| 6 | Slider vertical + `thumbRenderer` + range (`useSlider` + `Slider.tsx`) | Prior | **Done** |
-| 7 | Checkbox indeterminate showcase (example + `FormControls.stories.tsx`) | Prior | **Done** |
-| 8 | Skeleton `SkeletonGroup` stagger + `shimmerDirection` | Prior | **Done** |
-| 9 | EmptyState `size` / `variant` / `illustration` | Prior | **Done** |
-| 10 | AnimatedList stable `renderItem` / `keyExtractor` (`useCallback` in example) | Prior | **Done** |
+| #   | Item                                                                                                                     | Phase | Status    |
+| --- | ------------------------------------------------------------------------------------------------------------------------ | ----- | --------- |
+| —   | Toast Icon variant lookup bug (literal string)                                                                           | P0    | **Fixed** |
+| —   | `useSlider` division by zero when `max === min`                                                                          | P0    | **Fixed** |
+| —   | `useTable` division by zero when `rowsPerPage === 0`                                                                     | P0    | **Fixed** |
+| —   | `useTimeline` empty steps guard                                                                                          | P0    | **Fixed** |
+| —   | `useBottomSheet` empty snapPoints guard                                                                                  | P0    | **Fixed** |
+| —   | `@shopify/flash-list` → optional peerDependency                                                                          | P0    | **Fixed** |
+| —   | `Accordion` — `accessibilityState.expanded`                                                                              | P1    | **Fixed** |
+| —   | `ToastContainer` — `accessibilityLiveRegion` + `role`                                                                    | P1    | **Fixed** |
+| —   | `Pagination` — hardcoded `#fff` → `text.inverse` token                                                                   | P2    | **Fixed** |
+| —   | `Carousel` — `PaginationDot` token drilling (perf)                                                                       | P2    | **Fixed** |
+| —   | `Skeleton` — 8 presets wrapped with `React.memo`                                                                         | P2    | **Fixed** |
+| —   | `Pagination` — `accessibilityRole`, `Label`, `State`                                                                     | P2    | **Fixed** |
+| —   | `Chip` — delete button a11y + 28dp touch target                                                                          | P2    | **Fixed** |
+| —   | `Tooltip` — trigger `accessibilityRole` + `Hint`                                                                         | P2    | **Fixed** |
+| —   | `Carousel` — `setTimeout` leak in loop-jump logic                                                                        | P2    | **Fixed** |
+| 2   | Typography system extension (display / overline / label / code)                                                          | P3    | **Done**  |
+| —   | `spacing[18]` (72px) + `spacing[28]` (112px)                                                                             | P3    | **Done**  |
+| —   | `text["4xl"]` composite typography                                                                                       | P3    | **Done**  |
+| —   | `elastic` spring preset                                                                                                  | P3    | **Done**  |
+| —   | `useRating` controlled→uncontrolled state guard                                                                          | P3    | **Done**  |
+| —   | Haptic feedback lazy resolution + caching                                                                                | P3    | **Done**  |
+| —   | `"highlight"` press feedback mode                                                                                        | P3    | **Done**  |
+| —   | Brand `fontFamily` + `style.buttonRadius` overrides                                                                      | P3    | **Done**  |
+| —   | Dark mode brand-tinted shadows                                                                                           | P3    | **Done**  |
+| —   | `ShimmerProvider` + `useShimmerValue` synchronized skeletons                                                             | P3    | **Done**  |
+| —   | `ThemeProvider` `animateTransition` cross-fade                                                                           | P3    | **Done**  |
+| +   | Glass surface tokens (`surface.glass` / `glassBorder`)                                                                   | P4    | **Done**  |
+| +   | Gradient tokens (6 presets: brand / accent / success / sunrise / ocean / midnight)                                       | P4    | **Done**  |
+| +   | `GlassCard` component (expo-blur optional)                                                                               | P4    | **Done**  |
+| +   | `Gradient` component (expo-linear-gradient optional)                                                                     | P4    | **Done**  |
+| +   | Color refinement — `brand.550` mid-step + `warmNeutral` palette                                                          | P4    | **Done**  |
+| 14  | Carousel adaptive text colors in example                                                                                 | P4    | **Done**  |
+| 18  | Component tree documentation                                                                                             | P5    | **Done**  |
+| 19  | UI_REPORT.md completion status update                                                                                    | P5    | **Done**  |
+| 1   | Input focus lag + FormField padding + TextArea counter (`FOCUS_BORDER_DURATION_MS` 120, label spacing, counter `inside`) | Prior | **Done**  |
+| 3   | Divider vertical showcase (`apps/example/app/index.tsx`, `Utility.stories.tsx`)                                          | Prior | **Done**  |
+| 4   | Select FlashList + `loading` / `onLoadMore` / `hasMore` / `loadingMore`                                                  | Prior | **Done**  |
+| 5   | Radio `RadioItem` export + `direction="horizontal"` + Storybook                                                          | Prior | **Done**  |
+| 6   | Slider vertical + `thumbRenderer` + range (`useSlider` + `Slider.tsx`)                                                   | Prior | **Done**  |
+| 7   | Checkbox indeterminate showcase (example + `FormControls.stories.tsx`)                                                   | Prior | **Done**  |
+| 8   | Skeleton `SkeletonGroup` stagger + `shimmerDirection`                                                                    | Prior | **Done**  |
+| 9   | EmptyState `size` / `variant` / `illustration`                                                                           | Prior | **Done**  |
+| 10  | AnimatedList stable `renderItem` / `keyExtractor` (`useCallback` in example)                                             | Prior | **Done**  |
 
 ### Remaining backlog
 
 All items from the original improvement plan have been completed. No actionable backlog remains.
 
-| # | Item | Severity | Resolution |
-|---|---|---|---|
-| 11 | SegmentedControl icon + sizes | High | `SegmentedOption` union type (`string \| { label, icon }`), `size` prop (`sm` / `md` / `lg`) |
-| 12 | OTPInput cursor blink + mask | High | Blinking cursor on focused empty cell, `mask` prop for `\u2022` display |
-| 15 | Toast stack animation | Medium | `LinearTransition` on `Animated.View` container, `gap: 8` between items |
-| 13 | DatePicker calendar grid | High | `CalendarGrid` component, `pickerStyle` prop (`calendar` / `spinner` / `native`), bottom-sheet-style modal |
+| #   | Item                          | Severity | Resolution                                                                                                 |
+| --- | ----------------------------- | -------- | ---------------------------------------------------------------------------------------------------------- |
+| 11  | SegmentedControl icon + sizes | High     | `SegmentedOption` union type (`string \| { label, icon }`), `size` prop (`sm` / `md` / `lg`)               |
+| 12  | OTPInput cursor blink + mask  | High     | Blinking cursor on focused empty cell, `mask` prop for `\u2022` display                                    |
+| 15  | Toast stack animation         | Medium   | `LinearTransition` on `Animated.View` container, `gap: 8` between items                                    |
+| 13  | DatePicker calendar grid      | High     | `CalendarGrid` component, `pickerStyle` prop (`calendar` / `spinner` / `native`), bottom-sheet-style modal |
 
 ---
 
-*End of report — RNUI v1.0.3, branch `develop`, reconciled 2026-04-04*
+_End of report — RNUI v1.0.3, branch `develop`, reconciled 2026-04-04_

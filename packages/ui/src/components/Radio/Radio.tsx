@@ -1,15 +1,20 @@
-import React from "react";
-import { View, Text, Pressable } from "react-native";
+import React from 'react';
+import { View, Text, Pressable } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
   interpolate,
   interpolateColor,
-} from "react-native-reanimated";
-import { useRadioGroup, useTokens, useComponentTokens, useReduceMotionEnabled } from "@truongdq01/headless";
-import { spring } from "@truongdq01/tokens";
-import type { UseRadioGroupOptions } from "@truongdq01/headless";
+} from 'react-native-reanimated';
+import {
+  useRadioGroup,
+  useTokens,
+  useComponentTokens,
+  useReduceMotionEnabled,
+} from '@truongdq01/headless';
+import { spring } from '@truongdq01/tokens';
+import type { UseRadioGroupOptions } from '@truongdq01/headless';
 
 // ─── RadioItem ────────────────────────────────────────────────────
 
@@ -20,7 +25,7 @@ export interface RadioItemProps<T = string> {
   disabled?: boolean;
   isSelected: boolean;
   onPress: () => void;
-  size?: "sm" | "md" | "lg";
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export function RadioItem<T = string>({
@@ -29,7 +34,7 @@ export function RadioItem<T = string>({
   disabled = false,
   isSelected,
   onPress,
-  size = "md",
+  size = 'md',
 }: RadioItemProps<T>) {
   const tokens = useTokens();
   const { radio } = useComponentTokens();
@@ -54,15 +59,27 @@ export function RadioItem<T = string>({
   }));
 
   const outerRingStyle = useAnimatedStyle(() => ({
-    borderWidth: interpolate(ringFill.value, [0, 1], [outerSize.borderWidth, 0]),
-    borderColor: interpolateColor(ringFill.value, [0, 1], [radio.colors.borderOff, "transparent"]),
-    backgroundColor: interpolateColor(ringFill.value, [0, 1], [radio.colors.bgOff, radio.colors.borderOn]),
+    borderWidth: interpolate(
+      ringFill.value,
+      [0, 1],
+      [outerSize.borderWidth, 0]
+    ),
+    borderColor: interpolateColor(
+      ringFill.value,
+      [0, 1],
+      [radio.colors.borderOff, 'transparent']
+    ),
+    backgroundColor: interpolateColor(
+      ringFill.value,
+      [0, 1],
+      [radio.colors.bgOff, radio.colors.borderOn]
+    ),
   }));
 
   const handlePress = () => {
     if (!isSelected && !reduceMotion) {
       scale.value = withSpring(0.6, { damping: 12, stiffness: 200 }, () => {
-        "worklet";
+        'worklet';
         scale.value = withSpring(1, snappySpring);
       });
     }
@@ -74,8 +91,8 @@ export function RadioItem<T = string>({
       onPress={handlePress}
       disabled={disabled}
       style={{
-        flexDirection: "row",
-        alignItems: "flex-start",
+        flexDirection: 'row',
+        alignItems: 'flex-start',
         gap: 10,
         opacity: disabled ? radio.colors.disabledOpacity : 1,
       }}
@@ -89,8 +106,8 @@ export function RadioItem<T = string>({
             width: outerSize.width,
             height: outerSize.height,
             borderRadius: outerSize.borderRadius,
-            alignItems: "center",
-            justifyContent: "center",
+            alignItems: 'center',
+            justifyContent: 'center',
             marginTop: 2,
           },
           outerRingStyle,
@@ -152,15 +169,15 @@ export interface RadioOption<T = string> {
 export interface RadioGroupProps<T = string> extends UseRadioGroupOptions<T> {
   options: RadioOption<T>[];
   label?: string;
-  direction?: "vertical" | "horizontal";
-  size?: "sm" | "md" | "lg";
+  direction?: 'vertical' | 'horizontal';
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export function RadioGroup<T = string>({
   options,
   label,
-  direction = "vertical",
-  size = "md",
+  direction = 'vertical',
+  size = 'md',
   ...hookOptions
 }: RadioGroupProps<T>) {
   const tokens = useTokens();
@@ -183,9 +200,10 @@ export function RadioGroup<T = string>({
 
       <View
         style={{
-          flexDirection: direction === "horizontal" ? "row" : "column",
-          flexWrap: direction === "horizontal" ? "wrap" : "nowrap",
-          gap: direction === "horizontal" ? tokens.spacing[4] : tokens.spacing[3],
+          flexDirection: direction === 'horizontal' ? 'row' : 'column',
+          flexWrap: direction === 'horizontal' ? 'wrap' : 'nowrap',
+          gap:
+            direction === 'horizontal' ? tokens.spacing[4] : tokens.spacing[3],
         }}
       >
         {options.map((option) => {

@@ -3,9 +3,7 @@
   "mode": "symlink",
   "skill_name": "skills-self-review-pro",
   "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/skills-self-review-pro",
-  "ides": [
-    "cursor"
-  ],
+  "ides": ["cursor"],
   "targets": {
     "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/skills-self-review-pro"
   },

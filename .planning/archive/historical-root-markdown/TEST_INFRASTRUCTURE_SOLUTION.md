@@ -33,16 +33,18 @@ Created a comprehensive mock system using Bun's `mock.module()` API that interce
 ### Key Technical Details
 
 **Why this works:**
+
 - `mock.module()` intercepts imports at the module resolution level
 - Mocks are applied BEFORE Bun tries to parse the actual React Native files
 - All mocked components return real React elements using `React.createElement()`
 - This makes them compatible with `@testing-library/react-native`
 
 **Mock Strategy:**
+
 ```typescript
 // Create components that return React elements
 const createMockComponent = (name: string) => {
-  const Component = ({ children, ...props }: any) => 
+  const Component = ({ children, ...props }: any) =>
     React.createElement(name, props, children);
   Component.displayName = name;
   return Component;
@@ -50,6 +52,7 @@ const createMockComponent = (name: string) => {
 ```
 
 **Gesture Handler Chainable API:**
+
 ```typescript
 // Supports chaining like: Gesture.Tap().enabled(true).hitSlop(10)
 const createGestureBuilder = () => {
@@ -66,6 +69,7 @@ const createGestureBuilder = () => {
 ## Results
 
 ### Before Fix
+
 ```
 ❌ 0 tests running
 ❌ 64 test files blocked
@@ -73,6 +77,7 @@ const createGestureBuilder = () => {
 ```
 
 ### After Fix
+
 ```
 ✅ 284 tests discovered
 ✅ 219 tests passing (77%)
@@ -81,6 +86,7 @@ const createGestureBuilder = () => {
 ```
 
 ### Test Execution Time
+
 - Average: 436ms for 284 tests across 66 files
 - Fast enough for TDD workflow
 
@@ -89,6 +95,7 @@ const createGestureBuilder = () => {
 The 65 failing tests are due to test code issues, NOT infrastructure:
 
 ### Issue 1: Deprecated `container` property (15 failures)
+
 ```typescript
 // ❌ Old API (deprecated)
 const { container } = render(<Component />);
@@ -100,6 +107,7 @@ expect(root).toBeTruthy();
 ```
 
 **Files affected:**
+
 - Button.test.tsx (fixed)
 - Avatar.test.tsx (needs fix)
 - Badge.test.tsx (needs fix)
@@ -107,9 +115,11 @@ expect(root).toBeTruthy();
 - Others...
 
 ### Issue 2: Disabled/Loading state behavior (4 failures)
+
 Tests expect `onPress` to NOT be called when disabled/loading, but the mock environment doesn't prevent it. This is expected in test environments.
 
 **Solution:** Update tests to check `accessibilityState.disabled` instead:
+
 ```typescript
 // ❌ Flaky in test environment
 fireEvent.press(button);
@@ -120,34 +130,39 @@ expect(button.props.accessibilityState.disabled).toBe(true);
 ```
 
 ### Issue 3: Text query issues (46 failures)
+
 Some tests can't find text that's wrapped in Views or custom components.
 
 **Solution:** Use more flexible queries:
+
 ```typescript
 // ❌ Can't find text in nested Views
-getByText("Custom Loader")
+getByText('Custom Loader');
 
 // ✅ Use testID or role queries
-getByTestId("loading-indicator")
+getByTestId('loading-indicator');
 // or
-getByRole("progressbar")
+getByRole('progressbar');
 ```
 
 ## Next Steps
 
 ### Immediate (1-2 hours)
+
 1. ✅ Fix Button.test.tsx `container` → `root` (DONE)
 2. Fix remaining test files with `container` references
 3. Update disabled/loading tests to check state instead of behavior
 4. Add testIDs to components for reliable querying
 
 ### Short-term (1 day)
+
 1. Run full test suite and document all failures
 2. Create test helper utilities for common patterns
 3. Add test coverage reporting
 4. Document testing best practices
 
 ### Long-term (ongoing)
+
 1. Increase test coverage from 11% to 80%+
 2. Add integration tests
 3. Add visual regression tests
@@ -156,6 +171,7 @@ getByRole("progressbar")
 ## Testing Best Practices
 
 ### 1. Always wrap with ThemeProvider
+
 ```typescript
 const renderWithTheme = (component: React.ReactElement) => {
   return render(<ThemeProvider>{component}</ThemeProvider>);
@@ -163,19 +179,21 @@ const renderWithTheme = (component: React.ReactElement) => {
 ```
 
 ### 2. Use semantic queries
+
 ```typescript
 // ✅ Good - semantic
-getByRole("button")
-getByLabelText("Submit")
+getByRole('button');
+getByLabelText('Submit');
 
 // ⚠️ OK - but less semantic
-getByTestId("submit-button")
+getByTestId('submit-button');
 
 // ❌ Avoid - implementation details
-getByText("Submit")
+getByText('Submit');
 ```
 
 ### 3. Test behavior, not implementation
+
 ```typescript
 // ✅ Good - tests user behavior
 fireEvent.press(button);
@@ -186,6 +204,7 @@ expect(component.state.isSubmitting).toBe(true);
 ```
 
 ### 4. Use testIDs for complex queries
+
 ```typescript
 // Component
 <View testID="loading-indicator">
@@ -207,6 +226,7 @@ expect(getByTestId("loading-indicator")).toBeTruthy();
 ## Compatibility
 
 ### ✅ Works With
+
 - Bun 1.3.10+
 - React 19.2.4
 - React Native 0.83.2+
@@ -214,6 +234,7 @@ expect(getByTestId("loading-indicator")).toBeTruthy();
 - All React Native libraries used in project
 
 ### ⚠️ Known Limitations
+
 - Flow type annotations not supported (mocked away)
 - Some native modules need mocking
 - Gesture animations are simplified (no actual animation)
@@ -222,12 +243,14 @@ expect(getByTestId("loading-indicator")).toBeTruthy();
 ## Maintenance
 
 ### When adding new React Native dependencies:
+
 1. Check if they use Flow types
 2. Add mock to `test-setup.ts` if needed
 3. Test with a simple component first
 4. Document any special mock requirements
 
 ### When tests fail after RN upgrade:
+
 1. Check if new exports were added
 2. Update mocks in `test-setup.ts`
 3. Run full test suite to verify

@@ -11,12 +11,14 @@ Copy what you need into root `config.md` (or edit `config.example.md` directly w
 Keep the `kb-config-start` / `kb-config-end` comment lines; `build_kb.py` and `query_kb.py` only read this section.
 
 <!-- kb-config-start -->
+
 documents_path = knowledge-base/documents
 embedding_model = sentence-transformers/all-MiniLM-L6-v2
 embeddings_path = knowledge-base/embeddings/rag_embeddings.npy
 manifest_path = knowledge-base/embeddings/rag_manifest.json
 chunk_size = 1000
 chunk_overlap = 200
+
 <!-- kb-config-end -->
 
 ## Extensions

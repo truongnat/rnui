@@ -9,26 +9,26 @@ A layout component for arranging items vertically or horizontally with consisten
 ## Usage
 
 ```tsx
-import { Stack } from "@truongdq01/ui";
+import { Stack } from '@truongdq01/ui';
 
 <Stack direction="vertical" gap={16}>
   <Button label="Item 1" />
   <Button label="Item 2" />
   <Button label="Item 3" />
-</Stack>
+</Stack>;
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | Stack items |
-| `direction` | `"vertical" \| "horizontal"` | `"vertical"` | Arrangement direction |
-| `gap` | `number` | `8` | Spacing between items |
-| `align` | `"flex-start" \| "center" \| "flex-end" \| "stretch"` | — | Cross-axis alignment |
-| `justify` | `"flex-start" \| "center" \| "flex-end" \| "space-between"` | — | Main-axis alignment |
-| `wrap` | `boolean` | `false` | Wrap items to next line |
-| `style` | `StyleProp<ViewStyle>` | — | Additional container styles |
+| Prop        | Type                                                        | Default      | Description                 |
+| ----------- | ----------------------------------------------------------- | ------------ | --------------------------- |
+| `children`  | `ReactNode`                                                 | —            | Stack items                 |
+| `direction` | `"vertical" \| "horizontal"`                                | `"vertical"` | Arrangement direction       |
+| `gap`       | `number`                                                    | `8`          | Spacing between items       |
+| `align`     | `"flex-start" \| "center" \| "flex-end" \| "stretch"`       | —            | Cross-axis alignment        |
+| `justify`   | `"flex-start" \| "center" \| "flex-end" \| "space-between"` | —            | Main-axis alignment         |
+| `wrap`      | `boolean`                                                   | `false`      | Wrap items to next line     |
+| `style`     | `StyleProp<ViewStyle>`                                      | —            | Additional container styles |
 
 ## Examples
 
@@ -54,12 +54,7 @@ import { Stack } from "@truongdq01/ui";
 ### Centered Stack
 
 ```tsx
-<Stack 
-  direction="horizontal" 
-  gap={16}
-  justify="center"
-  align="center"
->
+<Stack direction="horizontal" gap={16} justify="center" align="center">
   <Icon name="star" />
   <Icon name="heart" />
   <Icon name="check" />
@@ -69,11 +64,7 @@ import { Stack } from "@truongdq01/ui";
 ### Space Between
 
 ```tsx
-<Stack 
-  direction="horizontal"
-  justify="space-between"
-  align="center"
->
+<Stack direction="horizontal" justify="space-between" align="center">
   <Typography variant="body2">Items: 3</Typography>
   <Button label="View All" size="sm" />
 </Stack>
@@ -82,12 +73,8 @@ import { Stack } from "@truongdq01/ui";
 ### Wrapped Stack
 
 ```tsx
-<Stack 
-  direction="horizontal" 
-  gap={8}
-  wrap
->
-  {tags.map(tag => (
+<Stack direction="horizontal" gap={8} wrap>
+  {tags.map((tag) => (
     <Chip key={tag} label={tag} size="sm" />
   ))}
 </Stack>
@@ -103,9 +90,9 @@ import { Stack } from "@truongdq01/ui";
     <Input label="First Name" />
     <Input label="Last Name" />
   </Stack>
-  
+
   <Input label="Email" />
-  
+
   <Stack direction="horizontal" gap={12}>
     <Button label="Cancel" variant="outline" style={{ flex: 1 }} />
     <Button label="Submit" style={{ flex: 1 }} />
@@ -121,8 +108,12 @@ import { Stack } from "@truongdq01/ui";
     <Typography variant="h6">Card Title</Typography>
     <Typography variant="body2">Card description</Typography>
   </CardContent>
-  
-  <Stack direction="horizontal" gap={8} style={{ padding: 16, borderTopWidth: 1 }}>
+
+  <Stack
+    direction="horizontal"
+    gap={8}
+    style={{ padding: 16, borderTopWidth: 1 }}
+  >
     <Button label="Cancel" variant="ghost" />
     <Button label="Confirm" />
   </Stack>
@@ -132,8 +123,8 @@ import { Stack } from "@truongdq01/ui";
 ### Toolbar
 
 ```tsx
-<Stack 
-  direction="horizontal" 
+<Stack
+  direction="horizontal"
   justify="space-between"
   align="center"
   style={{ paddingVertical: 12 }}
@@ -176,12 +167,12 @@ Use consistent spacing from the theme:
 function ResponsiveStack({ children }) {
   const { width } = useWindowDimensions();
   const isMobile = width < 640;
-  
+
   return (
-    <Stack 
-      direction={isMobile ? "vertical" : "horizontal"}
+    <Stack
+      direction={isMobile ? 'vertical' : 'horizontal'}
       gap={isMobile ? 12 : 16}
-      justify={isMobile ? "stretch" : "space-between"}
+      justify={isMobile ? 'stretch' : 'space-between'}
     >
       {children}
     </Stack>
@@ -192,12 +183,14 @@ function ResponsiveStack({ children }) {
 ## Best Practices
 
 ### ✅ Do
+
 - Use for consistent spacing between items
 - Choose direction based on content flow
 - Use appropriate gap values from theme
 - Combine with flex for responsive layouts
 
 ### ❌ Don't
+
 - Don't use for complex grid layouts (use Grid)
 - Don't nest stacks too deeply
 - Don't mix with manual margins on children

@@ -4,11 +4,11 @@ Tauri uses a **Rust** binary (`src-tauri`) hosting a **webview** for your front 
 
 ## Mental model
 
-| Layer | Role |
-|-------|------|
-| **Front end** | Web tech in webview; **no** direct filesystem/ shell unless exposed via Rust command with explicit permission |
-| **`src-tauri`** | Commands (`#[tauri::command]`), state, plugins, tray, menus, windows |
-| **OS** | Webview (WebView2 / WKWebView / WebKitGTK) — platform-specific quirks |
+| Layer           | Role                                                                                                          |
+| --------------- | ------------------------------------------------------------------------------------------------------------- |
+| **Front end**   | Web tech in webview; **no** direct filesystem/ shell unless exposed via Rust command with explicit permission |
+| **`src-tauri`** | Commands (`#[tauri::command]`), state, plugins, tray, menus, windows                                          |
+| **OS**          | Webview (WebView2 / WKWebView / WebKitGTK) — platform-specific quirks                                         |
 
 ## Commands
 

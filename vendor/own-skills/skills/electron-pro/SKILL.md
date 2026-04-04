@@ -21,11 +21,11 @@ Renderer UI patterns (React hooks, a11y): skill **`react-pro`**.
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `electron-pro` |
-|-------|-------------------------------------|
-| **`react-pro`** | Renderer components, hooks, state — typical React + Electron stack |
-| **`security-pro`** | Threat model, IPC as attack surface, secure defaults checklist |
-| **`testing-pro`** | Playwright Electron, integration tests for main/preload |
+| Skill              | When to combine with `electron-pro`                                |
+| ------------------ | ------------------------------------------------------------------ |
+| **`react-pro`**    | Renderer components, hooks, state — typical React + Electron stack |
+| **`security-pro`** | Threat model, IPC as attack surface, secure defaults checklist     |
+| **`testing-pro`**  | Playwright Electron, integration tests for main/preload            |
 
 **`tauri-pro`** — alternative desktop stack (Rust core + system webview); use that skill when the codebase is Tauri, not Electron.
 
@@ -83,11 +83,11 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — main/preload/IPC, tips, edge cases.
 
-| Topic | File |
-|-------|------|
+| Topic              | File                                                                     |
+| ------------------ | ------------------------------------------------------------------------ |
 | Main, preload, IPC | [references/main-preload-and-ipc.md](references/main-preload-and-ipc.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips and patterns  | [references/tips-and-tricks.md](references/tips-and-tricks.md)           |
+| Edge cases         | [references/edge-cases.md](references/edge-cases.md)                     |
 
 ## Quick example
 

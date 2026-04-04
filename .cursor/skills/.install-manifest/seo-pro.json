@@ -3,9 +3,7 @@
   "mode": "symlink",
   "skill_name": "seo-pro",
   "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/seo-pro",
-  "ides": [
-    "cursor"
-  ],
+  "ides": ["cursor"],
   "targets": {
     "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/seo-pro"
   },

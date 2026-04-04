@@ -13,20 +13,20 @@ If a proposed skill cannot meet these rules, **stop** — extend an existing `*-
 
 Use exactly these section headings and order. Omit **optional** sections only when not applicable.
 
-| Order | Section | Required |
-|-------|---------|----------|
-| — | YAML frontmatter (`name`, `description`, `metadata.short-description`) | **Yes** |
-| 1 | `# <Display name> (professional)` | **Yes** |
-| 2 | Intro paragraph (see §3) | **Yes** |
-| 3 | `## Related skills (this repo)` | **Optional** — only if the skill regularly defers to or combines with other `*-pro` skills (table: Skill \| When to combine). |
-| 4 | `## When to use` | **Yes** — bullets + final bullet `- Trigger keywords: ...` |
-| 5 | `## Workflow` | **Yes** — exactly **three** numbered steps (see §4), then subsections |
-| 6 | `### Operating principles` | **Yes** — numbered list |
-| 7 | `### <Topic> (summary)` | **Yes** — one or more; each ends with `Details: [references/....md](references/....md)` if a reference file exists |
-| 8 | `### Suggested response format (implement / review)` | **Yes** — four items: **Issue or goal**, **Recommendation**, **Code**, **Residual risks** |
-| 9 | `## Resources in this skill` | **Yes** — short intro line + table **Topic \| File** |
-| 10 | `## Quick example` | **Yes** — **Input:** and **Expected output:** |
-| 11 | `## Checklist before calling the skill done` | **Yes** — `- [ ]` items |
+| Order | Section                                                                | Required                                                                                                                      |
+| ----- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| —     | YAML frontmatter (`name`, `description`, `metadata.short-description`) | **Yes**                                                                                                                       |
+| 1     | `# <Display name> (professional)`                                      | **Yes**                                                                                                                       |
+| 2     | Intro paragraph (see §3)                                               | **Yes**                                                                                                                       |
+| 3     | `## Related skills (this repo)`                                        | **Optional** — only if the skill regularly defers to or combines with other `*-pro` skills (table: Skill \| When to combine). |
+| 4     | `## When to use`                                                       | **Yes** — bullets + final bullet `- Trigger keywords: ...`                                                                    |
+| 5     | `## Workflow`                                                          | **Yes** — exactly **three** numbered steps (see §4), then subsections                                                         |
+| 6     | `### Operating principles`                                             | **Yes** — numbered list                                                                                                       |
+| 7     | `### <Topic> (summary)`                                                | **Yes** — one or more; each ends with `Details: [references/....md](references/....md)` if a reference file exists            |
+| 8     | `### Suggested response format (implement / review)`                   | **Yes** — four items: **Issue or goal**, **Recommendation**, **Code**, **Residual risks**                                     |
+| 9     | `## Resources in this skill`                                           | **Yes** — short intro line + table **Topic \| File**                                                                          |
+| 10    | `## Quick example`                                                     | **Yes** — **Input:** and **Expected output:**                                                                                 |
+| 11    | `## Checklist before calling the skill done`                           | **Yes** — `- [ ]` items                                                                                                       |
 
 ## 3. Frontmatter and intro
 
@@ -71,12 +71,12 @@ Do not use **Artifacts** or **Goal** alone as a section title here.
 
 When you **add**, **remove**, or **rename** a bundled skill, or **add** a workflow file under `workflows/` (e.g. `workflows/<domain>/` plus domain `README.md` when new), or **add** a new file under `knowledge-base/documents/`, update **every** applicable item below in the **same PR or commit** as the skill/workflow/KB change.
 
-| Trigger | Required updates |
-|---------|------------------|
-| **Add** a bundled skill (`skills/<name>/`) | `skills/README.md` (table row); root **`README.md`** (Skills → Bundled examples); **`AGENTS.md`** (Bundled examples line); **§1** above (parenthesized skill list); **`knowledge-base/documents/repo/skills-layout.md`** (tree or folder list must include the new skill) |
-| **Remove** or **rename** a bundled skill | Same locations: delete or fix all mentions; **§1** list; **`skills-layout.md`** |
-| **Add** a workflow under `workflows/` | Root **`README.md`** (Workflows list); name runnable files **`w-<slug>.md`** (see [`workflows/README.md`](../workflows/README.md#naming)); domain **`README.md`** if under `workflows/<domain>/` |
-| **Add** a new document under `knowledge-base/documents/**` | **`knowledge-base/INDEX.md`** (new row with path and short description) |
+| Trigger                                                    | Required updates                                                                                                                                                                                                                                                          |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Add** a bundled skill (`skills/<name>/`)                 | `skills/README.md` (table row); root **`README.md`** (Skills → Bundled examples); **`AGENTS.md`** (Bundled examples line); **§1** above (parenthesized skill list); **`knowledge-base/documents/repo/skills-layout.md`** (tree or folder list must include the new skill) |
+| **Remove** or **rename** a bundled skill                   | Same locations: delete or fix all mentions; **§1** list; **`skills-layout.md`**                                                                                                                                                                                           |
+| **Add** a workflow under `workflows/`                      | Root **`README.md`** (Workflows list); name runnable files **`w-<slug>.md`** (see [`workflows/README.md`](../workflows/README.md#naming)); domain **`README.md`** if under `workflows/<domain>/`                                                                          |
+| **Add** a new document under `knowledge-base/documents/**` | **`knowledge-base/INDEX.md`** (new row with path and short description)                                                                                                                                                                                                   |
 
 **Rationale:** Discovery for humans and agents depends on **`README.md`** / **`AGENTS.md`**; **§1** avoids duplicate skill proposals; **`skills-layout`** is indexed for RAG and must reflect the real tree.
 

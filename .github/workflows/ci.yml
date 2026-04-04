@@ -24,7 +24,7 @@ jobs:
       # Headless package runs Jest under real Node (Bun’s `node` shim breaks Jest/stack-utils).
       - uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: '20'
 
       - name: Cache turbo
         uses: actions/cache@v5
@@ -61,7 +61,7 @@ jobs:
 
       - uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: '20'
 
       - run: bun install --frozen-lockfile
 

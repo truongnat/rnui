@@ -1,41 +1,51 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Skeleton, SkeletonText, SkeletonCard, SkeletonProfile, SkeletonMedia, SkeletonGroup } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import {
+  ThemeProvider,
+  Skeleton,
+  SkeletonText,
+  SkeletonCard,
+  SkeletonProfile,
+  SkeletonMedia,
+  SkeletonGroup,
+} from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
-const SkeletonWrapper = (props: any) => (
-  <Skeleton {...props} />
-);
+const SkeletonWrapper = (props: any) => <Skeleton {...props} />;
 
 const meta = {
-  title: "Components/Skeleton",
+  title: 'Components/Skeleton',
   component: SkeletonWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
-    width: { control: "text" },
-    height: { control: "number" },
+    width: { control: 'text' },
+    height: { control: 'number' },
     variant: {
-      control: { type: "select" },
-      options: ["rect", "circular", "rounded"],
+      control: { type: 'select' },
+      options: ['rect', 'circular', 'rounded'],
     },
     animation: {
-      control: { type: "select" },
-      options: ["pulse", "wave", "none"],
+      control: { type: 'select' },
+      options: ['pulse', 'wave', 'none'],
     },
   },
   args: {
-    width: "100%",
+    width: '100%',
     height: 20,
-    variant: "rect",
-    animation: "wave",
+    variant: 'rect',
+    animation: 'wave',
   },
 };
 
@@ -43,15 +53,15 @@ export default meta;
 type Story = StoryObj<typeof SkeletonWrapper>;
 
 export const Default: Story = {
-  args: { width: "80%" },
+  args: { width: '80%' },
 };
 
 export const Circular: Story = {
-  args: { width: 48, height: 48, variant: "circular" },
+  args: { width: 48, height: 48, variant: 'circular' },
 };
 
 export const Rounded: Story = {
-  args: { width: "60%", height: 40, variant: "rounded" },
+  args: { width: '60%', height: 40, variant: 'rounded' },
 };
 
 export const TextLines: Story = {

@@ -1,8 +1,8 @@
-import { renderHook, act } from "@testing-library/react-native";
-import { useRating } from "../useRating";
+import { renderHook, act } from '@testing-library/react-native';
+import { useRating } from '../useRating';
 
-describe("useRating", () => {
-  it("should return default values", () => {
+describe('useRating', () => {
+  it('should return default values', () => {
     const { result } = renderHook(() => useRating());
     expect(result.current.value).toBe(0);
     expect(result.current.max).toBe(5);
@@ -11,14 +11,16 @@ describe("useRating", () => {
     expect(result.current.readOnly).toBe(false);
   });
 
-  it("should initialize with defaultValue in uncontrolled mode", () => {
+  it('should initialize with defaultValue in uncontrolled mode', () => {
     const { result } = renderHook(() => useRating({ defaultValue: 3 }));
     expect(result.current.value).toBe(3);
   });
 
-  it("should update value and call onChange in uncontrolled mode", () => {
+  it('should update value and call onChange in uncontrolled mode', () => {
     const onChange = jest.fn();
-    const { result } = renderHook(() => useRating({ defaultValue: 1, onChange }));
+    const { result } = renderHook(() =>
+      useRating({ defaultValue: 1, onChange })
+    );
 
     act(() => {
       result.current.setValue(4);
@@ -28,9 +30,11 @@ describe("useRating", () => {
     expect(onChange).toHaveBeenCalledWith(4);
   });
 
-  it("should respect controlled value", () => {
+  it('should respect controlled value', () => {
     const onChange = jest.fn();
-    const { result, rerender } = renderHook((props: any = { value: 2, onChange }) => useRating(props));
+    const { result, rerender } = renderHook(
+      (props: any = { value: 2, onChange }) => useRating(props)
+    );
 
     expect(result.current.value).toBe(2);
 
@@ -47,9 +51,11 @@ describe("useRating", () => {
     expect(result.current.value).toBe(5);
   });
 
-  it("should not update value or call onChange when disabled", () => {
+  it('should not update value or call onChange when disabled', () => {
     const onChange = jest.fn();
-    const { result } = renderHook(() => useRating({ defaultValue: 2, disabled: true, onChange }));
+    const { result } = renderHook(() =>
+      useRating({ defaultValue: 2, disabled: true, onChange })
+    );
 
     act(() => {
       result.current.setValue(4);
@@ -59,9 +65,11 @@ describe("useRating", () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  it("should not update value or call onChange when readOnly", () => {
+  it('should not update value or call onChange when readOnly', () => {
     const onChange = jest.fn();
-    const { result } = renderHook(() => useRating({ defaultValue: 3, readOnly: true, onChange }));
+    const { result } = renderHook(() =>
+      useRating({ defaultValue: 3, readOnly: true, onChange })
+    );
 
     act(() => {
       result.current.setValue(5);
@@ -71,7 +79,7 @@ describe("useRating", () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  it("should fall back to precision 1 when precision is zero or invalid", () => {
+  it('should fall back to precision 1 when precision is zero or invalid', () => {
     const { result } = renderHook(() => useRating({ precision: 0 }));
     expect(result.current.precision).toBe(1);
   });

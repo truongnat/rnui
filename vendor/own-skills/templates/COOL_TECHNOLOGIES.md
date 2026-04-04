@@ -5,6 +5,7 @@ Tools and frameworks worth knowing when building AI applications.
 ---
 
 ## 📚 Contents
+
 1. [AI Frameworks & Libraries](#ai-frameworks--libraries)
 2. [Vector Databases](#vector-databases)
 3. [LLM Tools & Platforms](#llm-tools--platforms)
@@ -19,6 +20,7 @@ Tools and frameworks worth knowing when building AI applications.
 ## 🤖 AI Frameworks & Libraries
 
 ### 1. **LangChain** ⭐⭐⭐⭐⭐
+
 **Purpose**: Framework for building LLM applications
 
 ```python
@@ -36,18 +38,21 @@ chain.run("colorful socks")
 ```
 
 **Why use it:**
+
 - ✅ Huge ecosystem with 100+ integrations
 - ✅ Built-in agents, chains, memory
 - ✅ Great documentation
 - ✅ Active community
 
 **Use cases:**
+
 - Chatbots with memory
 - RAG applications
 - Multi-step workflows
 - Tool calling agents
 
 **Links:**
+
 - Website: https://langchain.com
 - GitHub: https://github.com/langchain-ai/langchain
 - Docs: https://python.langchain.com
@@ -55,6 +60,7 @@ chain.run("colorful socks")
 ---
 
 ### 2. **LlamaIndex (GPT Index)** ⭐⭐⭐⭐⭐
+
 **Purpose**: Data framework for LLM applications
 
 ```python
@@ -72,24 +78,28 @@ response = query_engine.query("What did the author do growing up?")
 ```
 
 **Why use it:**
+
 - ✅ Specialized for data ingestion and indexing
 - ✅ Multiple index types (Vector, Tree, Keyword, etc.)
 - ✅ Advanced retrieval strategies
 - ✅ Works with many vector stores
 
 **Use cases:**
+
 - Document Q&A systems
 - Knowledge base search
 - Semantic search
 - Multi-document analysis
 
 **Links:**
+
 - Website: https://www.llamaindex.ai
 - GitHub: https://github.com/run-llama/llama_index
 
 ---
 
 ### 3. **Semantic Kernel** (Microsoft) ⭐⭐⭐⭐
+
 **Purpose**: SDK to integrate AI into apps
 
 ```csharp
@@ -98,27 +108,31 @@ var kernel = Kernel.CreateBuilder()
     .AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey)
     .Build();
 
-var result = await kernel.InvokePromptAsync("Tell me a joke about {{$input}}", 
+var result = await kernel.InvokePromptAsync("Tell me a joke about {{$input}}",
     new() { ["input"] = "chickens" });
 ```
 
 **Why use it:**
+
 - ✅ Enterprise-ready (Microsoft support)
 - ✅ Multi-language (C#, Python, Java)
 - ✅ Plugin system
 - ✅ Azure integration
 
 **Use cases:**
+
 - Enterprise applications
 - .NET ecosystems
 - Azure deployments
 
 **Links:**
+
 - GitHub: https://github.com/microsoft/semantic-kernel
 
 ---
 
 ### 4. **Haystack** ⭐⭐⭐⭐
+
 **Purpose**: Open-source NLP framework
 
 ```python
@@ -131,18 +145,21 @@ pipeline.add_node(component=PreProcessor(), name="PreProcessor", inputs=["PdfCon
 ```
 
 **Why use it:**
+
 - ✅ Production-ready
 - ✅ Modular pipeline architecture
 - ✅ Supports many models (OpenAI, Cohere, HF, etc.)
 - ✅ Strong on document processing
 
 **Use cases:**
+
 - Question answering
 - Document search
 - Semantic search
 - Custom NLP pipelines
 
 **Links:**
+
 - Website: https://haystack.deepset.ai
 - GitHub: https://github.com/deepset-ai/haystack
 
@@ -151,6 +168,7 @@ pipeline.add_node(component=PreProcessor(), name="PreProcessor", inputs=["PdfCon
 ## 🗄️ Vector Databases
 
 ### 1. **Pinecone** ⭐⭐⭐⭐⭐
+
 **Type**: Managed cloud vector database
 
 ```python
@@ -170,12 +188,14 @@ results = index.query(vector=[0.1, 0.1, 0.1], top_k=5)
 ```
 
 **Pros:**
+
 - ✅ Fully managed (no ops)
 - ✅ Fast and scalable
 - ✅ Great developer experience
 - ✅ Free tier available
 
 **Cons:**
+
 - ❌ Cloud-only (no self-hosting)
 - ❌ Can get expensive at scale
 
@@ -184,6 +204,7 @@ results = index.query(vector=[0.1, 0.1, 0.1], top_k=5)
 ---
 
 ### 2. **Weaviate** ⭐⭐⭐⭐⭐
+
 **Type**: Open-source vector database
 
 ```python
@@ -210,6 +231,7 @@ result = client.query.get("Article", ["title", "content"])\
 ```
 
 **Pros:**
+
 - ✅ Open source
 - ✅ Self-hostable
 - ✅ Hybrid search (vector + keyword + filters)
@@ -217,6 +239,7 @@ result = client.query.get("Article", ["title", "content"])\
 - ✅ Cloud option available
 
 **Cons:**
+
 - ❌ Requires ops if self-hosting
 
 **Best for:** On-premise deployments, hybrid search needs
@@ -224,6 +247,7 @@ result = client.query.get("Article", ["title", "content"])\
 ---
 
 ### 3. **Chroma** ⭐⭐⭐⭐
+
 **Type**: Lightweight, embeddable vector database
 
 ```python
@@ -247,6 +271,7 @@ results = collection.query(
 ```
 
 **Pros:**
+
 - ✅ Super simple setup
 - ✅ Embeddable (SQLite-style)
 - ✅ Perfect for prototyping
@@ -254,6 +279,7 @@ results = collection.query(
 - ✅ Free and open source
 
 **Cons:**
+
 - ❌ Not for massive scale
 
 **Best for:** Development, prototypes, small projects
@@ -261,6 +287,7 @@ results = collection.query(
 ---
 
 ### 4. **Qdrant** ⭐⭐⭐⭐
+
 **Type**: High-performance vector search engine
 
 ```python
@@ -284,6 +311,7 @@ client.upsert(
 ```
 
 **Pros:**
+
 - ✅ Written in Rust (fast!)
 - ✅ Advanced filtering
 - ✅ Distributed mode
@@ -294,6 +322,7 @@ client.upsert(
 ---
 
 ### 5. **Milvus** ⭐⭐⭐⭐
+
 **Type**: Open-source vector database for billion-scale
 
 ```python
@@ -312,12 +341,14 @@ results = collection.search([[0.1, 0.2]], "embeddings", {"metric_type": "L2"}, l
 ```
 
 **Pros:**
+
 - ✅ Built for massive scale (billions of vectors)
 - ✅ GPU support
 - ✅ Multiple index types
 - ✅ Active development
 
 **Cons:**
+
 - ❌ Complex setup
 - ❌ Steeper learning curve
 
@@ -328,6 +359,7 @@ results = collection.search([[0.1, 0.2]], "embeddings", {"metric_type": "L2"}, l
 ## 🛠️ LLM Tools & Platforms
 
 ### 1. **OpenRouter** ⭐⭐⭐⭐⭐
+
 **Purpose**: Unified API for many LLM providers
 
 ```python
@@ -343,12 +375,14 @@ response = openai.ChatCompletion.create(
 ```
 
 **Why use it:**
+
 - ✅ Access 100+ models qua 1 API
 - ✅ Fallback logic (if model fails, use another)
 - ✅ Cost optimization
 - ✅ No vendor lock-in
 
 **Models available:**
+
 - OpenAI (GPT-4, GPT-3.5)
 - Anthropic (Claude 3)
 - Google (PaLM, Gemini)
@@ -360,6 +394,7 @@ response = openai.ChatCompletion.create(
 ---
 
 ### 2. **Ollama** ⭐⭐⭐⭐⭐
+
 **Purpose**: Run LLMs locally
 
 ```bash
@@ -379,12 +414,14 @@ curl http://localhost:11434/api/generate -d '{
 ```
 
 **Why use it:**
+
 - ✅ Completely local (privacy!)
 - ✅ No API costs
 - ✅ Fast inference
 - ✅ Easy model management
 
 **Popular models:**
+
 - Llama 2, Mistral, Phi-2
 - CodeLlama, Vicuna
 - Custom models
@@ -394,6 +431,7 @@ curl http://localhost:11434/api/generate -d '{
 ---
 
 ### 3. **LocalAI** ⭐⭐⭐⭐
+
 **Purpose**: Drop-in replacement for OpenAI API (self-hosted)
 
 ```bash
@@ -412,6 +450,7 @@ response = openai.ChatCompletion.create(
 ```
 
 **Features:**
+
 - OpenAI-compatible API
 - Text generation, embeddings, audio
 - Multiple backends (llama.cpp, whisper, etc.)
@@ -421,6 +460,7 @@ response = openai.ChatCompletion.create(
 ---
 
 ### 4. **vLLM** ⭐⭐⭐⭐
+
 **Purpose**: Fast and efficient LLM inference
 
 ```python
@@ -434,6 +474,7 @@ outputs = llm.generate(prompts, sampling_params)
 ```
 
 **Why use it:**
+
 - ✅ 24x faster than HuggingFace Transformers
 - ✅ Optimized for high throughput
 - ✅ Supports PagedAttention
@@ -448,6 +489,7 @@ outputs = llm.generate(prompts, sampling_params)
 ## ✍️ Prompt Engineering
 
 ### 1. **LangSmith** ⭐⭐⭐⭐⭐
+
 **Purpose**: Debug, test, evaluate, and monitor LLM apps
 
 ```python
@@ -469,6 +511,7 @@ client.evaluate(
 ```
 
 **Features:**
+
 - Tracing and debugging
 - Dataset management
 - A/B testing
@@ -480,6 +523,7 @@ client.evaluate(
 ---
 
 ### 2. **PromptLayer** ⭐⭐⭐⭐
+
 **Purpose**: Prompt version control and collaboration
 
 ```python
@@ -497,6 +541,7 @@ response = openai.ChatCompletion.create(
 ```
 
 **Features:**
+
 - Track all prompts
 - Version history
 - Team collaboration
@@ -507,6 +552,7 @@ response = openai.ChatCompletion.create(
 ---
 
 ### 3. **Anthropic Workbench (Claude Console)** ⭐⭐⭐⭐⭐
+
 **Purpose**: Test and optimize prompts
 
 ```
@@ -518,6 +564,7 @@ response = openai.ChatCompletion.create(
 ```
 
 **Features:**
+
 - Visual prompt editor
 - Multi-turn conversations
 - Cost estimation
@@ -528,13 +575,14 @@ response = openai.ChatCompletion.create(
 ---
 
 ### 4. **Prompt Perfect** ⭐⭐⭐
+
 **Purpose**: Auto-optimize prompts
 
 ```
 Original: "Write about AI"
 
-Optimized: "Write a comprehensive 500-word essay about artificial 
-intelligence, covering its history, current applications, and future 
+Optimized: "Write a comprehensive 500-word essay about artificial
+intelligence, covering its history, current applications, and future
 potential. Include specific examples and cite recent developments."
 ```
 
@@ -545,6 +593,7 @@ potential. Include specific examples and cite recent developments."
 ## 🤖 AI Agents & Workflows
 
 ### 1. **AutoGPT** ⭐⭐⭐⭐
+
 **Purpose**: Autonomous AI agent
 
 ```bash
@@ -560,6 +609,7 @@ python -m autogpt --gpt4
 ```
 
 **What it does:**
+
 - Break down tasks autonomously
 - Search web, write code, analyze data
 - Self-critique and iterate
@@ -569,6 +619,7 @@ python -m autogpt --gpt4
 ---
 
 ### 2. **BabyAGI** ⭐⭐⭐⭐
+
 **Purpose**: Task-driven autonomous agent
 
 ```python
@@ -583,6 +634,7 @@ agent.run()
 ```
 
 **How it works:**
+
 1. Creates task list
 2. Executes tasks
 3. Learns from results
@@ -593,6 +645,7 @@ agent.run()
 ---
 
 ### 3. **n8n** ⭐⭐⭐⭐⭐
+
 **Purpose**: Workflow automation with AI nodes
 
 ```
@@ -604,6 +657,7 @@ Visual workflow builder:
 ```
 
 **Features:**
+
 - 400+ integrations
 - AI nodes (OpenAI, HuggingFace, etc.)
 - Self-hostable
@@ -614,6 +668,7 @@ Visual workflow builder:
 ---
 
 ### 4. **Zapier AI Actions** ⭐⭐⭐⭐
+
 **Purpose**: Connect LLMs to 5000+ apps
 
 ```python
@@ -624,6 +679,7 @@ Visual workflow builder:
 ```
 
 **Use cases:**
+
 - Email automation
 - CRM updates
 - Calendar scheduling
@@ -636,6 +692,7 @@ Visual workflow builder:
 ## 🔧 Development Tools
 
 ### 1. **LiteLLM** ⭐⭐⭐⭐⭐
+
 **Purpose**: Unified API for 100+ LLMs
 
 ```python
@@ -649,6 +706,7 @@ response = completion(
 ```
 
 **Features:**
+
 - ✅ Unified API (1 interface, 100+ models)
 - ✅ Load balancing
 - ✅ Fallbacks
@@ -660,6 +718,7 @@ response = completion(
 ---
 
 ### 2. **Instructor** ⭐⭐⭐⭐⭐
+
 **Purpose**: Get structured output from LLMs
 
 ```python
@@ -685,6 +744,7 @@ user = client.chat.completions.create(
 ```
 
 **Why use it:**
+
 - ✅ Type-safe LLM outputs
 - ✅ Automatic validation
 - ✅ Retry logic
@@ -695,6 +755,7 @@ user = client.chat.completions.create(
 ---
 
 ### 3. **DSPy** ⭐⭐⭐⭐
+
 **Purpose**: Programming framework for LLMs
 
 ```python
@@ -704,7 +765,7 @@ import dspy
 class CoT(dspy.Module):
     def __init__(self):
         self.prog = dspy.ChainOfThought("question -> answer")
-    
+
     def forward(self, question):
         return self.prog(question=question)
 
@@ -717,6 +778,7 @@ compiled_cot = dspy.teleprompt.BootstrapFewShot(metric=exact_match).compile(
 ```
 
 **What makes it special:**
+
 - Auto-optimize prompts
 - Composable modules
 - Scientific approach to prompting
@@ -726,6 +788,7 @@ compiled_cot = dspy.teleprompt.BootstrapFewShot(metric=exact_match).compile(
 ---
 
 ### 4. **Guardrails** ⭐⭐⭐⭐
+
 **Purpose**: Add validation and structure to LLM outputs
 
 ```python
@@ -749,6 +812,7 @@ result = guard(
 ```
 
 **Features:**
+
 - Output validation
 - Schema enforcement
 - Automatic corrections
@@ -761,6 +825,7 @@ result = guard(
 ## 📊 Monitoring & Observability
 
 ### 1. **Helicone** ⭐⭐⭐⭐⭐
+
 **Purpose**: LLM observability platform
 
 ```python
@@ -776,6 +841,7 @@ response = openai.ChatCompletion.create(...)
 ```
 
 **Features:**
+
 - Request logging
 - Cost tracking
 - Latency monitoring
@@ -787,6 +853,7 @@ response = openai.ChatCompletion.create(...)
 ---
 
 ### 2. **Langfuse** ⭐⭐⭐⭐
+
 **Purpose**: Open-source LLM engineering platform
 
 ```python
@@ -805,6 +872,7 @@ generation = trace.generation(
 ```
 
 **Features:**
+
 - Open source
 - Self-hostable
 - Tracing and debugging
@@ -816,6 +884,7 @@ generation = trace.generation(
 ---
 
 ### 3. **Arize Phoenix** ⭐⭐⭐⭐
+
 **Purpose**: ML observability for LLMs
 
 ```python
@@ -831,6 +900,7 @@ LangChainInstrumentor().instrument()
 ```
 
 **Features:**
+
 - Embedding analysis
 - Drift detection
 - Retrieval evaluation
@@ -843,6 +913,7 @@ LangChainInstrumentor().instrument()
 ## 🎯 Specialized Tools
 
 ### 1. **Unstructured** ⭐⭐⭐⭐⭐
+
 **Purpose**: Parse any file type (PDF, Word, HTML, etc.)
 
 ```python
@@ -856,6 +927,7 @@ text = "\n".join([str(el) for el in elements])
 ```
 
 **Supports:**
+
 - PDF, DOCX, PPTX, XLSX
 - HTML, MD, TXT
 - Images (with OCR)
@@ -866,6 +938,7 @@ text = "\n".join([str(el) for el in elements])
 ---
 
 ### 2. **LlamaHub** ⭐⭐⭐⭐
+
 **Purpose**: Data loaders for LlamaIndex
 
 ```python
@@ -880,6 +953,7 @@ documents = loader.load_data(page_ids=[page_id])
 ```
 
 **300+ loaders:**
+
 - Databases (Postgres, MongoDB)
 - APIs (Slack, Notion, GitHub)
 - Files (PDF, Word, CSV)
@@ -890,6 +964,7 @@ documents = loader.load_data(page_ids=[page_id])
 ---
 
 ### 3. **Embedchain** ⭐⭐⭐⭐
+
 **Purpose**: Easy RAG in 3 lines
 
 ```python
@@ -908,6 +983,7 @@ answer = bot.query("What is the main point?")
 ```
 
 **Features:**
+
 - Auto-chunking
 - Auto-embedding
 - Multiple data sources
@@ -918,6 +994,7 @@ answer = bot.query("What is the main point?")
 ---
 
 ### 4. **Whisper (OpenAI)** ⭐⭐⭐⭐⭐
+
 **Purpose**: Speech-to-text
 
 ```python
@@ -929,6 +1006,7 @@ print(result["text"])
 ```
 
 **Features:**
+
 - Multilingual (99 languages)
 - High accuracy
 - Timestamps
@@ -939,6 +1017,7 @@ print(result["text"])
 ---
 
 ### 5. **ElevenLabs** ⭐⭐⭐⭐⭐
+
 **Purpose**: Text-to-speech with realistic voices
 
 ```python
@@ -954,6 +1033,7 @@ play(audio)
 ```
 
 **Features:**
+
 - Natural voices
 - Voice cloning
 - Multilingual
@@ -964,6 +1044,7 @@ play(audio)
 ---
 
 ### 6. **Stability AI (Stable Diffusion)** ⭐⭐⭐⭐⭐
+
 **Purpose**: Image generation
 
 ```python
@@ -988,16 +1069,19 @@ for resp in answers:
 ## 🎓 Learning Resources
 
 ### Courses
+
 - **DeepLearning.AI** - LangChain courses
 - **Weights & Biases** - LLM courses
 - **Fast.ai** - Practical deep learning
 
 ### Communities
+
 - **LangChain Discord** - Active community
 - **r/LocalLLaMA** - Reddit for local models
 - **Hugging Face Forums** - Model discussions
 
 ### Newsletters
+
 - **The Batch** (DeepLearning.AI)
 - **Import AI**
 - **TLDR AI**
@@ -1007,18 +1091,21 @@ for resp in answers:
 ## 🚀 Getting Started Checklist
 
 **For Beginners:**
+
 - [ ] Start with LangChain
 - [ ] Setup Chroma locally
 - [ ] Try Ollama for local models
 - [ ] Build a simple chatbot
 
 **For Intermediate:**
+
 - [ ] Implement RAG with LlamaIndex
 - [ ] Try vector database (Pinecone/Weaviate)
 - [ ] Add monitoring (Helicone)
 - [ ] Build an agent with AutoGPT
 
 **For Advanced:**
+
 - [ ] Deploy with vLLM
 - [ ] Setup observability (Langfuse)
 - [ ] Custom fine-tuning
@@ -1038,4 +1125,4 @@ for resp in answers:
 
 **Happy Building! 🚀**
 
-*Updated: March 2024*
+_Updated: March 2024_

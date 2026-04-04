@@ -5,7 +5,7 @@
 ## Usage
 
 ```tsx
-import { FormField, FormGroup, Input, TextArea } from "@truongdq01/ui";
+import { FormField, FormGroup, Input, TextArea } from '@truongdq01/ui';
 
 <FormGroup gap="md">
   <FormField label="Email" required>
@@ -14,23 +14,23 @@ import { FormField, FormGroup, Input, TextArea } from "@truongdq01/ui";
   <FormField label="Bio" helperText="Optional">
     <TextArea placeholder="Tell us about yourself" />
   </FormField>
-</FormGroup>
+</FormGroup>;
 ```
 
 ## FormField Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `label` | `string` | - | Field label |
-| `required` | `boolean` | `false` | Show required indicator |
-| `error` | `string` | - | Error text (replaces helper text) |
-| `helperText` | `string` | - | Supporting hint text |
-| `labelTrailing` | `ReactNode` | - | Trailing content next to label |
-| `children` | `ReactNode` | - | Input element |
+| Prop            | Type        | Default | Description                       |
+| --------------- | ----------- | ------- | --------------------------------- |
+| `label`         | `string`    | -       | Field label                       |
+| `required`      | `boolean`   | `false` | Show required indicator           |
+| `error`         | `string`    | -       | Error text (replaces helper text) |
+| `helperText`    | `string`    | -       | Supporting hint text              |
+| `labelTrailing` | `ReactNode` | -       | Trailing content next to label    |
+| `children`      | `ReactNode` | -       | Input element                     |
 
 ## FormGroup Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `children` | `ReactNode` | - | Fields to stack |
-| `gap` | `"sm" | "md" | "lg"` | `"md"` | Vertical spacing between fields |
+| Prop       | Type        | Default | Description     |
+| ---------- | ----------- | ------- | --------------- | ------ | ------------------------------- |
+| `children` | `ReactNode` | -       | Fields to stack |
+| `gap`      | `"sm"       | "md"    | "lg"`           | `"md"` | Vertical spacing between fields |

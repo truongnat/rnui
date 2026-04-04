@@ -1,6 +1,7 @@
 # Building a skill system, knowledge base & prompt framework
 
 ## 📋 Contents
+
 1. [Architecture overview](#architecture-overview)
 2. [Skill System Structure](#skill-system-structure)
 3. [Knowledge Base Structure](#knowledge-base-structure)
@@ -62,7 +63,7 @@ name: skill-identifier
 description: |
   When this skill should trigger.
   Include: use cases, keywords, contexts.
-  
+
   Example: "Use this skill when user mentions 'data analysis', 
   'visualization', 'charts', or wants to process CSV/Excel files."
 compatibility:
@@ -73,41 +74,51 @@ compatibility:
 # Skill Name
 
 ## Overview
+
 Brief description of what this skill does.
 
 ## When To Use
+
 - Specific trigger scenario 1
 - Specific trigger scenario 2
 - Keywords: keyword1, keyword2
 
 ## How It Works
+
 Step-by-step process
 
 ## Examples
+
 ### Example 1
+
 Input: ...
 Output: ...
 
 ## Best Practices
+
 - Practice 1
 - Practice 2
 
 ## Troubleshooting
+
 Common issues and solutions
 ```
 
 ### 3. Progressive Disclosure Strategy
 
 **Level 1: Metadata** (Always in context ~100 words)
+
 - Skill name + short description
 - When to trigger
 
 **Level 2: SKILL.md Body** (<500 lines)
+
 - Detailed guidance
 - Workflow
 - Examples
 
 **Level 3: Bundled Resources** (Unlimited)
+
 - Scripts (executable without loading into context)
 - Reference docs (load on demand)
 - Assets
@@ -121,15 +132,15 @@ description: "Helps with data analysis tasks"
 # ✅ GOOD (specific)
 description: |
   Analyzes CSV/Excel data, creates visualizations, and generates reports.
-  
+
   ALWAYS use this skill when user:
   - Mentions data analysis, charts, graphs, plots, visualizations
   - Uploads CSV, XLSX, or TSV files
   - Asks for statistical analysis, data cleaning, or data transformation
   - Wants to compare datasets or find trends
   - Needs dashboards or data reports
-  
-  Triggers: "analyze data", "create chart", "visualize this", 
+
+  Triggers: "analyze data", "create chart", "visualize this",
   "clean dataset", "find patterns", "generate report"
 ```
 
@@ -175,27 +186,32 @@ related: [doc1.md, doc2.md]
 # Document Title
 
 ## Table of Contents
+
 - [Overview](#overview)
 - [Key Concepts](#key-concepts)
 - [Examples](#examples)
 
 ## Overview
+
 Brief summary (2-3 sentences)
 
 ## Key Concepts
 
 ### Concept 1
+
 Detailed explanation
 
 ## Examples
 
 ### Example 1: Realistic Scenario
+
 **Context**: ...
 **Input**: ...
 **Process**: ...
 **Output**: ...
 
 ## Related Documents
+
 - [Related Doc 1](../path/to/doc1.md)
 - [Related Doc 2](../path/to/doc2.md)
 ```
@@ -203,21 +219,25 @@ Detailed explanation
 ### 3. Knowledge Base Access Patterns
 
 **Pattern 1: Direct Reference**
+
 ```markdown
 For detailed API documentation, see [references/api/endpoint-guide.md]
 ```
 
 **Pattern 2: Conditional Loading**
+
 ```markdown
 If working with AWS deployment, load references/cloud/aws.md
 If working with GCP deployment, load references/cloud/gcp.md
 ```
 
 **Pattern 3: TOC for Large Files**
+
 ```markdown
 # Large Reference Document (1000+ lines)
 
 ## Table of Contents
+
 - [Section A](#section-a) - Lines 50-200
 - [Section B](#section-b) - Lines 201-400
 - [Section C](#section-c) - Lines 401-600
@@ -247,7 +267,7 @@ prompts/templates/
 
 ### 2. YAML Prompt Template Format
 
-```yaml
+````yaml
 # prompts/templates/task-specific/code-review.yaml
 name: code-review-template
 version: 1.0
@@ -279,43 +299,45 @@ system_prompt: |
 
 prompt_template: |
   Please review the following {{language}} code:
-  
+
   ```{{language}}
   {{code}}
-  ```
-  
-  Focus areas: {{focus_areas}}
-  
-  Provide:
-  1. Overall assessment
-  2. Critical issues (security, bugs)
-  3. Performance concerns
-  4. Code quality suggestions
-  5. Best practice recommendations
-  
-  Format your response with clear sections and code examples.
+````
+
+Focus areas: {{focus_areas}}
+
+Provide:
+
+1. Overall assessment
+2. Critical issues (security, bugs)
+3. Performance concerns
+4. Code quality suggestions
+5. Best practice recommendations
+
+Format your response with clear sections and code examples.
 
 examples:
-  - input:
-      code: "def process(data): return data.sort()"
-      language: python
-    output: |
-      # Code Review
-      
-      ## Critical Issues
-      - `.sort()` mutates the list in-place and returns None
-      
-      ## Suggested Fix
-      ```python
-      def process(data):
-          return sorted(data)  # Returns new sorted list
-      ```
+
+- input:
+  code: "def process(data): return data.sort()"
+  language: python
+  output: |
+  # Code Review
+  ## Critical Issues
+  - `.sort()` mutates the list in-place and returns None
+  ## Suggested Fix
+  ```python
+  def process(data):
+      return sorted(data)  # Returns new sorted list
+  ```
 
 post_processing:
-  - validate_output_format
-  - check_code_snippets
-  - ensure_actionable_feedback
-```
+
+- validate_output_format
+- check_code_snippets
+- ensure_actionable_feedback
+
+````
 
 ### 3. Prompt Chain For Complex Tasks
 
@@ -331,27 +353,27 @@ steps:
       Search for: {{topic}}
       Focus: {{focus_areas}}
     output_var: search_results
-    
+
   - name: deep_dive
     type: web_fetch
     depends_on: initial_search
     prompt: |
       Fetch and analyze top {{num_sources}} sources from search results
     output_var: detailed_content
-    
+
   - name: synthesis
     type: llm_completion
     depends_on: deep_dive
     prompt: |
       Based on the following sources:
       {{detailed_content}}
-      
+
       Create a comprehensive summary covering:
       1. Key findings
       2. Consensus and disagreements
       3. Actionable insights
     output_var: summary
-    
+
   - name: citation_check
     type: validation
     depends_on: synthesis
@@ -359,7 +381,7 @@ steps:
       - all_claims_cited
       - no_quotes_over_15_words
     output_var: final_output
-```
+````
 
 ### 4. Reusable Prompt Components
 
@@ -380,9 +402,12 @@ prompts/components/
 ```
 
 Example component:
+
 ```markdown
 <!-- prompts/components/instructions/step-by-step.md -->
+
 Think through this step-by-step:
+
 1. First, analyze the problem
 2. Then, consider alternatives
 3. Finally, provide your recommendation
@@ -391,12 +416,13 @@ Show your reasoning at each step.
 ```
 
 Usage:
+
 ```yaml
 prompt_template: |
   {{instructions/step-by-step}}
-  
+
   Problem: {{problem_description}}
-  
+
   {{constraints/no-speculation}}
   {{output-formats/markdown-report}}
 ```
@@ -410,6 +436,7 @@ prompt_template: |
 MCP lets Claude connect to external services and data sources.
 
 **MCP server layout:**
+
 ```
 mcp-servers/
 ├── custom-server/
@@ -423,6 +450,7 @@ mcp-servers/
 ```
 
 **Example MCP Server Config:**
+
 ```yaml
 # mcp-servers/configs/custom-api.yaml
 name: company-internal-api
@@ -448,6 +476,7 @@ tools:
 Combine retrieval with generation to query a large knowledge base.
 
 **RAG Architecture:**
+
 ```python
 # scripts/rag-system.py
 """
@@ -463,31 +492,35 @@ class RAGSystem:
         self.model = SentenceTransformer('all-MiniLM-L6-v2')
         self.documents = self.load_documents(knowledge_base_path)
         self.embeddings = self.create_embeddings()
-    
+
     def load_documents(self, path: str) -> List[Dict]:
         """Load all documents from knowledge base"""
         pass
-    
+
     def create_embeddings(self) -> np.ndarray:
         """Create vector embeddings for all documents"""
         texts = [doc['content'] for doc in self.documents]
         return self.model.encode(texts)
-    
+
     def search(self, query: str, top_k: int = 5) -> List[Dict]:
         """Find most relevant documents"""
         query_embedding = self.model.encode([query])
         similarities = np.dot(self.embeddings, query_embedding.T)
         top_indices = np.argsort(similarities.flatten())[-top_k:][::-1]
-        
+
         return [self.documents[i] for i in top_indices]
 ```
 
 **Integrated with skills:**
-```markdown
+
+````markdown
 # skills/rag-assistant/SKILL.md
+
 ---
+
 name: rag-assistant
 description: Use RAG to answer questions from large knowledge base
+
 ---
 
 ## Workflow
@@ -497,10 +530,13 @@ description: Use RAG to answer questions from large knowledge base
    ```bash
    python scripts/rag-system.py search "{{query}}" --top-k 5
    ```
+````
+
 3. Load retrieved documents into context
 4. Generate answer based on retrieved context
 5. Cite sources
-```
+
+````
 
 ### 3. Vector Databases
 
@@ -528,9 +564,10 @@ results = collection.query(
     query_texts=["user question"],
     n_results=5
 )
-```
+````
 
 **Pinecone (Cloud, Scalable)**
+
 ```python
 # requirements: pinecone-client
 import pinecone
@@ -552,6 +589,7 @@ results = index.query(
 ```
 
 **Weaviate (Open Source, Feature-Rich)**
+
 ```python
 # requirements: weaviate-client
 import weaviate
@@ -582,6 +620,7 @@ result = client.query.get("Document", ["content", "source"])\
 Frameworks for building complex AI applications.
 
 **LangChain Example:**
+
 ```python
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
@@ -593,3 +632,4 @@ You are a helpful assistant specialized in {domain}.
 
 Conversation history:
 {history}
+```

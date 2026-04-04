@@ -24,4 +24,6 @@ const timeCached = endCached - startCached;
 
 console.log(`Math.max(...snapPoints): ${timeSpread.toFixed(2)}ms`);
 console.log(`Cached value: ${timeCached.toFixed(2)}ms`);
-console.log(`Improvement: ${((timeSpread - timeCached) / timeSpread * 100).toFixed(2)}%`);
+console.log(
+  `Improvement: ${(((timeSpread - timeCached) / timeSpread) * 100).toFixed(2)}%`
+);

@@ -1,11 +1,18 @@
-import React, { useRef, useState, useMemo, useCallback } from "react";
-import { View, Text, TextInput, Pressable, ActivityIndicator, FlatList } from "react-native";
-import { useSelect, useTokens, useComponentTokens } from "@truongdq01/headless";
-import { BottomSheet } from "../BottomSheet/BottomSheet";
-import type { BottomSheetRef } from "../BottomSheet/BottomSheet";
-import type { UseSelectOptions, SelectOption } from "@truongdq01/headless";
-import { Icon } from "../Icon";
-import { SkeletonListItem } from "../Skeleton";
+import React, { useRef, useState, useMemo, useCallback } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ActivityIndicator,
+  FlatList,
+} from 'react-native';
+import { useSelect, useTokens, useComponentTokens } from '@truongdq01/headless';
+import { BottomSheet } from '../BottomSheet/BottomSheet';
+import type { BottomSheetRef } from '../BottomSheet/BottomSheet';
+import type { UseSelectOptions, SelectOption } from '@truongdq01/headless';
+import { Icon } from '../Icon';
+import { SkeletonListItem } from '../Skeleton';
 
 export interface SelectProps<T = string> extends UseSelectOptions<T> {
   label?: string;
@@ -25,7 +32,7 @@ export interface SelectProps<T = string> extends UseSelectOptions<T> {
 
 export function Select<T = string>({
   label,
-  placeholder = "Select…",
+  placeholder = 'Select…',
   searchable = false,
   error,
   onClearError,
@@ -40,28 +47,24 @@ export function Select<T = string>({
   const { select } = useComponentTokens();
   const tokens = useTokens();
   const sheetRef = useRef<BottomSheetRef>(null);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const endReachBusy = useRef(false);
-  const a11yLabel = label ?? "Select";
+  const a11yLabel = label ?? 'Select';
   // FlashList is an optional native dependency. Fall back to FlatList when it's not installed.
   const ListImpl: React.ComponentType<any> = useMemo(() => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const mod = require("@shopify/flash-list") as { FlashList?: React.ComponentType<any> };
+      const mod = require('@shopify/flash-list') as {
+        FlashList?: React.ComponentType<any>;
+      };
       return mod?.FlashList ?? FlatList;
     } catch {
       return FlatList;
     }
   }, []);
 
-  const {
-    isOpen,
-    open,
-    close,
-    selectOption,
-    isSelected,
-    displayLabel,
-  } = useSelect({ options, ...hookOptions, placeholder });
+  const { isOpen, open, close, selectOption, isSelected, displayLabel } =
+    useSelect({ options, ...hookOptions, placeholder });
 
   const hasSelection = displayLabel !== placeholder;
 
@@ -77,7 +80,7 @@ export function Select<T = string>({
   }, [close]);
 
   const handleOpen = useCallback(() => {
-    setQuery("");
+    setQuery('');
     sheetRef.current?.open();
     open();
   }, [open]);
@@ -92,7 +95,14 @@ export function Select<T = string>({
   );
 
   const onEndReached = useCallback(() => {
-    if (!onLoadMore || !hasMore || loading || loadingMore || endReachBusy.current) return;
+    if (
+      !onLoadMore ||
+      !hasMore ||
+      loading ||
+      loadingMore ||
+      endReachBusy.current
+    )
+      return;
     endReachBusy.current = true;
     onLoadMore();
   }, [onLoadMore, hasMore, loading, loadingMore]);
@@ -118,26 +128,38 @@ export function Select<T = string>({
         <Pressable
           onPress={() => !option.disabled && handleSelect(option.value)}
           style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             paddingVertical: tokens.spacing[3],
             paddingHorizontal: tokens.spacing[4],
             borderRadius: tokens.radius.md,
-            backgroundColor: selected ? select.option.selected.bg : tokens.color.surface.default,
+            backgroundColor: selected
+              ? select.option.selected.bg
+              : tokens.color.surface.default,
             opacity: option.disabled ? 0.4 : 1,
           }}
         >
           <Text
             style={{
               fontSize: tokens.fontSize.md,
-              color: selected ? select.option.selected.color : select.option.default.color,
-              fontWeight: selected ? tokens.fontWeight.medium : tokens.fontWeight.regular,
+              color: selected
+                ? select.option.selected.color
+                : select.option.default.color,
+              fontWeight: selected
+                ? tokens.fontWeight.medium
+                : tokens.fontWeight.regular,
             }}
           >
             {option.label}
           </Text>
-          {selected && <Icon size={16} color={select.option.selected.color} name={"check" as any} />}
+          {selected && (
+            <Icon
+              size={16}
+              color={select.option.selected.color}
+              name={'check' as any}
+            />
+          )}
         </Pressable>
       );
     },
@@ -156,16 +178,16 @@ export function Select<T = string>({
     }
     if (filtered.length === 0) {
       const emptyMsg = loading
-        ? "Loading…"
+        ? 'Loading…'
         : query
           ? `No results for "${query}"`
-          : "No options";
+          : 'No options';
       return (
         <Text
           style={{
             color: tokens.color.text.tertiary,
             fontSize: tokens.fontSize.sm,
-            textAlign: "center",
+            textAlign: 'center',
             paddingVertical: tokens.spacing[6],
           }}
         >
@@ -179,7 +201,14 @@ export function Select<T = string>({
   return (
     <View>
       {label && (
-        <Text style={{ fontSize: tokens.fontSize.sm, fontWeight: tokens.fontWeight.medium, color: tokens.color.text.secondary, marginBottom: tokens.spacing[1] }}>
+        <Text
+          style={{
+            fontSize: tokens.fontSize.sm,
+            fontWeight: tokens.fontWeight.medium,
+            color: tokens.color.text.secondary,
+            marginBottom: tokens.spacing[1],
+          }}
+        >
           {label}
         </Text>
       )}
@@ -187,18 +216,22 @@ export function Select<T = string>({
       <Pressable
         onPress={handleOpen}
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           height: 48,
           paddingHorizontal: select.trigger.padding.x,
           paddingVertical: select.trigger.padding.y,
           borderWidth: 1,
-          borderColor: error ? tokens.color.border.error : isOpen ? select.trigger.focusBorderColor : select.trigger.borderColor,
+          borderColor: error
+            ? tokens.color.border.error
+            : isOpen
+              ? select.trigger.focusBorderColor
+              : select.trigger.borderColor,
           borderRadius: select.trigger.borderRadius,
           backgroundColor: select.trigger.bg,
         }}
-        accessibilityRole={"combobox" as any}
+        accessibilityRole={'combobox' as any}
         accessibilityLabel={a11yLabel}
         accessibilityState={{ expanded: isOpen }}
       >
@@ -206,36 +239,50 @@ export function Select<T = string>({
           style={{
             flex: 1,
             fontSize: tokens.fontSize.md,
-            color: hasSelection ? tokens.color.text.primary : tokens.color.text.tertiary,
+            color: hasSelection
+              ? tokens.color.text.primary
+              : tokens.color.text.tertiary,
           }}
           numberOfLines={1}
         >
           {displayLabel}
         </Text>
         <Icon size={16} color={tokens.color.text.tertiary}>
-          {isOpen ? "chevronUp" : "chevronDown"}
+          {isOpen ? 'chevronUp' : 'chevronDown'}
         </Icon>
       </Pressable>
 
       {error && (
-        <Text style={{ fontSize: tokens.fontSize.xs, color: tokens.color.error.text, marginTop: tokens.spacing[1] }}>
+        <Text
+          style={{
+            fontSize: tokens.fontSize.xs,
+            color: tokens.color.error.text,
+            marginTop: tokens.spacing[1],
+          }}
+        >
           {error}
         </Text>
       )}
 
       <BottomSheet
         ref={sheetRef}
-        snapPoints={searchable || options.length > 6 ? ["70%"] : ["40%"]}
+        snapPoints={searchable || options.length > 6 ? ['70%'] : ['40%']}
         onClose={close}
         enableBackdrop
         enableDismissOnSwipe
       >
-        <View style={{ flex: 1, paddingHorizontal: tokens.spacing[4], backgroundColor: tokens.color.bg.default }}>
+        <View
+          style={{
+            flex: 1,
+            paddingHorizontal: tokens.spacing[4],
+            backgroundColor: tokens.color.bg.default,
+          }}
+        >
           {searchable && isOpen && (
             <View
               style={{
-                flexDirection: "row",
-                alignItems: "center",
+                flexDirection: 'row',
+                alignItems: 'center',
                 borderWidth: 1,
                 borderColor: tokens.color.border.default,
                 borderRadius: tokens.radius.md,
@@ -246,20 +293,33 @@ export function Select<T = string>({
               }}
             >
               <View style={{ marginRight: 8 }}>
-                <Icon size={20} color={tokens.color.text.tertiary} name={"search" as any} />
+                <Icon
+                  size={20}
+                  color={tokens.color.text.tertiary}
+                  name={'search' as any}
+                />
               </View>
               <TextInput
                 value={query}
                 onChangeText={setQuery}
                 placeholder="Search…"
                 placeholderTextColor={tokens.color.text.tertiary}
-                style={{ flex: 1, fontSize: tokens.fontSize.md, color: tokens.color.text.primary, height: "100%" }}
+                style={{
+                  flex: 1,
+                  fontSize: tokens.fontSize.md,
+                  color: tokens.color.text.primary,
+                  height: '100%',
+                }}
                 autoFocus
                 accessibilityLabel={`${a11yLabel} search`}
               />
               {query.length > 0 && (
-                <Pressable onPress={() => setQuery("")} hitSlop={8}>
-                  <Icon size={18} color={tokens.color.text.tertiary} name={"close" as any} />
+                <Pressable onPress={() => setQuery('')} hitSlop={8}>
+                  <Icon
+                    size={18}
+                    color={tokens.color.text.tertiary}
+                    name={'close' as any}
+                  />
                 </Pressable>
               )}
             </View>
@@ -287,7 +347,12 @@ export function Select<T = string>({
               )}
               ListFooterComponent={
                 loadingMore ? (
-                  <View style={{ paddingVertical: tokens.spacing[3], alignItems: "center" }}>
+                  <View
+                    style={{
+                      paddingVertical: tokens.spacing[3],
+                      alignItems: 'center',
+                    }}
+                  >
                     <ActivityIndicator color={tokens.color.brand.default} />
                   </View>
                 ) : (

@@ -18,10 +18,10 @@ Use official [Martin Fowler microservices articles](https://martinfowler.com/mic
 
 ## Related skills (this repo)
 
-| Skill | When to combine |
-|-------|------------------|
-| `api-design-pro` | Define stable service contracts and backward-compatible evolution. |
-| `performance-tuning-pro` | Diagnose cross-service latency chains and optimize bottlenecks. |
+| Skill                    | When to combine                                                    |
+| ------------------------ | ------------------------------------------------------------------ |
+| `api-design-pro`         | Define stable service contracts and backward-compatible evolution. |
+| `performance-tuning-pro` | Diagnose cross-service latency chains and optimize bottlenecks.    |
 
 ## When to use
 
@@ -74,10 +74,10 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 Use these files for deeper detail when concise guidance in this file is not enough.
 
-| Topic | File |
-|-------|------|
-| Practical microservices patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Distributed-system failure modes and edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Topic                                           | File                                                           |
+| ----------------------------------------------- | -------------------------------------------------------------- |
+| Practical microservices patterns                | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
+| Distributed-system failure modes and edge cases | [references/edge-cases.md](references/edge-cases.md)           |
 
 ## Quick example
 

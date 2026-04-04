@@ -15,9 +15,9 @@
 
 ## REQ traceability
 
-| REQ-ID | Evidence |
-|--------|----------|
-| IMP-01 | OTP files + example |
-| IMP-02 | Toast animation diff |
+| REQ-ID | Evidence                           |
+| ------ | ---------------------------------- |
+| IMP-01 | OTP files + example                |
+| IMP-02 | Toast animation diff               |
 | IMP-03 | Example AnimatedList `useCallback` |
-| IMP-04 | SegmentedControl layout |
+| IMP-04 | SegmentedControl layout            |

@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TextInput } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   interpolateColor,
-} from "react-native-reanimated";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
-import { useFormGroupVariant } from "../FormField/FormGroupContext";
-import { AnimatedHelperText } from "../Input/AnimatedHelperText";
+} from 'react-native-reanimated';
+import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { useFormGroupVariant } from '../FormField/FormGroupContext';
+import { AnimatedHelperText } from '../Input/AnimatedHelperText';
 
 /** IMPROVEMENT_PLAN Issue #1 — `inside` | `above` (label row) | `below` (between field and helper) */
-export type TextAreaCounterPosition = "inside" | "above" | "below";
+export type TextAreaCounterPosition = 'inside' | 'above' | 'below';
 
 const FOCUS_MS = 150;
 
@@ -48,7 +48,7 @@ export interface TextAreaProps {
 export function TextArea({
   label,
   placeholder,
-  value = "",
+  value = '',
   onChangeText,
   onBlur,
   onFocus,
@@ -58,7 +58,7 @@ export function TextArea({
   maxLines = 8,
   maxLength,
   showCounter = true,
-  counterPosition = "inside",
+  counterPosition = 'inside',
   disabled = false,
   autoFocus = false,
   accessibilityLabel,
@@ -66,7 +66,7 @@ export function TextArea({
   const { textArea } = useComponentTokens();
   const tokens = useTokens();
   const formGroupVariant = useFormGroupVariant();
-  const isGrouped = formGroupVariant === "grouped";
+  const isGrouped = formGroupVariant === 'grouped';
   const [isFocused, setIsFocused] = useState(false);
 
   const focusProgress = useSharedValue(0);
@@ -110,7 +110,11 @@ export function TextArea({
       return { borderColor: disabledBorder };
     }
     return {
-      borderColor: interpolateColor(focusProgress.value, [0, 1], [defaultBorder, focusBorder]),
+      borderColor: interpolateColor(
+        focusProgress.value,
+        [0, 1],
+        [defaultBorder, focusBorder]
+      ),
     };
   }, [defaultBorder, disabledBorder, errorBorder, focusBorder]);
 
@@ -121,9 +125,15 @@ export function TextArea({
   /** Vertical padding inside bordered container (must match `textArea.container`). */
   const containerPadV = tokens.spacing[2];
 
-  const showCounterAbove = Boolean(maxLength && showCounter && counterPosition === "above");
-  const showCounterInside = Boolean(maxLength && showCounter && counterPosition === "inside");
-  const showCounterBelow = Boolean(maxLength && showCounter && counterPosition === "below");
+  const showCounterAbove = Boolean(
+    maxLength && showCounter && counterPosition === 'above'
+  );
+  const showCounterInside = Boolean(
+    maxLength && showCounter && counterPosition === 'inside'
+  );
+  const showCounterBelow = Boolean(
+    maxLength && showCounter && counterPosition === 'below'
+  );
   const counterPaddingBottom = showCounterInside ? tokens.spacing[5] : 0;
 
   const innerMaxH = Math.max(1, maxHeight - 2 * containerPadV);
@@ -132,7 +142,7 @@ export function TextArea({
     ? {
         borderWidth: 0,
         borderRadius: 0,
-        backgroundColor: "transparent" as const,
+        backgroundColor: 'transparent' as const,
       }
     : {};
 
@@ -154,20 +164,23 @@ export function TextArea({
       ? tokens.color.warning.text
       : tokens.color.text.tertiary;
 
-  const counterWeight = atLimit ? tokens.fontWeight.semibold : tokens.fontWeight.regular;
+  const counterWeight = atLimit
+    ? tokens.fontWeight.semibold
+    : tokens.fontWeight.regular;
 
-  const counterEl = maxLength && showCounter ? (
-    <Text
-      pointerEvents="none"
-      style={{
-        fontSize: tokens.fontSize.xs,
-        color: counterColor,
-        fontWeight: counterWeight,
-      }}
-    >
-      {charCount}/{maxLength}
-    </Text>
-  ) : null;
+  const counterEl =
+    maxLength && showCounter ? (
+      <Text
+        pointerEvents="none"
+        style={{
+          fontSize: tokens.fontSize.xs,
+          color: counterColor,
+          fontWeight: counterWeight,
+        }}
+      >
+        {charCount}/{maxLength}
+      </Text>
+    ) : null;
 
   return (
     <View>
@@ -175,9 +188,9 @@ export function TextArea({
       {(label || showCounterAbove) && (
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             marginBottom: tokens.spacing[1],
           }}
         >
@@ -188,7 +201,13 @@ export function TextArea({
 
       {/* Text area */}
       <Animated.View
-        style={[containerStyle, showCounterInside && { position: "relative" as const }, animatedBorderStyle] as any}
+        style={
+          [
+            containerStyle,
+            showCounterInside && { position: 'relative' as const },
+            animatedBorderStyle,
+          ] as any
+        }
       >
         <TextInput
           value={value}
@@ -204,11 +223,11 @@ export function TextArea({
           accessibilityState={{ disabled }}
           style={{
             height: innerMaxH,
-            width: "100%",
+            width: '100%',
             fontSize: tokens.fontSize.md,
             color: textArea.text.color,
             lineHeight: LINE_HEIGHT,
-            textAlignVertical: "top",
+            textAlignVertical: 'top',
             paddingTop: 0,
             paddingBottom: counterPaddingBottom,
           }}
@@ -224,7 +243,7 @@ export function TextArea({
         {showCounterInside && counterEl ? (
           <View
             style={{
-              position: "absolute",
+              position: 'absolute',
               right: tokens.spacing[3],
               bottom: tokens.spacing[2],
             }}
@@ -238,8 +257,8 @@ export function TextArea({
       {showCounterBelow && counterEl ? (
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "flex-end",
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
             marginTop: tokens.spacing[1],
           }}
         >
@@ -248,9 +267,17 @@ export function TextArea({
       ) : null}
 
       {error ? (
-        <AnimatedHelperText text={error} isError={true} style={textArea.errorText as any} />
+        <AnimatedHelperText
+          text={error}
+          isError={true}
+          style={textArea.errorText as any}
+        />
       ) : (
-        <AnimatedHelperText text={helperText} isError={false} style={textArea.helperText as any} />
+        <AnimatedHelperText
+          text={helperText}
+          isError={false}
+          style={textArea.helperText as any}
+        />
       )}
     </View>
   );

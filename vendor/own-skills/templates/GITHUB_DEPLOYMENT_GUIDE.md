@@ -1,16 +1,17 @@
-
 Human: {input}
 """
 
 prompt = PromptTemplate(
-    input_variables=["domain", "history", "input"],
-    template=template
+input_variables=["domain", "history", "input"],
+template=template
 )
 
 # Create chain with memory
+
 memory = ConversationBufferMemory()
 chain = LLMChain(prompt=prompt, memory=memory)
-```
+
+````
 
 **LlamaIndex Example:**
 ```python
@@ -25,7 +26,7 @@ index = GPTVectorStoreIndex.from_documents(documents)
 # Query
 query_engine = index.as_query_engine()
 response = query_engine.query("What is the refund policy?")
-```
+````
 
 ---
 
@@ -87,8 +88,8 @@ your-ai-toolkit/                 # Root repository
 echo "🚀 Setting up AI Toolkit..."
 
 # Check prerequisites
-command -v python3 >/dev/null 2>&1 || { 
-    echo "❌ Python 3 is required but not installed."; exit 1; 
+command -v python3 >/dev/null 2>&1 || {
+    echo "❌ Python 3 is required but not installed."; exit 1;
 }
 
 # Create virtual environment
@@ -137,17 +138,17 @@ skills:
   directories:
     - skills
   auto_discover: true
-  
+
 knowledge_base:
   path: knowledge-base/documents
   embedding_model: all-MiniLM-L6-v2
-  vector_store: chroma  # chroma, pinecone, weaviate
+  vector_store: chroma # chroma, pinecone, weaviate
   update_on_change: true
 
 prompts:
   template_path: prompts/templates
   chain_path: prompts/chains
-  
+
 mcp_servers:
   - name: custom-api
     url: https://api.example.com/mcp
@@ -160,13 +161,13 @@ apis:
   anthropic:
     api_key_env: ANTHROPIC_API_KEY
     model: claude-sonnet-4-20250514
-  
+
   openai:
     api_key_env: OPENAI_API_KEY
     model: gpt-4
 
 vector_db:
-  type: chroma  # chroma, pinecone, weaviate
+  type: chroma # chroma, pinecone, weaviate
   chroma:
     persist_directory: .chromadb
   pinecone:
@@ -189,62 +190,63 @@ name: Test Skills
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test-skills:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-    
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    
-    - name: Discover skills
-      run: |
-        python scripts/discover_skills.py
-    
-    - name: Run skill tests
-      run: |
-        python scripts/test_skills.py --all
-      env:
-        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-    
-    - name: Upload test results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: skill-test-results
-        path: test-results/
-    
-    - name: Comment PR with results
-      if: github.event_name == 'pull_request'
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const fs = require('fs');
-          const results = fs.readFileSync('test-results/summary.md', 'utf8');
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: results
-          });
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Discover skills
+        run: |
+          python scripts/discover_skills.py
+
+      - name: Run skill tests
+        run: |
+          python scripts/test_skills.py --all
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: skill-test-results
+          path: test-results/
+
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const results = fs.readFileSync('test-results/summary.md', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: results
+            });
 ```
 
 ### 5. Package Distribution
 
 **Option 1: As Python Package**
+
 ```python
 # setup.py
 from setuptools import setup, find_packages
@@ -275,11 +277,13 @@ setup(
 ```
 
 **Install via pip:**
+
 ```bash
 pip install git+https://github.com/username/your-ai-toolkit.git
 ```
 
 **Option 2: As Docker Container**
+
 ```dockerfile
 # Dockerfile
 FROM python:3.11-slim
@@ -303,12 +307,13 @@ CMD ["python", "scripts/serve.py"]
 ```
 
 **Option 3: As Skill Package (.skill files)**
+
 ```bash
 # Package individual skills
 python scripts/package_skill.py skills/data-analysis
 
 # This creates: data-analysis.skill
-# Users can install with: 
+# Users can install with:
 # claude skill install data-analysis.skill
 ```
 
@@ -320,33 +325,34 @@ name: Build Documentation
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Generate skill documentation
-      run: |
-        python scripts/generate_docs.py
-    
-    - name: Build with MkDocs
-      run: |
-        pip install mkdocs mkdocs-material
-        mkdocs build
-    
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./site
+      - uses: actions/checkout@v3
+
+      - name: Generate skill documentation
+        run: |
+          python scripts/generate_docs.py
+
+      - name: Build with MkDocs
+        run: |
+          pip install mkdocs mkdocs-material
+          mkdocs build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
 ```
 
 ### 7. Best Practices
 
 **Version Control:**
+
 ```gitignore
 # .gitignore
 # Environment
@@ -383,6 +389,7 @@ Thumbs.db
 ```
 
 **Semantic Versioning:**
+
 ```yaml
 # CHANGELOG.md format
 # Changelog
@@ -407,6 +414,7 @@ Thumbs.db
 ```
 
 **Release Process:**
+
 ```bash
 # scripts/release.sh
 #!/bin/bash
@@ -496,12 +504,10 @@ python server.py
    - Clone template
    - Modify description
    - Add test prompts
-   
 2. **Intermediate**: Create a knowledge base
    - Organize documents
    - Setup RAG system
    - Integrate with skills
-   
 3. **Advanced**: Build MCP servers
    - Custom integrations
    - Complex workflows
@@ -516,16 +522,14 @@ python server.py
 
 ### Recommended Tools
 
-- **VS Code Extensions**: 
+- **VS Code Extensions**:
   - YAML
   - Markdown All in One
   - Python
-  
 - **CLI Tools**:
   - `jq` for JSON manipulation
   - `yq` for YAML
   - `httpie` for API testing
-  
 - **Monitoring**:
   - Logging with `structlog`
   - Metrics with `prometheus-client`

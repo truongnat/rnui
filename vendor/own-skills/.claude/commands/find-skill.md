@@ -11,6 +11,7 @@ $ARGUMENTS
 ### Step 1: Load the skill index
 
 Read `knowledge-base/embeddings/skill_index.json`. If the file does not exist, tell the user to run:
+
 ```bash
 python scripts/build_skill_index.py
 ```
@@ -18,6 +19,7 @@ python scripts/build_skill_index.py
 ### Step 2: Extract prompt keywords
 
 From the user's prompt, extract meaningful keywords:
+
 - Lowercase all terms.
 - Ignore filler words (please, help, want, need, could, would, should, just, really, very).
 - Keep technical terms, framework names, library names, and domain concepts.
@@ -25,6 +27,7 @@ From the user's prompt, extract meaningful keywords:
 ### Step 3: Match against skill triggers
 
 For each skill in the index:
+
 1. Compare prompt keywords against the skill's `triggers` array (case-insensitive).
 2. **Exact match:** keyword appears in triggers list -> score +1.
 3. **Phrase match:** multi-word trigger (e.g., "rest api") found as substring in prompt -> score +2.
@@ -40,6 +43,7 @@ For each skill in the index:
 ### Step 5: Suggest combinations
 
 If the prompt spans multiple domains (e.g., "secure React API"):
+
 - Identify 2-3 skills that cover different aspects.
 - Suggest a reading order (most relevant first).
 - Note which `references/*.md` files to read for depth.

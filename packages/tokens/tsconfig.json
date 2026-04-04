@@ -1,18 +1,11 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "outDir": "dist",
-        "composite": true,
-        "incremental": true,
-        "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
-    },
-    "include": [
-        "src"
-    ],
-    "exclude": [
-        "node_modules",
-        "dist",
-        "**/__tests__/**/*",
-        "**/*.test.ts"
-    ]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "composite": true,
+    "incremental": true,
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "**/__tests__/**/*", "**/*.test.ts"]
 }

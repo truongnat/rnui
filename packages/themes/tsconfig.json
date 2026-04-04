@@ -5,5 +5,11 @@
     "composite": false
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/__tests__/**/*", "**/*.test.ts", "**/*.test.tsx"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/__tests__/**/*",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
 }

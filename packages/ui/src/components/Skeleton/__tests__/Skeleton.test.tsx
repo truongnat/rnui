@@ -1,7 +1,7 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Skeleton, SkeletonText } from "../Skeleton";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Skeleton, SkeletonText } from '../Skeleton';
+import { ThemeProvider } from '@truongdq01/headless';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider colorScheme="light" brand={undefined} override={undefined}>
@@ -9,7 +9,7 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
   </ThemeProvider>
 );
 
-test("Skeleton renders", () => {
+test('Skeleton renders', () => {
   const { toJSON } = render(
     <Wrap>
       <Skeleton width={100} height={20} />
@@ -19,7 +19,7 @@ test("Skeleton renders", () => {
   expect(toJSON()).toBeTruthy();
 });
 
-test("Skeleton renders with animate false", () => {
+test('Skeleton renders with animate false', () => {
   const { toJSON } = render(
     <Wrap>
       <Skeleton width={100} height={20} animate={false} />
@@ -28,7 +28,7 @@ test("Skeleton renders with animate false", () => {
   expect(toJSON()).toBeTruthy();
 });
 
-test("Skeleton unmounts without throwing", () => {
+test('Skeleton unmounts without throwing', () => {
   const { unmount } = render(
     <Wrap>
       <Skeleton width={50} height={10} animate />

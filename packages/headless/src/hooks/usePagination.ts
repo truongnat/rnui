@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from 'react';
 
 export interface UsePaginationOptions {
   count: number;
@@ -9,7 +9,7 @@ export interface UsePaginationOptions {
   onChange?: (page: number) => void;
 }
 
-export type PaginationItem = number | "start-ellipsis" | "end-ellipsis";
+export type PaginationItem = number | 'start-ellipsis' | 'end-ellipsis';
 
 export interface UsePaginationReturn {
   page: number;
@@ -51,10 +51,16 @@ export function usePagination({
     if (count <= 0) return [];
 
     const startPages = range(1, Math.min(boundaryCount, count));
-    const endPages = range(Math.max(count - boundaryCount + 1, boundaryCount + 1), count);
+    const endPages = range(
+      Math.max(count - boundaryCount + 1, boundaryCount + 1),
+      count
+    );
 
     const siblingsStart = Math.max(
-      Math.min(page - siblingCount, count - boundaryCount - siblingCount * 2 - 1),
+      Math.min(
+        page - siblingCount,
+        count - boundaryCount - siblingCount * 2 - 1
+      ),
       boundaryCount + 2
     );
 
@@ -67,7 +73,7 @@ export function usePagination({
     result.push(...startPages);
 
     if (siblingsStart > boundaryCount + 2) {
-      result.push("start-ellipsis");
+      result.push('start-ellipsis');
     } else if (boundaryCount + 1 < count - boundaryCount) {
       result.push(boundaryCount + 1);
     }
@@ -75,7 +81,7 @@ export function usePagination({
     result.push(...range(siblingsStart, siblingsEnd));
 
     if (siblingsEnd < count - boundaryCount - 1) {
-      result.push("end-ellipsis");
+      result.push('end-ellipsis');
     } else if (count - boundaryCount > boundaryCount) {
       result.push(count - boundaryCount);
     }
@@ -83,7 +89,7 @@ export function usePagination({
     result.push(...endPages);
 
     return Array.from(new Set(result)).filter((item) => {
-      if (typeof item === "number") return item >= 1 && item <= count;
+      if (typeof item === 'number') return item >= 1 && item <= count;
       return true;
     });
   }, [count, page, siblingCount, boundaryCount]);

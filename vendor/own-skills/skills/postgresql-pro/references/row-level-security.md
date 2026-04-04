@@ -84,12 +84,12 @@ CREATE POLICY tenant_isolation_insert ON app.orders
 
 ## Patterns for multi-tenant apps
 
-| Pattern | Idea | Watch out |
-|--------|------|-----------|
-| Session variable | `set_config('app.tenant_id', …)` | Pooling resets session; set every checkout |
-| JWT claim | `current_setting('request.jwt.claims', true)::json` (Supabase-style) | Parse and validate in policy; keep policies fast |
-| `tenant_id` column | Every row carries `tenant_id` | Index `(tenant_id, …)` for RLS predicates |
-| **SECURITY DEFINER** functions | Centralize logic | Audit carefully; fixed `search_path` |
+| Pattern                        | Idea                                                                 | Watch out                                        |
+| ------------------------------ | -------------------------------------------------------------------- | ------------------------------------------------ |
+| Session variable               | `set_config('app.tenant_id', …)`                                     | Pooling resets session; set every checkout       |
+| JWT claim                      | `current_setting('request.jwt.claims', true)::json` (Supabase-style) | Parse and validate in policy; keep policies fast |
+| `tenant_id` column             | Every row carries `tenant_id`                                        | Index `(tenant_id, …)` for RLS predicates        |
+| **SECURITY DEFINER** functions | Centralize logic                                                     | Audit carefully; fixed `search_path`             |
 
 ---
 
@@ -135,4 +135,4 @@ To set `set_config` / `SET LOCAL` from HTTP requests, Prisma/TypeORM transaction
 
 ---
 
-*Official reference: [PostgreSQL RLS](https://www.postgresql.org/docs/current/ddl-rowsecurity.html). Supabase users: align with [RLS docs](https://supabase.com/docs/guides/auth/row-level-security) for JWT helpers.*
+_Official reference: [PostgreSQL RLS](https://www.postgresql.org/docs/current/ddl-rowsecurity.html). Supabase users: align with [RLS docs](https://supabase.com/docs/guides/auth/row-level-security) for JWT helpers._

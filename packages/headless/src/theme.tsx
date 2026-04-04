@@ -1,8 +1,18 @@
-import React, { createContext, useContext, useMemo, useRef, type ReactNode } from "react";
-import { useColorScheme } from "react-native";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import type { Brand } from "@truongdq01/tokens";
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useRef,
+  type ReactNode,
+} from 'react';
+import { useColorScheme } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import type { Brand } from '@truongdq01/tokens';
 import {
   semanticTokens,
   buildSemanticTokens,
@@ -10,7 +20,7 @@ import {
   type SemanticTokens,
   type ComponentTokens,
   type ColorScheme,
-} from "@truongdq01/tokens";
+} from '@truongdq01/tokens';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -24,7 +34,7 @@ export interface Theme {
   /** Active brand (if any) */
   brand?: Brand;
   /** Toggle or force a color scheme */
-  setColorScheme: (scheme: ColorScheme | "system") => void;
+  setColorScheme: (scheme: ColorScheme | 'system') => void;
   /** Swap brand at runtime */
   setBrand: (brand: Brand | undefined) => void;
 }
@@ -33,7 +43,9 @@ export interface Theme {
  * Partial token overrides — for one-off tweaks on top of a brand.
  * Use a Brand for full color identity changes; use override for minor adjustments.
  */
-export type ThemeOverride = Partial<Record<ColorScheme, DeepPartial<SemanticTokens>>>;
+export type ThemeOverride = Partial<
+  Record<ColorScheme, DeepPartial<SemanticTokens>>
+>;
 
 export interface ThemeProviderProps {
   children: ReactNode;
@@ -44,12 +56,12 @@ export interface ThemeProviderProps {
    * When `onColorSchemeChange` is set, this value is **controlled**: the parent owns
    * state (e.g. from `usePersistedColorScheme`) and must update `colorScheme` when the user changes theme.
    */
-  colorScheme?: ColorScheme | "system";
+  colorScheme?: ColorScheme | 'system';
   /**
    * If provided, `ThemeProvider` runs in controlled mode: `setColorScheme` from `useTheme()`
    * calls this instead of internal state. Use with `usePersistedColorScheme` + AsyncStorage (in the app).
    */
-  onColorSchemeChange?: (scheme: ColorScheme | "system") => void;
+  onColorSchemeChange?: (scheme: ColorScheme | 'system') => void;
   /**
    * Brand preset — defines the full color identity (bg, brand, accent, text…).
    * Each brand carries its own light + dark token sets.
@@ -81,7 +93,7 @@ export function createTheme(override: ThemeOverride): ThemeOverride {
 }
 
 // Re-export Brand type for convenience
-export type { Brand } from "@truongdq01/tokens";
+export type { Brand } from '@truongdq01/tokens';
 
 // ─── Context ──────────────────────────────────────────────────────
 
@@ -91,16 +103,20 @@ const ThemeContext = createContext<Theme | null>(null);
 
 export function ThemeProvider({
   children,
-  colorScheme: forcedScheme = "system",
+  colorScheme: forcedScheme = 'system',
   brand: initialBrand,
   override,
   onColorSchemeChange,
   animateTransition = false,
 }: ThemeProviderProps) {
   const systemScheme = useColorScheme();
-  const isControlled = typeof onColorSchemeChange === "function";
-  const [manualScheme, setManualScheme] = React.useState<ColorScheme | "system">(forcedScheme);
-  const [activeBrand, setActiveBrand] = React.useState<Brand | undefined>(initialBrand);
+  const isControlled = typeof onColorSchemeChange === 'function';
+  const [manualScheme, setManualScheme] = React.useState<
+    ColorScheme | 'system'
+  >(forcedScheme);
+  const [activeBrand, setActiveBrand] = React.useState<Brand | undefined>(
+    initialBrand
+  );
 
   React.useEffect(() => {
     if (!isControlled) {
@@ -108,10 +124,12 @@ export function ThemeProvider({
     }
   }, [forcedScheme, isControlled]);
 
-  const schemePreference: ColorScheme | "system" = isControlled ? forcedScheme : manualScheme;
+  const schemePreference: ColorScheme | 'system' = isControlled
+    ? forcedScheme
+    : manualScheme;
 
   const setColorScheme = React.useCallback(
-    (scheme: ColorScheme | "system") => {
+    (scheme: ColorScheme | 'system') => {
       if (isControlled) {
         onColorSchemeChange?.(scheme);
       } else {
@@ -122,7 +140,11 @@ export function ThemeProvider({
   );
 
   const activeScheme: ColorScheme =
-    schemePreference === "system" ? (systemScheme === "dark" ? "dark" : "light") : schemePreference;
+    schemePreference === 'system'
+      ? systemScheme === 'dark'
+        ? 'dark'
+        : 'light'
+      : schemePreference;
 
   // Animated transition on scheme/brand change
   const transitionOpacity = useSharedValue(1);
@@ -130,7 +152,10 @@ export function ThemeProvider({
   const prevBrandRef = useRef(activeBrand?.id);
   React.useEffect(() => {
     if (!animateTransition) return;
-    if (prevSchemeRef.current !== activeScheme || prevBrandRef.current !== activeBrand?.id) {
+    if (
+      prevSchemeRef.current !== activeScheme ||
+      prevBrandRef.current !== activeBrand?.id
+    ) {
       transitionOpacity.value = 0.88;
       transitionOpacity.value = withTiming(1, { duration: 280 });
     }
@@ -176,9 +201,7 @@ export function ThemeProvider({
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeContext.Provider value={theme}>
-        {content}
-      </ThemeContext.Provider>
+      <ThemeContext.Provider value={theme}>{content}</ThemeContext.Provider>
     </GestureHandlerRootView>
   );
 }
@@ -193,8 +216,8 @@ export function useTheme(): Theme {
   const ctx = useContext(ThemeContext);
   if (!ctx) {
     throw new Error(
-      "[RNUI] useTheme must be used inside <ThemeProvider>. " +
-        "Wrap your app root with <ThemeProvider>."
+      '[RNUI] useTheme must be used inside <ThemeProvider>. ' +
+        'Wrap your app root with <ThemeProvider>.'
     );
   }
   return ctx;
@@ -219,7 +242,7 @@ export function useComponentTokens(): ComponentTokens {
  * Returns true when the active color scheme is dark.
  */
 export function useIsDark(): boolean {
-  return useTheme().colorScheme === "dark";
+  return useTheme().colorScheme === 'dark';
 }
 
 /**
@@ -254,10 +277,10 @@ function deepMerge<T extends object>(base: T, override: DeepPartial<T>): T {
     const baseVal = base[key as unknown as keyof T];
     if (
       overrideVal !== undefined &&
-      typeof overrideVal === "object" &&
+      typeof overrideVal === 'object' &&
       !Array.isArray(overrideVal) &&
       baseVal !== null &&
-      typeof baseVal === "object"
+      typeof baseVal === 'object'
     ) {
       (result as Record<string, unknown>)[key] = deepMerge(
         baseVal as object,

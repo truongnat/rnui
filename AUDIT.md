@@ -54,8 +54,16 @@ endIcon?: React.ReactNode;       // MUI alias
 ```
 
 Similarly, `ButtonVariant` exports both native names and MUI aliases:
+
 ```ts
-export type ButtonVariant = "solid" | "outline" | "ghost" | "destructive" | "text" | "contained" | "outlined";
+export type ButtonVariant =
+  | 'solid'
+  | 'outline'
+  | 'ghost'
+  | 'destructive'
+  | 'text'
+  | 'contained'
+  | 'outlined';
 ```
 
 `"contained"`, `"outlined"`, and `"text"` are resolved via `useMemo` back to `"solid"`, `"outline"`, `"ghost"` (Button.tsx lines 107–112). These aliases appear in public types, pollute autocomplete, and are undocumented. **Pick a convention and drop the aliases**, or at least mark them `@deprecated`.
@@ -87,6 +95,7 @@ export type SemanticTokens = typeof lightTokens; // fully typed, no drift
 ### 1.5 Tree-Shaking & Package Exports
 
 All four packages use a single export entry:
+
 ```json
 "exports": {
   ".": { "types": "...", "import": "...", "require": "..." }
@@ -96,6 +105,7 @@ All four packages use a single export entry:
 With Metro (React Native's bundler), this is a **tree-shaking dead end**. Metro does not tree-shake across module boundaries — importing `import { Button } from "@truongdq01/ui"` will pull in all 62 components and all their dependencies (including `@shopify/flash-list`, `@react-native-community/datetimepicker`, etc.) into every consumer's bundle.
 
 **Fix:** Add subpath exports in `package.json`:
+
 ```json
 "exports": {
   ".": { ... },
@@ -103,6 +113,7 @@ With Metro (React Native's bundler), this is a **tree-shaking dead end**. Metro 
   "./select": { ... }
 }
 ```
+
 And configure `tsup` to output per-component entry points.
 
 **Separate issue:** `@shopify/flash-list` (`^2.0.2`) is in `dependencies`, not `peerDependencies`. FlashList has native code (requires `pod install` / Android linking). Every consumer of `@truongdq01/ui` will have it forced on them even if they never use `Select`. It should be either a peer dependency with an optional indicator, or the Select component should support passing a list renderer as a prop.
@@ -154,25 +165,30 @@ Dark mode coverage is thorough. `darkTokens` properly inverts surfaces, text con
 **`Badge` (`Badge/Badge.tsx`):** No accessibility props at all. `<View>` with no `accessibilityRole`, no `accessibilityLabel`. For decorative badges this is acceptable, but status badges (error, warning, success) carry semantic meaning that screen readers will miss entirely. Should expose `accessibilityRole="text"` and allow `accessibilityLabel` override.
 
 **`Tabs`/`Tab` (`Tabs/Tabs.tsx`):**
+
 - `Tab` correctly sets `accessibilityRole="tab"` and `accessibilityState={{ selected, disabled }}` — good.
 - `Tabs` container `<View>` has no `accessibilityRole="tablist"` — the ARIA tablist role is required for screen readers to announce the tab structure correctly.
 - No `TabPanel` component with `accessibilityRole="tabpanel"` means content areas have no programmatic association with their controlling tabs.
 
 **`BottomSheet` (`BottomSheet/BottomSheet.tsx`):**
+
 - Uses `<Modal visible={mounted} transparent>` — React Native Modal handles basic iOS modal accessibility.
 - The sheet `<Animated.View>` is missing `accessibilityViewIsModal={true}` — on iOS, VoiceOver will not confine focus to the sheet, letting users navigate behind the backdrop.
 - The backdrop `GestureDetector` has no `accessibilityLabel` for the "tap to close" affordance.
 - No `accessibilityRole` on the drag handle area.
 
 **`Select` (`Select/Select.tsx`):**
+
 - Trigger `<Pressable>` has `accessibilityState={{ expanded: isOpen }}` but no `accessibilityRole` — should be `"combobox"` or at minimum `"button"`.
 - The search `TextInput` inside the sheet has no `accessibilityLabel`.
 
 **`Input` (`Input/Input.tsx`):**
+
 - Sets `accessibilityLabel={label}` on `RNTextInput` — correct.
 - Missing `accessibilityState={{ disabled }}` on the outer container — it's on the inner `TextInput` but the container View that shows error states has no accessible annotation.
 
 **`usePressable`:**
+
 - Does not support `accessibilityActions` (custom iOS accessibility actions like "Increment", "Decrement" needed for sliders/steppers).
 - Does not support `onAccessibilityTap` for cases where native tap gesture and accessibility tap diverge.
 
@@ -195,10 +211,12 @@ return {
 ```
 
 `isOpenRef.current` and `currentIndexRef.current` are Refs. Reading a Ref in a render does not cause a re-render when the Ref changes. Any consumer who writes:
+
 ```tsx
 const { isOpen } = useBottomSheet();
 if (isOpen) { ... }  // This will be STALE — always shows initial value in the render
 ```
+
 ...will see stale state. The hook correctly uses refs internally for gesture/animation coordination (where you don't want re-renders), but the returned `isOpen` / `currentSnapIndex` values should be `useState`-tracked for consumers. This requires a parallel state variable alongside the ref.
 
 **`useBottomSheet` — `animateToSnap` is dead code:**
@@ -213,7 +231,11 @@ if (isOpen) { ... }  // This will be STALE — always shows initial value in the
 
 ```tsx
 // ToastItem.tsx line 87 — LITERAL STRING BUG
-<Icon size={20} color={v.iconColor} name={"VARIANT_ICONS[item.variant]" as any} />
+<Icon
+  size={20}
+  color={v.iconColor}
+  name={'VARIANT_ICONS[item.variant]' as any}
+/>
 ```
 
 The `as any` cast hides what is clearly a copy-paste error. The template string was meant to be an expression: `name={VARIANT_ICONS[item.variant] as any}`. As written, the Icon component receives the literal string `"VARIANT_ICONS[item.variant]"` as its `name` prop, not the actual icon name. **Toast icons for `success`, `error`, `warning`, and `info` variants are broken** — they will render nothing or an unknown icon instead of `checkCircle`, `error`, `warning`, `info`.
@@ -278,6 +300,7 @@ The Docusaurus site structure exists in `/docs` but per the README, `rnui.dev` i
 ### 5.3 CI Pipeline (`.github/workflows/ci.yml`)
 
 **Good:**
+
 - Turbo cache between runs.
 - Separate `perf-test` job (presumably Reassure or similar, though the actual perf test implementation isn't visible).
 - Docs build is CI-gated.
@@ -304,6 +327,7 @@ The `changeset publish` mechanism is documented in `package.json` scripts but th
 shadcn/ui's model (copy source into your project, own the code) is fundamentally different — RNUI is a traditional npm dependency. The headless/styled split is the closest analog to shadcn's pattern (headless = primitives you own, `@truongdq01/ui` = the pre-built layer).
 
 Gaps vs shadcn:
+
 - No CLI to add/customize individual components.
 - No "bring your own styles" path at the component level without using the headless package directly.
 - shadcn's Storybook shows every variant of every component — RNUI's 37% coverage is well behind.
@@ -317,6 +341,7 @@ RNUI's differentiation: cleaner API (no `$` prefix tokens), no custom compiler s
 ### 6.3 vs Gluestack / NativeBase
 
 Gluestack (NativeBase v5) is the most direct competitor — also headless + styled, also React Native-first, also dark mode + theming. Key differences:
+
 - RNUI's motion system is more sophisticated (token-backed spring configs, reduce-motion support baked in).
 - Gluestack has larger community and more mature docs.
 - RNUI's type safety on the token system is stricter.
@@ -338,6 +363,7 @@ Gluestack (NativeBase v5) is the most direct competitor — also headless + styl
 ### 🔴 P0 — Blockers
 
 **P0-1: Fix `ToastItem.tsx` line 87 — literal string bug**
+
 ```tsx
 // BROKEN — literal string, not variable lookup:
 name={"VARIANT_ICONS[item.variant]" as any}
@@ -345,22 +371,27 @@ name={"VARIANT_ICONS[item.variant]" as any}
 // CORRECT:
 name={VARIANT_ICONS[item.variant] as any}
 ```
+
 All toast variant icons (success/error/warning/info) are visually broken.
 
 **P0-2: Fix `useBottomSheet` stale `isOpen` / `currentSnapIndex`**
 Replace ref reads in the return value with state:
+
 ```ts
 const [isOpen, setIsOpen] = useState(false);
 const [currentSnapIndex, setCurrentSnapIndex] = useState(defaultSnapIndex);
 // Update these via callbacks alongside the ref mutations
 ```
+
 Without this, every consumer of `isOpen` from `useBottomSheet` renders stale UI.
 
 **P0-3: Add `typecheck` to CI**
+
 ```yaml
 - name: Typecheck
   run: bun turbo typecheck
 ```
+
 TypeScript errors are not CI-gated.
 
 **P0-4: Move `@types/react-native` to `devDependencies` and `@shopify/flash-list` to `peerDependencies`**
@@ -371,6 +402,7 @@ These cause incorrect package graphs for consumers.
 ### 🟠 P1 — High Impact
 
 **P1-1: Fix `BottomSheet` accessibility (`BottomSheet.tsx`)**
+
 ```tsx
 <Animated.View
   accessibilityViewIsModal={true}    // ← add this
@@ -379,9 +411,11 @@ These cause incorrect package graphs for consumers.
   ...
 >
 ```
+
 Without `accessibilityViewIsModal`, VoiceOver users can interact with content behind the backdrop.
 
 **P1-2: Add `accessibilityRole="tablist"` to `Tabs` container (`Tabs.tsx` line 47)**
+
 ```tsx
 <View
   accessibilityRole="tablist"   // ← add
@@ -390,6 +424,7 @@ Without `accessibilityViewIsModal`, VoiceOver users can interact with content be
 ```
 
 **P1-3: Add `accessibilityRole` to `Select` trigger (`Select.tsx` line 178)**
+
 ```tsx
 <Pressable
   accessibilityRole="combobox"     // ← add
@@ -408,12 +443,14 @@ Add per-component exports in `packages/ui/package.json` and configure `tsup` to 
 The `animateToSnap` callback (lines 93–108) is never called. Remove it to reduce confusion.
 
 **P1-7: Fix `SemanticTokens` type — derive from actual tokens**
+
 ```ts
 // Replace the hand-maintained ColorGroup interface with:
 export type SemanticTokens = {
-  [K in keyof typeof lightTokens]: typeof lightTokens[K];
+  [K in keyof typeof lightTokens]: (typeof lightTokens)[K];
 } & { color: typeof lightTokens.color | typeof darkTokens.color };
 ```
+
 This eliminates the drift risk between interface and implementation.
 
 ---
@@ -448,6 +485,7 @@ README states `v0.1.0`; `package.json` is at `1.0.3`. Update README.
 Currently at 37% story coverage (23/62 components). The 5 complex missing stories are the most valuable to add.
 
 **P2-10: Replace `easing` CSS strings with Reanimated-compatible format**
+
 ```ts
 // Current (unusable in code):
 easeOut: "cubic-bezier(0, 0, 0.2, 1)"
@@ -458,12 +496,14 @@ easeOut: { type: "bezier", x1: 0, y1: 0, x2: 0.2, y2: 1 }
 ```
 
 **P2-11: Consider `satisfies` operator for `defineBrand`**
+
 ```ts
 // Replace the identity function with a no-op type constraint
 export const loveBrand = { ... } satisfies Brand;
 ```
+
 Removes a runtime call with identical type safety.
 
 ---
 
-*Audit conducted by reading source directly: `packages/tokens/src/{primitive,semantic,component,motion,brand}.ts`, `packages/headless/src/hooks/{usePressable,useBottomSheet,useToast,useSelect,useSlider}.ts`, `packages/headless/src/theme.tsx`, `packages/ui/src/components/{Button,Input,Select,BottomSheet,Toast,Badge,Tabs,Carousel}/*.tsx`, `packages/themes/src/brands/love.ts`, `packages/ui/package.json`, `turbo.json`, `.github/workflows/ci.yml`, representative test files.*
+_Audit conducted by reading source directly: `packages/tokens/src/{primitive,semantic,component,motion,brand}.ts`, `packages/headless/src/hooks/{usePressable,useBottomSheet,useToast,useSelect,useSlider}.ts`, `packages/headless/src/theme.tsx`, `packages/ui/src/components/{Button,Input,Select,BottomSheet,Toast,Badge,Tabs,Carousel}/_.tsx`, `packages/themes/src/brands/love.ts`, `packages/ui/package.json`, `turbo.json`, `.github/workflows/ci.yml`, representative test files.\*

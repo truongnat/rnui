@@ -85,12 +85,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — topic deep-dives; do not paste entire reference docs into SKILL.md.
 
-| Topic | File |
-|-------|------|
+| Topic                  | File                                                                 |
+| ---------------------- | -------------------------------------------------------------------- |
 | **Components and JSX** | [references/components-and-jsx.md](references/components-and-jsx.md) |
-| UI / UX and semantics | [references/ui-ux-design.md](references/ui-ux-design.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| UI / UX and semantics  | [references/ui-ux-design.md](references/ui-ux-design.md)             |
+| Tips and patterns      | [references/tips-and-tricks.md](references/tips-and-tricks.md)       |
+| Edge cases             | [references/edge-cases.md](references/edge-cases.md)                 |
 
 ## Quick example
 
