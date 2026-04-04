@@ -1,5 +1,7 @@
 import "@testing-library/react-native/extend-expect";
 import { configure } from "@testing-library/react-native";
+import React from "react";
+import { createFlashListMock as mockFlashList } from "./test-mocks";
 
 configure({
   hostComponentNames: {
@@ -55,10 +57,7 @@ jest.mock("react-native-safe-area-context", () => ({
   SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-jest.mock("@shopify/flash-list", () => {
-  const { createFlashListMock } = require("./test-mocks");
-  return createFlashListMock();
-});
+jest.mock("@shopify/flash-list", () => mockFlashList());
 
 jest.mock("@react-native-community/datetimepicker", () => {
   const React = require("react");
