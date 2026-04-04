@@ -3,9 +3,7 @@
   "mode": "symlink",
   "skill_name": "deployment-pro",
   "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/deployment-pro",
-  "ides": [
-    "cursor"
-  ],
+  "ides": ["cursor"],
   "targets": {
     "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/deployment-pro"
   },

@@ -58,4 +58,4 @@
 
 ---
 
-*Test on real devices for each shipped platform — simulators/emulators miss GPU and IME behavior.*
+_Test on real devices for each shipped platform — simulators/emulators miss GPU and IME behavior._

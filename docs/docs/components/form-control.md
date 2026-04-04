@@ -5,12 +5,12 @@ Context wrapper for form inputs.
 ## Usage
 
 ```tsx
-import { FormControl, FormLabel, FormHelperText } from "@truongdq01/ui";
+import { FormControl, FormLabel, FormHelperText } from '@truongdq01/ui';
 
 <FormControl error>
   <FormLabel>Email</FormLabel>
   <FormHelperText>Invalid address</FormHelperText>
-</FormControl>
+</FormControl>;
 ```
 
 ## Notes

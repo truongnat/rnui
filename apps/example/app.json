@@ -28,10 +28,7 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": [
-      "expo-router",
-      "expo-dev-client"
-    ],
+    "plugins": ["expo-router", "expo-dev-client"],
     "experiments": {
       "typedRoutes": true
     }

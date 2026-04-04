@@ -1,9 +1,9 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
-import { Tabs, Tab } from "../Tabs";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react-native';
+import { Tabs, Tab } from '../Tabs';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("Tabs handles change", () => {
+test('Tabs handles change', () => {
   const onChange = jest.fn();
   const { getByText } = render(
     <ThemeProvider>
@@ -13,7 +13,7 @@ test("Tabs handles change", () => {
       </Tabs>
     </ThemeProvider>
   );
-  
-  fireEvent.press(getByText("Tab B"));
-  expect(onChange).toHaveBeenCalledWith("b");
+
+  fireEvent.press(getByText('Tab B'));
+  expect(onChange).toHaveBeenCalledWith('b');
 });

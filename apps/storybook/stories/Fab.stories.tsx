@@ -1,13 +1,11 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Fab } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Fab } from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
@@ -15,35 +13,41 @@ const FabWrapper = (props: any) => (
   <Fab
     {...props}
     onPress={props.onPress ?? (() => {})}
-    accessibilityLabel={props.accessibilityLabel ?? "FAB"}
+    accessibilityLabel={props.accessibilityLabel ?? 'FAB'}
   />
 );
 
 const meta = {
-  title: "Components/Fab",
+  title: 'Components/Fab',
   component: FabWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
     color: {
-      control: { type: "select" },
-      options: ["primary", "secondary", "success", "error", "info", "warning"],
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'success', 'error', 'info', 'warning'],
     },
     size: {
-      control: { type: "select" },
-      options: ["sm", "md", "lg"],
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg'],
     },
     variant: {
-      control: { type: "select" },
-      options: ["circular", "extended"],
+      control: { type: 'select' },
+      options: ['circular', 'extended'],
     },
-    disabled: { control: "boolean" },
-    label: { control: "text" },
+    disabled: { control: 'boolean' },
+    label: { control: 'text' },
   },
   args: {
-    icon: "add",
-    color: "primary",
-    size: "md",
-    variant: "circular",
+    icon: 'add',
+    color: 'primary',
+    size: 'md',
+    variant: 'circular',
     disabled: false,
   },
 };
@@ -52,16 +56,16 @@ export default meta;
 type Story = StoryObj<typeof FabWrapper>;
 
 export const Default: Story = {
-  args: { icon: "add" },
+  args: { icon: 'add' },
 };
 
 export const Extended: Story = {
-  args: { icon: "add", label: "Create", variant: "extended" },
+  args: { icon: 'add', label: 'Create', variant: 'extended' },
 };
 
 export const AllSizes: Story = {
   render: (args: any) => (
-    <View style={{ flexDirection: "row", gap: 16, alignItems: "center" }}>
+    <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center' }}>
       <FabWrapper {...args} size="sm" />
       <FabWrapper {...args} size="md" />
       <FabWrapper {...args} size="lg" />
@@ -70,12 +74,12 @@ export const AllSizes: Story = {
 };
 
 export const Disabled: Story = {
-  args: { icon: "add", disabled: true },
+  args: { icon: 'add', disabled: true },
 };
 
 export const AllColors: Story = {
   render: (args: any) => (
-    <View style={{ flexDirection: "row", gap: 16, alignItems: "center" }}>
+    <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center' }}>
       <FabWrapper {...args} color="primary" />
       <FabWrapper {...args} color="secondary" />
       <FabWrapper {...args} color="success" />

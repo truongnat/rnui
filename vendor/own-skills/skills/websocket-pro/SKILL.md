@@ -18,10 +18,10 @@ Use official [RFC 6455 WebSocket Protocol](https://datatracker.ietf.org/doc/html
 
 ## Related skills (this repo)
 
-| Skill | When to combine |
-|-------|------------------|
-| `security-pro` | Validate channel auth, token/session handling, and abuse controls. |
-| `performance-tuning-pro` | Tune fan-out, throughput, and latency under load. |
+| Skill                    | When to combine                                                    |
+| ------------------------ | ------------------------------------------------------------------ |
+| `security-pro`           | Validate channel auth, token/session handling, and abuse controls. |
+| `performance-tuning-pro` | Tune fan-out, throughput, and latency under load.                  |
 
 ## When to use
 
@@ -74,10 +74,10 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 Use these files for deeper detail when concise guidance in this file is not enough.
 
-| Topic | File |
-|-------|------|
-| Practical WebSocket patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Realtime failure modes and edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Topic                                 | File                                                           |
+| ------------------------------------- | -------------------------------------------------------------- |
+| Practical WebSocket patterns          | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
+| Realtime failure modes and edge cases | [references/edge-cases.md](references/edge-cases.md)           |
 
 ## Quick example
 

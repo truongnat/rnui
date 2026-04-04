@@ -1,6 +1,6 @@
 ---
 phase: 04-design-system-enhancements
-plan: "04-01"
+plan: '04-01'
 subsystem: tokens, themes, ui
 tags: [react-native, design-tokens, typography, switch, wcag]
 
@@ -15,8 +15,8 @@ affects: []
 tech-stack:
   added: []
   patterns:
-    - "Optional chaining `tokens.fontFamily?.sans` for stale/partial token objects"
-    - "Rebuild `@truongdq01/tokens` dist after semantic changes (tests resolve dist)"
+    - 'Optional chaining `tokens.fontFamily?.sans` for stale/partial token objects'
+    - 'Rebuild `@truongdq01/tokens` dist after semantic changes (tests resolve dist)'
 
 key-files:
   created: []

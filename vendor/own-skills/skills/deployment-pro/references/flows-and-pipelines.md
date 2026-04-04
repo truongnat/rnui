@@ -14,13 +14,13 @@ End-to-end **flow** from commit to production: automation, promotion, and safe r
 
 ## Release strategies
 
-| Strategy | Flow | When |
-|----------|------|------|
-| **Rolling** | Replace instances in waves | Default K8s; watch **readiness** and **surge** |
-| **Blue-green** | Switch traffic to new stack | Needs **double capacity** or fast scale; clean cut |
-| **Canary** | Small % → grow | Needs **metrics** and automated promotion or abort |
-| **Recreate** | Stop old, start new | Downtime; simple stateless jobs |
-| **Feature flags** | Code in prod; behavior toggled | Decouples **deploy** from **release** |
+| Strategy          | Flow                           | When                                               |
+| ----------------- | ------------------------------ | -------------------------------------------------- |
+| **Rolling**       | Replace instances in waves     | Default K8s; watch **readiness** and **surge**     |
+| **Blue-green**    | Switch traffic to new stack    | Needs **double capacity** or fast scale; clean cut |
+| **Canary**        | Small % → grow                 | Needs **metrics** and automated promotion or abort |
+| **Recreate**      | Stop old, start new            | Downtime; simple stateless jobs                    |
+| **Feature flags** | Code in prod; behavior toggled | Decouples **deploy** from **release**              |
 
 ## GitOps (conceptual)
 

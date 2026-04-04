@@ -1,9 +1,9 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Table, TableHead, TableRow, TableCell, TableBody } from "../Table";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Table, TableHead, TableRow, TableCell, TableBody } from '../Table';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("Table renders rows and cells", () => {
+test('Table renders rows and cells', () => {
   const { getByText } = render(
     <ThemeProvider>
       <Table>
@@ -20,6 +20,6 @@ test("Table renders rows and cells", () => {
       </Table>
     </ThemeProvider>
   );
-  expect(getByText("Name")).toBeTruthy();
-  expect(getByText("Ada")).toBeTruthy();
+  expect(getByText('Name')).toBeTruthy();
+  expect(getByText('Ada')).toBeTruthy();
 });

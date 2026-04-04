@@ -8,11 +8,11 @@ Scripts live under **`scripts/`** at the **repository root** (not inside each sk
 
 ## Inventory and CI
 
-| Script | Role |
-|--------|------|
-| **`list_skills.py`** | Prints bundled `skills/*/SKILL.md` rows; `--json` for agents. |
-| **`validate_skills.py`** | Ensures `name:` in frontmatter matches folder name; use in **CI** before merge. |
-| **`analyze_skills.py`** | Heuristic **report** (tiers: strong / consider / low): automation vs `scripts/` refs. **`--self-review`** = full Markdown for **this repo** (tier counts, all skills, manual checklist). **`--with-references`**, **`--only-actionable`**, **`--markdown`**. Pair with **`skills-self-review-pro`**. Not a linter. |
+| Script                   | Role                                                                                                                                                                                                                                                                                                               |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`list_skills.py`**     | Prints bundled `skills/*/SKILL.md` rows; `--json` for agents.                                                                                                                                                                                                                                                      |
+| **`validate_skills.py`** | Ensures `name:` in frontmatter matches folder name; use in **CI** before merge.                                                                                                                                                                                                                                    |
+| **`analyze_skills.py`**  | Heuristic **report** (tiers: strong / consider / low): automation vs `scripts/` refs. **`--self-review`** = full Markdown for **this repo** (tier counts, all skills, manual checklist). **`--with-references`**, **`--only-actionable`**, **`--markdown`**. Pair with **`skills-self-review-pro`**. Not a linter. |
 
 ## KB pipeline
 

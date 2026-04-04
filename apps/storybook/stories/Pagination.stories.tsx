@@ -1,37 +1,35 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Pagination } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Pagination } from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
 const PaginationWrapper = (props: any) => {
   const [page, setPage] = React.useState(props.defaultPage ?? 1);
-  return (
-    <Pagination
-      {...props}
-      page={page}
-      onChange={setPage}
-    />
-  );
+  return <Pagination {...props} page={page} onChange={setPage} />;
 };
 
 const meta = {
-  title: "Components/Pagination",
+  title: 'Components/Pagination',
   component: PaginationWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
-    count: { control: "number" },
-    siblingCount: { control: "number" },
-    boundaryCount: { control: "number" },
-    showFirstButton: { control: "boolean" },
-    showLastButton: { control: "boolean" },
+    count: { control: 'number' },
+    siblingCount: { control: 'number' },
+    boundaryCount: { control: 'number' },
+    showFirstButton: { control: 'boolean' },
+    showLastButton: { control: 'boolean' },
   },
   args: {
     count: 10,

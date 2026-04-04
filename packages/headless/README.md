@@ -22,15 +22,15 @@ bun add @truongdq01/headless
 ## Usage
 
 ```tsx
-import { usePressable, useTheme } from "@truongdq01/headless";
-import Animated from "react-native-reanimated";
-import { GestureDetector } from "react-native-gesture-handler";
+import { usePressable, useTheme } from '@truongdq01/headless';
+import Animated from 'react-native-reanimated';
+import { GestureDetector } from 'react-native-gesture-handler';
 
 function MyCustomButton({ onPress, children }) {
   const { tokens } = useTheme();
   const { gesture, animatedStyle, accessibilityProps } = usePressable({
     onPress,
-    feedbackMode: "scale",
+    feedbackMode: 'scale',
   });
 
   return (
@@ -57,13 +57,13 @@ function MyCustomButton({ onPress, children }) {
 
 ```tsx
 // Import hooks riêng lẻ (tree-shakable)
-import { usePressable, useDisclosure } from "@truongdq01/headless/hooks";
+import { usePressable, useDisclosure } from '@truongdq01/headless/hooks';
 
 // Import theme utilities
-import { ThemeProvider, useTheme } from "@truongdq01/headless/theme";
+import { ThemeProvider, useTheme } from '@truongdq01/headless/theme';
 
 // Import motion presets
-import { timingPresets } from "@truongdq01/headless/motion";
+import { timingPresets } from '@truongdq01/headless/motion';
 ```
 
 ## Peer Dependencies

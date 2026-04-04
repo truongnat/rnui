@@ -1,10 +1,12 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import Animated, { LinearTransition as RawLinearTransition } from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useToast, dismissToast } from "@truongdq01/headless";
-import type { ToastPosition } from "@truongdq01/headless";
-import { ToastItem } from "./ToastItem";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import Animated, {
+  LinearTransition as RawLinearTransition,
+} from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useToast, dismissToast } from '@truongdq01/headless';
+import type { ToastPosition } from '@truongdq01/headless';
+import { ToastItem } from './ToastItem';
 
 // ─── Props ────────────────────────────────────────────────────────
 
@@ -15,7 +17,7 @@ export interface ToastContainerProps {
 }
 
 const layoutTransition =
-  typeof RawLinearTransition?.duration === "function"
+  typeof RawLinearTransition?.duration === 'function'
     ? RawLinearTransition.duration(280)
     : undefined;
 
@@ -34,16 +36,24 @@ const layoutTransition =
  * ```
  */
 export function ToastContainer({
-  position = "bottom",
+  position = 'bottom',
   horizontalPadding = 16,
 }: ToastContainerProps) {
   const { toasts } = useToast();
   const insets = useSafeAreaInsets();
 
   const positionStyle =
-    position === "top"
-      ? { top: insets.top + 8, left: horizontalPadding, right: horizontalPadding }
-      : { bottom: insets.bottom + 8, left: horizontalPadding, right: horizontalPadding };
+    position === 'top'
+      ? {
+          top: insets.top + 8,
+          left: horizontalPadding,
+          right: horizontalPadding,
+        }
+      : {
+          bottom: insets.bottom + 8,
+          left: horizontalPadding,
+          right: horizontalPadding,
+        };
 
   if (toasts.length === 0) return null;
 
@@ -69,7 +79,7 @@ export function ToastContainer({
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
+    position: 'absolute',
     zIndex: 9999,
     gap: 8,
   },

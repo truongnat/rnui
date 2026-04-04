@@ -1,13 +1,13 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { TextField } from "../TextField";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { TextField } from '../TextField';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("TextField renders label", () => {
+test('TextField renders label', () => {
   const { getByText } = render(
     <ThemeProvider>
       <TextField label="Full Name" />
     </ThemeProvider>
   );
-  expect(getByText("Full Name")).toBeTruthy();
+  expect(getByText('Full Name')).toBeTruthy();
 });

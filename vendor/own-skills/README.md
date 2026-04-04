@@ -138,11 +138,11 @@ Model paths live in the `<!-- kb-config-start -->` … `<!-- kb-config-end -->` 
 
 Conventions and **`w-<slug>.md`** naming: [`workflows/README.md`](workflows/README.md). Slash commands live in **`.claude/commands/`** and **`.cursor/commands/`**.
 
-| Slash | File | Purpose |
-|-------|------|---------|
-| **`/w-ticket`** | [`workflows/dev/w-ticket.md`](workflows/dev/w-ticket.md) | Ticket / Kanban (`kanban/<ticket>/`, phased work) |
-| **`/w-release`** | [`workflows/dev/w-release.md`](workflows/dev/w-release.md) | Release notes → implementation |
-| **`/w-hotfix`** | [`workflows/dev/w-hotfix.md`](workflows/dev/w-hotfix.md) | Prod-urgent fix path |
+| Slash            | File                                                       | Purpose                                           |
+| ---------------- | ---------------------------------------------------------- | ------------------------------------------------- |
+| **`/w-ticket`**  | [`workflows/dev/w-ticket.md`](workflows/dev/w-ticket.md)   | Ticket / Kanban (`kanban/<ticket>/`, phased work) |
+| **`/w-release`** | [`workflows/dev/w-release.md`](workflows/dev/w-release.md) | Release notes → implementation                    |
+| **`/w-hotfix`**  | [`workflows/dev/w-hotfix.md`](workflows/dev/w-hotfix.md)   | Prod-urgent fix path                              |
 
 Index: [`workflows/dev/README.md`](workflows/dev/README.md) — Markdown step contracts; no automated runner required.
 

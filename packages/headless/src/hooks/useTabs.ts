@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
 export interface UseTabsOptions<T = string> {
   defaultValue?: T;
@@ -10,9 +10,12 @@ export interface UseTabsReturn<T = string> {
   value: T | undefined;
   setValue: (value: T) => void;
   isSelected: (value: T) => boolean;
-  getTabProps: (value: T, disabled?: boolean) => {
+  getTabProps: (
+    value: T,
+    disabled?: boolean
+  ) => {
     onPress: () => void;
-    accessibilityRole: "tab";
+    accessibilityRole: 'tab';
     accessibilityState: { selected: boolean; disabled: boolean };
   };
 }
@@ -22,7 +25,9 @@ export function useTabs<T = string>({
   value: controlledValue,
   onChange,
 }: UseTabsOptions<T> = {}): UseTabsReturn<T> {
-  const [internalValue, setInternalValue] = useState<T | undefined>(defaultValue);
+  const [internalValue, setInternalValue] = useState<T | undefined>(
+    defaultValue
+  );
   const value = controlledValue !== undefined ? controlledValue : internalValue;
 
   const setValue = useCallback(
@@ -33,10 +38,7 @@ export function useTabs<T = string>({
     [controlledValue, onChange]
   );
 
-  const isSelected = useCallback(
-    (v: T) => value === v,
-    [value]
-  );
+  const isSelected = useCallback((v: T) => value === v, [value]);
 
   const getTabProps = useCallback(
     (v: T, disabled = false) => ({
@@ -44,7 +46,7 @@ export function useTabs<T = string>({
         if (disabled) return;
         setValue(v);
       },
-      accessibilityRole: "tab" as const,
+      accessibilityRole: 'tab' as const,
       accessibilityState: { selected: value === v, disabled },
     }),
     [setValue, value]

@@ -6,14 +6,14 @@ This directory holds supplementary guides (deployment ideas, tech survey, prompt
 
 ## Contents
 
-| File | Purpose |
-|------|---------|
-| [START_HERE.md](START_HERE.md) | Onboarding checklist and quick start |
-| [SKILL_SYSTEM_GUIDE.md](SKILL_SYSTEM_GUIDE.md) | Longer notes on skills, KB, prompts |
-| [PROMPT_TEMPLATES.md](PROMPT_TEMPLATES.md) | Prompt template examples (Markdown) |
-| [config.template.md](config.template.md) | Duplicate of root kb-config reminder |
-| [COOL_TECHNOLOGIES.md](COOL_TECHNOLOGIES.md) | Ecosystem pointers (informational) |
-| [GITHUB_DEPLOYMENT_GUIDE.md](GITHUB_DEPLOYMENT_GUIDE.md) | GitHub / CI ideas |
+| File                                                     | Purpose                              |
+| -------------------------------------------------------- | ------------------------------------ |
+| [START_HERE.md](START_HERE.md)                           | Onboarding checklist and quick start |
+| [SKILL_SYSTEM_GUIDE.md](SKILL_SYSTEM_GUIDE.md)           | Longer notes on skills, KB, prompts  |
+| [PROMPT_TEMPLATES.md](PROMPT_TEMPLATES.md)               | Prompt template examples (Markdown)  |
+| [config.template.md](config.template.md)                 | Duplicate of root kb-config reminder |
+| [COOL_TECHNOLOGIES.md](COOL_TECHNOLOGIES.md)             | Ecosystem pointers (informational)   |
+| [GITHUB_DEPLOYMENT_GUIDE.md](GITHUB_DEPLOYMENT_GUIDE.md) | GitHub / CI ideas                    |
 
 ## Skills & workflows (root repo)
 

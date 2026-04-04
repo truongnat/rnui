@@ -15,16 +15,16 @@ import { Skeleton, SkeletonText, SkeletonCard, SkeletonListItem } from "@truongd
 
 ## Skeleton Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `width` | `number \| string` | `"100%"` | Width of the skeleton block |
-| `height` | `number` | `16` | Height of the skeleton block |
-| `borderRadius` | `number` | - | Override corner radius |
-| `animate` | `boolean` | `true` | Enable shimmer animation |
+| Prop           | Type               | Default  | Description                  |
+| -------------- | ------------------ | -------- | ---------------------------- |
+| `width`        | `number \| string` | `"100%"` | Width of the skeleton block  |
+| `height`       | `number`           | `16`     | Height of the skeleton block |
+| `borderRadius` | `number`           | -        | Override corner radius       |
+| `animate`      | `boolean`          | `true`   | Enable shimmer animation     |
 
 ## SkeletonText Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `lines` | `number` | `3` | Number of lines |
+| Prop            | Type     | Default | Description            |
+| --------------- | -------- | ------- | ---------------------- |
+| `lines`         | `number` | `3`     | Number of lines        |
 | `lastLineWidth` | `string` | `"60%"` | Width of the last line |

@@ -19,15 +19,15 @@ Use the [IIBA BABOK Guide](https://www.iiba.org/business-analysis-babok-guide/) 
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `business-analysis-pro` |
-|-------|-----------------------------------------------|
-| **`testing-pro`** | Acceptance criteria, testability, Definition of Done |
-| **`security-pro`** | Data classification, compliance, abuse cases in requirements |
-| **`design-system-pro`** / **`mobile-design-pro`** | UX and platform requirements |
-| **`deployment-pro`** | Release / environment constraints in NFRs |
-| **`postgresql-pro`** | Data and migration implications when requirements imply schema |
-| **`content-analysis-pro`** | Deep read of attached **PDFs, images, video** to extract facts before BRD/user stories |
-| **`data-analysis-pro`** | **Metrics**, EDA, or spreadsheet evidence that informs **requirements** or KPIs |
+| Skill                                             | When to combine with `business-analysis-pro`                                           |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| **`testing-pro`**                                 | Acceptance criteria, testability, Definition of Done                                   |
+| **`security-pro`**                                | Data classification, compliance, abuse cases in requirements                           |
+| **`design-system-pro`** / **`mobile-design-pro`** | UX and platform requirements                                                           |
+| **`deployment-pro`**                              | Release / environment constraints in NFRs                                              |
+| **`postgresql-pro`**                              | Data and migration implications when requirements imply schema                         |
+| **`content-analysis-pro`**                        | Deep read of attached **PDFs, images, video** to extract facts before BRD/user stories |
+| **`data-analysis-pro`**                           | **Metrics**, EDA, or spreadsheet evidence that informs **requirements** or KPIs        |
 
 **Boundary:** **`business-analysis-pro`** = **what** and **why** (and documented trade-offs); stack **`*-pro`** skills = **how** to implement.
 
@@ -90,12 +90,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — requirements reasoning, reporting, tips, edge cases.
 
-| Topic | File |
-|-------|------|
+| Topic                    | File                                                                                 |
+| ------------------------ | ------------------------------------------------------------------------------------ |
 | Requirements & reasoning | [references/requirements-and-reasoning.md](references/requirements-and-reasoning.md) |
 | Reporting & deliverables | [references/reporting-and-deliverables.md](references/reporting-and-deliverables.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips and patterns        | [references/tips-and-tricks.md](references/tips-and-tricks.md)                       |
+| Edge cases               | [references/edge-cases.md](references/edge-cases.md)                                 |
 
 ## Quick example
 

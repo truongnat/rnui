@@ -15,11 +15,11 @@
 
 ## REQ
 
-| REQ-ID | Check |
-|--------|--------|
-| IMP-09 | Presets + skeleton group + shimmer |
-| IMP-10 | Variants + tokens + Icon |
-| IMP-11 | FlashList + load-more props |
+| REQ-ID | Check                                   |
+| ------ | --------------------------------------- |
+| IMP-09 | Presets + skeleton group + shimmer      |
+| IMP-10 | Variants + tokens + Icon                |
+| IMP-11 | FlashList + load-more props             |
 | IMP-12 | useSlider orientation/range + Slider UI |
 
 ## Security verification

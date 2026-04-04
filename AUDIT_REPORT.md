@@ -1,4 +1,5 @@
 # RNUI — Deep Audit Report
+
 **Date:** 2026-04-02
 **Scope:** Full codebase scan — code quality, performance, edge cases, scoring component, design system, animations
 **Version audited:** v1.0.3 | Branch: `develop`
@@ -19,14 +20,14 @@
 
 ## 1. Executive Summary
 
-| Area | Score | Status |
-|------|-------|--------|
-| Code Quality | 7.5 / 10 | Good, isolated typing gaps |
-| Performance | 8 / 10 | Strong Reanimated usage, a few patterns to harden |
-| Edge Cases | 6 / 10 | Several unhandled flows discovered |
-| Rating Component | 5 / 10 | Functional but shallow — significant gaps |
-| Design System | 8.5 / 10 | Excellent token architecture, minor hardcoding |
-| Animation System | 8 / 10 | Modern worklet approach, missing reduced-motion |
+| Area             | Score    | Status                                            |
+| ---------------- | -------- | ------------------------------------------------- |
+| Code Quality     | 7.5 / 10 | Good, isolated typing gaps                        |
+| Performance      | 8 / 10   | Strong Reanimated usage, a few patterns to harden |
+| Edge Cases       | 6 / 10   | Several unhandled flows discovered                |
+| Rating Component | 5 / 10   | Functional but shallow — significant gaps         |
+| Design System    | 8.5 / 10 | Excellent token architecture, minor hardcoding    |
+| Animation System | 8 / 10   | Modern worklet approach, missing reduced-motion   |
 
 **Overall health: 7.2 / 10** — Production ready for standard use cases; targeted improvements needed before enterprise/accessibility-critical deployment.
 
@@ -40,10 +41,10 @@ Three places in `Rating.tsx` break type safety with `as any`:
 
 ```typescript
 // packages/ui/src/components/Rating/Rating.tsx:39-52
-const iconSize = (rating.size as any)[size];          // line 39
+const iconSize = (rating.size as any)[size]; // line 39
 const activeColor = (rating as any).star.filled.color; // line 40
-const inactiveColor = (rating as any).star.empty.color;// line 41
-const containerStyle = (rating as any).container;      // line 52
+const inactiveColor = (rating as any).star.empty.color; // line 41
+const containerStyle = (rating as any).container; // line 52
 ```
 
 **Root cause:** `ratingTokens()` in `component.ts` returns the correct shape, but `useComponentTokens()` returns a union type that doesn't expose `rating.star` or `rating.container`. The generated `ComponentTokens` interface doesn't include the full `ratingTokens` return type.
@@ -76,14 +77,14 @@ The `pressable` component token doesn't expose a `container` key typed correctly
 
 ### 2.2 Hardcoded Color Values — MEDIUM Priority
 
-| File | Location | Hardcoded value | Should be |
-|------|----------|-----------------|-----------|
-| `component.ts` | `toastTokens()` line 198 | `"#FFFFFF"` | `t.color.text.inverse` |
-| `component.ts` | `switchTokens()` | `"#FFFFFF"` (thumb) | `t.color.text.inverse` |
-| `component.ts` | `sliderTokens()` | `"#FFFFFF"` (thumb bg) | `t.color.surface.raised` |
-| `Switch.tsx` | line 76 | `shadowColor: "#000"` | `t.shadow.sm.shadowColor` |
-| `Switch.tsx` | line 50 | `gap: 12` | `tokens.spacing[3]` |
-| `Switch.tsx` | line 94 | `marginTop: 2` | `tokens.spacing[0.5]` |
+| File           | Location                 | Hardcoded value        | Should be                 |
+| -------------- | ------------------------ | ---------------------- | ------------------------- |
+| `component.ts` | `toastTokens()` line 198 | `"#FFFFFF"`            | `t.color.text.inverse`    |
+| `component.ts` | `switchTokens()`         | `"#FFFFFF"` (thumb)    | `t.color.text.inverse`    |
+| `component.ts` | `sliderTokens()`         | `"#FFFFFF"` (thumb bg) | `t.color.surface.raised`  |
+| `Switch.tsx`   | line 76                  | `shadowColor: "#000"`  | `t.shadow.sm.shadowColor` |
+| `Switch.tsx`   | line 50                  | `gap: 12`              | `tokens.spacing[3]`       |
+| `Switch.tsx`   | line 94                  | `marginTop: 2`         | `tokens.spacing[0.5]`     |
 
 When using `loveBrand` dark mode, the white thumb appears on a near-white track — contrast collapses. These need to reference semantic tokens.
 
@@ -142,7 +143,10 @@ useEffect(() => {
 // Button.tsx:171-177
 const handlePress = useMemo(() => {
   if (!href) return onPress;
-  return () => { onPress?.(); Linking.openURL(href); };
+  return () => {
+    onPress?.();
+    Linking.openURL(href);
+  };
 }, [href, onPress]);
 ```
 
@@ -154,7 +158,7 @@ const handlePress = useMemo(() => {
 
 ```typescript
 // Carousel.tsx:11
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 ```
 
 This is evaluated once when the module is imported. On foldable devices, split-screen mode, or orientation change — `SCREEN_WIDTH` becomes stale.
@@ -250,13 +254,13 @@ In `ThemeProvider`, `useComponentTokens()` computes the full component token map
 
 ### 3.3 Missing Optimizations
 
-| Optimization | Impact | Effort |
-|---|---|---|
-| Shared skeleton shimmer via context | Medium — visual coherence + perf | Low |
-| `PaginationDot` — receive tokens as prop | Low | Low |
-| `Carousel` — stable list keys for loop mode | Medium — avoids unmount/remount | Low |
-| `Dimensions` hook for responsive width | Medium — foldable/rotation support | Low |
-| Virtualized rendering in `ImageList` | High — for large datasets | Medium |
+| Optimization                                | Impact                             | Effort |
+| ------------------------------------------- | ---------------------------------- | ------ |
+| Shared skeleton shimmer via context         | Medium — visual coherence + perf   | Low    |
+| `PaginationDot` — receive tokens as prop    | Low                                | Low    |
+| `Carousel` — stable list keys for loop mode | Medium — avoids unmount/remount    | Low    |
+| `Dimensions` hook for responsive width      | Medium — foldable/rotation support | Low    |
+| Virtualized rendering in `ImageList`        | High — for large datasets          | Medium |
 
 ---
 
@@ -271,6 +275,7 @@ setValue(ratingValue === snapped ? 0 : snapped);
 ```
 
 **Unhandled cases:**
+
 - `max={0}` — renders 0 stars, no crash but nothing shown. No guard.
 - `precision={0}` — division by zero: `Math.round(next / 0)` → `NaN`. No guard.
 - `value={-1}` — `ratingValue >= starNumber` is always false but `ratingValue >= starNumber - 0.5` may produce unexpected half-star behavior.
@@ -285,7 +290,7 @@ setValue(ratingValue === snapped ? 0 : snapped);
 // Button.tsx:173-176
 return () => {
   onPress?.();
-  Linking.openURL(href);  // No await, no error handling
+  Linking.openURL(href); // No await, no error handling
 };
 ```
 
@@ -298,7 +303,7 @@ return () => {
 ```typescript
 // useCarousel.ts — displayData for loop mode
 // Prepends last item, appends first item
-displayData = [lastItem, ...data, firstItem]
+displayData = [lastItem, ...data, firstItem];
 ```
 
 When `data.length === 1`, `displayData = [item, item, item]`. Loop navigation becomes meaningless — `onMomentumScrollEnd` will always snap back to the center. The pagination renders 1 dot (correct) but visual loop cloning creates a jarring snap. No documentation or guard.
@@ -313,6 +318,7 @@ When `data.length === 1`, `displayData = [item, item, item]`. Loop navigation be
 ```
 
 If `data=[]` is passed:
+
 - `displayData` = `[]` in non-loop mode, `[undefined, undefined]` in loop mode (last/first of empty array = `undefined`).
 - `renderItem(undefined, index)` will be called — undefined behavior passed to consumer.
 - **Fix:** Guard `if (data.length === 0) return <EmptyState />;` or similar.
@@ -378,35 +384,39 @@ The `Rating` component is functional but minimal. It's the only scoring-related 
 
 ### 5.2 Visual Gaps
 
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Whole-star fill | ✅ Works | |
-| Half-star visual (left/right icon split) | ❌ Missing | Logic exists but all 3 icon names are `"star"` — no actual half-star glyph |
-| Quarter-star or custom precision visual | ❌ Missing | |
-| Hover state (show preview on hover) | ❌ Missing | Mobile: no hover, but useful for accessibility previews |
-| Animated fill on selection | ❌ Missing | No spring animation when star is selected |
-| Custom icons (hearts, thumbs, emoji) | ❌ Missing | Hardcoded to `"star"` icon name |
-| Label display (e.g., "4.5 / 5") | ❌ Missing | |
-| Color per brand | ❌ Partially broken | Hardcodes `"#F59E0B"` regardless of brand |
+| Feature                                  | Status              | Notes                                                                      |
+| ---------------------------------------- | ------------------- | -------------------------------------------------------------------------- |
+| Whole-star fill                          | ✅ Works            |                                                                            |
+| Half-star visual (left/right icon split) | ❌ Missing          | Logic exists but all 3 icon names are `"star"` — no actual half-star glyph |
+| Quarter-star or custom precision visual  | ❌ Missing          |                                                                            |
+| Hover state (show preview on hover)      | ❌ Missing          | Mobile: no hover, but useful for accessibility previews                    |
+| Animated fill on selection               | ❌ Missing          | No spring animation when star is selected                                  |
+| Custom icons (hearts, thumbs, emoji)     | ❌ Missing          | Hardcoded to `"star"` icon name                                            |
+| Label display (e.g., "4.5 / 5")          | ❌ Missing          |                                                                            |
+| Color per brand                          | ❌ Partially broken | Hardcodes `"#F59E0B"` regardless of brand                                  |
 
 **Critical bug on line 69:**
+
 ```typescript
 // Rating.tsx:69
-{filled ? "star" : halfFilled ? "star" : "star"}
+{
+  filled ? 'star' : halfFilled ? 'star' : 'star';
+}
 ```
+
 All three branches render the identical `"star"` icon. The half-star path is logically correct (line 56) but visually identical to a filled star — `"star-half"` should be used for `halfFilled`.
 
 ---
 
 ### 5.3 Accessibility Gaps
 
-| A11y Feature | Status |
-|---|---|
-| `accessibilityRole="adjustable"` | ❌ Missing |
+| A11y Feature                                          | Status     |
+| ----------------------------------------------------- | ---------- |
+| `accessibilityRole="adjustable"`                      | ❌ Missing |
 | `accessibilityValue={{ min: 0, max: N, now: value }}` | ❌ Missing |
-| Screen reader announcement on value change | ❌ Missing |
-| Keyboard navigation (arrow keys on web/TV) | ❌ Missing |
-| `aria-label` per star ("Rate 3 out of 5") | ❌ Missing |
+| Screen reader announcement on value change            | ❌ Missing |
+| Keyboard navigation (arrow keys on web/TV)            | ❌ Missing |
+| `aria-label` per star ("Rate 3 out of 5")             | ❌ Missing |
 
 The native `Pressable` used in `Rating` inherits no accessibility role. A screen reader user has no way to know this is a rating control.
 
@@ -460,15 +470,15 @@ component.ts   →  per-component style maps
 
 #### WCAG Contrast Coverage
 
-| Token pair | Mode | Contrast | Result |
-|---|---|---|---|
-| `text.primary` on `bg.default` | Light | 21:1 (`#020617` / white) | ✅ AAA |
-| `text.secondary` on `bg.default` | Light | ~9:1 (`#334155` / white) | ✅ AAA |
-| `text.disabled` on `bg.default` | Light | ~4.8:1 (`#64748B` / white) | ✅ AA |
-| `brand.default` on `bg.default` | Light | ~5.7:1 (`#7C3AED` / white) | ✅ AA |
-| `accent.text` on `bg.default` | Light | ~5.0:1 (`#92400E` / white) | ✅ AA |
-| `text.primary` on `bg.default` | Dark | ~17:1 (`#F8FAFC` / `#0D0D14`) | ✅ AAA |
-| `brand.default` on `bg.default` | Dark | ~7.1:1 (`#A78BFA` / `#0D0D14`) | ✅ AAA |
+| Token pair                       | Mode  | Contrast                       | Result |
+| -------------------------------- | ----- | ------------------------------ | ------ |
+| `text.primary` on `bg.default`   | Light | 21:1 (`#020617` / white)       | ✅ AAA |
+| `text.secondary` on `bg.default` | Light | ~9:1 (`#334155` / white)       | ✅ AAA |
+| `text.disabled` on `bg.default`  | Light | ~4.8:1 (`#64748B` / white)     | ✅ AA  |
+| `brand.default` on `bg.default`  | Light | ~5.7:1 (`#7C3AED` / white)     | ✅ AA  |
+| `accent.text` on `bg.default`    | Light | ~5.0:1 (`#92400E` / white)     | ✅ AA  |
+| `text.primary` on `bg.default`   | Dark  | ~17:1 (`#F8FAFC` / `#0D0D14`)  | ✅ AAA |
+| `brand.default` on `bg.default`  | Dark  | ~7.1:1 (`#A78BFA` / `#0D0D14`) | ✅ AAA |
 
 **Gap found:** `loveBrand` light mode — `text.tertiary: "#BE123C"` on `bg.default: "#FFFFFF"` = ~5.3:1. Passes AA but is borderline. `text.disabled: "#FDA4AF"` on white = ~2.3:1 — **fails AA**. Disabled text is intentionally reduced but should still meet 3:1 minimum.
 
@@ -494,6 +504,7 @@ love     → Rose/Blush      (romantic, lifestyle)
 #### Dark Mode Strategy: ✅ Well Executed
 
 Rather than naive color inversion, the dark tokens use:
+
 - Warm near-black base (`#0D0D14`) — avoids clinical coldness of pure `#000`
 - Distinct surface layers (`#0D0D14` → `#0F172A` → `#1E293B`) — creates Z-depth perception
 - Elevated shadow opacity (0.25–0.55 vs light's 0.08–0.20) — compensates for dark background
@@ -565,12 +576,12 @@ Keeping `@truongdq01/tokens` free of Reanimated imports (tokens are plain JS obj
 
 #### Spring Config Analysis
 
-| Name | Damping | Stiffness | Mass | Character | ✅/❌ |
-|---|---|---|---|---|---|
-| `snappy` | 20 | 400 | 0.8 | Quick, crisp | ✅ Good for buttons |
-| `bouncy` | 12 | 300 | 1 | Playful overshoot | ✅ Good for badges/FAB |
-| `gentle` | 28 | 200 | 1 | Smooth settle | ✅ Good for modals |
-| `stiff` | 32 | 500 | 0.6 | Near-instant | ✅ Good for tooltips |
+| Name     | Damping | Stiffness | Mass | Character         | ✅/❌                  |
+| -------- | ------- | --------- | ---- | ----------------- | ---------------------- |
+| `snappy` | 20      | 400       | 0.8  | Quick, crisp      | ✅ Good for buttons    |
+| `bouncy` | 12      | 300       | 1    | Playful overshoot | ✅ Good for badges/FAB |
+| `gentle` | 28      | 200       | 1    | Smooth settle     | ✅ Good for modals     |
+| `stiff`  | 32      | 500       | 0.6  | Near-instant      | ✅ Good for tooltips   |
 
 **Gap:** No `elastic` or `wobbly` preset for onboarding/celebration animations (confetti, achievement unlocks). The `bouncy` config is close but under-bounces for delight moments.
 
@@ -580,12 +591,12 @@ Keeping `@truongdq01/tokens` free of Reanimated imports (tokens are plain JS obj
 
 #### Press Feedback
 
-| Mode | Behavior | Usage |
-|---|---|---|
-| `scale` | 0.96 → 1.0 spring | Buttons, cards |
-| `scaleSubtle` | 0.98 → 1.0 spring | List items |
-| `opacity` | 0.6 → 1.0 timing 60ms | Icon buttons |
-| `none` | No feedback | Custom components |
+| Mode          | Behavior              | Usage             |
+| ------------- | --------------------- | ----------------- |
+| `scale`       | 0.96 → 1.0 spring     | Buttons, cards    |
+| `scaleSubtle` | 0.98 → 1.0 spring     | List items        |
+| `opacity`     | 0.6 → 1.0 timing 60ms | Icon buttons      |
+| `none`        | No feedback           | Custom components |
 
 **Gap:** No `highlight` mode (background color flash, as used by native iOS cells). This is the most common press feedback on iOS — a brief tinted background. Currently consumers must implement this manually.
 
@@ -597,14 +608,14 @@ The entire animation system has no `prefers-reduced-motion` / `AccessibilityInfo
 
 ```typescript
 // usePressable.ts — no reduce motion check
-const tapGesture = Gesture.Tap()
-  .onBegin(() => {
-    "worklet";
-    scale.value = withSpring(scaleDownPressed, snappySpring); // Always animates
-  })
+const tapGesture = Gesture.Tap().onBegin(() => {
+  'worklet';
+  scale.value = withSpring(scaleDownPressed, snappySpring); // Always animates
+});
 ```
 
 React Native exposes:
+
 ```typescript
 AccessibilityInfo.isReduceMotionEnabled() // → Promise<boolean>
 AccessibilityInfo.addEventListener('reduceMotionChanged', ...)
@@ -629,6 +640,7 @@ export const motionPreset = {
 ```
 
 These strings are identifiers that map to Reanimated layout animation classes (`FadeInUp`, `ZoomIn`, etc.). They **cannot** be used directly — consumers must do:
+
 ```typescript
 import { FadeInUp } from 'react-native-reanimated';
 <Animated.View entering={FadeInUp} />
@@ -640,16 +652,16 @@ The `motionPreset` tokens only work if consumers know to import the matching Rea
 
 #### Missing Animations
 
-| Interaction | Current | Recommended |
-|---|---|---|
-| Star selection (Rating) | None — instant | `withSpring(scale, spring.bouncy)` |
-| Skeleton shimmer sync | Per-item async | Shared shimmer via context |
-| Accordion expand/collapse | Unknown | Height interpolation via `useAnimatedStyle` |
-| Tab indicator slide | Unknown | `withSpring` on `translateX` |
-| Badge count change | None | Digit roll animation |
-| Theme switch | Instant | Cross-fade with `withTiming(duration.normal)` |
-| Toast entrance | `SlideInDown` | Good |
-| Modal entrance | `FadeIn` / `ZoomIn` | Good |
+| Interaction               | Current             | Recommended                                   |
+| ------------------------- | ------------------- | --------------------------------------------- |
+| Star selection (Rating)   | None — instant      | `withSpring(scale, spring.bouncy)`            |
+| Skeleton shimmer sync     | Per-item async      | Shared shimmer via context                    |
+| Accordion expand/collapse | Unknown             | Height interpolation via `useAnimatedStyle`   |
+| Tab indicator slide       | Unknown             | `withSpring` on `translateX`                  |
+| Badge count change        | None                | Digit roll animation                          |
+| Theme switch              | Instant             | Cross-fade with `withTiming(duration.normal)` |
+| Toast entrance            | `SlideInDown`       | Good                                          |
+| Modal entrance            | `FadeIn` / `ZoomIn` | Good                                          |
 
 ---
 
@@ -667,96 +679,96 @@ Priority levels: 🔴 High · 🟡 Medium · 🟢 Low
 
 ### Phase 1 — Critical Fixes (1–2 weeks)
 
-| # | Area | Task | Priority |
-|---|---|---|---|
-| 1.1 | Code Quality | Fix `as any` casts in `Rating.tsx` — extend `ComponentTokens` typing | 🔴 |
-| 1.2 | Rating | Fix half-star bug — render `"star-half"` icon for `halfFilled` state | 🔴 |
-| 1.3 | Animation | Add `useMotionPreference()` hook — respect `AccessibilityInfo.isReduceMotionEnabled` | 🔴 |
-| 1.4 | Rating | Replace hardcoded `#F59E0B` with `t.color.accent.default` in `ratingTokens()` | 🔴 |
-| 1.5 | Edge Case | Guard `precision={0}` in `useRating` — prevent division by zero | 🔴 |
-| 1.6 | Button | Wrap `Linking.openURL(href)` in try/catch | 🔴 |
-| 1.7 | Easing | Fix `easing` tokens — convert to Reanimated `Easing.bezier()` objects or add adapter | 🔴 |
+| #   | Area         | Task                                                                                 | Priority |
+| --- | ------------ | ------------------------------------------------------------------------------------ | -------- |
+| 1.1 | Code Quality | Fix `as any` casts in `Rating.tsx` — extend `ComponentTokens` typing                 | 🔴       |
+| 1.2 | Rating       | Fix half-star bug — render `"star-half"` icon for `halfFilled` state                 | 🔴       |
+| 1.3 | Animation    | Add `useMotionPreference()` hook — respect `AccessibilityInfo.isReduceMotionEnabled` | 🔴       |
+| 1.4 | Rating       | Replace hardcoded `#F59E0B` with `t.color.accent.default` in `ratingTokens()`        | 🔴       |
+| 1.5 | Edge Case    | Guard `precision={0}` in `useRating` — prevent division by zero                      | 🔴       |
+| 1.6 | Button       | Wrap `Linking.openURL(href)` in try/catch                                            | 🔴       |
+| 1.7 | Easing       | Fix `easing` tokens — convert to Reanimated `Easing.bezier()` objects or add adapter | 🔴       |
 
 ### Phase 2 — Rating Component Rewrite (1 sprint)
 
-| # | Task | Priority |
-|---|---|---|
-| 2.1 | Implement real half-star visual with `"star-half"` icon | 🔴 |
-| 2.2 | Add `accessibilityRole="adjustable"` + `accessibilityValue` | 🔴 |
-| 2.3 | Add screen-reader announcement on value change | 🟡 |
-| 2.4 | Add press animation — spring scale on selected star | 🟡 |
-| 2.5 | Wrap in `React.memo()` | 🟡 |
-| 2.6 | Support custom icon prop (hearts, thumbs, emoji, custom SVG) | 🟢 |
-| 2.7 | Add read-only aggregate display mode with partial fill percentage | 🟢 |
-| 2.8 | Add compact numeric display `★ 4.3 (128)` variant | 🟢 |
+| #   | Task                                                              | Priority |
+| --- | ----------------------------------------------------------------- | -------- |
+| 2.1 | Implement real half-star visual with `"star-half"` icon           | 🔴       |
+| 2.2 | Add `accessibilityRole="adjustable"` + `accessibilityValue`       | 🔴       |
+| 2.3 | Add screen-reader announcement on value change                    | 🟡       |
+| 2.4 | Add press animation — spring scale on selected star               | 🟡       |
+| 2.5 | Wrap in `React.memo()`                                            | 🟡       |
+| 2.6 | Support custom icon prop (hearts, thumbs, emoji, custom SVG)      | 🟢       |
+| 2.7 | Add read-only aggregate display mode with partial fill percentage | 🟢       |
+| 2.8 | Add compact numeric display `★ 4.3 (128)` variant                 | 🟢       |
 
 ### Phase 3 — Performance & Edge Cases (1 sprint)
 
-| # | Task | Priority |
-|---|---|---|
-| 3.1 | Carousel — stable keys for loop mode | 🟡 |
-| 3.2 | Carousel — guard empty data array | 🔴 |
-| 3.3 | Carousel — guard single-item loop mode | 🟡 |
-| 3.4 | Carousel — replace `Dimensions.get("window")` module-level call with hook | 🟡 |
-| 3.5 | Skeleton — cancel shimmer animation when `animate=false` | 🟡 |
-| 3.6 | Skeleton — shared shimmer context for synchronized wave | 🟢 |
-| 3.7 | Switch — guard negative `thumbTravel` | 🟡 |
-| 3.8 | `PaginationDot` — receive tokens as prop, not via hook | 🟢 |
-| 3.9 | Button — change `handlePress` to `useCallback` | 🟡 |
+| #   | Task                                                                      | Priority |
+| --- | ------------------------------------------------------------------------- | -------- |
+| 3.1 | Carousel — stable keys for loop mode                                      | 🟡       |
+| 3.2 | Carousel — guard empty data array                                         | 🔴       |
+| 3.3 | Carousel — guard single-item loop mode                                    | 🟡       |
+| 3.4 | Carousel — replace `Dimensions.get("window")` module-level call with hook | 🟡       |
+| 3.5 | Skeleton — cancel shimmer animation when `animate=false`                  | 🟡       |
+| 3.6 | Skeleton — shared shimmer context for synchronized wave                   | 🟢       |
+| 3.7 | Switch — guard negative `thumbTravel`                                     | 🟡       |
+| 3.8 | `PaginationDot` — receive tokens as prop, not via hook                    | 🟢       |
+| 3.9 | Button — change `handlePress` to `useCallback`                            | 🟡       |
 
 ### Phase 4 — Design System Enhancements (1–2 sprints)
 
-| # | Task | Priority |
-|---|---|---|
-| 4.1 | Add `fontFamily` token layer for custom font branding | 🟡 |
-| 4.2 | Add `carbon`/`slate` neutral brand theme | 🟡 |
-| 4.3 | Export actual Reanimated animation objects from headless instead of string tokens | 🟡 |
-| 4.4 | Add `highlight` press feedback mode (background flash) | 🟢 |
-| 4.5 | Add `elastic` spring preset for celebration/onboarding animations | 🟢 |
-| 4.6 | Dark mode — colored glow shadows (brand-tinted) | 🟢 |
-| 4.7 | Allow per-brand button radius override | 🟢 |
-| 4.8 | Add `spacing[18]` (72px) and `spacing[28]` (112px) to scale | 🟢 |
-| 4.9 | Add `text.4xl` composite typography style | 🟢 |
-| 4.10 | Animate theme switch with `withTiming` cross-fade | 🟢 |
-| 4.11 | Fix `loveBrand` `text.disabled` contrast (currently ~2.3:1 fails AA) | 🟡 |
-| 4.12 | Replace `surface.hover: "#1A1A28"` raw literal with derived token | 🟡 |
+| #    | Task                                                                              | Priority |
+| ---- | --------------------------------------------------------------------------------- | -------- |
+| 4.1  | Add `fontFamily` token layer for custom font branding                             | 🟡       |
+| 4.2  | Add `carbon`/`slate` neutral brand theme                                          | 🟡       |
+| 4.3  | Export actual Reanimated animation objects from headless instead of string tokens | 🟡       |
+| 4.4  | Add `highlight` press feedback mode (background flash)                            | 🟢       |
+| 4.5  | Add `elastic` spring preset for celebration/onboarding animations                 | 🟢       |
+| 4.6  | Dark mode — colored glow shadows (brand-tinted)                                   | 🟢       |
+| 4.7  | Allow per-brand button radius override                                            | 🟢       |
+| 4.8  | Add `spacing[18]` (72px) and `spacing[28]` (112px) to scale                       | 🟢       |
+| 4.9  | Add `text.4xl` composite typography style                                         | 🟢       |
+| 4.10 | Animate theme switch with `withTiming` cross-fade                                 | 🟢       |
+| 4.11 | Fix `loveBrand` `text.disabled` contrast (currently ~2.3:1 fails AA)              | 🟡       |
+| 4.12 | Replace `surface.hover: "#1A1A28"` raw literal with derived token                 | 🟡       |
 
 ### Phase 5 — Missing Components & Patterns (backlog)
 
-| # | Task | Priority |
-|---|---|---|
-| 5.1 | `NumericScore` component — displays `4.3 / 5` with animated digit roll | 🟢 |
-| 5.2 | `ReviewSummary` — histogram bar chart of ratings breakdown | 🟢 |
-| 5.3 | `RatingInput` with label + description + helper text (FormField integration) | 🟡 |
-| 5.4 | `SentimentPicker` — emoji-based 5-point scale | 🟢 |
-| 5.5 | Skeleton shimmer context provider for synchronized lists | 🟢 |
-| 5.6 | `useReduceMotion` hook exported from headless | 🔴 |
-| 5.7 | OTPInput paste distribution implementation (verify/fix) | 🟡 |
-| 5.8 | DatePicker locale/timezone prop exposure | 🟡 |
+| #   | Task                                                                         | Priority |
+| --- | ---------------------------------------------------------------------------- | -------- |
+| 5.1 | `NumericScore` component — displays `4.3 / 5` with animated digit roll       | 🟢       |
+| 5.2 | `ReviewSummary` — histogram bar chart of ratings breakdown                   | 🟢       |
+| 5.3 | `RatingInput` with label + description + helper text (FormField integration) | 🟡       |
+| 5.4 | `SentimentPicker` — emoji-based 5-point scale                                | 🟢       |
+| 5.5 | Skeleton shimmer context provider for synchronized lists                     | 🟢       |
+| 5.6 | `useReduceMotion` hook exported from headless                                | 🔴       |
+| 5.7 | OTPInput paste distribution implementation (verify/fix)                      | 🟡       |
+| 5.8 | DatePicker locale/timezone prop exposure                                     | 🟡       |
 
 ---
 
 ## Appendix A — File Reference
 
-| Issue | File | Lines |
-|---|---|---|
-| `as any` casts | `packages/ui/src/components/Rating/Rating.tsx` | 39–52 |
-| Half-star bug | `packages/ui/src/components/Rating/Rating.tsx` | 56–69 |
-| Hardcoded star color | `packages/tokens/src/component.ts` | ~ratingTokens() |
-| Button handlePress useMemo | `packages/ui/src/components/Button/Button.tsx` | 171–177 |
-| Button href no error handling | `packages/ui/src/components/Button/Button.tsx` | 173–176 |
-| Skeleton no cancel | `packages/ui/src/components/Skeleton/Skeleton.tsx` | 32–39 |
-| Carousel SCREEN_WIDTH stale | `packages/ui/src/components/Carousel/Carousel.tsx` | 11 |
-| Carousel loop key | `packages/ui/src/components/Carousel/Carousel.tsx` | 74 |
-| Easing strings (broken) | `packages/tokens/src/motion.ts` | 45–50 |
-| motionPreset strings (unusable) | `packages/tokens/src/motion.ts` | 66–85 |
-| Switch hardcoded gap | `packages/ui/src/components/Switch/Switch.tsx` | 50, 94 |
-| Switch negative thumbTravel | `packages/ui/src/components/Switch/Switch.tsx` | 26 |
-| PaginationDot per-dot hook | `packages/ui/src/components/Carousel/Carousel.tsx` | 123 |
-| loveBrand disabled contrast | `packages/themes/src/brands/love.ts` | 42 |
-| surface.hover raw hex | `packages/tokens/src/semantic.ts` | 148 |
-| No reduce motion | `packages/headless/src/hooks/usePressable.ts` | 107–115 |
+| Issue                           | File                                               | Lines           |
+| ------------------------------- | -------------------------------------------------- | --------------- |
+| `as any` casts                  | `packages/ui/src/components/Rating/Rating.tsx`     | 39–52           |
+| Half-star bug                   | `packages/ui/src/components/Rating/Rating.tsx`     | 56–69           |
+| Hardcoded star color            | `packages/tokens/src/component.ts`                 | ~ratingTokens() |
+| Button handlePress useMemo      | `packages/ui/src/components/Button/Button.tsx`     | 171–177         |
+| Button href no error handling   | `packages/ui/src/components/Button/Button.tsx`     | 173–176         |
+| Skeleton no cancel              | `packages/ui/src/components/Skeleton/Skeleton.tsx` | 32–39           |
+| Carousel SCREEN_WIDTH stale     | `packages/ui/src/components/Carousel/Carousel.tsx` | 11              |
+| Carousel loop key               | `packages/ui/src/components/Carousel/Carousel.tsx` | 74              |
+| Easing strings (broken)         | `packages/tokens/src/motion.ts`                    | 45–50           |
+| motionPreset strings (unusable) | `packages/tokens/src/motion.ts`                    | 66–85           |
+| Switch hardcoded gap            | `packages/ui/src/components/Switch/Switch.tsx`     | 50, 94          |
+| Switch negative thumbTravel     | `packages/ui/src/components/Switch/Switch.tsx`     | 26              |
+| PaginationDot per-dot hook      | `packages/ui/src/components/Carousel/Carousel.tsx` | 123             |
+| loveBrand disabled contrast     | `packages/themes/src/brands/love.ts`               | 42              |
+| surface.hover raw hex           | `packages/tokens/src/semantic.ts`                  | 148             |
+| No reduce motion                | `packages/headless/src/hooks/usePressable.ts`      | 107–115         |
 
 ---
 
-*Report generated by deep static analysis — 2026-04-02*
+_Report generated by deep static analysis — 2026-04-02_

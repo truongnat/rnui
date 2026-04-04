@@ -2,11 +2,11 @@
 
 ## Delivered
 
-| REQ-ID | Notes |
-|--------|--------|
-| **IMP-09** | Skeleton: `SkeletonGroup` (stagger), `shimmerDirection` (pulse + LTR/RTL sweep), presets `SkeletonProfile`, `SkeletonMedia`, `SkeletonForm`, `SkeletonGrid`, `SkeletonTable`; exports + example with `SegmentedControl` + stagger. |
-| **IMP-10** | EmptyState: `size`, `variant`, `illustration`; preset copy; icons via `Icon` + `ICON_MAP` (bun-safe ESM). Tokens `emptyState` extended in `packages/tokens/src/component.ts`. Example: five variants + custom. |
-| **IMP-11** | Select: FlashList when `options.length > 0`; empty search / initial loading branches render plain `View` (empty list UX + tests); `loading`, `onLoadMore`, `hasMore`, `loadingMore`, `renderOption`; example `LARGE_COUNTRIES` + load-more mock. |
+| REQ-ID     | Notes                                                                                                                                                                                                                                                                              |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **IMP-09** | Skeleton: `SkeletonGroup` (stagger), `shimmerDirection` (pulse + LTR/RTL sweep), presets `SkeletonProfile`, `SkeletonMedia`, `SkeletonForm`, `SkeletonGrid`, `SkeletonTable`; exports + example with `SegmentedControl` + stagger.                                                 |
+| **IMP-10** | EmptyState: `size`, `variant`, `illustration`; preset copy; icons via `Icon` + `ICON_MAP` (bun-safe ESM). Tokens `emptyState` extended in `packages/tokens/src/component.ts`. Example: five variants + custom.                                                                     |
+| **IMP-11** | Select: FlashList when `options.length > 0`; empty search / initial loading branches render plain `View` (empty list UX + tests); `loading`, `onLoadMore`, `hasMore`, `loadingMore`, `renderOption`; example `LARGE_COUNTRIES` + load-more mock.                                   |
 | **IMP-12** | `useSlider`: `orientation` horizontal/vertical, `range: true` with tuple value/onChange; unified hook (no conditional hooks). `Slider`: `showMinMaxLabels` (renamed from `showRange`), `thumbRenderer`, `sliderHeight`, range dual-thumb; example vertical + range + custom thumb. |
 
 ## Deferred (unchanged)

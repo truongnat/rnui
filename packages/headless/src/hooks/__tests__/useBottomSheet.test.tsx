@@ -1,14 +1,14 @@
-import { renderHook, act } from "@testing-library/react-native";
-import { useBottomSheet } from "../useBottomSheet";
+import { renderHook, act } from '@testing-library/react-native';
+import { useBottomSheet } from '../useBottomSheet';
 
 // Mocking dependencies
-jest.mock("react-native", () => ({
+jest.mock('react-native', () => ({
   Dimensions: {
     get: jest.fn().mockReturnValue({ height: 1000, width: 500 }),
   },
 }));
 
-jest.mock("react-native-reanimated", () => ({
+jest.mock('react-native-reanimated', () => ({
   useSharedValue: jest.fn((init) => ({ value: init })),
   useAnimatedStyle: jest.fn((cb) => cb()),
   withSpring: jest.fn((val, config, cb) => {
@@ -20,18 +20,18 @@ jest.mock("react-native-reanimated", () => ({
     return val;
   }),
   interpolate: jest.fn(),
-  Extrapolation: { CLAMP: "clamp" },
+  Extrapolation: { CLAMP: 'clamp' },
 }));
 
-jest.mock("react-native-worklets", () => ({
+jest.mock('react-native-worklets', () => ({
   scheduleOnRN: jest.fn((cb, ...args) => {
-    if (typeof cb === "function") {
+    if (typeof cb === 'function') {
       cb(...args);
     }
   }),
 }));
 
-jest.mock("react-native-gesture-handler", () => {
+jest.mock('react-native-gesture-handler', () => {
   const panMethods = {
     enabled: jest.fn().mockReturnThis(),
     onBegin: jest.fn().mockReturnThis(),
@@ -92,18 +92,18 @@ jest.mock("react-native-gesture-handler", () => {
   };
 });
 
-jest.mock("@truongdq01/tokens", () => ({
+jest.mock('@truongdq01/tokens', () => ({
   spring: {
     gentle: { damping: 50, stiffness: 200 },
   },
 }));
 
-describe("useBottomSheet", () => {
+describe('useBottomSheet', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should initialize with default values", () => {
+  it('should initialize with default values', () => {
     const { result } = renderHook(() => useBottomSheet());
 
     expect(result.current.isOpen).toBe(false);
@@ -114,14 +114,17 @@ describe("useBottomSheet", () => {
     expect(result.current.backdropTapGesture).toBeDefined();
   });
 
-  it("should handle custom initial snap index and snap points", () => {
+  it('should handle custom initial snap index and snap points', () => {
     const { result } = renderHook(() =>
-      useBottomSheet({ snapPoints: ["25%", "50%", "100%"], initialSnapIndex: 1 })
+      useBottomSheet({
+        snapPoints: ['25%', '50%', '100%'],
+        initialSnapIndex: 1,
+      })
     );
     expect(result.current.currentSnapIndex).toBe(1);
   });
 
-  it("should open and trigger onSnapChange", () => {
+  it('should open and trigger onSnapChange', () => {
     const onSnapChange = jest.fn();
     const { result } = renderHook(() =>
       useBottomSheet({ snapPoints: [200, 400], onSnapChange })
@@ -135,7 +138,7 @@ describe("useBottomSheet", () => {
     expect(onSnapChange).toHaveBeenCalledWith(1);
   });
 
-  it("should close and trigger onClose", () => {
+  it('should close and trigger onClose', () => {
     const onClose = jest.fn();
     const { result } = renderHook(() => useBottomSheet({ onClose }));
 
@@ -152,7 +155,7 @@ describe("useBottomSheet", () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-  it("should snap to a specific index", () => {
+  it('should snap to a specific index', () => {
     const onSnapChange = jest.fn();
     const { result } = renderHook(() =>
       useBottomSheet({ snapPoints: [100, 200, 300], onSnapChange })
@@ -166,7 +169,7 @@ describe("useBottomSheet", () => {
     expect(onSnapChange).toHaveBeenCalledWith(2);
   });
 
-  it("should not snap to invalid indices", () => {
+  it('should not snap to invalid indices', () => {
     const onSnapChange = jest.fn();
     const { result } = renderHook(() =>
       useBottomSheet({ snapPoints: [100, 200], onSnapChange })

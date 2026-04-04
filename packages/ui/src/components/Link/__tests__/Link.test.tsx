@@ -1,13 +1,13 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Link } from "../Link";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Link } from '../Link';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("Link renders and shows text", () => {
+test('Link renders and shows text', () => {
   const { getByText } = render(
     <ThemeProvider>
       <Link href="https://example.com">Click Me</Link>
     </ThemeProvider>
   );
-  expect(getByText("Click Me")).toBeTruthy();
+  expect(getByText('Click Me')).toBeTruthy();
 });

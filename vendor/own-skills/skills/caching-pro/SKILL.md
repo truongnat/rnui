@@ -19,12 +19,12 @@ Use official [Redis docs](https://redis.io/docs/latest/) and [HTTP caching docs 
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `caching-pro` |
-|-------|------------------------------------|
-| **`nextjs-pro`** | App Router, ISR, and framework-level cache controls |
-| **`postgresql-pro`** | Query shape and DB consistency boundaries |
+| Skill                     | When to combine with `caching-pro`                           |
+| ------------------------- | ------------------------------------------------------------ |
+| **`nextjs-pro`**          | App Router, ISR, and framework-level cache controls          |
+| **`postgresql-pro`**      | Query shape and DB consistency boundaries                    |
 | **`sql-data-access-pro`** | Data-access safety and SQL-level optimization before caching |
-| **`deployment-pro`** | Rollout, canary, and rollback plan for cache changes |
+| **`deployment-pro`**      | Rollout, canary, and rollback plan for cache changes         |
 
 **Boundary:** **`caching-pro`** defines cache architecture and risk controls; paired skills own framework/database/deployment specifics.
 
@@ -93,13 +93,13 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` - deeper guides for strategy, invalidation, observability, and operational guardrails.
 
-| Topic | File |
-|-------|------|
-| Pattern selection | [references/pattern-selection.md](references/pattern-selection.md) |
-| Invalidation and consistency | [references/invalidation-and-consistency.md](references/invalidation-and-consistency.md) |
+| Topic                         | File                                                                                       |
+| ----------------------------- | ------------------------------------------------------------------------------------------ |
+| Pattern selection             | [references/pattern-selection.md](references/pattern-selection.md)                         |
+| Invalidation and consistency  | [references/invalidation-and-consistency.md](references/invalidation-and-consistency.md)   |
 | Performance and observability | [references/performance-and-observability.md](references/performance-and-observability.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips                          | [references/tips-and-tricks.md](references/tips-and-tricks.md)                             |
+| Edge cases                    | [references/edge-cases.md](references/edge-cases.md)                                       |
 
 ## Quick example
 

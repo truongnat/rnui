@@ -1,9 +1,9 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Stepper, Step } from "../Stepper";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Stepper, Step } from '../Stepper';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("Stepper renders steps", () => {
+test('Stepper renders steps', () => {
   const { getByText } = render(
     <ThemeProvider>
       <Stepper activeStep={0}>
@@ -12,6 +12,6 @@ test("Stepper renders steps", () => {
       </Stepper>
     </ThemeProvider>
   );
-  expect(getByText("Step 1")).toBeTruthy();
-  expect(getByText("Step 2")).toBeTruthy();
+  expect(getByText('Step 1')).toBeTruthy();
+  expect(getByText('Step 2')).toBeTruthy();
 });

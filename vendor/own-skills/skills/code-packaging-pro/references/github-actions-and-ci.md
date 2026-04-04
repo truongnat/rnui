@@ -8,12 +8,12 @@
 
 ## Jobs (typical split)
 
-| Job | Role |
-|-----|------|
-| **lint / typecheck** | Fast feedback |
-| **test** | Unit + integration per matrix |
-| **build** | **sdist/wheel** or **Docker** image push to registry |
-| **release** | **Trusted publishing** to **PyPI** (OIDC) when applicable |
+| Job                  | Role                                                      |
+| -------------------- | --------------------------------------------------------- |
+| **lint / typecheck** | Fast feedback                                             |
+| **test**             | Unit + integration per matrix                             |
+| **build**            | **sdist/wheel** or **Docker** image push to registry      |
+| **release**          | **Trusted publishing** to **PyPI** (OIDC) when applicable |
 
 ## Secrets
 

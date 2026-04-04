@@ -1,29 +1,29 @@
-import React from "react";
-import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
-import { useTokens, useComponentTokens } from "@truongdq01/headless";
+import React from 'react';
+import { ActivityIndicator, View, Text, StyleSheet } from 'react-native';
+import { useTokens, useComponentTokens } from '@truongdq01/headless';
 
 /**
  * Available progress indicator variants
  */
-export type CircularProgressVariant = "indeterminate" | "determinate";
+export type CircularProgressVariant = 'indeterminate' | 'determinate';
 
 /**
  * Available progress indicator colors
  */
 export type CircularProgressColor =
-  | "primary"
-  | "secondary"
-  | "success"
-  | "error"
-  | "info"
-  | "warning"
-  | "inherit";
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'error'
+  | 'info'
+  | 'warning'
+  | 'inherit';
 
 /**
  * Props for the CircularProgress component
  */
 export interface CircularProgressProps {
-  size?: number | "sm" | "md" | "lg" | "small" | "medium" | "large";
+  size?: number | 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
   color?: CircularProgressColor;
   thickness?: number;
   value?: number;
@@ -49,11 +49,11 @@ function clamp(value: number, min = 0, max = 100) {
  * ```
  */
 export function CircularProgress({
-  size = "md",
-  color = "primary",
+  size = 'md',
+  color = 'primary',
   thickness,
   value = 0,
-  variant = "indeterminate",
+  variant = 'indeterminate',
   showLabel = false,
   style,
 }: CircularProgressProps) {
@@ -69,7 +69,8 @@ export function CircularProgress({
     large: circularProgress.size.lg,
   };
 
-  const resolvedSize = typeof size === "number" ? size : sizeMap[size] || circularProgress.size.md;
+  const resolvedSize =
+    typeof size === 'number' ? size : sizeMap[size] || circularProgress.size.md;
   const resolvedColor = {
     primary: circularProgress.color,
     secondary: tokens.color.text.secondary,
@@ -87,12 +88,17 @@ export function CircularProgress({
       <ActivityIndicator
         size={resolvedSize}
         color={resolvedColor}
-        animating={variant === "indeterminate"}
+        animating={variant === 'indeterminate'}
       />
-      {variant === "determinate" && showLabel && (
+      {variant === 'determinate' && showLabel && (
         <View style={StyleSheet.absoluteFill} pointerEvents="none">
           <View style={styles.labelContainer}>
-            <Text style={{ fontSize: tokens.fontSize.xs, color: tokens.color.text.secondary }}>
+            <Text
+              style={{
+                fontSize: tokens.fontSize.xs,
+                color: tokens.color.text.secondary,
+              }}
+            >
               {Math.round(progressValue)}%
             </Text>
           </View>
@@ -104,12 +110,12 @@ export function CircularProgress({
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   labelContainer: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

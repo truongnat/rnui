@@ -9,40 +9,40 @@ Accordions display content in expandable/collapsible sections, perfect for FAQs 
 ## Usage
 
 ```tsx
-import { Accordion, AccordionSummary, AccordionDetails } from "@truongdq01/ui";
+import { Accordion, AccordionSummary, AccordionDetails } from '@truongdq01/ui';
 
 <Accordion>
   <AccordionSummary>Section Title</AccordionSummary>
   <AccordionDetails>
     <Text>Content goes here...</Text>
   </AccordionDetails>
-</Accordion>
+</Accordion>;
 ```
 
 ## Props
 
 ### Accordion
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `expanded` | `boolean` | — | Controlled expanded state |
-| `defaultExpanded` | `boolean` | `false` | Initial expanded state |
-| `disabled` | `boolean` | `false` | Disable expand/collapse |
-| `onChange` | `(expanded: boolean) => void` | — | Callback when state changes |
-| `children` | `ReactNode` | — | AccordionSummary + AccordionDetails |
+| Prop              | Type                          | Default | Description                         |
+| ----------------- | ----------------------------- | ------- | ----------------------------------- |
+| `expanded`        | `boolean`                     | —       | Controlled expanded state           |
+| `defaultExpanded` | `boolean`                     | `false` | Initial expanded state              |
+| `disabled`        | `boolean`                     | `false` | Disable expand/collapse             |
+| `onChange`        | `(expanded: boolean) => void` | —       | Callback when state changes         |
+| `children`        | `ReactNode`                   | —       | AccordionSummary + AccordionDetails |
 
 ### AccordionSummary
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | Summary content (title) |
+| Prop         | Type        | Default      | Description                 |
+| ------------ | ----------- | ------------ | --------------------------- |
+| `children`   | `ReactNode` | —            | Summary content (title)     |
 | `expandIcon` | `ReactNode` | Chevron icon | Custom expand/collapse icon |
 
 ### AccordionDetails
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | Collapsible content |
+| Prop       | Type        | Default | Description         |
+| ---------- | ----------- | ------- | ------------------- |
+| `children` | `ReactNode` | —       | Collapsible content |
 
 ## Examples
 
@@ -69,14 +69,14 @@ function FAQ() {
           <Text>Run: bun add @truongdq01/ui</Text>
         </AccordionDetails>
       </Accordion>
-      
+
       <Accordion>
         <AccordionSummary>Is it free?</AccordionSummary>
         <AccordionDetails>
           <Text>Yes, RNUI is open source under MIT license.</Text>
         </AccordionDetails>
       </Accordion>
-      
+
       <Accordion>
         <AccordionSummary>Can I customize?</AccordionSummary>
         <AccordionDetails>
@@ -93,12 +93,9 @@ function FAQ() {
 ```tsx
 function ControlledAccordion() {
   const [expanded, setExpanded] = useState(false);
-  
+
   return (
-    <Accordion
-      expanded={expanded}
-      onChange={setExpanded}
-    >
+    <Accordion expanded={expanded} onChange={setExpanded}>
       <AccordionSummary>Controlled Section</AccordionSummary>
       <AccordionDetails>
         <Text>This accordion is controlled externally.</Text>
@@ -122,7 +119,7 @@ function ControlledAccordion() {
 ### Custom Expand Icon
 
 ```tsx
-import { Icon } from "@truongdq01/ui";
+import { Icon } from '@truongdq01/ui';
 
 <Accordion>
   <AccordionSummary expandIcon={<Icon name="plus" size={16} />}>
@@ -131,7 +128,7 @@ import { Icon } from "@truongdq01/ui";
   <AccordionDetails>
     <Text>Uses a plus icon instead of chevron.</Text>
   </AccordionDetails>
-</Accordion>
+</Accordion>;
 ```
 
 ## Use Cases
@@ -192,12 +189,14 @@ import { Icon } from "@truongdq01/ui";
 ## Best Practices
 
 ### ✅ Do
+
 - Use for grouping related content
 - Keep summary titles concise and clear
 - Use for progressively disclosed content
 - Consider defaultExpanded for important sections
 
 ### ❌ Don't
+
 - Don't nest accordions within accordions
 - Don't use for critical always-visible content
 - Don't put too many items in one accordion
@@ -207,7 +206,7 @@ import { Icon } from "@truongdq01/ui";
 
 ```tsx
 <Accordion>
-  <AccordionSummary 
+  <AccordionSummary
     accessibilityLabel="Privacy settings"
     accessibilityHint="Double tap to expand or collapse"
     accessibilityRole="button"
@@ -215,9 +214,7 @@ import { Icon } from "@truongdq01/ui";
     Privacy Settings
   </AccordionSummary>
   <AccordionDetails>
-    <Text accessibilityRole="text">
-      Control your privacy preferences here.
-    </Text>
+    <Text accessibilityRole="text">Control your privacy preferences here.</Text>
   </AccordionDetails>
 </Accordion>
 ```

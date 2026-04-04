@@ -44,12 +44,12 @@ Do not use `StatefulWidget` only to cache **business/domain** state — lift tha
 
 ## Keys
 
-| Key type | When to use |
-|----------|-------------|
-| **`ValueKey<T>`** | Stable identity from data (`id`, value) in **lists** when order/items change. |
-| **`ObjectKey`** | Identity is the **object instance** itself. |
-| **`UniqueKey`** | Force **new** element when parent rebuilds (use sparingly — loses state if misused). |
-| **`GlobalKey`** | Access `State` or `RenderObject` from outside subtree — **last resort** (testing, `Form`, focus); avoid for normal composition. |
+| Key type          | When to use                                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **`ValueKey<T>`** | Stable identity from data (`id`, value) in **lists** when order/items change.                                                   |
+| **`ObjectKey`**   | Identity is the **object instance** itself.                                                                                     |
+| **`UniqueKey`**   | Force **new** element when parent rebuilds (use sparingly — loses state if misused).                                            |
+| **`GlobalKey`**   | Access `State` or `RenderObject` from outside subtree — **last resort** (testing, `Form`, focus); avoid for normal composition. |
 
 **No key** when the list is static and order never changes in a meaningful way.
 
@@ -73,12 +73,12 @@ Do not use `StatefulWidget` only to cache **business/domain** state — lift tha
 
 ## StatefulWidget lifecycle
 
-| Method | Role |
-|--------|------|
-| **`initState`** | One-time setup; `addListener`, **not** `context`-dependent lookups that assume full tree (use `didChangeDependencies` or post-frame callback if needed). |
-| **`didChangeDependencies`** | When `InheritedWidget` dependencies change; may run **before** first `build` completes in some cases. |
-| **`didUpdateWidget`** | Parent replaced widget with new configuration; compare old vs new widget fields. |
-| **`dispose`** | Remove listeners, dispose `AnimationController`, `TextEditingController`, **cancel** subscriptions. |
+| Method                      | Role                                                                                                                                                     |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`initState`**             | One-time setup; `addListener`, **not** `context`-dependent lookups that assume full tree (use `didChangeDependencies` or post-frame callback if needed). |
+| **`didChangeDependencies`** | When `InheritedWidget` dependencies change; may run **before** first `build` completes in some cases.                                                    |
+| **`didUpdateWidget`**       | Parent replaced widget with new configuration; compare old vs new widget fields.                                                                         |
+| **`dispose`**               | Remove listeners, dispose `AnimationController`, `TextEditingController`, **cancel** subscriptions.                                                      |
 
 Always check **`mounted`** before `setState` after async work.
 
@@ -93,4 +93,4 @@ Always check **`mounted`** before `setState` after async work.
 
 ---
 
-*Official: [Widgets introduction](https://docs.flutter.dev/ui/widgets-intro), [State management](https://docs.flutter.dev/data-and-backend/state-mgmt/options).*
+_Official: [Widgets introduction](https://docs.flutter.dev/ui/widgets-intro), [State management](https://docs.flutter.dev/data-and-backend/state-mgmt/options)._

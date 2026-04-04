@@ -1,13 +1,11 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Switch } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Switch } from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
@@ -20,21 +18,27 @@ const SwitchWrapper = (props: any) => (
 );
 
 const meta = {
-  title: "Components/Switch",
+  title: 'Components/Switch',
   component: SwitchWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
-    label: { control: "text" },
-    description: { control: "text" },
+    label: { control: 'text' },
+    description: { control: 'text' },
     size: {
-      control: { type: "select" },
-      options: ["sm", "md", "lg"],
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg'],
     },
-    disabled: { control: "boolean" },
+    disabled: { control: 'boolean' },
   },
   args: {
-    label: "Switch",
-    size: "md",
+    label: 'Switch',
+    size: 'md',
     disabled: false,
   },
 };
@@ -43,19 +47,19 @@ export default meta;
 type Story = StoryObj<typeof SwitchWrapper>;
 
 export const Off: Story = {
-  args: { label: "Switch off" },
+  args: { label: 'Switch off' },
 };
 
 export const On: Story = {
-  args: { label: "Switch on", on: true },
+  args: { label: 'Switch on', on: true },
 };
 
 export const WithDescription: Story = {
-  args: { label: "Notifications", description: "Receive push notifications" },
+  args: { label: 'Notifications', description: 'Receive push notifications' },
 };
 
 export const Disabled: Story = {
-  args: { label: "Disabled", disabled: true },
+  args: { label: 'Disabled', disabled: true },
 };
 
 export const AllSizes: Story = {

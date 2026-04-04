@@ -1,6 +1,6 @@
-import type { StoryObj } from "@storybook/react-native";
-import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import {
   ThemeProvider,
   Box,
@@ -56,7 +56,7 @@ import {
   Modal,
   Popover,
   Popper,
-} from "@truongdq01/ui";
+} from '@truongdq01/ui';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
@@ -67,9 +67,15 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 );
 
 const meta = {
-  title: "Components/MUIExtras",
+  title: 'Components/MUIExtras',
   component: View,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
 };
 
 export default meta;
@@ -84,12 +90,16 @@ export const Layout: Story = {
         <Text>Box content</Text>
       </Box>
       <Stack spacing={4}>
-        <Box style={{ height: 32, backgroundColor: "#e2e8f0" }} />
-        <Box style={{ height: 32, backgroundColor: "#cbd5f5" }} />
+        <Box style={{ height: 32, backgroundColor: '#e2e8f0' }} />
+        <Box style={{ height: 32, backgroundColor: '#cbd5f5' }} />
       </Stack>
       <Grid container spacing={2}>
-        <Grid size={6}><Box style={{ height: 40, backgroundColor: "#e2e8f0" }} /></Grid>
-        <Grid size={6}><Box style={{ height: 40, backgroundColor: "#cbd5f5" }} /></Grid>
+        <Grid size={6}>
+          <Box style={{ height: 40, backgroundColor: '#e2e8f0' }} />
+        </Grid>
+        <Grid size={6}>
+          <Box style={{ height: 40, backgroundColor: '#cbd5f5' }} />
+        </Grid>
       </Grid>
       <Paper elevation="md" style={{ padding: 16 }}>
         <Typography>Paper surface</Typography>
@@ -102,15 +112,19 @@ export const Layout: Story = {
 export const Inputs: Story = {
   render: () => {
     const [rating, setRating] = useState(3);
-    const [toggle, setToggle] = useState("left");
+    const [toggle, setToggle] = useState('left');
 
     return (
       <View style={{ gap: 20 }}>
         <Typography variant="h5">Inputs</Typography>
         <TextField label="Email" placeholder="name@example.com" />
-        <Autocomplete options={["React", "Vue", "Svelte"]} />
+        <Autocomplete options={['React', 'Vue', 'Svelte']} />
         <Rating value={rating} onChange={setRating} />
-        <ToggleButtonGroup value={toggle} exclusive onChange={(val: any) => setToggle(val as string)}>
+        <ToggleButtonGroup
+          value={toggle}
+          exclusive
+          onChange={(val: any) => setToggle(val as string)}
+        >
           <ToggleButton value="left">Left</ToggleButton>
           <ToggleButton value="center">Center</ToggleButton>
           <ToggleButton value="right">Right</ToggleButton>
@@ -120,7 +134,7 @@ export const Inputs: Story = {
           <Button label="Center" />
           <Button label="Right" />
         </ButtonGroup>
-        <Fab label="Create" onPress={() => { }} />
+        <Fab label="Create" onPress={() => {}} />
       </View>
     );
   },
@@ -195,7 +209,7 @@ export const DataDisplay: Story = {
           </TableRow>
         </TableBody>
       </Table>
-      <View style={{ flexDirection: "row", gap: 8 }}>
+      <View style={{ flexDirection: 'row', gap: 8 }}>
         <Chip label="Design" />
         <Chip label="Dev" variant="outlined" />
       </View>
@@ -204,8 +218,12 @@ export const DataDisplay: Story = {
       </Tooltip>
       <Icon>star</Icon>
       <ImageList cols={2}>
-        <ImageListItem><Box style={{ height: 120, backgroundColor: "#e2e8f0" }} /></ImageListItem>
-        <ImageListItem><Box style={{ height: 120, backgroundColor: "#cbd5f5" }} /></ImageListItem>
+        <ImageListItem>
+          <Box style={{ height: 120, backgroundColor: '#e2e8f0' }} />
+        </ImageListItem>
+        <ImageListItem>
+          <Box style={{ height: 120, backgroundColor: '#cbd5f5' }} />
+        </ImageListItem>
       </ImageList>
       <Timeline>
         <TimelineItem>
@@ -234,25 +252,33 @@ export const Feedback: Story = {
     return (
       <View style={{ gap: 20 }}>
         <Alert severity="success">Saved successfully</Alert>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
           <CircularProgress />
-          <LinearProgress value={40} variant="determinate" style={{ flex: 1 }} />
+          <LinearProgress
+            value={40}
+            variant="determinate"
+            style={{ flex: 1 }}
+          />
         </View>
         <Button onPress={() => setDialogOpen(true)}>Open Dialog</Button>
         <Dialog
           open={dialogOpen}
           onClose={() => setDialogOpen(false)}
           title="Confirm"
-          actions={(
+          actions={
             <>
               <Button onPress={() => setDialogOpen(false)}>Cancel</Button>
               <Button variant="contained">OK</Button>
             </>
-          )}
+          }
         >
           <Text>Are you sure?</Text>
         </Dialog>
-        <Snackbar open={snackOpen} message="Saved" onClose={() => setSnackOpen(false)} />
+        <Snackbar
+          open={snackOpen}
+          message="Saved"
+          onClose={() => setSnackOpen(false)}
+        />
       </View>
     );
   },

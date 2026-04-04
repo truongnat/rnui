@@ -18,13 +18,13 @@
 
 Trends **change**; **usability** and **accessibility** outlive aesthetics. Short orientation:
 
-| Trend area | Note |
-|------------|------|
-| **Neumorphism** | Often fails contrast; use sparingly for non-text decorative surfaces. |
-| **Glassmorphism** | Legibility on busy backgrounds; blur performance cost. |
-| **Heavy 3D / skeuomorph** | Motion and asset weight; accessibility of metaphors. |
+| Trend area                  | Note                                                                           |
+| --------------------------- | ------------------------------------------------------------------------------ |
+| **Neumorphism**             | Often fails contrast; use sparingly for non-text decorative surfaces.          |
+| **Glassmorphism**           | Legibility on busy backgrounds; blur performance cost.                         |
+| **Heavy 3D / skeuomorph**   | Motion and asset weight; accessibility of metaphors.                           |
 | **Brutalism / anti-design** | Intentional tension; still need readable text and focus states for real users. |
-| **AI-generated art** | Brand risk and uniformity; review for bias and copyright. |
+| **AI-generated art**        | Brand risk and uniformity; review for bias and copyright.                      |
 
 ## Motion
 

@@ -19,16 +19,16 @@ Use your cloud or platform **official docs** (AWS/GCP/Azure, Kubernetes, GitHub 
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `deployment-pro` |
-|-------|----------------------------------------|
-| **`testing-pro`** | What runs in CI (lint, unit, integration, e2e), flakiness, artifacts — not the same as *where* the app runs |
-| **`security-pro`** | Secrets in CI/CD, OIDC to cloud, signing, SBOM, fork-PR safety |
-| **`postgresql-pro`** | Migration strategy, expand/contract, locks during deploy |
-| **`nextjs-pro`** | Next.js / Vercel-style deploy, env and runtime boundaries |
-| **`nestjs-pro`** | Node containers, health checks, graceful shutdown hooks |
-| **`electron-pro`** / **`tauri-pro`** | Desktop installers, auto-update, store-style releases |
-| **`code-packaging-pro`** | **Dockerfile**, **pyproject**, **GitHub Actions** that **build** images/wheels — before **where** they run |
-| **`git-operations-pro`** | **Tags**, **release branches**, **merge** hygiene — before **promotion** to environments |
+| Skill                                | When to combine with `deployment-pro`                                                                       |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| **`testing-pro`**                    | What runs in CI (lint, unit, integration, e2e), flakiness, artifacts — not the same as _where_ the app runs |
+| **`security-pro`**                   | Secrets in CI/CD, OIDC to cloud, signing, SBOM, fork-PR safety                                              |
+| **`postgresql-pro`**                 | Migration strategy, expand/contract, locks during deploy                                                    |
+| **`nextjs-pro`**                     | Next.js / Vercel-style deploy, env and runtime boundaries                                                   |
+| **`nestjs-pro`**                     | Node containers, health checks, graceful shutdown hooks                                                     |
+| **`electron-pro`** / **`tauri-pro`** | Desktop installers, auto-update, store-style releases                                                       |
+| **`code-packaging-pro`**             | **Dockerfile**, **pyproject**, **GitHub Actions** that **build** images/wheels — before **where** they run  |
+| **`git-operations-pro`**             | **Tags**, **release branches**, **merge** hygiene — before **promotion** to environments                    |
 
 **Boundary:** **`testing-pro`** = quality **gates** in automation; **`deployment-pro`** = **build → publish → promote → observe → rollback** for runnable systems.
 
@@ -91,12 +91,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — methods, flows, tips, edge cases.
 
-| Topic | File |
-|-------|------|
+| Topic                  | File                                                                             |
+| ---------------------- | -------------------------------------------------------------------------------- |
 | Methods & environments | [references/methods-and-environments.md](references/methods-and-environments.md) |
-| Flows & pipelines | [references/flows-and-pipelines.md](references/flows-and-pipelines.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Flows & pipelines      | [references/flows-and-pipelines.md](references/flows-and-pipelines.md)           |
+| Tips and patterns      | [references/tips-and-tricks.md](references/tips-and-tricks.md)                   |
+| Edge cases             | [references/edge-cases.md](references/edge-cases.md)                             |
 
 ## Quick example
 

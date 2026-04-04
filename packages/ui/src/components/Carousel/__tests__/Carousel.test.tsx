@@ -1,8 +1,8 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Carousel } from "../Carousel";
-import { ThemeProvider } from "@truongdq01/headless";
-import { Text } from "react-native";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Carousel } from '../Carousel';
+import { ThemeProvider } from '@truongdq01/headless';
+import { Text } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider colorScheme="light" brand={undefined} override={undefined}>
@@ -10,8 +10,8 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
   </ThemeProvider>
 );
 
-test("Carousel renders current item", () => {
-  const data = ["Slide 1", "Slide 2"];
+test('Carousel renders current item', () => {
+  const data = ['Slide 1', 'Slide 2'];
   const { getByText } = render(
     <Wrap>
       <Carousel
@@ -21,10 +21,10 @@ test("Carousel renders current item", () => {
       />
     </Wrap>
   );
-  expect(getByText("Slide 1")).toBeTruthy();
+  expect(getByText('Slide 1')).toBeTruthy();
 });
 
-test("Carousel renders nothing when data is empty", () => {
+test('Carousel renders nothing when data is empty', () => {
   const { queryByText } = render(
     <Wrap>
       <Carousel<string>
@@ -34,14 +34,14 @@ test("Carousel renders nothing when data is empty", () => {
       />
     </Wrap>
   );
-  expect(queryByText("should-not-show")).toBeNull();
+  expect(queryByText('should-not-show')).toBeNull();
 });
 
-test("Carousel uses keyExtractor for stable keys", () => {
+test('Carousel uses keyExtractor for stable keys', () => {
   type Row = { id: string; label: string };
   const rows: Row[] = [
-    { id: "a", label: "A1" },
-    { id: "b", label: "B1" },
+    { id: 'a', label: 'A1' },
+    { id: 'b', label: 'B1' },
   ];
   const { getByText } = render(
     <Wrap>
@@ -53,5 +53,5 @@ test("Carousel uses keyExtractor for stable keys", () => {
       />
     </Wrap>
   );
-  expect(getByText("A1")).toBeTruthy();
+  expect(getByText('A1')).toBeTruthy();
 });

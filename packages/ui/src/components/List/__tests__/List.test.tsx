@@ -1,9 +1,9 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { List, ListItem, ListItemText } from "../List";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { List, ListItem, ListItemText } from '../List';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("List renders items and text", () => {
+test('List renders items and text', () => {
   const { getByText } = render(
     <ThemeProvider>
       <List>
@@ -13,6 +13,6 @@ test("List renders items and text", () => {
       </List>
     </ThemeProvider>
   );
-  expect(getByText("Item Primary")).toBeTruthy();
-  expect(getByText("Secondary")).toBeTruthy();
+  expect(getByText('Item Primary')).toBeTruthy();
+  expect(getByText('Secondary')).toBeTruthy();
 });

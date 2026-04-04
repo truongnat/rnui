@@ -1,34 +1,40 @@
-import React from "react";
-import { View, type ViewStyle } from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import React from 'react';
+import { View, type ViewStyle } from 'react-native';
+import { useComponentTokens, useTokens } from '@truongdq01/headless';
 
 export interface AppBarProps {
   children?: React.ReactNode;
-  color?: "default" | "inherit" | "primary" | "secondary" | "transparent";
-  variant?: "elevation" | "outlined";
-  position?: "absolute" | "fixed" | "relative" | "static" | "sticky";
+  color?: 'default' | 'inherit' | 'primary' | 'secondary' | 'transparent';
+  variant?: 'elevation' | 'outlined';
+  position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
   elevation?: 0 | 1 | 2 | 3 | 4;
   style?: ViewStyle | ViewStyle[];
 }
 
 export function AppBar({
   children,
-  color = "primary",
-  variant = "elevation",
-  position = "relative",
+  color = 'primary',
+  variant = 'elevation',
+  position = 'relative',
   elevation = 2,
   style,
 }: AppBarProps) {
   const { appBar } = useComponentTokens();
   const tokens = useTokens();
-  const shadows = [tokens.shadow.none, tokens.shadow.sm, tokens.shadow.md, tokens.shadow.lg, tokens.shadow.xl];
+  const shadows = [
+    tokens.shadow.none,
+    tokens.shadow.sm,
+    tokens.shadow.md,
+    tokens.shadow.lg,
+    tokens.shadow.xl,
+  ];
 
   const bgMap: Record<string, string> = {
     default: appBar.container.backgroundColor,
-    inherit: "transparent",
+    inherit: 'transparent',
     primary: tokens.color.brand.default,
     secondary: tokens.color.brand.muted,
-    transparent: "transparent",
+    transparent: 'transparent',
   };
 
   return (
@@ -36,13 +42,13 @@ export function AppBar({
       style={[
         {
           backgroundColor: bgMap[color],
-          borderBottomWidth: variant === "outlined" ? 1 : 0,
+          borderBottomWidth: variant === 'outlined' ? 1 : 0,
           borderBottomColor: tokens.color.border.default,
           zIndex: appBar.container.zIndex,
         },
-        variant === "elevation" ? shadows[elevation] : null,
-        position === "absolute" || position === "fixed"
-          ? { position: "absolute", top: 0, left: 0, right: 0 }
+        variant === 'elevation' ? shadows[elevation] : null,
+        position === 'absolute' || position === 'fixed'
+          ? { position: 'absolute', top: 0, left: 0, right: 0 }
           : null,
         style,
       ]}
@@ -66,8 +72,8 @@ export function Toolbar({ children, style }: ToolbarProps) {
         {
           minHeight: 56,
           paddingHorizontal: appBar.container.paddingHorizontal,
-          flexDirection: "row",
-          alignItems: "center",
+          flexDirection: 'row',
+          alignItems: 'center',
           gap: tokens.spacing[3],
         },
         style,

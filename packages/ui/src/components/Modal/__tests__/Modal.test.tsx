@@ -1,14 +1,14 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
-import { Modal } from "../Modal";
-import { ThemeProvider } from "@truongdq01/headless";
-import { Text, View } from "react-native";
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react-native';
+import { Modal } from '../Modal';
+import { ThemeProvider } from '@truongdq01/headless';
+import { Text, View } from 'react-native';
 
-describe("Modal", () => {
+describe('Modal', () => {
   // ─── Rendering Tests ────────────────────────────────────────────────
 
-  describe("Rendering", () => {
-    it("renders children when open", () => {
+  describe('Rendering', () => {
+    it('renders children when open', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -16,10 +16,10 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Modal Content")).toBeTruthy();
+      expect(getByText('Modal Content')).toBeTruthy();
     });
 
-    it("does not render children when closed", () => {
+    it('does not render children when closed', () => {
       const { queryByText } = render(
         <ThemeProvider>
           <Modal open={false}>
@@ -27,10 +27,10 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(queryByText("Modal Content")).toBeNull();
+      expect(queryByText('Modal Content')).toBeNull();
     });
 
-    it("renders children when closed with keepMounted", () => {
+    it('renders children when closed with keepMounted', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={false} keepMounted>
@@ -38,10 +38,10 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Modal Content")).toBeTruthy();
+      expect(getByText('Modal Content')).toBeTruthy();
     });
 
-    it("renders with custom content style", () => {
+    it('renders with custom content style', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true} contentStyle={{ padding: 20 }}>
@@ -49,10 +49,10 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Styled Content")).toBeTruthy();
+      expect(getByText('Styled Content')).toBeTruthy();
     });
 
-    it("renders multiple children", () => {
+    it('renders multiple children', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -62,12 +62,12 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Title")).toBeTruthy();
-      expect(getByText("Description")).toBeTruthy();
-      expect(getByText("Footer")).toBeTruthy();
+      expect(getByText('Title')).toBeTruthy();
+      expect(getByText('Description')).toBeTruthy();
+      expect(getByText('Footer')).toBeTruthy();
     });
 
-    it("renders complex children structure", () => {
+    it('renders complex children structure', () => {
       const { getByText, getByTestId } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -80,17 +80,17 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByTestId("modal-header")).toBeTruthy();
-      expect(getByTestId("modal-body")).toBeTruthy();
-      expect(getByText("Header")).toBeTruthy();
-      expect(getByText("Body")).toBeTruthy();
+      expect(getByTestId('modal-header')).toBeTruthy();
+      expect(getByTestId('modal-body')).toBeTruthy();
+      expect(getByText('Header')).toBeTruthy();
+      expect(getByText('Body')).toBeTruthy();
     });
   });
 
   // ─── Backdrop Tests ─────────────────────────────────────────────────
 
-  describe("Backdrop", () => {
-    it("renders backdrop by default", () => {
+  describe('Backdrop', () => {
+    it('renders backdrop by default', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -99,10 +99,10 @@ describe("Modal", () => {
         </ThemeProvider>
       );
       // Backdrop should be present (implementation detail)
-      expect(getByText("Content")).toBeTruthy();
+      expect(getByText('Content')).toBeTruthy();
     });
 
-    it("hides backdrop when hideBackdrop is true", () => {
+    it('hides backdrop when hideBackdrop is true', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true} hideBackdrop>
@@ -110,10 +110,10 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Content")).toBeTruthy();
+      expect(getByText('Content')).toBeTruthy();
     });
 
-    it("calls onClose when backdrop is pressed", () => {
+    it('calls onClose when backdrop is pressed', () => {
       const onClose = jest.fn();
       const { UNSAFE_root } = render(
         <ThemeProvider>
@@ -122,16 +122,16 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      
+
       // Find backdrop pressable and press it
-      const pressables = UNSAFE_root.findAllByType("Pressable" as any);
+      const pressables = UNSAFE_root.findAllByType('Pressable' as any);
       if (pressables.length > 0) {
         fireEvent.press(pressables[0]);
         expect(onClose).toHaveBeenCalled();
       }
     });
 
-    it("does not call onClose when backdrop is hidden", () => {
+    it('does not call onClose when backdrop is hidden', () => {
       const onClose = jest.fn();
       const { UNSAFE_root } = render(
         <ThemeProvider>
@@ -140,13 +140,13 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      
+
       // Backdrop should not be present
-      const pressables = UNSAFE_root.findAllByType("Pressable" as any);
+      const pressables = UNSAFE_root.findAllByType('Pressable' as any);
       expect(pressables.length).toBe(0);
     });
 
-    it("renders custom backdrop component", () => {
+    it('renders custom backdrop component', () => {
       const CustomBackdrop = () => <View testID="custom-backdrop" />;
       const { UNSAFE_root } = render(
         <ThemeProvider>
@@ -155,32 +155,34 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(UNSAFE_root.findByProps({ testID: "custom-backdrop" })).toBeTruthy();
+      expect(
+        UNSAFE_root.findByProps({ testID: 'custom-backdrop' })
+      ).toBeTruthy();
     });
 
-    it("passes BackdropProps to custom backdrop", () => {
-      const CustomBackdrop = ({ testID }: any) => (
-        <View testID={testID} />
-      );
+    it('passes BackdropProps to custom backdrop', () => {
+      const CustomBackdrop = ({ testID }: any) => <View testID={testID} />;
       const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal
             open={true}
             BackdropComponent={CustomBackdrop}
-            BackdropProps={{ testID: "custom-backdrop-with-props" }}
+            BackdropProps={{ testID: 'custom-backdrop-with-props' }}
           >
             <Text>Content</Text>
           </Modal>
         </ThemeProvider>
       );
-      expect(UNSAFE_root.findByProps({ testID: "custom-backdrop-with-props" })).toBeTruthy();
+      expect(
+        UNSAFE_root.findByProps({ testID: 'custom-backdrop-with-props' })
+      ).toBeTruthy();
     });
   });
 
   // ─── Interaction Tests ──────────────────────────────────────────────
 
-  describe("Interactions", () => {
-    it("calls onClose when escape key is pressed", () => {
+  describe('Interactions', () => {
+    it('calls onClose when escape key is pressed', () => {
       const onClose = jest.fn();
       const { UNSAFE_root } = render(
         <ThemeProvider>
@@ -189,16 +191,16 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      
+
       // Simulate hardware back button / escape key
-      const modal = UNSAFE_root.findByType("Modal" as any);
+      const modal = UNSAFE_root.findByType('Modal' as any);
       if (modal.props.onRequestClose) {
         modal.props.onRequestClose();
         expect(onClose).toHaveBeenCalled();
       }
     });
 
-    it("does not call onClose when disableEscapeKeyDown is true", () => {
+    it('does not call onClose when disableEscapeKeyDown is true', () => {
       const onClose = jest.fn();
       const { UNSAFE_root } = render(
         <ThemeProvider>
@@ -207,15 +209,15 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      
-      const modal = UNSAFE_root.findByType("Modal" as any);
+
+      const modal = UNSAFE_root.findByType('Modal' as any);
       if (modal.props.onRequestClose) {
         modal.props.onRequestClose();
         expect(onClose).not.toHaveBeenCalled();
       }
     });
 
-    it("handles undefined onClose gracefully", () => {
+    it('handles undefined onClose gracefully', () => {
       const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -223,8 +225,8 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      
-      const modal = UNSAFE_root.findByType("Modal" as any);
+
+      const modal = UNSAFE_root.findByType('Modal' as any);
       if (modal.props.onRequestClose) {
         modal.props.onRequestClose();
         // Should not crash
@@ -235,8 +237,8 @@ describe("Modal", () => {
 
   // ─── State Management ───────────────────────────────────────────────
 
-  describe("State Management", () => {
-    it("updates when open prop changes from false to true", () => {
+  describe('State Management', () => {
+    it('updates when open prop changes from false to true', () => {
       const { getByText, rerender, queryByText } = render(
         <ThemeProvider>
           <Modal open={false}>
@@ -244,8 +246,8 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(queryByText("Content")).toBeNull();
-      
+      expect(queryByText('Content')).toBeNull();
+
       rerender(
         <ThemeProvider>
           <Modal open={true}>
@@ -253,10 +255,10 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Content")).toBeTruthy();
+      expect(getByText('Content')).toBeTruthy();
     });
 
-    it("updates when open prop changes from true to false", () => {
+    it('updates when open prop changes from true to false', () => {
       const { getByText, rerender, queryByText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -264,8 +266,8 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Content")).toBeTruthy();
-      
+      expect(getByText('Content')).toBeTruthy();
+
       rerender(
         <ThemeProvider>
           <Modal open={false}>
@@ -273,10 +275,10 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(queryByText("Content")).toBeNull();
+      expect(queryByText('Content')).toBeNull();
     });
 
-    it("keeps content mounted when keepMounted is true", () => {
+    it('keeps content mounted when keepMounted is true', () => {
       const { getByText, rerender } = render(
         <ThemeProvider>
           <Modal open={true} keepMounted>
@@ -284,8 +286,8 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Content")).toBeTruthy();
-      
+      expect(getByText('Content')).toBeTruthy();
+
       rerender(
         <ThemeProvider>
           <Modal open={false} keepMounted>
@@ -293,10 +295,10 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Content")).toBeTruthy();
+      expect(getByText('Content')).toBeTruthy();
     });
 
-    it("unmounts content when keepMounted changes to false", () => {
+    it('unmounts content when keepMounted changes to false', () => {
       const { getByText, rerender, queryByText } = render(
         <ThemeProvider>
           <Modal open={false} keepMounted>
@@ -304,8 +306,8 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Content")).toBeTruthy();
-      
+      expect(getByText('Content')).toBeTruthy();
+
       rerender(
         <ThemeProvider>
           <Modal open={false} keepMounted={false}>
@@ -313,14 +315,14 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(queryByText("Content")).toBeNull();
+      expect(queryByText('Content')).toBeNull();
     });
   });
 
   // ─── Animation Tests ────────────────────────────────────────────────
 
-  describe("Animation", () => {
-    it("uses fade animation type", () => {
+  describe('Animation', () => {
+    it('uses fade animation type', () => {
       const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -328,12 +330,12 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      
-      const modal = UNSAFE_root.findByType("Modal" as any);
-      expect(modal.props.animationType).toBe("fade");
+
+      const modal = UNSAFE_root.findByType('Modal' as any);
+      expect(modal.props.animationType).toBe('fade');
     });
 
-    it("renders as transparent modal", () => {
+    it('renders as transparent modal', () => {
       const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -341,16 +343,16 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      
-      const modal = UNSAFE_root.findByType("Modal" as any);
+
+      const modal = UNSAFE_root.findByType('Modal' as any);
       expect(modal.props.transparent).toBe(true);
     });
   });
 
   // ─── Accessibility Tests ────────────────────────────────────────────
 
-  describe("Accessibility", () => {
-    it("renders with proper modal structure", () => {
+  describe('Accessibility', () => {
+    it('renders with proper modal structure', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -358,10 +360,10 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Accessible Content")).toBeTruthy();
+      expect(getByText('Accessible Content')).toBeTruthy();
     });
 
-    it("supports screen reader navigation", () => {
+    it('supports screen reader navigation', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -370,11 +372,11 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Title")).toBeTruthy();
-      expect(getByText("Description")).toBeTruthy();
+      expect(getByText('Title')).toBeTruthy();
+      expect(getByText('Description')).toBeTruthy();
     });
 
-    it("has accessibilityViewIsModal on content container", () => {
+    it('has accessibilityViewIsModal on content container', () => {
       const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -382,11 +384,13 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      const container = UNSAFE_root.findByProps({ accessibilityLabel: "Modal" });
+      const container = UNSAFE_root.findByProps({
+        accessibilityLabel: 'Modal',
+      });
       expect(container.props.accessibilityViewIsModal).toBe(true);
     });
 
-    it("uses default accessibilityLabel values", () => {
+    it('uses default accessibilityLabel values', () => {
       const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -394,11 +398,15 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(UNSAFE_root.findByProps({ accessibilityLabel: "Modal" })).toBeTruthy();
-      expect(UNSAFE_root.findByProps({ accessibilityLabel: "Dismiss modal" })).toBeTruthy();
+      expect(
+        UNSAFE_root.findByProps({ accessibilityLabel: 'Modal' })
+      ).toBeTruthy();
+      expect(
+        UNSAFE_root.findByProps({ accessibilityLabel: 'Dismiss modal' })
+      ).toBeTruthy();
     });
 
-    it("applies custom accessibilityLabel props", () => {
+    it('applies custom accessibilityLabel props', () => {
       const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal
@@ -410,11 +418,15 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(UNSAFE_root.findByProps({ accessibilityLabel: "Settings panel" })).toBeTruthy();
-      expect(UNSAFE_root.findByProps({ accessibilityLabel: "Close settings" })).toBeTruthy();
+      expect(
+        UNSAFE_root.findByProps({ accessibilityLabel: 'Settings panel' })
+      ).toBeTruthy();
+      expect(
+        UNSAFE_root.findByProps({ accessibilityLabel: 'Close settings' })
+      ).toBeTruthy();
     });
 
-    it("backdrop has button role and hint", () => {
+    it('backdrop has button role and hint', () => {
       const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -422,16 +434,18 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      const backdrop = UNSAFE_root.findByProps({ accessibilityLabel: "Dismiss modal" });
-      expect(backdrop.props.accessibilityRole).toBe("button");
-      expect(backdrop.props.accessibilityHint).toBe("Closes the modal");
+      const backdrop = UNSAFE_root.findByProps({
+        accessibilityLabel: 'Dismiss modal',
+      });
+      expect(backdrop.props.accessibilityRole).toBe('button');
+      expect(backdrop.props.accessibilityHint).toBe('Closes the modal');
     });
   });
 
   // ─── Edge Cases ─────────────────────────────────────────────────────
 
-  describe("Edge Cases", () => {
-    it("handles null children", () => {
+  describe('Edge Cases', () => {
+    it('handles null children', () => {
       const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal open={true}>{null}</Modal>
@@ -441,7 +455,7 @@ describe("Modal", () => {
       expect(UNSAFE_root).toBeTruthy();
     });
 
-    it("handles undefined children", () => {
+    it('handles undefined children', () => {
       const { UNSAFE_root } = render(
         <ThemeProvider>
           <Modal open={true}>{undefined}</Modal>
@@ -451,17 +465,17 @@ describe("Modal", () => {
       expect(UNSAFE_root).toBeTruthy();
     });
 
-    it("handles empty children", () => {
+    it('handles empty children', () => {
       const { UNSAFE_root } = render(
         <ThemeProvider>
-          <Modal open={true}>{""}</Modal>
+          <Modal open={true}>{''}</Modal>
         </ThemeProvider>
       );
       // Should not crash
       expect(UNSAFE_root).toBeTruthy();
     });
 
-    it("handles conditional children", () => {
+    it('handles conditional children', () => {
       const showContent = true;
       const { getByText, queryByText } = render(
         <ThemeProvider>
@@ -470,11 +484,11 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Conditional Content")).toBeTruthy();
+      expect(getByText('Conditional Content')).toBeTruthy();
     });
 
-    it("handles array of children", () => {
-      const items = ["Item 1", "Item 2", "Item 3"];
+    it('handles array of children', () => {
+      const items = ['Item 1', 'Item 2', 'Item 3'];
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -484,12 +498,12 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Item 1")).toBeTruthy();
-      expect(getByText("Item 2")).toBeTruthy();
-      expect(getByText("Item 3")).toBeTruthy();
+      expect(getByText('Item 1')).toBeTruthy();
+      expect(getByText('Item 2')).toBeTruthy();
+      expect(getByText('Item 3')).toBeTruthy();
     });
 
-    it("handles all props together", () => {
+    it('handles all props together', () => {
       const onClose = jest.fn();
       const CustomBackdrop = () => <View testID="backdrop" />;
       const { getByText, UNSAFE_root } = render(
@@ -502,22 +516,22 @@ describe("Modal", () => {
             disableAutoFocus={true}
             disableEscapeKeyDown={false}
             BackdropComponent={CustomBackdrop}
-            BackdropProps={{ testID: "backdrop" }}
+            BackdropProps={{ testID: 'backdrop' }}
             contentStyle={{ padding: 20 }}
           >
             <Text>Full Props Content</Text>
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Full Props Content")).toBeTruthy();
-      expect(UNSAFE_root.findByProps({ testID: "backdrop" })).toBeTruthy();
+      expect(getByText('Full Props Content')).toBeTruthy();
+      expect(UNSAFE_root.findByProps({ testID: 'backdrop' })).toBeTruthy();
     });
   });
 
   // ─── Layout Tests ───────────────────────────────────────────────────
 
-  describe("Layout", () => {
-    it("centers content in overlay", () => {
+  describe('Layout', () => {
+    it('centers content in overlay', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -525,10 +539,10 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Centered Content")).toBeTruthy();
+      expect(getByText('Centered Content')).toBeTruthy();
     });
 
-    it("applies minimum width to content", () => {
+    it('applies minimum width to content', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -536,10 +550,10 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Min Width Content")).toBeTruthy();
+      expect(getByText('Min Width Content')).toBeTruthy();
     });
 
-    it("applies maximum width to content", () => {
+    it('applies maximum width to content', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -547,12 +561,12 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Max Width Content")).toBeTruthy();
+      expect(getByText('Max Width Content')).toBeTruthy();
     });
 
-    it("respects custom content style", () => {
+    it('respects custom content style', () => {
       const customStyle = {
-        backgroundColor: "red",
+        backgroundColor: 'red',
         padding: 30,
         borderRadius: 10,
       };
@@ -563,14 +577,14 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Custom Styled Content")).toBeTruthy();
+      expect(getByText('Custom Styled Content')).toBeTruthy();
     });
   });
 
   // ─── Integration Tests ──────────────────────────────────────────────
 
-  describe("Integration", () => {
-    it("works with form elements", () => {
+  describe('Integration', () => {
+    it('works with form elements', () => {
       const { getByText, getByPlaceholderText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -583,12 +597,12 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Login Form")).toBeTruthy();
-      expect(getByText("Username")).toBeTruthy();
-      expect(getByText("Password")).toBeTruthy();
+      expect(getByText('Login Form')).toBeTruthy();
+      expect(getByText('Username')).toBeTruthy();
+      expect(getByText('Password')).toBeTruthy();
     });
 
-    it("works with buttons", () => {
+    it('works with buttons', () => {
       const onConfirm = jest.fn();
       const onCancel = jest.fn();
       const { getByText } = render(
@@ -600,15 +614,15 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      
-      fireEvent.press(getByText("Confirm"));
+
+      fireEvent.press(getByText('Confirm'));
       expect(onConfirm).toHaveBeenCalled();
-      
-      fireEvent.press(getByText("Cancel"));
+
+      fireEvent.press(getByText('Cancel'));
       expect(onCancel).toHaveBeenCalled();
     });
 
-    it("works with nested modals", () => {
+    it('works with nested modals', () => {
       const { getByText } = render(
         <ThemeProvider>
           <Modal open={true}>
@@ -619,8 +633,8 @@ describe("Modal", () => {
           </Modal>
         </ThemeProvider>
       );
-      expect(getByText("Outer Modal")).toBeTruthy();
-      expect(getByText("Inner Modal")).toBeTruthy();
+      expect(getByText('Outer Modal')).toBeTruthy();
+      expect(getByText('Inner Modal')).toBeTruthy();
     });
   });
 });

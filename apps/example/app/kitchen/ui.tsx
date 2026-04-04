@@ -1,20 +1,33 @@
 /**
  * Telegram-style section chrome + screen headers for the example app.
  */
-import React from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
-import { useTokens, useComponentTokens } from "@truongdq01/headless";
-import { Typography, Pressable } from "@truongdq01/ui";
-import { Search } from "lucide-react-native";
+import React from 'react';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { useTokens, useComponentTokens } from '@truongdq01/headless';
+import { Typography, Pressable } from '@truongdq01/ui';
+import { Search } from 'lucide-react-native';
 
 export function SectionHeader({ title }: { title: string }) {
   const t = useTokens();
   return (
-    <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginTop: 4 }}>
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        marginTop: 4,
+      }}
+    >
       <Typography variant="overline" color="tertiary" as="span">
         {title}
       </Typography>
-      <View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: t.color.border.subtle }} />
+      <View
+        style={{
+          flex: 1,
+          height: StyleSheet.hairlineWidth,
+          backgroundColor: t.color.border.subtle,
+        }}
+      />
     </View>
   );
 }
@@ -28,7 +41,12 @@ type SectionProps = {
 };
 
 /** Borderless grouped card — contrast only, like iOS / Telegram grouped tables. */
-export function Section({ title, footer, children, flush = false }: SectionProps) {
+export function Section({
+  title,
+  footer,
+  children,
+  flush = false,
+}: SectionProps) {
   const t = useTokens();
   return (
     <View style={{ gap: 8 }}>
@@ -37,7 +55,7 @@ export function Section({ title, footer, children, flush = false }: SectionProps
         style={{
           backgroundColor: t.color.surface.default,
           borderRadius: t.radius.xl,
-          overflow: "hidden",
+          overflow: 'hidden',
         }}
       >
         {flush ? (
@@ -89,9 +107,9 @@ export function ScreenHeader({
   return (
     <View
       style={{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         paddingHorizontal: t.spacing[4],
         paddingVertical: 12,
         backgroundColor: t.color.surface.default,
@@ -99,18 +117,34 @@ export function ScreenHeader({
         borderBottomColor: t.color.border.subtle,
       }}
     >
-      <View style={{ minWidth: 72, alignItems: "flex-start", justifyContent: "center" }}>{leftAction}</View>
+      <View
+        style={{
+          minWidth: 72,
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+        }}
+      >
+        {leftAction}
+      </View>
       <Typography
         variant="h6"
         style={{
           flex: 1,
-          textAlign: "center",
+          textAlign: 'center',
           color: t.color.text.primary,
         }}
       >
         {title}
       </Typography>
-      <View style={{ minWidth: 72, alignItems: "flex-end", justifyContent: "center" }}>{rightAction}</View>
+      <View
+        style={{
+          minWidth: 72,
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+        }}
+      >
+        {rightAction}
+      </View>
     </View>
   );
 }
@@ -134,7 +168,15 @@ export function PillHeaderButton({
         backgroundColor: t.color.bg.muted,
       }}
     >
-      <Text style={{ fontSize: t.fontSize.sm, fontWeight: "600", color: t.color.text.primary }}>{label}</Text>
+      <Text
+        style={{
+          fontSize: t.fontSize.sm,
+          fontWeight: '600',
+          color: t.color.text.primary,
+        }}
+      >
+        {label}
+      </Text>
     </Pressable>
   );
 }
@@ -143,7 +185,7 @@ export function PillHeaderButton({
 export function PillSearchBar({
   value,
   onChangeText,
-  placeholder = "Search",
+  placeholder = 'Search',
 }: {
   value: string;
   onChangeText: (t: string) => void;
@@ -151,12 +193,15 @@ export function PillSearchBar({
 }) {
   const t = useTokens();
   const { input } = useComponentTokens();
-  const { size: iconSize, color: iconColor } = { size: 18, color: t.color.text.tertiary };
+  const { size: iconSize, color: iconColor } = {
+    size: 18,
+    color: t.color.text.tertiary,
+  };
   return (
     <View
       style={{
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignItems: 'center',
         gap: t.spacing[2],
         paddingHorizontal: t.spacing[4],
         minHeight: 44,
@@ -188,7 +233,7 @@ export function PillSearchBar({
 export function UnreadBadge({ count }: { count: number }) {
   const t = useTokens();
   if (count <= 0) return null;
-  const label = count > 99 ? "99+" : String(count);
+  const label = count > 99 ? '99+' : String(count);
   return (
     <View
       style={{
@@ -197,11 +242,15 @@ export function UnreadBadge({ count }: { count: number }) {
         paddingHorizontal: 6,
         borderRadius: 11,
         backgroundColor: t.color.brand.default,
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      <Text style={{ fontSize: 12, fontWeight: "700", color: t.color.text.onBrand }}>{label}</Text>
+      <Text
+        style={{ fontSize: 12, fontWeight: '700', color: t.color.text.onBrand }}
+      >
+        {label}
+      </Text>
     </View>
   );
 }

@@ -2,16 +2,16 @@
 
 ## Problem statement
 
-Sau Phase 7 (`IMPROVEMENT_PLAN.md` *Phase 1 — Critical UX*), **Phase 2 — Component Enhancements** trong cùng file tập trung: form feel (Input, FormField, TextArea), hệ typography đồng bộ token, và bổ sung demo/export cho component đã đúng code nhưng chưa thấy trong example.
+Sau Phase 7 (`IMPROVEMENT_PLAN.md` _Phase 1 — Critical UX_), **Phase 2 — Component Enhancements** trong cùng file tập trung: form feel (Input, FormField, TextArea), hệ typography đồng bộ token, và bổ sung demo/export cho component đã đúng code nhưng chưa thấy trong example.
 
 ## Scope (wave 1 / Phase 8)
 
-| IMP | Nguồn `IMPROVEMENT_PLAN` | Trọng tâm |
-|-----|-------------------------|-----------|
-| IMP-05 | Issue #1 (Input, FormField) | Focus animation nhanh hơn; padding/spacing label/helper; hierarchy label vs helper |
-| IMP-06 | Issue #1 (TextArea) | Counter không chồng `helperText`; tùy chọn vị trí counter (`showCounter` / `counterPosition` hoặc tương đương) |
-| IMP-07 | Issue #2 (Typography) | Token typography composite trong `semantic` (hoặc lớp tương đương); mở rộng `Typography` (overline, code, …); example dùng `Typography` cho section labels thay `<Text>` ad-hoc |
-| IMP-08 | Issues #3, #5, #7 | Divider dọc trong example; export `RadioItem` + demo ngang; Checkbox `indeterminate` trong example |
+| IMP    | Nguồn `IMPROVEMENT_PLAN`    | Trọng tâm                                                                                                                                                                       |
+| ------ | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IMP-05 | Issue #1 (Input, FormField) | Focus animation nhanh hơn; padding/spacing label/helper; hierarchy label vs helper                                                                                              |
+| IMP-06 | Issue #1 (TextArea)         | Counter không chồng `helperText`; tùy chọn vị trí counter (`showCounter` / `counterPosition` hoặc tương đương)                                                                  |
+| IMP-07 | Issue #2 (Typography)       | Token typography composite trong `semantic` (hoặc lớp tương đương); mở rộng `Typography` (overline, code, …); example dùng `Typography` cho section labels thay `<Text>` ad-hoc |
+| IMP-08 | Issues #3, #5, #7           | Divider dọc trong example; export `RadioItem` + demo ngang; Checkbox `indeterminate` trong example                                                                              |
 
 ## Out of scope (Phase 8)
 
@@ -25,7 +25,7 @@ Sau Phase 7 (`IMPROVEMENT_PLAN.md` *Phase 1 — Critical UX*), **Phase 2 — Com
 
 ## Links
 
-- `IMPROVEMENT_PLAN.md` — Issues #1–#3, #5, #7; *Execution Order* Phase 2 (dòng ~751–756).
+- `IMPROVEMENT_PLAN.md` — Issues #1–#3, #5, #7; _Execution Order_ Phase 2 (dòng ~751–756).
 
 ## Success
 

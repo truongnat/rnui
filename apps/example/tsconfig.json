@@ -2,15 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@truongdq01/ui": [
-        "../../packages/ui/src/index.ts"
-      ],
-      "@truongdq01/tokens": [
-        "../../packages/tokens/src/index.ts"
-      ],
-      "@truongdq01/headless": [
-        "../../packages/headless/src/index.ts"
-      ]
+      "@truongdq01/ui": ["../../packages/ui/src/index.ts"],
+      "@truongdq01/tokens": ["../../packages/tokens/src/index.ts"],
+      "@truongdq01/headless": ["../../packages/headless/src/index.ts"]
     }
   },
   "extends": "expo/tsconfig.base",

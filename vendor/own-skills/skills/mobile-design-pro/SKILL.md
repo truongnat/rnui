@@ -19,12 +19,12 @@ Use [Apple Human Interface Guidelines](https://developer.apple.com/design/human-
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `mobile-design-pro` |
-|-------|------------------------------------------|
-| **`design-system-pro`** | Tokens, typography scale, themes, cross-platform brand |
-| **`react-native-pro`** | RN/Expo: SafeAreaView, navigation, KeyboardAvoidingView, platform files |
-| **`flutter-pro`** | Material/Cupertino widgets, `SafeArea`, `MediaQuery` |
-| **`testing-pro`** | Maestro/Detox flows, screenshot tests per device class |
+| Skill                   | When to combine with `mobile-design-pro`                                                                                    |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **`design-system-pro`** | Tokens, typography scale, themes, cross-platform brand                                                                      |
+| **`react-native-pro`**  | RN/Expo: SafeAreaView, navigation, KeyboardAvoidingView, platform files                                                     |
+| **`flutter-pro`**       | Material/Cupertino widgets, `SafeArea`, `MediaQuery`                                                                        |
+| **`testing-pro`**       | Maestro/Detox flows, screenshot tests per device class                                                                      |
 | **`design-system-pro`** | **Responsive web** breakpoints, `@media`, `prefers-reduced-motion`, webfont loading — not the same as native safe-area work |
 
 **Boundary:** **`mobile-design-pro`** = **what** the mobile experience should be; **`react-native-pro`** / **`flutter-pro`** = **how** to build it. **`design-system-pro`** owns **CSS/web responsive** and **web** a11y baselines when the surface is the **browser**.
@@ -94,13 +94,13 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — touch/layout, navigation/platforms, tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| Touch, safe area, density | [references/touch-layout-safe-areas-and-density.md](references/touch-layout-safe-areas-and-density.md) |
-| Navigation & iOS/Android | [references/navigation-and-platform-ios-android.md](references/navigation-and-platform-ios-android.md) |
+| Topic                        | File                                                                                                             |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Touch, safe area, density    | [references/touch-layout-safe-areas-and-density.md](references/touch-layout-safe-areas-and-density.md)           |
+| Navigation & iOS/Android     | [references/navigation-and-platform-ios-android.md](references/navigation-and-platform-ios-android.md)           |
 | Web responsive (cross-skill) | [`design-system-pro` / a11y & responsive](../design-system-pro/references/a11y-responsive-and-web-typography.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips and patterns            | [references/tips-and-tricks.md](references/tips-and-tricks.md)                                                   |
+| Edge cases                   | [references/edge-cases.md](references/edge-cases.md)                                                             |
 
 ## Quick example
 

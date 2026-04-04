@@ -1,8 +1,8 @@
-import { renderHook } from "@testing-library/react-native";
-import { usePressable } from "../usePressable";
+import { renderHook } from '@testing-library/react-native';
+import { usePressable } from '../usePressable';
 
 // Mock Reanimated
-jest.mock("react-native-reanimated", () => ({
+jest.mock('react-native-reanimated', () => ({
   useSharedValue: jest.fn((v) => ({ value: v })),
   useAnimatedStyle: jest.fn((cb) => cb()),
   withSpring: jest.fn(),
@@ -11,12 +11,12 @@ jest.mock("react-native-reanimated", () => ({
 }));
 
 // Mock worklets
-jest.mock("react-native-worklets", () => ({
+jest.mock('react-native-worklets', () => ({
   scheduleOnRN: jest.fn((fn, ...args) => fn(...args)),
 }));
 
 // Mock Gesture Handler
-jest.mock("react-native-gesture-handler", () => ({
+jest.mock('react-native-gesture-handler', () => ({
   Gesture: {
     Tap: () => {
       const chain = {
@@ -110,25 +110,29 @@ jest.mock("react-native-gesture-handler", () => ({
   },
 }));
 
-describe("usePressable", () => {
-  it("should return accessibility props", () => {
-    const { result } = renderHook(() => usePressable({ 
-      accessibilityLabel: "Test",
-      accessibilityRole: "link"
-    }));
-    
+describe('usePressable', () => {
+  it('should return accessibility props', () => {
+    const { result } = renderHook(() =>
+      usePressable({
+        accessibilityLabel: 'Test',
+        accessibilityRole: 'link',
+      })
+    );
+
     expect(result.current.accessibilityProps.accessible).toBe(true);
-    expect(result.current.accessibilityProps.accessibilityRole).toBe("link");
-    expect(result.current.accessibilityProps.accessibilityLabel).toBe("Test");
-    expect(result.current.accessibilityProps.accessibilityState.disabled).toBe(false);
+    expect(result.current.accessibilityProps.accessibilityRole).toBe('link');
+    expect(result.current.accessibilityProps.accessibilityLabel).toBe('Test');
+    expect(result.current.accessibilityProps.accessibilityState.disabled).toBe(
+      false
+    );
   });
 
-  it("should reflect isPressed state", () => {
+  it('should reflect isPressed state', () => {
     const { result } = renderHook(() => usePressable());
     expect(result.current.isPressed).toBe(false);
   });
 
-  it("should provide animated style", () => {
+  it('should provide animated style', () => {
     const { result } = renderHook(() => usePressable());
     expect(result.current.animatedStyle).toBeDefined();
   });

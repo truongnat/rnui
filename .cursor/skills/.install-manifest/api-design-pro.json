@@ -3,9 +3,7 @@
   "mode": "symlink",
   "skill_name": "api-design-pro",
   "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/api-design-pro",
-  "ides": [
-    "cursor"
-  ],
+  "ides": ["cursor"],
   "targets": {
     "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/api-design-pro"
   },

@@ -1,6 +1,6 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import {
   ThemeProvider,
   Divider,
@@ -22,7 +22,7 @@ import {
   Input,
   Typography,
   Icon,
-} from "@truongdq01/ui";
+} from '@truongdq01/ui';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
@@ -33,9 +33,15 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 );
 
 const meta = {
-  title: "Components/Missing",
+  title: 'Components/Missing',
   component: View,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
 };
 
 export default meta;
@@ -43,7 +49,7 @@ export default meta;
 // ─── Divider ─────────────────────────────────────────────────────────
 
 export const DividerStory: StoryObj = {
-  name: "Divider",
+  name: 'Divider',
   render: () => (
     <View style={{ gap: 20 }}>
       <View>
@@ -67,7 +73,14 @@ export const DividerStory: StoryObj = {
       </View>
       <View>
         <Text style={{ marginBottom: 8 }}>Vertical Divider</Text>
-        <View style={{ flexDirection: "row", height: 40, alignItems: "center", gap: 12 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            height: 40,
+            alignItems: 'center',
+            gap: 12,
+          }}
+        >
           <Text>Item 1</Text>
           <Divider orientation="vertical" />
           <Text>Item 2</Text>
@@ -82,7 +95,7 @@ export const DividerStory: StoryObj = {
 // ─── EmptyState ──────────────────────────────────────────────────────
 
 export const EmptyStateStory: StoryObj = {
-  name: "EmptyState",
+  name: 'EmptyState',
   render: () => (
     <View style={{ gap: 20 }}>
       <EmptyState
@@ -94,9 +107,7 @@ export const EmptyStateStory: StoryObj = {
         variant="error"
         title="Something went wrong"
         description="We couldn't load this content. Please try again."
-        action={
-          <Button label="Try Again" onPress={() => {}} />
-        }
+        action={<Button label="Try Again" onPress={() => {}} />}
       />
       <EmptyState
         variant="empty"
@@ -120,36 +131,26 @@ export const EmptyStateStory: StoryObj = {
 // ─── FormField ───────────────────────────────────────────────────────
 
 export const FormFieldStory: StoryObj = {
-  name: "FormField",
+  name: 'FormField',
   render: () => {
-    const [name, setName] = React.useState("");
-    const [email, setEmail] = React.useState("");
+    const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('');
     return (
       <View style={{ gap: 20 }}>
         <FormField
           label="Full Name"
           helperText="Enter your full name as it appears on your ID"
         >
-          <Input
-            placeholder="John Doe"
-            value={name}
-            onChangeText={setName}
-          />
+          <Input placeholder="John Doe" value={name} onChangeText={setName} />
         </FormField>
-        <FormField
-          label="Email"
-          required
-          error="Please enter a valid email"
-        >
+        <FormField label="Email" required error="Please enter a valid email">
           <Input
             placeholder="john@example.com"
             value={email}
             onChangeText={setEmail}
           />
         </FormField>
-        <FormField
-          label="Disabled Field"
-        >
+        <FormField label="Disabled Field">
           <Input
             placeholder="Cannot edit"
             disabled
@@ -164,7 +165,7 @@ export const FormFieldStory: StoryObj = {
 // ─── Modal ───────────────────────────────────────────────────────────
 
 export const ModalStory: StoryObj = {
-  name: "Modal",
+  name: 'Modal',
   render: () => {
     const [open, setOpen] = React.useState(false);
     const [openCentered, setOpenCentered] = React.useState(false);
@@ -185,9 +186,18 @@ export const ModalStory: StoryObj = {
           onClose={() => setOpen(false)}
           accessibilityLabel="Simple modal"
         >
-          <View style={{ padding: 24, backgroundColor: "#fff", borderRadius: 12, minWidth: 280 }}>
-            <Typography variant="h6" style={{ marginBottom: 12 }}>Simple Modal</Typography>
-            <Text style={{ marginBottom: 16, color: "#666" }}>
+          <View
+            style={{
+              padding: 24,
+              backgroundColor: '#fff',
+              borderRadius: 12,
+              minWidth: 280,
+            }}
+          >
+            <Typography variant="h6" style={{ marginBottom: 12 }}>
+              Simple Modal
+            </Typography>
+            <Text style={{ marginBottom: 16, color: '#666' }}>
               This is a basic modal. Tap outside to dismiss.
             </Text>
             <Button
@@ -202,10 +212,22 @@ export const ModalStory: StoryObj = {
           onClose={() => setOpenCentered(false)}
           accessibilityLabel="Centered modal"
         >
-          <View style={{ padding: 24, backgroundColor: "#fff", borderRadius: 16, minWidth: 300, alignItems: "center" }}>
+          <View
+            style={{
+              padding: 24,
+              backgroundColor: '#fff',
+              borderRadius: 16,
+              minWidth: 300,
+              alignItems: 'center',
+            }}
+          >
             <Icon name="checkCircle" size={48} color="#22c55e" />
-            <Typography variant="h6" style={{ marginTop: 12, marginBottom: 8 }}>Success!</Typography>
-            <Text style={{ marginBottom: 20, color: "#666", textAlign: "center" }}>
+            <Typography variant="h6" style={{ marginTop: 12, marginBottom: 8 }}>
+              Success!
+            </Typography>
+            <Text
+              style={{ marginBottom: 20, color: '#666', textAlign: 'center' }}
+            >
               Your action was completed successfully.
             </Text>
             <Button
@@ -223,16 +245,30 @@ export const ModalStory: StoryObj = {
 // ─── Popover ─────────────────────────────────────────────────────────
 
 export const PopoverStory: StoryObj = {
-  name: "Popover",
+  name: 'Popover',
   render: () => {
     const [open, setOpen] = React.useState(false);
-    const [anchorEl, setAnchorEl] = React.useState<{ x: number; y: number; width?: number; height?: number } | null>(null);
+    const [anchorEl, setAnchorEl] = React.useState<{
+      x: number;
+      y: number;
+      width?: number;
+      height?: number;
+    } | null>(null);
 
     const handleOpen = (event: any) => {
-      event.target?.measure?.((_x: number, _y: number, width: number, height: number, pageX: number, pageY: number) => {
-        setAnchorEl({ x: pageX, y: pageY, width, height });
-        setOpen(true);
-      });
+      event.target?.measure?.(
+        (
+          _x: number,
+          _y: number,
+          width: number,
+          height: number,
+          pageX: number,
+          pageY: number
+        ) => {
+          setAnchorEl({ x: pageX, y: pageY, width, height });
+          setOpen(true);
+        }
+      );
     };
 
     return (
@@ -246,12 +282,14 @@ export const PopoverStory: StoryObj = {
           open={open}
           anchorEl={anchorEl}
           onClose={() => setOpen(false)}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          transformOrigin={{ vertical: "top", horizontal: "center" }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
           <View style={{ padding: 16, minWidth: 200 }}>
-            <Text style={{ fontWeight: "600", marginBottom: 8 }}>Popover Content</Text>
-            <Text style={{ color: "#666", marginBottom: 12 }}>
+            <Text style={{ fontWeight: '600', marginBottom: 8 }}>
+              Popover Content
+            </Text>
+            <Text style={{ color: '#666', marginBottom: 12 }}>
               This is a popover positioned relative to the anchor element.
             </Text>
             <Button
@@ -270,27 +308,63 @@ export const PopoverStory: StoryObj = {
 // ─── Popper ──────────────────────────────────────────────────────────
 
 export const PopperStory: StoryObj = {
-  name: "Popper",
+  name: 'Popper',
   render: () => {
     const [open, setOpen] = React.useState(false);
-    const [placement, setPlacement] = React.useState<"bottom" | "top" | "right" | "left">("bottom");
-    const [anchorEl, setAnchorEl] = React.useState<{ x: number; y: number; width?: number; height?: number } | null>(null);
+    const [placement, setPlacement] = React.useState<
+      'bottom' | 'top' | 'right' | 'left'
+    >('bottom');
+    const [anchorEl, setAnchorEl] = React.useState<{
+      x: number;
+      y: number;
+      width?: number;
+      height?: number;
+    } | null>(null);
 
-    const handleOpen = (event: any, p: "bottom" | "top" | "right" | "left") => {
+    const handleOpen = (event: any, p: 'bottom' | 'top' | 'right' | 'left') => {
       setPlacement(p);
-      event.target?.measure?.((_x: number, _y: number, width: number, height: number, pageX: number, pageY: number) => {
-        setAnchorEl({ x: pageX, y: pageY, width, height });
-        setOpen(true);
-      });
+      event.target?.measure?.(
+        (
+          _x: number,
+          _y: number,
+          width: number,
+          height: number,
+          pageX: number,
+          pageY: number
+        ) => {
+          setAnchorEl({ x: pageX, y: pageY, width, height });
+          setOpen(true);
+        }
+      );
     };
 
     return (
       <View style={{ gap: 20 }}>
-        <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
-          <Button label="Top" size="sm" onPress={(e: any) => handleOpen(e, "top")} accessibilityLabel="Top" />
-          <Button label="Bottom" size="sm" onPress={(e: any) => handleOpen(e, "bottom")} accessibilityLabel="Bottom" />
-          <Button label="Left" size="sm" onPress={(e: any) => handleOpen(e, "left")} accessibilityLabel="Left" />
-          <Button label="Right" size="sm" onPress={(e: any) => handleOpen(e, "right")} accessibilityLabel="Right" />
+        <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+          <Button
+            label="Top"
+            size="sm"
+            onPress={(e: any) => handleOpen(e, 'top')}
+            accessibilityLabel="Top"
+          />
+          <Button
+            label="Bottom"
+            size="sm"
+            onPress={(e: any) => handleOpen(e, 'bottom')}
+            accessibilityLabel="Bottom"
+          />
+          <Button
+            label="Left"
+            size="sm"
+            onPress={(e: any) => handleOpen(e, 'left')}
+            accessibilityLabel="Left"
+          />
+          <Button
+            label="Right"
+            size="sm"
+            onPress={(e: any) => handleOpen(e, 'right')}
+            accessibilityLabel="Right"
+          />
         </View>
         <Popper
           open={open}
@@ -298,8 +372,15 @@ export const PopperStory: StoryObj = {
           placement={placement}
           onClose={() => setOpen(false)}
         >
-          <View style={{ padding: 12, backgroundColor: "#1e293b", borderRadius: 8, minWidth: 150 }}>
-            <Text style={{ color: "#fff", fontSize: 12 }}>
+          <View
+            style={{
+              padding: 12,
+              backgroundColor: '#1e293b',
+              borderRadius: 8,
+              minWidth: 150,
+            }}
+          >
+            <Text style={{ color: '#fff', fontSize: 12 }}>
               Popper at {placement}
             </Text>
           </View>
@@ -312,11 +393,13 @@ export const PopperStory: StoryObj = {
 // ─── Skeleton ────────────────────────────────────────────────────────
 
 export const SkeletonStory: StoryObj = {
-  name: "Skeleton",
+  name: 'Skeleton',
   render: () => (
     <View style={{ gap: 24 }}>
       <View>
-        <Text style={{ fontWeight: "600", marginBottom: 12 }}>Basic Skeletons</Text>
+        <Text style={{ fontWeight: '600', marginBottom: 12 }}>
+          Basic Skeletons
+        </Text>
         <View style={{ gap: 12 }}>
           <Skeleton width="80%" height={20} />
           <Skeleton width="60%" height={16} />
@@ -325,47 +408,65 @@ export const SkeletonStory: StoryObj = {
       </View>
 
       <View>
-        <Text style={{ fontWeight: "600", marginBottom: 12 }}>Skeleton with Shimmer</Text>
+        <Text style={{ fontWeight: '600', marginBottom: 12 }}>
+          Skeleton with Shimmer
+        </Text>
         <Skeleton width="100%" height={16} shimmerDirection="left-to-right" />
       </View>
 
       <View>
-        <Text style={{ fontWeight: "600", marginBottom: 12 }}>Skeleton Text</Text>
+        <Text style={{ fontWeight: '600', marginBottom: 12 }}>
+          Skeleton Text
+        </Text>
         <SkeletonText lines={4} />
       </View>
 
       <View>
-        <Text style={{ fontWeight: "600", marginBottom: 12 }}>Skeleton Card</Text>
+        <Text style={{ fontWeight: '600', marginBottom: 12 }}>
+          Skeleton Card
+        </Text>
         <SkeletonCard />
       </View>
 
       <View>
-        <Text style={{ fontWeight: "600", marginBottom: 12 }}>Skeleton Profile</Text>
+        <Text style={{ fontWeight: '600', marginBottom: 12 }}>
+          Skeleton Profile
+        </Text>
         <SkeletonProfile />
       </View>
 
       <View>
-        <Text style={{ fontWeight: "600", marginBottom: 12 }}>Skeleton Media</Text>
+        <Text style={{ fontWeight: '600', marginBottom: 12 }}>
+          Skeleton Media
+        </Text>
         <SkeletonMedia />
       </View>
 
       <View>
-        <Text style={{ fontWeight: "600", marginBottom: 12 }}>Skeleton Form</Text>
+        <Text style={{ fontWeight: '600', marginBottom: 12 }}>
+          Skeleton Form
+        </Text>
         <SkeletonForm rows={3} />
       </View>
 
       <View>
-        <Text style={{ fontWeight: "600", marginBottom: 12 }}>Skeleton Grid</Text>
+        <Text style={{ fontWeight: '600', marginBottom: 12 }}>
+          Skeleton Grid
+        </Text>
         <SkeletonGrid columns={4} rows={2} cell={56} />
       </View>
 
       <View>
-        <Text style={{ fontWeight: "600", marginBottom: 12 }}>Skeleton Table</Text>
+        <Text style={{ fontWeight: '600', marginBottom: 12 }}>
+          Skeleton Table
+        </Text>
         <SkeletonTable columns={4} dataRows={3} />
       </View>
 
       <View>
-        <Text style={{ fontWeight: "600", marginBottom: 12 }}>Skeleton Group (staggered)</Text>
+        <Text style={{ fontWeight: '600', marginBottom: 12 }}>
+          Skeleton Group (staggered)
+        </Text>
         <SkeletonGroup stagger={100}>
           <Skeleton width="90%" height={18} />
           <Skeleton width="70%" height={14} />

@@ -5,9 +5,9 @@ Horizontal progress bar.
 ## Usage
 
 ```tsx
-import { LinearProgress } from "@truongdq01/ui";
+import { LinearProgress } from '@truongdq01/ui';
 
-<LinearProgress value={40} variant="determinate" />
+<LinearProgress value={40} variant="determinate" />;
 ```
 
 ## Notes

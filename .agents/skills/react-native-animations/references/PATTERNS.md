@@ -84,4 +84,4 @@ except SpecificError as e:
 
 ---
 
-*Pattern library for react-native-animations skill*
+_Pattern library for react-native-animations skill_

@@ -1,1 +1,1 @@
-export { Gradient, type GradientProps } from "./Gradient";
+export { Gradient, type GradientProps } from './Gradient';

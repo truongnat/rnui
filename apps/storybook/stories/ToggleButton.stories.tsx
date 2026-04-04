@@ -1,13 +1,11 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, ToggleButtonGroup, ToggleButton } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, ToggleButtonGroup, ToggleButton } from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
@@ -20,27 +18,33 @@ const ToggleButtonGroupWrapper = (props: any) => (
 );
 
 const meta = {
-  title: "Components/ToggleButton",
+  title: 'Components/ToggleButton',
   component: ToggleButtonGroupWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
-    exclusive: { control: "boolean" },
+    exclusive: { control: 'boolean' },
     orientation: {
-      control: { type: "select" },
-      options: ["horizontal", "vertical"],
+      control: { type: 'select' },
+      options: ['horizontal', 'vertical'],
     },
     size: {
-      control: { type: "select" },
-      options: ["sm", "md", "lg"],
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg'],
     },
-    disabled: { control: "boolean" },
+    disabled: { control: 'boolean' },
   },
   args: {
     exclusive: false,
-    orientation: "horizontal",
-    size: "md",
+    orientation: 'horizontal',
+    size: 'md',
     disabled: false,
-    defaultValue: ["bold"],
+    defaultValue: ['bold'],
   },
 };
 
@@ -48,15 +52,15 @@ export default meta;
 type Story = StoryObj<typeof ToggleButtonGroupWrapper>;
 
 export const MultiSelect: Story = {
-  args: { exclusive: false, defaultValue: ["bold"] },
+  args: { exclusive: false, defaultValue: ['bold'] },
 };
 
 export const Exclusive: Story = {
-  args: { exclusive: true, defaultValue: "bold" },
+  args: { exclusive: true, defaultValue: 'bold' },
 };
 
 export const Vertical: Story = {
-  args: { orientation: "vertical", defaultValue: ["bold"] },
+  args: { orientation: 'vertical', defaultValue: ['bold'] },
 };
 
 export const AllSizes: Story = {

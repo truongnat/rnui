@@ -11,8 +11,8 @@ This repo does **not** require an automated engine: an agent (or you) reads the 
 
 ## Bundled workflows (by domain)
 
-| Domain | Index | Workflows |
-|--------|--------|-----------|
+| Domain  | Index                            | Workflows                                                                                                                                                                                                |
+| ------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **dev** | [`dev/README.md`](dev/README.md) | [`dev/w-ticket.md`](dev/w-ticket.md) (`ticket`, **`/w-ticket`**), [`dev/w-hotfix.md`](dev/w-hotfix.md) (`hotfix`, **`/w-hotfix`**), [`dev/w-release.md`](dev/w-release.md) (`release`, **`/w-release`**) |
 
 Slash commands live under **`.claude/commands/`** and **`.cursor/commands/`** (e.g. `w-ticket.md`, `w-hotfix.md`, `w-release.md`).
@@ -37,18 +37,22 @@ Save as **`w-my-flow.md`** (see [Naming](#naming) above).
 # Workflow: my-flow
 
 ## Metadata
-| Field | Value |
-|-------|-------|
-| **id** | `my-flow` |
-| **version** | 1.0 |
+
+| Field       | Value     |
+| ----------- | --------- |
+| **id**      | `my-flow` |
+| **version** | 1.0       |
 
 ## Inputs
+
 | Variable | Required |
-|----------|----------|
-| `topic` | Yes |
+| -------- | -------- |
+| `topic`  | Yes      |
 
 ## Steps
+
 ### Step 1 — collect
+
 - **Type:** skill
 - **Skill:** `my-skill`
 - **Input:** `query` = `topic`

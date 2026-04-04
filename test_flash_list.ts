@@ -1,1 +1,1 @@
-import { AnimatedList } from "./packages/ui/src/components/AnimatedList/AnimatedList";
+import { AnimatedList } from './packages/ui/src/components/AnimatedList/AnimatedList';

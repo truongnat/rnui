@@ -19,12 +19,12 @@ Use **`scripts/analyze_skills.py`**, **`validate_skills.py`**, and **`list_skill
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `skills-self-review-pro` |
-|-------|-----------------------------------------------|
-| **`repo-tooling-pro`** | Exact CLI flags, **`query_kb`**, KB rebuild after doc edits |
-| **`web-research-pro`** | **Official** docs, changelogs, **404** handling — **not** local `analyze_skills` output |
-| **`git-operations-pro`** | Attach report to **PR**, **conventional** commit for tooling changes |
-| **`business-analysis-pro`** | Rare — only if review outputs must become **formal** backlog items |
+| Skill                       | When to combine with `skills-self-review-pro`                                           |
+| --------------------------- | --------------------------------------------------------------------------------------- |
+| **`repo-tooling-pro`**      | Exact CLI flags, **`query_kb`**, KB rebuild after doc edits                             |
+| **`web-research-pro`**      | **Official** docs, changelogs, **404** handling — **not** local `analyze_skills` output |
+| **`git-operations-pro`**    | Attach report to **PR**, **conventional** commit for tooling changes                    |
+| **`business-analysis-pro`** | Rare — only if review outputs must become **formal** backlog items                      |
 
 **Boundary:** **`skills-self-review-pro`** = **meta** review of the skill bundle; domain **`react-pro`** etc. = **product** stack guidance.
 
@@ -92,14 +92,14 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — report interpretation, authoring cross-check, tips, edge cases; canonical commands in **`scripts/README.md`**.
 
-| Topic | File |
-|-------|------|
-| `analyze_skills` report | [references/report-structure-and-scripts.md](references/report-structure-and-scripts.md) |
-| Authoring cross-check | [references/authoring-rules-crosscheck.md](references/authoring-rules-crosscheck.md) |
+| Topic                       | File                                                                                       |
+| --------------------------- | ------------------------------------------------------------------------------------------ |
+| `analyze_skills` report     | [references/report-structure-and-scripts.md](references/report-structure-and-scripts.md)   |
+| Authoring cross-check       | [references/authoring-rules-crosscheck.md](references/authoring-rules-crosscheck.md)       |
 | Tech refresh & web research | [references/tech-refresh-and-web-research.md](references/tech-refresh-and-web-research.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
-| **Script index** | [`scripts/README.md`](../../scripts/README.md) |
+| Tips                        | [references/tips-and-tricks.md](references/tips-and-tricks.md)                             |
+| Edge cases                  | [references/edge-cases.md](references/edge-cases.md)                                       |
+| **Script index**            | [`scripts/README.md`](../../scripts/README.md)                                             |
 
 ## Quick example
 

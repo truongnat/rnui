@@ -4,26 +4,26 @@ Reference for **where** controls and failures sit on the path from wire to appli
 
 ## OSI — seven layers (mnemonic: **P**lease **D**o **N**ot **T**hrow **S**ausage **P**izza **A**way)
 
-| Layer | Name | Typical artifacts | Security relevance (examples) |
-|-------|------|-------------------|-------------------------------|
-| **7** | Application | HTTP, DNS, SMTP, APIs | Authz bugs, injection, protocol misuse, weak TLS config at app |
-| **6** | Presentation | TLS (often debated), encoding | **TLS** often implemented here + L4/L5 in practice; canonicalization |
-| **5** | Session | Session protocols (rare pure OSI) | Session fixation, timeout, SSO flows |
-| **4** | Transport | TCP, UDP | SYN flood, connection exhaustion, port scanning, QUIC/TLS 1.3 |
-| **3** | Network | IP, ICMP, routing | IP spoofing, fragmentation attacks, route hijacking, **SSRF** touches L3–L7 |
-| **2** | Data link | Ethernet, Wi‑Fi MAC, ARP | ARP spoofing / MITM on LAN, MAC flooding, VLAN misconfig |
-| **1** | Physical | Cables, radio | Tap, jamming, evil twin AP, physical access to racks |
+| Layer | Name         | Typical artifacts                 | Security relevance (examples)                                               |
+| ----- | ------------ | --------------------------------- | --------------------------------------------------------------------------- |
+| **7** | Application  | HTTP, DNS, SMTP, APIs             | Authz bugs, injection, protocol misuse, weak TLS config at app              |
+| **6** | Presentation | TLS (often debated), encoding     | **TLS** often implemented here + L4/L5 in practice; canonicalization        |
+| **5** | Session      | Session protocols (rare pure OSI) | Session fixation, timeout, SSO flows                                        |
+| **4** | Transport    | TCP, UDP                          | SYN flood, connection exhaustion, port scanning, QUIC/TLS 1.3               |
+| **3** | Network      | IP, ICMP, routing                 | IP spoofing, fragmentation attacks, route hijacking, **SSRF** touches L3–L7 |
+| **2** | Data link    | Ethernet, Wi‑Fi MAC, ARP          | ARP spoofing / MITM on LAN, MAC flooding, VLAN misconfig                    |
+| **1** | Physical     | Cables, radio                     | Tap, jamming, evil twin AP, physical access to racks                        |
 
 **Note:** Real stacks follow **TCP/IP** more than pure OSI; TLS spans multiple layers. Mapping attacks to “layers” is **pedagogical** — prioritize **trust boundaries** and **data flows** in your system.
 
 ## TCP/IP vs OSI (rough mapping)
 
-| TCP/IP | Maps to OSI (approx.) | Security focus |
-|--------|-------------------------|----------------|
-| **Link** | L1–L2 | Segment VLANs; 802.1X; Wi‑Fi WPA3 |
-| **Internet** | L3 | Firewalls, routing filters, anti-spoofing |
-| **Transport** | L4 | Stateful firewall, rate limits, TLS termination |
-| **Application** | L5–L7 | WAF, API gateway, app authz, CSP |
+| TCP/IP          | Maps to OSI (approx.) | Security focus                                  |
+| --------------- | --------------------- | ----------------------------------------------- |
+| **Link**        | L1–L2                 | Segment VLANs; 802.1X; Wi‑Fi WPA3               |
+| **Internet**    | L3                    | Firewalls, routing filters, anti-spoofing       |
+| **Transport**   | L4                    | Stateful firewall, rate limits, TLS termination |
+| **Application** | L5–L7                 | WAF, API gateway, app authz, CSP                |
 
 ## Deep networking topics (defender-oriented)
 

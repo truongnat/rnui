@@ -11,6 +11,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
+    "format": "prettier --write .",
     "test": "turbo test",
     "test:coverage": "turbo test -- --coverage --coverage-reporter=text --coverage-reporter=lcov",
     "typecheck": "turbo typecheck",
@@ -30,13 +31,14 @@
     "@changesets/cli": "^2.27.1",
     "babel-jest": "^29.7.0",
     "metro-react-native-babel-preset": "^0.77.0",
+    "prettier": "^3.8.1",
     "react-test-renderer": "19.2.0",
     "turbo": "^2.8.20",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.3"
   },
   "packageManager": "bun@1.3.10",
   "dependencies": {
     "@testing-library/react-native": "^13.3.3",
-    "babel-preset-expo": "^55.0.12"
+    "babel-preset-expo": "^55.0.15"
   }
 }

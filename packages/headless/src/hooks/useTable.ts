@@ -1,24 +1,24 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo } from 'react';
 
 export interface UseTableOptions<T> {
   data: T[];
   rowsPerPage?: number;
   initialPage?: number;
-  initialSort?: { key: keyof T; direction: "asc" | "desc" };
+  initialSort?: { key: keyof T; direction: 'asc' | 'desc' };
 }
 
 export interface UseTableReturn<T> {
   // State
   page: number;
   rowsPerPage: number;
-  sort: { key: keyof T; direction: "asc" | "desc" } | null;
+  sort: { key: keyof T; direction: 'asc' | 'desc' } | null;
   selected: Set<any>;
-  
+
   // Computed
   processedData: T[];
   paginatedData: T[];
   totalPages: number;
-  
+
   // Handlers
   setPage: (page: number) => void;
   setRowsPerPage: (rows: number) => void;
@@ -35,8 +35,13 @@ export function useTable<T>({
   initialSort = null as any,
 }: UseTableOptions<T>): UseTableReturn<T> {
   const [page, setPage] = useState(initialPage);
-  const [rowsPerPage, setRowsPerPageRaw] = useState(Math.max(1, initialRowsPerPage));
-  const setRowsPerPage = useCallback((n: number) => setRowsPerPageRaw(Math.max(1, n)), []);
+  const [rowsPerPage, setRowsPerPageRaw] = useState(
+    Math.max(1, initialRowsPerPage)
+  );
+  const setRowsPerPage = useCallback(
+    (n: number) => setRowsPerPageRaw(Math.max(1, n)),
+    []
+  );
   const [sort, setSort] = useState(initialSort);
   const [selected, setSelected] = useState<Set<any>>(new Set());
 
@@ -45,8 +50,8 @@ export function useTable<T>({
     if (!sort) return data;
     const { key, direction } = sort;
     return [...data].sort((a, b) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+      if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
+      if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
       return 0;
     });
   }, [data, sort]);
@@ -62,9 +67,9 @@ export function useTable<T>({
   const handleSort = useCallback((key: keyof T) => {
     setSort((prev: any) => {
       if (prev?.key === key) {
-        return { key, direction: prev.direction === "asc" ? "desc" : "asc" };
+        return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
       }
-      return { key, direction: "asc" };
+      return { key, direction: 'asc' };
     });
   }, []);
 

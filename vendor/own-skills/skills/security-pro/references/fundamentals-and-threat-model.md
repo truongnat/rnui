@@ -11,13 +11,13 @@ Cross-platform application security: web, mobile, API, and backend services.
 
 ## Common attack classes (orientation)
 
-| Area | Examples |
-|------|----------|
-| Injection | SQL, command, LDAP, template injection |
-| Broken access control | IDOR, missing authz on APIs, path traversal |
-| Cryptography | Weak algorithms, missing TLS, bad key storage |
-| Secrets | Hardcoded keys, env leaks in logs, CI logs |
-| Client | XSS, CSRF (where relevant), insecure storage on mobile |
+| Area                  | Examples                                               |
+| --------------------- | ------------------------------------------------------ |
+| Injection             | SQL, command, LDAP, template injection                 |
+| Broken access control | IDOR, missing authz on APIs, path traversal            |
+| Cryptography          | Weak algorithms, missing TLS, bad key storage          |
+| Secrets               | Hardcoded keys, env leaks in logs, CI logs             |
+| Client                | XSS, CSRF (where relevant), insecure storage on mobile |
 
 ## Compliance and standards (pointers)
 

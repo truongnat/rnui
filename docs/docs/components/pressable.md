@@ -5,8 +5,8 @@
 ## Usage
 
 ```tsx
-import { Pressable } from "@truongdq01/ui";
-import { Text, View } from "react-native";
+import { Pressable } from '@truongdq01/ui';
+import { Text, View } from 'react-native';
 
 <Pressable onPress={() => {}} feedbackMode="scale">
   {({ isPressed }) => (
@@ -14,21 +14,21 @@ import { Text, View } from "react-native";
       <Text>Tap me</Text>
     </View>
   )}
-</Pressable>
+</Pressable>;
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `children` | `ReactNode or render function` | - | Content or render function |
-| `style` | `object or object[]` | - | Style passed to the animated view |
-| `onPress` | `() => void` | - | Press handler |
-| `onLongPress` | `() => void` | - | Long press handler |
-| `longPressMinDuration` | `number` | `500` | Long press minimum duration (ms) |
-| `disabled` | `boolean` | `false` | Disable interaction |
-| `feedbackMode` | `"scale", "scaleSubtle", "opacity", "none"` | `"scale"` | Visual feedback style |
-| `accessibilityLabel` | `string` | - | Accessibility label |
-| `accessibilityHint` | `string` | - | Accessibility hint |
-| `accessibilityRole` | `AccessibilityRole` | `"button"` | Accessibility role |
-| `haptic` | `boolean` | `true` | Enable haptic feedback |
+| Prop                   | Type                                        | Default    | Description                       |
+| ---------------------- | ------------------------------------------- | ---------- | --------------------------------- |
+| `children`             | `ReactNode or render function`              | -          | Content or render function        |
+| `style`                | `object or object[]`                        | -          | Style passed to the animated view |
+| `onPress`              | `() => void`                                | -          | Press handler                     |
+| `onLongPress`          | `() => void`                                | -          | Long press handler                |
+| `longPressMinDuration` | `number`                                    | `500`      | Long press minimum duration (ms)  |
+| `disabled`             | `boolean`                                   | `false`    | Disable interaction               |
+| `feedbackMode`         | `"scale", "scaleSubtle", "opacity", "none"` | `"scale"`  | Visual feedback style             |
+| `accessibilityLabel`   | `string`                                    | -          | Accessibility label               |
+| `accessibilityHint`    | `string`                                    | -          | Accessibility hint                |
+| `accessibilityRole`    | `AccessibilityRole`                         | `"button"` | Accessibility role                |
+| `haptic`               | `boolean`                                   | `true`     | Enable haptic feedback            |

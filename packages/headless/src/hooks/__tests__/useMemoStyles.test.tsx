@@ -1,17 +1,17 @@
-import { renderHook } from "@testing-library/react-native";
-import { useMemoStyles } from "../useMemoStyles";
-import { useTokens } from "../../theme";
-import type { SemanticTokens } from "@truongdq01/tokens";
+import { renderHook } from '@testing-library/react-native';
+import { useMemoStyles } from '../useMemoStyles';
+import { useTokens } from '../../theme';
+import type { SemanticTokens } from '@truongdq01/tokens';
 
-jest.mock("../../theme", () => ({
+jest.mock('../../theme', () => ({
   useTokens: jest.fn(),
 }));
 
-describe("useMemoStyles", () => {
+describe('useMemoStyles', () => {
   const mockTokens = {
     color: {
-      brand: { default: "blue" },
-      bg: { default: "white" },
+      brand: { default: 'blue' },
+      bg: { default: 'white' },
     },
   } as unknown as SemanticTokens;
 
@@ -20,7 +20,7 @@ describe("useMemoStyles", () => {
     (useTokens as jest.Mock).mockReturnValue(mockTokens);
   });
 
-  it("should create styles using the provided factory and tokens", () => {
+  it('should create styles using the provided factory and tokens', () => {
     const factory = jest.fn((tokens: SemanticTokens) => ({
       container: {
         backgroundColor: tokens.color.bg.default,
@@ -35,8 +35,8 @@ describe("useMemoStyles", () => {
     expect(useTokens).toHaveBeenCalled();
     expect(factory).toHaveBeenCalledWith(mockTokens);
     expect(result.current).toEqual({
-      container: { backgroundColor: "white" },
-      text: { color: "blue" },
+      container: { backgroundColor: 'white' },
+      text: { color: 'blue' },
     });
   });
 
@@ -59,7 +59,7 @@ describe("useMemoStyles", () => {
     expect(result.current).toBe(initialStyles);
   });
 
-  it("should not re-evaluate the factory if a new inline function is passed but tokens are unchanged", () => {
+  it('should not re-evaluate the factory if a new inline function is passed but tokens are unchanged', () => {
     // This is a crucial feature of useMemoStyles: it stores the factory in a ref
     // so inline functions don't trigger re-computations.
     let callCount = 0;
@@ -90,7 +90,7 @@ describe("useMemoStyles", () => {
     expect(result.current).toBe(initialStyles);
   });
 
-  it("should re-compute styles when tokens change", () => {
+  it('should re-compute styles when tokens change', () => {
     const factory = jest.fn((tokens: SemanticTokens) => ({
       container: { backgroundColor: tokens.color.bg.default },
     }));
@@ -102,8 +102,8 @@ describe("useMemoStyles", () => {
     // Simulate a theme change (e.g. light -> dark mode)
     const newMockTokens = {
       color: {
-        brand: { default: "lightblue" },
-        bg: { default: "black" },
+        brand: { default: 'lightblue' },
+        bg: { default: 'black' },
       },
     } as unknown as SemanticTokens;
 
@@ -119,7 +119,7 @@ describe("useMemoStyles", () => {
     // The styles reference should be different and contain the new values
     expect(result.current).not.toBe(initialStyles);
     expect(result.current).toEqual({
-      container: { backgroundColor: "black" },
+      container: { backgroundColor: 'black' },
     });
   });
 });

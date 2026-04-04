@@ -21,10 +21,10 @@ No tool yields **100%** of all bugs — treat outputs as **candidates** with **e
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `bug-discovery-pro` |
-|-------|------------------------------------------|
-| **`testing-pro`** | Repro, flaky tests, coverage, CI signals |
-| **`security-pro`** | Vulnerability-class issues, threat-relevant bugs |
+| Skill                      | When to combine with `bug-discovery-pro`                              |
+| -------------------------- | --------------------------------------------------------------------- |
+| **`testing-pro`**          | Repro, flaky tests, coverage, CI signals                              |
+| **`security-pro`**         | Vulnerability-class issues, threat-relevant bugs                      |
 | **`content-analysis-pro`** | Parse **logs**, **build output**, or **crash dumps** as attached text |
 
 **External (Cursor):** **`gitnexus-cli`** (index/analyze), **`gitnexus-debugging`**, **`gitnexus-exploring`**, **`gitnexus-impact-analysis`** — use their `SKILL.md` for tool-specific steps; **`bug-discovery-pro`** ties them into a **bug-hunting** narrative.
@@ -89,12 +89,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 - `references/` — GitNexus workflow, confidence model, tips, edge cases.
 - **MCP:** read tool schemas under your IDE’s GitNexus MCP folder before calling tools.
 
-| Topic | File |
-|-------|------|
-| GitNexus workflow | [references/gitnexus-graph-workflow.md](references/gitnexus-graph-workflow.md) |
+| Topic                   | File                                                                                       |
+| ----------------------- | ------------------------------------------------------------------------------------------ |
+| GitNexus workflow       | [references/gitnexus-graph-workflow.md](references/gitnexus-graph-workflow.md)             |
 | Candidates & confidence | [references/bug-candidates-and-confidence.md](references/bug-candidates-and-confidence.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips and patterns       | [references/tips-and-tricks.md](references/tips-and-tricks.md)                             |
+| Edge cases              | [references/edge-cases.md](references/edge-cases.md)                                       |
 
 ## Quick example
 

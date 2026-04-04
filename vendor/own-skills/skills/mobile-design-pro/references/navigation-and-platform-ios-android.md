@@ -4,12 +4,12 @@ Design-level orientation — implementation lives in **`react-native-pro`** / **
 
 ## Mental model
 
-| Topic | iOS (HIG) | Android (Material 3) |
-|-------|-----------|----------------------|
-| **Back** | Swipe-from-edge, top-left chevron in nested flows | **Predictive back** gesture, system back; **FAB** less central to “up” |
-| **Primary nav** | Tab bar at **bottom** (common) | **Navigation bar** + **bottom** nav or **rail** on tablets |
-| **Actions** | **Toolbar** trailing; **share** in top actions | **Overflow** menu (three dots), **FAB** for primary create |
-| **Sheets** | **Modal** sheets slide up; drag indicator | **Bottom sheets** (standard vs full); **side nav** drawer |
+| Topic           | iOS (HIG)                                         | Android (Material 3)                                                   |
+| --------------- | ------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Back**        | Swipe-from-edge, top-left chevron in nested flows | **Predictive back** gesture, system back; **FAB** less central to “up” |
+| **Primary nav** | Tab bar at **bottom** (common)                    | **Navigation bar** + **bottom** nav or **rail** on tablets             |
+| **Actions**     | **Toolbar** trailing; **share** in top actions    | **Overflow** menu (three dots), **FAB** for primary create             |
+| **Sheets**      | **Modal** sheets slide up; drag indicator         | **Bottom sheets** (standard vs full); **side nav** drawer              |
 
 **Rule:** Don’t ship **iOS clone** on Android or vice versa — users expect **platform conventions** unless you have a strong unified brand system (still document exceptions).
 

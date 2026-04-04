@@ -1,10 +1,10 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Popper } from "../Popper";
-import { ThemeProvider } from "@truongdq01/headless";
-import { Text } from "react-native";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Popper } from '../Popper';
+import { ThemeProvider } from '@truongdq01/headless';
+import { Text } from 'react-native';
 
-test("Popper renders content", () => {
+test('Popper renders content', () => {
   const { getByText } = render(
     <ThemeProvider>
       <Popper open={true}>
@@ -12,5 +12,5 @@ test("Popper renders content", () => {
       </Popper>
     </ThemeProvider>
   );
-  expect(getByText("Popper Content")).toBeTruthy();
+  expect(getByText('Popper Content')).toBeTruthy();
 });

@@ -16,11 +16,11 @@ created: 2026-04-02
 
 ## Per-task
 
-| Task | Proof |
-|------|--------|
+| Task                    | Proof                                   |
+| ----------------------- | --------------------------------------- |
 | fontFamily + Typography | tsc + optional Typography test snapshot |
-| surface.hover | rg no `#1A1A28` in semantic |
-| loveBrand | tsc themes package |
-| Switch tokens | tsc + Switch test |
+| surface.hover           | rg no `#1A1A28` in semantic             |
+| loveBrand               | tsc themes package                      |
+| Switch tokens           | tsc + Switch test                       |
 
 **Approval:** pending

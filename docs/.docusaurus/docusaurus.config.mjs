@@ -4,422 +4,357 @@
  * Modify the docusaurus.config.js file at your site's root instead.
  */
 export default {
-  "title": "RNUI",
-  "tagline": "Premium React Native UI components for high-end applications.",
-  "url": "https://rnui.dev",
-  "baseUrl": "/",
-  "onBrokenLinks": "throw",
-  "organizationName": "rnui",
-  "projectName": "rnui",
-  "markdown": {
-    "format": "mdx",
-    "mermaid": true,
-    "hooks": {
-      "onBrokenMarkdownLinks": "warn",
-      "onBrokenMarkdownImages": "throw"
+  title: 'RNUI',
+  tagline: 'Premium React Native UI components for high-end applications.',
+  url: 'https://rnui.dev',
+  baseUrl: '/',
+  onBrokenLinks: 'throw',
+  organizationName: 'rnui',
+  projectName: 'rnui',
+  markdown: {
+    format: 'mdx',
+    mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+      onBrokenMarkdownImages: 'throw',
     },
-    "emoji": true,
-    "mdx1Compat": {
-      "comments": true,
-      "admonitions": true,
-      "headingIds": true
+    emoji: true,
+    mdx1Compat: {
+      comments: true,
+      admonitions: true,
+      headingIds: true,
     },
-    "anchors": {
-      "maintainCase": false
-    }
+    anchors: {
+      maintainCase: false,
+    },
   },
-  "i18n": {
-    "defaultLocale": "en",
-    "locales": [
-      "en"
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en'],
+    path: 'i18n',
+    localeConfigs: {},
+  },
+  presets: [
+    [
+      'classic',
+      {
+        docs: {
+          sidebarPath: './sidebars.ts',
+          editUrl: 'https://github.com/rnui/rnui/tree/main/docs/',
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+        },
+        blog: {
+          showReadingTime: true,
+          postsPerPage: 'ALL',
+          blogSidebarTitle: 'All posts',
+          blogSidebarCount: 'ALL',
+        },
+        theme: {
+          customCss: './src/css/custom.css',
+        },
+      },
     ],
-    "path": "i18n",
-    "localeConfigs": {}
-  },
-  "presets": [
-    [
-      "classic",
-      {
-        "docs": {
-          "sidebarPath": "./sidebars.ts",
-          "editUrl": "https://github.com/rnui/rnui/tree/main/docs/",
-          "showLastUpdateAuthor": true,
-          "showLastUpdateTime": true
-        },
-        "blog": {
-          "showReadingTime": true,
-          "postsPerPage": "ALL",
-          "blogSidebarTitle": "All posts",
-          "blogSidebarCount": "ALL"
-        },
-        "theme": {
-          "customCss": "./src/css/custom.css"
-        }
-      }
-    ]
   ],
-  "plugins": [
+  plugins: [
     [
-      "/Users/truongdq/tx/GitHub/rnui/node_modules/.bun/@easyops-cn+docusaurus-search-local@0.55.1+a859023f690234c4/node_modules/@easyops-cn/docusaurus-search-local/dist/server/server/index.js",
+      '/Users/truongdq/tx/GitHub/rnui/node_modules/.bun/@easyops-cn+docusaurus-search-local@0.55.1+a859023f690234c4/node_modules/@easyops-cn/docusaurus-search-local/dist/server/server/index.js',
       {
-        "hashed": true,
-        "indexDocs": true,
-        "indexBlog": true,
-        "indexPages": true,
-        "language": [
-          "en"
+        hashed: true,
+        indexDocs: true,
+        indexBlog: true,
+        indexPages: true,
+        language: ['en'],
+        docsRouteBasePath: '/docs',
+      },
+    ],
+  ],
+  themeConfig: {
+    metadata: [
+      {
+        name: 'keywords',
+        content: 'react native, ui kit, design system, headless ui, reanimated',
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+    ],
+    image: 'img/social-card.png',
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
+    navbar: {
+      title: 'RNUI',
+      hideOnScroll: true,
+      items: [
+        {
+          type: 'docSidebar',
+          sidebarId: 'tutorialSidebar',
+          position: 'left',
+          label: 'Documentation',
+        },
+        {
+          type: 'search',
+          position: 'right',
+        },
+        {
+          href: 'https://github.com/rnui/rnui',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
+        },
+      ],
+    },
+    footer: {
+      style: 'light',
+      links: [
+        {
+          title: 'Learn',
+          items: [
+            {
+              label: 'Introduction',
+              to: '/docs/',
+            },
+            {
+              label: 'Installation',
+              to: '/docs/getting-started',
+            },
+            {
+              label: 'Theming',
+              to: '/docs/theming',
+            },
+          ],
+        },
+        {
+          title: 'Advanced',
+          items: [
+            {
+              label: 'Headless Hooks',
+              to: '/docs/headless',
+            },
+            {
+              label: 'Tokens',
+              to: '/docs/theming',
+            },
+          ],
+        },
+        {
+          title: 'Community',
+          items: [
+            {
+              label: 'GitHub',
+              href: 'https://github.com/rnui/rnui',
+            },
+            {
+              label: 'Issues',
+              href: 'https://github.com/rnui/rnui/issues',
+            },
+          ],
+        },
+      ],
+      copyright: 'Copyright © 2026 RNUI Project. Built with passion.',
+    },
+    prism: {
+      theme: {
+        plain: {
+          color: '#393A34',
+          backgroundColor: '#f6f8fa',
+        },
+        styles: [
+          {
+            types: ['comment', 'prolog', 'doctype', 'cdata'],
+            style: {
+              color: '#999988',
+              fontStyle: 'italic',
+            },
+          },
+          {
+            types: ['namespace'],
+            style: {
+              opacity: 0.7,
+            },
+          },
+          {
+            types: ['string', 'attr-value'],
+            style: {
+              color: '#e3116c',
+            },
+          },
+          {
+            types: ['punctuation', 'operator'],
+            style: {
+              color: '#393A34',
+            },
+          },
+          {
+            types: [
+              'entity',
+              'url',
+              'symbol',
+              'number',
+              'boolean',
+              'variable',
+              'constant',
+              'property',
+              'regex',
+              'inserted',
+            ],
+            style: {
+              color: '#36acaa',
+            },
+          },
+          {
+            types: ['atrule', 'keyword', 'attr-name', 'selector'],
+            style: {
+              color: '#00a4db',
+            },
+          },
+          {
+            types: ['function', 'deleted', 'tag'],
+            style: {
+              color: '#d73a49',
+            },
+          },
+          {
+            types: ['function-variable'],
+            style: {
+              color: '#6f42c1',
+            },
+          },
+          {
+            types: ['tag', 'selector', 'keyword'],
+            style: {
+              color: '#00009f',
+            },
+          },
         ],
-        "docsRouteBasePath": "/docs"
-      }
-    ]
-  ],
-  "themeConfig": {
-    "metadata": [
-      {
-        "name": "keywords",
-        "content": "react native, ui kit, design system, headless ui, reanimated"
       },
-      {
-        "name": "twitter:card",
-        "content": "summary_large_image"
-      }
-    ],
-    "image": "img/social-card.png",
-    "colorMode": {
-      "defaultMode": "light",
-      "disableSwitch": false,
-      "respectPrefersColorScheme": true
-    },
-    "navbar": {
-      "title": "RNUI",
-      "hideOnScroll": true,
-      "items": [
-        {
-          "type": "docSidebar",
-          "sidebarId": "tutorialSidebar",
-          "position": "left",
-          "label": "Documentation"
+      darkTheme: {
+        plain: {
+          color: '#F8F8F2',
+          backgroundColor: '#282A36',
         },
+        styles: [
+          {
+            types: ['prolog', 'constant', 'builtin'],
+            style: {
+              color: 'rgb(189, 147, 249)',
+            },
+          },
+          {
+            types: ['inserted', 'function'],
+            style: {
+              color: 'rgb(80, 250, 123)',
+            },
+          },
+          {
+            types: ['deleted'],
+            style: {
+              color: 'rgb(255, 85, 85)',
+            },
+          },
+          {
+            types: ['changed'],
+            style: {
+              color: 'rgb(255, 184, 108)',
+            },
+          },
+          {
+            types: ['punctuation', 'symbol'],
+            style: {
+              color: 'rgb(248, 248, 242)',
+            },
+          },
+          {
+            types: ['string', 'char', 'tag', 'selector'],
+            style: {
+              color: 'rgb(255, 121, 198)',
+            },
+          },
+          {
+            types: ['keyword', 'variable'],
+            style: {
+              color: 'rgb(189, 147, 249)',
+              fontStyle: 'italic',
+            },
+          },
+          {
+            types: ['comment'],
+            style: {
+              color: 'rgb(98, 114, 164)',
+            },
+          },
+          {
+            types: ['attr-name'],
+            style: {
+              color: 'rgb(241, 250, 140)',
+            },
+          },
+        ],
+      },
+      additionalLanguages: ['bash', 'json', 'typescript', 'tsx'],
+      magicComments: [
         {
-          "type": "search",
-          "position": "right"
+          className: 'theme-code-block-highlighted-line',
+          line: 'highlight-next-line',
+          block: {
+            start: 'highlight-start',
+            end: 'highlight-end',
+          },
         },
-        {
-          "href": "https://github.com/rnui/rnui",
-          "position": "right",
-          "className": "header-github-link",
-          "aria-label": "GitHub repository"
-        }
-      ]
-    },
-    "footer": {
-      "style": "light",
-      "links": [
-        {
-          "title": "Learn",
-          "items": [
-            {
-              "label": "Introduction",
-              "to": "/docs/"
-            },
-            {
-              "label": "Installation",
-              "to": "/docs/getting-started"
-            },
-            {
-              "label": "Theming",
-              "to": "/docs/theming"
-            }
-          ]
-        },
-        {
-          "title": "Advanced",
-          "items": [
-            {
-              "label": "Headless Hooks",
-              "to": "/docs/headless"
-            },
-            {
-              "label": "Tokens",
-              "to": "/docs/theming"
-            }
-          ]
-        },
-        {
-          "title": "Community",
-          "items": [
-            {
-              "label": "GitHub",
-              "href": "https://github.com/rnui/rnui"
-            },
-            {
-              "label": "Issues",
-              "href": "https://github.com/rnui/rnui/issues"
-            }
-          ]
-        }
       ],
-      "copyright": "Copyright © 2026 RNUI Project. Built with passion."
     },
-    "prism": {
-      "theme": {
-        "plain": {
-          "color": "#393A34",
-          "backgroundColor": "#f6f8fa"
-        },
-        "styles": [
-          {
-            "types": [
-              "comment",
-              "prolog",
-              "doctype",
-              "cdata"
-            ],
-            "style": {
-              "color": "#999988",
-              "fontStyle": "italic"
-            }
-          },
-          {
-            "types": [
-              "namespace"
-            ],
-            "style": {
-              "opacity": 0.7
-            }
-          },
-          {
-            "types": [
-              "string",
-              "attr-value"
-            ],
-            "style": {
-              "color": "#e3116c"
-            }
-          },
-          {
-            "types": [
-              "punctuation",
-              "operator"
-            ],
-            "style": {
-              "color": "#393A34"
-            }
-          },
-          {
-            "types": [
-              "entity",
-              "url",
-              "symbol",
-              "number",
-              "boolean",
-              "variable",
-              "constant",
-              "property",
-              "regex",
-              "inserted"
-            ],
-            "style": {
-              "color": "#36acaa"
-            }
-          },
-          {
-            "types": [
-              "atrule",
-              "keyword",
-              "attr-name",
-              "selector"
-            ],
-            "style": {
-              "color": "#00a4db"
-            }
-          },
-          {
-            "types": [
-              "function",
-              "deleted",
-              "tag"
-            ],
-            "style": {
-              "color": "#d73a49"
-            }
-          },
-          {
-            "types": [
-              "function-variable"
-            ],
-            "style": {
-              "color": "#6f42c1"
-            }
-          },
-          {
-            "types": [
-              "tag",
-              "selector",
-              "keyword"
-            ],
-            "style": {
-              "color": "#00009f"
-            }
-          }
-        ]
+    docs: {
+      versionPersistence: 'localStorage',
+      sidebar: {
+        hideable: false,
+        autoCollapseCategories: false,
       },
-      "darkTheme": {
-        "plain": {
-          "color": "#F8F8F2",
-          "backgroundColor": "#282A36"
-        },
-        "styles": [
-          {
-            "types": [
-              "prolog",
-              "constant",
-              "builtin"
-            ],
-            "style": {
-              "color": "rgb(189, 147, 249)"
-            }
-          },
-          {
-            "types": [
-              "inserted",
-              "function"
-            ],
-            "style": {
-              "color": "rgb(80, 250, 123)"
-            }
-          },
-          {
-            "types": [
-              "deleted"
-            ],
-            "style": {
-              "color": "rgb(255, 85, 85)"
-            }
-          },
-          {
-            "types": [
-              "changed"
-            ],
-            "style": {
-              "color": "rgb(255, 184, 108)"
-            }
-          },
-          {
-            "types": [
-              "punctuation",
-              "symbol"
-            ],
-            "style": {
-              "color": "rgb(248, 248, 242)"
-            }
-          },
-          {
-            "types": [
-              "string",
-              "char",
-              "tag",
-              "selector"
-            ],
-            "style": {
-              "color": "rgb(255, 121, 198)"
-            }
-          },
-          {
-            "types": [
-              "keyword",
-              "variable"
-            ],
-            "style": {
-              "color": "rgb(189, 147, 249)",
-              "fontStyle": "italic"
-            }
-          },
-          {
-            "types": [
-              "comment"
-            ],
-            "style": {
-              "color": "rgb(98, 114, 164)"
-            }
-          },
-          {
-            "types": [
-              "attr-name"
-            ],
-            "style": {
-              "color": "rgb(241, 250, 140)"
-            }
-          }
-        ]
+    },
+    blog: {
+      sidebar: {
+        groupByYear: true,
       },
-      "additionalLanguages": [
-        "bash",
-        "json",
-        "typescript",
-        "tsx"
-      ],
-      "magicComments": [
-        {
-          "className": "theme-code-block-highlighted-line",
-          "line": "highlight-next-line",
-          "block": {
-            "start": "highlight-start",
-            "end": "highlight-end"
-          }
-        }
-      ]
     },
-    "docs": {
-      "versionPersistence": "localStorage",
-      "sidebar": {
-        "hideable": false,
-        "autoCollapseCategories": false
-      }
+    tableOfContents: {
+      minHeadingLevel: 2,
+      maxHeadingLevel: 3,
     },
-    "blog": {
-      "sidebar": {
-        "groupByYear": true
-      }
-    },
-    "tableOfContents": {
-      "minHeadingLevel": 2,
-      "maxHeadingLevel": 3
-    }
   },
-  "baseUrlIssueBanner": true,
-  "future": {
-    "v4": {
-      "removeLegacyPostBuildHeadAttribute": false,
-      "useCssCascadeLayers": false
+  baseUrlIssueBanner: true,
+  future: {
+    v4: {
+      removeLegacyPostBuildHeadAttribute: false,
+      useCssCascadeLayers: false,
     },
-    "experimental_faster": {
-      "swcJsLoader": false,
-      "swcJsMinimizer": false,
-      "swcHtmlMinimizer": false,
-      "lightningCssMinimizer": false,
-      "mdxCrossCompilerCache": false,
-      "rspackBundler": false,
-      "rspackPersistentCache": false,
-      "ssgWorkerThreads": false
+    experimental_faster: {
+      swcJsLoader: false,
+      swcJsMinimizer: false,
+      swcHtmlMinimizer: false,
+      lightningCssMinimizer: false,
+      mdxCrossCompilerCache: false,
+      rspackBundler: false,
+      rspackPersistentCache: false,
+      ssgWorkerThreads: false,
     },
-    "experimental_storage": {
-      "type": "localStorage",
-      "namespace": false
+    experimental_storage: {
+      type: 'localStorage',
+      namespace: false,
     },
-    "experimental_router": "browser"
+    experimental_router: 'browser',
   },
-  "onBrokenAnchors": "warn",
-  "onDuplicateRoutes": "warn",
-  "staticDirectories": [
-    "static"
-  ],
-  "customFields": {},
-  "themes": [],
-  "scripts": [],
-  "headTags": [],
-  "stylesheets": [],
-  "clientModules": [],
-  "titleDelimiter": "|",
-  "noIndex": false
+  onBrokenAnchors: 'warn',
+  onDuplicateRoutes: 'warn',
+  staticDirectories: ['static'],
+  customFields: {},
+  themes: [],
+  scripts: [],
+  headTags: [],
+  stylesheets: [],
+  clientModules: [],
+  titleDelimiter: '|',
+  noIndex: false,
 };

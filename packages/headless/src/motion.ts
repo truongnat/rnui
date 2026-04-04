@@ -4,7 +4,7 @@ import {
   withTiming,
   type EasingFunction,
   type EasingFunctionFactory,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 // Preset animations removed in react-native-reanimated v4
 // These were part of the design system but are not currently used in UI components
@@ -16,7 +16,7 @@ import {
   focusRingAnimation,
   easing as easingTokens,
   type TimingPresetKey,
-} from "@truongdq01/tokens";
+} from '@truongdq01/tokens';
 
 /**
  * Shared transition animations for layout animations.
@@ -24,9 +24,9 @@ import {
  * These would need to be reimplemented using the new animation builders.
  */
 export const sharedTransition = {
-    // TODO: Reimplement with react-native-reanimated v4 animation builders
-    enter: {},
-    exit: {},
+  // TODO: Reimplement with react-native-reanimated v4 animation builders
+  enter: {},
+  exit: {},
 } as const;
 
 /**
@@ -34,10 +34,10 @@ export const sharedTransition = {
  * Use these in `withTiming({ easing: ... })`.
  */
 export const motionEasing = {
-    easeIn: Easing.bezier(0.4, 0, 1, 1),
-    easeOut: Easing.bezier(0, 0, 0.2, 1),
-    easeInOut: Easing.bezier(0.4, 0, 0.2, 1),
-    linear: Easing.linear,
+  easeIn: Easing.bezier(0.4, 0, 1, 1),
+  easeOut: Easing.bezier(0, 0, 0.2, 1),
+  easeInOut: Easing.bezier(0.4, 0, 0.2, 1),
+  linear: Easing.linear,
 } as const;
 
 /**
@@ -45,15 +45,17 @@ export const motionEasing = {
  * Token `easing` fields are CSS curve strings; this pairs them with Reanimated `Easing` functions.
  */
 export function resolveTimingPreset(key: TimingPresetKey): {
-    duration: number;
-    easing: EasingFunction | EasingFunctionFactory;
+  duration: number;
+  easing: EasingFunction | EasingFunctionFactory;
 } {
-    const preset = timingPreset[key];
-    let easingFn: EasingFunction | EasingFunctionFactory = motionEasing.easeInOut;
-    if (preset.easing === easingTokens.easeIn) easingFn = motionEasing.easeIn;
-    else if (preset.easing === easingTokens.easeOut) easingFn = motionEasing.easeOut;
-    else if (preset.easing === easingTokens.linear) easingFn = motionEasing.linear;
-    return { duration: preset.duration, easing: easingFn };
+  const preset = timingPreset[key];
+  let easingFn: EasingFunction | EasingFunctionFactory = motionEasing.easeInOut;
+  if (preset.easing === easingTokens.easeIn) easingFn = motionEasing.easeIn;
+  else if (preset.easing === easingTokens.easeOut)
+    easingFn = motionEasing.easeOut;
+  else if (preset.easing === easingTokens.linear)
+    easingFn = motionEasing.linear;
+  return { duration: preset.duration, easing: easingFn };
 }
 
 /**

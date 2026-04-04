@@ -1,6 +1,6 @@
 ---
 phase: 05-backlog-components-integrations
-plan: "05-01"
+plan: '05-01'
 subsystem: headless, ui
 tags: [react-native, otp, datetimepicker, i18n]
 
@@ -14,7 +14,7 @@ affects: []
 tech-stack:
   added: []
   patterns:
-    - "jest.mock DateTimePicker + cast default to jest.Mock (bun has no jest.requireMock)"
+    - 'jest.mock DateTimePicker + cast default to jest.Mock (bun has no jest.requireMock)'
 
 key-files:
   created: []

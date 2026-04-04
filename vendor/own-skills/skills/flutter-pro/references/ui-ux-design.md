@@ -46,4 +46,4 @@
 
 ---
 
-*Match your product’s design system; Flutter provides primitives — consistency is a team choice.*
+_Match your product’s design system; Flutter provides primitives — consistency is a team choice._

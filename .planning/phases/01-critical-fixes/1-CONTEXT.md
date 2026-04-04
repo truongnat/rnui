@@ -70,7 +70,7 @@ Không mở rộng sang Carousel/Skeleton (phase 3), không làm đầy đủ a1
 ### Audit & requirements
 
 - `AUDIT_REPORT.md` — Danh mục lỗi và roadmap cải tiến ưu tiên
-- `.planning/REQUIREMENTS.md` — REQ-IDs QUAL-*, A11Y-01, RATE-*, MOT-01
+- `.planning/REQUIREMENTS.md` — REQ-IDs QUAL-_, A11Y-01, RATE-_, MOT-01
 - `.planning/ROADMAP.md` — Phase 1 goal & success criteria
 
 ### Code hotspots (tối thiểu)
@@ -117,4 +117,4 @@ Không mở rộng sang Carousel/Skeleton (phase 3), không làm đầy đủ a1
 
 ---
 
-*Phase: 01-critical-fixes*
+_Phase: 01-critical-fixes_

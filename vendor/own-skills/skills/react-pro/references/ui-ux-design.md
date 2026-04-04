@@ -48,4 +48,4 @@
 
 ---
 
-*Pair with your design system; React only renders what you compose.*
+_Pair with your design system; React only renders what you compose._

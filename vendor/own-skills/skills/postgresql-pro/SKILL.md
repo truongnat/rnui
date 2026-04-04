@@ -19,11 +19,11 @@ Use official [PostgreSQL documentation](https://www.postgresql.org/docs/) for ve
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `postgresql-pro` |
-|-------|----------------------------------------|
-| **`sql-data-access-pro`** | **SQLite** file scripts, **local** `.db` — **not** server Postgres |
-| **`nestjs-pro`** / **`nextjs-pro`** | ORM and app-layer SQL **integration** |
-| **`data-analysis-pro`** | **Export** → **pandas**; **not** DDL/RLS design |
+| Skill                               | When to combine with `postgresql-pro`                              |
+| ----------------------------------- | ------------------------------------------------------------------ |
+| **`sql-data-access-pro`**           | **SQLite** file scripts, **local** `.db` — **not** server Postgres |
+| **`nestjs-pro`** / **`nextjs-pro`** | ORM and app-layer SQL **integration**                              |
+| **`data-analysis-pro`**             | **Export** → **pandas**; **not** DDL/RLS design                    |
 
 **Boundary:** **`postgresql-pro`** = **PostgreSQL server** product; **`sql-data-access-pro`** = **embedded SQLite** and portable SQL habits.
 
@@ -101,12 +101,12 @@ Details: [references/row-level-security.md](references/row-level-security.md)
 
 - `references/` — schema, tips, ops, detailed RLS.
 
-| Topic | File |
-|-------|------|
-| Schema and query design | [references/schema-and-query-design.md](references/schema-and-query-design.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases and ops | [references/edge-cases.md](references/edge-cases.md) |
-| **Row Level Security (RLS)** | [references/row-level-security.md](references/row-level-security.md) |
+| Topic                        | File                                                                           |
+| ---------------------------- | ------------------------------------------------------------------------------ |
+| Schema and query design      | [references/schema-and-query-design.md](references/schema-and-query-design.md) |
+| Tips and patterns            | [references/tips-and-tricks.md](references/tips-and-tricks.md)                 |
+| Edge cases and ops           | [references/edge-cases.md](references/edge-cases.md)                           |
+| **Row Level Security (RLS)** | [references/row-level-security.md](references/row-level-security.md)           |
 
 ## Quick example
 

@@ -19,14 +19,14 @@ Use official docs for each runner (e.g. [Jest](https://jestjs.io/), [Vitest](htt
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `testing-pro` |
-|-------|-------------------------------------|
-| **`react-pro`** | RTL/Vitest/Jest setup, component tests, hooks |
-| **`nextjs-pro`** | App Router, RSC/`"use client"` test boundaries, server vs client |
-| **`nestjs-pro`** | `TestingModule`, Supertest e2e, provider mocks |
-| **`flutter-pro`** | `widget_test`, `integration_test`, goldens |
-| **`react-native-pro`** | Detox/Maestro, RN Jest config |
-| **`postgresql-pro`** | Integration tests against real SQL, RLS, migrations |
+| Skill                  | When to combine with `testing-pro`                               |
+| ---------------------- | ---------------------------------------------------------------- |
+| **`react-pro`**        | RTL/Vitest/Jest setup, component tests, hooks                    |
+| **`nextjs-pro`**       | App Router, RSC/`"use client"` test boundaries, server vs client |
+| **`nestjs-pro`**       | `TestingModule`, Supertest e2e, provider mocks                   |
+| **`flutter-pro`**      | `widget_test`, `integration_test`, goldens                       |
+| **`react-native-pro`** | Detox/Maestro, RN Jest config                                    |
+| **`postgresql-pro`**   | Integration tests against real SQL, RLS, migrations              |
 
 Do **not** duplicate framework-specific testing advice that belongs in those skills; **link** them and add cross-cutting test design here.
 
@@ -36,7 +36,7 @@ Do **not** duplicate framework-specific testing advice that belongs in those ski
 - **Automation**: CI workflows, parallel jobs, reports, artifacts, retries policy.
 - Choosing tools (runner vs e2e vs browser vs API vs load).
 - **Debugging** flaky tests, timeouts, async races, or environment drift.
-- Reviewing **coverage** and what it does *not* prove.
+- Reviewing **coverage** and what it does _not_ prove.
 - Trigger keywords: `test`, `e2e`, `Playwright`, `CI`, `pytest`, `flaky`, `coverage`, `mock`, …
 
 ## Workflow
@@ -99,12 +99,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — strategy, automation, tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| Pyramid & strategy | [references/test-pyramid-and-strategy.md](references/test-pyramid-and-strategy.md) |
-| Automation & CI | [references/automation-and-ci.md](references/automation-and-ci.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases & flakiness | [references/edge-cases.md](references/edge-cases.md) |
+| Topic                  | File                                                                               |
+| ---------------------- | ---------------------------------------------------------------------------------- |
+| Pyramid & strategy     | [references/test-pyramid-and-strategy.md](references/test-pyramid-and-strategy.md) |
+| Automation & CI        | [references/automation-and-ci.md](references/automation-and-ci.md)                 |
+| Tips and patterns      | [references/tips-and-tricks.md](references/tips-and-tricks.md)                     |
+| Edge cases & flakiness | [references/edge-cases.md](references/edge-cases.md)                               |
 
 ## Quick example
 

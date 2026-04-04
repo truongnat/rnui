@@ -62,4 +62,4 @@
 
 ---
 
-*Framework docs (Next.js, Remix) add rules on top — read their React integration guides.*
+_Framework docs (Next.js, Remix) add rules on top — read their React integration guides._

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from 'react';
 import {
   TextInput as RNTextInput,
   View,
@@ -6,17 +6,21 @@ import {
   type TextInputProps as RNTextInputProps,
   type NativeSyntheticEvent,
   type TextInputChangeEventData,
-} from "react-native";
+} from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   interpolateColor,
   interpolate,
-} from "react-native-reanimated";
-import { useComponentTokens, useTokens, useIconStyle } from "@truongdq01/headless";
-import { useFormGroupVariant } from "../FormField/FormGroupContext";
-import { AnimatedHelperText } from "./AnimatedHelperText";
+} from 'react-native-reanimated';
+import {
+  useComponentTokens,
+  useTokens,
+  useIconStyle,
+} from '@truongdq01/headless';
+import { useFormGroupVariant } from '../FormField/FormGroupContext';
+import { AnimatedHelperText } from './AnimatedHelperText';
 
 const FOCUS_MS = 150;
 
@@ -24,9 +28,12 @@ const AnimatedTextInput = Animated.createAnimatedComponent(RNTextInput);
 
 // ─── Types ────────────────────────────────────────────────────────
 
-export type InputSize = "sm" | "md" | "lg";
+export type InputSize = 'sm' | 'md' | 'lg';
 
-export interface InputProps extends Omit<RNTextInputProps, "style" | "onChange"> {
+export interface InputProps extends Omit<
+  RNTextInputProps,
+  'style' | 'onChange'
+> {
   /** Callback for when the text changes */
   onChange?: (text: string) => void;
   /** Field label shown above input (or floating inside when `floatingLabel`) */
@@ -56,7 +63,7 @@ export function Input({
   error,
   helperText,
   floatingLabel = false,
-  size = "md",
+  size = 'md',
   leadingElement,
   trailingElement,
   disabled = false,
@@ -72,14 +79,16 @@ export function Input({
 }: InputProps) {
   const { input } = useComponentTokens();
   const tokens = useTokens();
-  const { size: iconSize, color: iconColor } = useIconStyle("input");
+  const { size: iconSize, color: iconColor } = useIconStyle('input');
   const formGroupVariant = useFormGroupVariant();
-  const isGrouped = formGroupVariant === "grouped";
+  const isGrouped = formGroupVariant === 'grouped';
 
   const [isFocused, setIsFocused] = useState(false);
   const [hasTyped, setHasTyped] = useState(false);
   const [uncontrolledText, setUncontrolledText] = useState(() =>
-    defaultValue !== undefined && defaultValue !== null ? String(defaultValue) : ""
+    defaultValue !== undefined && defaultValue !== null
+      ? String(defaultValue)
+      : ''
   );
 
   const hasValue =
@@ -115,7 +124,9 @@ export function Input({
 
   useEffect(() => {
     if (!floatingLabel || !label) return;
-    floatProgress.value = withTiming(isFocused || hasValue ? 1 : 0, { duration: FOCUS_MS });
+    floatProgress.value = withTiming(isFocused || hasValue ? 1 : 0, {
+      duration: FOCUS_MS,
+    });
   }, [isFocused, hasValue, floatingLabel, label, floatProgress]);
 
   const defaultBorder = tokens.color.border.input;
@@ -136,7 +147,11 @@ export function Input({
       return { borderColor: disabledBorder };
     }
     return {
-      borderColor: interpolateColor(focusProgress.value, [0, 1], [defaultBorder, focusBorder]),
+      borderColor: interpolateColor(
+        focusProgress.value,
+        [0, 1],
+        [defaultBorder, focusBorder]
+      ),
     };
   }, [defaultBorder, disabledBorder, errorBorder, focusBorder]);
 
@@ -151,14 +166,24 @@ export function Input({
     const ty0 = fl.translateY.inactive;
     const ty1 = fl.translateY.active;
     return {
-      position: "absolute" as const,
+      position: 'absolute' as const,
       left: 0,
       right: 0,
       top: interpolate(floatProgress.value, [0, 1], [16, 6]),
-      transform: [{ translateY: interpolate(floatProgress.value, [0, 1], [ty0, ty1]) }],
-      fontSize: interpolate(floatProgress.value, [0, 1], [inactiveFs, activeFs]),
-      color: interpolateColor(floatProgress.value, [0, 1], [inactiveC, activeC]),
-      pointerEvents: "none" as const,
+      transform: [
+        { translateY: interpolate(floatProgress.value, [0, 1], [ty0, ty1]) },
+      ],
+      fontSize: interpolate(
+        floatProgress.value,
+        [0, 1],
+        [inactiveFs, activeFs]
+      ),
+      color: interpolateColor(
+        floatProgress.value,
+        [0, 1],
+        [inactiveC, activeC]
+      ),
+      pointerEvents: 'none' as const,
     };
   }, [floatingLabel, label, fl]);
 
@@ -176,7 +201,7 @@ export function Input({
       ? {
           borderWidth: 0,
           borderRadius: 0,
-          backgroundColor: "transparent" as const,
+          backgroundColor: 'transparent' as const,
         }
       : {};
 
@@ -203,9 +228,12 @@ export function Input({
 
   const renderIcon = (icon: React.ReactNode) => {
     if (!icon) return null;
-    if (React.isValidElement<{ size?: number | string; color?: string }>(icon)) {
+    if (
+      React.isValidElement<{ size?: number | string; color?: string }>(icon)
+    ) {
       return React.cloneElement(icon, {
-        size: icon.props.size ?? (size === "sm" ? tokens.fontSize.md : iconSize),
+        size:
+          icon.props.size ?? (size === 'sm' ? tokens.fontSize.md : iconSize),
         color: icon.props.color ?? iconColor,
       });
     }
@@ -213,18 +241,34 @@ export function Input({
   };
 
   const placeholderResolved =
-    floatingLabel && label ? (isFocused || hasValue ? placeholder ?? "" : "") : placeholder;
+    floatingLabel && label
+      ? isFocused || hasValue
+        ? (placeholder ?? '')
+        : ''
+      : placeholder;
 
   const inner = (
     <>
       {renderIcon(leadingElement)}
-      <View style={{ flex: 1, position: "relative" as const, justifyContent: "center" as const }}>
+      <View
+        style={{
+          flex: 1,
+          position: 'relative' as const,
+          justifyContent: 'center' as const,
+        }}
+      >
         {floatingLabel && label ? (
-          <Animated.Text style={floatingLabelStyle as any}>{label}</Animated.Text>
+          <Animated.Text style={floatingLabelStyle as any}>
+            {label}
+          </Animated.Text>
         ) : null}
         <AnimatedTextInput
           style={[
-            { flex: 1, color: input.text.color, fontSize: input.size[size].fontSize },
+            {
+              flex: 1,
+              color: input.text.color,
+              fontSize: input.size[size].fontSize,
+            },
             animatedInputPadStyle,
           ]}
           placeholderTextColor={input.text.placeholderColor}
@@ -252,14 +296,28 @@ export function Input({
 
   return (
     <View>
-      {label && !floatingLabel ? <Text style={input.label}>{label}</Text> : null}
+      {label && !floatingLabel ? (
+        <Text style={input.label}>{label}</Text>
+      ) : null}
 
-      <Animated.View style={[staticContainerStyle as any, animatedContainerStyle]}>{inner}</Animated.View>
+      <Animated.View
+        style={[staticContainerStyle as any, animatedContainerStyle]}
+      >
+        {inner}
+      </Animated.View>
 
       {error ? (
-        <AnimatedHelperText text={error} isError={true} style={input.errorText as any} />
+        <AnimatedHelperText
+          text={error}
+          isError={true}
+          style={input.errorText as any}
+        />
       ) : (
-        <AnimatedHelperText text={helperText} isError={false} style={input.helperText as any} />
+        <AnimatedHelperText
+          text={helperText}
+          isError={false}
+          style={input.helperText as any}
+        />
       )}
     </View>
   );

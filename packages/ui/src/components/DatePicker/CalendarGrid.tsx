@@ -1,7 +1,7 @@
-import React, { useMemo, useCallback } from "react";
-import { View, Text, Pressable } from "react-native";
-import { useTokens } from "@truongdq01/headless";
-import { Icon } from "../Icon";
+import React, { useMemo, useCallback } from 'react';
+import { View, Text, Pressable } from 'react-native';
+import { useTokens } from '@truongdq01/headless';
+import { Icon } from '../Icon';
 
 export interface CalendarGridProps {
   month: number;
@@ -18,7 +18,11 @@ export interface CalendarGridProps {
 }
 
 function isSameDay(a: Date, b: Date): boolean {
-  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
 }
 
 function isToday(d: Date): boolean {
@@ -51,15 +55,25 @@ export function CalendarGrid({
   const t = useTokens();
 
   const weekdayLabels = useMemo(() => {
-    const formatter = new Intl.DateTimeFormat(locale, { weekday: "short" });
+    const formatter = new Intl.DateTimeFormat(locale, { weekday: 'short' });
     const baseMonday = new Date(2024, 0, 8);
     return Array.from({ length: 7 }, (_, i) =>
-      formatter.format(new Date(baseMonday.getFullYear(), baseMonday.getMonth(), baseMonday.getDate() + i))
+      formatter.format(
+        new Date(
+          baseMonday.getFullYear(),
+          baseMonday.getMonth(),
+          baseMonday.getDate() + i
+        )
+      )
     );
   }, [locale]);
 
   const monthYearTitle = useMemo(
-    () => new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(new Date(year, month, 1)),
+    () =>
+      new Intl.DateTimeFormat(locale, {
+        month: 'long',
+        year: 'numeric',
+      }).format(new Date(year, month, 1)),
     [locale, year, month]
   );
 
@@ -104,7 +118,10 @@ export function CalendarGrid({
       const nextMonth = month === 11 ? 0 : month + 1;
       const nextYear = month === 11 ? year + 1 : year;
       while (row.length < 7) {
-        row.push({ date: new Date(nextYear, nextMonth, nextDay++), inMonth: false });
+        row.push({
+          date: new Date(nextYear, nextMonth, nextDay++),
+          inMonth: false,
+        });
       }
       rows.push(row);
     }
@@ -117,25 +134,74 @@ export function CalendarGrid({
   return (
     <View>
       {/* Month navigation */}
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 4, marginBottom: t.spacing[3] }}>
-        <Pressable onPress={goPrev} hitSlop={12} accessibilityLabel="Previous month" accessibilityRole="button">
-          <Icon name={"chevronLeft" as any} size={22} color={t.color.text.secondary} />
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingHorizontal: 4,
+          marginBottom: t.spacing[3],
+        }}
+      >
+        <Pressable
+          onPress={goPrev}
+          hitSlop={12}
+          accessibilityLabel="Previous month"
+          accessibilityRole="button"
+        >
+          <Icon
+            name={'chevronLeft' as any}
+            size={22}
+            color={t.color.text.secondary}
+          />
         </Pressable>
-        <Pressable onPress={() => onHeaderPress?.()} disabled={!onHeaderPress} accessibilityRole={onHeaderPress ? "button" : undefined}>
-          <Text style={{ fontSize: t.fontSize.lg, fontWeight: t.fontWeight.semibold, color: t.color.text.primary }}>
+        <Pressable
+          onPress={() => onHeaderPress?.()}
+          disabled={!onHeaderPress}
+          accessibilityRole={onHeaderPress ? 'button' : undefined}
+        >
+          <Text
+            style={{
+              fontSize: t.fontSize.lg,
+              fontWeight: t.fontWeight.semibold,
+              color: t.color.text.primary,
+            }}
+          >
             {monthYearTitle}
           </Text>
         </Pressable>
-        <Pressable onPress={goNext} hitSlop={12} accessibilityLabel="Next month" accessibilityRole="button">
-          <Icon name={"chevronRight" as any} size={22} color={t.color.text.secondary} />
+        <Pressable
+          onPress={goNext}
+          hitSlop={12}
+          accessibilityLabel="Next month"
+          accessibilityRole="button"
+        >
+          <Icon
+            name={'chevronRight' as any}
+            size={22}
+            color={t.color.text.secondary}
+          />
         </Pressable>
       </View>
 
       {/* Weekday headers */}
-      <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: 'row' }}>
         {weekdayLabels.map((wd) => (
-          <View key={wd} style={{ flex: 1, alignItems: "center", paddingBottom: t.spacing[2] }}>
-            <Text style={{ fontSize: t.fontSize.xs, fontWeight: t.fontWeight.medium, color: t.color.text.tertiary }}>
+          <View
+            key={wd}
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              paddingBottom: t.spacing[2],
+            }}
+          >
+            <Text
+              style={{
+                fontSize: t.fontSize.xs,
+                fontWeight: t.fontWeight.medium,
+                color: t.color.text.tertiary,
+              }}
+            >
               {wd}
             </Text>
           </View>
@@ -144,24 +210,30 @@ export function CalendarGrid({
 
       {/* Day grid */}
       {cells.map((row, ri) => (
-        <View key={ri} style={{ flexDirection: "row" }}>
+        <View key={ri} style={{ flexDirection: 'row' }}>
           {row.map((cell, ci) => {
-            const selected = selectedDate ? isSameDay(cell.date, selectedDate) : false;
+            const selected = selectedDate
+              ? isSameDay(cell.date, selectedDate)
+              : false;
             const today = isToday(cell.date);
-            const disabled = !cell.inMonth || isDateDisabled(cell.date, minimumDate, maximumDate);
+            const disabled =
+              !cell.inMonth ||
+              isDateDisabled(cell.date, minimumDate, maximumDate);
 
             return (
               <Pressable
                 key={ci}
-                onPress={() => { if (!disabled) onSelectDate(cell.date); }}
+                onPress={() => {
+                  if (!disabled) onSelectDate(cell.date);
+                }}
                 disabled={disabled}
                 accessibilityRole="button"
                 accessibilityLabel={cell.date.toDateString()}
                 accessibilityState={{ selected, disabled }}
                 style={{
                   flex: 1,
-                  alignItems: "center",
-                  justifyContent: "center",
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   height: cellSize,
                 }}
               >
@@ -170,17 +242,25 @@ export function CalendarGrid({
                     width: 36,
                     height: 36,
                     borderRadius: 18,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: selected ? t.color.brand.default : "transparent",
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: selected
+                      ? t.color.brand.default
+                      : 'transparent',
                     borderWidth: today && !selected ? 1.5 : 0,
-                    borderColor: today && !selected ? t.color.brand.default : "transparent",
+                    borderColor:
+                      today && !selected
+                        ? t.color.brand.default
+                        : 'transparent',
                   }}
                 >
                   <Text
                     style={{
                       fontSize: t.fontSize.sm,
-                      fontWeight: selected || today ? t.fontWeight.semibold : t.fontWeight.regular,
+                      fontWeight:
+                        selected || today
+                          ? t.fontWeight.semibold
+                          : t.fontWeight.regular,
                       color: selected
                         ? t.color.text.onBrand
                         : disabled

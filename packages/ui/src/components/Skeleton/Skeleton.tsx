@@ -1,5 +1,13 @@
-import React, { createContext, useContext, useEffect, useState, Children, isValidElement, cloneElement } from "react";
-import { View } from "react-native";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  Children,
+  isValidElement,
+  cloneElement,
+} from 'react';
+import { View } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -8,13 +16,16 @@ import Animated, {
   interpolate,
   cancelAnimation,
   type SharedValue,
-} from "react-native-reanimated";
-import { useTokens, useComponentTokens, useIsDark } from "@truongdq01/headless";
+} from 'react-native-reanimated';
+import { useTokens, useComponentTokens, useIsDark } from '@truongdq01/headless';
 
 /**
  * Available shimmer animation directions
  */
-export type SkeletonShimmerDirection = "pulse" | "left-to-right" | "right-to-left";
+export type SkeletonShimmerDirection =
+  | 'pulse'
+  | 'left-to-right'
+  | 'right-to-left';
 
 // ─── Shared shimmer context ───────────────────────────────────────
 const ShimmerCtx = createContext<SharedValue<number> | null>(null);
@@ -43,7 +54,10 @@ export interface ShimmerProviderProps {
  * </ShimmerProvider>
  * ```
  */
-export function ShimmerProvider({ children, duration = 1200 }: ShimmerProviderProps) {
+export function ShimmerProvider({
+  children,
+  duration = 1200,
+}: ShimmerProviderProps) {
   const shimmer = useSharedValue(0);
   useEffect(() => {
     shimmer.value = withRepeat(withTiming(1, { duration }), -1, true);
@@ -52,7 +66,10 @@ export function ShimmerProvider({ children, duration = 1200 }: ShimmerProviderPr
   return <ShimmerCtx.Provider value={shimmer}>{children}</ShimmerCtx.Provider>;
 }
 
-function useShimmerValue(animate: boolean, delayMs: number): SharedValue<number> {
+function useShimmerValue(
+  animate: boolean,
+  delayMs: number
+): SharedValue<number> {
   const shared = useContext(ShimmerCtx);
   const local = useSharedValue(0);
 
@@ -67,7 +84,10 @@ function useShimmerValue(animate: boolean, delayMs: number): SharedValue<number>
     };
     if (delayMs > 0) {
       const t = setTimeout(start, delayMs);
-      return () => { clearTimeout(t); cancelAnimation(local); };
+      return () => {
+        clearTimeout(t);
+        cancelAnimation(local);
+      };
     }
     start();
     return () => cancelAnimation(local);
@@ -91,35 +111,44 @@ export interface SkeletonProps {
 }
 
 export function Skeleton({
-  width = "100%",
+  width = '100%',
   height = 16,
   borderRadius,
   animate = true,
   delayMs = 0,
-  shimmerDirection = "pulse",
+  shimmerDirection = 'pulse',
 }: SkeletonProps) {
   const { skeleton } = useComponentTokens();
   const isDark = useIsDark();
   const shimmer = useShimmerValue(animate, delayMs);
   const [layoutW, setLayoutW] = useState(0);
 
-  const sweepHighlight = isDark ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.45)";
+  const sweepHighlight = isDark
+    ? 'rgba(255,255,255,0.12)'
+    : 'rgba(255,255,255,0.45)';
 
   const pulseStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(shimmer.value, [0, 1], [skeleton.opacity.start, skeleton.opacity.end]),
+    opacity: interpolate(
+      shimmer.value,
+      [0, 1],
+      [skeleton.opacity.start, skeleton.opacity.end]
+    ),
   }));
 
   const sweepStyle = useAnimatedStyle(() => {
     const w = Math.max(layoutW, 1);
     const sweep = w * 0.35;
-    const t = shimmerDirection === "right-to-left" ? 1 - shimmer.value : shimmer.value;
+    const t =
+      shimmerDirection === 'right-to-left' ? 1 - shimmer.value : shimmer.value;
     return {
       transform: [{ translateX: interpolate(t, [0, 1], [-sweep, w]) }],
       opacity: 0.45,
     };
   });
 
-  const isSweep = shimmerDirection === "left-to-right" || shimmerDirection === "right-to-left";
+  const isSweep =
+    shimmerDirection === 'left-to-right' ||
+    shimmerDirection === 'right-to-left';
 
   return (
     <Animated.View
@@ -129,7 +158,7 @@ export function Skeleton({
           height,
           borderRadius: borderRadius ?? skeleton.borderRadius,
           backgroundColor: skeleton.backgroundColor,
-          overflow: "hidden",
+          overflow: 'hidden',
         },
         animate && !isSweep ? pulseStyle : null,
       ]}
@@ -139,11 +168,11 @@ export function Skeleton({
         <Animated.View
           style={[
             {
-              position: "absolute",
+              position: 'absolute',
               left: 0,
               top: 0,
               bottom: 0,
-              width: "35%",
+              width: '35%',
               backgroundColor: sweepHighlight,
               borderRadius: borderRadius ?? skeleton.borderRadius,
             },
@@ -180,8 +209,8 @@ export function SkeletonGroup({ stagger = 80, children }: SkeletonGroupProps) {
 
 export const SkeletonText = React.memo(function SkeletonText({
   lines = 3,
-  lastLineWidth = "60%",
-  shimmerDirection = "pulse",
+  lastLineWidth = '60%',
+  shimmerDirection = 'pulse',
 }: {
   lines?: number;
   lastLineWidth?: `${number}%`;
@@ -193,7 +222,7 @@ export const SkeletonText = React.memo(function SkeletonText({
       {Array.from({ length: lines }).map((_, i) => (
         <Skeleton
           key={i}
-          width={i === lines - 1 ? lastLineWidth : "100%"}
+          width={i === lines - 1 ? lastLineWidth : '100%'}
           height={14}
           shimmerDirection={shimmerDirection}
         />
@@ -215,7 +244,13 @@ export const SkeletonCard = React.memo(function SkeletonCard() {
         gap: tokens.spacing[3],
       }}
     >
-      <View style={{ flexDirection: "row", gap: tokens.spacing[3], alignItems: "center" }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          gap: tokens.spacing[3],
+          alignItems: 'center',
+        }}
+      >
         <Skeleton width={44} height={44} borderRadius={22} />
         <View style={{ flex: 1, gap: tokens.spacing[2] }}>
           <Skeleton width="50%" height={14} />
@@ -233,8 +268,8 @@ export const SkeletonListItem = React.memo(function SkeletonListItem() {
   return (
     <View
       style={{
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignItems: 'center',
         paddingHorizontal: tokens.spacing[4],
         paddingVertical: tokens.spacing[3],
         gap: tokens.spacing[3],
@@ -254,8 +289,13 @@ export const SkeletonListItem = React.memo(function SkeletonListItem() {
 export const SkeletonProfile = React.memo(function SkeletonProfile() {
   const tokens = useTokens();
   return (
-    <View style={{ gap: tokens.spacing[4], alignItems: "center" }}>
-      <Skeleton width={96} height={96} borderRadius={48} shimmerDirection="left-to-right" />
+    <View style={{ gap: tokens.spacing[4], alignItems: 'center' }}>
+      <Skeleton
+        width={96}
+        height={96}
+        borderRadius={48}
+        shimmerDirection="left-to-right"
+      />
       <Skeleton width="70%" height={18} />
       <Skeleton width="45%" height={14} />
     </View>
@@ -267,7 +307,12 @@ export const SkeletonMedia = React.memo(function SkeletonMedia() {
   const tokens = useTokens();
   return (
     <View style={{ gap: tokens.spacing[3] }}>
-      <Skeleton width="100%" height={180} borderRadius={tokens.radius.lg} shimmerDirection="left-to-right" />
+      <Skeleton
+        width="100%"
+        height={180}
+        borderRadius={tokens.radius.lg}
+        shimmerDirection="left-to-right"
+      />
       <Skeleton width="80%" height={16} />
       <Skeleton width="50%" height={13} />
     </View>
@@ -275,7 +320,11 @@ export const SkeletonMedia = React.memo(function SkeletonMedia() {
 });
 
 /** Repeated label + field rows */
-export const SkeletonForm = React.memo(function SkeletonForm({ rows = 4 }: { rows?: number }) {
+export const SkeletonForm = React.memo(function SkeletonForm({
+  rows = 4,
+}: {
+  rows?: number;
+}) {
   const tokens = useTokens();
   return (
     <View style={{ gap: tokens.spacing[4] }}>
@@ -290,31 +339,56 @@ export const SkeletonForm = React.memo(function SkeletonForm({ rows = 4 }: { row
 });
 
 /** N×M grid of squares */
-export const SkeletonGrid = React.memo(function SkeletonGrid({ columns = 3, rows = 2, cell = 48 }: { columns?: number; rows?: number; cell?: number }) {
+export const SkeletonGrid = React.memo(function SkeletonGrid({
+  columns = 3,
+  rows = 2,
+  cell = 48,
+}: {
+  columns?: number;
+  rows?: number;
+  cell?: number;
+}) {
   const tokens = useTokens();
   return (
-    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: tokens.spacing[2] }}>
+    <View
+      style={{ flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing[2] }}
+    >
       {Array.from({ length: columns * rows }).map((_, i) => (
-        <Skeleton key={i} width={cell} height={cell} borderRadius={tokens.radius.sm} />
+        <Skeleton
+          key={i}
+          width={cell}
+          height={cell}
+          borderRadius={tokens.radius.sm}
+        />
       ))}
     </View>
   );
 });
 
 /** Header row + data rows */
-export const SkeletonTable = React.memo(function SkeletonTable({ columns = 4, dataRows = 3 }: { columns?: number; dataRows?: number }) {
+export const SkeletonTable = React.memo(function SkeletonTable({
+  columns = 4,
+  dataRows = 3,
+}: {
+  columns?: number;
+  dataRows?: number;
+}) {
   const tokens = useTokens();
   return (
     <View style={{ gap: tokens.spacing[2] }}>
-      <View style={{ flexDirection: "row", gap: tokens.spacing[2] }}>
+      <View style={{ flexDirection: 'row', gap: tokens.spacing[2] }}>
         {Array.from({ length: columns }).map((_, i) => (
           <Skeleton key={`h-${i}`} width={`${90 / columns}%`} height={14} />
         ))}
       </View>
       {Array.from({ length: dataRows }).map((_, r) => (
-        <View key={r} style={{ flexDirection: "row", gap: tokens.spacing[2] }}>
+        <View key={r} style={{ flexDirection: 'row', gap: tokens.spacing[2] }}>
           {Array.from({ length: columns }).map((_, c) => (
-            <Skeleton key={`${r}-${c}`} width={`${90 / columns}%`} height={12} />
+            <Skeleton
+              key={`${r}-${c}`}
+              width={`${90 / columns}%`}
+              height={12}
+            />
           ))}
         </View>
       ))}

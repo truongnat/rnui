@@ -2,20 +2,20 @@
 
 ## Metadata
 
-| Field | Value |
-|-------|-------|
-| version | 1.0 |
-| category | planning |
+| Field       | Value                                                   |
+| ----------- | ------------------------------------------------------- |
+| version     | 1.0                                                     |
+| category    | planning                                                |
 | description | Plan a feature implementation using bundled repo skills |
-| tags | skills, planning, stack |
+| tags        | skills, planning, stack                                 |
 
 ## Variables
 
-| Name | Required | Description |
-|------|----------|-------------|
-| `feature_goal` | Yes | Short goal (one sentence) |
-| `stack` | No | e.g. Next.js 15, NestJS, PostgreSQL |
-| `constraints` | No | Time, a11y, security, etc. |
+| Name           | Required | Description                         |
+| -------------- | -------- | ----------------------------------- |
+| `feature_goal` | Yes      | Short goal (one sentence)           |
+| `stack`        | No       | e.g. Next.js 15, NestJS, PostgreSQL |
+| `constraints`  | No       | Time, a11y, security, etc.          |
 
 ## System prompt
 

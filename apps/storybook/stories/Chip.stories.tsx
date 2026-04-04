@@ -1,45 +1,47 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Chip } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Chip } from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
-const ChipWrapper = (props: any) => (
-  <Chip {...props} />
-);
+const ChipWrapper = (props: any) => <Chip {...props} />;
 
 const meta = {
-  title: "Components/Chip",
+  title: 'Components/Chip',
   component: ChipWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
-    label: { control: "text" },
+    label: { control: 'text' },
     variant: {
-      control: { type: "select" },
-      options: ["filled", "outlined"],
+      control: { type: 'select' },
+      options: ['filled', 'outlined'],
     },
     color: {
-      control: { type: "select" },
-      options: ["default", "primary", "success", "error", "warning", "info"],
+      control: { type: 'select' },
+      options: ['default', 'primary', 'success', 'error', 'warning', 'info'],
     },
     size: {
-      control: { type: "select" },
-      options: ["sm", "md", "lg"],
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg'],
     },
-    disabled: { control: "boolean" },
+    disabled: { control: 'boolean' },
   },
   args: {
-    label: "Chip",
-    variant: "filled",
-    color: "default",
-    size: "md",
+    label: 'Chip',
+    variant: 'filled',
+    color: 'default',
+    size: 'md',
     disabled: false,
   },
 };
@@ -48,20 +50,20 @@ export default meta;
 type Story = StoryObj<typeof ChipWrapper>;
 
 export const Default: Story = {
-  args: { label: "Design" },
+  args: { label: 'Design' },
 };
 
 export const Outlined: Story = {
-  args: { label: "Dev", variant: "outlined" },
+  args: { label: 'Dev', variant: 'outlined' },
 };
 
 export const Success: Story = {
-  args: { label: "Done", variant: "solid", color: "success" },
+  args: { label: 'Done', variant: 'solid', color: 'success' },
 };
 
 export const AllColors: Story = {
   render: (args: any) => (
-    <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
+    <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
       <ChipWrapper {...args} label="Default" color="default" />
       <ChipWrapper {...args} label="Primary" color="primary" />
       <ChipWrapper {...args} label="Success" color="success" />
@@ -74,7 +76,7 @@ export const AllColors: Story = {
 
 export const AllSizes: Story = {
   render: (args: any) => (
-    <View style={{ flexDirection: "row", gap: 8, alignItems: "center" }}>
+    <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
       <ChipWrapper {...args} label="Small" size="sm" />
       <ChipWrapper {...args} label="Medium" size="md" />
       <ChipWrapper {...args} label="Large" size="lg" />

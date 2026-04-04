@@ -30,10 +30,7 @@
           ]
         }
       },
-      "required": [
-        "name",
-        "version"
-      ]
+      "required": ["name", "version"]
     },
     "settings": {
       "type": "object",
@@ -44,17 +41,10 @@
         },
         "log_level": {
           "type": "string",
-          "enum": [
-            "debug",
-            "info",
-            "warn",
-            "error"
-          ]
+          "enum": ["debug", "info", "warn", "error"]
         }
       }
     }
   },
-  "required": [
-    "skill"
-  ]
+  "required": ["skill"]
 }

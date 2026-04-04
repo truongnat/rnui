@@ -42,10 +42,10 @@ Một design system RN có token rõ ràng, component typed, animation chạy UI
 
 ## Key Decisions
 
-| Decision | Rationale | Outcome |
-|----------|-----------|---------|
+| Decision                            | Rationale                         | Outcome   |
+| ----------------------------------- | --------------------------------- | --------- |
 | GSD workflow cho cải tiến sau audit | Theo dõi phase/plan có kiểm chứng | — Pending |
-| Bỏ qua `/gsd-map-codebase` lúc init | Khởi tạo nhanh; map sau nếu cần | — Pending |
+| Bỏ qua `/gsd-map-codebase` lúc init | Khởi tạo nhanh; map sau nếu cần   | — Pending |
 
 ## Evolution
 
@@ -68,4 +68,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-04-02 after GSD project initialization*
+_Last updated: 2026-04-02 after GSD project initialization_

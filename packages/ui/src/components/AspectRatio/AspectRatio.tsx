@@ -1,5 +1,5 @@
-import React from "react";
-import { View, StyleSheet, ViewStyle, StyleProp } from "react-native";
+import React from 'react';
+import { View, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 
 /**
  * Props for the AspectRatio component
@@ -54,7 +54,7 @@ export function AspectRatio({
   height,
   children,
   style,
-  testID = "aspect-ratio",
+  testID = 'aspect-ratio',
 }: AspectRatioProps) {
   // Calculate paddingBottom based on ratio
   // For a container, aspect ratio = width / height
@@ -72,9 +72,7 @@ export function AspectRatio({
           },
         ]}
       >
-        <View style={styles.content}>
-          {children}
-        </View>
+        <View style={styles.content}>{children}</View>
       </View>
     </View>
   );
@@ -82,14 +80,14 @@ export function AspectRatio({
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: '100%',
   },
   aspectContainer: {
-    position: "relative",
-    width: "100%",
+    position: 'relative',
+    width: '100%',
   },
   content: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,

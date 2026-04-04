@@ -21,13 +21,13 @@ python scripts/analyze_skills.py --with-references --only-actionable --markdown
 
 ## Interpreting gaps
 
-| Tier | Typical action |
-|------|----------------|
-| **strong** | Add or link a helper under `scripts/`, or document repeatable commands in `SKILL.md`. |
-| **consider** | Score **≥ 6** (after weights); if users repeat the same steps, add a workflow or script link. |
-| **low** | Includes **domain** skills (`deployment-pro`, `testing-pro`, …) where CI/automation words are **expected** in prose — not a defect. |
-| **ok** | Already references repo tooling — no automation gap from this heuristic. |
-| **exempt** | `repo-tooling-pro` — meta skill. |
+| Tier         | Typical action                                                                                                                      |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **strong**   | Add or link a helper under `scripts/`, or document repeatable commands in `SKILL.md`.                                               |
+| **consider** | Score **≥ 6** (after weights); if users repeat the same steps, add a workflow or script link.                                       |
+| **low**      | Includes **domain** skills (`deployment-pro`, `testing-pro`, …) where CI/automation words are **expected** in prose — not a defect. |
+| **ok**       | Already references repo tooling — no automation gap from this heuristic.                                                            |
+| **exempt**   | `repo-tooling-pro` — meta skill.                                                                                                    |
 
 Heuristic details: **`scripts/analyze_skills.py`** uses low weight for generic **CI/pipeline** mentions to reduce false positives.
 

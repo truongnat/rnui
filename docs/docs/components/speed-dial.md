@@ -5,12 +5,12 @@ Floating quick actions menu.
 ## Usage
 
 ```tsx
-import { SpeedDial, SpeedDialAction, Icon } from "@truongdq01/ui";
+import { SpeedDial, SpeedDialAction, Icon } from '@truongdq01/ui';
 
 <SpeedDial ariaLabel="Actions" icon={<Icon>+</Icon>}>
   <SpeedDialAction tooltipTitle="Share" />
   <SpeedDialAction tooltipTitle="Save" />
-</SpeedDial>
+</SpeedDial>;
 ```
 
 ## Notes

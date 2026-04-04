@@ -5,9 +5,9 @@ Searchable select with suggestion list.
 ## Usage
 
 ```tsx
-import { Autocomplete } from "@truongdq01/ui";
+import { Autocomplete } from '@truongdq01/ui';
 
-<Autocomplete options={["React", "Vue", "Svelte"]} />
+<Autocomplete options={['React', 'Vue', 'Svelte']} />;
 ```
 
 ## Notes

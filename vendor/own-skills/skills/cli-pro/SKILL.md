@@ -17,13 +17,13 @@ Canonical ergonomics reference: **[clig.dev](https://clig.dev/)** (community gui
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `cli-pro` |
-|-------|--------------------------------|
-| **`code-packaging-pro`** | Entry points, `bin`, Docker/CI that invokes the CLI |
-| **`security-pro`** | Credentials via env, `--password` anti-patterns, path safety |
-| **`testing-pro`** | Snapshot tests for `--help`, golden stderr, subprocess integration |
-| **`javascript-pro`** | Node CLIs, ESM/CJS `bin`, shebang edge cases |
-| **`repo-tooling-pro`** | Repo-specific **internal** scripts vs **published** CLIs — this skill focuses on **user-facing** CLI design |
+| Skill                    | When to combine with `cli-pro`                                                                              |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| **`code-packaging-pro`** | Entry points, `bin`, Docker/CI that invokes the CLI                                                         |
+| **`security-pro`**       | Credentials via env, `--password` anti-patterns, path safety                                                |
+| **`testing-pro`**        | Snapshot tests for `--help`, golden stderr, subprocess integration                                          |
+| **`javascript-pro`**     | Node CLIs, ESM/CJS `bin`, shebang edge cases                                                                |
+| **`repo-tooling-pro`**   | Repo-specific **internal** scripts vs **published** CLIs — this skill focuses on **user-facing** CLI design |
 
 ## When to use
 
@@ -77,11 +77,11 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — Deep dives; external baseline [clig.dev](https://clig.dev/).
 
-| Topic | File |
-|-------|------|
-| Tips & CLI UX | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
+| Topic               | File                                                                   |
+| ------------------- | ---------------------------------------------------------------------- |
+| Tips & CLI UX       | [references/tips-and-tricks.md](references/tips-and-tricks.md)         |
 | Patterns by runtime | [references/patterns-by-runtime.md](references/patterns-by-runtime.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Edge cases          | [references/edge-cases.md](references/edge-cases.md)                   |
 
 ## Quick example
 

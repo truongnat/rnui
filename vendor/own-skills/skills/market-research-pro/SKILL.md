@@ -19,12 +19,12 @@ Use official company sources, regulatory filings, and high-quality industry repo
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `market-research-pro` |
-|-------|--------------------------------------------|
-| **`web-research-pro`** | Collect and verify external sources, changelogs, and citation quality |
-| **`business-analysis-pro`** | Convert findings into initiative scope, requirements, and priority |
-| **`data-analysis-pro`** | Analyze survey/usage/exported datasets numerically |
-| **`seo-pro`** | Search-demand and organic visibility angle for web-first products |
+| Skill                       | When to combine with `market-research-pro`                            |
+| --------------------------- | --------------------------------------------------------------------- |
+| **`web-research-pro`**      | Collect and verify external sources, changelogs, and citation quality |
+| **`business-analysis-pro`** | Convert findings into initiative scope, requirements, and priority    |
+| **`data-analysis-pro`**     | Analyze survey/usage/exported datasets numerically                    |
+| **`seo-pro`**               | Search-demand and organic visibility angle for web-first products     |
 
 **Boundary:** **`market-research-pro`** = what market signals mean for decisions; **`web-research-pro`** = how to gather/verify sources.
 
@@ -99,14 +99,14 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` - sizing, competitors, segmentation/GTM, evidence quality, tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| Market sizing | [references/market-sizing-and-assumptions.md](references/market-sizing-and-assumptions.md) |
-| Competitor and positioning | [references/competitor-and-positioning.md](references/competitor-and-positioning.md) |
-| Segment and GTM | [references/segment-prioritization-and-gtm.md](references/segment-prioritization-and-gtm.md) |
-| Reporting quality | [references/reporting-and-evidence-quality.md](references/reporting-and-evidence-quality.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Topic                      | File                                                                                         |
+| -------------------------- | -------------------------------------------------------------------------------------------- |
+| Market sizing              | [references/market-sizing-and-assumptions.md](references/market-sizing-and-assumptions.md)   |
+| Competitor and positioning | [references/competitor-and-positioning.md](references/competitor-and-positioning.md)         |
+| Segment and GTM            | [references/segment-prioritization-and-gtm.md](references/segment-prioritization-and-gtm.md) |
+| Reporting quality          | [references/reporting-and-evidence-quality.md](references/reporting-and-evidence-quality.md) |
+| Tips                       | [references/tips-and-tricks.md](references/tips-and-tricks.md)                               |
+| Edge cases                 | [references/edge-cases.md](references/edge-cases.md)                                         |
 
 ## Quick example
 

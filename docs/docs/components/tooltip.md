@@ -9,32 +9,40 @@ Tooltips display informative text when users interact with the trigger element. 
 ## Usage
 
 ```tsx
-import { Tooltip, Button } from "@truongdq01/ui";
+import { Tooltip, Button } from '@truongdq01/ui';
 
 <Tooltip title="Save your changes">
   <Button label="Save" />
-</Tooltip>
+</Tooltip>;
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `ReactNode` | — | **Required.** Content to display in tooltip |
-| `children` | `ReactElement` | — | **Required.** Trigger element |
-| `open` | `boolean` | — | Controlled open state |
-| `onOpen` | `() => void` | — | Callback when tooltip opens |
-| `onClose` | `() => void` | — | Callback when tooltip closes |
-| `placement` | `TooltipPlacement` | `"top"` | Position relative to trigger |
+| Prop        | Type               | Default | Description                                 |
+| ----------- | ------------------ | ------- | ------------------------------------------- |
+| `title`     | `ReactNode`        | —       | **Required.** Content to display in tooltip |
+| `children`  | `ReactElement`     | —       | **Required.** Trigger element               |
+| `open`      | `boolean`          | —       | Controlled open state                       |
+| `onOpen`    | `() => void`       | —       | Callback when tooltip opens                 |
+| `onClose`   | `() => void`       | —       | Callback when tooltip closes                |
+| `placement` | `TooltipPlacement` | `"top"` | Position relative to trigger                |
 
 ### TooltipPlacement Options
 
 ```typescript
 type TooltipPlacement =
-  | "top" | "top-start" | "top-end"
-  | "bottom" | "bottom-start" | "bottom-end"
-  | "left" | "left-start" | "left-end"
-  | "right" | "right-start" | "right-end";
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end';
 ```
 
 ## Placement
@@ -70,7 +78,7 @@ type TooltipPlacement =
 ```tsx
 function ControlledTooltip() {
   const [open, setOpen] = useState(false);
-  
+
   return (
     <Tooltip
       title="This tooltip is controlled"
@@ -143,10 +151,12 @@ import { Info, HelpCircle } from "lucide-react-native";
 ## Interaction Modes
 
 ### Hover (Desktop)
+
 - Tooltip appears on hover
 - Disappears when mouse leaves
 
 ### Long Press (Mobile)
+
 - Tooltip appears after 400ms long press
 - Tap outside to dismiss
 
@@ -155,11 +165,11 @@ import { Info, HelpCircle } from "lucide-react-native";
 ```tsx
 <Tooltip
   title="Required field"
-  onOpen={() => console.log("Tooltip opened")}
-  onClose={() => console.log("Tooltip closed")}
+  onOpen={() => console.log('Tooltip opened')}
+  onClose={() => console.log('Tooltip closed')}
 >
-  <Button 
-    label="Submit" 
+  <Button
+    label="Submit"
     accessibilityLabel="Submit form"
     accessibilityHint="Double tap to submit"
   />
@@ -169,12 +179,14 @@ import { Info, HelpCircle } from "lucide-react-native";
 ## Best Practices
 
 ### ✅ Do
+
 - Keep tooltip text concise (1-2 sentences)
 - Use for supplementary information only
 - Place on interactive elements
 - Use appropriate placement to avoid screen edges
 
 ### ❌ Don't
+
 - Don't put critical information in tooltips
 - Don't nest tooltips
 - Don't use for long explanations (use help text instead)

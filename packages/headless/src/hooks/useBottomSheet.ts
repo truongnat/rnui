@@ -1,4 +1,4 @@
-import { useCallback, useRef, useMemo } from "react";
+import { useCallback, useRef, useMemo } from 'react';
 import {
   useSharedValue,
   useAnimatedStyle,
@@ -6,11 +6,11 @@ import {
   withTiming,
   interpolate,
   Extrapolation,
-} from "react-native-reanimated";
-import { scheduleOnRN } from "react-native-worklets";
-import { Gesture } from "react-native-gesture-handler";
-import { Dimensions } from "react-native";
-import { spring } from "@truongdq01/tokens";
+} from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
+import { Gesture } from 'react-native-gesture-handler';
+import { Dimensions } from 'react-native';
+import { spring } from '@truongdq01/tokens';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -54,10 +54,10 @@ export interface UseBottomSheetReturn {
 
 // ─── Helpers ─────────────────────────────────────────────────────
 
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 function resolveSnapPoint(point: SnapPoint): number {
-  if (typeof point === "number") return point;
+  if (typeof point === 'number') return point;
   const pct = parseFloat(point) / 100;
   return SCREEN_HEIGHT * pct;
 }
@@ -65,7 +65,7 @@ function resolveSnapPoint(point: SnapPoint): number {
 // ─── Hook ─────────────────────────────────────────────────────────
 
 export function useBottomSheet({
-  snapPoints: rawSnapPoints = ["50%"],
+  snapPoints: rawSnapPoints = ['50%'],
   initialSnapIndex,
   onClose,
   onSnapChange,
@@ -92,19 +92,27 @@ export function useBottomSheet({
   // ── Animate to snap ──────────────────────────────────────────
   const animateToSnap = useCallback(
     (index: number, onDone?: () => void) => {
-      "worklet";
-      const targetHeight = snapPoints[index] ?? snapPoints[snapPoints.length - 1];
+      'worklet';
+      const targetHeight =
+        snapPoints[index] ?? snapPoints[snapPoints.length - 1];
       const targetY = SCREEN_HEIGHT - targetHeight;
       translateY.value = withSpring(targetY, gentleSpring, (finished) => {
         if (finished && onDone) scheduleOnRN(onDone);
       });
       // Backdrop opacity: 0 when closed, 1 at highest snap point
       backdropOpacity.value = withTiming(
-        enableBackdrop ? targetHeight / maxHeight * 0.6 : 0,
+        enableBackdrop ? (targetHeight / maxHeight) * 0.6 : 0,
         { duration: 250 }
       );
     },
-    [snapPoints, maxHeight, translateY, backdropOpacity, enableBackdrop, gentleSpring]
+    [
+      snapPoints,
+      maxHeight,
+      translateY,
+      backdropOpacity,
+      enableBackdrop,
+      gentleSpring,
+    ]
   );
 
   // ── JS-thread open/close/snap ────────────────────────────────
@@ -116,7 +124,7 @@ export function useBottomSheet({
       const targetHeight = snapPoints[idx] ?? snapPoints[snapPoints.length - 1];
       const targetY = SCREEN_HEIGHT - targetHeight;
       if (typeof targetY !== 'number' || isNaN(targetY)) {
-        console.warn("Invalid targetY calculated for open:", targetY);
+        console.warn('Invalid targetY calculated for open:', targetY);
         return;
       }
       translateY.value = withSpring(targetY, gentleSpring);
@@ -159,7 +167,7 @@ export function useBottomSheet({
       const targetHeight = snapPoints[index]!;
       const targetY = SCREEN_HEIGHT - targetHeight;
       if (typeof targetY !== 'number' || isNaN(targetY)) {
-        console.warn("Invalid targetY calculated for snapTo:", targetY);
+        console.warn('Invalid targetY calculated for snapTo:', targetY);
         return;
       }
       translateY.value = withSpring(targetY, gentleSpring);
@@ -169,17 +177,25 @@ export function useBottomSheet({
       );
       onSnapChange?.(index);
     },
-    [snapPoints, maxHeight, translateY, backdropOpacity, enableBackdrop, onSnapChange, gentleSpring]
+    [
+      snapPoints,
+      maxHeight,
+      translateY,
+      backdropOpacity,
+      enableBackdrop,
+      onSnapChange,
+      gentleSpring,
+    ]
   );
 
   // ── Pan gesture (UI thread) ──────────────────────────────────
   const panGesture = Gesture.Pan()
     .onStart(() => {
-      "worklet";
+      'worklet';
       dragStartY.value = translateY.value;
     })
     .onUpdate((e) => {
-      "worklet";
+      'worklet';
       const next = dragStartY.value + e.translationY;
       // Resistance above highest snap point
       const minY = SCREEN_HEIGHT - maxHeight;
@@ -194,7 +210,7 @@ export function useBottomSheet({
         : 0;
     })
     .onEnd((e) => {
-      "worklet";
+      'worklet';
       const velocity = e.velocityY;
       const currentHeight = SCREEN_HEIGHT - translateY.value;
 
@@ -220,7 +236,7 @@ export function useBottomSheet({
 
   // ── Backdrop tap ─────────────────────────────────────────────
   const backdropTapGesture = Gesture.Tap().onEnd(() => {
-    "worklet";
+    'worklet';
     scheduleOnRN(close);
   });
 
@@ -231,7 +247,7 @@ export function useBottomSheet({
 
   const backdropAnimatedStyle = useAnimatedStyle(() => ({
     opacity: backdropOpacity.value,
-    pointerEvents: backdropOpacity.value > 0 ? "auto" : "none",
+    pointerEvents: backdropOpacity.value > 0 ? 'auto' : 'none',
   }));
 
   return {

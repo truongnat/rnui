@@ -5,7 +5,13 @@ Modal dialog surface.
 ## Usage
 
 ```tsx
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@truongdq01/ui";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from '@truongdq01/ui';
 
 <Dialog open onClose={() => {}}>
   <DialogTitle>Confirm</DialogTitle>
@@ -14,7 +20,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@truo
     <Button>Cancel</Button>
     <Button variant="contained">OK</Button>
   </DialogActions>
-</Dialog>
+</Dialog>;
 ```
 
 ## Notes

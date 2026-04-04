@@ -8,7 +8,7 @@ export {
   TableCell,
   TablePagination,
   TableSortLabel,
-} from "./Table";
+} from './Table';
 export type {
   TableProps,
   TableContainerProps,
@@ -18,4 +18,4 @@ export type {
   TableSortLabelProps,
   TableSize,
   TablePadding,
-} from "./Table";
+} from './Table';

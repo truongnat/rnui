@@ -1,11 +1,18 @@
-import React, { useState, createContext, useContext, useCallback } from "react";
-import { View, Pressable, StyleProp, ViewStyle, StyleSheet, type LayoutChangeEvent } from "react-native";
+import React, { useState, createContext, useContext, useCallback } from 'react';
+import {
+  View,
+  Pressable,
+  StyleProp,
+  ViewStyle,
+  StyleSheet,
+  type LayoutChangeEvent,
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
   type SharedValue,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 /**
  * Collapsible context value
@@ -24,7 +31,9 @@ const CollapsibleContext = createContext<CollapsibleContextValue | null>(null);
 export function useCollapsible() {
   const context = useContext(CollapsibleContext);
   if (!context) {
-    throw new Error("useCollapsible must be used within a Collapsible component");
+    throw new Error(
+      'useCollapsible must be used within a Collapsible component'
+    );
   }
   return context;
 }
@@ -101,7 +110,7 @@ export function Collapsible({
   disabled = false,
   children,
   style,
-  testID = "collapsible",
+  testID = 'collapsible',
 }: CollapsibleProps) {
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
   const isControlled = controlledOpen !== undefined;
@@ -144,7 +153,7 @@ export function Collapsible({
 export function CollapsibleTrigger({
   children,
   style,
-  testID = "collapsible-trigger",
+  testID = 'collapsible-trigger',
 }: CollapsibleTriggerProps) {
   const { toggle, currentOpen } = useCollapsible();
 
@@ -171,7 +180,7 @@ export function CollapsibleContent({
   children,
   duration = 300,
   style,
-  testID = "collapsible-content",
+  testID = 'collapsible-content',
 }: CollapsibleContentProps) {
   const { isOpen } = useCollapsible();
   const [measuredHeight, setMeasuredHeight] = useState(0);
@@ -193,16 +202,13 @@ export function CollapsibleContent({
       style={[
         animatedStyle,
         {
-          overflow: "hidden",
+          overflow: 'hidden',
         },
         style,
       ]}
       testID={testID}
     >
-      <View
-        onLayout={handleLayout}
-        style={styles.innerContent}
-      >
+      <View onLayout={handleLayout} style={styles.innerContent}>
         {children}
       </View>
     </Animated.View>

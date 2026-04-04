@@ -1,10 +1,10 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
-import { Accordion, AccordionSummary, AccordionDetails } from "../Accordion";
-import { Text } from "react-native";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react-native';
+import { Accordion, AccordionSummary, AccordionDetails } from '../Accordion';
+import { Text } from 'react-native';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("Accordion renders and expands on press", () => {
+test('Accordion renders and expands on press', () => {
   const { getByText } = render(
     <ThemeProvider>
       <Accordion>
@@ -15,6 +15,6 @@ test("Accordion renders and expands on press", () => {
       </Accordion>
     </ThemeProvider>
   );
-  fireEvent.press(getByText("Details"));
-  expect(getByText("Expanded Content")).toBeTruthy();
+  fireEvent.press(getByText('Details'));
+  expect(getByText('Expanded Content')).toBeTruthy();
 });

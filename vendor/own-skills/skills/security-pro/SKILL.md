@@ -21,14 +21,14 @@ Use [OWASP](https://owasp.org/) materials (Top 10, ASVS, cheat sheets) and your 
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `security-pro` |
-|-------|--------------------------------------|
-| **`nestjs-pro`** | Guards, pipes, DTO validation, exception filters, OpenAPI |
-| **`nextjs-pro`** | Middleware, RSC vs client secrets, `NEXT_PUBLIC_` boundaries |
-| **`postgresql-pro`** | RLS, roles, `BYPASSRLS`, migration safety |
-| **`react-pro`** | XSS-safe patterns, CSP implications for client bundles |
-| **`flutter-pro`** / **`react-native-pro`** | Secure storage, platform channels, deep links |
-| **`testing-pro`** | Security test strategy, abuse-case tests in CI |
+| Skill                                      | When to combine with `security-pro`                          |
+| ------------------------------------------ | ------------------------------------------------------------ |
+| **`nestjs-pro`**                           | Guards, pipes, DTO validation, exception filters, OpenAPI    |
+| **`nextjs-pro`**                           | Middleware, RSC vs client secrets, `NEXT_PUBLIC_` boundaries |
+| **`postgresql-pro`**                       | RLS, roles, `BYPASSRLS`, migration safety                    |
+| **`react-pro`**                            | XSS-safe patterns, CSP implications for client bundles       |
+| **`flutter-pro`** / **`react-native-pro`** | Secure storage, platform channels, deep links                |
+| **`testing-pro`**                          | Security test strategy, abuse-case tests in CI               |
 
 Do **not** duplicate framework-specific wiring; state **what** to enforce here and **where** to implement in the sibling skill.
 
@@ -117,14 +117,14 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — fundamentals, networking, attack catalogs, offensive simulation, tips, edge cases; keep long policy text out of `SKILL.md`.
 
-| Topic | File |
-|-------|------|
-| Fundamentals & threat model | [references/fundamentals-and-threat-model.md](references/fundamentals-and-threat-model.md) |
-| OSI & networking | [references/osi-and-networking.md](references/osi-and-networking.md) |
-| Attack techniques (defensive catalog) | [references/attack-techniques-and-methods.md](references/attack-techniques-and-methods.md) |
+| Topic                                  | File                                                                                                             |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Fundamentals & threat model            | [references/fundamentals-and-threat-model.md](references/fundamentals-and-threat-model.md)                       |
+| OSI & networking                       | [references/osi-and-networking.md](references/osi-and-networking.md)                                             |
+| Attack techniques (defensive catalog)  | [references/attack-techniques-and-methods.md](references/attack-techniques-and-methods.md)                       |
 | Offensive simulation & self-assessment | [references/offensive-simulation-and-self-assessment.md](references/offensive-simulation-and-self-assessment.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips and patterns                      | [references/tips-and-tricks.md](references/tips-and-tricks.md)                                                   |
+| Edge cases                             | [references/edge-cases.md](references/edge-cases.md)                                                             |
 
 ## Quick example
 

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 export interface UseModalOptions {
   defaultOpen?: boolean;
@@ -17,7 +17,7 @@ export interface UseModalReturn {
   backdropProps: {
     onPress: () => void;
     accessible: boolean;
-    accessibilityRole: "button";
+    accessibilityRole: 'button';
     accessibilityLabel: string;
   };
   modalProps: {
@@ -40,11 +40,14 @@ export function useModal(options: UseModalOptions = {}): UseModalReturn {
   const isControlled = controlledOpen !== undefined;
   const isOpen = isControlled ? controlledOpen! : internalOpen;
 
-  const setOpen = useCallback((next: boolean) => {
-    if (!isControlled) setInternalOpen(next);
-    if (next) onOpen?.();
-    else onClose?.();
-  }, [isControlled, onOpen, onClose]);
+  const setOpen = useCallback(
+    (next: boolean) => {
+      if (!isControlled) setInternalOpen(next);
+      if (next) onOpen?.();
+      else onClose?.();
+    },
+    [isControlled, onOpen, onClose]
+  );
 
   const open = useCallback(() => setOpen(true), [setOpen]);
   const close = useCallback(() => setOpen(false), [setOpen]);
@@ -58,8 +61,8 @@ export function useModal(options: UseModalOptions = {}): UseModalReturn {
     backdropProps: {
       onPress: closeOnBackdrop ? close : () => {},
       accessible: true,
-      accessibilityRole: "button",
-      accessibilityLabel: "Close modal",
+      accessibilityRole: 'button',
+      accessibilityLabel: 'Close modal',
     },
     modalProps: {
       visible: isOpen,

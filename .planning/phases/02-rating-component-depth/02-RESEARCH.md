@@ -38,10 +38,10 @@
 
 **Goal:** Every executor task has an automated or explicitly manual verification path (Nyquist Dimension 8).
 
-| Dimension | How this phase satisfies it |
-|-----------|------------------------------|
-| Automated | `jest` Rating tests + `tsc`; `rg` for required strings (`accessibilityRole`, `announceForAccessibility`, `memo(`). |
-| Manual | Optional SR device spot-check — document in `02-VALIDATION.md` manual table; not blocking CI. |
-| Sampling | After each task: `cd packages/ui && bun tsc --noEmit && npx jest --config jest.config.js src/components/Rating/__tests__/Rating.test.tsx` |
+| Dimension | How this phase satisfies it                                                                                                               |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Automated | `jest` Rating tests + `tsc`; `rg` for required strings (`accessibilityRole`, `announceForAccessibility`, `memo(`).                        |
+| Manual    | Optional SR device spot-check — document in `02-VALIDATION.md` manual table; not blocking CI.                                             |
+| Sampling  | After each task: `cd packages/ui && bun tsc --noEmit && npx jest --config jest.config.js src/components/Rating/__tests__/Rating.test.tsx` |
 
 **Feedback loop:** Fail fast on `tsc` before `jest`. No watch mode in CI commands.

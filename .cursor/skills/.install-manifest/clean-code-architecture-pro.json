@@ -3,9 +3,7 @@
   "mode": "symlink",
   "skill_name": "clean-code-architecture-pro",
   "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/clean-code-architecture-pro",
-  "ides": [
-    "cursor"
-  ],
+  "ides": ["cursor"],
   "targets": {
     "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/clean-code-architecture-pro"
   },

@@ -1,40 +1,41 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Rating } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Rating } from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
 const RatingWrapper = (props: any) => (
-  <Rating
-    {...props}
-    onChange={props.onChange ?? (() => {})}
-  />
+  <Rating {...props} onChange={props.onChange ?? (() => {})} />
 );
 
 const meta = {
-  title: "Components/Rating",
+  title: 'Components/Rating',
   component: RatingWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
     size: {
-      control: { type: "select" },
-      options: ["sm", "md", "lg"],
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg'],
     },
-    max: { control: "number" },
-    readOnly: { control: "boolean" },
-    disabled: { control: "boolean" },
-    showValue: { control: "boolean" },
-    compact: { control: "boolean" },
+    max: { control: 'number' },
+    readOnly: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    showValue: { control: 'boolean' },
+    compact: { control: 'boolean' },
   },
   args: {
-    size: "md",
+    size: 'md',
     max: 5,
     readOnly: false,
     disabled: false,

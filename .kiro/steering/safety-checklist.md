@@ -38,12 +38,14 @@ Before completing any code modification task, verify:
 ## Risk-Based Actions
 
 ### HIGH Risk Changes
+
 - Warn user explicitly
 - List all direct callers (d=1)
 - Verify each caller still works
 - Consider feature flag or gradual rollout
 
 ### CRITICAL Risk Changes
+
 - Require explicit user approval
 - Comprehensive testing plan
 - Rollback strategy documented

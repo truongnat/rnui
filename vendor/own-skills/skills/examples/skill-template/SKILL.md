@@ -50,8 +50,8 @@ Details: [references/topic-file.md](references/topic-file.md)
 
 - `references/` — …; keep long content out of `SKILL.md`.
 
-| Topic | File |
-|-------|------|
+| Topic   | File                                                 |
+| ------- | ---------------------------------------------------- |
 | Topic A | [references/topic-file.md](references/topic-file.md) |
 
 ## Quick example

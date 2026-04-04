@@ -114,4 +114,4 @@ Phase 2 nâng **`Rating`** từ “dùng được” lên **truy cập được 
 
 ---
 
-*Phase: 02-rating-component-depth*
+_Phase: 02-rating-component-depth_

@@ -1,16 +1,16 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Autocomplete } from "../Autocomplete";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Autocomplete } from '../Autocomplete';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("Autocomplete renders", () => {
+test('Autocomplete renders', () => {
   const { getByPlaceholderText } = render(
     <ThemeProvider>
-      <Autocomplete 
-        options={[{ label: "Apple", value: "apple" }]} 
+      <Autocomplete
+        options={[{ label: 'Apple', value: 'apple' }]}
         placeholder="Search fruit"
       />
     </ThemeProvider>
   );
-  expect(getByPlaceholderText("Search fruit")).toBeTruthy();
+  expect(getByPlaceholderText('Search fruit')).toBeTruthy();
 });

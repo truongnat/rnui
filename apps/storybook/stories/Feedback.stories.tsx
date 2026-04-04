@@ -1,6 +1,6 @@
-import type { StoryObj } from "@storybook/react-native";
-import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import {
   ThemeProvider,
   Alert,
@@ -9,7 +9,7 @@ import {
   CircularProgress,
   LinearProgress,
   Button,
-} from "@truongdq01/ui";
+} from '@truongdq01/ui';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
@@ -20,13 +20,19 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 );
 
 const meta = {
-  title: "Components/Feedback",
+  title: 'Components/Feedback',
   component: View,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
     severity: {
-      control: { type: "select" },
-      options: ["success", "warning", "error", "info"],
+      control: { type: 'select' },
+      options: ['success', 'warning', 'error', 'info'],
     },
   },
 };
@@ -34,7 +40,7 @@ const meta = {
 export default meta;
 
 export const AlertStory: StoryObj = {
-  name: "Alert",
+  name: 'Alert',
   render: () => (
     <View style={{ gap: 12 }}>
       <Alert severity="success">Saved successfully</Alert>
@@ -46,7 +52,7 @@ export const AlertStory: StoryObj = {
 };
 
 export const ProgressStory: StoryObj = {
-  name: "Progress",
+  name: 'Progress',
   render: () => (
     <View style={{ gap: 12 }}>
       <CircularProgress />
@@ -57,7 +63,7 @@ export const ProgressStory: StoryObj = {
 };
 
 export const DialogStory: StoryObj = {
-  name: "Dialog",
+  name: 'Dialog',
   render: () => {
     const [open, setOpen] = useState(false);
     return (
@@ -65,7 +71,7 @@ export const DialogStory: StoryObj = {
         <Button
           label="Open Dialog"
           onPress={() => setOpen(true)}
-          onLongPress={() => { }}
+          onLongPress={() => {}}
           accessibilityLabel="Open dialog"
           accessibilityHint=""
         />
@@ -73,28 +79,29 @@ export const DialogStory: StoryObj = {
           open={open}
           onClose={() => setOpen(false)}
           title="Confirm Action"
-          actions={(
+          actions={
             <>
               <Button
                 label="Cancel"
                 variant="outline"
                 onPress={() => setOpen(false)}
-                onLongPress={() => { }}
+                onLongPress={() => {}}
                 accessibilityLabel="Cancel"
                 accessibilityHint=""
               />
               <Button
                 label="Confirm"
                 onPress={() => setOpen(false)}
-                onLongPress={() => { }}
+                onLongPress={() => {}}
                 accessibilityLabel="Confirm"
                 accessibilityHint=""
               />
             </>
-          )}
+          }
         >
           <Text>
-            Are you sure you want to proceed with this action? This cannot be undone.
+            Are you sure you want to proceed with this action? This cannot be
+            undone.
           </Text>
         </Dialog>
       </View>
@@ -103,12 +110,20 @@ export const DialogStory: StoryObj = {
 };
 
 export const SnackbarStory: StoryObj = {
-  name: "Snackbar",
+  name: 'Snackbar',
   render: () => {
     const [open, setOpen] = useState(true);
     return (
       <View>
-        <Button label="Show Snackbar" onPress={() => setOpen(true)} onLongPress={() => { }} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Show snackbar" accessibilityHint="" />
+        <Button
+          label="Show Snackbar"
+          onPress={() => setOpen(true)}
+          onLongPress={() => {}}
+          leadingIcon={undefined}
+          trailingIcon={undefined}
+          accessibilityLabel="Show snackbar"
+          accessibilityHint=""
+        />
         <Snackbar open={open} message="Saved" onClose={() => setOpen(false)} />
       </View>
     );

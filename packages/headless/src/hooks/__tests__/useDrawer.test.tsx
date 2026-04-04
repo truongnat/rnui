@@ -1,8 +1,8 @@
-import { renderHook, act } from "@testing-library/react-native";
-import { useDrawer } from "../useDrawer";
+import { renderHook, act } from '@testing-library/react-native';
+import { useDrawer } from '../useDrawer';
 
-describe("useDrawer", () => {
-  it("should manage open state and callbacks", () => {
+describe('useDrawer', () => {
+  it('should manage open state and callbacks', () => {
     const onOpen = jest.fn();
     const onClose = jest.fn();
     const { result } = renderHook(() =>
@@ -24,7 +24,7 @@ describe("useDrawer", () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it("should toggle open state", () => {
+  it('should toggle open state', () => {
     const { result } = renderHook(() => useDrawer({ defaultOpen: false }));
 
     act(() => {
@@ -38,7 +38,7 @@ describe("useDrawer", () => {
     expect(result.current.isOpen).toBe(false);
   });
 
-  it("should respect closeOnBackdrop", () => {
+  it('should respect closeOnBackdrop', () => {
     const onClose = jest.fn();
     const { result } = renderHook(() =>
       useDrawer({ defaultOpen: true, closeOnBackdrop: false, onClose })
@@ -52,10 +52,10 @@ describe("useDrawer", () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
-  it("should expose drawer props and side", () => {
-    const { result } = renderHook(() => useDrawer({ side: "right" }));
+  it('should expose drawer props and side', () => {
+    const { result } = renderHook(() => useDrawer({ side: 'right' }));
 
-    expect(result.current.side).toBe("right");
+    expect(result.current.side).toBe('right');
     expect(result.current.drawerProps.visible).toBe(false);
     expect(result.current.drawerProps.accessibilityViewIsModal).toBe(true);
   });

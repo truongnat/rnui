@@ -18,10 +18,10 @@ Use official [GraphQL Specification](https://spec.graphql.org/), [GraphQL over H
 
 ## Related skills (this repo)
 
-| Skill | When to combine |
-|-------|------------------|
+| Skill            | When to combine                                                            |
+| ---------------- | -------------------------------------------------------------------------- |
 | `api-design-pro` | Align GraphQL contract evolution, error semantics, and deprecation policy. |
-| `security-pro` | Review auth, introspection exposure, query abuse, and data leakage risks. |
+| `security-pro`   | Review auth, introspection exposure, query abuse, and data leakage risks.  |
 
 ## When to use
 
@@ -74,10 +74,10 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 Use these files for deeper detail when concise guidance in this file is not enough.
 
-| Topic | File |
-|-------|------|
+| Topic                                      | File                                                           |
+| ------------------------------------------ | -------------------------------------------------------------- |
 | Practical GraphQL design/resolver patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| GraphQL failure modes and edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| GraphQL failure modes and edge cases       | [references/edge-cases.md](references/edge-cases.md)           |
 
 ## Quick example
 

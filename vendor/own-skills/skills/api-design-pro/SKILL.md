@@ -18,10 +18,10 @@ Use official [HTTP Semantics RFC 9110](https://www.rfc-editor.org/rfc/rfc9110), 
 
 ## Related skills (this repo)
 
-| Skill | When to combine |
-|-------|------------------|
+| Skill          | When to combine                                                              |
+| -------------- | ---------------------------------------------------------------------------- |
 | `security-pro` | Validate auth, data exposure, abuse paths, and sensitive endpoint hardening. |
-| `testing-pro` | Add contract, integration, and regression tests for API behavior over time. |
+| `testing-pro`  | Add contract, integration, and regression tests for API behavior over time.  |
 
 ## When to use
 
@@ -74,10 +74,10 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 Use these files for deeper detail when concise guidance in this file is not enough.
 
-| Topic | File |
-|-------|------|
-| Practical API design patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| API evolution and runtime edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Topic                                | File                                                           |
+| ------------------------------------ | -------------------------------------------------------------- |
+| Practical API design patterns        | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
+| API evolution and runtime edge cases | [references/edge-cases.md](references/edge-cases.md)           |
 
 ## Quick example
 

@@ -1,12 +1,12 @@
-import { renderHook } from "@testing-library/react-native";
-import { useIconStyle } from "../useIconStyle";
-import { useTokens } from "../../theme";
+import { renderHook } from '@testing-library/react-native';
+import { useIconStyle } from '../useIconStyle';
+import { useTokens } from '../../theme';
 
-jest.mock("../../theme", () => ({
+jest.mock('../../theme', () => ({
   useTokens: jest.fn(),
 }));
 
-describe("useIconStyle", () => {
+describe('useIconStyle', () => {
   const mockTokens = {
     fontSize: {
       md: 16,
@@ -14,9 +14,9 @@ describe("useIconStyle", () => {
     },
     color: {
       text: {
-        primary: "primary",
-        secondary: "secondary",
-        tertiary: "tertiary",
+        primary: 'primary',
+        secondary: 'secondary',
+        tertiary: 'tertiary',
       },
     },
   };
@@ -26,23 +26,23 @@ describe("useIconStyle", () => {
     (useTokens as jest.Mock).mockReturnValue(mockTokens);
   });
 
-  it("should return button icon defaults", () => {
-    const { result } = renderHook(() => useIconStyle("button"));
-    expect(result.current).toEqual({ size: 16, color: "inherit" });
+  it('should return button icon defaults', () => {
+    const { result } = renderHook(() => useIconStyle('button'));
+    expect(result.current).toEqual({ size: 16, color: 'inherit' });
   });
 
-  it("should return input icon defaults", () => {
-    const { result } = renderHook(() => useIconStyle("input"));
-    expect(result.current).toEqual({ size: 20, color: "tertiary" });
+  it('should return input icon defaults', () => {
+    const { result } = renderHook(() => useIconStyle('input'));
+    expect(result.current).toEqual({ size: 20, color: 'tertiary' });
   });
 
-  it("should return select icon defaults", () => {
-    const { result } = renderHook(() => useIconStyle("select"));
-    expect(result.current).toEqual({ size: 20, color: "tertiary" });
+  it('should return select icon defaults', () => {
+    const { result } = renderHook(() => useIconStyle('select'));
+    expect(result.current).toEqual({ size: 20, color: 'tertiary' });
   });
 
-  it("should return list icon defaults", () => {
-    const { result } = renderHook(() => useIconStyle("list"));
-    expect(result.current).toEqual({ size: 16, color: "secondary" });
+  it('should return list icon defaults', () => {
+    const { result } = renderHook(() => useIconStyle('list'));
+    expect(result.current).toEqual({ size: 16, color: 'secondary' });
   });
 });

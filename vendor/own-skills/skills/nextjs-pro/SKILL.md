@@ -86,12 +86,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — App Router, server/client, tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| App Router and layouts | [references/app-router-and-layouts.md](references/app-router-and-layouts.md) |
+| Topic                      | File                                                                             |
+| -------------------------- | -------------------------------------------------------------------------------- |
+| App Router and layouts     | [references/app-router-and-layouts.md](references/app-router-and-layouts.md)     |
 | Server / client boundaries | [references/server-client-boundaries.md](references/server-client-boundaries.md) |
-| Tips and patterns | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases and ops | [references/edge-cases.md](references/edge-cases.md) |
+| Tips and patterns          | [references/tips-and-tricks.md](references/tips-and-tricks.md)                   |
+| Edge cases and ops         | [references/edge-cases.md](references/edge-cases.md)                             |
 
 ## Quick example
 

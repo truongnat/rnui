@@ -8,27 +8,27 @@ End-to-end **ticket / Kanban** execution using **only bundled skills** under [`s
 
 ## Metadata
 
-| Field | Value |
-|-------|-------|
-| **id** | `ticket` |
-| **version** | 1.1 |
+| Field       | Value    |
+| ----------- | -------- |
+| **id**      | `ticket` |
+| **version** | 1.1      |
 
 ## Inputs
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `ticket` | Yes | Ticket id (e.g. `PROJ-123`, `42`) — matches `kanban/<ticket>/` |
-| `domain_stack` | No | Hint for which bundled skills apply (e.g. NestJS + Postgres + testing) — maps to `*-pro` entries in [`skills/README.md`](../../skills/README.md) |
-| `issue_spec` | No | Path or summary of `issue.md` / tracker body — feeds plan and acceptance criteria |
+| Variable       | Required | Description                                                                                                                                      |
+| -------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ticket`       | Yes      | Ticket id (e.g. `PROJ-123`, `42`) — matches `kanban/<ticket>/`                                                                                   |
+| `domain_stack` | No       | Hint for which bundled skills apply (e.g. NestJS + Postgres + testing) — maps to `*-pro` entries in [`skills/README.md`](../../skills/README.md) |
+| `issue_spec`   | No       | Path or summary of `issue.md` / tracker body — feeds plan and acceptance criteria                                                                |
 
 ## Outputs
 
-| Variable | Description |
-|----------|-------------|
-| `kanban_tree` | Paths under `kanban/<ticket>/` with `meta.json` and versioned artifacts |
-| `implementation` | Code + tests per active work phase |
-| `closing_reports` | `report_ticket.md`, summary, etc. per done phase |
-| `bundle_state` | `validate_skills` result if any new `skills/<name>/` was added |
+| Variable          | Description                                                             |
+| ----------------- | ----------------------------------------------------------------------- |
+| `kanban_tree`     | Paths under `kanban/<ticket>/` with `meta.json` and versioned artifacts |
+| `implementation`  | Code + tests per active work phase                                      |
+| `closing_reports` | `report_ticket.md`, summary, etc. per done phase                        |
+| `bundle_state`    | `validate_skills` result if any new `skills/<name>/` was added          |
 
 ## Ticket / Kanban layout (on-disk contract)
 
@@ -56,11 +56,11 @@ Suggested **`phase`** values: `planning` → `work` → `review` → `done` (adj
 
 **Artifacts under `kanban/<ticket>/<current_version>/`**
 
-| Artifact | When |
-|------------|------|
-| `plan.md`, `todo.md`, `checklist.md`, `estimated.md` | Planning / before implementation |
-| `report_work.md`, `gaps.md` | During implementation |
-| `report_ticket.md`, `summary.md`, `message.txt` (commit message draft) | Closing / done |
+| Artifact                                                               | When                             |
+| ---------------------------------------------------------------------- | -------------------------------- |
+| `plan.md`, `todo.md`, `checklist.md`, `estimated.md`                   | Planning / before implementation |
+| `report_work.md`, `gaps.md`                                            | During implementation            |
+| `report_ticket.md`, `summary.md`, `message.txt` (commit message draft) | Closing / done                   |
 
 If the team uses a single `issue.md` at ticket root, align **`plan.md`** and **`meta.json`** so acceptance criteria stay consistent.
 

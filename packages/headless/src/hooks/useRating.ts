@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export interface UseRatingOptions {
   value?: number;
@@ -29,7 +29,11 @@ export function useRating({
   onChange,
 }: UseRatingOptions = {}): UseRatingReturn {
   const safePrecision = useMemo(() => {
-    if (typeof precision !== "number" || !Number.isFinite(precision) || precision <= 0) {
+    if (
+      typeof precision !== 'number' ||
+      !Number.isFinite(precision) ||
+      precision <= 0
+    ) {
       return 1;
     }
     return precision;

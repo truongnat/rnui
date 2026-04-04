@@ -1,29 +1,27 @@
-import React from "react";
-import { View, Text } from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import React from 'react';
+import { View, Text } from 'react-native';
+import { useComponentTokens, useTokens } from '@truongdq01/headless';
 
 export interface DividerProps {
   /** Label shown centered in the divider */
   label?: string;
-  orientation?: "horizontal" | "vertical";
+  orientation?: 'horizontal' | 'vertical';
   /** Use a stronger border color */
   emphasis?: boolean;
   /** Extra vertical margin around horizontal dividers */
-  spacing?: "none" | "sm" | "md" | "lg";
+  spacing?: 'none' | 'sm' | 'md' | 'lg';
 }
 
 export function Divider({
   label,
-  orientation = "horizontal",
+  orientation = 'horizontal',
   emphasis = false,
-  spacing = "md",
+  spacing = 'md',
 }: DividerProps) {
   const { divider } = useComponentTokens();
   const tokens = useTokens();
 
-  const lineColor = emphasis
-    ? tokens.color.border.strong
-    : divider.color;
+  const lineColor = emphasis ? tokens.color.border.strong : divider.color;
 
   const verticalMargin = {
     none: 0,
@@ -32,12 +30,12 @@ export function Divider({
     lg: tokens.spacing[6],
   }[spacing];
 
-  if (orientation === "vertical") {
+  if (orientation === 'vertical') {
     return (
       <View
         style={{
           width: divider.thickness,
-          alignSelf: "stretch",
+          alignSelf: 'stretch',
           backgroundColor: lineColor,
           marginHorizontal: tokens.spacing[2],
         }}
@@ -49,25 +47,37 @@ export function Divider({
     return (
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
+          flexDirection: 'row',
+          alignItems: 'center',
           gap: tokens.spacing[3],
           marginVertical: verticalMargin,
         }}
       >
-        <View style={{ flex: 1, height: divider.thickness, backgroundColor: lineColor }} />
+        <View
+          style={{
+            flex: 1,
+            height: divider.thickness,
+            backgroundColor: lineColor,
+          }}
+        />
         <Text
           style={{
             fontSize: tokens.fontSize.xs,
             fontWeight: tokens.fontWeight.medium,
             color: tokens.color.text.tertiary,
-            textTransform: "uppercase",
+            textTransform: 'uppercase',
             letterSpacing: 0.5,
           }}
         >
           {label}
         </Text>
-        <View style={{ flex: 1, height: divider.thickness, backgroundColor: lineColor }} />
+        <View
+          style={{
+            flex: 1,
+            height: divider.thickness,
+            backgroundColor: lineColor,
+          }}
+        />
       </View>
     );
   }

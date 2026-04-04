@@ -23,21 +23,21 @@ import { Avatar, AvatarGroup } from "@truongdq01/ui";
 
 ## Avatar Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `src` | `string` | - | Image URI |
-| `initials` | `string` | - | Fallback initials if no image |
-| `fallbackIcon` | `ReactNode` | - | Custom fallback icon when no image or initials |
-| `size` | `"xs" | "sm" | "md" | "lg" | "xl"` | `"md"` | Avatar size preset |
-| `status` | `"online" | "offline" | "busy" | "away"` | - | Optional status dot |
-| `shape` | `"circle" | "rounded"` | `"circle"` | Avatar shape |
-| `accessibilityLabel` | `string` | - | Accessibility label |
+| Prop                 | Type        | Default    | Description                                    |
+| -------------------- | ----------- | ---------- | ---------------------------------------------- | ------------ | ----- | ------------------- | ------------------ |
+| `src`                | `string`    | -          | Image URI                                      |
+| `initials`           | `string`    | -          | Fallback initials if no image                  |
+| `fallbackIcon`       | `ReactNode` | -          | Custom fallback icon when no image or initials |
+| `size`               | `"xs"       | "sm"       | "md"                                           | "lg"         | "xl"` | `"md"`              | Avatar size preset |
+| `status`             | `"online"   | "offline"  | "busy"                                         | "away"`      | -     | Optional status dot |
+| `shape`              | `"circle"   | "rounded"` | `"circle"`                                     | Avatar shape |
+| `accessibilityLabel` | `string`    | -          | Accessibility label                            |
 
 ## AvatarGroup Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `avatars` | `AvatarProps[]` | - | List of avatars to render |
-| `max` | `number` | `4` | Max visible avatars before overflow |
-| `size` | `"xs" | "sm" | "md" | "lg" | "xl"` | `"md"` | Size for all avatars |
-| `overlap` | `number` | - | Custom overlap spacing |
+| Prop      | Type            | Default | Description                         |
+| --------- | --------------- | ------- | ----------------------------------- | ---- | ----- | ------ | -------------------- |
+| `avatars` | `AvatarProps[]` | -       | List of avatars to render           |
+| `max`     | `number`        | `4`     | Max visible avatars before overflow |
+| `size`    | `"xs"           | "sm"    | "md"                                | "lg" | "xl"` | `"md"` | Size for all avatars |
+| `overlap` | `number`        | -       | Custom overlap spacing              |

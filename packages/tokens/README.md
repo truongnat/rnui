@@ -22,7 +22,7 @@ bun add @truongdq01/tokens
 ## Usage
 
 ```tsx
-import { tokens } from "@truongdq01/tokens";
+import { tokens } from '@truongdq01/tokens';
 
 // Accessing primitive tokens
 const brandColor = tokens.color.blue[500];
@@ -31,11 +31,11 @@ const brandColor = tokens.color.blue[500];
 const padding = tokens.spacing[4];
 
 // Subpath imports (tree-shakable)
-import { primitive } from "@truongdq01/tokens/primitive";
-import { semantic } from "@truongdq01/tokens/semantic";
-import { component } from "@truongdq01/tokens/component";
-import { brand } from "@truongdq01/tokens/brand";
-import { motion } from "@truongdq01/tokens/motion";
+import { primitive } from '@truongdq01/tokens/primitive';
+import { semantic } from '@truongdq01/tokens/semantic';
+import { component } from '@truongdq01/tokens/component';
+import { brand } from '@truongdq01/tokens/brand';
+import { motion } from '@truongdq01/tokens/motion';
 ```
 
 ## Development

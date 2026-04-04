@@ -1,9 +1,9 @@
-| Field | Value |
-|-------|-------|
-| title | Documentation persistence policy |
+| Field   | Value                                                                 |
+| ------- | --------------------------------------------------------------------- |
+| title   | Documentation persistence policy                                      |
 | summary | When to write under knowledge-base; update INDEX; link to Cursor rule |
-| tags | policy, knowledge-base, documentation |
-| updated | 2026-03-31 |
+| tags    | policy, knowledge-base, documentation                                 |
+| updated | 2026-03-31                                                            |
 
 # Documentation persistence policy
 

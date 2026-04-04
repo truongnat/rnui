@@ -46,4 +46,4 @@ Phase 4 đáp ứng **DS-01** (token typography, brand trung tính, contrast, sp
 
 ---
 
-*Phase: 04-design-system-enhancements*
+_Phase: 04-design-system-enhancements_

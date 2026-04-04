@@ -19,12 +19,12 @@ Use **[Python packaging](https://packaging.python.org/)** and **GitHub Actions**
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `code-packaging-pro` |
-|-------|-------------------------------------------|
-| **`deployment-pro`** | After **build** — **where** artifacts run, **rollback**, **canary** |
-| **`testing-pro`** | **Test** job design, **flakiness**, coverage gates |
-| **`security-pro`** | **Secrets**, **OIDC**, **SBOM**, **fork** PR safety |
-| **`nestjs-pro`** / **`nextjs-pro`** | Framework-specific **Docker** or **standalone** output |
+| Skill                               | When to combine with `code-packaging-pro`                           |
+| ----------------------------------- | ------------------------------------------------------------------- |
+| **`deployment-pro`**                | After **build** — **where** artifacts run, **rollback**, **canary** |
+| **`testing-pro`**                   | **Test** job design, **flakiness**, coverage gates                  |
+| **`security-pro`**                  | **Secrets**, **OIDC**, **SBOM**, **fork** PR safety                 |
+| **`nestjs-pro`** / **`nextjs-pro`** | Framework-specific **Docker** or **standalone** output              |
 
 **Boundary:** **`code-packaging-pro`** = **build** and **package**; **`deployment-pro`** = **ship** and **operate** in **environments**.
 
@@ -86,12 +86,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — packaging, Actions, tips, edge cases.
 
-| Topic | File |
-|-------|------|
+| Topic           | File                                                                                           |
+| --------------- | ---------------------------------------------------------------------------------------------- |
 | Python & Docker | [references/python-packaging-and-containers.md](references/python-packaging-and-containers.md) |
-| GitHub Actions | [references/github-actions-and-ci.md](references/github-actions-and-ci.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| GitHub Actions  | [references/github-actions-and-ci.md](references/github-actions-and-ci.md)                     |
+| Tips            | [references/tips-and-tricks.md](references/tips-and-tricks.md)                                 |
+| Edge cases      | [references/edge-cases.md](references/edge-cases.md)                                           |
 
 ## Quick example
 

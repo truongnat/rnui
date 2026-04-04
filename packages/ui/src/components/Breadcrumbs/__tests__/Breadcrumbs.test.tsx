@@ -1,10 +1,10 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Breadcrumbs } from "../Breadcrumbs";
-import { Link } from "../../Link";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Breadcrumbs } from '../Breadcrumbs';
+import { Link } from '../../Link';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("Breadcrumbs renders links and separators", () => {
+test('Breadcrumbs renders links and separators', () => {
   const { getByText } = render(
     <ThemeProvider>
       <Breadcrumbs>
@@ -13,6 +13,6 @@ test("Breadcrumbs renders links and separators", () => {
       </Breadcrumbs>
     </ThemeProvider>
   );
-  expect(getByText("Home")).toBeTruthy();
-  expect(getByText("Docs")).toBeTruthy();
+  expect(getByText('Home')).toBeTruthy();
+  expect(getByText('Docs')).toBeTruthy();
 });

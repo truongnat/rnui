@@ -1,6 +1,6 @@
 # How to verify the knowledge base and scripts
 
-You cannot prove **100% correctness** of *semantic search quality* without defining expected answers (golden tests). You **can** prove **100%** that the **pipeline is wired correctly**: config loads, files are indexed, embeddings match the manifest, and queries run without errors.
+You cannot prove **100% correctness** of _semantic search quality_ without defining expected answers (golden tests). You **can** prove **100%** that the **pipeline is wired correctly**: config loads, files are indexed, embeddings match the manifest, and queries run without errors.
 
 ## 1. Automated checks (recommended)
 
@@ -22,14 +22,14 @@ python scripts/query_kb.py "skills directory" -k 3
 
 **What `verify_kb.py` checks**
 
-| Check | Meaning |
-|-------|--------|
-| `config.md` / `config.example.md` has `kb-config` block | Parser works |
-| At least one `.md` under `documents_path` | Nothing to index otherwise |
-| If index files exist: row count = manifest length | No desync after partial writes |
-| Embedding matrix is 2-D, reasonable dtype | `numpy` load OK |
-| Every manifest row has `id` | JSON integrity |
-| Optional: smoke query; warns if top doc is unexpected | Heuristic only |
+| Check                                                   | Meaning                        |
+| ------------------------------------------------------- | ------------------------------ |
+| `config.md` / `config.example.md` has `kb-config` block | Parser works                   |
+| At least one `.md` under `documents_path`               | Nothing to index otherwise     |
+| If index files exist: row count = manifest length       | No desync after partial writes |
+| Embedding matrix is 2-D, reasonable dtype               | `numpy` load OK                |
+| Every manifest row has `id`                             | JSON integrity                 |
+| Optional: smoke query; warns if top doc is unexpected   | Heuristic only                 |
 
 ## 2. What “100% working” means in practice
 
@@ -41,14 +41,14 @@ python scripts/query_kb.py "skills directory" -k 3
 - [ ] `python scripts/build_kb.py --dry-run` shows expected file count and chunk count
 - [ ] After `build_kb.py`, `rag_embeddings.npy` and `rag_manifest.json` exist under `knowledge-base/embeddings/`
 - [ ] `python scripts/verify_kb.py` exits 0
-- [ ] `query_kb.py` with a phrase from *your* doc returns that doc in top-k (spot-check)
+- [ ] `query_kb.py` with a phrase from _your_ doc returns that doc in top-k (spot-check)
 
 ## 4. If something fails
 
-| Symptom | Likely cause |
-|---------|----------------|
-| `No kb-config block` | Missing `<!-- kb-config-start/end -->` in `config.md` |
-| `Index not found` | Run `build_kb.py` first |
-| `Manifest length does not match` | Re-run `build_kb.py` (crash mid-write) |
-| `UnicodeEncodeError` on Windows | Use UTF-8 terminal or updated `query_kb.py` (wraps stdout) |
-| Wrong top search result | Normal for small corpus; tune chunks, model, or add more docs |
+| Symptom                          | Likely cause                                                  |
+| -------------------------------- | ------------------------------------------------------------- |
+| `No kb-config block`             | Missing `<!-- kb-config-start/end -->` in `config.md`         |
+| `Index not found`                | Run `build_kb.py` first                                       |
+| `Manifest length does not match` | Re-run `build_kb.py` (crash mid-write)                        |
+| `UnicodeEncodeError` on Windows  | Use UTF-8 terminal or updated `query_kb.py` (wraps stdout)    |
+| Wrong top search result          | Normal for small corpus; tune chunks, model, or add more docs |

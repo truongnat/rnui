@@ -4,11 +4,11 @@ Produce **readable** outputs for both **executives** and **delivery** teams — 
 
 ## Report layers (recommended)
 
-| Layer | Audience | Content |
-|-------|----------|---------|
-| **Executive summary** | Sponsors | Problem, recommendation, **key risks**, ask (decision / budget / timeline) |
-| **Analysis body** | Product, BA, SA | Scope, stakeholders, requirements, options, **decision log** |
-| **Appendix** | Engineering, QA | Detailed tables, glossary, full traceability, raw workshop notes (optional) |
+| Layer                 | Audience        | Content                                                                     |
+| --------------------- | --------------- | --------------------------------------------------------------------------- |
+| **Executive summary** | Sponsors        | Problem, recommendation, **key risks**, ask (decision / budget / timeline)  |
+| **Analysis body**     | Product, BA, SA | Scope, stakeholders, requirements, options, **decision log**                |
+| **Appendix**          | Engineering, QA | Detailed tables, glossary, full traceability, raw workshop notes (optional) |
 
 ## Artifacts (pick what fits)
 

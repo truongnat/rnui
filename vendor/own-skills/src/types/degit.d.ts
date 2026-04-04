@@ -9,5 +9,8 @@ declare module 'degit' {
     clone: (dest: string) => Promise<void>;
   };
 
-  export default function degit(repo: string, options?: DegitOptions): DegitEmitter;
+  export default function degit(
+    repo: string,
+    options?: DegitOptions
+  ): DegitEmitter;
 }

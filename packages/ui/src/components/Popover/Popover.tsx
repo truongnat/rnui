@@ -1,9 +1,16 @@
-import React, { useMemo, useState } from "react";
-import { Modal, View, Pressable, StyleSheet, Dimensions, type LayoutChangeEvent } from "react-native";
-import { useTokens, useComponentTokens } from "@truongdq01/headless";
+import React, { useMemo, useState } from 'react';
+import {
+  Modal,
+  View,
+  Pressable,
+  StyleSheet,
+  Dimensions,
+  type LayoutChangeEvent,
+} from 'react-native';
+import { useTokens, useComponentTokens } from '@truongdq01/headless';
 
-export type PopoverOriginVertical = "top" | "center" | "bottom" | number;
-export type PopoverOriginHorizontal = "left" | "center" | "right" | number;
+export type PopoverOriginVertical = 'top' | 'center' | 'bottom' | number;
+export type PopoverOriginHorizontal = 'left' | 'center' | 'right' | number;
 
 export interface PopoverOrigin {
   vertical: PopoverOriginVertical;
@@ -23,13 +30,16 @@ export interface PopoverProps {
   children?: React.ReactNode;
 }
 
-const defaultOrigin: PopoverOrigin = { vertical: "bottom", horizontal: "left" };
-const defaultTransform: PopoverOrigin = { vertical: "top", horizontal: "left" };
+const defaultOrigin: PopoverOrigin = { vertical: 'bottom', horizontal: 'left' };
+const defaultTransform: PopoverOrigin = { vertical: 'top', horizontal: 'left' };
 
-function resolveOrigin(value: PopoverOriginVertical | PopoverOriginHorizontal, size: number) {
-  if (typeof value === "number") return value;
-  if (value === "center") return size / 2;
-  if (value === "bottom" || value === "right") return size;
+function resolveOrigin(
+  value: PopoverOriginVertical | PopoverOriginHorizontal,
+  size: number
+) {
+  if (typeof value === 'number') return value;
+  if (value === 'center') return size / 2;
+  if (value === 'bottom' || value === 'right') return size;
   return 0;
 }
 
@@ -58,20 +68,43 @@ export function Popover({
 
   const anchorOffsetX = resolveOrigin(anchorOrigin.horizontal, anchorWidth);
   const anchorOffsetY = resolveOrigin(anchorOrigin.vertical, anchorHeight);
-  const transformOffsetX = resolveOrigin(transformOrigin.horizontal, contentSize.width);
-  const transformOffsetY = resolveOrigin(transformOrigin.vertical, contentSize.height);
+  const transformOffsetX = resolveOrigin(
+    transformOrigin.horizontal,
+    contentSize.width
+  );
+  const transformOffsetY = resolveOrigin(
+    transformOrigin.vertical,
+    contentSize.height
+  );
 
-  const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
   const position = useMemo(() => {
     let left = anchorX + anchorOffsetX - transformOffsetX;
     let top = anchorY + anchorOffsetY - transformOffsetY;
 
-    left = Math.max(marginThreshold, Math.min(left, screenWidth - contentSize.width - marginThreshold));
-    top = Math.max(marginThreshold, Math.min(top, screenHeight - contentSize.height - marginThreshold));
+    left = Math.max(
+      marginThreshold,
+      Math.min(left, screenWidth - contentSize.width - marginThreshold)
+    );
+    top = Math.max(
+      marginThreshold,
+      Math.min(top, screenHeight - contentSize.height - marginThreshold)
+    );
 
     return { left, top };
-  }, [anchorX, anchorY, anchorOffsetX, anchorOffsetY, transformOffsetX, transformOffsetY, contentSize, screenWidth, screenHeight, marginThreshold]);
+  }, [
+    anchorX,
+    anchorY,
+    anchorOffsetX,
+    anchorOffsetY,
+    transformOffsetX,
+    transformOffsetY,
+    contentSize,
+    screenWidth,
+    screenHeight,
+    marginThreshold,
+  ]);
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
@@ -81,19 +114,26 @@ export function Popover({
   };
 
   return (
-    <Modal visible={open} transparent animationType="fade" onRequestClose={onClose}>
+    <Modal
+      visible={open}
+      transparent
+      animationType="fade"
+      onRequestClose={onClose}
+    >
       <Pressable style={styles.backdrop} onPress={onClose} />
       <View
         onLayout={handleLayout}
-        style={[
-          popover.container,
-          {
-            // Hide until measured to prevent position flash
-            opacity: contentSize.width === 0 ? 0 : 1,
-          },
-          position,
-          PaperProps?.style,
-        ] as any}
+        style={
+          [
+            popover.container,
+            {
+              // Hide until measured to prevent position flash
+              opacity: contentSize.width === 0 ? 0 : 1,
+            },
+            position,
+            PaperProps?.style,
+          ] as any
+        }
       >
         {children}
       </View>
@@ -106,7 +146,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   paper: {
-    position: "absolute",
+    position: 'absolute',
     borderRadius: 12,
     borderWidth: 1,
     padding: 12,

@@ -1,44 +1,51 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Avatar, AvatarGroup } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Avatar, AvatarGroup } from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
 const AvatarWrapper = (props: any) => (
-  <Avatar {...props} accessibilityLabel={props.accessibilityLabel ?? props.initials ?? "Avatar"} />
+  <Avatar
+    {...props}
+    accessibilityLabel={props.accessibilityLabel ?? props.initials ?? 'Avatar'}
+  />
 );
 
 const meta = {
-  title: "Components/Avatar",
+  title: 'Components/Avatar',
   component: AvatarWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
     size: {
-      control: { type: "select" },
-      options: ["xs", "sm", "md", "lg", "xl", "2xl"],
+      control: { type: 'select' },
+      options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
     },
     shape: {
-      control: { type: "select" },
-      options: ["circle", "rounded"],
+      control: { type: 'select' },
+      options: ['circle', 'rounded'],
     },
     status: {
-      control: { type: "select" },
-      options: ["online", "offline", "busy", "away"],
+      control: { type: 'select' },
+      options: ['online', 'offline', 'busy', 'away'],
     },
-    initials: { control: "text" },
-    src: { control: "text" },
+    initials: { control: 'text' },
+    src: { control: 'text' },
   },
   args: {
-    initials: "JD",
-    size: "md",
-    shape: "circle",
+    initials: 'JD',
+    size: 'md',
+    shape: 'circle',
   },
 };
 
@@ -46,20 +53,23 @@ export default meta;
 type Story = StoryObj<typeof AvatarWrapper>;
 
 export const Initials: Story = {
-  args: { initials: "JD" },
+  args: { initials: 'JD' },
 };
 
 export const WithImage: Story = {
-  args: { src: "https://i.pravatar.cc/150?img=1", accessibilityLabel: "Avatar" },
+  args: {
+    src: 'https://i.pravatar.cc/150?img=1',
+    accessibilityLabel: 'Avatar',
+  },
 };
 
 export const WithStatus: Story = {
-  args: { initials: "ON", status: "online" },
+  args: { initials: 'ON', status: 'online' },
 };
 
 export const AllSizes: Story = {
   render: (args: any) => (
-    <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
+    <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
       <AvatarWrapper {...args} initials="XS" size="xs" />
       <AvatarWrapper {...args} initials="SM" size="sm" />
       <AvatarWrapper {...args} initials="MD" size="md" />
@@ -71,7 +81,7 @@ export const AllSizes: Story = {
 
 export const AllStatuses: Story = {
   render: (args: any) => (
-    <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
+    <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
       <AvatarWrapper {...args} initials="ON" status="online" />
       <AvatarWrapper {...args} initials="OF" status="offline" />
       <AvatarWrapper {...args} initials="BY" status="busy" />
@@ -84,12 +94,12 @@ export const Group: Story = {
   render: () => (
     <AvatarGroup
       avatars={[
-        { initials: "AN", accessibilityLabel: "AN" },
-        { initials: "BT", accessibilityLabel: "BT" },
-        { initials: "CL", accessibilityLabel: "CL" },
-        { initials: "DP", accessibilityLabel: "DP" },
-        { initials: "EH", accessibilityLabel: "EH" },
-        { initials: "FN", accessibilityLabel: "FN" },
+        { initials: 'AN', accessibilityLabel: 'AN' },
+        { initials: 'BT', accessibilityLabel: 'BT' },
+        { initials: 'CL', accessibilityLabel: 'CL' },
+        { initials: 'DP', accessibilityLabel: 'DP' },
+        { initials: 'EH', accessibilityLabel: 'EH' },
+        { initials: 'FN', accessibilityLabel: 'FN' },
       ]}
       max={4}
       overlap={12}

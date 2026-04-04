@@ -133,7 +133,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 ### Phase 7: Improvement plan (wave 1 — critical UX)
 
-**Goal**: Triển khai *Execution Order Phase 1* trong `IMPROVEMENT_PLAN.md`: **IMP-01** OTPInput (token + example), **IMP-02** Toast animation, **IMP-03** AnimatedList example callbacks, **IMP-04** SegmentedControl indicator/layout.
+**Goal**: Triển khai _Execution Order Phase 1_ trong `IMPROVEMENT_PLAN.md`: **IMP-01** OTPInput (token + example), **IMP-02** Toast animation, **IMP-03** AnimatedList example callbacks, **IMP-04** SegmentedControl indicator/layout.
 
 **Depends on**: Phase 6 (ổn định example/theme)
 
@@ -154,7 +154,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 ### Phase 8: Improvement plan (wave 2 — forms + typography + showcases)
 
-**Goal**: Triển khai *Execution Order Phase 2* trong `IMPROVEMENT_PLAN.md`: **IMP-05** Input + FormField, **IMP-06** TextArea counter, **IMP-07** Typography + semantic tokens, **IMP-08** Divider/Radio/Checkbox showcase + export `RadioItem`.
+**Goal**: Triển khai _Execution Order Phase 2_ trong `IMPROVEMENT_PLAN.md`: **IMP-05** Input + FormField, **IMP-06** TextArea counter, **IMP-07** Typography + semantic tokens, **IMP-08** Divider/Radio/Checkbox showcase + export `RadioItem`.
 
 **Depends on**: Phase 7
 
@@ -175,7 +175,7 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 ### Phase 9: Improvement plan (phase 3 — new features)
 
-**Goal**: Triển khai *Execution Order Phase 3* trong `IMPROVEMENT_PLAN.md` (mục 9–12): **IMP-09** Skeleton presets + `SkeletonGroup`, **IMP-10** EmptyState variants/visual, **IMP-11** Select FlashList + async/load-more, **IMP-12** Slider vertical + range + custom thumb (headless trước, UI sau). **IMP-13** DatePicker (calendar grid) tách `09-02-PLAN.md`.
+**Goal**: Triển khai _Execution Order Phase 3_ trong `IMPROVEMENT_PLAN.md` (mục 9–12): **IMP-09** Skeleton presets + `SkeletonGroup`, **IMP-10** EmptyState variants/visual, **IMP-11** Select FlashList + async/load-more, **IMP-12** Slider vertical + range + custom thumb (headless trước, UI sau). **IMP-13** DatePicker (calendar grid) tách `09-02-PLAN.md`.
 
 **Depends on**: Phase 8
 
@@ -196,28 +196,28 @@ Lộ trình cải tiến sau `AUDIT_REPORT.md`: từ sửa lỗi nghiêm trọng
 
 ## Progress
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Critical fixes | 1/1 | Complete   | 2026-04-02 |
-| 2. Rating depth | 1/1 | Complete | 2026-04-02 |
-| 3. Perf & edges | 1/1 | Complete | 2026-04-02 |
-| 4. DS enhancements | 1/1 | Complete | 2026-04-02 |
-| 5. Backlog | 1/1 | Complete | 2026-04-02 |
-| 6. UI report follow-through | 1/1 | Complete | 2026-04-02 |
-| 7. Improvement plan wave 1 | 1/1 | Complete | 2026-04-03 |
-| 8. Improvement plan wave 2 | 1/1 | Complete | 2026-04-02 |
-| 9. Improvement plan phase 3 | 0/2 | In progress | — |
+| Phase                       | Plans Complete | Status      | Completed  |
+| --------------------------- | -------------- | ----------- | ---------- |
+| 1. Critical fixes           | 1/1            | Complete    | 2026-04-02 |
+| 2. Rating depth             | 1/1            | Complete    | 2026-04-02 |
+| 3. Perf & edges             | 1/1            | Complete    | 2026-04-02 |
+| 4. DS enhancements          | 1/1            | Complete    | 2026-04-02 |
+| 5. Backlog                  | 1/1            | Complete    | 2026-04-02 |
+| 6. UI report follow-through | 1/1            | Complete    | 2026-04-02 |
+| 7. Improvement plan wave 1  | 1/1            | Complete    | 2026-04-03 |
+| 8. Improvement plan wave 2  | 1/1            | Complete    | 2026-04-02 |
+| 9. Improvement plan phase 3 | 0/2            | In progress | —          |
 
 ## Coverage
 
-| Phase | Requirement IDs |
-|-------|-------------------|
-| 1 | QUAL-01..03, A11Y-01, RATE-01..02, MOT-01 |
-| 2 | A11Y-02, RATE-03 |
-| 3 | PERF-01..02 |
-| 4 | DS-01 |
-| 5 | BL-01, BL-02 (+ backlog) |
-| 6 | UIREP-01..07 (wave 1: 01–06; 07 deferred) |
-| 7 | IMP-01..04 |
-| 8 | IMP-05..08 |
-| 9 | IMP-09..12 (IMP-13 → plan 09-02) |
+| Phase | Requirement IDs                           |
+| ----- | ----------------------------------------- |
+| 1     | QUAL-01..03, A11Y-01, RATE-01..02, MOT-01 |
+| 2     | A11Y-02, RATE-03                          |
+| 3     | PERF-01..02                               |
+| 4     | DS-01                                     |
+| 5     | BL-01, BL-02 (+ backlog)                  |
+| 6     | UIREP-01..07 (wave 1: 01–06; 07 deferred) |
+| 7     | IMP-01..04                                |
+| 8     | IMP-05..08                                |
+| 9     | IMP-09..12 (IMP-13 → plan 09-02)          |

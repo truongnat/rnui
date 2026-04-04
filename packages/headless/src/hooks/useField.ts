@@ -1,8 +1,10 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
 // ─── Types ────────────────────────────────────────────────────────
 
-export type FieldValidator<T> = (value: T) => string | undefined | Promise<string | undefined>;
+export type FieldValidator<T> = (
+  value: T
+) => string | undefined | Promise<string | undefined>;
 
 export interface UseFieldOptions<T> {
   /** Initial value */
@@ -57,7 +59,7 @@ export function useField<T = string>({
         setError(result);
         return result;
       } catch {
-        const errorMsg = "Validation failed";
+        const errorMsg = 'Validation failed';
         setError(errorMsg);
         return errorMsg;
       } finally {

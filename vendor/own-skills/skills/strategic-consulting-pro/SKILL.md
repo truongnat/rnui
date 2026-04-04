@@ -19,12 +19,12 @@ Use reputable strategic frameworks and current business evidence as references; 
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `strategic-consulting-pro` |
-|-------|--------------------------------------------------|
-| **`market-research-pro`** | Market sizing, competitor structure, segment attractiveness |
+| Skill                       | When to combine with `strategic-consulting-pro`               |
+| --------------------------- | ------------------------------------------------------------- |
+| **`market-research-pro`**   | Market sizing, competitor structure, segment attractiveness   |
 | **`business-analysis-pro`** | Turn strategic choices into initiative scope and requirements |
-| **`web-research-pro`** | Verify external claims, recency, and source quality |
-| **`data-analysis-pro`** | Quantitative support (scenario models, KPI baselines) |
+| **`web-research-pro`**      | Verify external claims, recency, and source quality           |
+| **`data-analysis-pro`**     | Quantitative support (scenario models, KPI baselines)         |
 
 **Boundary:** **`strategic-consulting-pro`** = strategic choices and trade-offs; **`business-analysis-pro`** = delivery requirements and execution artifacts.
 
@@ -99,14 +99,14 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` - framing, prioritization, scenario planning, executive reporting, tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| Problem framing and options | [references/problem-framing-and-options.md](references/problem-framing-and-options.md) |
+| Topic                         | File                                                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Problem framing and options   | [references/problem-framing-and-options.md](references/problem-framing-and-options.md)                       |
 | Prioritization and allocation | [references/prioritization-and-resource-allocation.md](references/prioritization-and-resource-allocation.md) |
-| Scenario planning and risk | [references/scenario-planning-and-risk.md](references/scenario-planning-and-risk.md) |
-| Executive communication | [references/reporting-and-executive-communication.md](references/reporting-and-executive-communication.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Scenario planning and risk    | [references/scenario-planning-and-risk.md](references/scenario-planning-and-risk.md)                         |
+| Executive communication       | [references/reporting-and-executive-communication.md](references/reporting-and-executive-communication.md)   |
+| Tips                          | [references/tips-and-tricks.md](references/tips-and-tricks.md)                                               |
+| Edge cases                    | [references/edge-cases.md](references/edge-cases.md)                                                         |
 
 ## Quick example
 

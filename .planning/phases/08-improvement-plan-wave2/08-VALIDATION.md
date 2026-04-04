@@ -14,9 +14,9 @@
 
 ## REQ
 
-| REQ-ID | Check |
-|--------|--------|
-| IMP-05 | Input + FormField diff |
-| IMP-06 | TextArea + example |
+| REQ-ID | Check                           |
+| ------ | ------------------------------- |
+| IMP-05 | Input + FormField diff          |
+| IMP-06 | TextArea + example              |
 | IMP-07 | semantic + Typography + example |
-| IMP-08 | exports + example |
+| IMP-08 | exports + example               |

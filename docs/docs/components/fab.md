@@ -5,9 +5,9 @@ Floating action button for primary actions.
 ## Usage
 
 ```tsx
-import { Fab } from "@truongdq01/ui";
+import { Fab } from '@truongdq01/ui';
 
-<Fab label="Add" onPress={() => {}} />
+<Fab label="Add" onPress={() => {}} />;
 ```
 
 ## Notes

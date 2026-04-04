@@ -23,17 +23,27 @@ Component tokens
 ## Accessing tokens in custom components
 
 ```tsx
-import { useTokens, useComponentTokens, useIsDark } from "@truongdq01/ui";
+import { useTokens, useComponentTokens, useIsDark } from '@truongdq01/ui';
 
 function MyComponent() {
-  const tokens = useTokens();         // semantic tokens
+  const tokens = useTokens(); // semantic tokens
   const { button } = useComponentTokens(); // component recipes
   const isDark = useIsDark();
 
   return (
-    <View style={{ backgroundColor: tokens.color.surface.default,
-      borderRadius: tokens.radius.lg, padding: tokens.spacing[4] }}>
-      <Text style={{ color: tokens.color.text.primary, fontSize: tokens.fontSize.md }}>
+    <View
+      style={{
+        backgroundColor: tokens.color.surface.default,
+        borderRadius: tokens.radius.lg,
+        padding: tokens.spacing[4],
+      }}
+    >
+      <Text
+        style={{
+          color: tokens.color.text.primary,
+          fontSize: tokens.fontSize.md,
+        }}
+      >
         Hello
       </Text>
     </View>
@@ -64,27 +74,39 @@ Any semantic token can be overridden per color scheme:
 const brandTheme = {
   light: {
     color: {
-      brand: { default: "#059669", hover: "#047857", active: "#065F46",
-               subtle: "#ECFDF5", muted: "#D1FAE5", text: "#065F46" },
+      brand: {
+        default: '#059669',
+        hover: '#047857',
+        active: '#065F46',
+        subtle: '#ECFDF5',
+        muted: '#D1FAE5',
+        text: '#065F46',
+      },
     },
   },
   dark: {
     color: {
-      brand: { default: "#34D399", hover: "#6EE7B7", active: "#A7F3D0",
-               subtle: "#022C22", muted: "#064E3B", text: "#A7F3D0" },
+      brand: {
+        default: '#34D399',
+        hover: '#6EE7B7',
+        active: '#A7F3D0',
+        subtle: '#022C22',
+        muted: '#064E3B',
+        text: '#A7F3D0',
+      },
     },
   },
 };
 
 <ThemeProvider override={brandTheme}>
   <App />
-</ThemeProvider>
+</ThemeProvider>;
 ```
 
 ## Motion tokens
 
 ```tsx
-import { spring, duration, pressFeedback } from "@truongdq01/tokens";
+import { spring, duration, pressFeedback } from '@truongdq01/tokens';
 
 // Use in custom Reanimated animations
 const style = useAnimatedStyle(() => ({

@@ -78,11 +78,11 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — detailed UI/UX, tips, and edge cases.
 
-| Topic | File |
-|-------|------|
-| UI/UX design | [references/ui-ux-design.md](references/ui-ux-design.md) |
+| Topic              | File                                                           |
+| ------------------ | -------------------------------------------------------------- |
+| UI/UX design       | [references/ui-ux-design.md](references/ui-ux-design.md)       |
 | Tips & performance | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Edge cases         | [references/edge-cases.md](references/edge-cases.md)           |
 
 ## Quick example
 

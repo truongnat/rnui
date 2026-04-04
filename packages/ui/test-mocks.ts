@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export const createMockComponent = (name: string) => {
   const Component = ({ children, ...props }: any) =>
@@ -51,7 +51,10 @@ export const createReanimatedMock = () => {
     useAnimatedRef: () => ({ current: null }),
     useWorkletCallback: (fn: any) => fn,
     useFrameCallback: () => {},
-    useAnimatedKeyboard: () => ({ height: animatedValue, state: animatedValue }),
+    useAnimatedKeyboard: () => ({
+      height: animatedValue,
+      state: animatedValue,
+    }),
     useAnimatedSensor: () => ({ sensor: animatedValue }),
     useScrollViewOffset: () => animatedValue,
 
@@ -72,24 +75,24 @@ export const createReanimatedMock = () => {
 
     // Components
     createAnimatedComponent: (c: any) => c,
-    View: createAnimatedComponent("Reanimated.View"),
-    Text: createAnimatedComponent("Reanimated.Text"),
-    ScrollView: createAnimatedComponent("Reanimated.ScrollView"),
-    Image: createAnimatedComponent("Reanimated.Image"),
-    FlatList: createAnimatedComponent("Reanimated.FlatList"),
+    View: createAnimatedComponent('Reanimated.View'),
+    Text: createAnimatedComponent('Reanimated.Text'),
+    ScrollView: createAnimatedComponent('Reanimated.ScrollView'),
+    Image: createAnimatedComponent('Reanimated.Image'),
+    FlatList: createAnimatedComponent('Reanimated.FlatList'),
 
     // Interpolation
     interpolate: (_v: any, _input: any, output: any) => output[0],
     interpolateColor: (_v: any, _input: any, output: any) => output[0],
     Extrapolation: {
-      CLAMP: "clamp",
-      EXTEND: "extend",
-      IDENTITY: "identity",
+      CLAMP: 'clamp',
+      EXTEND: 'extend',
+      IDENTITY: 'identity',
     },
     Extrapolate: {
-      CLAMP: "clamp",
-      EXTEND: "extend",
-      IDENTITY: "identity",
+      CLAMP: 'clamp',
+      EXTEND: 'extend',
+      IDENTITY: 'identity',
     },
 
     // Easing
@@ -216,11 +219,11 @@ export const createReanimatedMock = () => {
   };
 
   const defaultExport = {
-    View: createAnimatedComponent("Reanimated.View"),
-    Text: createAnimatedComponent("Reanimated.Text"),
-    ScrollView: createAnimatedComponent("Reanimated.ScrollView"),
-    Image: createAnimatedComponent("Reanimated.Image"),
-    FlatList: createAnimatedComponent("Reanimated.FlatList"),
+    View: createAnimatedComponent('Reanimated.View'),
+    Text: createAnimatedComponent('Reanimated.Text'),
+    ScrollView: createAnimatedComponent('Reanimated.ScrollView'),
+    Image: createAnimatedComponent('Reanimated.Image'),
+    FlatList: createAnimatedComponent('Reanimated.FlatList'),
     createAnimatedComponent: (c: any) => c,
   };
 
@@ -262,14 +265,14 @@ export const createGestureHandlerMock = () => {
 
   return {
     GestureDetector,
-    GestureHandlerRootView: createMockComponent("GestureHandlerRootView"),
-    PanGestureHandler: createMockComponent("PanGestureHandler"),
-    TapGestureHandler: createMockComponent("TapGestureHandler"),
-    LongPressGestureHandler: createMockComponent("LongPressGestureHandler"),
-    FlingGestureHandler: createMockComponent("FlingGestureHandler"),
-    PinchGestureHandler: createMockComponent("PinchGestureHandler"),
-    RotationGestureHandler: createMockComponent("RotationGestureHandler"),
-    NativeViewGestureHandler: createMockComponent("NativeViewGestureHandler"),
+    GestureHandlerRootView: createMockComponent('GestureHandlerRootView'),
+    PanGestureHandler: createMockComponent('PanGestureHandler'),
+    TapGestureHandler: createMockComponent('TapGestureHandler'),
+    LongPressGestureHandler: createMockComponent('LongPressGestureHandler'),
+    FlingGestureHandler: createMockComponent('FlingGestureHandler'),
+    PinchGestureHandler: createMockComponent('PinchGestureHandler'),
+    RotationGestureHandler: createMockComponent('RotationGestureHandler'),
+    NativeViewGestureHandler: createMockComponent('NativeViewGestureHandler'),
     Gesture: {
       Tap: createGestureBuilder,
       Pan: createGestureBuilder,
@@ -303,9 +306,14 @@ export const createGestureHandlerMock = () => {
 };
 
 export const createFlashListMock = () => {
-  const FlashList = ({ data = [], renderItem, keyExtractor, ...props }: any) => {
-    if (typeof renderItem !== "function") {
-      return React.createElement("FlashList", props);
+  const FlashList = ({
+    data = [],
+    renderItem,
+    keyExtractor,
+    ...props
+  }: any) => {
+    if (typeof renderItem !== 'function') {
+      return React.createElement('FlashList', props);
     }
 
     const children = (data || []).map((item: any, index: number) => {
@@ -316,9 +324,9 @@ export const createFlashListMock = () => {
         : element;
     });
 
-    return React.createElement("FlashList", props, children);
+    return React.createElement('FlashList', props, children);
   };
-  FlashList.displayName = "FlashList";
+  FlashList.displayName = 'FlashList';
 
   const MasonryFlashList = FlashList;
 

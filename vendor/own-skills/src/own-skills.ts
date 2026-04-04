@@ -1,5 +1,15 @@
 #!/usr/bin/env node
-import { cpSync, existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
+import {
+  cpSync,
+  existsSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, relative, resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
@@ -55,7 +65,9 @@ async function fetchRepo(repo: string): Promise<string> {
     return temp;
   } catch {
     spin.warn('degit failed, fallback to git clone');
-    execFileSync('git', ['clone', '--depth', '1', httpsCloneUrl(repo), temp], { stdio: 'pipe' });
+    execFileSync('git', ['clone', '--depth', '1', httpsCloneUrl(repo), temp], {
+      stdio: 'pipe',
+    });
     spin.succeed('Repository cloned');
     return temp;
   }
@@ -113,30 +125,51 @@ function loadInstallManifest(projectDir: string): InstalledArtifactManifest {
   const path = join(projectDir, '.cursor', '.own-skills-install.json');
   if (!existsSync(path)) return { version: 1, createdPaths: [] };
   try {
-    const parsed = JSON.parse(readFileSync(path, 'utf8')) as InstalledArtifactManifest;
-    return Array.isArray(parsed.createdPaths) ? parsed : { version: 1, createdPaths: [] };
+    const parsed = JSON.parse(
+      readFileSync(path, 'utf8')
+    ) as InstalledArtifactManifest;
+    return Array.isArray(parsed.createdPaths)
+      ? parsed
+      : { version: 1, createdPaths: [] };
   } catch {
     return { version: 1, createdPaths: [] };
   }
 }
 
-function saveInstallManifest(projectDir: string, manifest: InstalledArtifactManifest) {
+function saveInstallManifest(
+  projectDir: string,
+  manifest: InstalledArtifactManifest
+) {
   writeFileSync(
     join(projectDir, '.cursor', '.own-skills-install.json'),
     `${JSON.stringify(manifest, null, 2)}\n`,
-    'utf8',
+    'utf8'
   );
 }
 
-function registerCreatedPath(projectDir: string, manifest: InstalledArtifactManifest, absPath: string) {
+function registerCreatedPath(
+  projectDir: string,
+  manifest: InstalledArtifactManifest,
+  absPath: string
+) {
   const rel = relative(projectDir, absPath).replace(/\\/g, '/');
   if (!manifest.createdPaths.includes(rel)) manifest.createdPaths.push(rel);
 }
 
-function installCommandFiles(vendor: string, project: string, manifest: InstalledArtifactManifest) {
+function installCommandFiles(
+  vendor: string,
+  project: string,
+  manifest: InstalledArtifactManifest
+) {
   const sources = [
-    { src: join(vendor, '.cursor', 'commands'), dst: join(project, '.cursor', 'commands') },
-    { src: join(vendor, '.claude', 'commands'), dst: join(project, '.claude', 'commands') },
+    {
+      src: join(vendor, '.cursor', 'commands'),
+      dst: join(project, '.cursor', 'commands'),
+    },
+    {
+      src: join(vendor, '.claude', 'commands'),
+      dst: join(project, '.claude', 'commands'),
+    },
   ];
   for (const pair of sources) {
     if (!existsSync(pair.src)) continue;
@@ -146,7 +179,8 @@ function installCommandFiles(vendor: string, project: string, manifest: Installe
       const src = join(pair.src, f);
       const dst = join(pair.dst, f);
       if (existsSync(dst)) {
-        const sameContent = readFileSync(dst, 'utf8') === readFileSync(src, 'utf8');
+        const sameContent =
+          readFileSync(dst, 'utf8') === readFileSync(src, 'utf8');
         if (sameContent) registerCreatedPath(project, manifest, dst);
         continue;
       }
@@ -160,10 +194,17 @@ function installCommandFiles(vendor: string, project: string, manifest: Installe
   }
 }
 
-function installAllSkills(repoRoot: string, projectDir: string, mode: 'symlink' | 'copy', allIdes: boolean) {
+function installAllSkills(
+  repoRoot: string,
+  projectDir: string,
+  mode: 'symlink' | 'copy',
+  allIdes: boolean
+) {
   const skillsRoot = join(repoRoot, 'skills');
   const dirs = readdirSync(skillsRoot, { withFileTypes: true })
-    .filter((d) => d.isDirectory() && existsSync(join(skillsRoot, d.name, 'SKILL.md')))
+    .filter(
+      (d) => d.isDirectory() && existsSync(join(skillsRoot, d.name, 'SKILL.md'))
+    )
     .map((d) => join(skillsRoot, d.name));
   const spin = ora(`Installing ${dirs.length} skills...`).start();
   let ok = 0;
@@ -198,7 +239,10 @@ function installAllSkills(repoRoot: string, projectDir: string, mode: 'symlink' 
       }
     }
   }
-  if (fail) spin.warn(chalk.yellow(`Installed ${ok}/${dirs.length} skills (${fail} failed)`));
+  if (fail)
+    spin.warn(
+      chalk.yellow(`Installed ${ok}/${dirs.length} skills (${fail} failed)`)
+    );
   else spin.succeed(chalk.green(`Installed ${ok} skills`));
 }
 
@@ -212,7 +256,11 @@ function cleanupGitExclude(projectDir: string, skillNames: string[]) {
     deny.add(`.claude/skills/${n}/`);
     deny.add(`.agent/skills/${n}/`);
   }
-  writeFileSync(exclude, `${lines.filter((l) => !deny.has(l.trim())).join('\n')}\n`, 'utf8');
+  writeFileSync(
+    exclude,
+    `${lines.filter((l) => !deny.has(l.trim())).join('\n')}\n`,
+    'utf8'
+  );
 }
 
 function uninstall(projectDir: string, nuclear: boolean) {
@@ -222,12 +270,24 @@ function uninstall(projectDir: string, nuclear: boolean) {
     : [];
   const spin = ora('Uninstalling...').start();
   for (const s of skills) {
-    rmSync(join(projectDir, '.cursor', 'skills', s), { recursive: true, force: true });
-    rmSync(join(projectDir, '.claude', 'skills', s), { recursive: true, force: true });
-    rmSync(join(projectDir, '.agent', 'skills', s), { recursive: true, force: true });
+    rmSync(join(projectDir, '.cursor', 'skills', s), {
+      recursive: true,
+      force: true,
+    });
+    rmSync(join(projectDir, '.claude', 'skills', s), {
+      recursive: true,
+      force: true,
+    });
+    rmSync(join(projectDir, '.agent', 'skills', s), {
+      recursive: true,
+      force: true,
+    });
   }
   cleanupGitExclude(projectDir, skills);
-  rmSync(join(projectDir, '.cursor', 'skills', '.install-manifest'), { recursive: true, force: true });
+  rmSync(join(projectDir, '.cursor', 'skills', '.install-manifest'), {
+    recursive: true,
+    force: true,
+  });
   if (nuclear) {
     rmSync(join(projectDir, '.cursor'), { recursive: true, force: true });
   } else {
@@ -235,7 +295,9 @@ function uninstall(projectDir: string, nuclear: boolean) {
     const vendorRules = join(vendor, '.cursor', 'rules');
     const projRules = join(projectDir, '.cursor', 'rules');
     if (existsSync(vendorRules) && existsSync(projRules)) {
-      const removable = new Set(readdirSync(vendorRules).filter((f) => f.endsWith('.mdc')));
+      const removable = new Set(
+        readdirSync(vendorRules).filter((f) => f.endsWith('.mdc'))
+      );
       for (const f of readdirSync(projRules)) {
         if (!removable.has(f)) continue;
         const p = join(projRules, f);
@@ -256,14 +318,24 @@ function uninstall(projectDir: string, nuclear: boolean) {
         rmSync(abs, { recursive: true, force: true });
       }
     }
-    rmSync(join(projectDir, '.cursor', '.own-skills-install.json'), { force: true });
+    rmSync(join(projectDir, '.cursor', '.own-skills-install.json'), {
+      force: true,
+    });
   }
   spin.succeed('Uninstall completed');
 }
 
 async function main() {
   const argv = minimist(process.argv.slice(2), {
-    boolean: ['full', 'skills-only', 'cursor-only', 'yes', 'force', 'nuclear', 'help'],
+    boolean: [
+      'full',
+      'skills-only',
+      'cursor-only',
+      'yes',
+      'force',
+      'nuclear',
+      'help',
+    ],
     string: ['repo', 'project-dir'],
     alias: { h: 'help', y: 'yes' },
   });
@@ -281,15 +353,31 @@ async function main() {
     let allIdes = !argv['cursor-only'];
     if (interactive) {
       const a = await inquirer.prompt([
-        { type: 'input', name: 'repo', message: 'GitHub repo (user/repo or HTTPS)', default: repo },
-        { type: 'input', name: 'projectDir', message: 'Target project directory', default: projectDir },
+        {
+          type: 'input',
+          name: 'repo',
+          message: 'GitHub repo (user/repo or HTTPS)',
+          default: repo,
+        },
+        {
+          type: 'input',
+          name: 'projectDir',
+          message: 'Target project directory',
+          default: projectDir,
+        },
         {
           type: 'list',
           name: 'mode',
           message: 'Install mode',
           choices: [
-            { name: 'Full bundle (vendor/own-skills + rules + all IDE skills)', value: 'full' },
-            { name: 'Skills only (copy into project; no vendor bundle)', value: 'skills' },
+            {
+              name: 'Full bundle (vendor/own-skills + rules + all IDE skills)',
+              value: 'full',
+            },
+            {
+              name: 'Skills only (copy into project; no vendor bundle)',
+              value: 'skills',
+            },
           ],
           default: mode,
         },
@@ -318,12 +406,21 @@ async function main() {
         const s = ora('Syncing bundle...').start();
         syncVendor(temp, vendor);
         linkRules(vendor, projectDir);
-      const manifest = loadInstallManifest(projectDir);
-      installCommandFiles(vendor, projectDir, manifest);
-      saveInstallManifest(projectDir, manifest);
+        const manifest = loadInstallManifest(projectDir);
+        installCommandFiles(vendor, projectDir, manifest);
+        saveInstallManifest(projectDir, manifest);
         s.succeed('Bundle synced');
-        installAllSkills(vendor, projectDir, process.platform === 'win32' ? 'copy' : 'symlink', allIdes);
-        console.log(chalk.cyan('Verify: node dist/tools.js verify-bundle-install --project-dir .'));
+        installAllSkills(
+          vendor,
+          projectDir,
+          process.platform === 'win32' ? 'copy' : 'symlink',
+          allIdes
+        );
+        console.log(
+          chalk.cyan(
+            'Verify: node dist/tools.js verify-bundle-install --project-dir .'
+          )
+        );
       }
     } finally {
       rmSync(temp, { recursive: true, force: true });
@@ -334,7 +431,12 @@ async function main() {
     let nuclear = Boolean(argv.nuclear);
     if (interactive) {
       const a = await inquirer.prompt([
-        { type: 'input', name: 'projectDir', message: 'Project directory to uninstall from', default: projectDir },
+        {
+          type: 'input',
+          name: 'projectDir',
+          message: 'Project directory to uninstall from',
+          default: projectDir,
+        },
         {
           type: 'list',
           name: 'force',
@@ -350,7 +452,10 @@ async function main() {
           name: 'nuclear',
           message: chalk.red('NUCLEAR: delete entire .cursor directory?'),
           choices: [
-            { name: 'No (keep .cursor except own-skills artifacts)', value: false },
+            {
+              name: 'No (keep .cursor except own-skills artifacts)',
+              value: false,
+            },
             { name: 'Yes (remove entire .cursor)', value: true },
           ],
           default: nuclear,
@@ -362,7 +467,12 @@ async function main() {
     }
     if (!force && process.stdin.isTTY) {
       const ans = await inquirer.prompt([
-        { type: 'confirm', name: 'ok', message: `Uninstall from ${projectDir}?`, default: false },
+        {
+          type: 'confirm',
+          name: 'ok',
+          message: `Uninstall from ${projectDir}?`,
+          default: false,
+        },
       ]);
       if (!ans.ok) return;
     }

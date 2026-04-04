@@ -29,6 +29,7 @@ Rename a symbol across the entire codebase using call graph analysis.
 ```
 
 Output (Preview):
+
 - Graph Edits: 15 references (safe)
   - auth/validator.ts:45
   - auth/middleware.ts:23

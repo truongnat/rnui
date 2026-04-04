@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 export interface UseSegmentedControlOptions<T> {
   value?: T;
@@ -26,19 +26,23 @@ export function useSegmentedControl<T>({
 
   const isSelected = useCallback((val: T) => value === val, [value]);
 
-  const selectValue = useCallback((val: T) => {
-    if (disabled) return;
-    if (!isControlled) setInternalValue(val);
-    onChange?.(val);
-  }, [disabled, isControlled, onChange]);
+  const selectValue = useCallback(
+    (val: T) => {
+      if (disabled) return;
+      if (!isControlled) setInternalValue(val);
+      onChange?.(val);
+    },
+    [disabled, isControlled, onChange]
+  );
 
   return {
     value,
-    setSelectedIndex: (index: number, options: T[]) => selectValue(options[index]),
+    setSelectedIndex: (index: number, options: T[]) =>
+      selectValue(options[index]),
     isSelected,
     getTabProps: (val: T, index: number) => ({
       onPress: () => selectValue(val),
-      accessibilityRole: "tab",
+      accessibilityRole: 'tab',
       accessibilityState: { selected: isSelected(val), disabled },
     }),
   };

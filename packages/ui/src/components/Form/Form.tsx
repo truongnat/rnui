@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useCallback } from "react";
-import { View, ScrollView, StyleSheet, Platform } from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import React, { createContext, useContext, useCallback } from 'react';
+import { View, ScrollView, StyleSheet, Platform } from 'react-native';
+import { useComponentTokens, useTokens } from '@truongdq01/headless';
 
 export interface FormContextValue {
   values: Record<string, any>;
@@ -11,7 +11,9 @@ export interface FormContextValue {
   setValue: (name: string, value: any) => void;
   setError: (name: string, error: string) => void;
   setTouched: (name: string, touched: boolean) => void;
-  handleSubmit: (callback: (values: Record<string, any>) => void | Promise<void>) => () => void;
+  handleSubmit: (
+    callback: (values: Record<string, any>) => void | Promise<void>
+  ) => () => void;
   resetForm: () => void;
 }
 
@@ -20,7 +22,7 @@ const FormContext = createContext<FormContextValue | null>(null);
 export function useForm() {
   const context = useContext(FormContext);
   if (!context) {
-    throw new Error("useForm must be used within a Form component");
+    throw new Error('useForm must be used within a Form component');
   }
   return context;
 }
@@ -62,84 +64,100 @@ export function Form({
   enableKeyboardAvoidingView = true,
   scrollable = true,
   style,
-  testID = "form",
+  testID = 'form',
 }: FormProps) {
   const tokens = useTokens();
 
-  const [values, setValues] = React.useState<Record<string, any>>(initialValues);
+  const [values, setValues] =
+    React.useState<Record<string, any>>(initialValues);
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [touched, setTouched] = React.useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-  const runValidation = useCallback((currentValues: Record<string, any>) => {
-    if (!validate) return {};
+  const runValidation = useCallback(
+    (currentValues: Record<string, any>) => {
+      if (!validate) return {};
 
-    try {
-      return validate(currentValues);
-    } catch (error) {
-      console.error("Form validation error:", error);
-      return {};
-    }
-  }, [validate]);
+      try {
+        return validate(currentValues);
+      } catch (error) {
+        console.error('Form validation error:', error);
+        return {};
+      }
+    },
+    [validate]
+  );
 
   const isValid = React.useMemo(() => {
     return Object.keys(errors).length === 0;
   }, [errors]);
 
-  const setValue = useCallback((name: string, value: any) => {
-    setValues(prev => ({ ...prev, [name]: value }));
+  const setValue = useCallback(
+    (name: string, value: any) => {
+      setValues((prev) => ({ ...prev, [name]: value }));
 
-    if (validateOnChange) {
-      setValues(current => {
-        const newErrors = runValidation({ ...current, [name]: value });
-        setErrors(newErrors);
-        return current;
-      });
-    }
-  }, [validateOnChange, runValidation]);
+      if (validateOnChange) {
+        setValues((current) => {
+          const newErrors = runValidation({ ...current, [name]: value });
+          setErrors(newErrors);
+          return current;
+        });
+      }
+    },
+    [validateOnChange, runValidation]
+  );
 
   const setError = useCallback((name: string, error: string) => {
-    setErrors(prev => ({ ...prev, [name]: error }));
+    setErrors((prev) => ({ ...prev, [name]: error }));
   }, []);
 
-  const setTouchedField = useCallback((name: string, fieldTouched: boolean) => {
-    setTouched(prev => ({ ...prev, [name]: fieldTouched }));
+  const setTouchedField = useCallback(
+    (name: string, fieldTouched: boolean) => {
+      setTouched((prev) => ({ ...prev, [name]: fieldTouched }));
 
-    if (validateOnBlur && fieldTouched) {
-      const newErrors = runValidation(values);
-      setErrors(newErrors);
-    }
-  }, [validateOnBlur, runValidation, values]);
-
-  const handleSubmit = useCallback((callback: (values: Record<string, any>) => void | Promise<void>) => {
-    return async () => {
-      if (isSubmitting) return;
-
-      // Mark all fields as touched
-      const allTouched = Object.keys(values).reduce((acc, key) => {
-        acc[key] = true;
-        return acc;
-      }, {} as Record<string, boolean>);
-      setTouched(allTouched);
-
-      // Run final validation
-      const finalErrors = runValidation(values);
-      setErrors(finalErrors);
-
-      if (Object.keys(finalErrors).length > 0) {
-        return; // Don't submit if there are errors
+      if (validateOnBlur && fieldTouched) {
+        const newErrors = runValidation(values);
+        setErrors(newErrors);
       }
+    },
+    [validateOnBlur, runValidation, values]
+  );
 
-      setIsSubmitting(true);
-      try {
-        await callback(values);
-      } catch (error) {
-        console.error("Form submission error:", error);
-      } finally {
-        setIsSubmitting(false);
-      }
-    };
-  }, [values, runValidation, isSubmitting]);
+  const handleSubmit = useCallback(
+    (callback: (values: Record<string, any>) => void | Promise<void>) => {
+      return async () => {
+        if (isSubmitting) return;
+
+        // Mark all fields as touched
+        const allTouched = Object.keys(values).reduce(
+          (acc, key) => {
+            acc[key] = true;
+            return acc;
+          },
+          {} as Record<string, boolean>
+        );
+        setTouched(allTouched);
+
+        // Run final validation
+        const finalErrors = runValidation(values);
+        setErrors(finalErrors);
+
+        if (Object.keys(finalErrors).length > 0) {
+          return; // Don't submit if there are errors
+        }
+
+        setIsSubmitting(true);
+        try {
+          await callback(values);
+        } catch (error) {
+          console.error('Form submission error:', error);
+        } finally {
+          setIsSubmitting(false);
+        }
+      };
+    },
+    [values, runValidation, isSubmitting]
+  );
 
   const resetForm = useCallback(() => {
     setValues(initialValues);

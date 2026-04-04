@@ -1,10 +1,10 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 export interface TimelineStep {
   id: string;
   title: string;
   description?: string;
-  status?: "pending" | "active" | "completed" | "error";
+  status?: 'pending' | 'active' | 'completed' | 'error';
 }
 
 export interface UseTimelineOptions {
@@ -45,25 +45,31 @@ export function useTimeline(options: UseTimelineOptions): UseTimelineReturn {
   const isControlled = controlledActiveStep !== undefined;
   const activeStep = isControlled ? controlledActiveStep : internalActiveStep;
 
-  const setActiveStep = useCallback((index: number) => {
-    if (steps.length === 0) return;
-    const clamped = Math.max(0, Math.min(index, steps.length - 1));
-    if (!isControlled) setInternalActiveStep(clamped);
-    onStepChange?.(clamped);
-  }, [isControlled, onStepChange, steps.length]);
+  const setActiveStep = useCallback(
+    (index: number) => {
+      if (steps.length === 0) return;
+      const clamped = Math.max(0, Math.min(index, steps.length - 1));
+      if (!isControlled) setInternalActiveStep(clamped);
+      onStepChange?.(clamped);
+    },
+    [isControlled, onStepChange, steps.length]
+  );
 
-  const toggleStep = useCallback((index: number) => {
-    if (!expandable) return;
-    setExpandedSteps((prev) => {
-      const next = new Set(prev);
-      if (next.has(index)) {
-        next.delete(index);
-      } else {
-        next.add(index);
-      }
-      return next;
-    });
-  }, [expandable]);
+  const toggleStep = useCallback(
+    (index: number) => {
+      if (!expandable) return;
+      setExpandedSteps((prev) => {
+        const next = new Set(prev);
+        if (next.has(index)) {
+          next.delete(index);
+        } else {
+          next.add(index);
+        }
+        return next;
+      });
+    },
+    [expandable]
+  );
 
   const expandAll = useCallback(() => {
     if (!expandable) return;
@@ -74,9 +80,12 @@ export function useTimeline(options: UseTimelineOptions): UseTimelineReturn {
     setExpandedSteps(new Set());
   }, []);
 
-  const isStepExpanded = useCallback((index: number) => {
-    return expandedSteps.has(index);
-  }, [expandedSteps]);
+  const isStepExpanded = useCallback(
+    (index: number) => {
+      return expandedSteps.has(index);
+    },
+    [expandedSteps]
+  );
 
   const goToNextStep = useCallback(() => {
     if (steps.length === 0) return;
@@ -90,21 +99,37 @@ export function useTimeline(options: UseTimelineOptions): UseTimelineReturn {
     setActiveStep(prev);
   }, [activeStep, steps.length, setActiveStep]);
 
-  const isStepComplete = useCallback((index: number) => {
-    return index < activeStep || steps[index]?.status === "completed";
-  }, [activeStep, steps]);
+  const isStepComplete = useCallback(
+    (index: number) => {
+      return index < activeStep || steps[index]?.status === 'completed';
+    },
+    [activeStep, steps]
+  );
 
-  const isStepActive = useCallback((index: number) => {
-    return index === activeStep || steps[index]?.status === "active";
-  }, [activeStep, steps]);
+  const isStepActive = useCallback(
+    (index: number) => {
+      return index === activeStep || steps[index]?.status === 'active';
+    },
+    [activeStep, steps]
+  );
 
-  const isStepPending = useCallback((index: number) => {
-    return index > activeStep && steps[index]?.status !== "completed" && steps[index]?.status !== "active";
-  }, [activeStep, steps]);
+  const isStepPending = useCallback(
+    (index: number) => {
+      return (
+        index > activeStep &&
+        steps[index]?.status !== 'completed' &&
+        steps[index]?.status !== 'active'
+      );
+    },
+    [activeStep, steps]
+  );
 
-  const isStepError = useCallback((index: number) => {
-    return steps[index]?.status === "error";
-  }, [steps]);
+  const isStepError = useCallback(
+    (index: number) => {
+      return steps[index]?.status === 'error';
+    },
+    [steps]
+  );
 
   return {
     steps,

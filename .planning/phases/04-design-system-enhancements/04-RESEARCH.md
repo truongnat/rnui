@@ -26,8 +26,8 @@
 
 ## Validation Architecture
 
-| Verify | Method |
-|--------|--------|
-| Tokens | `bun tsc --noEmit` trong `packages/tokens`, `packages/ui` |
-| Contrast | Comment + optional manual contrast check |
-| DS-01 | `rg 'fontFamily' packages/tokens/src/semantic.ts`; `rg 'surface.hover' packages/tokens/src/semantic.ts` (no raw `#1A1A28`) |
+| Verify   | Method                                                                                                                     |
+| -------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Tokens   | `bun tsc --noEmit` trong `packages/tokens`, `packages/ui`                                                                  |
+| Contrast | Comment + optional manual contrast check                                                                                   |
+| DS-01    | `rg 'fontFamily' packages/tokens/src/semantic.ts`; `rg 'surface.hover' packages/tokens/src/semantic.ts` (no raw `#1A1A28`) |

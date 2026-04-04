@@ -1,7 +1,16 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { View, Text, ScrollView } from "react-native";
-import { ThemeProvider, Box, Stack, Grid, Typography, Link, Paper, useTheme } from "@truongdq01/ui";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { View, Text, ScrollView } from 'react-native';
+import {
+  ThemeProvider,
+  Box,
+  Stack,
+  Grid,
+  Typography,
+  Link,
+  Paper,
+  useTheme,
+} from '@truongdq01/ui';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
@@ -12,13 +21,32 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 );
 
 const meta = {
-  title: "Components/Layout",
+  title: 'Components/Layout',
   component: View,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
     variant: {
-      control: { type: "select" },
-      options: ["h1", "h2", "h3", "h4", "h5", "h6", "subtitle1", "subtitle2", "body1", "body2", "caption", "overline"],
+      control: { type: 'select' },
+      options: [
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'subtitle1',
+        'subtitle2',
+        'body1',
+        'body2',
+        'caption',
+        'overline',
+      ],
     },
   },
 };
@@ -26,7 +54,7 @@ const meta = {
 export default meta;
 
 export const BoxStory: StoryObj = {
-  name: "Box",
+  name: 'Box',
   render: () => (
     <Box style={{ padding: 16, borderWidth: 1, borderRadius: 8 }}>
       <Text>Box content</Text>
@@ -35,31 +63,41 @@ export const BoxStory: StoryObj = {
 };
 
 export const StackStory: StoryObj = {
-  name: "Stack",
+  name: 'Stack',
   render: () => (
     <Stack spacing={4}>
-      <Box style={{ height: 32, backgroundColor: "#e2e8f0" }} />
-      <Box style={{ height: 32, backgroundColor: "#cbd5f5" }} />
-      <Box style={{ height: 32, backgroundColor: "#bfdbfe" }} />
+      <Box style={{ height: 32, backgroundColor: '#e2e8f0' }} />
+      <Box style={{ height: 32, backgroundColor: '#cbd5f5' }} />
+      <Box style={{ height: 32, backgroundColor: '#bfdbfe' }} />
     </Stack>
   ),
 };
 
 export const GridStory: StoryObj = {
-  name: "Grid",
+  name: 'Grid',
   render: () => (
     <Grid container spacing={2}>
-      <Grid size={6}><Box style={{ height: 40, backgroundColor: "#e2e8f0" }} /></Grid>
-      <Grid size={6}><Box style={{ height: 40, backgroundColor: "#cbd5f5" }} /></Grid>
-      <Grid size={4}><Box style={{ height: 40, backgroundColor: "#bfdbfe" }} /></Grid>
-      <Grid size={4}><Box style={{ height: 40, backgroundColor: "#bae6fd" }} /></Grid>
-      <Grid size={4}><Box style={{ height: 40, backgroundColor: "#c7d2fe" }} /></Grid>
+      <Grid size={6}>
+        <Box style={{ height: 40, backgroundColor: '#e2e8f0' }} />
+      </Grid>
+      <Grid size={6}>
+        <Box style={{ height: 40, backgroundColor: '#cbd5f5' }} />
+      </Grid>
+      <Grid size={4}>
+        <Box style={{ height: 40, backgroundColor: '#bfdbfe' }} />
+      </Grid>
+      <Grid size={4}>
+        <Box style={{ height: 40, backgroundColor: '#bae6fd' }} />
+      </Grid>
+      <Grid size={4}>
+        <Box style={{ height: 40, backgroundColor: '#c7d2fe' }} />
+      </Grid>
     </Grid>
   ),
 };
 
 export const TypographyStory: StoryObj = {
-  name: "Typography",
+  name: 'Typography',
   render: () => (
     <View style={{ gap: 8 }}>
       <Typography variant="h4">Heading</Typography>
@@ -72,14 +110,12 @@ export const TypographyStory: StoryObj = {
 };
 
 export const LinkStory: StoryObj = {
-  name: "Link",
-  render: () => (
-    <Link href="https://example.com">Open example.com</Link>
-  ),
+  name: 'Link',
+  render: () => <Link href="https://example.com">Open example.com</Link>,
 };
 
 export const PaperStory: StoryObj = {
-  name: "Paper",
+  name: 'Paper',
   render: () => (
     <Paper elevation="md" style={{ padding: 16 }}>
       <Text>Paper with elevation</Text>

@@ -82,12 +82,12 @@ Nguồn: mục tiêu sản phẩm trong `PROJECT.md` + `AUDIT_REPORT.md` (Improv
 
 ## Traceability
 
-| REQ-ID | Phase (ROADMAP) |
-|--------|-----------------|
-| QUAL-*, A11Y-01, RATE-*, MOT-01 | 1 |
-| A11Y-02, RATE-03 (partial) | 2 |
-| PERF-* | 3 |
-| DS-* | 4 |
-| BL-* | 5 |
-| UIREP-* | 6 |
-| IMP-* | 7–9 |
+| REQ-ID                          | Phase (ROADMAP) |
+| ------------------------------- | --------------- |
+| QUAL-_, A11Y-01, RATE-_, MOT-01 | 1               |
+| A11Y-02, RATE-03 (partial)      | 2               |
+| PERF-\*                         | 3               |
+| DS-\*                           | 4               |
+| BL-\*                           | 5               |
+| UIREP-\*                        | 6               |
+| IMP-\*                          | 7–9             |

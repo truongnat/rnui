@@ -1,10 +1,10 @@
-| Field | Value |
-|-------|-------|
-| title | Rebuild knowledge base index |
+| Field   | Value                                                                                     |
+| ------- | ----------------------------------------------------------------------------------------- |
+| title   | Rebuild knowledge base index                                                              |
 | summary | Operational steps to (re)build embeddings and verify the local RAG pipeline for this repo |
-| tags | runbook, knowledge-base, scripts, embeddings |
-| updated | 2026-03-31 |
-| status | active |
+| tags    | runbook, knowledge-base, scripts, embeddings                                              |
+| updated | 2026-03-31                                                                                |
+| status  | active                                                                                    |
 
 # Runbook: rebuild knowledge base index
 

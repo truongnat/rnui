@@ -1,12 +1,18 @@
-import { useState, useCallback, useRef } from "react";
-import { TextInput, type TextInputProps } from "react-native";
+import { useState, useCallback, useRef } from 'react';
+import { TextInput, type TextInputProps } from 'react-native';
 
 /** Props for the hidden single-field OTP `TextInput` (paste/autofill). */
 export type OtpHiddenInputProps = Pick<
   TextInputProps,
-  "value" | "onChangeText" | "onFocus" | "onBlur" | "keyboardType" | "maxLength" | "editable"
+  | 'value'
+  | 'onChangeText'
+  | 'onFocus'
+  | 'onBlur'
+  | 'keyboardType'
+  | 'maxLength'
+  | 'editable'
 > &
-  Pick<TextInputProps, "textContentType" | "autoComplete">;
+  Pick<TextInputProps, 'textContentType' | 'autoComplete'>;
 
 export interface UseOTPInputOptions {
   length: number;
@@ -42,13 +48,16 @@ export function useOTPInput({
     }
   }, [disabled]);
 
-  const handleChange = useCallback((text: string) => {
-    const numericVal = text.replace(/[^0-9]/g, "").slice(0, length);
-    onChange(numericVal);
-    if (numericVal.length === length && onComplete) {
-      onComplete(numericVal);
-    }
-  }, [length, onChange, onComplete]);
+  const handleChange = useCallback(
+    (text: string) => {
+      const numericVal = text.replace(/[^0-9]/g, '').slice(0, length);
+      onChange(numericVal);
+      if (numericVal.length === length && onComplete) {
+        onComplete(numericVal);
+      }
+    },
+    [length, onChange, onComplete]
+  );
 
   return {
     inputRef,
@@ -62,9 +71,9 @@ export function useOTPInput({
       onChangeText: handleChange,
       onFocus: () => setIsFocused(true),
       onBlur: () => setIsFocused(false),
-      keyboardType: "number-pad" as const,
-      textContentType: "oneTimeCode" as const,
-      autoComplete: "one-time-code" as const,
+      keyboardType: 'number-pad' as const,
+      textContentType: 'oneTimeCode' as const,
+      autoComplete: 'one-time-code' as const,
       maxLength: length,
       editable: !disabled,
     }),

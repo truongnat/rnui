@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
 export interface UseRadioGroupOptions<T = string> {
   defaultValue?: T;
@@ -12,9 +12,12 @@ export interface UseRadioGroupReturn<T = string> {
   select: (value: T) => void;
   isSelected: (value: T) => boolean;
   isDisabled: boolean;
-  getItemProps: (value: T, itemDisabled?: boolean) => {
+  getItemProps: (
+    value: T,
+    itemDisabled?: boolean
+  ) => {
     onPress: () => void;
-    accessibilityRole: "radio";
+    accessibilityRole: 'radio';
     accessibilityState: { checked: boolean; disabled: boolean };
   };
 }
@@ -25,8 +28,11 @@ export function useRadioGroup<T = string>({
   onChange,
   disabled = false,
 }: UseRadioGroupOptions<T> = {}): UseRadioGroupReturn<T> {
-  const [internalValue, setInternalValue] = useState<T | undefined>(defaultValue);
-  const selectedValue = controlledValue !== undefined ? controlledValue : internalValue;
+  const [internalValue, setInternalValue] = useState<T | undefined>(
+    defaultValue
+  );
+  const selectedValue =
+    controlledValue !== undefined ? controlledValue : internalValue;
 
   const select = useCallback(
     (val: T) => {
@@ -45,7 +51,7 @@ export function useRadioGroup<T = string>({
   const getItemProps = useCallback(
     (val: T, itemDisabled = false) => ({
       onPress: () => !itemDisabled && !disabled && select(val),
-      accessibilityRole: "radio" as const,
+      accessibilityRole: 'radio' as const,
       accessibilityState: {
         checked: isSelected(val),
         disabled: disabled || itemDisabled,
@@ -54,5 +60,11 @@ export function useRadioGroup<T = string>({
     [select, isSelected, disabled]
   );
 
-  return { selectedValue, select, isSelected, isDisabled: disabled, getItemProps };
+  return {
+    selectedValue,
+    select,
+    isSelected,
+    isDisabled: disabled,
+    getItemProps,
+  };
 }

@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
-import { Modal, View, Pressable, StyleSheet } from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
-import { Typography } from "../Typography";
-import { AnimatedOverlay } from "../AnimatedOverlay";
+import React, { useMemo } from 'react';
+import { Modal, View, Pressable, StyleSheet } from 'react-native';
+import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { Typography } from '../Typography';
+import { AnimatedOverlay } from '../AnimatedOverlay';
 
 /**
  * Props for the Dialog component
@@ -44,29 +44,38 @@ export function Dialog({
   children,
   actions,
   fullWidth = false,
-  accessibilityLabel = "Dialog",
-  backdropAccessibilityLabel = "Dismiss dialog",
+  accessibilityLabel = 'Dialog',
+  backdropAccessibilityLabel = 'Dismiss dialog',
 }: DialogProps) {
   const { dialog, modal } = useComponentTokens();
   const tokens = useTokens();
 
-  const styles = useMemo(() => StyleSheet.create({
-    titleContainer: {
-      marginBottom: tokens.spacing[4],
-    },
-    contentContainer: {},
-    contentWithActions: {
-      marginBottom: tokens.spacing[6],
-    },
-    contentWithoutActions: {
-      marginBottom: tokens.spacing[2],
-    },
-  }), [tokens]);
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        titleContainer: {
+          marginBottom: tokens.spacing[4],
+        },
+        contentContainer: {},
+        contentWithActions: {
+          marginBottom: tokens.spacing[6],
+        },
+        contentWithoutActions: {
+          marginBottom: tokens.spacing[2],
+        },
+      }),
+    [tokens]
+  );
 
   if (!open) return null;
 
   return (
-    <Modal visible={open} transparent animationType="none" onRequestClose={onClose}>
+    <Modal
+      visible={open}
+      transparent
+      animationType="none"
+      onRequestClose={onClose}
+    >
       <AnimatedOverlay visible={open} animationType="scale">
         <View style={modal.overlay}>
           <Pressable
@@ -81,36 +90,41 @@ export function Dialog({
             accessibilityViewIsModal
             accessibilityRole="none"
             accessibilityLabel={accessibilityLabel}
-            style={[
-              modal.container,
-              {
-                padding: tokens.spacing[6],
-                width: fullWidth ? "90%" : "80%",
-              },
-            ] as any}
+            style={
+              [
+                modal.container,
+                {
+                  padding: tokens.spacing[6],
+                  width: fullWidth ? '90%' : '80%',
+                },
+              ] as any
+            }
           >
             {title && (
               <View style={styles.titleContainer}>
-                {typeof title === "string" ? (
+                {typeof title === 'string' ? (
                   <Typography variant="h5" as="h2" style={dialog.title}>
                     {title}
                   </Typography>
-                ) : title}
+                ) : (
+                  title
+                )}
               </View>
             )}
-            <View style={[styles.contentContainer, actions ? styles.contentWithActions : styles.contentWithoutActions]}>
+            <View
+              style={[
+                styles.contentContainer,
+                actions
+                  ? styles.contentWithActions
+                  : styles.contentWithoutActions,
+              ]}
+            >
               {children}
             </View>
-            {actions && (
-              <View style={dialog.actions}>
-                {actions}
-              </View>
-            )}
+            {actions && <View style={dialog.actions}>{actions}</View>}
           </View>
         </View>
       </AnimatedOverlay>
     </Modal>
   );
 }
-
-

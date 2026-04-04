@@ -15,6 +15,7 @@ Verify what symbols and files were affected by your changes.
 ```
 
 Scope options:
+
 - `staged` - Only staged changes (default)
 - `all` - All uncommitted changes
 - `compare` - Compare with base branch
@@ -34,6 +35,7 @@ Scope options:
 ```
 
 Output:
+
 - Modified Symbols: 3
   - Button.render (packages/ui/src/Button.tsx)
   - ButtonProps (packages/ui/src/Button.tsx)

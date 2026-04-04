@@ -1,6 +1,6 @@
-import React from "react";
-import { View, Text } from "react-native";
-import { useComponentTokens } from "@truongdq01/headless";
+import React from 'react';
+import { View, Text } from 'react-native';
+import { useComponentTokens } from '@truongdq01/headless';
 
 export interface BreadcrumbsProps {
   children?: React.ReactNode;
@@ -12,7 +12,7 @@ export interface BreadcrumbsProps {
 
 export function Breadcrumbs({
   children,
-  separator = "/",
+  separator = '/',
   maxItems = 8,
   itemsBeforeCollapse = 1,
   itemsAfterCollapse = 1,
@@ -24,7 +24,9 @@ export function Breadcrumbs({
   if (items.length > maxItems) {
     displayItems = [
       ...items.slice(0, itemsBeforeCollapse),
-      <Text key="ellipsis" style={{ color: breadcrumbs.separator.color }}>...</Text>,
+      <Text key="ellipsis" style={{ color: breadcrumbs.separator.color }}>
+        ...
+      </Text>,
       ...items.slice(items.length - itemsAfterCollapse),
     ];
   }
@@ -35,7 +37,15 @@ export function Breadcrumbs({
         <React.Fragment key={idx}>
           {child}
           {idx < displayItems.length - 1 && (
-            <Text style={{ marginHorizontal: breadcrumbs.container.gap, color: breadcrumbs.separator.color, fontSize: breadcrumbs.separator.fontSize }}>{separator}</Text>
+            <Text
+              style={{
+                marginHorizontal: breadcrumbs.container.gap,
+                color: breadcrumbs.separator.color,
+                fontSize: breadcrumbs.separator.fontSize,
+              }}
+            >
+              {separator}
+            </Text>
           )}
         </React.Fragment>
       ))}

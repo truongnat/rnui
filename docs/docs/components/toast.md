@@ -5,7 +5,7 @@ Transient notifications powered by `useToast` and rendered by `ToastContainer`.
 ## Usage
 
 ```tsx
-import { ToastContainer, useToast, Button } from "@truongdq01/ui";
+import { ToastContainer, useToast, Button } from '@truongdq01/ui';
 
 function Example() {
   const toast = useToast();
@@ -13,7 +13,7 @@ function Example() {
   return (
     <>
       <ToastContainer position="top" />
-      <Button label="Show toast" onPress={() => toast.success("Saved!")} />
+      <Button label="Show toast" onPress={() => toast.success('Saved!')} />
     </>
   );
 }
@@ -21,10 +21,10 @@ function Example() {
 
 ## ToastContainer Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `position` | `"top" | "bottom"` | `"bottom"` | Screen edge for toasts |
-| `horizontalPadding` | `number` | `16` | Side padding from edges |
+| Prop                | Type     | Default   | Description             |
+| ------------------- | -------- | --------- | ----------------------- | ---------------------- |
+| `position`          | `"top"   | "bottom"` | `"bottom"`              | Screen edge for toasts |
+| `horizontalPadding` | `number` | `16`      | Side padding from edges |
 
 ## useToast
 
@@ -40,10 +40,10 @@ function Example() {
 ### Custom Icon
 
 ```tsx
-import { Bell } from "lucide-react-native";
+import { Bell } from 'lucide-react-native';
 
 toast.show({
-  message: "New notification",
+  message: 'New notification',
   icon: <Bell />,
 });
 ```

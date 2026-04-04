@@ -1,25 +1,30 @@
-import React from "react";
-import { View, Text, Pressable } from "react-native";
+import React from 'react';
+import { View, Text, Pressable } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
   interpolateColor,
-} from "react-native-reanimated";
-import { useCheckbox, useComponentTokens, useTokens, useReduceMotionEnabled } from "@truongdq01/headless";
-import { spring } from "@truongdq01/tokens";
-import type { UseCheckboxOptions } from "@truongdq01/headless";
+} from 'react-native-reanimated';
+import {
+  useCheckbox,
+  useComponentTokens,
+  useTokens,
+  useReduceMotionEnabled,
+} from '@truongdq01/headless';
+import { spring } from '@truongdq01/tokens';
+import type { UseCheckboxOptions } from '@truongdq01/headless';
 
 export interface CheckboxProps extends UseCheckboxOptions {
   label?: string;
   description?: string;
-  size?: "sm" | "md" | "lg";
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export function Checkbox({
   label,
   description,
-  size = "md",
+  size = 'md',
   ...hookOptions
 }: CheckboxProps) {
   const { checkbox } = useComponentTokens();
@@ -36,14 +41,19 @@ export function Checkbox({
 
   React.useEffect(() => {
     const target = isChecked || isIndeterminate ? 1 : 0;
-    fillProgress.value = reduceMotion ? target : withSpring(target, spring.snappy);
+    fillProgress.value = reduceMotion
+      ? target
+      : withSpring(target, spring.snappy);
   }, [isChecked, isIndeterminate, reduceMotion]);
 
   const boxStyle = useAnimatedStyle(() => ({
     backgroundColor: interpolateColor(
       fillProgress.value,
       [0, 1],
-      [checkbox.state.default.backgroundColor, checkbox.state.checked.backgroundColor]
+      [
+        checkbox.state.default.backgroundColor,
+        checkbox.state.checked.backgroundColor,
+      ]
     ),
     borderColor: interpolateColor(
       fillProgress.value,
@@ -71,7 +81,12 @@ export function Checkbox({
     <Pressable
       onPress={handlePress}
       disabled={isDisabled}
-      style={{ flexDirection: "row", alignItems: "flex-start", gap: 10, opacity: isDisabled ? checkbox.state.disabled.opacity : 1 }}
+      style={{
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        gap: 10,
+        opacity: isDisabled ? checkbox.state.disabled.opacity : 1,
+      }}
       {...accessibilityProps}
     >
       <Animated.View
@@ -90,9 +105,23 @@ export function Checkbox({
       >
         <Animated.View style={checkStyle}>
           {isIndeterminate ? (
-            <View style={{ width: sizeConfig.iconSize, height: 2, backgroundColor: tokens.color.text.inverse, borderRadius: 1 }} />
+            <View
+              style={{
+                width: sizeConfig.iconSize,
+                height: 2,
+                backgroundColor: tokens.color.text.inverse,
+                borderRadius: 1,
+              }}
+            />
           ) : (
-            <Text style={{ color: tokens.color.text.inverse, fontSize: sizeConfig.iconSize, fontWeight: "700", lineHeight: sizeConfig.iconSize + 2 }}>
+            <Text
+              style={{
+                color: tokens.color.text.inverse,
+                fontSize: sizeConfig.iconSize,
+                fontWeight: '700',
+                lineHeight: sizeConfig.iconSize + 2,
+              }}
+            >
               ✓
             </Text>
           )}
@@ -102,12 +131,24 @@ export function Checkbox({
       {(label || description) && (
         <View style={{ flex: 1, paddingTop: 1 }}>
           {label && (
-            <Text style={{ fontSize: tokens.fontSize.md, color: tokens.color.text.primary, fontWeight: tokens.fontWeight.medium }}>
+            <Text
+              style={{
+                fontSize: tokens.fontSize.md,
+                color: tokens.color.text.primary,
+                fontWeight: tokens.fontWeight.medium,
+              }}
+            >
               {label}
             </Text>
           )}
           {description && (
-            <Text style={{ fontSize: tokens.fontSize.sm, color: tokens.color.text.secondary, marginTop: 2 }}>
+            <Text
+              style={{
+                fontSize: tokens.fontSize.sm,
+                color: tokens.color.text.secondary,
+                marginTop: 2,
+              }}
+            >
               {description}
             </Text>
           )}

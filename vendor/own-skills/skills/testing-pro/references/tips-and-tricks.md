@@ -4,28 +4,28 @@ Pick one stack per layer; avoid duplicating the same assertion in three tools.
 
 ## JavaScript / TypeScript (frontend)
 
-| Layer | Common tools |
-|-------|----------------|
+| Layer          | Common tools                                  |
+| -------------- | --------------------------------------------- |
 | Unit/component | Vitest, Jest, **RTL** (React Testing Library) |
-| E2E browser | **Playwright**, Cypress |
-| API mocking | MSW (browser/node), nock |
+| E2E browser    | **Playwright**, Cypress                       |
+| API mocking    | MSW (browser/node), nock                      |
 
 - Prefer **RTL** queries: `getByRole`, `getByLabelText` over `getByTestId` when possible; use `data-testid` when stable hooks are needed.
 
 ## JavaScript / TypeScript (backend / Node)
 
-| Tool | Use |
-|------|-----|
-| Vitest/Jest | Unit tests for services, pure logic |
-| Supertest | HTTP assertions against Express/Fastify/Nest test app |
+| Tool        | Use                                                   |
+| ----------- | ----------------------------------------------------- |
+| Vitest/Jest | Unit tests for services, pure logic                   |
+| Supertest   | HTTP assertions against Express/Fastify/Nest test app |
 
 ## Python
 
-| Tool | Use |
-|------|-----|
-| pytest | Unit + integration; fixtures for setup |
-| pytest-asyncio | Async code |
-| httpx / requests | API integration |
+| Tool             | Use                                    |
+| ---------------- | -------------------------------------- |
+| pytest           | Unit + integration; fixtures for setup |
+| pytest-asyncio   | Async code                             |
+| httpx / requests | API integration                        |
 
 ## JVM
 

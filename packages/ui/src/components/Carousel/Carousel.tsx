@@ -1,12 +1,12 @@
-import React from "react";
-import { View, ScrollView, useWindowDimensions } from "react-native";
+import React from 'react';
+import { View, ScrollView, useWindowDimensions } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   interpolate,
   Extrapolation,
   SharedValue,
-} from "react-native-reanimated";
-import { useCarousel, useComponentTokens } from "@truongdq01/headless";
+} from 'react-native-reanimated';
+import { useCarousel, useComponentTokens } from '@truongdq01/headless';
 
 function defaultKeyExtractor<T>(_item: T, index: number): string {
   return `carousel-${index}`;
@@ -120,9 +120,9 @@ export function Carousel<T>({
       {showPagination && (
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
             marginTop: carousel.pagination.marginTop,
             gap: carousel.pagination.gap,
           }}
@@ -162,7 +162,7 @@ function PaginationDot({
   contentPaddingStart: number;
   isLoop: boolean;
   n: number;
-  dot: ReturnType<typeof useComponentTokens>["carousel"]["dot"];
+  dot: ReturnType<typeof useComponentTokens>['carousel']['dot'];
 }) {
   const dotStyle = useAnimatedStyle(() => {
     let activeIndex = (scrollX.value - contentPaddingStart) / itemStep;

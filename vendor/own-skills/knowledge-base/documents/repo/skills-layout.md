@@ -1,9 +1,9 @@
-| Field | Value |
-|-------|-------|
-| title | Skills directory layout |
+| Field   | Value                                                                            |
+| ------- | -------------------------------------------------------------------------------- |
+| title   | Skills directory layout                                                          |
 | summary | Flat `skills/` tree: one folder per bundled skill plus `examples/skill-template` |
-| tags | repo, skills, convention |
-| updated | 2026-04-01 |
+| tags    | repo, skills, convention                                                         |
+| updated | 2026-04-01                                                                       |
 
 # Skills directory layout (current)
 

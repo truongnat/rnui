@@ -1,35 +1,37 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Box } from "@truongdq01/ui";
-import { View, Text } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Box } from '@truongdq01/ui';
+import { View, Text } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
 const BoxWrapper = (props: any) => (
-  <Box {...props}>
-    {props.children ?? <Text>Box content</Text>}
-  </Box>
+  <Box {...props}>{props.children ?? <Text>Box content</Text>}</Box>
 );
 
 const meta = {
-  title: "Components/Box",
+  title: 'Components/Box',
   component: BoxWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
-    p: { control: "number" },
-    m: { control: "number" },
-    bgColor: { control: "text" },
-    borderRadius: { control: "number" },
+    p: { control: 'number' },
+    m: { control: 'number' },
+    bgColor: { control: 'text' },
+    borderRadius: { control: 'number' },
   },
   args: {
     p: 16,
-    bgColor: "#f1f5f9",
+    bgColor: '#f1f5f9',
     borderRadius: 8,
   },
 };
@@ -40,7 +42,7 @@ type Story = StoryObj<typeof BoxWrapper>;
 export const Default: Story = {};
 
 export const Colored: Story = {
-  args: { bgColor: "#dbeafe", p: 20, borderRadius: 12 },
+  args: { bgColor: '#dbeafe', p: 20, borderRadius: 12 },
 };
 
 export const Nested: Story = {

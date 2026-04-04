@@ -1,13 +1,11 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { ThemeProvider, Breadcrumbs, Link, Typography } from "@truongdq01/ui";
-import { View } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { ThemeProvider, Breadcrumbs, Link, Typography } from '@truongdq01/ui';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
@@ -20,12 +18,18 @@ const BreadcrumbsWrapper = (props: any) => (
 );
 
 const meta = {
-  title: "Components/Breadcrumbs",
+  title: 'Components/Breadcrumbs',
   component: BreadcrumbsWrapper,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
-    separator: { control: "text" },
-    maxItems: { control: "number" },
+    separator: { control: 'text' },
+    maxItems: { control: 'number' },
   },
   args: {},
 };

@@ -17,8 +17,8 @@ Official script list: **[`scripts/README.md`](../../scripts/README.md)** at repo
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `repo-tooling-pro` |
-|-------|----------------------------------------|
+| Skill                        | When to combine with `repo-tooling-pro`                                                                                 |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | **`skills-self-review-pro`** | Full **bundle audit** narrative — combine **`analyze_skills --markdown`** with **`SKILL_AUTHORING_RULES.md`** checklist |
 
 ## When to use
@@ -72,12 +72,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — KB batch, tips, edge cases; canonical commands in **`scripts/README.md`**.
 
-| Topic | File |
-|-------|------|
-| KB & repo scripts | [references/kb-and-repo-scripts.md](references/kb-and-repo-scripts.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
-| **Canonical command list** | [`scripts/README.md`](../../scripts/README.md) |
+| Topic                      | File                                                                   |
+| -------------------------- | ---------------------------------------------------------------------- |
+| KB & repo scripts          | [references/kb-and-repo-scripts.md](references/kb-and-repo-scripts.md) |
+| Tips                       | [references/tips-and-tricks.md](references/tips-and-tricks.md)         |
+| Edge cases                 | [references/edge-cases.md](references/edge-cases.md)                   |
+| **Canonical command list** | [`scripts/README.md`](../../scripts/README.md)                         |
 
 ## Quick example
 

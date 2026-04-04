@@ -1,6 +1,6 @@
-import React, { useRef, useMemo, useCallback, useEffect } from "react";
-import { ScrollView, useWindowDimensions } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
+import React, { useRef, useMemo, useCallback, useEffect } from 'react';
+import { ScrollView, useWindowDimensions } from 'react-native';
+import { useSharedValue } from 'react-native-reanimated';
 
 export interface UseCarouselOptions<T> {
   data: T[];
@@ -74,7 +74,10 @@ export function useCarousel<T>({
     if (!loop || n < 2) {
       const currentIndex = Math.round((scrollX.value - pad) / itemStep);
       const nextIndex = currentIndex >= n - 1 ? 0 : currentIndex + 1;
-      scrollViewRef.current?.scrollTo({ x: pad + nextIndex * itemStep, animated: true });
+      scrollViewRef.current?.scrollTo({
+        x: pad + nextIndex * itemStep,
+        animated: true,
+      });
     } else {
       const currentIndex = Math.round((scrollX.value - pad) / itemStep);
       const nextX = pad + (currentIndex + 1) * itemStep;
@@ -89,14 +92,23 @@ export function useCarousel<T>({
     const i = Math.round((scrollX.value - pad) / itemStep);
     if (loop && n >= 2) {
       if (i <= 0) {
-        scrollViewRef.current?.scrollTo({ x: pad + n * itemStep, animated: true });
+        scrollViewRef.current?.scrollTo({
+          x: pad + n * itemStep,
+          animated: true,
+        });
       } else {
-        scrollViewRef.current?.scrollTo({ x: pad + (i - 1) * itemStep, animated: true });
+        scrollViewRef.current?.scrollTo({
+          x: pad + (i - 1) * itemStep,
+          animated: true,
+        });
       }
       return;
     }
     const prevIndex = i <= 0 ? n - 1 : i - 1;
-    scrollViewRef.current?.scrollTo({ x: pad + prevIndex * itemStep, animated: true });
+    scrollViewRef.current?.scrollTo({
+      x: pad + prevIndex * itemStep,
+      animated: true,
+    });
   }, [loop, n, itemStep, scrollX, pad]);
 
   // ─── Auto-play ──────────────────────────────────────────────────
@@ -160,14 +172,18 @@ export function useCarousel<T>({
         const target = pad + n * itemStep;
         scrollViewRef.current?.scrollTo({ x: target, animated: false });
         scrollX.value = target;
-        const id = setTimeout(() => { isJumping.current = false; }, 50);
+        const id = setTimeout(() => {
+          isJumping.current = false;
+        }, 50);
         jumpTimers.current.push(id);
       } else if (i >= lastIndex) {
         isJumping.current = true;
         const target = pad + itemStep;
         scrollViewRef.current?.scrollTo({ x: target, animated: false });
         scrollX.value = target;
-        const id = setTimeout(() => { isJumping.current = false; }, 50);
+        const id = setTimeout(() => {
+          isJumping.current = false;
+        }, 50);
         jumpTimers.current.push(id);
       }
     },

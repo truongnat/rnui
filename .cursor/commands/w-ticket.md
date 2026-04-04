@@ -15,6 +15,6 @@ $ARGUMENTS
 
 ## Rules
 
-- **Paths and phases** for `kanban/<ticket>/` are defined **in** [`workflows/dev/w-ticket.md`](../../workflows/dev/w-ticket.md) (section *Ticket / Kanban layout*). There is no separate `ex/ticket` contract.
+- **Paths and phases** for `kanban/<ticket>/` are defined **in** [`workflows/dev/w-ticket.md`](../../workflows/dev/w-ticket.md) (section _Ticket / Kanban layout_). There is no separate `ex/ticket` contract.
 - **Pick skills** from the full bundled set under [`skills/`](../../skills/) — use the README table and `node dist/tools.js list-skills` when unsure.
 - After adding any new `skills/<name>/`, follow **`skills/SKILL_AUTHORING_RULES.md` section 8** and run **`node dist/tools.js validate-skills`** (and `node dist/tools.js build-skill-index` as listed in the workflow).

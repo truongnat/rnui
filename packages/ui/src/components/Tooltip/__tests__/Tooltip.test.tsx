@@ -1,10 +1,10 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Tooltip } from "../Tooltip";
-import { ThemeProvider } from "@truongdq01/headless";
-import { Text } from "react-native";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Tooltip } from '../Tooltip';
+import { ThemeProvider } from '@truongdq01/headless';
+import { Text } from 'react-native';
 
-test("Tooltip renders title", () => {
+test('Tooltip renders title', () => {
   const { getByText } = render(
     <ThemeProvider>
       <Tooltip open={true} title="Hint">
@@ -12,5 +12,5 @@ test("Tooltip renders title", () => {
       </Tooltip>
     </ThemeProvider>
   );
-  expect(getByText("Hint")).toBeTruthy();
+  expect(getByText('Hint')).toBeTruthy();
 });

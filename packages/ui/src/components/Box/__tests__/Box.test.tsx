@@ -1,14 +1,16 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Box } from "../Box";
-import { Text } from "react-native";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Box } from '../Box';
+import { Text } from 'react-native';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("Box renders children correctly", () => {
+test('Box renders children correctly', () => {
   const { getByText } = render(
     <ThemeProvider>
-      <Box><Text>Inside Box</Text></Box>
+      <Box>
+        <Text>Inside Box</Text>
+      </Box>
     </ThemeProvider>
   );
-  expect(getByText("Inside Box")).toBeTruthy();
+  expect(getByText('Inside Box')).toBeTruthy();
 });

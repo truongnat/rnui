@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
-import { Text, StyleProp, TextStyle } from "react-native";
-import { useTokens } from "@truongdq01/headless";
+import React, { useMemo } from 'react';
+import { Text, StyleProp, TextStyle } from 'react-native';
+import { useTokens } from '@truongdq01/headless';
 
 /**
  * Props for the Label component
@@ -40,12 +40,15 @@ export function Label({
   nativeID,
   required = false,
   style,
-  testID = "label",
+  testID = 'label',
 }: LabelProps) {
   const tokens = useTokens();
 
   const labelStyle = useMemo(
-    () => [{ color: tokens.color.text.primary, fontSize: tokens.fontSize.sm }, style],
+    () => [
+      { color: tokens.color.text.primary, fontSize: tokens.fontSize.sm },
+      style,
+    ],
     [tokens.color.text.primary, tokens.fontSize.sm, style]
   );
 
@@ -59,13 +62,11 @@ export function Label({
       nativeID={nativeID}
       style={labelStyle}
       accessible
-      accessibilityLabel={typeof children === "string" ? children : undefined}
+      accessibilityLabel={typeof children === 'string' ? children : undefined}
       testID={testID}
     >
       {children}
-      {required && (
-        <Text style={asteriskStyle}> *</Text>
-      )}
+      {required && <Text style={asteriskStyle}> *</Text>}
     </Text>
   );
 }

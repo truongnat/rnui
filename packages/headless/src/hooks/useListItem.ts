@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback } from 'react';
 import {
   useSharedValue,
   useAnimatedStyle,
@@ -6,10 +6,10 @@ import {
   withTiming,
   interpolate,
   Extrapolation,
-} from "react-native-reanimated";
-import { scheduleOnRN } from "react-native-worklets";
-import { Gesture } from "react-native-gesture-handler";
-import { spring } from "@truongdq01/tokens";
+} from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
+import { Gesture } from 'react-native-gesture-handler';
+import { spring } from '@truongdq01/tokens';
 
 export interface SwipeAction {
   label: string;
@@ -35,7 +35,7 @@ export interface UseListItemReturn {
   gesture: ReturnType<typeof Gesture.Simultaneous>;
   accessibilityProps: {
     accessible: boolean;
-    accessibilityRole: "button";
+    accessibilityRole: 'button';
     accessibilityState: { disabled: boolean };
   };
   /** Snap item back to closed */
@@ -69,7 +69,7 @@ export function useListItem({
   const tapGesture = Gesture.Tap()
     .enabled(!disabled)
     .onEnd((_, success) => {
-      "worklet";
+      'worklet';
       if (!success) return;
       if (isRevealedValue.value) {
         translateX.value = withSpring(0, snappySpring);
@@ -83,7 +83,7 @@ export function useListItem({
     .enabled(!disabled && !!onLongPress)
     .minDuration(500)
     .onStart(() => {
-      "worklet";
+      'worklet';
       if (onLongPress) scheduleOnRN(onLongPress);
     });
 
@@ -92,7 +92,7 @@ export function useListItem({
     .activeOffsetX([-8, 8])
     .failOffsetY([-5, 5])
     .onUpdate((e) => {
-      "worklet";
+      'worklet';
       const raw = e.translationX;
       if (raw < 0 && trailingMax > 0) {
         // Swipe left → reveal trailing
@@ -103,7 +103,7 @@ export function useListItem({
       }
     })
     .onEnd((e) => {
-      "worklet";
+      'worklet';
       const vel = e.velocityX;
       const tx = translateX.value;
 
@@ -133,12 +133,22 @@ export function useListItem({
 
   const trailingActionsStyle = useAnimatedStyle(() => ({
     width: Math.abs(Math.min(translateX.value, 0)),
-    opacity: interpolate(translateX.value, [-trailingMax, -20, 0], [1, 0.6, 0], Extrapolation.CLAMP),
+    opacity: interpolate(
+      translateX.value,
+      [-trailingMax, -20, 0],
+      [1, 0.6, 0],
+      Extrapolation.CLAMP
+    ),
   }));
 
   const leadingActionsStyle = useAnimatedStyle(() => ({
     width: Math.max(translateX.value, 0),
-    opacity: interpolate(translateX.value, [0, 20, leadingMax], [0, 0.6, 1], Extrapolation.CLAMP),
+    opacity: interpolate(
+      translateX.value,
+      [0, 20, leadingMax],
+      [0, 0.6, 1],
+      Extrapolation.CLAMP
+    ),
   }));
 
   return {
@@ -148,7 +158,7 @@ export function useListItem({
     gesture,
     accessibilityProps: {
       accessible: true,
-      accessibilityRole: "button",
+      accessibilityRole: 'button',
       accessibilityState: { disabled },
     },
     close,

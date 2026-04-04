@@ -3,9 +3,7 @@
   "mode": "symlink",
   "skill_name": "content-analysis-pro",
   "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/content-analysis-pro",
-  "ides": [
-    "cursor"
-  ],
+  "ides": ["cursor"],
   "targets": {
     "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/content-analysis-pro"
   },

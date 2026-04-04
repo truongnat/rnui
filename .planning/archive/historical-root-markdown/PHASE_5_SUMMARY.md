@@ -5,7 +5,9 @@
 ## Completed Work
 
 ### 1. Button Component Tests ✅
+
 **File:** `packages/ui/src/components/Button/__tests__/Button.test.tsx`
+
 - 60+ comprehensive test cases
 - Coverage areas:
   - Rendering (label, children, variants)
@@ -21,7 +23,9 @@
   - Feedback modes (scale, opacity, none)
 
 ### 2. Input Component Tests ✅
+
 **File:** `packages/ui/src/components/Input/__tests__/Input.test.tsx`
+
 - 50+ comprehensive test cases
 - Coverage areas:
   - Rendering (placeholder, label, helper text, error message)
@@ -34,7 +38,9 @@
   - Edge cases (empty values, undefined handlers)
 
 ### 3. Select Component Tests ✅
+
 **File:** `packages/ui/src/components/Select/__tests__/Select.test.tsx`
+
 - 70+ comprehensive test cases
 - Coverage areas:
   - Rendering (placeholder, label, error, selected value)
@@ -47,7 +53,9 @@
   - Edge cases (empty options, single option, many options, special characters, numeric values)
 
 ### 4. Modal Component Tests ✅
+
 **File:** `packages/ui/src/components/Modal/__tests__/Modal.test.tsx`
+
 - 60+ comprehensive test cases
 - Coverage areas:
   - Rendering (children, keepMounted, custom styles)
@@ -63,6 +71,7 @@
 ## Infrastructure Issue ⚠️
 
 ### Problem
+
 All tests in the project are failing with a Jest/Bun compatibility error:
 
 ```
@@ -71,17 +80,20 @@ at /Users/truongdq/tx/GitHub/rnui/node_modules/.bun/react-native@0.83.2+069b4c9d
 ```
 
 ### Root Cause
+
 - Bun is being used as the package manager
 - Jest is configured with `react-native` preset
 - React Native's Jest setup file uses ES modules syntax
 - Jest/Bun is not properly transforming the React Native setup file
 
 ### Impact
+
 - **0 tests passing** (infrastructure issue, not test quality)
 - All 28 test suites in `@truongdq01/headless` package failing with same error
 - New test suites for Button, Input, Select, Modal cannot run
 
 ### Affected Packages
+
 - `@truongdq01/headless`: 28 test suites failing
 - `@truongdq01/ui`: Cannot run new test suites
 
@@ -93,7 +105,7 @@ Despite the infrastructure issue, the created test suites are:
 ✅ **Well-structured**: Organized by feature area with clear describe blocks  
 ✅ **Following best practices**: Use proper test patterns from existing Button test  
 ✅ **Accessibility-focused**: Include accessibility state and label tests  
-✅ **Edge-case aware**: Handle undefined handlers, empty values, special characters  
+✅ **Edge-case aware**: Handle undefined handlers, empty values, special characters
 
 ## Recommendations
 
@@ -112,8 +124,8 @@ Despite the infrastructure issue, the created test suites are:
 3. **Update transformIgnorePatterns**
    ```js
    transformIgnorePatterns: [
-     "node_modules/(?!(jest-)?react-native|@react-native|@react-native-community|@react-native/js-polyfills|lucide-react-native|@truongdq01/)"
-   ]
+     'node_modules/(?!(jest-)?react-native|@react-native|@react-native-community|@react-native/js-polyfills|lucide-react-native|@truongdq01/)',
+   ];
    ```
 
 ### Once Tests Run

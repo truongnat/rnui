@@ -19,12 +19,12 @@ Use **vendor official documentation** and **primary** repositories for **API tru
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `web-research-pro` |
-|-------|----------------------------------------|
-| **`repo-tooling-pro`** | **`query_kb` / `query_kb_batch`** when **`knowledge-base`** is built and relevant |
-| **`security-pro`** | Untrusted links, **paste** from unknown sites, **supply chain** |
-| **`data-analysis-pro`** / **`content-analysis-pro`** | Research is **supporting** analysis — not the same as EDA or multimodal read |
-| **`skills-self-review-pro`** | After **`analyze_skills`**, use **official docs** to **tech-refresh** the skill bundle |
+| Skill                                                | When to combine with `web-research-pro`                                                |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| **`repo-tooling-pro`**                               | **`query_kb` / `query_kb_batch`** when **`knowledge-base`** is built and relevant      |
+| **`security-pro`**                                   | Untrusted links, **paste** from unknown sites, **supply chain**                        |
+| **`data-analysis-pro`** / **`content-analysis-pro`** | Research is **supporting** analysis — not the same as EDA or multimodal read           |
+| **`skills-self-review-pro`**                         | After **`analyze_skills`**, use **official docs** to **tech-refresh** the skill bundle |
 
 **Boundary:** **`web-research-pro`** = **finding and weighing** external information; **`repo-tooling-pro`** = **running** local RAG scripts on **indexed** Markdown.
 
@@ -86,12 +86,12 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` — workflow, citations, tips, edge cases.
 
-| Topic | File |
-|-------|------|
-| Workflow & evaluation | [references/workflow-sources-and-evaluation.md](references/workflow-sources-and-evaluation.md) |
-| Citations & stale URLs | [references/citations-and-stale-urls.md](references/citations-and-stale-urls.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Topic                  | File                                                                                           |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| Workflow & evaluation  | [references/workflow-sources-and-evaluation.md](references/workflow-sources-and-evaluation.md) |
+| Citations & stale URLs | [references/citations-and-stale-urls.md](references/citations-and-stale-urls.md)               |
+| Tips                   | [references/tips-and-tricks.md](references/tips-and-tricks.md)                                 |
+| Edge cases             | [references/edge-cases.md](references/edge-cases.md)                                           |
 
 ## Quick example
 

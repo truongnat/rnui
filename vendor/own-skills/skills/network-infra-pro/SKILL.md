@@ -19,12 +19,12 @@ Use official [AWS VPC docs](https://docs.aws.amazon.com/vpc/latest/userguide/wha
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `network-infra-pro` |
-|-------|------------------------------------------|
+| Skill                | When to combine with `network-infra-pro`                            |
+| -------------------- | ------------------------------------------------------------------- |
 | **`deployment-pro`** | Progressive rollout, canary, and rollback for infra/network changes |
-| **`security-pro`** | Threat model, authentication boundaries, and hardening policy |
-| **`nextjs-pro`** | Edge/runtime behavior and caching/CDN implications |
-| **`nestjs-pro`** | API gateway/reverse proxy behavior and service communication |
+| **`security-pro`**   | Threat model, authentication boundaries, and hardening policy       |
+| **`nextjs-pro`**     | Edge/runtime behavior and caching/CDN implications                  |
+| **`nestjs-pro`**     | API gateway/reverse proxy behavior and service communication        |
 
 **Boundary:** **`network-infra-pro`** owns topology, routing, connectivity, and reliability trade-offs; paired skills own app/deployment/security implementation depth.
 
@@ -93,13 +93,13 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` - detailed guidance for topology, edge traffic, observability, and tricky failure modes.
 
-| Topic | File |
-|-------|------|
-| Topology and segmentation | [references/topology-and-segmentation.md](references/topology-and-segmentation.md) |
-| Traffic management and edge | [references/traffic-management-and-edge.md](references/traffic-management-and-edge.md) |
+| Topic                         | File                                                                                       |
+| ----------------------------- | ------------------------------------------------------------------------------------------ |
+| Topology and segmentation     | [references/topology-and-segmentation.md](references/topology-and-segmentation.md)         |
+| Traffic management and edge   | [references/traffic-management-and-edge.md](references/traffic-management-and-edge.md)     |
 | Reliability and observability | [references/reliability-and-observability.md](references/reliability-and-observability.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Tips                          | [references/tips-and-tricks.md](references/tips-and-tricks.md)                             |
+| Edge cases                    | [references/edge-cases.md](references/edge-cases.md)                                       |
 
 ## Quick example
 

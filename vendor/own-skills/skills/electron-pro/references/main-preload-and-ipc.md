@@ -4,11 +4,11 @@ Electron splits **Node** (main) from **Chromium** (renderer). Security and corre
 
 ## Processes
 
-| Process | Runs | Typical duties |
-|---------|------|----------------|
-| **Main** | Node | `BrowserWindow`, app lifecycle, menus, tray, native dialogs, `ipcMain`, auto-update orchestration |
-| **Preload** | Isolated world before renderer | Expose **only** whitelisted APIs via `contextBridge` |
-| **Renderer** | Chromium | UI (React/Vue/etc.); **no** raw `fs`/`child_process` unless you explicitly broke isolation (avoid) |
+| Process      | Runs                           | Typical duties                                                                                     |
+| ------------ | ------------------------------ | -------------------------------------------------------------------------------------------------- |
+| **Main**     | Node                           | `BrowserWindow`, app lifecycle, menus, tray, native dialogs, `ipcMain`, auto-update orchestration  |
+| **Preload**  | Isolated world before renderer | Expose **only** whitelisted APIs via `contextBridge`                                               |
+| **Renderer** | Chromium                       | UI (React/Vue/etc.); **no** raw `fs`/`child_process` unless you explicitly broke isolation (avoid) |
 
 ## Non-negotiable defaults (modern Electron)
 

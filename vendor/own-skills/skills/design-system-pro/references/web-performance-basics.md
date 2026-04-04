@@ -12,7 +12,7 @@ Complements **accessibility** (`a11y-responsive-and-web-typography.md`) — **pe
 
 ## Images
 
-- **`loading="lazy"`** for below-the-fold **images**; **explicit** `width` / `height`** or **aspect-ratio** to reduce **CLS**.
+- **`loading="lazy"`** for below-the-fold **images**; **explicit** `width` / `height`** or **aspect-ratio** to reduce **CLS\*\*.
 - **Modern formats** (WebP/AVIF) with **fallback** when required.
 
 ## Scripts

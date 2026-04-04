@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
-export type DrawerSide = "left" | "right" | "bottom" | "top";
+export type DrawerSide = 'left' | 'right' | 'bottom' | 'top';
 
 export interface UseDrawerOptions {
   defaultOpen?: boolean;
@@ -20,7 +20,7 @@ export interface UseDrawerReturn {
   backdropProps: {
     onPress: () => void;
     accessible: boolean;
-    accessibilityRole: "button";
+    accessibilityRole: 'button';
     accessibilityLabel: string;
   };
   drawerProps: {
@@ -35,7 +35,7 @@ export function useDrawer(options: UseDrawerOptions = {}): UseDrawerReturn {
     open: controlledOpen,
     onOpen,
     onClose,
-    side = "left",
+    side = 'left',
     closeOnBackdrop = true,
   } = options;
 
@@ -43,11 +43,14 @@ export function useDrawer(options: UseDrawerOptions = {}): UseDrawerReturn {
   const isControlled = controlledOpen !== undefined;
   const isOpen = isControlled ? controlledOpen! : internalOpen;
 
-  const setOpen = useCallback((next: boolean) => {
-    if (!isControlled) setInternalOpen(next);
-    if (next) onOpen?.();
-    else onClose?.();
-  }, [isControlled, onOpen, onClose]);
+  const setOpen = useCallback(
+    (next: boolean) => {
+      if (!isControlled) setInternalOpen(next);
+      if (next) onOpen?.();
+      else onClose?.();
+    },
+    [isControlled, onOpen, onClose]
+  );
 
   const open = useCallback(() => setOpen(true), [setOpen]);
   const close = useCallback(() => setOpen(false), [setOpen]);
@@ -62,8 +65,8 @@ export function useDrawer(options: UseDrawerOptions = {}): UseDrawerReturn {
     backdropProps: {
       onPress: closeOnBackdrop ? close : () => {},
       accessible: true,
-      accessibilityRole: "button",
-      accessibilityLabel: "Close drawer",
+      accessibilityRole: 'button',
+      accessibilityLabel: 'Close drawer',
     },
     drawerProps: {
       visible: isOpen,

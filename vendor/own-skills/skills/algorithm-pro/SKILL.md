@@ -19,10 +19,10 @@ Use canonical references such as [CLRS](https://mitpress.mit.edu/9780262046305/i
 
 ## Related skills (this repo)
 
-| Skill | When to combine with `algorithm-pro` |
-|-------|--------------------------------------|
-| **`testing-pro`** | Build edge/adversarial/property-based tests for algorithm reliability |
-| **`data-analysis-pro`** | Interpret benchmark data, distributions, and performance regressions |
+| Skill                    | When to combine with `algorithm-pro`                                    |
+| ------------------------ | ----------------------------------------------------------------------- |
+| **`testing-pro`**        | Build edge/adversarial/property-based tests for algorithm reliability   |
+| **`data-analysis-pro`**  | Interpret benchmark data, distributions, and performance regressions    |
 | **Stack `*-pro` skills** | Integrate algorithmic solution into app/backend/mobile/runtime contexts |
 
 **Boundary:** **`algorithm-pro`** owns problem modeling, algorithm choice, complexity/correctness depth; paired skills own system integration and broader engineering workflow.
@@ -92,13 +92,13 @@ Details: [references/edge-cases.md](references/edge-cases.md)
 
 - `references/` - deep notes for modeling, correctness, complexity, and optimization.
 
-| Topic | File |
-|-------|------|
+| Topic                           | File                                                                                           |
+| ------------------------------- | ---------------------------------------------------------------------------------------------- |
 | Modeling and strategy selection | [references/modeling-and-strategy-selection.md](references/modeling-and-strategy-selection.md) |
-| Correctness and complexity | [references/correctness-and-complexity.md](references/correctness-and-complexity.md) |
-| Optimization and trade-offs | [references/optimization-and-trade-offs.md](references/optimization-and-trade-offs.md) |
-| Tips | [references/tips-and-tricks.md](references/tips-and-tricks.md) |
-| Edge cases | [references/edge-cases.md](references/edge-cases.md) |
+| Correctness and complexity      | [references/correctness-and-complexity.md](references/correctness-and-complexity.md)           |
+| Optimization and trade-offs     | [references/optimization-and-trade-offs.md](references/optimization-and-trade-offs.md)         |
+| Tips                            | [references/tips-and-tricks.md](references/tips-and-tricks.md)                                 |
+| Edge cases                      | [references/edge-cases.md](references/edge-cases.md)                                           |
 
 ## Quick example
 

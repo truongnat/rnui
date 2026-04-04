@@ -49,4 +49,4 @@
 
 ---
 
-*Match index and constraint design to your workload — OLTP vs OLAP patterns differ.*
+_Match index and constraint design to your workload — OLTP vs OLAP patterns differ._
