@@ -28,6 +28,7 @@
     "@babel/preset-typescript": "^7.28.5",
     "@babel/runtime": "^7.29.2",
     "@changesets/cli": "^2.27.1",
+    "@shopify/flash-list": "^2.3.1",
     "babel-jest": "^29.7.0",
     "metro-react-native-babel-preset": "^0.77.0",
     "react-test-renderer": "19.2.0",

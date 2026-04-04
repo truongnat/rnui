@@ -62,6 +62,9 @@ export function Marquee({
   const translateY = useSharedValue(0);
   const isPaused = useSharedValue(false);
 
+  const [containerSize, setContainerSize] = React.useState(0);
+  const [contentSize, setContentSize] = React.useState(0);
+
   const animatedStyle = useAnimatedStyle(() => {
     if (direction === "left" || direction === "right") {
       return {
@@ -130,31 +133,21 @@ export function Marquee({
 
   const resumeAnimation = () => {
     isPaused.value = false;
-    // Re-measure and restart animation
-    measureAndStart();
-  };
-
-  const measureAndStart = () => {
-    containerRef.current?.measure((x, y, width, height) => {
-      contentRef.current?.measure((cx, cy, cWidth, cHeight) => {
-        if (direction === "left" || direction === "right") {
-          startAnimation(width, cWidth);
-        } else {
-          startAnimation(height, cHeight);
-        }
-      });
-    });
+    // Restart animation using existing dimensions
+    if (containerSize > 0 && contentSize > 0) {
+      startAnimation(containerSize, contentSize);
+    }
   };
 
   useEffect(() => {
-    // Start animation after layout
-    const timeout = setTimeout(measureAndStart, 100);
+    if (containerSize > 0 && contentSize > 0) {
+      startAnimation(containerSize, contentSize);
+    }
     return () => {
-      clearTimeout(timeout);
       cancelAnimation(translateX);
       cancelAnimation(translateY);
     };
-  }, [children, speed, direction, loop]);
+  }, [containerSize, contentSize, speed, direction, loop]);
 
   const handlePressIn = () => {
     if (pauseOnPress) {
@@ -177,6 +170,14 @@ export function Marquee({
       accessibilityLabel={accessibilityLabel}
       accessibilityRole="text"
       testID={testID}
+      onLayout={(e) => {
+        const { width, height } = e.nativeEvent.layout;
+        if (direction === "left" || direction === "right") {
+          setContainerSize(width);
+        } else {
+          setContainerSize(height);
+        }
+      }}
     >
       {fadeEdges && (
         <>
@@ -204,6 +205,14 @@ export function Marquee({
         ]}
         onTouchStart={handlePressIn}
         onTouchEnd={handlePressOut}
+        onLayout={(e) => {
+          const { width, height } = e.nativeEvent.layout;
+          if (direction === "left" || direction === "right") {
+            setContentSize(width);
+          } else {
+            setContentSize(height);
+          }
+        }}
         accessible={false} // Let parent handle accessibility
       >
         {children}

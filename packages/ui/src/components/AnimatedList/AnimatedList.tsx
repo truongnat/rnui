@@ -105,6 +105,7 @@ function AnimatedListInner<T>(
             ref={ref}
             data={data}
             renderItem={(info: any) => <AnimatedCell {...info} />}
+            keyExtractor={(item: any, index: number) => item?.id || item?.key || String(index)}
             {...flashListProps}
             contentContainerStyle={useMemo(() => [
                 animatedList.container,

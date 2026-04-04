@@ -461,6 +461,7 @@ function AnimatedListInner({
       ref,
       data,
       renderItem: (info) => /* @__PURE__ */ import_react4.default.createElement(AnimatedCell, { ...info }),
+      keyExtractor: (item, index) => item?.id || item?.key || String(index),
       ...flashListProps,
       contentContainerStyle: (0, import_react4.useMemo)(() => [
         animatedList.container,
@@ -3763,6 +3764,8 @@ function Marquee({
   const translateX = (0, import_react_native_reanimated15.useSharedValue)(0);
   const translateY = (0, import_react_native_reanimated15.useSharedValue)(0);
   const isPaused = (0, import_react_native_reanimated15.useSharedValue)(false);
+  const [containerSize, setContainerSize] = import_react43.default.useState(0);
+  const [contentSize, setContentSize] = import_react43.default.useState(0);
   const animatedStyle = (0, import_react_native_reanimated15.useAnimatedStyle)(() => {
     if (direction === "left" || direction === "right") {
       return {
@@ -3822,27 +3825,19 @@ function Marquee({
   };
   const resumeAnimation = () => {
     isPaused.value = false;
-    measureAndStart();
-  };
-  const measureAndStart = () => {
-    containerRef.current?.measure((x, y, width, height) => {
-      contentRef.current?.measure((cx, cy, cWidth, cHeight) => {
-        if (direction === "left" || direction === "right") {
-          startAnimation(width, cWidth);
-        } else {
-          startAnimation(height, cHeight);
-        }
-      });
-    });
+    if (containerSize > 0 && contentSize > 0) {
+      startAnimation(containerSize, contentSize);
+    }
   };
   (0, import_react43.useEffect)(() => {
-    const timeout = setTimeout(measureAndStart, 100);
+    if (containerSize > 0 && contentSize > 0) {
+      startAnimation(containerSize, contentSize);
+    }
     return () => {
-      clearTimeout(timeout);
       (0, import_react_native_reanimated15.cancelAnimation)(translateX);
       (0, import_react_native_reanimated15.cancelAnimation)(translateY);
     };
-  }, [children, speed, direction, loop]);
+  }, [containerSize, contentSize, speed, direction, loop]);
   const handlePressIn = () => {
     if (pauseOnPress) {
       pauseAnimation();
@@ -3861,7 +3856,15 @@ function Marquee({
       style: styles11.container,
       accessibilityLabel,
       accessibilityRole: "text",
-      testID
+      testID,
+      onLayout: (e) => {
+        const { width, height } = e.nativeEvent.layout;
+        if (direction === "left" || direction === "right") {
+          setContainerSize(width);
+        } else {
+          setContainerSize(height);
+        }
+      }
     },
     fadeEdges && /* @__PURE__ */ import_react43.default.createElement(import_react43.default.Fragment, null, /* @__PURE__ */ import_react43.default.createElement(
       import_react_native43.View,
@@ -3892,6 +3895,14 @@ function Marquee({
         ],
         onTouchStart: handlePressIn,
         onTouchEnd: handlePressOut,
+        onLayout: (e) => {
+          const { width, height } = e.nativeEvent.layout;
+          if (direction === "left" || direction === "right") {
+            setContentSize(width);
+          } else {
+            setContentSize(height);
+          }
+        },
         accessible: false
       },
       children
@@ -4956,7 +4967,7 @@ function SegmentedControl({
     transform: [{ translateX: translateX.value }],
     width: indicatorWidth.value
   }));
-  const showIndicator = layoutReady && segmentWidth > 0;
+  const showIndicator = layoutReady && segmentWidth > 0 && containerWidth > 0;
   return /* @__PURE__ */ import_react54.default.createElement(
     import_react_native53.View,
     {

@@ -89,7 +89,7 @@ export function SegmentedControl({
         width: indicatorWidth.value,
     }));
 
-    const showIndicator = layoutReady && segmentWidth > 0;
+    const showIndicator = layoutReady && segmentWidth > 0 && containerWidth > 0;
 
     return (
         <View

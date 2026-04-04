@@ -368,6 +368,7 @@ function AnimatedListInner({
       ref,
       data,
       renderItem: (info) => /* @__PURE__ */ React4.createElement(AnimatedCell, { ...info }),
+      keyExtractor: (item, index) => item?.id || item?.key || String(index),
       ...flashListProps,
       contentContainerStyle: useMemo3(() => [
         animatedList.container,
@@ -3712,6 +3713,8 @@ function Marquee({
   const translateX = useSharedValue7(0);
   const translateY = useSharedValue7(0);
   const isPaused = useSharedValue7(false);
+  const [containerSize, setContainerSize] = React43.useState(0);
+  const [contentSize, setContentSize] = React43.useState(0);
   const animatedStyle = useAnimatedStyle9(() => {
     if (direction === "left" || direction === "right") {
       return {
@@ -3771,27 +3774,19 @@ function Marquee({
   };
   const resumeAnimation = () => {
     isPaused.value = false;
-    measureAndStart();
-  };
-  const measureAndStart = () => {
-    containerRef.current?.measure((x, y, width, height) => {
-      contentRef.current?.measure((cx, cy, cWidth, cHeight) => {
-        if (direction === "left" || direction === "right") {
-          startAnimation(width, cWidth);
-        } else {
-          startAnimation(height, cHeight);
-        }
-      });
-    });
+    if (containerSize > 0 && contentSize > 0) {
+      startAnimation(containerSize, contentSize);
+    }
   };
   useEffect3(() => {
-    const timeout = setTimeout(measureAndStart, 100);
+    if (containerSize > 0 && contentSize > 0) {
+      startAnimation(containerSize, contentSize);
+    }
     return () => {
-      clearTimeout(timeout);
       cancelAnimation(translateX);
       cancelAnimation(translateY);
     };
-  }, [children, speed, direction, loop]);
+  }, [containerSize, contentSize, speed, direction, loop]);
   const handlePressIn = () => {
     if (pauseOnPress) {
       pauseAnimation();
@@ -3810,7 +3805,15 @@ function Marquee({
       style: styles11.container,
       accessibilityLabel,
       accessibilityRole: "text",
-      testID
+      testID,
+      onLayout: (e) => {
+        const { width, height } = e.nativeEvent.layout;
+        if (direction === "left" || direction === "right") {
+          setContainerSize(width);
+        } else {
+          setContainerSize(height);
+        }
+      }
     },
     fadeEdges && /* @__PURE__ */ React43.createElement(React43.Fragment, null, /* @__PURE__ */ React43.createElement(
       View39,
@@ -3841,6 +3844,14 @@ function Marquee({
         ],
         onTouchStart: handlePressIn,
         onTouchEnd: handlePressOut,
+        onLayout: (e) => {
+          const { width, height } = e.nativeEvent.layout;
+          if (direction === "left" || direction === "right") {
+            setContentSize(width);
+          } else {
+            setContentSize(height);
+          }
+        },
         accessible: false
       },
       children
@@ -4935,7 +4946,7 @@ function SegmentedControl({
     transform: [{ translateX: translateX.value }],
     width: indicatorWidth.value
   }));
-  const showIndicator = layoutReady && segmentWidth > 0;
+  const showIndicator = layoutReady && segmentWidth > 0 && containerWidth > 0;
   return /* @__PURE__ */ React54.createElement(
     View49,
     {
