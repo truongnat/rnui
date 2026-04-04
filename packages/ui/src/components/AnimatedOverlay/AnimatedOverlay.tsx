@@ -28,8 +28,7 @@ export interface AnimatedOverlayProps {
   useSpring?: boolean;
   /** Spring configuration for spring animations */
   springConfig?: {
-    damping?: number;
-    stiffness?: number;
+    dampingRatio?: number;
     mass?: number;
   };
   /** Children to render inside the overlay */
@@ -90,8 +89,7 @@ export function AnimatedOverlay({
 
   // Animation configuration
   const animationConfig = useSpring ? {
-    damping: springConfig.damping ?? 15,
-    stiffness: springConfig.stiffness ?? 100,
+    dampingRatio: springConfig.dampingRatio ?? 0.8, // Balanced underdamped spring
     mass: springConfig.mass ?? 1,
   } : {
     duration: reducedMotion ? 0 : duration,
