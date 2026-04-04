@@ -1,7 +1,6 @@
 import "@testing-library/react-native/extend-expect";
 import { configure } from "@testing-library/react-native";
-import React from "react";
-import { createFlashListMock as mockFlashList } from "./test-mocks";
+// Inline mock to avoid module resolution issues in CI
 
 configure({
   hostComponentNames: {
@@ -57,7 +56,29 @@ jest.mock("react-native-safe-area-context", () => ({
   SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-jest.mock("@shopify/flash-list", () => mockFlashList());
+jest.mock("@shopify/flash-list", () => {
+  const React = require("react");
+  const FlashList = ({ data = [], renderItem, keyExtractor, ...props }: any) => {
+    if (typeof renderItem !== "function") {
+      return React.createElement("FlashList", props);
+    }
+
+    const children = (data || []).map((item: any, index: number) => {
+      const element = renderItem({ item, index });
+      const key = keyExtractor ? keyExtractor(item, index) : index;
+      return React.isValidElement(element)
+        ? React.cloneElement(element, { key })
+        : element;
+    });
+
+    return React.createElement("FlashList", props, children);
+  };
+  FlashList.displayName = "FlashList";
+
+  const MasonryFlashList = FlashList;
+
+  return { FlashList, MasonryFlashList };
+});
 
 jest.mock("@react-native-community/datetimepicker", () => {
   const React = require("react");
