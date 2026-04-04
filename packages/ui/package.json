@@ -71,7 +71,7 @@
     "react": "19.2.0",
     "react-native": "0.83.2",
     "react-test-renderer": "19.2.0",
-    "tsup": "^8.4.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.8.3"
   }
 }

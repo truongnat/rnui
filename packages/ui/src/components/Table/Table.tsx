@@ -4,9 +4,19 @@ import { useComponentTokens, useTokens } from "@truongdq01/headless";
 import { Button } from "../Button/Button";
 import { Icon } from "../Icon";
 
+/**
+ * Available table size variants
+ */
 export type TableSize = "small" | "medium";
+
+/**
+ * Available table cell padding options
+ */
 export type TablePadding = "normal" | "checkbox" | "none";
 
+/**
+ * Internal table context value
+ */
 interface TableContextValue {
   size: TableSize;
   padding: TablePadding;
@@ -19,6 +29,9 @@ function useTableContext() {
   return useContext(TableContext);
 }
 
+/**
+ * Props for the Table component
+ */
 export interface TableProps {
   children?: React.ReactNode;
   size?: TableSize;
@@ -27,6 +40,33 @@ export interface TableProps {
   style?: object;
 }
 
+/**
+ * Root table component that provides context for child table elements.
+ * Implements Material Design table patterns with accessibility support.
+ *
+ * @param props - Table configuration props
+ * @returns Table context provider component
+ *
+ * @example
+ * ```tsx
+ * <Table size="medium" padding="normal">
+ *   <TableHead>
+ *     <TableRow>
+ *       <TableCell>Name</TableCell>
+ *       <TableCell>Email</TableCell>
+ *     </TableRow>
+ *   </TableHead>
+ *   <TableBody>
+ *     {data.map(row => (
+ *       <TableRow key={row.id}>
+ *         <TableCell>{row.name}</TableCell>
+ *         <TableCell>{row.email}</TableCell>
+ *       </TableRow>
+ *     ))}
+ *   </TableBody>
+ * </Table>
+ * ```
+ */
 export function Table({
   children,
   size = "medium",

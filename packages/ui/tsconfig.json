@@ -2,19 +2,8 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "outDir": "dist",
-        "baseUrl": ".",
-        "paths": {
-            "@truongdq01/tokens": [
-                "../tokens/src"
-            ],
-            "@truongdq01/headless": [
-                "../headless/src"
-            ]
-        },
         "skipLibCheck": true,
-        "composite": false,
-        "declaration": true,
-        "declarationMap": true
+        "composite": false
     },
     "include": [
         "src/**/*"

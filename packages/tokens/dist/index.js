@@ -18,8 +18,8 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/index.ts
-var index_exports = {};
-__export(index_exports, {
+var src_exports = {};
+__export(src_exports, {
   avatarTokens: () => avatarTokens,
   badgeTokens: () => badgeTokens,
   buildSemanticTokens: () => buildSemanticTokens,
@@ -54,7 +54,7 @@ __export(index_exports, {
   timingPreset: () => timingPreset,
   toastTokens: () => toastTokens
 });
-module.exports = __toCommonJS(index_exports);
+module.exports = __toCommonJS(src_exports);
 
 // src/primitive.ts
 var primitive = {
@@ -707,7 +707,7 @@ function inputTokens(t) {
     container: {
       borderWidth: 1,
       borderColor: t.color.border.input,
-      borderRadius: t.radius.md,
+      borderRadius: t.radius.lg,
       backgroundColor: t.color.surface.default,
       flexDirection: "row",
       alignItems: "center",
@@ -723,7 +723,11 @@ function inputTokens(t) {
       opacity: t.opacity[50]
     },
     size: {
-      sm: { height: 32, fontSize: t.fontSize.sm },
+      sm: {
+        height: 32,
+        fontSize: t.fontSize.sm,
+        paddingVertical: t.spacing[1.5]
+      },
       /** Issue #1: spacing[3] vertical padding inside ~48dp target */
       md: { height: 48, fontSize: t.fontSize.md, paddingVertical: t.spacing[3] },
       lg: { height: 56, fontSize: t.fontSize.lg, paddingVertical: t.spacing[3] }
@@ -731,9 +735,15 @@ function inputTokens(t) {
     focusRing: { borderColor: t.color.border.focus, borderWidth: 2, outlineOffset: t.focusRing.offset },
     state: {
       default: { borderColor: t.color.border.default },
-      focused: { borderColor: t.color.border.focus, borderWidth: 1.5 },
+      /** Match default borderWidth — avoids layout shift on focus */
+      focused: { borderColor: t.color.border.focus, borderWidth: 1 },
       error: { borderColor: t.color.border.error },
       disabled: { backgroundColor: t.color.bg.muted, opacity: t.opacity[60] }
+    },
+    floatingLabel: {
+      fontSize: { active: t.fontSize.xs, inactive: t.fontSize.md },
+      color: { active: t.color.border.focus, inactive: t.color.text.tertiary },
+      translateY: { active: -14, inactive: 0 }
     },
     text: {
       color: t.color.text.primary,
@@ -1367,9 +1377,34 @@ function formControlTokens(t) {
 }
 function formFieldTokens(t) {
   return {
-    // Usually a wrapper for FormControl + actual input
-    container: {
-      marginBottom: t.spacing[4]
+    // Spacing between fields is owned by FormGroup `gap`, not this wrapper
+    container: {},
+    /** Single field inside a grouped card (no outer margin; divider handled by FormGroup) */
+    groupedContainer: {
+      marginBottom: 0
+    }
+  };
+}
+function formGroupTokens(t) {
+  return {
+    grouped: {
+      card: {
+        backgroundColor: t.color.surface.default,
+        borderRadius: t.radius.xl,
+        overflow: "hidden"
+      }
+    },
+    footer: {
+      fontSize: t.fontSize.xs,
+      color: t.color.text.tertiary,
+      marginTop: t.spacing[2],
+      paddingHorizontal: t.spacing[1]
+    },
+    errorBelowCard: {
+      fontSize: t.fontSize.xs,
+      color: t.color.error.text,
+      marginTop: t.spacing[2],
+      paddingHorizontal: t.spacing[1]
     }
   };
 }
@@ -1894,6 +1929,7 @@ function resolveComponentTokens(t) {
     emptyState: emptyStateTokens(t),
     formControl: formControlTokens(t),
     formField: formFieldTokens(t),
+    formGroup: formGroupTokens(t),
     grid: gridTokens(t),
     icon: iconTokens(t),
     image: imageTokens(t),

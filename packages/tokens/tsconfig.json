@@ -1,19 +1,10 @@
 {
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "moduleResolution": "Bundler",
-        "module": "ESNext",
-        "target": "ES2020",
-        "jsx": "react-native",
         "outDir": "dist",
-        "baseUrl": ".",
         "composite": true,
         "incremental": true,
-        "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
-        "declaration": true,
-        "declarationMap": true
+        "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
     },
     "include": [
         "src"

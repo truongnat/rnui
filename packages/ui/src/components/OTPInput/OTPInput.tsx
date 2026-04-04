@@ -145,7 +145,7 @@ function OTPCell({
 
     const backgroundColor = isFilled ? otpInput.cell.filled.backgroundColor : otpInput.cell.backgroundColor;
 
-    const borderWidth = otpInput.cell.borderWidth;
+    const borderWidth = isFocused ? Math.max(otpInput.cell.borderWidth * 1.5, 2) : otpInput.cell.borderWidth;
 
     const displayChar = isFilled && mask ? "\u2022" : char;
 

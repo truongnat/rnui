@@ -53,6 +53,19 @@ function MyCustomButton({ onPress, children }) {
 }
 ```
 
+### Subpath Imports
+
+```tsx
+// Import hooks riêng lẻ (tree-shakable)
+import { usePressable, useDisclosure } from "@truongdq01/headless/hooks";
+
+// Import theme utilities
+import { ThemeProvider, useTheme } from "@truongdq01/headless/theme";
+
+// Import motion presets
+import { timingPresets } from "@truongdq01/headless/motion";
+```
+
 ## Peer Dependencies
 
 - `react` (>=19.2.0)

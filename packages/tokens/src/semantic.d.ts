@@ -1,4 +1,4 @@
-import type { Brand } from "./brand";
+import type { Brand, BrandColorGroup } from "./brand";
 declare const shared: {
     readonly spacing: {
         readonly 0: 0;
@@ -19,8 +19,10 @@ declare const shared: {
         readonly 12: 48;
         readonly 14: 56;
         readonly 16: 64;
+        readonly 18: 72;
         readonly 20: 80;
         readonly 24: 96;
+        readonly 28: 112;
     };
     readonly radius: {
         readonly none: 0;
@@ -103,43 +105,15 @@ declare const shared: {
         readonly offset: 2;
         readonly outlineWidth: 2;
     };
-    readonly text: {
-        readonly xs: {
-            readonly fontSize: 11;
-            readonly lineHeight: number;
-            readonly fontWeight: "400";
-        };
-        readonly sm: {
-            readonly fontSize: 13;
-            readonly lineHeight: number;
-            readonly fontWeight: "400";
-        };
-        readonly md: {
-            readonly fontSize: 15;
-            readonly lineHeight: number;
-            readonly fontWeight: "400";
-        };
-        readonly lg: {
-            readonly fontSize: 17;
-            readonly lineHeight: number;
-            readonly fontWeight: "400";
-        };
-        readonly xl: {
-            readonly fontSize: 20;
-            readonly lineHeight: number;
-            readonly fontWeight: "500";
-        };
-        readonly "2xl": {
-            readonly fontSize: 24;
-            readonly lineHeight: number;
-            readonly fontWeight: "500";
-        };
-        readonly "3xl": {
-            readonly fontSize: 30;
-            readonly lineHeight: number;
-            readonly fontWeight: "600";
-        };
+    readonly fontFamily: {
+        /** Omit / undefined = system default sans */
+        readonly sans: string | undefined;
+        readonly mono: string | undefined;
     };
+    /**
+     * Composite typography ramp — IMPROVEMENT_PLAN.md Issue #2 (mode-independent).
+     * Consumed by `typographyTokens()` in `component.ts` (plus subtitle/button variants).
+     */
     readonly typography: {
         readonly display: {
             readonly fontSize: 36;
@@ -211,12 +185,54 @@ declare const shared: {
             readonly lineHeight: 20;
         };
     };
+    readonly text: {
+        readonly xs: {
+            readonly fontSize: 11;
+            readonly lineHeight: number;
+            readonly fontWeight: "400";
+        };
+        readonly sm: {
+            readonly fontSize: 13;
+            readonly lineHeight: number;
+            readonly fontWeight: "400";
+        };
+        readonly md: {
+            readonly fontSize: 15;
+            readonly lineHeight: number;
+            readonly fontWeight: "400";
+        };
+        readonly lg: {
+            readonly fontSize: 17;
+            readonly lineHeight: number;
+            readonly fontWeight: "400";
+        };
+        readonly xl: {
+            readonly fontSize: 20;
+            readonly lineHeight: number;
+            readonly fontWeight: "500";
+        };
+        readonly "2xl": {
+            readonly fontSize: 24;
+            readonly lineHeight: number;
+            readonly fontWeight: "500";
+        };
+        readonly "3xl": {
+            readonly fontSize: 30;
+            readonly lineHeight: number;
+            readonly fontWeight: "600";
+        };
+        readonly "4xl": {
+            readonly fontSize: 36;
+            readonly lineHeight: number;
+            readonly fontWeight: "700";
+        };
+    };
 };
 export declare const lightTokens: {
     readonly color: {
         readonly bg: {
-            readonly default: "#FFFFFF";
-            readonly subtle: "#F8FAFC";
+            readonly default: "#F8FAFC";
+            readonly subtle: "#F1F5F9";
             readonly muted: "#E2E8F0";
             readonly emphasis: "#94A3B8";
             readonly inverse: "#0F172A";
@@ -231,6 +247,8 @@ export declare const lightTokens: {
             readonly sunken: "#F1F5F9";
             readonly hover: "#F8FAFC";
             readonly disabled: "#F1F5F9";
+            readonly glass: "rgba(255,255,255,0.72)";
+            readonly glassBorder: "rgba(255,255,255,0.3)";
         };
         readonly text: {
             readonly primary: "#020617";
@@ -239,8 +257,14 @@ export declare const lightTokens: {
             readonly disabled: "#64748B";
             readonly inverse: "#FFFFFF";
             readonly link: "#6D28D9";
+            readonly visited: "#4C1D95";
+            readonly selected: "#5B21B6";
             readonly onBrand: "#FFFFFF";
             readonly onAccent: "#1C1917";
+            readonly success: "#14532D";
+            readonly warning: "#78350F";
+            readonly error: "#7F1D1D";
+            readonly info: "#1E3A8A";
         };
         readonly border: {
             readonly default: "#CBD5E1";
@@ -249,6 +273,9 @@ export declare const lightTokens: {
             readonly input: "#94A3B8";
             readonly focus: "#7C3AED";
             readonly error: "#DC2626";
+            readonly success: "#22C55E";
+            readonly warning: "#F59E0B";
+            readonly info: "#3B82F6";
         };
         readonly brand: {
             readonly default: "#7C3AED";
@@ -363,8 +390,10 @@ export declare const lightTokens: {
         readonly 12: 48;
         readonly 14: 56;
         readonly 16: 64;
+        readonly 18: 72;
         readonly 20: 80;
         readonly 24: 96;
+        readonly 28: 112;
     };
     readonly radius: {
         readonly none: 0;
@@ -447,6 +476,86 @@ export declare const lightTokens: {
         readonly offset: 2;
         readonly outlineWidth: 2;
     };
+    readonly fontFamily: {
+        /** Omit / undefined = system default sans */
+        readonly sans: string | undefined;
+        readonly mono: string | undefined;
+    };
+    /**
+     * Composite typography ramp — IMPROVEMENT_PLAN.md Issue #2 (mode-independent).
+     * Consumed by `typographyTokens()` in `component.ts` (plus subtitle/button variants).
+     */
+    readonly typography: {
+        readonly display: {
+            readonly fontSize: 36;
+            readonly fontWeight: "800";
+            readonly lineHeight: 44;
+            readonly letterSpacing: -0.5;
+        };
+        readonly h1: {
+            readonly fontSize: 30;
+            readonly fontWeight: "700";
+            readonly lineHeight: 38;
+        };
+        readonly h2: {
+            readonly fontSize: 24;
+            readonly fontWeight: "700";
+            readonly lineHeight: 32;
+        };
+        readonly h3: {
+            readonly fontSize: 20;
+            readonly fontWeight: "600";
+            readonly lineHeight: 28;
+        };
+        readonly h4: {
+            readonly fontSize: 18;
+            readonly fontWeight: "600";
+            readonly lineHeight: 26;
+        };
+        readonly h5: {
+            readonly fontSize: 16;
+            readonly fontWeight: "600";
+            readonly lineHeight: 24;
+        };
+        readonly h6: {
+            readonly fontSize: 14;
+            readonly fontWeight: "600";
+            readonly lineHeight: 22;
+        };
+        readonly body1: {
+            readonly fontSize: 16;
+            readonly fontWeight: "400";
+            readonly lineHeight: 24;
+        };
+        readonly body2: {
+            readonly fontSize: 14;
+            readonly fontWeight: "400";
+            readonly lineHeight: 22;
+        };
+        readonly caption: {
+            readonly fontSize: 12;
+            readonly fontWeight: "400";
+            readonly lineHeight: 18;
+        };
+        readonly overline: {
+            readonly fontSize: 11;
+            readonly fontWeight: "700";
+            readonly lineHeight: 16;
+            readonly letterSpacing: 1.2;
+            readonly textTransform: "uppercase";
+        };
+        readonly label: {
+            readonly fontSize: 14;
+            readonly fontWeight: "500";
+            readonly lineHeight: 20;
+        };
+        readonly code: {
+            readonly fontSize: 13;
+            readonly fontWeight: "400";
+            readonly fontFamily: "monospace";
+            readonly lineHeight: 20;
+        };
+    };
     readonly text: {
         readonly xs: {
             readonly fontSize: 11;
@@ -483,6 +592,11 @@ export declare const lightTokens: {
             readonly lineHeight: number;
             readonly fontWeight: "600";
         };
+        readonly "4xl": {
+            readonly fontSize: 36;
+            readonly lineHeight: number;
+            readonly fontWeight: "700";
+        };
     };
 };
 export declare const darkTokens: {
@@ -502,8 +616,10 @@ export declare const darkTokens: {
             readonly raised: "#1E293B";
             readonly overlay: "#1E293B";
             readonly sunken: "#020617";
-            readonly hover: "#1A1A28";
+            readonly hover: "#334155";
             readonly disabled: "#0D0D14";
+            readonly glass: "rgba(15,23,42,0.72)";
+            readonly glassBorder: "rgba(255,255,255,0.08)";
         };
         readonly text: {
             readonly primary: "#F8FAFC";
@@ -512,8 +628,14 @@ export declare const darkTokens: {
             readonly disabled: "#475569";
             readonly inverse: "#0F172A";
             readonly link: "#A78BFA";
+            readonly visited: "#C4B5FD";
+            readonly selected: "#DDD6FE";
             readonly onBrand: "#FFFFFF";
             readonly onAccent: "#1C1917";
+            readonly success: "#4ADE80";
+            readonly warning: "#FBBF24";
+            readonly error: "#F87171";
+            readonly info: "#60A5FA";
         };
         readonly border: {
             readonly default: "#334155";
@@ -522,6 +644,9 @@ export declare const darkTokens: {
             readonly input: "#475569";
             readonly focus: "#A78BFA";
             readonly error: "#F87171";
+            readonly success: "#4ADE80";
+            readonly warning: "#FBBF24";
+            readonly info: "#60A5FA";
         };
         readonly brand: {
             readonly default: "#A78BFA";
@@ -577,42 +702,42 @@ export declare const darkTokens: {
             readonly elevation: 0;
         };
         readonly sm: {
-            readonly shadowColor: "#000000";
+            readonly shadowColor: "#4C1D95";
             readonly shadowOffset: {
                 readonly width: 0;
                 readonly height: 1;
             };
-            readonly shadowOpacity: 0.25;
+            readonly shadowOpacity: 0.3;
             readonly shadowRadius: 4;
             readonly elevation: 2;
         };
         readonly md: {
-            readonly shadowColor: "#000000";
+            readonly shadowColor: "#4C1D95";
             readonly shadowOffset: {
                 readonly width: 0;
                 readonly height: 4;
             };
-            readonly shadowOpacity: 0.35;
+            readonly shadowOpacity: 0.4;
             readonly shadowRadius: 10;
             readonly elevation: 4;
         };
         readonly lg: {
-            readonly shadowColor: "#000000";
+            readonly shadowColor: "#5B21B6";
             readonly shadowOffset: {
                 readonly width: 0;
                 readonly height: 8;
             };
-            readonly shadowOpacity: 0.45;
+            readonly shadowOpacity: 0.5;
             readonly shadowRadius: 20;
             readonly elevation: 8;
         };
         readonly xl: {
-            readonly shadowColor: "#000000";
+            readonly shadowColor: "#5B21B6";
             readonly shadowOffset: {
                 readonly width: 0;
                 readonly height: 16;
             };
-            readonly shadowOpacity: 0.55;
+            readonly shadowOpacity: 0.6;
             readonly shadowRadius: 36;
             readonly elevation: 16;
         };
@@ -636,8 +761,10 @@ export declare const darkTokens: {
         readonly 12: 48;
         readonly 14: 56;
         readonly 16: 64;
+        readonly 18: 72;
         readonly 20: 80;
         readonly 24: 96;
+        readonly 28: 112;
     };
     readonly radius: {
         readonly none: 0;
@@ -720,6 +847,86 @@ export declare const darkTokens: {
         readonly offset: 2;
         readonly outlineWidth: 2;
     };
+    readonly fontFamily: {
+        /** Omit / undefined = system default sans */
+        readonly sans: string | undefined;
+        readonly mono: string | undefined;
+    };
+    /**
+     * Composite typography ramp — IMPROVEMENT_PLAN.md Issue #2 (mode-independent).
+     * Consumed by `typographyTokens()` in `component.ts` (plus subtitle/button variants).
+     */
+    readonly typography: {
+        readonly display: {
+            readonly fontSize: 36;
+            readonly fontWeight: "800";
+            readonly lineHeight: 44;
+            readonly letterSpacing: -0.5;
+        };
+        readonly h1: {
+            readonly fontSize: 30;
+            readonly fontWeight: "700";
+            readonly lineHeight: 38;
+        };
+        readonly h2: {
+            readonly fontSize: 24;
+            readonly fontWeight: "700";
+            readonly lineHeight: 32;
+        };
+        readonly h3: {
+            readonly fontSize: 20;
+            readonly fontWeight: "600";
+            readonly lineHeight: 28;
+        };
+        readonly h4: {
+            readonly fontSize: 18;
+            readonly fontWeight: "600";
+            readonly lineHeight: 26;
+        };
+        readonly h5: {
+            readonly fontSize: 16;
+            readonly fontWeight: "600";
+            readonly lineHeight: 24;
+        };
+        readonly h6: {
+            readonly fontSize: 14;
+            readonly fontWeight: "600";
+            readonly lineHeight: 22;
+        };
+        readonly body1: {
+            readonly fontSize: 16;
+            readonly fontWeight: "400";
+            readonly lineHeight: 24;
+        };
+        readonly body2: {
+            readonly fontSize: 14;
+            readonly fontWeight: "400";
+            readonly lineHeight: 22;
+        };
+        readonly caption: {
+            readonly fontSize: 12;
+            readonly fontWeight: "400";
+            readonly lineHeight: 18;
+        };
+        readonly overline: {
+            readonly fontSize: 11;
+            readonly fontWeight: "700";
+            readonly lineHeight: 16;
+            readonly letterSpacing: 1.2;
+            readonly textTransform: "uppercase";
+        };
+        readonly label: {
+            readonly fontSize: 14;
+            readonly fontWeight: "500";
+            readonly lineHeight: 20;
+        };
+        readonly code: {
+            readonly fontSize: 13;
+            readonly fontWeight: "400";
+            readonly fontFamily: "monospace";
+            readonly lineHeight: 20;
+        };
+    };
     readonly text: {
         readonly xs: {
             readonly fontSize: 11;
@@ -756,87 +963,13 @@ export declare const darkTokens: {
             readonly lineHeight: number;
             readonly fontWeight: "600";
         };
+        readonly "4xl": {
+            readonly fontSize: 36;
+            readonly lineHeight: number;
+            readonly fontWeight: "700";
+        };
     };
 };
-interface ColorGroup {
-    bg: {
-        default: string;
-        subtle: string;
-        muted: string;
-        emphasis: string;
-        inverse: string;
-        overlay: string;
-        hover: string;
-        disabled: string;
-    };
-    surface: {
-        default: string;
-        raised: string;
-        overlay: string;
-        sunken: string;
-        hover: string;
-        disabled: string;
-    };
-    text: {
-        primary: string;
-        secondary: string;
-        tertiary: string;
-        disabled: string;
-        inverse: string;
-        link: string;
-        onBrand: string;
-        onAccent: string;
-    };
-    border: {
-        default: string;
-        subtle: string;
-        strong: string;
-        input: string;
-        focus: string;
-        error: string;
-    };
-    brand: {
-        default: string;
-        hover: string;
-        active: string;
-        subtle: string;
-        muted: string;
-        text: string;
-    };
-    accent: {
-        default: string;
-        hover: string;
-        active: string;
-        subtle: string;
-        muted: string;
-        text: string;
-        onAccent: string;
-    };
-    success: {
-        bg: string;
-        text: string;
-        border: string;
-        icon: string;
-    };
-    warning: {
-        bg: string;
-        text: string;
-        border: string;
-        icon: string;
-    };
-    error: {
-        bg: string;
-        text: string;
-        border: string;
-        icon: string;
-    };
-    info: {
-        bg: string;
-        text: string;
-        border: string;
-        icon: string;
-    };
-}
 export interface SemanticTokens {
     spacing: typeof shared.spacing;
     radius: typeof shared.radius;
@@ -848,9 +981,19 @@ export interface SemanticTokens {
     zIndex: typeof shared.zIndex;
     elevation: typeof shared.elevation;
     focusRing: typeof shared.focusRing;
+    fontFamily: typeof shared.fontFamily;
+    /** Per-brand style overrides (button radius, etc.) */
+    brandStyle?: {
+        buttonRadius?: number;
+    };
+    /** Issue #2 scale — see `shared.typography` */
     typography: typeof shared.typography;
     text: typeof shared.text;
-    color: ColorGroup;
+    /**
+     * Color group for the active scheme.
+     * Keep this aligned with `BrandColorGroup` to avoid type drift between default tokens and brands.
+     */
+    color: BrandColorGroup;
     shadow: {
         none: {
             shadowColor: string;

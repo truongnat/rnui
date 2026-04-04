@@ -2,19 +2,8 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "outDir": "dist",
-        "baseUrl": ".",
-        "declaration": true,
-        "declarationMap": true,
-        "composite": false,
-        "emitDeclarationOnly": false,
-        "noEmit": false,
-        "skipLibCheck": true
+        "composite": false
     },
-    "references": [
-        {
-            "path": "../tokens"
-        }
-    ],
     "include": [
         "src/**/*"
     ],

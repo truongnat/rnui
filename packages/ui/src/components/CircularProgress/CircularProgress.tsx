@@ -2,7 +2,14 @@ import React from "react";
 import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
 import { useTokens, useComponentTokens } from "@truongdq01/headless";
 
+/**
+ * Available progress indicator variants
+ */
 export type CircularProgressVariant = "indeterminate" | "determinate";
+
+/**
+ * Available progress indicator colors
+ */
 export type CircularProgressColor =
   | "primary"
   | "secondary"
@@ -12,6 +19,9 @@ export type CircularProgressColor =
   | "warning"
   | "inherit";
 
+/**
+ * Props for the CircularProgress component
+ */
 export interface CircularProgressProps {
   size?: number | "sm" | "md" | "lg" | "small" | "medium" | "large";
   color?: CircularProgressColor;
@@ -26,6 +36,18 @@ function clamp(value: number, min = 0, max = 100) {
   return Math.max(min, Math.min(max, value));
 }
 
+/**
+ * Circular progress indicator component using native ActivityIndicator.
+ * Supports both indeterminate and determinate progress with accessibility.
+ *
+ * @param props - Progress indicator configuration
+ * @returns React progress component
+ *
+ * @example
+ * ```tsx
+ * <CircularProgress variant="determinate" value={75} showLabel />
+ * ```
+ */
 export function CircularProgress({
   size = "md",
   color = "primary",

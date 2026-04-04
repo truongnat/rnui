@@ -23,6 +23,11 @@ export declare const spring: {
         readonly stiffness: 500;
         readonly mass: 0.6;
     };
+    readonly elastic: {
+        readonly damping: 8;
+        readonly stiffness: 250;
+        readonly mass: 1;
+    };
 };
 export declare const duration: {
     readonly instant: 50;

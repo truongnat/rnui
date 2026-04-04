@@ -4,10 +4,12 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   runOnJS,
-  FadeInUp,
   FadeOutUp,
   FadeInDown,
   FadeOutDown,
+  SlideInUp,
+  SlideInDown,
+  Easing,
 } from "react-native-reanimated";
 import { View, Text, Pressable } from "react-native";
 import { useComponentTokens, useTokens, useReduceMotionEnabled } from "@truongdq01/headless";
@@ -62,7 +64,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
 
   const entering = reduceMotion
     ? undefined
-    : position === "top" ? FadeInDown.duration(280) : FadeInUp.duration(280);
+    : position === "top" ? SlideInDown.duration(280).easing(Easing.out(Easing.cubic)) : SlideInUp.duration(280).easing(Easing.out(Easing.cubic));
   const exiting = reduceMotion
     ? undefined
     : position === "top" ? FadeOutUp.duration(200) : FadeOutDown.duration(200);

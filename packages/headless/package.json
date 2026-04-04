@@ -17,6 +17,21 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.mjs",
+      "require": "./dist/hooks/index.js"
+    },
+    "./theme": {
+      "types": "./dist/theme.d.ts",
+      "import": "./dist/theme.mjs",
+      "require": "./dist/theme.js"
+    },
+    "./motion": {
+      "types": "./dist/motion.d.ts",
+      "import": "./dist/motion.mjs",
+      "require": "./dist/motion.js"
     }
   },
   "files": [
@@ -54,7 +69,7 @@
     "react": "19.2.0",
     "react-native": "0.83.2",
     "react-test-renderer": "19.2.0",
-    "tsup": "^8.4.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.8.3"
   }
 }

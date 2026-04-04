@@ -27,11 +27,20 @@ export declare const primitive: {
             readonly 300: "#C4B5FD";
             readonly 400: "#A78BFA";
             readonly 500: "#8B5CF6";
+            readonly 550: "#7F4BF0";
             readonly 600: "#7C3AED";
             readonly 700: "#6D28D9";
             readonly 800: "#5B21B6";
             readonly 900: "#4C1D95";
             readonly 950: "#2E1065";
+        };
+        readonly warmNeutral: {
+            readonly 50: "#FEFDFB";
+            readonly 100: "#FBF8F3";
+            readonly 200: "#F5F0E8";
+            readonly 300: "#EBE3D6";
+            readonly 400: "#D5CBBC";
+            readonly 500: "#A8A093";
         };
         readonly amber: {
             readonly 50: "#FFFBEB";
@@ -66,6 +75,79 @@ export declare const primitive: {
             readonly 600: "#2563EB";
             readonly 900: "#1E3A8A";
         };
+        readonly orange: {
+            readonly 50: "#FFF7ED";
+            readonly 100: "#FFEDD5";
+            readonly 200: "#FED7AA";
+            readonly 300: "#FDBA74";
+            readonly 400: "#FB923C";
+            readonly 500: "#F97316";
+            readonly 600: "#EA580C";
+            readonly 700: "#C2410C";
+            readonly 800: "#9A3412";
+            readonly 900: "#7C2D12";
+            readonly 950: "#431407";
+        };
+        readonly teal: {
+            readonly 50: "#F0FDFA";
+            readonly 100: "#CCFBF1";
+            readonly 200: "#99F6E4";
+            readonly 300: "#5EEAD4";
+            readonly 400: "#2DD4BF";
+            readonly 500: "#14B8A6";
+            readonly 600: "#0D9488";
+            readonly 700: "#0F766E";
+            readonly 800: "#115E59";
+            readonly 900: "#134E4A";
+            readonly 950: "#042F2E";
+        };
+        readonly rose: {
+            readonly 50: "#FFF1F2";
+            readonly 100: "#FFE4E6";
+            readonly 200: "#FECDD3";
+            readonly 300: "#FDA4AF";
+            readonly 400: "#FB7185";
+            readonly 500: "#F43F5E";
+            readonly 600: "#E11D48";
+            readonly 700: "#BE123C";
+            readonly 800: "#9F1239";
+            readonly 900: "#881337";
+            readonly 950: "#4C0519";
+        };
+        readonly emerald: {
+            readonly 50: "#ECFDF5";
+            readonly 100: "#D1FAE5";
+            readonly 200: "#A7F3D0";
+            readonly 300: "#6EE7B7";
+            readonly 400: "#34D399";
+            readonly 500: "#10B981";
+            readonly 600: "#059669";
+            readonly 700: "#047857";
+            readonly 800: "#065F46";
+            readonly 900: "#064E3B";
+            readonly 950: "#022C22";
+        };
+        readonly indigo: {
+            readonly 50: "#EEF2FF";
+            readonly 100: "#E0E7FF";
+            readonly 200: "#C7D2FE";
+            readonly 300: "#A5B4FC";
+            readonly 400: "#818CF8";
+            readonly 500: "#6366F1";
+            readonly 600: "#4F46E5";
+            readonly 700: "#4338CA";
+            readonly 800: "#3730A3";
+            readonly 900: "#312E81";
+            readonly 950: "#1E1B4B";
+        };
+    };
+    readonly gradient: {
+        readonly brand: readonly [string, string];
+        readonly accent: readonly [string, string];
+        readonly success: readonly [string, string];
+        readonly sunrise: readonly [string, string];
+        readonly ocean: readonly [string, string];
+        readonly midnight: readonly [string, string];
     };
     readonly spacing: {
         readonly 0: 0;
@@ -86,8 +168,10 @@ export declare const primitive: {
         readonly 12: 48;
         readonly 14: 56;
         readonly 16: 64;
+        readonly 18: 72;
         readonly 20: 80;
         readonly 24: 96;
+        readonly 28: 112;
     };
     readonly radius: {
         readonly none: 0;

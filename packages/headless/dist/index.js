@@ -3743,8 +3743,8 @@ var init_Haptics = __esm({
 });
 
 // src/index.ts
-var index_exports = {};
-__export(index_exports, {
+var src_exports = {};
+__export(src_exports, {
   ThemeProvider: () => ThemeProvider,
   createTheme: () => createTheme,
   dismissAllToasts: () => dismissAllToasts,
@@ -3799,7 +3799,7 @@ __export(index_exports, {
   useToggleGroup: () => useToggleGroup,
   useTokens: () => useTokens
 });
-module.exports = __toCommonJS(index_exports);
+module.exports = __toCommonJS(src_exports);
 
 // src/theme.tsx
 var import_react = __toESM(require("react"));

@@ -21,6 +21,18 @@ const layoutTransition =
 
 // ─── Component ────────────────────────────────────────────────────
 
+/**
+ * Container component for displaying toast notifications.
+ * Manages positioning and animations for multiple toasts.
+ *
+ * @param props - Toast container configuration
+ * @returns Animated toast container component
+ *
+ * @example
+ * ```tsx
+ * <ToastContainer position="top" horizontalPadding={20} />
+ * ```
+ */
 export function ToastContainer({
   position = "bottom",
   horizontalPadding = 16,

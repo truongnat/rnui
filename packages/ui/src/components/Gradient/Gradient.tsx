@@ -9,8 +9,14 @@ try {
   // expo-linear-gradient not installed — render solid fallback
 }
 
+/**
+ * Available gradient preset names from primitive tokens
+ */
 type GradientPreset = keyof typeof primitive.gradient;
 
+/**
+ * Props for the Gradient component
+ */
 export interface GradientProps extends ViewProps {
   /** Named gradient preset from primitive tokens. */
   preset?: GradientPreset;
@@ -25,6 +31,20 @@ export interface GradientProps extends ViewProps {
   children?: React.ReactNode;
 }
 
+/**
+ * Gradient component that renders linear gradients with fallback support.
+ * Requires expo-linear-gradient for full functionality, falls back to solid color.
+ *
+ * @param props - Gradient configuration props
+ * @returns React gradient component
+ *
+ * @example
+ * ```tsx
+ * <Gradient preset="brand" start={{x: 0, y: 0}} end={{x: 1, y: 1}}>
+ *   <Text>Content</Text>
+ * </Gradient>
+ * ```
+ */
 export function Gradient({
   preset,
   colors: colorsProp,

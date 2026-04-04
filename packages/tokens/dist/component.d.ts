@@ -178,7 +178,7 @@ export declare function inputTokens(t: SemanticTokens): {
     container: {
         borderWidth: number;
         borderColor: string;
-        borderRadius: 8;
+        borderRadius: 12;
         backgroundColor: string;
         flexDirection: "row";
         alignItems: "center";
@@ -197,6 +197,7 @@ export declare function inputTokens(t: SemanticTokens): {
         sm: {
             height: number;
             fontSize: 13;
+            paddingVertical: 6;
         };
         /** Issue #1: spacing[3] vertical padding inside ~48dp target */
         md: {
@@ -219,6 +220,7 @@ export declare function inputTokens(t: SemanticTokens): {
         default: {
             borderColor: string;
         };
+        /** Match default borderWidth — avoids layout shift on focus */
         focused: {
             borderColor: string;
             borderWidth: number;
@@ -229,6 +231,20 @@ export declare function inputTokens(t: SemanticTokens): {
         disabled: {
             backgroundColor: string;
             opacity: 0.6;
+        };
+    };
+    floatingLabel: {
+        fontSize: {
+            active: 11;
+            inactive: 15;
+        };
+        color: {
+            active: string;
+            inactive: string;
+        };
+        translateY: {
+            active: number;
+            inactive: number;
         };
     };
     text: {
@@ -1135,8 +1151,31 @@ export declare function formControlTokens(t: SemanticTokens): {
     };
 };
 export declare function formFieldTokens(t: SemanticTokens): {
-    readonly container: {
-        readonly marginBottom: 16;
+    readonly container: {};
+    /** Single field inside a grouped card (no outer margin; divider handled by FormGroup) */
+    readonly groupedContainer: {
+        readonly marginBottom: 0;
+    };
+};
+export declare function formGroupTokens(t: SemanticTokens): {
+    readonly grouped: {
+        readonly card: {
+            readonly backgroundColor: string;
+            readonly borderRadius: 16;
+            readonly overflow: "hidden";
+        };
+    };
+    readonly footer: {
+        readonly fontSize: 11;
+        readonly color: string;
+        readonly marginTop: 8;
+        readonly paddingHorizontal: 4;
+    };
+    readonly errorBelowCard: {
+        readonly fontSize: 11;
+        readonly color: string;
+        readonly marginTop: 8;
+        readonly paddingHorizontal: 4;
     };
 };
 export declare function gridTokens(t: SemanticTokens): {
@@ -1626,7 +1665,7 @@ export declare function textAreaTokens(t: SemanticTokens): {
         readonly textAlignVertical: "top";
         readonly borderWidth: number;
         readonly borderColor: string;
-        readonly borderRadius: 8;
+        readonly borderRadius: 12;
         readonly backgroundColor: string;
         readonly paddingHorizontal: 12;
         readonly gap: 8;
@@ -1643,6 +1682,7 @@ export declare function textAreaTokens(t: SemanticTokens): {
         sm: {
             height: number;
             fontSize: 13;
+            paddingVertical: 6;
         };
         /** Issue #1: spacing[3] vertical padding inside ~48dp target */
         md: {
@@ -1665,6 +1705,7 @@ export declare function textAreaTokens(t: SemanticTokens): {
         default: {
             borderColor: string;
         };
+        /** Match default borderWidth — avoids layout shift on focus */
         focused: {
             borderColor: string;
             borderWidth: number;
@@ -1675,6 +1716,20 @@ export declare function textAreaTokens(t: SemanticTokens): {
         disabled: {
             backgroundColor: string;
             opacity: 0.6;
+        };
+    };
+    readonly floatingLabel: {
+        fontSize: {
+            active: 11;
+            inactive: 15;
+        };
+        color: {
+            active: string;
+            inactive: string;
+        };
+        translateY: {
+            active: number;
+            inactive: number;
         };
     };
     readonly text: {
@@ -1702,7 +1757,7 @@ export declare function textFieldTokens(t: SemanticTokens): {
     readonly container: {
         readonly borderWidth: number;
         readonly borderColor: string;
-        readonly borderRadius: 8;
+        readonly borderRadius: 12;
         readonly backgroundColor: string;
         readonly flexDirection: "row";
         readonly alignItems: "center";
@@ -1721,6 +1776,7 @@ export declare function textFieldTokens(t: SemanticTokens): {
         sm: {
             height: number;
             fontSize: 13;
+            paddingVertical: 6;
         };
         /** Issue #1: spacing[3] vertical padding inside ~48dp target */
         md: {
@@ -1743,6 +1799,7 @@ export declare function textFieldTokens(t: SemanticTokens): {
         default: {
             borderColor: string;
         };
+        /** Match default borderWidth — avoids layout shift on focus */
         focused: {
             borderColor: string;
             borderWidth: number;
@@ -1753,6 +1810,20 @@ export declare function textFieldTokens(t: SemanticTokens): {
         disabled: {
             backgroundColor: string;
             opacity: 0.6;
+        };
+    };
+    readonly floatingLabel: {
+        fontSize: {
+            active: 11;
+            inactive: 15;
+        };
+        color: {
+            active: string;
+            inactive: string;
+        };
+        translateY: {
+            active: number;
+            inactive: number;
         };
     };
     readonly text: {
@@ -2110,7 +2181,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
         container: {
             borderWidth: number;
             borderColor: string;
-            borderRadius: 8;
+            borderRadius: 12;
             backgroundColor: string;
             flexDirection: "row";
             alignItems: "center";
@@ -2129,6 +2200,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             sm: {
                 height: number;
                 fontSize: 13;
+                paddingVertical: 6;
             };
             /** Issue #1: spacing[3] vertical padding inside ~48dp target */
             md: {
@@ -2151,6 +2223,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             default: {
                 borderColor: string;
             };
+            /** Match default borderWidth — avoids layout shift on focus */
             focused: {
                 borderColor: string;
                 borderWidth: number;
@@ -2161,6 +2234,20 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             disabled: {
                 backgroundColor: string;
                 opacity: 0.6;
+            };
+        };
+        floatingLabel: {
+            fontSize: {
+                active: 11;
+                inactive: 15;
+            };
+            color: {
+                active: string;
+                inactive: string;
+            };
+            translateY: {
+                active: number;
+                inactive: number;
             };
         };
         text: {
@@ -3207,8 +3294,31 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
         };
     };
     readonly formField: {
-        readonly container: {
-            readonly marginBottom: 16;
+        readonly container: {};
+        /** Single field inside a grouped card (no outer margin; divider handled by FormGroup) */
+        readonly groupedContainer: {
+            readonly marginBottom: 0;
+        };
+    };
+    readonly formGroup: {
+        readonly grouped: {
+            readonly card: {
+                readonly backgroundColor: string;
+                readonly borderRadius: 16;
+                readonly overflow: "hidden";
+            };
+        };
+        readonly footer: {
+            readonly fontSize: 11;
+            readonly color: string;
+            readonly marginTop: 8;
+            readonly paddingHorizontal: 4;
+        };
+        readonly errorBelowCard: {
+            readonly fontSize: 11;
+            readonly color: string;
+            readonly marginTop: 8;
+            readonly paddingHorizontal: 4;
         };
     };
     readonly grid: {
@@ -3698,7 +3808,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             readonly textAlignVertical: "top";
             readonly borderWidth: number;
             readonly borderColor: string;
-            readonly borderRadius: 8;
+            readonly borderRadius: 12;
             readonly backgroundColor: string;
             readonly paddingHorizontal: 12;
             readonly gap: 8;
@@ -3715,6 +3825,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             sm: {
                 height: number;
                 fontSize: 13;
+                paddingVertical: 6;
             };
             /** Issue #1: spacing[3] vertical padding inside ~48dp target */
             md: {
@@ -3737,6 +3848,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             default: {
                 borderColor: string;
             };
+            /** Match default borderWidth — avoids layout shift on focus */
             focused: {
                 borderColor: string;
                 borderWidth: number;
@@ -3747,6 +3859,20 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             disabled: {
                 backgroundColor: string;
                 opacity: 0.6;
+            };
+        };
+        readonly floatingLabel: {
+            fontSize: {
+                active: 11;
+                inactive: 15;
+            };
+            color: {
+                active: string;
+                inactive: string;
+            };
+            translateY: {
+                active: number;
+                inactive: number;
             };
         };
         readonly text: {
@@ -3774,7 +3900,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
         readonly container: {
             readonly borderWidth: number;
             readonly borderColor: string;
-            readonly borderRadius: 8;
+            readonly borderRadius: 12;
             readonly backgroundColor: string;
             readonly flexDirection: "row";
             readonly alignItems: "center";
@@ -3793,6 +3919,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             sm: {
                 height: number;
                 fontSize: 13;
+                paddingVertical: 6;
             };
             /** Issue #1: spacing[3] vertical padding inside ~48dp target */
             md: {
@@ -3815,6 +3942,7 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             default: {
                 borderColor: string;
             };
+            /** Match default borderWidth — avoids layout shift on focus */
             focused: {
                 borderColor: string;
                 borderWidth: number;
@@ -3825,6 +3953,20 @@ export declare function resolveComponentTokens(t: SemanticTokens): {
             disabled: {
                 backgroundColor: string;
                 opacity: 0.6;
+            };
+        };
+        readonly floatingLabel: {
+            fontSize: {
+                active: 11;
+                inactive: 15;
+            };
+            color: {
+                active: string;
+                inactive: string;
+            };
+            translateY: {
+                active: number;
+                inactive: number;
             };
         };
         readonly text: {

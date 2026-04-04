@@ -11,17 +11,38 @@ import Animated, {
 } from "react-native-reanimated";
 import { useTokens, useComponentTokens, useIsDark } from "@truongdq01/headless";
 
+/**
+ * Available shimmer animation directions
+ */
 export type SkeletonShimmerDirection = "pulse" | "left-to-right" | "right-to-left";
 
 // ─── Shared shimmer context ───────────────────────────────────────
 const ShimmerCtx = createContext<SharedValue<number> | null>(null);
 
+/**
+ * Props for the ShimmerProvider component
+ */
 export interface ShimmerProviderProps {
   children: React.ReactNode;
   /** Animation duration per cycle (ms) */
   duration?: number;
 }
 
+/**
+ * Provider component that shares shimmer animation across child skeletons.
+ * Improves performance by using a single shared animation value.
+ *
+ * @param props - Shimmer provider configuration
+ * @returns Context provider component
+ *
+ * @example
+ * ```tsx
+ * <ShimmerProvider>
+ *   <Skeleton width={200} height={20} />
+ *   <Skeleton width={150} height={20} />
+ * </ShimmerProvider>
+ * ```
+ */
 export function ShimmerProvider({ children, duration = 1200 }: ShimmerProviderProps) {
   const shimmer = useSharedValue(0);
   useEffect(() => {

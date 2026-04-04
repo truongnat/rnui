@@ -30,6 +30,8 @@ export interface BrandColorGroup {
         sunken: string;
         hover: string;
         disabled: string;
+        glass?: string;
+        glassBorder?: string;
     };
     text: {
         primary: string;
@@ -38,8 +40,14 @@ export interface BrandColorGroup {
         disabled: string;
         inverse: string;
         link: string;
+        visited?: string;
+        selected?: string;
         onBrand: string;
         onAccent: string;
+        success?: string;
+        warning?: string;
+        error?: string;
+        info?: string;
     };
     border: {
         default: string;
@@ -48,6 +56,9 @@ export interface BrandColorGroup {
         input: string;
         focus: string;
         error: string;
+        success?: string;
+        warning?: string;
+        info?: string;
     };
     brand: {
         default: string;
@@ -108,6 +119,15 @@ export interface Brand {
     light: BrandColorGroup;
     /** Full color group for dark mode */
     dark: BrandColorGroup;
+    /** Optional font family override (e.g. midnight → monospace) */
+    fontFamily?: {
+        sans?: string;
+        mono?: string;
+    };
+    /** Optional style overrides (e.g. button radius per brand) */
+    style?: {
+        buttonRadius?: number;
+    };
 }
 /**
  * Type-safe factory for defining a brand.

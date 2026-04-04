@@ -7,6 +7,9 @@ import type { PressFeedbackMode } from "@truongdq01/headless";
 
 // ─── Types ────────────────────────────────────────────────────────
 
+/**
+ * Available button visual style variants
+ */
 export type ButtonVariant =
   | "solid"
   | "outline"
@@ -15,7 +18,15 @@ export type ButtonVariant =
   | "text"
   | "contained"
   | "outlined";
+
+/**
+ * Available button size presets
+ */
 export type ButtonSize = "sm" | "md" | "lg";
+
+/**
+ * Available button color themes
+ */
 export type ButtonColor =
   | "inherit"
   | "primary"
@@ -26,6 +37,9 @@ export type ButtonColor =
   | "warning"
   | "accent";  // Amber CTA — stands out from brand violet
 
+/**
+ * Props for the Button component
+ */
 export interface ButtonProps {
   /** Visual style variant */
   variant?: ButtonVariant;
@@ -75,6 +89,32 @@ export interface ButtonProps {
 
 // ─── Component ────────────────────────────────────────────────────
 
+/**
+ * Button component with multiple variants, sizes, and interaction states.
+ * Supports icons, loading states, accessibility, and gesture feedback.
+ *
+ * @param props - Button configuration props
+ * @returns Memoized React button component
+ *
+ * @example
+ * ```tsx
+ * <Button
+ *   variant="solid"
+ *   color="primary"
+ *   size="md"
+ *   onPress={() => console.log('Pressed')}
+ * >
+ *   Click me
+ * </Button>
+ * ```
+ *
+ * @example With loading state
+ * ```tsx
+ * <Button loading loadingPosition="start">
+ *   Saving...
+ * </Button>
+ * ```
+ */
 export const Button = React.memo(({
   variant = "solid",
   color = "primary",

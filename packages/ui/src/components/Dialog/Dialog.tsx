@@ -2,6 +2,9 @@ import React from "react";
 import { Modal, View, Pressable, StyleSheet, Text } from "react-native";
 import { useComponentTokens, useTokens } from "@truongdq01/headless";
 
+/**
+ * Props for the Dialog component
+ */
 export interface DialogProps {
   open: boolean;
   onClose?: () => void;
@@ -15,6 +18,23 @@ export interface DialogProps {
   backdropAccessibilityLabel?: string;
 }
 
+/**
+ * Dialog component that displays modal content with backdrop and accessibility support.
+ *
+ * @param props - Dialog configuration props
+ * @returns React element or null if not open
+ *
+ * @example
+ * ```tsx
+ * <Dialog
+ *   open={isOpen}
+ *   onClose={() => setIsOpen(false)}
+ *   title="Confirm Action"
+ * >
+ *   <Text>Are you sure?</Text>
+ * </Dialog>
+ * ```
+ */
 export function Dialog({
   open,
   onClose,
