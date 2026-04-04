@@ -19,6 +19,9 @@ import {
   type TimingPresetKey,
 } from '@truongdq01/tokens';
 
+/** Alias for {@link import('@truongdq01/tokens').motionPreset} — layout animation name metadata from tokens. */
+export { motionPreset as motionPresets } from '@truongdq01/tokens';
+
 /**
  * Shared transition animations for layout animations.
  * Note: Preset animations removed in react-native-reanimated v4.
