@@ -5,7 +5,6 @@ import {
   midnightBrand,
   oceanBrand,
   sunsetBrand,
-  telegramBrand,
   allBrands,
   getBrandById,
 } from '../index';
@@ -19,7 +18,6 @@ describe('Brands', () => {
     { name: 'midnight', brand: midnightBrand },
     { name: 'ocean', brand: oceanBrand },
     { name: 'sunset', brand: sunsetBrand },
-    { name: 'telegram', brand: telegramBrand },
   ];
 
   it.each(brands)('$name should have valid brand structure', ({ brand }) => {
@@ -46,7 +44,7 @@ describe('Brands', () => {
   });
 
   it('all brands should be in allBrands registry', () => {
-    expect(allBrands.length).toBe(7);
+    expect(allBrands.length).toBe(6);
     expect(allBrands.includes(defaultBrand)).toBe(true);
     expect(allBrands.includes(loveBrand)).toBe(true);
   });
@@ -60,7 +58,6 @@ describe('Brands', () => {
   it('getBrandById should return correct brand', () => {
     expect(getBrandById('default')).toBe(defaultBrand);
     expect(getBrandById('love')).toBe(loveBrand);
-    expect(getBrandById('telegram')).toBe(telegramBrand);
   });
 
   it('getBrandById should throw for unknown id', () => {

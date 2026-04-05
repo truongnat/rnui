@@ -231,6 +231,13 @@ export function useTokens(): SemanticTokens {
   return useTheme().tokens;
 }
 
+export function useTokenSelector<T>(
+  selector: (tokens: SemanticTokens) => T
+): T {
+  const tokens = useTokens();
+  return useMemo(() => selector(tokens), [tokens, selector]);
+}
+
 /**
  * Returns only component tokens.
  */
