@@ -3,6 +3,7 @@ export {
   ThemeProvider,
   useTheme,
   useTokens,
+  useTokenSelector,
   useComponentTokens,
   useIsDark,
   useActiveBrand,
