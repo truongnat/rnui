@@ -9,7 +9,6 @@ export default defineConfig({
     'brands/midnight': 'src/brands/midnight.ts',
     'brands/ocean': 'src/brands/ocean.ts',
     'brands/sunset': 'src/brands/sunset.ts',
-    'brands/telegram': 'src/brands/telegram.ts',
   },
   format: ['cjs', 'esm'],
   dts: false,

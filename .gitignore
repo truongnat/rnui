@@ -57,3 +57,4 @@ tsconfig.*.tsbuildinfo
 
 # GitNexus
 .gitnexus
+packages/*/dist/
