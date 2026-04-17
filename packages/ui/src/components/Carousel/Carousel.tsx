@@ -63,6 +63,9 @@ export function Carousel<T>({
   const resolvedItemWidth = itemWidth ?? windowWidth;
   const contentPaddingStart = (windowWidth - resolvedItemWidth) / 2;
 
+  // Automatically disable loop if we only have 1 item.
+  const isLoop = loop && data.length > 1;
+
   const { carousel } = useComponentTokens();
   const {
     scrollViewRef,
@@ -79,7 +82,7 @@ export function Carousel<T>({
     itemWidth: resolvedItemWidth,
     gap,
     contentPaddingStart,
-    loop,
+    loop: isLoop,
     autoPlay,
     autoPlayInterval,
   });
@@ -108,10 +111,10 @@ export function Carousel<T>({
         {displayData.map((item: T, index: number) => {
           return (
             <View
-              key={getSlideKey(item, index, loop, n, keyExtractor)}
+              key={getSlideKey(item, index, isLoop, n, keyExtractor)}
               style={{ width: resolvedItemWidth, height }}
             >
-              {renderItem(item, loop ? (index - 1 + n) % n : index)}
+              {renderItem(item, isLoop ? (index - 1 + n) % n : index)}
             </View>
           );
         })}
@@ -135,7 +138,7 @@ export function Carousel<T>({
                 scrollX={scrollX}
                 itemStep={itemStep}
                 contentPaddingStart={snapPad}
-                isLoop={loop}
+                isLoop={isLoop}
                 n={n}
                 dot={carousel.dot}
               />

@@ -385,7 +385,7 @@ export function switchTokens(t: SemanticTokens) {
     colors: {
       trackOff: t.color.border.default,
       trackOn: t.color.brand.default,
-      thumb: t.color.text.inverse,
+      thumb: t.color.surface.raised,
       disabledOpacity: t.opacity[40],
     },
   };

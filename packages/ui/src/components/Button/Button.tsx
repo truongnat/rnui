@@ -221,7 +221,9 @@ export const Button = React.memo(
         return;
       }
       onPress?.();
-      void Linking.openURL(href).catch(() => {});
+      void Linking.openURL(href).catch((err) => {
+        console.warn(`Failed to open URL ${href}:`, err);
+      });
     }, [href, onPress]);
 
     const hitSlop = useMemo(() => {
@@ -307,12 +309,12 @@ export const Button = React.memo(
     const resolvedLabelColor = useMemo(() => {
       switch (resolvedVariant) {
         case 'solid':
-          return String(resolvedColor.textOn ?? tokens.color.text.inverse);
+          return resolvedColor.textOn ?? tokens.color.text.inverse;
         case 'outline':
         case 'ghost':
-          return String(resolvedColor.main);
+          return resolvedColor.main;
         case 'destructive':
-          return String(tokens.color.error.text);
+          return tokens.color.error.text;
         default: {
           const _never: never = resolvedVariant;
           throw new Error(`Unexpected button variant: ${_never}`);
@@ -320,7 +322,7 @@ export const Button = React.memo(
       }
     }, [resolvedVariant, resolvedColor, tokens]);
 
-    const iconColor = resolvedLabelColor;
+    const iconColor = String(resolvedLabelColor);
     const content = children ?? label;
     const isTextContent =
       typeof content === 'string' || typeof content === 'number';

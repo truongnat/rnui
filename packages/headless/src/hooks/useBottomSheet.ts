@@ -1,4 +1,4 @@
-import { useCallback, useRef, useMemo } from 'react';
+import { useCallback, useRef, useMemo, useState } from 'react';
 import {
   useSharedValue,
   useAnimatedStyle,
@@ -79,8 +79,19 @@ export function useBottomSheet({
   const maxHeight = useMemo(() => Math.max(...snapPoints), [snapPoints]);
   const defaultSnapIndex = initialSnapIndex ?? snapPoints.length - 1;
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentSnapIndex, setCurrentSnapIndex] = useState(defaultSnapIndex);
+
   const isOpenRef = useRef(false);
   const currentIndexRef = useRef(defaultSnapIndex);
+
+  // Sync ref with state just in case internally needed. Actually, better to just use refs and update state together
+  const updateState = useCallback((open: boolean, index: number) => {
+    isOpenRef.current = open;
+    currentIndexRef.current = index;
+    setIsOpen(open);
+    setCurrentSnapIndex(index);
+  }, []);
 
   // translateY: 0 = fully visible at snap, SCREEN_HEIGHT = hidden below screen
   const translateY = useSharedValue(SCREEN_HEIGHT);
@@ -89,38 +100,11 @@ export function useBottomSheet({
 
   const gentleSpring = spring.gentle;
 
-  // ── Animate to snap ──────────────────────────────────────────
-  const animateToSnap = useCallback(
-    (index: number, onDone?: () => void) => {
-      'worklet';
-      const targetHeight =
-        snapPoints[index] ?? snapPoints[snapPoints.length - 1];
-      const targetY = SCREEN_HEIGHT - targetHeight;
-      translateY.value = withSpring(targetY, gentleSpring, (finished) => {
-        if (finished && onDone) scheduleOnRN(onDone);
-      });
-      // Backdrop opacity: 0 when closed, 1 at highest snap point
-      backdropOpacity.value = withTiming(
-        enableBackdrop ? (targetHeight / maxHeight) * 0.6 : 0,
-        { duration: 250 }
-      );
-    },
-    [
-      snapPoints,
-      maxHeight,
-      translateY,
-      backdropOpacity,
-      enableBackdrop,
-      gentleSpring,
-    ]
-  );
-
   // ── JS-thread open/close/snap ────────────────────────────────
   const open = useCallback(
     (snapIndex?: number) => {
       const idx = snapIndex ?? defaultSnapIndex;
-      isOpenRef.current = true;
-      currentIndexRef.current = idx;
+      updateState(true, idx);
       const targetHeight = snapPoints[idx] ?? snapPoints[snapPoints.length - 1];
       const targetY = SCREEN_HEIGHT - targetHeight;
       if (typeof targetY !== 'number' || isNaN(targetY)) {
@@ -147,9 +131,9 @@ export function useBottomSheet({
   );
 
   const handleCloseEnd = useCallback(() => {
-    isOpenRef.current = false;
+    updateState(false, currentIndexRef.current);
     onClose?.();
-  }, [onClose]);
+  }, [onClose, updateState]);
 
   const close = useCallback(() => {
     translateY.value = withSpring(SCREEN_HEIGHT, gentleSpring, (finished) => {
@@ -163,7 +147,7 @@ export function useBottomSheet({
   const snapTo = useCallback(
     (index: number) => {
       if (index < 0 || index >= snapPoints.length) return;
-      currentIndexRef.current = index;
+      updateState(isOpenRef.current, index);
       const targetHeight = snapPoints[index]!;
       const targetY = SCREEN_HEIGHT - targetHeight;
       if (typeof targetY !== 'number' || isNaN(targetY)) {
@@ -251,11 +235,11 @@ export function useBottomSheet({
   }));
 
   return {
-    isOpen: isOpenRef.current,
+    isOpen,
     open,
     close,
     snapTo,
-    currentSnapIndex: currentIndexRef.current,
+    currentSnapIndex,
     sheetAnimatedStyle,
     backdropAnimatedStyle,
     panGesture,
