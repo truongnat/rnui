@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "gitnexus": {
+      "command": "/opt/homebrew/bin/npx",
+      "args": ["gitnexus@latest", "mcp"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": ["*"]
+    },
+    "get-shit-done": {
+      "command": "/opt/homebrew/bin/npx",
+      "args": ["get-shit-done-cc@latest"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": ["*"]
+    }
+  }
+}

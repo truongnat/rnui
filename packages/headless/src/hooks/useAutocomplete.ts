@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useState } from "react";
-import { useDisclosure } from "./useDisclosure";
+import { useCallback, useMemo, useState } from 'react';
+import { useDisclosure } from './useDisclosure';
 
 export interface UseAutocompleteOptions<T = string> {
   options: T[];
@@ -36,7 +36,7 @@ export function useAutocomplete<T = string>({
   defaultValue,
   multiple = false,
   inputValue: controlledInput,
-  defaultInputValue = "",
+  defaultInputValue = '',
   onInputChange,
   onChange,
   getOptionLabel,
@@ -45,7 +45,9 @@ export function useAutocomplete<T = string>({
   onOpen,
   onClose,
 }: UseAutocompleteOptions<T>): UseAutocompleteReturn<T> {
-  const [internalValue, setInternalValue] = useState<T | T[] | undefined>(defaultValue);
+  const [internalValue, setInternalValue] = useState<T | T[] | undefined>(
+    defaultValue
+  );
   const [internalInput, setInternalInput] = useState<string>(defaultInputValue);
 
   const disclosure = useDisclosure({
@@ -55,7 +57,8 @@ export function useAutocomplete<T = string>({
   });
 
   const value = controlledValue !== undefined ? controlledValue : internalValue;
-  const inputValue = controlledInput !== undefined ? controlledInput : internalInput;
+  const inputValue =
+    controlledInput !== undefined ? controlledInput : internalInput;
 
   const setInputValue = useCallback(
     (next: string) => {
@@ -92,20 +95,31 @@ export function useAutocomplete<T = string>({
         setInputValue(label);
       }
     },
-    [multiple, value, controlledValue, onChange, disclosure, getOptionLabel, setInputValue]
+    [
+      multiple,
+      value,
+      controlledValue,
+      onChange,
+      disclosure,
+      getOptionLabel,
+      setInputValue,
+    ]
   );
 
   const clear = useCallback(() => {
-    if (controlledValue === undefined) setInternalValue(multiple ? [] : undefined);
+    if (controlledValue === undefined)
+      setInternalValue(multiple ? [] : undefined);
     onChange?.(multiple ? [] : undefined);
-    setInputValue("");
+    setInputValue('');
   }, [controlledValue, multiple, onChange, setInputValue]);
 
   const filteredOptions = useMemo(() => {
     const base = filterOptions ? filterOptions(options, inputValue) : options;
     if (!inputValue) return base;
     const labelOf = getOptionLabel ?? ((o: T) => String(o));
-    return base.filter((opt) => labelOf(opt).toLowerCase().includes(inputValue.toLowerCase()));
+    return base.filter((opt) =>
+      labelOf(opt).toLowerCase().includes(inputValue.toLowerCase())
+    );
   }, [options, inputValue, filterOptions, getOptionLabel]);
 
   return {

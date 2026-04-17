@@ -1,6 +1,7 @@
 [install]
-# Bun workspace installs hoisting strategy
+# Bun workspace install strategy
 hoist = true
+linker = "isolated"
 
 [install.lockfile]
 # Save lockfile on install

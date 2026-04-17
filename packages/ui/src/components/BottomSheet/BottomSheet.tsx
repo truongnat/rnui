@@ -1,10 +1,14 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { View, StyleSheet, Dimensions, Modal } from "react-native";
-import Animated from "react-native-reanimated";
-import { GestureDetector } from "react-native-gesture-handler";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useBottomSheet, useTokens, useComponentTokens } from "@truongdq01/headless";
-import type { UseBottomSheetOptions, SnapPoint } from "@truongdq01/headless";
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import { View, StyleSheet, Dimensions, Modal } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { GestureDetector } from 'react-native-gesture-handler';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  useBottomSheet,
+  useTokens,
+  useComponentTokens,
+} from '@truongdq01/headless';
+import type { UseBottomSheetOptions, SnapPoint } from '@truongdq01/headless';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -14,6 +18,10 @@ export interface BottomSheetProps extends UseBottomSheetOptions {
   showHandle?: boolean;
   /** Horizontal border radius on the sheet. If not provided, uses theme token. */
   borderRadius?: number;
+  /** Accessibility label for the sheet container */
+  accessibilityLabel?: string;
+  /** Accessibility label for the backdrop dismiss button */
+  backdropAccessibilityLabel?: string;
 }
 
 export interface BottomSheetRef {
@@ -22,7 +30,7 @@ export interface BottomSheetRef {
   snapTo: (index: number) => void;
 }
 
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 // ─── Component ────────────────────────────────────────────────────
 
@@ -30,7 +38,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
   function BottomSheet(
     {
       children,
-      snapPoints = ["50%"] as SnapPoint[],
+      snapPoints = ['50%'] as SnapPoint[],
       initialSnapIndex,
       onClose,
       onSnapChange,
@@ -38,6 +46,8 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       enableBackdrop = true,
       showHandle = true,
       borderRadius,
+      accessibilityLabel = 'Bottom sheet',
+      backdropAccessibilityLabel = 'Dismiss bottom sheet',
     },
     ref
   ) {
@@ -67,55 +77,79 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       enableBackdrop,
     });
 
-    const open = React.useCallback((idx?: number) => {
-      setMounted(true);
-      requestAnimationFrame(() => {
-        baseOpen(idx);
-      });
-    }, [baseOpen]);
+    const open = React.useCallback(
+      (idx?: number) => {
+        setMounted(true);
+        requestAnimationFrame(() => {
+          baseOpen(idx);
+        });
+      },
+      [baseOpen]
+    );
 
     // Expose imperative API via ref
-    useImperativeHandle(ref, () => ({ open, close: baseClose, snapTo }), [open, baseClose, snapTo]);
+    useImperativeHandle(ref, () => ({ open, close: baseClose, snapTo }), [
+      open,
+      baseClose,
+      snapTo,
+    ]);
 
     return (
-      <Modal visible={mounted} transparent animationType="none" onRequestClose={baseClose}>
+      <Modal
+        visible={mounted}
+        transparent
+        animationType="none"
+        onRequestClose={baseClose}
+      >
         <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
           {/* Backdrop */}
           {enableBackdrop && (
             <GestureDetector gesture={backdropTapGesture}>
               <Animated.View
-                style={[
-                  StyleSheet.absoluteFill,
-                  bottomSheet.backdrop,
-                  backdropAnimatedStyle,
-                ] as any}
+                style={
+                  [
+                    StyleSheet.absoluteFill,
+                    bottomSheet.backdrop,
+                    backdropAnimatedStyle,
+                  ] as any
+                }
+                accessibilityRole="button"
+                accessibilityLabel={backdropAccessibilityLabel}
+                accessibilityHint="Closes the bottom sheet"
               />
             </GestureDetector>
           )}
 
           {/* Sheet */}
           <Animated.View
-            style={[
-              styles.sheet,
-              bottomSheet.container,
-              {
-                borderTopLeftRadius: borderRadius ?? bottomSheet.container.borderTopLeftRadius,
-                borderTopRightRadius: borderRadius ?? bottomSheet.container.borderTopRightRadius,
-                paddingBottom: insets.bottom + 8,
-              },
-              sheetAnimatedStyle,
-            ] as any}
+            accessibilityViewIsModal
+            accessibilityRole={'none' as any}
+            accessibilityLabel={accessibilityLabel}
+            style={
+              [
+                styles.sheet,
+                bottomSheet.container,
+                {
+                  borderTopLeftRadius:
+                    borderRadius ?? bottomSheet.container.borderTopLeftRadius,
+                  borderTopRightRadius:
+                    borderRadius ?? bottomSheet.container.borderTopRightRadius,
+                  paddingBottom: insets.bottom + 8,
+                },
+                sheetAnimatedStyle,
+              ] as any
+            }
           >
             {/* Drag handle area — full-width tap target */}
             <GestureDetector gesture={panGesture}>
-              <View style={styles.handleArea}>
+              <View
+                style={styles.handleArea}
+                accessibilityRole="adjustable"
+                accessibilityLabel="Drag handle"
+                accessibilityHint="Swipe up or down to resize the bottom sheet"
+              >
                 {showHandle && (
-                  <View
-                    style={[
-                      styles.handle,
-                      bottomSheet.handle,
-                    ]}
-                  />
+                  <View style={[styles.handle, bottomSheet.handle]} />
                 )}
               </View>
             </GestureDetector>
@@ -131,17 +165,17 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
 
 const styles = StyleSheet.create({
   sheet: {
-    position: "absolute",
+    position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
     height: SCREEN_HEIGHT,
   },
   handleArea: {
-    width: "100%",
+    width: '100%',
     height: 28,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   handle: {
     width: 36,

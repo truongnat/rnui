@@ -14,9 +14,9 @@ import { Divider } from "@truongdq01/ui";
 
 ## Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `label` | `string` | - | Centered label for horizontal divider |
-| `orientation` | `"horizontal" | "vertical"` | `"horizontal"` | Divider direction |
-| `emphasis` | `boolean` | `false` | Stronger border color |
-| `spacing` | `"none" | "sm" | "md" | "lg"` | `"md"` | Vertical spacing for horizontal divider |
+| Prop          | Type          | Default     | Description                           |
+| ------------- | ------------- | ----------- | ------------------------------------- | ----------------- | ------ | --------------------------------------- |
+| `label`       | `string`      | -           | Centered label for horizontal divider |
+| `orientation` | `"horizontal" | "vertical"` | `"horizontal"`                        | Divider direction |
+| `emphasis`    | `boolean`     | `false`     | Stronger border color                 |
+| `spacing`     | `"none"       | "sm"        | "md"                                  | "lg"`             | `"md"` | Vertical spacing for horizontal divider |

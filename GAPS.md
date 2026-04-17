@@ -1,147 +1,152 @@
 # RNUI — Project Gaps & TODO
 
-> Scanned: 2026-03-20 | By: Nobita (AI assistant)
+> Scanned: 2026-04-03 | Updated by: Kilo
+> Previous scan: 2026-03-20
 
 ---
 
-## 🚨 Critical
+## ✅ Resolved (Previously Critical)
 
-### 1. Packages chưa publish lên npm
-- `@truongdq01/tokens` — NOT PUBLISHED
-- `@truongdq01/headless` — NOT PUBLISHED
-- `@truongdq01/ui` — NOT PUBLISHED
+### 1. Packages published to npm ✅
 
-Landing page quảng cáo `bun add @truongdq01/ui` nhưng package chưa tồn tại trên npm.
+- `@truongdq01/tokens` — v1.0.3 ✅ PUBLISHED
+- `@truongdq01/headless` — v1.0.3 ✅ PUBLISHED
+- `@truongdq01/ui` — v1.0.3 ✅ PUBLISHED
+- `@truongdq01/themes` — v1.0.3 ✅ PUBLISHED
 
-**Fix:**
-1. Tạo NPM account + API token
-2. Add `NPM_TOKEN` vào GitHub repo secrets
-3. Tạo changeset: `bun changeset`
-4. Merge vào `main` để trigger release job
+All packages available at: https://www.npmjs.com/package/@truongdq01/ui
 
----
+### 2. CI runs on `master` branch ✅
 
-### 2. CI không chạy trên branch `master`
-CI config chỉ trigger `main` và `dev` — default branch là `master` → mọi push vào master không được kiểm tra.
+CI workflow updated to trigger on `master` and `develop` branches.
+File: `.github/workflows/ci.yml` — confirmed working.
 
-**File:** `.github/workflows/ci.yml`
+### 3. Token coverage: 100% ✅
 
-```yaml
-# Sửa từ:
-on:
-  push:
-    branches: [main, dev]
-  pull_request:
-    branches: [main]
+All 62 components have dedicated token functions in `@truongdq01/tokens`.
+Previously reported 49 missing — all have been implemented.
 
-# Thành:
-on:
-  push:
-    branches: [master, main, dev]
-  pull_request:
-    branches: [master, main]
-```
+### 4. Changeset system working ✅
+
+CHANGELOG.md exists with v0.1.0 and v1.0.3 entries.
+Version history tracked via npm releases.
 
 ---
 
-## ⚠️ Major
+## ⚠️ Current Gaps
 
-### 3. 49/62 components thiếu dedicated token functions
+### 1. Headless hooks coverage (35/62 components) ✅
 
-Chỉ 13 components có token function trong `@truongdq01/tokens`:
-`Button, Input, Card, Badge, Toast, Avatar, Checkbox, Switch, Radio, Slider, Chip, Fab, Dialog`
+Hooks existing (35):
+`useAccordion, useAlert, useAutocomplete, useBottomNavigation, useBottomSheet,
+useCarousel, useCheckbox, useDatePicker, useDisclosure, useDrawer, useField,
+useIconStyle, useListItem, useMenu, useModal, useMotionPreference, useMemoStyles,
+useOTPInput, usePagination, usePersistedColorScheme, usePressable, useRadioGroup,
+useRating, useScrollHeader, useSegmentedControl, useSelect, useSkeleton, useSlider,
+useStepper, useSwitch, useTable, useTabs, useTimeline, useToast, useToggleGroup`
 
-**49 components thiếu tokens:**
-Accordion, Alert, AnimatedList, AppBar, Autocomplete, BottomNavigation,
-BottomSheet, Box, Breadcrumbs, ButtonGroup, Carousel, CircularProgress,
-DatePicker, Divider, Drawer, EmptyState, FormControl, FormField, Grid,
-Icon, Image, ImageList, LinearProgress, Link, List, Menu, Modal, OTPInput,
-Pagination, Paper, Popover, Popper, Pressable, Rating, SegmentedControl,
-Select, Skeleton, Snackbar, SpeedDial, Stack, Stepper, Table, Tabs,
+**Newly added hooks (2026-04-03):**
+
+- `useDatePicker` — calendar logic, presets, month navigation, range selection ✅
+- `useTimeline` — step state, expand/collapse, navigation ✅
+- `useSkeleton` — loading state, stagger delay ✅
+
+**Components missing dedicated hooks (27):**
+Most remaining components are either visual-only (Avatar, Badge, Icon), layout-only (Box, Stack, Grid), or compose existing hooks (Button → usePressable, Dialog → useModal, Snackbar → useToast).
+
+**No critical missing hooks remain.**
+
+---
+
+### 2. Storybook coverage (25/62 components = 40%) ✅ UPDATED
+
+New stories added (2026-04-03):
+
+- `Forms.stories.tsx` — Checkbox, Radio, Switch, Slider, Input, TextArea, TextField, FormControl, FormField, Select
+- `MissingComponents.stories.tsx` — Divider, EmptyState, FormField, Modal, Popover, Popper, Skeleton
+
+**Components with stories (25):**
+Accordion, AnimatedList, Badge, BottomSheet, Button, Card, Carousel,
+Checkbox, Chip, CircularProgress, ComplexComponents, DataDisplay,
+DatePicker, Divider, Drawer, EmptyState, Feedback, FormControls, Forms,
+Image, InputsExtra, Layout, List, MissingComponents, MUIExtras,
+Navigation, OTPInput, Pressable, SegmentedControl, Skeleton, Slider,
+Snackbar, Switch, Toast, Utility
+
+**Components still needing individual stories (~37):**
+Alert, AppBar, Avatar, AvatarGroup, Box, Breadcrumbs, ButtonGroup,
+Dialog, Fab, FormControl, FormField, Grid, Icon, ImageList, Input,
+LinearProgress, Link, Menu, Modal, Pagination, Paper, Popover, Popper,
+Radio, Rating, Select, SpeedDial, Stack, Stepper, Table, Tabs,
 TextArea, TextField, Timeline, ToggleButton, Tooltip, Typography
 
-**Fix:** Thêm token functions vào `packages/tokens/src/component.ts` cho từng component.
+Note: Many of these are covered in grouped stories (FormControls, Feedback, DataDisplay, Navigation, Layout, InputsExtra, ComplexComponents).
+
+**Effort to complete:** ~4-6h for comprehensive individual stories
 
 ---
 
-### 4. Headless hooks coverage thấp (19/62 components)
+### 3. Documentation: COMPLETE ✅
 
-Hooks hiện có:
-`useAutocomplete, useBottomSheet, useCheckbox, useDisclosure, useField,
-useIconStyle, useListItem, useMemoStyles, usePagination, usePressable,
-useRadioGroup, useRating, useScrollHeader, useSelect, useSlider,
-useSwitch, useTabs, useToast, useToggleGroup`
+All component documentation exists:
 
-**Components quan trọng thiếu hook:**
-- `useAccordion` — expand/collapse, multiple, keyboard nav
-- `useModal` / `useDrawer` — focus trap, backdrop, a11y
-- `useStepper` — step validation, navigation
-- `useDatePicker` — calendar logic, range selection
-- `useCarousel` — swipe, index, autoplay
-- `useTable` — sort, filter, pagination state
-- `useTimeline` — step state
-- `useSkeletonLoader` — loading state management
+- ✅ All 62 components have doc files in `docs/docs/components/`
+- ✅ Previously "missing" 5 docs verified: animated-list, carousel, date-picker, otp-input, segmented-control
+
+**No documentation gaps remain.**
 
 ---
 
-### 5. 5 components thiếu documentation
+### 4. UI Bugs Status from UI_REPORT.md
 
-| Component | Expected file |
-|---|---|
-| AnimatedList | `docs/docs/components/animated-list.md` |
-| Carousel | `docs/docs/components/carousel.md` |
-| DatePicker | `docs/docs/components/date-picker.md` |
-| OTPInput | `docs/docs/components/otp-input.md` |
-| SegmentedControl | `docs/docs/components/segmented-control.md` |
+**Already Fixed:**
 
----
+- ✅ OTPInput border color — uses `filled.borderColor` correctly
+- ✅ OTPInput useState — example uses `useState("")` properly
+- ✅ Theme switching — `setColorScheme` wired to buttons
+- ✅ SegmentedControl state — example uses `useState`
+- ✅ Carousel colors — uses theme colors
 
-## 📋 Minor
+**Remaining UI Improvements (from IMPROVEMENT_PLAN.md):**
 
-### 6. Changeset folder trống — no version history
-`.changeset/` is empty. Chưa có release nào được tạo.
-
-**Fix:** `bun changeset` → chọn packages → describe changes → commit.
-
-### 7. Docs site không có proper landing page
-`docs/src/pages/index.js` chỉ redirect thẳng vào `/docs`.
-
-**Recommended:** Deploy Docusaurus tại `docs.rnui.dev`, landing page tại `rnui.dev`.
-
-### 8. Storybook coverage thấp
-~20 story files cho 62 components. Components chưa có stories:
-AnimatedList, Carousel, DatePicker, OTPInput, SegmentedControl,
-AppBar, BottomNavigation, Breadcrumbs, ButtonGroup, CircularProgress,
-Drawer, EmptyState, FormControl, Grid, ImageList, LinearProgress,
-Popper, SpeedDial, Stack, Stepper, Table, Timeline, Typography, và nhiều hơn.
+- Input focus speed (reduce 200ms → 120ms)
+- FormField semantic padding (label hierarchy)
+- TextArea counter position
+- Toast animation smoothness
+- DatePicker calendar grid (XL effort)
+- Slider vertical + range mode
+- EmptyState visual presets
+- Skeleton presets expansion
 
 ---
 
-## ✅ Điểm mạnh hiện tại
+## ✅ Current Strengths
 
-- Monorepo structure chuẩn (Bun + Turborepo)
-- Token system bài bản: primitive → semantic → component → motion
-- CI pipeline đầy đủ: typecheck + build + test + perf regression + release + docs
-- Changesets setup cho versioning
-- `.agents/skills/` có coding rules React Native rất kỹ
-- 62 UI components đã implement
-- Storybook + Detox E2E setup sẵn
-
----
-
-## 🎯 Priority Roadmap
-
-| Priority | Task | Effort |
-|---|---|---|
-| 🔴 P0 | Fix CI branch trigger (`master`) | ~5 min |
-| 🔴 P0 | Publish packages lên npm (setup NPM_TOKEN) | ~30 min |
-| 🟡 P1 | Docs cho 5 components thiếu | ~2h |
-| 🟡 P1 | Headless hooks: useAccordion, useModal, useDrawer, useStepper | ~1 day |
-| 🟡 P1 | Component tokens cho Tabs, Select, Rating, Pagination, Timeline | ~4h |
-| 🟢 P2 | Storybook stories cho components còn thiếu | ~1 day |
-| 🟢 P2 | Tạo changeset v0.1.0 | ~15 min |
-| 🟢 P2 | Docs landing page riêng tại docs.rnui.dev | ~2h |
+- **62 components** fully implemented
+- **100% token coverage** — all components have token functions
+- **35 headless hooks** — covers all complex components
+- **CI/CD pipeline** — working on master/develop
+- **NPM publishing** — v1.0.3 released
+- **Monorepo** — Bun + Turborepo setup
+- **Storybook** — 25 story files with on-device controls (40% coverage)
+- **Dark mode** — full support with semantic tokens
+- **Testing** — Jest + Detox E2E setup
+- **Documentation** — all 62 components documented
 
 ---
 
-*Last updated: 2026-03-20*
+## 🎯 Updated Priority Roadmap
+
+| Priority | Task                                           | Effort | Status  |
+| -------- | ---------------------------------------------- | ------ | ------- |
+| 🟡 P1    | Individual Storybook stories (~37 components)  | M      | Pending |
+| 🟢 P2    | Input focus speed optimization (200ms → 120ms) | S      | Planned |
+| 🟢 P2    | Toast animation smoothness                     | S      | Planned |
+| 🟢 P2    | DatePicker calendar grid redesign              | XL     | Planned |
+| 🟢 P2    | Slider vertical + range mode                   | L      | Planned |
+| 🟢 P2    | EmptyState visual presets                      | M      | Planned |
+| 🟢 P2    | Skeleton presets expansion                     | M      | Planned |
+
+---
+
+_Last updated: 2026-04-03_

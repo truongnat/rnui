@@ -1,9 +1,9 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { LinearProgress } from "../LinearProgress";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { LinearProgress } from '../LinearProgress';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("LinearProgress renders", () => {
+test('LinearProgress renders', () => {
   const { toJSON } = render(
     <ThemeProvider>
       <LinearProgress value={50} />

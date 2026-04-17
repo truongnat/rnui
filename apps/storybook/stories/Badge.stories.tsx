@@ -1,31 +1,35 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { View } from "react-native";
-import { ThemeProvider, Badge } from "@truongdq01/ui";
-import { Check, AlertTriangle, AlertCircle, Info } from "lucide-react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { View } from 'react-native';
+import { ThemeProvider, Badge } from '@truongdq01/ui';
+import { Check, AlertTriangle, AlertCircle, Info } from 'lucide-react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ padding: 24, gap: 12 }}>
-      {children}
-    </View>
+    <View style={{ padding: 24, gap: 12 }}>{children}</View>
   </ThemeProvider>
 );
 
 const meta = {
-  title: "Components/Badge",
+  title: 'Components/Badge',
   component: Badge,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
   argTypes: {
-    label: { control: "text" },
+    label: { control: 'text' },
     variant: {
-      control: { type: "select" },
-      options: ["default", "brand", "success", "warning", "error", "info"],
+      control: { type: 'select' },
+      options: ['default', 'brand', 'success', 'warning', 'error', 'info'],
     },
   },
   args: {
-    label: "Badge",
-    variant: "default",
+    label: 'Badge',
+    variant: 'default',
   },
 };
 
@@ -54,8 +58,18 @@ export const WithIcons: Story = {
     const InfoIcon = Info as any;
     return (
       <View style={{ gap: 10 }}>
-        <Badge {...args} label="Success" variant="success" icon={<CheckIcon />} />
-        <Badge {...args} label="Warning" variant="warning" icon={<WarningIcon />} />
+        <Badge
+          {...args}
+          label="Success"
+          variant="success"
+          icon={<CheckIcon />}
+        />
+        <Badge
+          {...args}
+          label="Warning"
+          variant="warning"
+          icon={<WarningIcon />}
+        />
         <Badge {...args} label="Error" variant="error" icon={<ErrorIcon />} />
         <Badge {...args} label="Info" variant="info" icon={<InfoIcon />} />
       </View>

@@ -1,29 +1,35 @@
-import React from "react";
-import { View, Text, Pressable } from "react-native";
+import React from 'react';
+import { View, Text, Pressable } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  interpolate,
-} from "react-native-reanimated";
-import { useCheckbox, useComponentTokens, useTokens } from "@truongdq01/headless";
-import { spring } from "@truongdq01/tokens";
-import type { UseCheckboxOptions } from "@truongdq01/headless";
+  interpolateColor,
+} from 'react-native-reanimated';
+import {
+  useCheckbox,
+  useComponentTokens,
+  useTokens,
+  useReduceMotionEnabled,
+} from '@truongdq01/headless';
+import { spring } from '@truongdq01/tokens';
+import type { UseCheckboxOptions } from '@truongdq01/headless';
 
 export interface CheckboxProps extends UseCheckboxOptions {
   label?: string;
   description?: string;
-  size?: "sm" | "md" | "lg";
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export function Checkbox({
   label,
   description,
-  size = "md",
+  size = 'md',
   ...hookOptions
 }: CheckboxProps) {
   const { checkbox } = useComponentTokens();
   const tokens = useTokens();
+  const reduceMotion = useReduceMotionEnabled();
   const { isChecked, isIndeterminate, isDisabled, toggle, accessibilityProps } =
     useCheckbox(hookOptions);
 
@@ -34,20 +40,26 @@ export function Checkbox({
   const fillProgress = useSharedValue(isChecked || isIndeterminate ? 1 : 0);
 
   React.useEffect(() => {
-    fillProgress.value = withSpring(isChecked || isIndeterminate ? 1 : 0, spring.snappy);
-  }, [isChecked, isIndeterminate]);
+    const target = isChecked || isIndeterminate ? 1 : 0;
+    fillProgress.value = reduceMotion
+      ? target
+      : withSpring(target, spring.snappy);
+  }, [isChecked, isIndeterminate, reduceMotion]);
 
   const boxStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolate(
+    backgroundColor: interpolateColor(
       fillProgress.value,
       [0, 1],
-      [0, 1]
-    ) > 0.5
-      ? checkbox.state.checked.backgroundColor
-      : checkbox.state.default.backgroundColor,
-    borderColor: fillProgress.value > 0.5
-      ? checkbox.state.checked.borderColor
-      : checkbox.state.default.borderColor,
+      [
+        checkbox.state.default.backgroundColor,
+        checkbox.state.checked.backgroundColor,
+      ]
+    ),
+    borderColor: interpolateColor(
+      fillProgress.value,
+      [0, 1],
+      [checkbox.state.default.borderColor, checkbox.state.checked.borderColor]
+    ),
     transform: [{ scale: scale.value }],
   }));
 
@@ -57,9 +69,11 @@ export function Checkbox({
   }));
 
   const handlePress = () => {
-    scale.value = withSpring(0.88, spring.snappy, () => {
-      scale.value = withSpring(1, spring.snappy);
-    });
+    if (!reduceMotion) {
+      scale.value = withSpring(0.88, spring.snappy, () => {
+        scale.value = withSpring(1, spring.snappy);
+      });
+    }
     toggle();
   };
 
@@ -67,7 +81,12 @@ export function Checkbox({
     <Pressable
       onPress={handlePress}
       disabled={isDisabled}
-      style={{ flexDirection: "row", alignItems: "flex-start", gap: 10, opacity: isDisabled ? checkbox.state.disabled.opacity : 1 }}
+      style={{
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        gap: 10,
+        opacity: isDisabled ? checkbox.state.disabled.opacity : 1,
+      }}
       {...accessibilityProps}
     >
       <Animated.View
@@ -86,9 +105,23 @@ export function Checkbox({
       >
         <Animated.View style={checkStyle}>
           {isIndeterminate ? (
-            <View style={{ width: sizeConfig.iconSize, height: 2, backgroundColor: tokens.color.text.inverse, borderRadius: 1 }} />
+            <View
+              style={{
+                width: sizeConfig.iconSize,
+                height: 2,
+                backgroundColor: tokens.color.text.inverse,
+                borderRadius: 1,
+              }}
+            />
           ) : (
-            <Text style={{ color: tokens.color.text.inverse, fontSize: sizeConfig.iconSize, fontWeight: "700", lineHeight: sizeConfig.iconSize + 2 }}>
+            <Text
+              style={{
+                color: tokens.color.text.inverse,
+                fontSize: sizeConfig.iconSize,
+                fontWeight: '700',
+                lineHeight: sizeConfig.iconSize + 2,
+              }}
+            >
               ✓
             </Text>
           )}
@@ -98,12 +131,24 @@ export function Checkbox({
       {(label || description) && (
         <View style={{ flex: 1, paddingTop: 1 }}>
           {label && (
-            <Text style={{ fontSize: tokens.fontSize.md, color: tokens.color.text.primary, fontWeight: tokens.fontWeight.medium }}>
+            <Text
+              style={{
+                fontSize: tokens.fontSize.md,
+                color: tokens.color.text.primary,
+                fontWeight: tokens.fontWeight.medium,
+              }}
+            >
               {label}
             </Text>
           )}
           {description && (
-            <Text style={{ fontSize: tokens.fontSize.sm, color: tokens.color.text.secondary, marginTop: 2 }}>
+            <Text
+              style={{
+                fontSize: tokens.fontSize.sm,
+                color: tokens.color.text.secondary,
+                marginTop: 2,
+              }}
+            >
               {description}
             </Text>
           )}

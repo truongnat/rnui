@@ -1,6 +1,6 @@
-import type { StoryObj } from "@storybook/react-native";
-import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import {
   ThemeProvider,
   AppBar,
@@ -22,7 +22,7 @@ import {
   SpeedDialAction,
   Icon,
   Button,
-} from "@truongdq01/ui";
+} from '@truongdq01/ui';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
@@ -33,15 +33,21 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 );
 
 const meta = {
-  title: "Components/Navigation",
+  title: 'Components/Navigation',
   component: View,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
 };
 
 export default meta;
 
 export const AppBarStory: StoryObj = {
-  name: "AppBar",
+  name: 'AppBar',
   render: () => (
     <AppBar>
       <Toolbar>
@@ -52,7 +58,7 @@ export const AppBarStory: StoryObj = {
 };
 
 export const TabsStory: StoryObj = {
-  name: "Tabs",
+  name: 'Tabs',
   render: () => {
     const [tab, setTab] = useState(0);
     return (
@@ -65,12 +71,20 @@ export const TabsStory: StoryObj = {
 };
 
 export const DrawerStory: StoryObj = {
-  name: "Drawer",
+  name: 'Drawer',
   render: () => {
     const [open, setOpen] = useState(false);
     return (
       <View>
-        <Button label="Open Drawer" onPress={() => setOpen(true)} onLongPress={() => { }} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Open drawer" accessibilityHint="" />
+        <Button
+          label="Open Drawer"
+          onPress={() => setOpen(true)}
+          onLongPress={() => {}}
+          leadingIcon={undefined}
+          trailingIcon={undefined}
+          accessibilityLabel="Open drawer"
+          accessibilityHint=""
+        />
         <Drawer open={open} onClose={() => setOpen(false)}>
           <Text style={{ padding: 16 }}>Drawer content</Text>
         </Drawer>
@@ -80,12 +94,20 @@ export const DrawerStory: StoryObj = {
 };
 
 export const MenuStory: StoryObj = {
-  name: "Menu",
+  name: 'Menu',
   render: () => {
     const [open, setOpen] = useState(false);
     return (
       <View>
-        <Button label="Open Menu" onPress={() => setOpen(true)} onLongPress={() => { }} leadingIcon={undefined} trailingIcon={undefined} accessibilityLabel="Open menu" accessibilityHint="" />
+        <Button
+          label="Open Menu"
+          onPress={() => setOpen(true)}
+          onLongPress={() => {}}
+          leadingIcon={undefined}
+          trailingIcon={undefined}
+          accessibilityLabel="Open menu"
+          accessibilityHint=""
+        />
         <Menu open={open} onClose={() => setOpen(false)}>
           <MenuItem>Profile</MenuItem>
           <MenuItem>Settings</MenuItem>
@@ -97,21 +119,18 @@ export const MenuStory: StoryObj = {
 };
 
 export const StepperStory: StoryObj = {
-  name: "Stepper",
+  name: 'Stepper',
   render: () => (
     <Stepper activeStep={1}>
-      {/* @ts-ignore */}
       <Step index={0} label="Account" />
-      {/* @ts-ignore */}
       <Step index={1} label="Billing" />
-      {/* @ts-ignore */}
       <Step index={2} label="Review" />
     </Stepper>
   ),
 };
 
 export const PaginationStory: StoryObj = {
-  name: "Pagination",
+  name: 'Pagination',
   render: () => {
     const [page, setPage] = useState(1);
     return <Pagination count={10} page={page} onChange={setPage} />;
@@ -119,7 +138,7 @@ export const PaginationStory: StoryObj = {
 };
 
 export const BottomNavigationStory: StoryObj = {
-  name: "BottomNavigation",
+  name: 'BottomNavigation',
   render: () => (
     <BottomNavigation defaultValue="home" showLabels>
       <BottomNavigationAction value="home" label="Home" />
@@ -129,7 +148,7 @@ export const BottomNavigationStory: StoryObj = {
 };
 
 export const BreadcrumbsStory: StoryObj = {
-  name: "Breadcrumbs",
+  name: 'Breadcrumbs',
   render: () => (
     <Breadcrumbs>
       <Link href="https://example.com">Home</Link>
@@ -140,7 +159,7 @@ export const BreadcrumbsStory: StoryObj = {
 };
 
 export const SpeedDialStory: StoryObj = {
-  name: "SpeedDial",
+  name: 'SpeedDial',
   render: () => (
     <SpeedDial ariaLabel="Actions" icon={<Icon>+</Icon>}>
       <SpeedDialAction tooltipTitle="Share" icon={<Icon>share</Icon>} />

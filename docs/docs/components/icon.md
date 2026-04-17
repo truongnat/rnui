@@ -17,24 +17,24 @@ import { Icon } from "@truongdq01/ui";
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `IconName` | — | Icon name (or use children) |
-| `children` | `IconName \| ReactNode` | — | Icon name as children |
-| `size` | `number \| "xs" \| "sm" \| "md" \| "lg" \| "xl" \| "2xl" \| "small" \| "medium" \| "large"` | `"md"` | Icon size |
-| `color` | `string` | `theme color` | Icon color (hex or theme token) |
-| `style` | `StyleProp<ViewStyle>` | — | Additional container styles |
+| Prop       | Type                                                                                        | Default       | Description                     |
+| ---------- | ------------------------------------------------------------------------------------------- | ------------- | ------------------------------- |
+| `name`     | `IconName`                                                                                  | —             | Icon name (or use children)     |
+| `children` | `IconName \| ReactNode`                                                                     | —             | Icon name as children           |
+| `size`     | `number \| "xs" \| "sm" \| "md" \| "lg" \| "xl" \| "2xl" \| "small" \| "medium" \| "large"` | `"md"`        | Icon size                       |
+| `color`    | `string`                                                                                    | `theme color` | Icon color (hex or theme token) |
+| `style`    | `StyleProp<ViewStyle>`                                                                      | —             | Additional container styles     |
 
 ### Size Presets
 
-| Size | Value |
-|------|-------|
-| `xs` | 12px |
-| `sm` / `small` | 16px |
+| Size            | Value          |
+| --------------- | -------------- |
+| `xs`            | 12px           |
+| `sm` / `small`  | 16px           |
 | `md` / `medium` | 20px (default) |
-| `lg` / `large` | 24px |
-| `xl` | 32px |
-| `2xl` | 48px |
+| `lg` / `large`  | 24px           |
+| `xl`            | 32px           |
+| `2xl`           | 48px           |
 
 ## Available Icons (70+)
 
@@ -170,15 +170,15 @@ import { Icon } from "@truongdq01/ui";
 ```tsx
 import { Icon, Button } from "@truongdq01/ui";
 
-<Button 
-  label="Save" 
-  leadingIcon={<Icon name="check" size={16} />} 
+<Button
+  label="Save"
+  leadingIcon={<Icon name="check" size={16} />}
 />
 
-<Button 
-  label="Share" 
+<Button
+  label="Share"
   variant="outline"
-  trailingIcon={<Icon name="share" size={16} />} 
+  trailingIcon={<Icon name="share" size={16} />}
 />
 ```
 
@@ -239,24 +239,26 @@ import { Icon, Pressable } from "@truongdq01/ui";
 You can also import icons directly from `lucide-react-native`:
 
 ```tsx
-import { Star, Heart, Check } from "lucide-react-native";
+import { Star, Heart, Check } from 'lucide-react-native';
 
 <View style={{ flexDirection: 'row', gap: 16 }}>
   <Star size={24} color="#F59E0B" />
   <Heart size={24} color="#EF4444" />
   <Check size={24} color="#10B981" />
-</View>
+</View>;
 ```
 
 ## Best Practices
 
 ### ✅ Do
+
 - Use consistent icon sizes within a context
 - Choose semantically appropriate icons
 - Provide accessibility labels for icon-only buttons
 - Use theme colors for consistency
 
 ### ❌ Don't
+
 - Don't mix icon styles (stick to Lucide)
 - Don't use too many different icons on one screen
 - Don't rely on color alone to convey meaning

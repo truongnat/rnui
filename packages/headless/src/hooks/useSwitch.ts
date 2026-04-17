@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
 export interface UseSwitchOptions {
   defaultOn?: boolean;
@@ -13,7 +13,7 @@ export interface UseSwitchReturn {
   toggle: () => void;
   accessibilityProps: {
     accessible: boolean;
-    accessibilityRole: "switch";
+    accessibilityRole: 'switch';
     accessibilityState: { checked: boolean; disabled: boolean };
   };
 }
@@ -40,7 +40,7 @@ export function useSwitch({
     toggle,
     accessibilityProps: {
       accessible: true,
-      accessibilityRole: "switch",
+      accessibilityRole: 'switch',
       accessibilityState: { checked: isOn, disabled },
     },
   };

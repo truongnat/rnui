@@ -1,11 +1,11 @@
 ---
 name: react-native-animations
 description: Master animations - Reanimated 3, Gesture Handler, layout animations, and performance optimization
-sasmp_version: "1.3.0"
+sasmp_version: '1.3.0'
 bonded_agent: 05-react-native-animation
 bond_type: PRIMARY_BOND
-version: "2.0.0"
-updated: "2025-01"
+version: '2.0.0'
+updated: '2025-01'
 ---
 
 # React Native Animations Skill
@@ -21,6 +21,7 @@ updated: "2025-01"
 ## Learning Objectives
 
 After completing this skill, you will be able to:
+
 - [ ] Create smooth 60fps animations with Reanimated
 - [ ] Handle complex gestures with Gesture Handler
 - [ ] Implement layout entering/exiting animations
@@ -32,6 +33,7 @@ After completing this skill, you will be able to:
 ## Topics Covered
 
 ### 1. Installation
+
 ```bash
 npm install react-native-reanimated react-native-gesture-handler
 
@@ -42,6 +44,7 @@ module.exports = {
 ```
 
 ### 2. Reanimated Basics
+
 ```tsx
 import Animated, {
   useSharedValue,
@@ -69,6 +72,7 @@ function AnimatedBox() {
 ```
 
 ### 3. Gesture Handler
+
 ```tsx
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 
@@ -102,6 +106,7 @@ function DraggableBox() {
 ```
 
 ### 4. Layout Animations
+
 ```tsx
 import Animated, { FadeIn, FadeOut, Layout } from 'react-native-reanimated';
 
@@ -125,13 +130,13 @@ function AnimatedList({ items }) {
 
 ### 5. Animation Timing
 
-| Function | Use Case |
-|----------|----------|
-| withTiming | Linear, controlled duration |
-| withSpring | Natural, physics-based |
-| withDecay | Momentum-based (fling) |
+| Function     | Use Case                     |
+| ------------ | ---------------------------- |
+| withTiming   | Linear, controlled duration  |
+| withSpring   | Natural, physics-based       |
+| withDecay    | Momentum-based (fling)       |
 | withSequence | Multiple animations in order |
-| withRepeat | Looping animations |
+| withRepeat   | Looping animations           |
 
 ---
 
@@ -150,8 +155,12 @@ function SwipeCard() {
   const translateX = useSharedValue(0);
 
   const gesture = Gesture.Pan()
-    .onUpdate((e) => { translateX.value = e.translationX; })
-    .onEnd(() => { translateX.value = withSpring(0); });
+    .onUpdate((e) => {
+      translateX.value = e.translationX;
+    })
+    .onEnd(() => {
+      translateX.value = withSpring(0);
+    });
 
   const style = useAnimatedStyle(() => ({
     transform: [
@@ -172,11 +181,11 @@ function SwipeCard() {
 
 ## Common Errors & Solutions
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| "Attempted to call from worklet" | Missing runOnJS | Wrap with `runOnJS()` |
-| Animation not running | Missing 'worklet' | Add 'worklet' directive |
-| Gesture not working | Missing root view | Add GestureHandlerRootView |
+| Error                            | Cause             | Solution                   |
+| -------------------------------- | ----------------- | -------------------------- |
+| "Attempted to call from worklet" | Missing runOnJS   | Wrap with `runOnJS()`      |
+| Animation not running            | Missing 'worklet' | Add 'worklet' directive    |
+| Gesture not working              | Missing root view | Add GestureHandlerRootView |
 
 ---
 

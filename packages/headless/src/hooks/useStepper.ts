@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 export interface Step {
   id: string;
@@ -30,14 +30,20 @@ export interface UseStepperReturn {
     active: boolean;
     completed: boolean;
     accessible: boolean;
-    accessibilityRole: "tab";
+    accessibilityRole: 'tab';
     accessibilitySelected: boolean;
     accessibilityLabel: string;
   };
 }
 
 export function useStepper(options: UseStepperOptions): UseStepperReturn {
-  const { steps, initialStep = 0, onChange, onComplete, linear = true } = options;
+  const {
+    steps,
+    initialStep = 0,
+    onChange,
+    onComplete,
+    linear = true,
+  } = options;
   const [currentStep, setCurrentStep] = useState(initialStep);
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
 
@@ -68,12 +74,16 @@ export function useStepper(options: UseStepperOptions): UseStepperReturn {
     }
   }, [currentStep, isFirst, onChange]);
 
-  const goTo = useCallback((index: number) => {
-    if (index < 0 || index >= totalSteps) return;
-    if (linear && index > currentStep && !completedSteps.has(index - 1)) return;
-    setCurrentStep(index);
-    onChange?.(index);
-  }, [totalSteps, linear, currentStep, completedSteps, onChange]);
+  const goTo = useCallback(
+    (index: number) => {
+      if (index < 0 || index >= totalSteps) return;
+      if (linear && index > currentStep && !completedSteps.has(index - 1))
+        return;
+      setCurrentStep(index);
+      onChange?.(index);
+    },
+    [totalSteps, linear, currentStep, completedSteps, onChange]
+  );
 
   const complete = useCallback(() => {
     setCompletedSteps((prev) => new Set([...prev, currentStep]));
@@ -85,14 +95,29 @@ export function useStepper(options: UseStepperOptions): UseStepperReturn {
     setCompletedSteps(new Set());
   }, [initialStep]);
 
-  const getStepProps = useCallback((index: number) => ({
-    active: index === currentStep,
-    completed: completedSteps.has(index),
-    accessible: true,
-    accessibilityRole: "tab" as const,
-    accessibilitySelected: index === currentStep,
-    accessibilityLabel: `${steps[index]?.label}${completedSteps.has(index) ? ", completed" : ""}${index === currentStep ? ", current" : ""}`,
-  }), [currentStep, completedSteps, steps]);
+  const getStepProps = useCallback(
+    (index: number) => ({
+      active: index === currentStep,
+      completed: completedSteps.has(index),
+      accessible: true,
+      accessibilityRole: 'tab' as const,
+      accessibilitySelected: index === currentStep,
+      accessibilityLabel: `${steps[index]?.label}${completedSteps.has(index) ? ', completed' : ''}${index === currentStep ? ', current' : ''}`,
+    }),
+    [currentStep, completedSteps, steps]
+  );
 
-  return { currentStep, totalSteps, isFirst, isLast, completedSteps, next, prev, goTo, complete, reset, getStepProps };
+  return {
+    currentStep,
+    totalSteps,
+    isFirst,
+    isLast,
+    completedSteps,
+    next,
+    prev,
+    goTo,
+    complete,
+    reset,
+    getStepProps,
+  };
 }

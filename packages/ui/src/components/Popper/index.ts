@@ -1,2 +1,2 @@
-export { Popper } from "./Popper";
-export type { PopperProps, PopperPlacement } from "./Popper";
+export { Popper } from './Popper';
+export type { PopperProps, PopperPlacement } from './Popper';

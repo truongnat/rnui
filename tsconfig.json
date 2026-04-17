@@ -1,31 +1,48 @@
 {
-    "compilerOptions": {
-        "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "moduleResolution": "Bundler",
-        "module": "ESNext",
-        "target": "ES2020",
-        "jsx": "react-native",
-        "resolveJsonModule": true,
-        "declarationMap": true,
-        "sourceMap": true,
-        "composite": true,
-        "incremental": true
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "target": "ES2020",
+    "jsx": "react-native",
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@truongdq01/tokens": [
+        "./packages/tokens/src",
+        "./packages/tokens/src/*"
+      ],
+      "@truongdq01/headless": [
+        "./packages/headless/src",
+        "./packages/headless/src/*"
+      ],
+      "@truongdq01/themes": [
+        "./packages/themes/src",
+        "./packages/themes/src/*"
+      ],
+      "@truongdq01/ui": ["./packages/ui/src", "./packages/ui/src/*"]
+    }
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "packages/tokens"
     },
-    "files": [],
-    "references": [
-        {
-            "path": "packages/tokens"
-        },
-        {
-            "path": "packages/headless"
-        },
-        {
-            "path": "packages/ui"
-        },
-        {
-            "path": "packages/themes"
-        }
-    ]
+    {
+      "path": "packages/headless"
+    },
+    {
+      "path": "packages/ui"
+    },
+    {
+      "path": "packages/themes"
+    }
+  ]
 }

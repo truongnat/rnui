@@ -1,15 +1,21 @@
-import React, { createContext, useContext, useMemo } from "react";
-import { View, Text } from "react-native";
+import React, { createContext, useContext, useMemo } from 'react';
+import { View, Text } from 'react-native';
 import Animated, {
   useSharedValue,
   withTiming,
   useAnimatedStyle,
   interpolate,
   Extrapolation,
-} from "react-native-reanimated";
-import { GestureDetector } from "react-native-gesture-handler";
-import { useDisclosure, useTokens, useComponentTokens, usePressable } from "@truongdq01/headless";
-import { Icon } from "../Icon";
+} from 'react-native-reanimated';
+import { GestureDetector } from 'react-native-gesture-handler';
+import {
+  useDisclosure,
+  useTokens,
+  useComponentTokens,
+  usePressable,
+  useReduceMotionEnabled,
+} from '@truongdq01/headless';
+import { Icon } from '../Icon';
 
 export interface AccordionProps {
   expanded?: boolean;
@@ -57,15 +63,22 @@ export function Accordion({
   const { accordion } = useComponentTokens();
 
   return (
-    <AccordionContext.Provider value={{ expanded: disclosure.isOpen, toggle: disclosure.toggle, disabled }}>
-      <View style={accordion.container}>
-        {children}
-      </View>
+    <AccordionContext.Provider
+      value={{
+        expanded: disclosure.isOpen,
+        toggle: disclosure.toggle,
+        disabled,
+      }}
+    >
+      <View style={accordion.container}>{children}</View>
     </AccordionContext.Provider>
   );
 }
 
-export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps) {
+export function AccordionSummary({
+  children,
+  expandIcon,
+}: AccordionSummaryProps) {
   const { accordion } = useComponentTokens();
   const ctx = useContext(AccordionContext);
   if (!ctx) return null;
@@ -73,36 +86,46 @@ export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps
   const { gesture, animatedStyle, accessibilityProps } = usePressable({
     onPress: ctx.toggle,
     disabled: ctx.disabled,
-    feedbackMode: "opacity",
+    feedbackMode: 'opacity',
   });
 
-  // Rotate icon 180° when expanded
+  const reduceMotion = useReduceMotionEnabled();
   const rotation = useSharedValue(ctx.expanded ? 1 : 0);
   React.useEffect(() => {
-    rotation.value = withTiming(ctx.expanded ? 1 : 0, { duration: 200 });
-  }, [ctx.expanded]);
+    const target = ctx.expanded ? 1 : 0;
+    rotation.value = reduceMotion
+      ? target
+      : withTiming(target, { duration: 200 });
+  }, [ctx.expanded, reduceMotion]);
 
   const iconStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${interpolate(rotation.value, [0, 1], [0, 180], Extrapolation.CLAMP)}deg` }],
+    transform: [
+      {
+        rotate: `${interpolate(rotation.value, [0, 1], [0, 180], Extrapolation.CLAMP)}deg`,
+      },
+    ],
   }));
 
-  const containerStyle = useMemo(() => [
-    accordion.summary,
-    animatedStyle,
-  ], [accordion.summary, animatedStyle]);
+  const containerStyle = useMemo(
+    () => [accordion.summary, animatedStyle],
+    [accordion.summary, animatedStyle]
+  );
 
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View
         style={containerStyle as any}
         {...accessibilityProps}
+        accessibilityState={{ expanded: ctx.expanded }}
       >
-        <Text style={accordion.title}>
-          {children}
-        </Text>
+        <Text style={accordion.title}>{children}</Text>
         <Animated.View style={iconStyle}>
           {expandIcon ?? (
-            <Icon size={accordion.icon.size} color={accordion.icon.color} name={"chevronDown" as any} />
+            <Icon
+              size={accordion.icon.size}
+              color={accordion.icon.color}
+              name={'chevronDown' as any}
+            />
           )}
         </Animated.View>
       </Animated.View>
@@ -113,24 +136,28 @@ export function AccordionSummary({ children, expandIcon }: AccordionSummaryProps
 export function AccordionDetails({ children }: AccordionDetailsProps) {
   const { accordion } = useComponentTokens();
   const ctx = useContext(AccordionContext);
+  const reduceMotion = useReduceMotionEnabled();
   const [contentHeight, setContentHeight] = React.useState(0);
   const animHeight = useSharedValue(0);
 
   React.useEffect(() => {
     if (!ctx) return;
-    animHeight.value = withTiming(ctx.expanded ? contentHeight : 0, { duration: 250 });
-  }, [ctx?.expanded, contentHeight]);
+    const target = ctx.expanded ? contentHeight : 0;
+    animHeight.value = reduceMotion
+      ? target
+      : withTiming(target, { duration: 250 });
+  }, [ctx?.expanded, contentHeight, reduceMotion]);
 
   const animStyle = useAnimatedStyle(() => ({
     height: animHeight.value,
-    overflow: "hidden",
+    overflow: 'hidden',
   }));
 
   return (
     <Animated.View style={animStyle}>
       <View
         onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}
-        style={[accordion.details, { position: "absolute", left: 0, right: 0 }]}
+        style={[accordion.details, { position: 'absolute', left: 0, right: 0 }]}
       >
         {children}
       </View>
@@ -144,13 +171,15 @@ export function AccordionActions({ children }: AccordionActionsProps) {
   if (!ctx?.expanded) return null;
 
   return (
-    <View style={{
-      paddingHorizontal: tokens.spacing[4],
-      paddingVertical: tokens.spacing[3],
-      backgroundColor: tokens.color.bg.subtle,
-      flexDirection: "row",
-      gap: tokens.spacing[2],
-    }}>
+    <View
+      style={{
+        paddingHorizontal: tokens.spacing[4],
+        paddingVertical: tokens.spacing[3],
+        backgroundColor: tokens.color.bg.subtle,
+        flexDirection: 'row',
+        gap: tokens.spacing[2],
+      }}
+    >
       {children}
     </View>
   );

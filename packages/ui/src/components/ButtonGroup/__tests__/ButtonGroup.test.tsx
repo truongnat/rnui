@@ -1,10 +1,10 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { ButtonGroup } from "../ButtonGroup";
-import { Button } from "../../Button";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { ButtonGroup } from '../ButtonGroup';
+import { Button } from '../../Button';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("ButtonGroup renders children", () => {
+test('ButtonGroup renders children', () => {
   const { getByText } = render(
     <ThemeProvider>
       <ButtonGroup>
@@ -13,6 +13,6 @@ test("ButtonGroup renders children", () => {
       </ButtonGroup>
     </ThemeProvider>
   );
-  expect(getByText("One")).toBeTruthy();
-  expect(getByText("Two")).toBeTruthy();
+  expect(getByText('One')).toBeTruthy();
+  expect(getByText('Two')).toBeTruthy();
 });

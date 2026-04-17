@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import { useDisclosure } from "./useDisclosure";
+import { useCallback, useMemo, useState } from 'react';
+import { useDisclosure } from './useDisclosure';
 
 export interface SelectOption<T = string> {
   label: string;
@@ -40,12 +40,15 @@ export function useSelect<T = string>({
   onChange,
   multiple = false,
   disabled = false,
-  placeholder = "Select…",
+  placeholder = 'Select…',
 }: UseSelectOptions<T>): UseSelectReturn<T> {
-  const [internalValue, setInternalValue] = useState<T | T[] | undefined>(defaultValue);
+  const [internalValue, setInternalValue] = useState<T | T[] | undefined>(
+    defaultValue
+  );
   const disclosure = useDisclosure();
 
-  const selected = controlledValue !== undefined ? controlledValue : internalValue;
+  const selected =
+    controlledValue !== undefined ? controlledValue : internalValue;
 
   const selectOption = useCallback(
     (val: T) => {
@@ -66,7 +69,8 @@ export function useSelect<T = string>({
 
   const clearSelection = useCallback(() => {
     const next = multiple ? [] : undefined;
-    if (controlledValue === undefined) setInternalValue(next as T | T[] | undefined);
+    if (controlledValue === undefined)
+      setInternalValue(next as T | T[] | undefined);
     if (next !== undefined) onChange?.(next as T | T[]);
   }, [multiple, controlledValue, onChange]);
 
@@ -79,16 +83,19 @@ export function useSelect<T = string>({
     [selected]
   );
 
-  const displayLabel = (() => {
-    if (!selected || (Array.isArray(selected) && selected.length === 0)) return placeholder;
+  const displayLabel = useMemo(() => {
+    if (!selected || (Array.isArray(selected) && selected.length === 0))
+      return placeholder;
     if (Array.isArray(selected)) {
-      const labels = selected
-        .map((v) => options.find((o) => o.value === v)?.label)
-        .filter(Boolean);
-      return labels.join(", ");
+      const optionsMap = new Map();
+      for (let i = 0; i < options.length; i++) {
+        optionsMap.set(options[i].value, options[i].label);
+      }
+      const labels = selected.map((v) => optionsMap.get(v)).filter(Boolean);
+      return labels.join(', ');
     }
     return options.find((o) => o.value === selected)?.label ?? placeholder;
-  })();
+  }, [selected, options, placeholder]);
 
   return {
     selected,

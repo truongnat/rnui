@@ -1,11 +1,11 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { AnimatedList } from "../AnimatedList";
-import { ThemeProvider } from "@truongdq01/headless";
-import { Text } from "react-native";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { AnimatedList } from '../AnimatedList';
+import { ThemeProvider } from '@truongdq01/headless';
+import { Text } from 'react-native';
 
-test("AnimatedList renders items", () => {
-  const data = [{ id: "1", text: "Item 1" }];
+test('AnimatedList renders items', () => {
+  const data = [{ id: '1', text: 'Item 1' }];
   const { getByText } = render(
     <ThemeProvider>
       <AnimatedList
@@ -15,5 +15,5 @@ test("AnimatedList renders items", () => {
       />
     </ThemeProvider>
   );
-  expect(getByText("Item 1")).toBeTruthy();
+  expect(getByText('Item 1')).toBeTruthy();
 });

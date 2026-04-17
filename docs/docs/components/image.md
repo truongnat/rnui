@@ -9,28 +9,28 @@ The `Image` component provides a performant image loading experience with built-
 ## Usage
 
 ```tsx
-import { Image } from "@truongdq01/ui";
+import { Image } from '@truongdq01/ui';
 
 <Image
-  source={{ uri: "https://example.com/image.jpg" }}
+  source={{ uri: 'https://example.com/image.jpg' }}
   style={{ width: 200, height: 200 }}
   showPlaceholder
-/>
+/>;
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `source` | `ImageSourcePropType` | — | **Required.** Image source (URI, require, or bundle) |
-| `showPlaceholder` | `boolean` | `true` | Show skeleton loading effect while fetching |
-| `style` | `StyleProp<ImageStyle>` | — | Container and image style |
-| `onLoad` | `(e: ImageLoadEventData) => void` | — | Callback when image loads successfully |
-| `onError` | `(e: ImageErrorEventData) => void` | — | Callback when image fails to load |
-| `resizeMode` | `"cover" \| "contain" \| "stretch" \| "repeat" \| "center"` | `"cover"` | How to resize the image |
-| `accessibilityLabel` | `string` | — | Alt text for screen readers |
-| `accessibilityHint` | `string` | — | Additional screen reader context |
-| `testID` | `string` | — | Test identifier for automation |
+| Prop                 | Type                                                        | Default   | Description                                          |
+| -------------------- | ----------------------------------------------------------- | --------- | ---------------------------------------------------- |
+| `source`             | `ImageSourcePropType`                                       | —         | **Required.** Image source (URI, require, or bundle) |
+| `showPlaceholder`    | `boolean`                                                   | `true`    | Show skeleton loading effect while fetching          |
+| `style`              | `StyleProp<ImageStyle>`                                     | —         | Container and image style                            |
+| `onLoad`             | `(e: ImageLoadEventData) => void`                           | —         | Callback when image loads successfully               |
+| `onError`            | `(e: ImageErrorEventData) => void`                          | —         | Callback when image fails to load                    |
+| `resizeMode`         | `"cover" \| "contain" \| "stretch" \| "repeat" \| "center"` | `"cover"` | How to resize the image                              |
+| `accessibilityLabel` | `string`                                                    | —         | Alt text for screen readers                          |
+| `accessibilityHint`  | `string`                                                    | —         | Additional screen reader context                     |
+| `testID`             | `string`                                                    | —         | Test identifier for automation                       |
 
 All other props from React Native's [`ImageProps`](https://reactnative.dev/docs/image#props) are supported.
 
@@ -40,7 +40,7 @@ All other props from React Native's [`ImageProps`](https://reactnative.dev/docs/
 
 ```tsx
 <Image
-  source={{ uri: "https://picsum.photos/400/300" }}
+  source={{ uri: 'https://picsum.photos/400/300' }}
   style={{ width: 400, height: 300 }}
 />
 ```
@@ -49,7 +49,7 @@ All other props from React Native's [`ImageProps`](https://reactnative.dev/docs/
 
 ```tsx
 <Image
-  source={{ uri: "https://picsum.photos/400/300" }}
+  source={{ uri: 'https://picsum.photos/400/300' }}
   style={{ width: 400, height: 300 }}
   showPlaceholder={false}
 />
@@ -59,7 +59,7 @@ All other props from React Native's [`ImageProps`](https://reactnative.dev/docs/
 
 ```tsx
 <Image
-  source={{ uri: "https://example.com/avatar.jpg" }}
+  source={{ uri: 'https://example.com/avatar.jpg' }}
   style={{ width: 80, height: 80, borderRadius: 40 }}
 />
 ```
@@ -68,8 +68,8 @@ All other props from React Native's [`ImageProps`](https://reactnative.dev/docs/
 
 ```tsx
 <Image
-  source={{ uri: "https://example.com/hero.jpg" }}
-  style={{ width: "100%", height: 200 }}
+  source={{ uri: 'https://example.com/hero.jpg' }}
+  style={{ width: '100%', height: 200 }}
   resizeMode="cover"
 />
 ```
@@ -78,9 +78,9 @@ All other props from React Native's [`ImageProps`](https://reactnative.dev/docs/
 
 ```tsx
 <Image
-  source={{ uri: "https://invalid-url.com/image.jpg" }}
+  source={{ uri: 'https://invalid-url.com/image.jpg' }}
   style={{ width: 200, height: 200 }}
-  onError={(e) => console.log("Image failed to load", e.nativeEvent.error)}
+  onError={(e) => console.log('Image failed to load', e.nativeEvent.error)}
 />
 ```
 
@@ -115,12 +115,12 @@ When `showPlaceholder` is enabled (default), a skeleton effect shows while the i
 
 ### Use Appropriate Resize Modes
 
-| Use Case | Resize Mode |
-|----------|-------------|
+| Use Case               | Resize Mode       |
+| ---------------------- | ----------------- |
 | Product cards, avatars | `cover` (default) |
-| Full image display | `contain` |
-| Background patterns | `repeat` |
-| Thumbnails | `cover` |
+| Full image display     | `contain`         |
+| Background patterns    | `repeat`          |
+| Thumbnails             | `cover`           |
 
 ### Optimize Image Sources
 

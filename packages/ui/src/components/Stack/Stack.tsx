@@ -1,22 +1,22 @@
-import React from "react";
-import { View, type ViewStyle } from "react-native";
-import { useComponentTokens } from "@truongdq01/headless";
+import React from 'react';
+import { View, type ViewStyle } from 'react-native';
+import { useComponentTokens } from '@truongdq01/headless';
 
 export interface StackProps {
   children?: React.ReactNode;
-  direction?: "column" | "column-reverse" | "row" | "row-reverse";
-  spacing?: "xs" | "sm" | "md" | "lg" | "xl" | number;
+  direction?: 'column' | 'column-reverse' | 'row' | 'row-reverse';
+  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
   divider?: React.ReactNode;
-  alignItems?: ViewStyle["alignItems"];
-  justifyContent?: ViewStyle["justifyContent"];
-  flexWrap?: ViewStyle["flexWrap"];
+  alignItems?: ViewStyle['alignItems'];
+  justifyContent?: ViewStyle['justifyContent'];
+  flexWrap?: ViewStyle['flexWrap'];
   style?: ViewStyle | ViewStyle[];
 }
 
 export function Stack({
   children,
-  direction = "column",
-  spacing = "sm",
+  direction = 'column',
+  spacing = 'sm',
   divider,
   alignItems,
   justifyContent,
@@ -24,7 +24,7 @@ export function Stack({
   style,
 }: StackProps) {
   const { stack } = useComponentTokens();
-  const gap = typeof spacing === "number" ? spacing : stack.gap[spacing];
+  const gap = typeof spacing === 'number' ? spacing : stack.gap[spacing];
 
   const items = React.Children.toArray(children);
   const content = divider

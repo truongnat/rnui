@@ -1,7 +1,14 @@
-import React, { createContext, useContext, useMemo } from "react";
-import { View, Text, Pressable, type StyleProp, type ViewStyle } from "react-native";
-import { FlashList, type ListRenderItem } from "@shopify/flash-list";
-import { useTokens, useComponentTokens } from "@truongdq01/headless";
+import React, { createContext, useContext, useMemo } from 'react';
+import {
+  View,
+  Text,
+  Pressable,
+  FlatList,
+  type ListRenderItem,
+  type StyleProp,
+  type ViewStyle,
+} from 'react-native';
+import { useTokens, useComponentTokens } from '@truongdq01/headless';
 
 // ─── List Context ────────────────────────────────────────────────
 
@@ -26,7 +33,13 @@ export interface ListProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export function List({ children, dense = false, disablePadding = false, subheader, style }: ListProps) {
+export function List({
+  children,
+  dense = false,
+  disablePadding = false,
+  subheader,
+  style,
+}: ListProps) {
   const { list } = useComponentTokens();
   const tokens = useTokens();
 
@@ -35,11 +48,19 @@ export function List({ children, dense = false, disablePadding = false, subheade
       <View style={[list.container, style] as any}>
         {subheader && (
           <View style={list.subheader as any}>
-            {typeof subheader === "string" ? (
-              <Text style={{ fontSize: tokens.fontSize.sm, fontWeight: "600", color: tokens.color.text.tertiary }}>
+            {typeof subheader === 'string' ? (
+              <Text
+                style={{
+                  fontSize: tokens.fontSize.sm,
+                  fontWeight: '600',
+                  color: tokens.color.text.tertiary,
+                }}
+              >
                 {subheader}
               </Text>
-            ) : subheader}
+            ) : (
+              subheader
+            )}
           </View>
         )}
         {children}
@@ -60,7 +81,7 @@ export interface ListItemProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export function ListItem({
+function ListItemInner({
   children,
   secondaryAction,
   onPress,
@@ -79,30 +100,34 @@ export function ListItem({
     <Pressable
       onPress={onPress}
       disabled={disabled}
-      style={({ pressed }) => [
-        list.item,
-        {
-          paddingVertical: isDense ? tokens.spacing[2] : tokens.spacing[3],
-          backgroundColor: selected ? tokens.color.brand.subtle : "transparent",
-          borderBottomWidth: divider ? 1 : 0,
-          borderBottomColor: tokens.color.border.subtle,
-          opacity: disabled ? 0.5 : 1,
-        },
-        pressed && list.item.pressed,
-        style,
-      ] as any}
+      style={({ pressed }) =>
+        [
+          list.item,
+          {
+            paddingVertical: isDense ? tokens.spacing[2] : tokens.spacing[3],
+            backgroundColor: selected
+              ? tokens.color.brand.subtle
+              : 'transparent',
+            borderBottomWidth: divider ? 1 : 0,
+            borderBottomColor: tokens.color.border.subtle,
+            opacity: disabled ? 0.5 : 1,
+          },
+          pressed && list.item.pressed,
+          style,
+        ] as any
+      }
     >
-      <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
         {children}
       </View>
       {secondaryAction && (
-        <View style={{ marginLeft: tokens.spacing[2] }}>
-          {secondaryAction}
-        </View>
+        <View style={{ marginLeft: tokens.spacing[2] }}>{secondaryAction}</View>
       )}
     </Pressable>
   );
 }
+
+export const ListItem = React.memo(ListItemInner);
 
 // ─── ListItemText ────────────────────────────────────────────────
 
@@ -118,18 +143,34 @@ export function ListItemText({ primary, secondary }: ListItemTextProps) {
 
   return (
     <View style={{ flex: 1 }}>
-      {typeof primary === "string" ? (
-        <Text style={[list.itemText, ctx?.dense && { fontSize: tokens.fontSize.sm }] as any}>
+      {typeof primary === 'string' ? (
+        <Text
+          style={
+            [
+              list.itemText,
+              ctx?.dense && { fontSize: tokens.fontSize.sm },
+            ] as any
+          }
+        >
           {primary}
         </Text>
-      ) : primary}
-      {secondary && (
-        typeof secondary === "string" ? (
-          <Text style={{ fontSize: tokens.fontSize.xs, color: tokens.color.text.secondary, marginTop: 2 }}>
+      ) : (
+        primary
+      )}
+      {secondary &&
+        (typeof secondary === 'string' ? (
+          <Text
+            style={{
+              fontSize: tokens.fontSize.xs,
+              color: tokens.color.text.secondary,
+              marginTop: 2,
+            }}
+          >
             {secondary}
           </Text>
-        ) : secondary
-      )}
+        ) : (
+          secondary
+        ))}
     </View>
   );
 }
@@ -139,7 +180,13 @@ export function ListItemText({ primary, secondary }: ListItemTextProps) {
 export function ListItemIcon({ children }: { children: React.ReactNode }) {
   const tokens = useTokens();
   return (
-    <View style={{ marginRight: tokens.spacing[4], minWidth: 24, alignItems: "center" }}>
+    <View
+      style={{
+        marginRight: tokens.spacing[4],
+        minWidth: 24,
+        alignItems: 'center',
+      }}
+    >
       {children}
     </View>
   );
@@ -147,7 +194,7 @@ export function ListItemIcon({ children }: { children: React.ReactNode }) {
 
 // ─── FlatList Wrapper ────────────────────────────────────────────
 
-export interface ListDataProps<T> extends Omit<ListProps, "children"> {
+export interface ListDataProps<T> extends Omit<ListProps, 'children'> {
   data: T[];
   renderItem: ListRenderItem<T>;
   estimatedItemSize: number;
@@ -161,12 +208,25 @@ export function ListData<T>({
   keyExtractor,
   ...listProps
 }: ListDataProps<T>) {
+  const ListImpl: React.ComponentType<any> = useMemo(() => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const mod = require('@shopify/flash-list') as {
+        FlashList?: React.ComponentType<any>;
+      };
+      return mod?.FlashList ?? FlatList;
+    } catch {
+      return FlatList;
+    }
+  }, []);
+
   return (
     <List {...listProps}>
-      <FlashList
+      <ListImpl
         data={data}
         renderItem={renderItem}
-        estimatedItemSize={estimatedItemSize} {...(listProps as any)}
+        estimatedItemSize={estimatedItemSize}
+        {...(listProps as any)}
         keyExtractor={keyExtractor}
       />
     </List>

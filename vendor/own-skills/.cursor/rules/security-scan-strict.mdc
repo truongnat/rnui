@@ -1,0 +1,48 @@
+---
+description: Strict security gate for high-risk or production-bound changes
+alwaysApply: true
+---
+
+# Security scan strict profile
+
+Apply this strict profile for all production-bound work or any high-impact change.
+
+## High-risk triggers (strict mode mandatory)
+
+- Authentication, authorization, session, token, permission, role logic.
+- Payment, billing, PII, secrets, tenant isolation, data export/import.
+- Infrastructure, CI/CD, deployment config, environment/runtime config.
+- New dependencies, major upgrades, cryptography, file upload/parsing.
+
+## Hard stop conditions
+
+- Do not apply changes if any unresolved **high** or **critical** security issue exists.
+- Do not apply when threat model is unclear for sensitive data flows.
+- Do not apply if secret exposure risk is not explicitly checked.
+
+## Required verification checklist
+
+1. **Threat surface mapping**: entry points, trust boundaries, sensitive assets.
+2. **AuthN/AuthZ validation**: positive/negative access tests, privilege escalation checks.
+3. **Input/output safety**: injection/XSS/SSRF/path traversal/deserialization controls.
+4. **Secrets and config safety**: no hardcoded secrets, safe logging, secure defaults.
+5. **Dependency supply chain**: known vulnerabilities and risky transitive packages reviewed.
+6. **Abuse-case review**: bypass, replay, rate-limit evasion, tenant breakout.
+7. **Rollback readiness**: safe revert plan if a latent issue appears post-release.
+
+## Evidence requirement
+
+Before applying substantive changes, include explicit evidence:
+
+- What was tested/verified.
+- What risks were found.
+- What mitigation was applied.
+- What residual risk remains and owner/follow-up.
+
+## Output format (strict)
+
+- **Security verification**: pass/fail + evidence summary.
+- **Risk level**: low/medium/high/critical.
+- **Risks found**: concrete findings or "none found".
+- **Mitigation**: applied fixes and safeguards.
+- **Residual risk**: remaining concerns + next action.

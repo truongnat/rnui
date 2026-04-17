@@ -6,7 +6,7 @@ export {
   TimelineConnector,
   TimelineContent,
   TimelineOppositeContent,
-} from "./Timeline";
+} from './Timeline';
 export type {
   TimelineProps,
   TimelineItemProps,
@@ -15,4 +15,4 @@ export type {
   TimelineContentProps,
   TimelineOppositeContentProps,
   TimelinePosition,
-} from "./Timeline";
+} from './Timeline';

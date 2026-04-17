@@ -1,18 +1,18 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import Animated from "react-native-reanimated";
-import { GestureDetector } from "react-native-gesture-handler";
-import { usePressable, useComponentTokens } from "@truongdq01/headless";
-import { Icon } from "../Icon";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { GestureDetector } from 'react-native-gesture-handler';
+import { usePressable, useComponentTokens } from '@truongdq01/headless';
+import { Icon } from '../Icon';
 
 export interface FabProps {
   icon?: React.ReactNode;
   label?: string;
   onPress?: () => void;
   disabled?: boolean;
-  color?: "primary" | "secondary" | "success" | "error" | "info" | "warning";
-  size?: "sm" | "md" | "lg";
-  variant?: "circular" | "extended";
+  color?: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'circular' | 'extended';
   accessibilityLabel?: string;
 }
 
@@ -21,25 +21,27 @@ export function Fab({
   label,
   onPress,
   disabled = false,
-  color = "primary",
-  size = "md",
-  variant = "circular",
+  color = 'primary',
+  size = 'md',
+  variant = 'circular',
   accessibilityLabel,
 }: FabProps) {
   const { fab } = useComponentTokens();
   const { gesture, animatedStyle, accessibilityProps } = usePressable({
     onPress,
     disabled,
-    feedbackMode: "scale",
-    accessibilityLabel: accessibilityLabel ?? label ?? (typeof icon === "string" ? icon : "FAB"),
-    accessibilityRole: "button",
+    feedbackMode: 'scale',
+    accessibilityLabel:
+      accessibilityLabel ?? label ?? (typeof icon === 'string' ? icon : 'FAB'),
+    accessibilityRole: 'button',
   });
 
-  const isExtended = variant === "extended" && !!label;
-  
+  const isExtended = variant === 'extended' && !!label;
+
   // Base color from component tokens - Fab only has primary/secondary in tokens
-  const baseColor = color === "primary" ? fab.color.primary.bg : fab.color.secondary.bg;
-  const textColor = "#FFFFFF";
+  const baseColor =
+    color === 'primary' ? fab.color.primary.bg : fab.color.secondary.bg;
+  const textColor = '#FFFFFF';
 
   const sizeMap = {
     sm: { size: 40, iconSize: 20 },
@@ -84,13 +86,13 @@ export function Fab({
 
 const styles = StyleSheet.create({
   content: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   label: {
-    fontWeight: "600",
+    fontWeight: '600',
     fontSize: 14,
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
 });

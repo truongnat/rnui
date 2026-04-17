@@ -1,142 +1,134 @@
-# RNUI — React Native UI Framework
+# RNUI
 
-A high-performance, dual-layer UI design system for React Native (iOS + Android).
+A React Native UI component library with design tokens, headless hooks, and styled components.
 
-## 🎉 Latest Release: v0.1.0
+## Status
 
-**Status:** ✅ Production Ready  
-**Components:** 62+  
-**Icons:** 120+  
-**Last Updated:** March 20, 2026
+🚧 **Development Phase** - Not yet published to npm  
+📦 **Packages Built** - Ready for testing  
+🧪 **Test Coverage** - ~15%  
+📚 **Documentation** - In progress
 
----
+## Overview
 
-## Architecture
+RNUI provides a comprehensive set of UI components for React Native applications, built with:
 
-```
-@truongdq01/tokens      Raw → semantic → component design tokens + motion presets
-@truongdq01/headless    Logic, state, accessibility hooks. Zero styles.
-@truongdq01/ui          Styled components. Wraps headless. Uses tokens.
-@truongdq01/themes      Multi-brand plugin presets
-```
+- **Design Tokens**: Primitive → Semantic → Component tokens
+- **Headless Hooks**: Reusable logic and state management
+- **Styled Components**: Pre-built UI components with theming
+- **Motion Presets**: Animation configurations
+- **Multi-brand Support**: Theme customization
 
-**Dual-layer** means you choose your level:
+## Packages
+
+| Package                | Version | Status   | Description                                            |
+| ---------------------- | ------- | -------- | ------------------------------------------------------ |
+| `@truongdq01/tokens`   | 1.0.3   | ✅ Built | Design tokens (primitive, semantic, component, motion) |
+| `@truongdq01/headless` | 1.0.3   | ✅ Built | Theme provider and headless hooks                      |
+| `@truongdq01/ui`       | 1.0.3   | ✅ Built | 62+ styled components                                  |
+| `@truongdq01/themes`   | 1.0.3   | ✅ Built | Multi-brand theme presets                              |
+
+## Usage Examples
 
 ```tsx
 // Option A — use styled components out of the box
-import { Button } from "@truongdq01/ui";
-<Button label="Save" variant="solid" onPress={save} />
+import { Button } from '@truongdq01/ui';
+<Button label="Save" variant="solid" onPress={save} />;
 
 // Option B — headless only, bring your own styles
-import { usePressable } from "@truongdq01/headless";
-const { gesture, animatedStyle, accessibilityProps } = usePressable({ onPress: save });
+import { usePressable } from '@truongdq01/headless';
+const { gesture, animatedStyle, accessibilityProps } = usePressable({
+  onPress: save,
+});
 ```
-
----
 
 ## Requirements
 
 - React Native ≥ 0.83 (New Architecture required)
-- react-native-reanimated ≥ 3.0
-- react-native-gesture-handler ≥ 2.0
+- react-native-reanimated ≥ 4.2.0
+- react-native-gesture-handler ≥ 2.30.0
+- react-native-worklets ≥ 0.7.0
+- react-native-safe-area-context ≥ 5.6.0
 
----
+## Installation (Development)
 
-## Getting Started
+Since packages are not yet published to npm, install from source:
 
 ```bash
-# Install Bun — https://bun.sh
-curl -fsSL https://bun.sh/install | bash
-
-# Clone and install
-git clone https://github.com/your-org/rnui
+# Clone the repository
+git clone https://github.com/your-org/rnui.git
 cd rnui
+
+# Install dependencies
 bun install
 
 # Build all packages
-bun turbo build
-
-# Run example app
-cd apps/example
-bun start
-
-# Run Storybook on device
-cd apps/storybook
-bun storybook
+bun run build
 ```
 
----
+## Development Setup
 
-## Usage
+```bash
+# Install Bun (recommended)
+curl -fsSL https://bun.sh/install | bash
 
-### 1. ThemeProvider Setup
+# Clone and setup
+git clone https://github.com/your-org/rnui.git
+cd rnui
+bun install
 
-Wrap your app root in `ThemeProvider`:
+# Build packages
+bun run build
+
+# Run type checking
+bun run typecheck
+
+# Run tests
+bun run test
+```
+
+## Usage (Local Development)
 
 ```tsx
-import { ThemeProvider } from "@truongdq01/ui";
+import { ThemeProvider } from '@truongdq01/headless';
+import { Button, Card } from '@truongdq01/ui';
 
-export default function App() {
+function App() {
   return (
-    <ThemeProvider colorScheme="system">
-      <YourApp />
+    <ThemeProvider>
+      <Card>
+        <Button label="Hello RNUI" />
+      </Card>
     </ThemeProvider>
   );
 }
 ```
 
-### 2. Basic Components
+## Architecture
+
+### Design Tokens
 
 ```tsx
-import { Button, Input, Card, Badge } from "@truongdq01/ui";
+import { tokens } from '@truongdq01/tokens';
 
-function MyForm() {
-  return (
-    <Card>
-      <Input label="Email" placeholder="name@example.com" />
-      <Button label="Submit" variant="solid" onPress={handleSubmit} />
-      <Badge label="New" variant="brand" />
-    </Card>
-  );
-}
+// Access primitive tokens
+const spacing = tokens.spacing[4];
+
+// Access semantic tokens
+const primaryColor = tokens.color.brand.default;
+
+// Access component tokens
+const buttonPadding = tokens.component.button.padding.md;
 ```
 
-### 3. Theme Override (Brand Customization)
+### Headless Hooks
 
 ```tsx
-import { ThemeProvider } from "@truongdq01/ui";
-import { loveBrand } from "@truongdq01/themes";
+import { usePressable } from '@truongdq01/headless';
 
-const brandOverride = {
-  light: {
-    color: {
-      brand: {
-        default: "#E11D48",   // rose-600
-        hover:   "#BE123C",
-        active:  "#9F1239",
-      },
-    },
-  },
-};
-
-<ThemeProvider brand={loveBrand} override={brandOverride}>
-  <App />
-</ThemeProvider>
-```
-
-### 4. Headless Example
-
-```tsx
-import { usePressable, useTheme } from "@truongdq01/headless";
-import Animated from "react-native-reanimated";
-import { GestureDetector } from "react-native-gesture-handler";
-
-function MyButton({ onPress, children }) {
-  const { tokens } = useTheme();
+function MyComponent() {
   const { gesture, animatedStyle, accessibilityProps } = usePressable({
-    onPress,
-    feedbackMode: "scale",
-    accessibilityLabel: "My button",
+    onPress: handlePress,
   });
 
   return (
@@ -159,101 +151,114 @@ function MyButton({ onPress, children }) {
 }
 ```
 
----
-
-## Component Highlights
-
-### ✅ Recently Enhanced (v0.1.0)
-
-| Component | Improvement |
-|-----------|-------------|
-| **Badge** | Added size variants (`sm`, `md`, `lg`) with proper padding |
-| **Chip** | Improved avatar/deleteIcon styling, added `lg` size |
-| **Tooltip** | Fixed positioning, added outside click to close |
-| **Input** | Auto-clear error on first keystroke |
-| **Select** | Clear error on selection |
-| **Autocomplete** | Toggle deselect in single mode |
-| **Carousel** | Auto-play mode with customizable interval |
-| **Snackbar** | Smoother spring animation |
-| **TextField** | Password type with show/hide toggle |
-| **Icon** | **120+ icons** from lucide-react-native |
-| **Timeline** | Status variants (pending/active/completed/error) |
-| **DatePicker** | Quick preset buttons (Today, Last 7/30/90 days) |
-
-### 📦 All Components (62+)
-
-**Primitive:** Button, Input, TextArea, Card, Badge, Checkbox, Switch, Radio, Slider, Avatar, Chip, Fab
-
-**Complex:** Select, List, BottomSheet, Toast, Autocomplete, DatePicker, Carousel, OTPInput, SegmentedControl
-
-**Layout:** Box, Stack, Grid, Paper, Divider, Skeleton, EmptyState, Image
-
-**Navigation:** AppBar, Tabs, BottomNavigation, Breadcrumbs, Pagination, Stepper
-
-**Feedback:** Alert, Dialog, Snackbar, Toast, CircularProgress, LinearProgress, Timeline
-
-**Data Display:** Table, ImageList, Icon, Typography, Link
-
-**Overlays:** Modal, Drawer, Menu, Popover, Popper, Tooltip
-
-**Forms:** FormField, FormControl, TextField, Rating, ToggleButton, ButtonGroup, SpeedDial
-
----
-
-## Package Scripts
-
-```bash
-bun turbo build        # Build all packages
-bun turbo dev          # Watch mode across all packages
-bun turbo test         # Run all tests
-bun turbo typecheck    # TypeScript check all packages
-bun turbo lint         # Lint all packages
-bun run changeset      # Create a new changeset for release
-```
-
----
-
-## Packages
-
-| Package | Version | Description |
-|---------|---------|-------------|
-| `@truongdq01/tokens` | 0.1.0 | Design tokens: primitive, semantic, component, motion |
-| `@truongdq01/headless` | 0.1.0 | ThemeProvider, hooks (usePressable, useDisclosure, etc.) |
-| `@truongdq01/ui` | 0.1.0 | 62+ styled components + all headless re-exports |
-| `@truongdq01/themes` | 0.1.0 | Multi-brand presets (love, ocean, forest, sunset, midnight) |
-
----
-
-## Icon Library
-
-**120+ icons** available from lucide-react-native:
+### Theme Override (Brand Customization)
 
 ```tsx
-import { Icon } from "@truongdq01/ui";
+import { usePressable, useTheme } from '@truongdq01/headless';
+import Animated from 'react-native-reanimated';
+import { GestureDetector } from 'react-native-gesture-handler';
 
-// Usage
-<Icon>star</Icon>
-<Icon size={24} color="#FF6B6B">heart</Icon>
+function MyButton({ onPress, children }) {
+  const { tokens } = useTheme();
+  const { gesture, animatedStyle, accessibilityProps } = usePressable({
+    onPress,
+    feedbackMode: 'scale',
+    accessibilityLabel: 'My button',
+  });
 
-// Categories:
-// - Navigation & Actions (30 icons)
-// - Feedback & Status (15 icons)
-// - Commerce & Data (15 icons)
-// - Communication (10 icons)
-// - Media Controls (12 icons)
-// - Weather & Nature (10 icons)
-// - Locks & Security (8 icons)
-// - Arrows (10 icons)
-// - UI Elements (10 icons)
-// - Tools (10 icons)
-// - Social (6 icons)
+  return (
+    <GestureDetector gesture={gesture}>
+      <Animated.View
+        style={[
+          {
+            backgroundColor: tokens.color.brand.default,
+            padding: tokens.spacing[4],
+            borderRadius: tokens.radius.md,
+          },
+          animatedStyle,
+        ]}
+        {...accessibilityProps}
+      >
+        {children}
+      </Animated.View>
+    </GestureDetector>
+  );
+}
 ```
 
----
+### Styled Components
+  });
 
-## Roadmap
+  return (
+    <GestureDetector gesture={gesture}>
+      <Animated.View style={animatedStyle} {...accessibilityProps}>
+        Press me
+      </Animated.View>
+    </GestureDetector>
+  );
+}
+```
 
-### ✅ Completed (v0.1.0)
+### Styled Components
+
+```tsx
+import { Button, Input, Card } from '@truongdq01/ui';
+
+function Form() {
+  return (
+    <Card>
+      <Input label="Email" placeholder="your@email.com" />
+      <Button label="Submit" variant="solid" />
+    </Card>
+  );
+}
+```
+
+## Components
+
+### Core Components (62+)
+
+- **Primitives**: Button, Input, Card, Badge, Checkbox, Switch
+- **Complex**: Select, List, BottomSheet, Modal, Toast
+- **Layout**: Box, Stack, Grid, Divider
+- **Navigation**: Tabs, AppBar, BottomNavigation
+- **Feedback**: Alert, Snackbar, CircularProgress
+- **Data Display**: Table, Avatar, Typography
+- **Forms**: TextField, Radio, Slider, Rating
+
+### Features
+
+- Full TypeScript support
+- Accessibility (WCAG 2.1 compliant)
+- Dark mode support
+- Motion/animation presets
+- Multi-brand theming
+- 120+ icons (Lucide React Native)
+
+## Development Status
+
+### ✅ Completed
+
+- 62 UI components implemented
+- Design token system (primitive → semantic → component)
+- Headless hooks library (19 hooks)
+- Theme provider with brand customization
+- Motion presets and animations
+- Icon library integration
+- TypeScript definitions
+- Build system (Turborepo + tsup)
+
+### 🚧 In Progress
+
+- Publishing to npm
+- Comprehensive test suite (currently ~15% coverage)
+- Documentation website
+- Storybook integration
+- E2E testing (Detox)
+- Performance optimization
+
+### 📋 Planned
+
 - [x] 62 UI components
 - [x] 120+ icon library
 - [x] Token system (primitive → semantic → component)
@@ -266,59 +271,66 @@ import { Icon } from "@truongdq01/ui";
 - [x] Password TextField toggle
 
 ### 🚧 In Progress
+
 - [ ] E2E test suite (Detox)
 - [ ] Performance regression tests (Reassure)
 - [ ] Accessibility audit (WCAG 2.1 AA)
 - [ ] Documentation site (Docusaurus)
 
 ### 📋 Planned
+
 - [ ] Virtualized List with FlashList
 - [ ] Advanced DataTable component
 - [ ] Drag & Drop support
 - [ ] Gesture-based interactions
 - [ ] Animation presets library
 
----
+## Scripts
+
+```bash
+# Development
+bun run dev          # Watch mode across packages
+bun run build        # Build all packages
+bun run typecheck    # TypeScript checking
+bun run test         # Run tests
+bun run clean        # Clean build artifacts
+
+# Publishing
+bun run changeset    # Create version changeset
+bun run version-packages  # Update versions
+bun run release      # Build and publish
+```
 
 ## Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for setup instructions and development guidelines.
+We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
-### Quick Start
+### Quick Start for Contributors
 
-```bash
-# Clone repo
-git clone https://github.com/your-org/rnui
-cd rnui
+1. Fork and clone the repository
+2. Install dependencies: `bun install`
+3. Build packages: `bun run build`
+4. Make changes in relevant packages
+5. Run tests: `bun run test`
+6. Submit a pull request
 
-# Install dependencies
-bun install
+### Development Workflow
 
-# Build packages
-bun turbo build
-
-# Run Storybook
-cd apps/storybook
-bun storybook
-
-# Run tests
-bun turbo test
-```
-
----
+- Use GitNexus for code intelligence and impact analysis
+- Run type checking before committing
+- Follow existing code patterns and conventions
+- Update documentation for new features
 
 ## License
 
 MIT © 2026 RNUI Project
 
----
-
 ## Support
 
-- **Documentation:** [rnui.dev](https://rnui.dev) (coming soon)
-- **Issues:** [GitHub Issues](https://github.com/your-org/rnui/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/your-org/rnui/discussions)
+- **Issues**: [GitHub Issues](https://github.com/your-org/rnui/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-org/rnui/discussions)
+- **Documentation**: See `docs/` folder (coming soon)
 
 ---
 
-*Last updated: March 20, 2026*
+_This project is in active development. APIs may change before v1.0.0 release._

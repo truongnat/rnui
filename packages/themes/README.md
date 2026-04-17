@@ -23,8 +23,8 @@ bun add @truongdq01/themes
 ## Usage
 
 ```tsx
-import { ThemeProvider } from "@truongdq01/ui";
-import { loveBrand } from "@truongdq01/themes";
+import { ThemeProvider } from '@truongdq01/ui';
+import { loveBrand } from '@truongdq01/themes';
 
 export default function App() {
   return (
@@ -33,6 +33,31 @@ export default function App() {
     </ThemeProvider>
   );
 }
+```
+
+### Subpath Imports
+
+```tsx
+// Import từng theme riêng lẻ (tree-shakable)
+import defaultBrand from '@truongdq01/themes/default';
+import loveBrand from '@truongdq01/themes/love';
+import forestBrand from '@truongdq01/themes/forest';
+import midnightBrand from '@truongdq01/themes/midnight';
+import oceanBrand from '@truongdq01/themes/ocean';
+import sunsetBrand from '@truongdq01/themes/sunset';
+import telegramBrand from '@truongdq01/themes/telegram';
+```
+
+### Utilities
+
+```tsx
+import { allBrands, getBrandById, BrandId } from '@truongdq01/themes';
+
+// Lấy tất cả brands
+console.log(allBrands.length); // 7
+
+// Lấy brand theo ID
+const brand = getBrandById('telegram');
 ```
 
 ## Development

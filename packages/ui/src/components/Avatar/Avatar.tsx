@@ -1,11 +1,11 @@
-import React from "react";
-import { View, Text, Image, type ViewStyle } from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import React from 'react';
+import { View, Text, Image, type ViewStyle } from 'react-native';
+import { useComponentTokens, useTokens } from '@truongdq01/headless';
 
 // ─── Types ────────────────────────────────────────────────────────
 
-export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
-export type AvatarStatus = "online" | "offline" | "busy" | "away";
+export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type AvatarStatus = 'online' | 'offline' | 'busy' | 'away';
 
 export interface AvatarProps {
   /** Image URI */
@@ -16,17 +16,17 @@ export interface AvatarProps {
   fallbackIcon?: React.ReactNode;
   size?: AvatarSize;
   status?: AvatarStatus;
-  shape?: "circle" | "rounded";
+  shape?: 'circle' | 'rounded';
   /** Accessible label */
   accessibilityLabel?: string;
   style?: ViewStyle | ViewStyle[];
 }
 
 const STATUS_COLORS = {
-  online:  "#22C55E",
-  offline: "#9CA3AF",
-  busy:    "#EF4444",
-  away:    "#F59E0B",
+  online: '#22C55E',
+  offline: '#9CA3AF',
+  busy: '#EF4444',
+  away: '#F59E0B',
 };
 
 const STATUS_DOT_SIZE: Record<AvatarSize, number> = {
@@ -35,40 +35,47 @@ const STATUS_DOT_SIZE: Record<AvatarSize, number> = {
   md: 10,
   lg: 12,
   xl: 14,
-  "2xl": 16,
+  '2xl': 16,
 };
 
 const STATUS_DOT_COLORS = {
-  online: "#22C55E",  // success
-  away: "#F59E0B",    // warning
-  offline: "#9CA3AF", // muted
-  busy: "#EF4444",    // error
+  online: '#22C55E', // success
+  away: '#F59E0B', // warning
+  offline: '#9CA3AF', // muted
+  busy: '#EF4444', // error
 } as const;
 
 // Deterministic color from initials string
 const BG_PALETTE = [
-  "#EEEDFE", // purple-50
-  "#E1F5EE", // teal-50
-  "#FAECE7", // coral-50
-  "#FBEAF0", // pink-50
-  "#EAF3DE", // green-50
-  "#FAEEDA", // amber-50
-  "#E6F1FB", // blue-50
+  '#EEEDFE', // purple-50
+  '#E1F5EE', // teal-50
+  '#FAECE7', // coral-50
+  '#FBEAF0', // pink-50
+  '#EAF3DE', // green-50
+  '#FAEEDA', // amber-50
+  '#E6F1FB', // blue-50
 ];
 const TEXT_PALETTE = [
-  "#3C3489",
-  "#085041",
-  "#712B13",
-  "#72243E",
-  "#27500A",
-  "#633806",
-  "#0C447C",
+  '#3C3489',
+  '#085041',
+  '#712B13',
+  '#72243E',
+  '#27500A',
+  '#633806',
+  '#0C447C',
 ];
 
+const colorIndexCache = new Map<string, number>();
+
 function getColorIndex(str: string): number {
+  const cached = colorIndexCache.get(str);
+  if (cached !== undefined) return cached;
   let hash = 0;
-  for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  return Math.abs(hash) % BG_PALETTE.length;
+  for (let i = 0; i < str.length; i++)
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  const result = Math.abs(hash) % BG_PALETTE.length;
+  colorIndexCache.set(str, result);
+  return result;
 }
 
 // ─── Avatar ───────────────────────────────────────────────────────
@@ -77,16 +84,17 @@ export function Avatar({
   src,
   initials,
   fallbackIcon,
-  size = "md",
+  size = 'md',
   status,
-  shape = "circle",
+  shape = 'circle',
   accessibilityLabel,
   style,
 }: AvatarProps) {
   const { avatar } = useComponentTokens();
   const tokens = useTokens();
   const sizeConfig = avatar.size[size];
-  const radius = shape === "circle" ? sizeConfig.borderRadius : tokens.radius.md;
+  const radius =
+    shape === 'circle' ? sizeConfig.borderRadius : tokens.radius.md;
   const colorIdx = initials ? getColorIndex(initials) : 0;
 
   const dotSize = status ? STATUS_DOT_SIZE[size] : 0;
@@ -100,7 +108,11 @@ export function Avatar({
       {src ? (
         <Image
           source={{ uri: src }}
-          style={{ width: sizeConfig.width, height: sizeConfig.height, borderRadius: radius }}
+          style={{
+            width: sizeConfig.width,
+            height: sizeConfig.height,
+            borderRadius: radius,
+          }}
           accessibilityLabel={accessibilityLabel}
         />
       ) : initials ? (
@@ -138,7 +150,12 @@ export function Avatar({
           }}
         >
           {fallbackIcon ?? (
-            <Text style={{ fontSize: sizeConfig.fontSize, color: tokens.color.text.tertiary }}>
+            <Text
+              style={{
+                fontSize: sizeConfig.fontSize,
+                color: tokens.color.text.tertiary,
+              }}
+            >
               ?
             </Text>
           )}
@@ -149,7 +166,7 @@ export function Avatar({
       {status && (
         <View
           style={{
-            position: "absolute",
+            position: 'absolute',
             bottom: 0,
             right: 0,
             width: dotSize,
@@ -177,7 +194,7 @@ export interface AvatarGroupProps {
 export function AvatarGroup({
   avatars,
   max = 4,
-  size = "md",
+  size = 'md',
   overlap,
 }: AvatarGroupProps) {
   const { avatar: avatarTokens } = useComponentTokens();
@@ -192,9 +209,10 @@ export function AvatarGroup({
   return (
     <View
       style={{
-        flexDirection: "row",
-        alignItems: "center",
-        width: visible.length * (dim - gap) + gap + (overflow > 0 ? dim - gap : 0),
+        flexDirection: 'row',
+        alignItems: 'center',
+        width:
+          visible.length * (dim - gap) + gap + (overflow > 0 ? dim - gap : 0),
         height: dim,
       }}
     >
@@ -202,7 +220,7 @@ export function AvatarGroup({
         <View
           key={i}
           style={{
-            position: "absolute",
+            position: 'absolute',
             left: i * (dim - gap),
             zIndex: visible.length - i,
             borderWidth: avatarTokens.presence.borderWidth,
@@ -217,7 +235,7 @@ export function AvatarGroup({
       {overflow > 0 && (
         <View
           style={{
-            position: "absolute",
+            position: 'absolute',
             left: visible.length * (dim - gap),
             width: dim,
             height: dim,

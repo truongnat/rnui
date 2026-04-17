@@ -17,25 +17,27 @@
  */
 
 // ── Brand presets ──────────────────────────────────────────────────
-export { defaultBrand } from "./brands/default";
-export { loveBrand }    from "./brands/love";
-export { oceanBrand }   from "./brands/ocean";
-export { forestBrand }  from "./brands/forest";
-export { sunsetBrand }  from "./brands/sunset";
-export { midnightBrand }from "./brands/midnight";
+export { defaultBrand } from './brands/default';
+export { loveBrand } from './brands/love';
+export { oceanBrand } from './brands/ocean';
+export { forestBrand } from './brands/forest';
+export { sunsetBrand } from './brands/sunset';
+export { midnightBrand } from './brands/midnight';
+export { telegramBrand } from './brands/telegram';
 
 // ── Types (re-exported for convenience) ───────────────────────────
-export type { Brand, BrandColorGroup } from "@truongdq01/tokens";
-export { defineBrand } from "@truongdq01/tokens";
+export type { Brand, BrandColorGroup } from '@truongdq01/tokens';
+export { defineBrand } from '@truongdq01/tokens';
 
 // ── All brands registry (for brand pickers, docs, etc.) ───────────
-import { defaultBrand } from "./brands/default";
-import { loveBrand }    from "./brands/love";
-import { oceanBrand }   from "./brands/ocean";
-import { forestBrand }  from "./brands/forest";
-import { sunsetBrand }  from "./brands/sunset";
-import { midnightBrand }from "./brands/midnight";
-import type { Brand }   from "@truongdq01/tokens";
+import { defaultBrand } from './brands/default';
+import { loveBrand } from './brands/love';
+import { oceanBrand } from './brands/ocean';
+import { forestBrand } from './brands/forest';
+import { sunsetBrand } from './brands/sunset';
+import { midnightBrand } from './brands/midnight';
+import { telegramBrand } from './brands/telegram';
+import type { Brand } from '@truongdq01/tokens';
 
 export const allBrands: Brand[] = [
   defaultBrand,
@@ -44,13 +46,21 @@ export const allBrands: Brand[] = [
   forestBrand,
   sunsetBrand,
   midnightBrand,
+  telegramBrand,
 ];
 
-export type BrandId = "default" | "love" | "ocean" | "forest" | "sunset" | "midnight";
+export type BrandId =
+  | 'default'
+  | 'love'
+  | 'ocean'
+  | 'forest'
+  | 'sunset'
+  | 'midnight'
+  | 'telegram';
 
 /** Look up a brand by its id */
 export function getBrandById(id: BrandId): Brand {
-  const found = allBrands.find(b => b.id === id);
+  const found = allBrands.find((b) => b.id === id);
   if (!found) throw new Error(`[RNUI] Unknown brand id: "${id}"`);
   return found;
 }

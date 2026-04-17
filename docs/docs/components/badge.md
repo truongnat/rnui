@@ -14,11 +14,11 @@ import { Check } from "lucide-react-native";
 
 ## Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `label` | `string` | -- | Badge text |
-| `variant` | `"default" | "brand" | "success" | "warning" | "error" | "info"` | `"default"` | Visual style |
-| `icon` | `ReactNode` | -- | Optional icon before label |
+| Prop      | Type        | Default | Description                |
+| --------- | ----------- | ------- | -------------------------- | --------- | ------- | ------- | ----------- | ------------ |
+| `label`   | `string`    | --      | Badge text                 |
+| `variant` | `"default"  | "brand" | "success"                  | "warning" | "error" | "info"` | `"default"` | Visual style |
+| `icon`    | `ReactNode` | --      | Optional icon before label |
 
 ## Variants
 

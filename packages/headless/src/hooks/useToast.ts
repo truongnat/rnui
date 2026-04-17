@@ -1,9 +1,9 @@
-import { useCallback, useRef, useSyncExternalStore } from "react";
+import { useCallback, useRef, useSyncExternalStore } from 'react';
 
 // ─── Types ────────────────────────────────────────────────────────
 
-export type ToastVariant = "default" | "success" | "warning" | "error" | "info";
-export type ToastPosition = "top" | "bottom";
+export type ToastVariant = 'default' | 'success' | 'warning' | 'error' | 'info';
+export type ToastPosition = 'top' | 'bottom';
 
 export interface ToastItem {
   id: string;
@@ -27,7 +27,7 @@ export interface ShowToastOptions {
   /** Duration in ms before auto-dismiss. Default 3500. */
   duration?: number;
   persistent?: boolean;
-  action?: ToastItem["action"];
+  action?: ToastItem['action'];
   /** Optional custom icon */
   icon?: React.ReactNode;
 }
@@ -66,7 +66,7 @@ export function showToast(options: ShowToastOptions): string {
   const item: ToastItem = {
     id,
     message: options.message,
-    variant: options.variant ?? "default",
+    variant: options.variant ?? 'default',
     duration: options.duration ?? 3500,
     persistent: options.persistent ?? false,
     action: options.action,
@@ -101,37 +101,52 @@ export interface UseToastReturn {
   /** Dismiss all toasts */
   dismissAll: () => void;
   /** Shorthand helpers */
-  success: (message: string, options?: Omit<ShowToastOptions, "message" | "variant">) => string;
-  error: (message: string, options?: Omit<ShowToastOptions, "message" | "variant">) => string;
-  warning: (message: string, options?: Omit<ShowToastOptions, "message" | "variant">) => string;
-  info: (message: string, options?: Omit<ShowToastOptions, "message" | "variant">) => string;
+  success: (
+    message: string,
+    options?: Omit<ShowToastOptions, 'message' | 'variant'>
+  ) => string;
+  error: (
+    message: string,
+    options?: Omit<ShowToastOptions, 'message' | 'variant'>
+  ) => string;
+  warning: (
+    message: string,
+    options?: Omit<ShowToastOptions, 'message' | 'variant'>
+  ) => string;
+  info: (
+    message: string,
+    options?: Omit<ShowToastOptions, 'message' | 'variant'>
+  ) => string;
 }
 
 export function useToast(): UseToastReturn {
   const toasts = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 
-  const show = useCallback((options: ShowToastOptions) => showToast(options), []);
+  const show = useCallback(
+    (options: ShowToastOptions) => showToast(options),
+    []
+  );
   const dismiss = useCallback((id: string) => dismissToast(id), []);
   const dismissAll = useCallback(() => dismissAllToasts(), []);
 
   const success = useCallback(
-    (message: string, opts?: Omit<ShowToastOptions, "message" | "variant">) =>
-      showToast({ ...opts, message, variant: "success" }),
+    (message: string, opts?: Omit<ShowToastOptions, 'message' | 'variant'>) =>
+      showToast({ ...opts, message, variant: 'success' }),
     []
   );
   const error = useCallback(
-    (message: string, opts?: Omit<ShowToastOptions, "message" | "variant">) =>
-      showToast({ ...opts, message, variant: "error" }),
+    (message: string, opts?: Omit<ShowToastOptions, 'message' | 'variant'>) =>
+      showToast({ ...opts, message, variant: 'error' }),
     []
   );
   const warning = useCallback(
-    (message: string, opts?: Omit<ShowToastOptions, "message" | "variant">) =>
-      showToast({ ...opts, message, variant: "warning" }),
+    (message: string, opts?: Omit<ShowToastOptions, 'message' | 'variant'>) =>
+      showToast({ ...opts, message, variant: 'warning' }),
     []
   );
   const info = useCallback(
-    (message: string, opts?: Omit<ShowToastOptions, "message" | "variant">) =>
-      showToast({ ...opts, message, variant: "info" }),
+    (message: string, opts?: Omit<ShowToastOptions, 'message' | 'variant'>) =>
+      showToast({ ...opts, message, variant: 'info' }),
     []
   );
 

@@ -1,24 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   runOnJS,
-  FadeInUp,
   FadeOutUp,
   FadeInDown,
   FadeOutDown,
-} from "react-native-reanimated";
-import { View, Text, Pressable } from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
-import { Icon } from "../Icon";
-import type { ToastItem as ToastItemType, ToastPosition } from "@truongdq01/headless";
+  SlideInUp,
+  SlideInDown,
+  Easing,
+} from 'react-native-reanimated';
+import { View, Text, Pressable } from 'react-native';
+import {
+  useComponentTokens,
+  useTokens,
+  useReduceMotionEnabled,
+} from '@truongdq01/headless';
+import { Icon } from '../Icon';
+import type {
+  ToastItem as ToastItemType,
+  ToastPosition,
+} from '@truongdq01/headless';
 
 const VARIANT_ICONS: Record<string, string> = {
-  success: "checkCircle",
-  error: "error",
-  warning: "warning",
-  info: "info",
+  success: 'checkCircle',
+  error: 'error',
+  warning: 'warning',
+  info: 'info',
 };
 
 export interface ToastItemProps {
@@ -30,6 +39,7 @@ export interface ToastItemProps {
 export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
   const { toast } = useComponentTokens();
   const tokens = useTokens();
+  const reduceMotion = useReduceMotionEnabled();
 
   // Progress bar for auto-dismiss
   const progress = useSharedValue(1);
@@ -50,17 +60,40 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
 
   // Pick variant colors
   const variantMap = {
-    default: { iconColor: tokens.color.text.tertiary, progressColor: tokens.color.border.strong },
-    success: { iconColor: tokens.color.success.icon, progressColor: tokens.color.success.icon },
-    warning: { iconColor: tokens.color.warning.icon, progressColor: tokens.color.warning.icon },
-    error: { iconColor: tokens.color.error.icon, progressColor: tokens.color.error.icon },
-    info: { iconColor: tokens.color.info.icon, progressColor: tokens.color.info.icon },
+    default: {
+      iconColor: tokens.color.text.tertiary,
+      progressColor: tokens.color.border.strong,
+    },
+    success: {
+      iconColor: tokens.color.success.icon,
+      progressColor: tokens.color.success.icon,
+    },
+    warning: {
+      iconColor: tokens.color.warning.icon,
+      progressColor: tokens.color.warning.icon,
+    },
+    error: {
+      iconColor: tokens.color.error.icon,
+      progressColor: tokens.color.error.icon,
+    },
+    info: {
+      iconColor: tokens.color.info.icon,
+      progressColor: tokens.color.info.icon,
+    },
   } as const;
 
   const v = variantMap[item.variant] || variantMap.default;
 
-  const entering = position === "top" ? FadeInDown.springify().damping(18).stiffness(280) : FadeInUp.springify().damping(18).stiffness(280);
-  const exiting = position === "top" ? FadeOutUp.duration(200) : FadeOutDown.duration(200);
+  const entering = reduceMotion
+    ? undefined
+    : position === 'top'
+      ? SlideInDown.duration(280).easing(Easing.out(Easing.cubic))
+      : SlideInUp.duration(280).easing(Easing.out(Easing.cubic));
+  const exiting = reduceMotion
+    ? undefined
+    : position === 'top'
+      ? FadeOutUp.duration(200)
+      : FadeOutDown.duration(200);
 
   return (
     <Animated.View
@@ -69,21 +102,36 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
       style={[
         toast.container,
         toast.variant[item.variant] as any,
-        { overflow: "hidden", marginBottom: 8 },
+        { overflow: 'hidden', marginBottom: 8 },
       ]}
     >
       {/* Icon */}
       {item.icon ? (
-        <View style={{ width: 20, height: 20, alignItems: "center", justifyContent: "center" }}>
-          {React.isValidElement(item.icon)
-            ? React.cloneElement(item.icon as React.ReactElement, {
-              size: (item.icon.props as any)?.size ?? 20,
-              color: (item.icon.props as any)?.color ?? "#FFFFFF",
-            } as any)
+        <View
+          style={{
+            width: 20,
+            height: 20,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {React.isValidElement<{ size?: number | string; color?: string }>(
+            item.icon
+          )
+            ? React.cloneElement(item.icon, {
+                size: item.icon.props.size ?? 20,
+                color: item.icon.props.color ?? '#FFFFFF',
+              })
             : item.icon}
         </View>
-      ) : item.variant !== "default" && (
-        <Icon size={20} color={v.iconColor} name={"VARIANT_ICONS[item.variant]" as any} />
+      ) : (
+        item.variant !== 'default' && (
+          <Icon
+            size={20}
+            color={v.iconColor}
+            name={(VARIANT_ICONS[item.variant] ?? 'info') as any}
+          />
+        )
       )}
 
       {/* Message */}
@@ -100,21 +148,46 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
           }}
           style={{ paddingLeft: 4 }}
         >
-          <Text style={{ fontSize: 13, fontWeight: "700", color: tokens.color.brand.muted }}>
+          <Text
+            style={{
+              fontSize: 13,
+              fontWeight: '700',
+              color: tokens.color.brand.muted,
+            }}
+          >
             {item.action.label}
           </Text>
         </Pressable>
       )}
 
       {/* Dismiss button */}
-      <Pressable onPress={() => onDismiss(item.id)} hitSlop={8}>
-        <Icon size={18} color={tokens.color.text.inverse} name={"close" as any} />
+      <Pressable
+        onPress={() => onDismiss(item.id)}
+        hitSlop={8}
+        accessibilityRole="button"
+        accessibilityLabel="Dismiss"
+      >
+        <Icon size={18} color={toast.text.color} name={'close' as any} />
       </Pressable>
 
       {/* Progress bar */}
       {!item.persistent && (
-        <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, backgroundColor: "transparent" }}>
-          <Animated.View style={[{ height: 2, backgroundColor: v.progressColor, opacity: 0.5 }, progressStyle]} />
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 2,
+            backgroundColor: 'transparent',
+          }}
+        >
+          <Animated.View
+            style={[
+              { height: 2, backgroundColor: v.progressColor, opacity: 0.5 },
+              progressStyle,
+            ]}
+          />
         </View>
       )}
     </Animated.View>

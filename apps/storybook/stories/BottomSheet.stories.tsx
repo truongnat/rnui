@@ -1,20 +1,29 @@
-import type { StoryObj } from "@storybook/react-native";
-import React, { useRef } from "react";
-import { View, Text } from "react-native";
-import { ThemeProvider, BottomSheet, Button, type BottomSheetRef } from "@truongdq01/ui";
+import type { StoryObj } from '@storybook/react-native';
+import React, { useRef } from 'react';
+import { View, Text } from 'react-native';
+import {
+  ThemeProvider,
+  BottomSheet,
+  Button,
+  type BottomSheetRef,
+} from '@truongdq01/ui';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <View style={{ flex: 1, padding: 24 }}>
-      {children}
-    </View>
+    <View style={{ flex: 1, padding: 24 }}>{children}</View>
   </ThemeProvider>
 );
 
 const meta = {
-  title: "Components/BottomSheet",
+  title: 'Components/BottomSheet',
   component: BottomSheet,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
 };
 
 export default meta;
@@ -27,11 +36,16 @@ export const Basic: Story = {
     const BottomSheetComponent = BottomSheet as any;
     return (
       <View style={{ flex: 1, padding: 20 }}>
-        <Button label="Open Bottom Sheet" onPress={() => sheetRef.current?.open()} />
-        <BottomSheetComponent ref={sheetRef} snapPoints={["25%", "50%", "90%"]}>
+        <Button
+          label="Open Bottom Sheet"
+          onPress={() => sheetRef.current?.open()}
+        />
+        <BottomSheetComponent ref={sheetRef} snapPoints={['25%', '50%', '90%']}>
           <View style={{ padding: 20 }}>
-            <Text style={{ fontSize: 18, fontWeight: "600" }}>Bottom Sheet Content</Text>
-            <Text style={{ color: "#666" }}>
+            <Text style={{ fontSize: 18, fontWeight: '600' }}>
+              Bottom Sheet Content
+            </Text>
+            <Text style={{ color: '#666' }}>
               This is a bottom sheet component using forwardRef.
             </Text>
           </View>

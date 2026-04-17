@@ -1,0 +1,11 @@
+{
+  "installed_at": "2026-04-01T12:07:45.709Z",
+  "mode": "symlink",
+  "skill_name": "security-pro",
+  "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/security-pro",
+  "ides": ["cursor"],
+  "targets": {
+    "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/security-pro"
+  },
+  "primary_cursor_target": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/security-pro"
+}

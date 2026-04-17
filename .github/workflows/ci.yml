@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [master, main, dev]
+    branches: [master, develop]
   pull_request:
-    branches: [master, main, dev]
+    branches: [master, develop]
 
 permissions:
   contents: write
@@ -21,6 +21,11 @@ jobs:
         with:
           bun-version: latest
 
+      # Headless package runs Jest under real Node (Bun’s `node` shim breaks Jest/stack-utils).
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+
       - name: Cache turbo
         uses: actions/cache@v5
         with:
@@ -34,13 +39,14 @@ jobs:
       - name: Build packages
         run: bun turbo build
 
-      # Note: Typecheck is included in build step (TypeScript compilation during build)
-      # Separate typecheck causes monorepo project reference issues
-      
-      # Note: Tests are temporarily disabled due to Bun + React Native Jest incompatibility
-      # See: https://github.com/oven-sh/bun/issues/4293
-      # - name: Test
-      #   run: bun turbo test
+      - name: Lint
+        run: bun turbo lint
+
+      - name: Typecheck
+        run: bun turbo typecheck
+
+      - name: Test
+        run: bun turbo test
 
   perf-test:
     name: Performance regression
@@ -53,21 +59,37 @@ jobs:
         with:
           bun-version: latest
 
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+
       - run: bun install --frozen-lockfile
 
       - name: Build packages
         run: bun turbo build --filter=@truongdq01/ui...
 
-      # Note: Perf tests skipped due to react-native-gesture-handler incompatibility with Jest
-      # See: https://github.com/reactwg/react-native-reanimated/discussions/1889
-      # - name: Run render-count performance tests
-      #   run: cd packages/ui && bun test:perf
+      - name: Perf tests
+        run: bun turbo test:perf --filter=@truongdq01/ui...
+
+  docs:
+    name: Build docs
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - name: Build docs site
+        run: cd docs && bun run build
 
   release:
     name: Release
     runs-on: ubuntu-latest
     needs: build-and-test
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    # Only release from master — develop is for work-in-progress
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v5
         with:
@@ -93,33 +115,39 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ${{ github.workspace }}/.npmrc
           echo "@truongdq01:registry=https://registry.npmjs.org/" >> ${{ github.workspace }}/.npmrc
-          cat ${{ github.workspace }}/.npmrc
 
-      - name: Publish packages to npm
+      - name: Publish packages to npm (skip if version exists)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          cd packages/tokens && npm publish --access public
-          cd ../headless && npm publish --access public
-          cd ../themes && npm publish --access public
-          cd ../ui && npm publish --access public
+          publish_if_new() {
+            PKG_DIR=$1
+            cd $PKG_DIR
+            PKG_NAME=$(node -p "require('./package.json').name")
+            PKG_VERSION=$(node -p "require('./package.json').version")
+            PUBLISHED=$(npm view "$PKG_NAME@$PKG_VERSION" version 2>/dev/null || echo "")
+            if [ -z "$PUBLISHED" ]; then
+              echo "Publishing $PKG_NAME@$PKG_VERSION..."
+              npm publish --access public
+            else
+              echo "Skipping $PKG_NAME@$PKG_VERSION — already published"
+            fi
+            cd $GITHUB_WORKSPACE
+          }
+          publish_if_new packages/tokens
+          publish_if_new packages/headless
+          publish_if_new packages/themes
+          publish_if_new packages/ui
 
-      - name: Create and push tags
+      - name: Create and push version tag
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a v1.0.0 -m "Release v1.0.0" || true
-          git push --tags
-
-  docs:
-    name: Build docs
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    steps:
-      - uses: actions/checkout@v5
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - run: bun install --frozen-lockfile
-      - name: Build docs site
-        run: cd docs && bun run build
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          TAG="v$PKG_VERSION"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists, skipping"
+          else
+            git tag -a "$TAG" -m "Release $TAG"
+            git push --tags
+          fi

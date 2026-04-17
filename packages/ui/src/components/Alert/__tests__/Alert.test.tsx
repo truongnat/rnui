@@ -1,10 +1,10 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
-import { Alert } from "../Alert";
-import { Text } from "react-native";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react-native';
+import { Alert } from '../Alert';
+import { Text } from 'react-native';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("Alert renders and handles close press", () => {
+test('Alert renders and handles close press', () => {
   const onClose = jest.fn();
   const { getByText } = render(
     <ThemeProvider>
@@ -13,5 +13,5 @@ test("Alert renders and handles close press", () => {
       </Alert>
     </ThemeProvider>
   );
-  expect(getByText("Warning")).toBeTruthy();
+  expect(getByText('Warning')).toBeTruthy();
 });

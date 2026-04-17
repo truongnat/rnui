@@ -1,12 +1,22 @@
-import React, { createContext, useContext, useMemo } from "react";
-import { View, ScrollView, Text, Pressable } from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
-import { Button } from "../Button/Button";
-import { Icon } from "../Icon";
+import React, { createContext, useContext, useMemo } from 'react';
+import { View, ScrollView, Text, Pressable } from 'react-native';
+import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { Button } from '../Button/Button';
+import { Icon } from '../Icon';
 
-export type TableSize = "small" | "medium";
-export type TablePadding = "normal" | "checkbox" | "none";
+/**
+ * Available table size variants
+ */
+export type TableSize = 'small' | 'medium';
 
+/**
+ * Available table cell padding options
+ */
+export type TablePadding = 'normal' | 'checkbox' | 'none';
+
+/**
+ * Internal table context value
+ */
 interface TableContextValue {
   size: TableSize;
   padding: TablePadding;
@@ -19,6 +29,9 @@ function useTableContext() {
   return useContext(TableContext);
 }
 
+/**
+ * Props for the Table component
+ */
 export interface TableProps {
   children?: React.ReactNode;
   size?: TableSize;
@@ -27,14 +40,44 @@ export interface TableProps {
   style?: object;
 }
 
+/**
+ * Root table component that provides context for child table elements.
+ * Implements Material Design table patterns with accessibility support.
+ *
+ * @param props - Table configuration props
+ * @returns Table context provider component
+ *
+ * @example
+ * ```tsx
+ * <Table size="medium" padding="normal">
+ *   <TableHead>
+ *     <TableRow>
+ *       <TableCell>Name</TableCell>
+ *       <TableCell>Email</TableCell>
+ *     </TableRow>
+ *   </TableHead>
+ *   <TableBody>
+ *     {data.map(row => (
+ *       <TableRow key={row.id}>
+ *         <TableCell>{row.name}</TableCell>
+ *         <TableCell>{row.email}</TableCell>
+ *       </TableRow>
+ *     ))}
+ *   </TableBody>
+ * </Table>
+ * ```
+ */
 export function Table({
   children,
-  size = "medium",
-  padding = "normal",
+  size = 'medium',
+  padding = 'normal',
   stickyHeader = false,
   style,
 }: TableProps) {
-  const ctx = useMemo(() => ({ size, padding, stickyHeader }), [size, padding, stickyHeader]);
+  const ctx = useMemo(
+    () => ({ size, padding, stickyHeader }),
+    [size, padding, stickyHeader]
+  );
   return (
     <TableContext.Provider value={ctx}>
       <View style={style}>{children}</View>
@@ -50,14 +93,8 @@ export interface TableContainerProps {
 export function TableContainer({ children, style }: TableContainerProps) {
   const { table } = useComponentTokens();
   return (
-    <ScrollView
-      horizontal
-      style={[
-        table.container,
-        style,
-      ]}
-    >
-      <View style={{ minWidth: "100%" }}>{children}</View>
+    <ScrollView horizontal style={[table.container, style]}>
+      <View style={{ minWidth: '100%' }}>{children}</View>
     </ScrollView>
   );
 }
@@ -73,7 +110,13 @@ export function TableBody({ children }: { children?: React.ReactNode }) {
 
 export function TableFooter({ children }: { children?: React.ReactNode }) {
   const { table } = useComponentTokens();
-  return <View style={{ borderTopWidth: 1, borderTopColor: table.container.borderColor }}>{children}</View>;
+  return (
+    <View
+      style={{ borderTopWidth: 1, borderTopColor: table.container.borderColor }}
+    >
+      {children}
+    </View>
+  );
 }
 
 export interface TableRowProps {
@@ -100,26 +143,26 @@ export function TableRow({ children, selected = false, style }: TableRowProps) {
 
 export interface TableCellProps {
   children?: React.ReactNode;
-  align?: "left" | "center" | "right";
+  align?: 'left' | 'center' | 'right';
   padding?: TablePadding;
   size?: TableSize;
-  variant?: "head" | "body" | "footer";
+  variant?: 'head' | 'body' | 'footer';
   style?: object;
 }
 
 export function TableCell({
   children,
-  align = "left",
+  align = 'left',
   padding,
   size,
-  variant = "body",
+  variant = 'body',
   style,
 }: TableCellProps) {
   const { table } = useComponentTokens();
   const ctx = useTableContext();
   const tokens = useTokens();
-  const resolvedPadding = padding ?? ctx?.padding ?? "normal";
-  const resolvedSize = size ?? ctx?.size ?? "medium";
+  const resolvedPadding = padding ?? ctx?.padding ?? 'normal';
+  const resolvedSize = size ?? ctx?.size ?? 'medium';
 
   const paddingX = {
     normal: tokens.spacing[4],
@@ -127,16 +170,26 @@ export function TableCell({
     none: 0,
   }[resolvedPadding];
 
-  const paddingY = resolvedSize === "small" ? tokens.spacing[2] : tokens.spacing[3];
+  const paddingY =
+    resolvedSize === 'small' ? tokens.spacing[2] : tokens.spacing[3];
 
   return (
-    <View style={[{ paddingHorizontal: paddingX, paddingVertical: paddingY, flexShrink: 0 }, style]}>
+    <View
+      style={[
+        {
+          paddingHorizontal: paddingX,
+          paddingVertical: paddingY,
+          flexShrink: 0,
+        },
+        style,
+      ]}
+    >
       <Text
         style={[
           table.cell,
           { textAlign: align },
-          variant === "head" && { fontWeight: tokens.fontWeight.semibold },
-          resolvedSize === "small" && { fontSize: tokens.fontSize.sm },
+          variant === 'head' && { fontWeight: tokens.fontWeight.semibold },
+          resolvedSize === 'small' && { fontSize: tokens.fontSize.sm },
         ]}
       >
         {children}
@@ -159,7 +212,7 @@ export function TablePagination({
   page,
   rowsPerPage,
   onPageChange,
-  labelRowsPerPage = "Rows per page",
+  labelRowsPerPage = 'Rows per page',
 }: TablePaginationProps) {
   const tokens = useTokens();
   const totalPages = Math.max(1, Math.ceil(count / rowsPerPage));
@@ -167,17 +220,33 @@ export function TablePagination({
   return (
     <View
       style={{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         padding: tokens.spacing[3],
       }}
     >
-      <Text style={{ color: tokens.color.text.secondary, fontSize: tokens.fontSize.sm }}>
+      <Text
+        style={{
+          color: tokens.color.text.secondary,
+          fontSize: tokens.fontSize.sm,
+        }}
+      >
         {labelRowsPerPage}: {rowsPerPage}
       </Text>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: tokens.spacing[2] }}>
-        <Text style={{ color: tokens.color.text.secondary, fontSize: tokens.fontSize.sm }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: tokens.spacing[2],
+        }}
+      >
+        <Text
+          style={{
+            color: tokens.color.text.secondary,
+            fontSize: tokens.fontSize.sm,
+          }}
+        >
           Page {page + 1} of {totalPages}
         </Text>
         <Button
@@ -185,7 +254,7 @@ export function TablePagination({
           variant="outlined"
           disabled={page <= 0}
           onPress={() => onPageChange?.(Math.max(0, page - 1))}
-          startIcon={<Icon size={16} name={"chevronLeft" as any} />}
+          startIcon={<Icon size={16} name="chevronLeft" />}
         >
           Prev
         </Button>
@@ -194,7 +263,7 @@ export function TablePagination({
           variant="outlined"
           disabled={page >= totalPages - 1}
           onPress={() => onPageChange?.(Math.min(totalPages - 1, page + 1))}
-          endIcon={<Icon size={16} name={"chevronRight" as any} />}
+          endIcon={<Icon size={16} name="chevronRight" />}
         >
           Next
         </Button>
@@ -205,26 +274,36 @@ export function TablePagination({
 
 export interface TableSortLabelProps {
   active?: boolean;
-  direction?: "asc" | "desc";
+  direction?: 'asc' | 'desc';
   onClick?: () => void;
   children?: React.ReactNode;
 }
 
 export function TableSortLabel({
   active = false,
-  direction = "asc",
+  direction = 'asc',
   onClick,
   children,
 }: TableSortLabelProps) {
   const tokens = useTokens();
   return (
-    <Pressable onPress={onClick} style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-      <Text style={{ color: tokens.color.text.primary, fontWeight: active ? tokens.fontWeight.semibold : tokens.fontWeight.regular }}>
+    <Pressable
+      onPress={onClick}
+      style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
+    >
+      <Text
+        style={{
+          color: tokens.color.text.primary,
+          fontWeight: active
+            ? tokens.fontWeight.semibold
+            : tokens.fontWeight.regular,
+        }}
+      >
         {children}
       </Text>
       {active ? (
         <Icon size={14} color={tokens.color.text.primary}>
-          {direction === "asc" ? "arrowUp" : "arrowDown"}
+          {direction === 'asc' ? 'arrowUp' : 'arrowDown'}
         </Icon>
       ) : (
         <View style={{ width: 14 }} />

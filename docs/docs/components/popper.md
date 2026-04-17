@@ -5,9 +5,11 @@ Low level positioning primitive.
 ## Usage
 
 ```tsx
-import { Popper } from "@truongdq01/ui";
+import { Popper } from '@truongdq01/ui';
 
-<Popper open anchorEl={{ x: 100, y: 120, width: 40, height: 20 }}>Content</Popper>
+<Popper open anchorEl={{ x: 100, y: 120, width: 40, height: 20 }}>
+  Content
+</Popper>;
 ```
 
 ## Notes

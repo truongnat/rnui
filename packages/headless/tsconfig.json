@@ -1,28 +1,15 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "outDir": "dist",
-        "baseUrl": ".",
-        "declaration": true,
-        "declarationMap": true,
-        "composite": false,
-        "emitDeclarationOnly": false,
-        "noEmit": false,
-        "skipLibCheck": true
-    },
-    "references": [
-        {
-            "path": "../tokens"
-        }
-    ],
-    "include": [
-        "src/**/*"
-    ],
-    "exclude": [
-        "node_modules",
-        "dist",
-        "**/__tests__/**/*",
-        "**/*.test.ts",
-        "**/*.test.tsx"
-    ]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "composite": false
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/__tests__/**/*",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
 }

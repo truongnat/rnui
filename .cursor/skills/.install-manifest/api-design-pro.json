@@ -1,0 +1,11 @@
+{
+  "installed_at": "2026-04-01T12:07:45.678Z",
+  "mode": "symlink",
+  "skill_name": "api-design-pro",
+  "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/api-design-pro",
+  "ides": ["cursor"],
+  "targets": {
+    "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/api-design-pro"
+  },
+  "primary_cursor_target": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/api-design-pro"
+}

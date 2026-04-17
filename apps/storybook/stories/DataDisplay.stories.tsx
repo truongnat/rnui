@@ -1,6 +1,6 @@
-import type { StoryObj } from "@storybook/react-native";
-import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import {
   ThemeProvider,
   Table,
@@ -23,7 +23,7 @@ import {
   TimelineContent,
   TimelineOppositeContent,
   RnImage,
-} from "@truongdq01/ui";
+} from '@truongdq01/ui';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
@@ -34,9 +34,15 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 );
 
 const meta = {
-  title: "Components/DataDisplay",
+  title: 'Components/DataDisplay',
   component: View,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
 };
 
 export default meta;
@@ -44,7 +50,7 @@ export default meta;
 // ... (Table and Chip stories remain same)
 
 export const TableStory: StoryObj = {
-  name: "Table",
+  name: 'Table',
   render: () => (
     <TableContainer>
       <Table size="medium">
@@ -52,7 +58,9 @@ export const TableStory: StoryObj = {
           <TableRow>
             <TableCell variant="head">Name</TableCell>
             <TableCell variant="head">Role</TableCell>
-            <TableCell variant="head" align="right">Status</TableCell>
+            <TableCell variant="head" align="right">
+              Status
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -73,9 +81,9 @@ export const TableStory: StoryObj = {
 };
 
 export const ChipStory: StoryObj = {
-  name: "Chip",
+  name: 'Chip',
   render: () => (
-    <View style={{ flexDirection: "row", gap: 8 }}>
+    <View style={{ flexDirection: 'row', gap: 8 }}>
       <Chip label="Design" />
       <Chip label="Dev" variant="outlined" />
       <Chip label="Done" variant="solid" color="success" />
@@ -84,22 +92,50 @@ export const ChipStory: StoryObj = {
 };
 
 export const TooltipStory: StoryObj = {
-  name: "Tooltip",
+  name: 'Tooltip',
   render: () => {
     const placements = [
-      "top", "top-left", "top-right",
-      "bottom", "bottom-left", "bottom-right",
-      "left", "left-top", "left-bottom",
-      "right", "right-top", "right-bottom"
+      'top',
+      'top-start',
+      'top-end',
+      'bottom',
+      'bottom-start',
+      'bottom-end',
+      'left',
+      'left-start',
+      'left-end',
+      'right',
+      'right-start',
+      'right-end',
     ] as const;
 
     return (
-      <View style={{ gap: 40, padding: 40, alignItems: "center" }}>
-        <Text style={{ fontWeight: "600", fontSize: 18, marginBottom: 20 }}>Tooltip Placements</Text>
-        <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 20 }}>
+      <View style={{ gap: 40, padding: 40, alignItems: 'center' }}>
+        <Text style={{ fontWeight: '600', fontSize: 18, marginBottom: 20 }}>
+          Tooltip Placements
+        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 20,
+          }}
+        >
           {placements.map((p) => (
             <Tooltip key={p} title={`Placement: ${p}`} placement={p}>
-              <View style={{ width: 100, height: 40, backgroundColor: "#f1f5f9", borderRadius: 8, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#cbd5e1" }}>
+              <View
+                style={{
+                  width: 100,
+                  height: 40,
+                  backgroundColor: '#f1f5f9',
+                  borderRadius: 8,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderWidth: 1,
+                  borderColor: '#cbd5e1',
+                }}
+              >
                 <Text style={{ fontSize: 12 }}>{p}</Text>
               </View>
             </Tooltip>
@@ -111,9 +147,9 @@ export const TooltipStory: StoryObj = {
 };
 
 export const IconStory: StoryObj = {
-  name: "Icon",
+  name: 'Icon',
   render: () => (
-    <View style={{ flexDirection: "row", gap: 16 }}>
+    <View style={{ flexDirection: 'row', gap: 16 }}>
       <Icon size="medium">star</Icon>
       <Icon color="#ef4444">heart</Icon>
       <Icon color="#22c55e">check</Icon>
@@ -124,31 +160,31 @@ export const IconStory: StoryObj = {
 };
 
 export const ImageListStory: StoryObj = {
-  name: "ImageList",
+  name: 'ImageList',
   render: () => (
     <ImageList cols={2} gap={8}>
       <ImageListItem>
         <RnImage
-          source={{ uri: "https://picsum.photos/400/400?random=1" }}
-          style={{ width: "100%", height: 120, borderRadius: 8 }}
+          source={{ uri: 'https://picsum.photos/400/400?random=1' }}
+          style={{ width: '100%', height: 120, borderRadius: 8 }}
         />
       </ImageListItem>
       <ImageListItem>
         <RnImage
-          source={{ uri: "https://picsum.photos/400/400?random=2" }}
-          style={{ width: "100%", height: 120, borderRadius: 8 }}
+          source={{ uri: 'https://picsum.photos/400/400?random=2' }}
+          style={{ width: '100%', height: 120, borderRadius: 8 }}
         />
       </ImageListItem>
       <ImageListItem>
         <RnImage
-          source={{ uri: "https://picsum.photos/400/400?random=3" }}
-          style={{ width: "100%", height: 120, borderRadius: 8 }}
+          source={{ uri: 'https://picsum.photos/400/400?random=3' }}
+          style={{ width: '100%', height: 120, borderRadius: 8 }}
         />
       </ImageListItem>
       <ImageListItem>
         <RnImage
-          source={{ uri: "https://picsum.photos/400/400?random=4" }}
-          style={{ width: "100%", height: 120, borderRadius: 8 }}
+          source={{ uri: 'https://picsum.photos/400/400?random=4' }}
+          style={{ width: '100%', height: 120, borderRadius: 8 }}
         />
       </ImageListItem>
     </ImageList>
@@ -156,45 +192,45 @@ export const ImageListStory: StoryObj = {
 };
 
 export const TimelineStory: StoryObj = {
-  name: "Timeline",
+  name: 'Timeline',
   render: () => (
     <Timeline position="alternate">
       <TimelineItem>
         <TimelineOppositeContent>
-          <Text style={{ color: "#64748b" }}>09:00 AM</Text>
+          <Text style={{ color: '#64748b' }}>09:00 AM</Text>
         </TimelineOppositeContent>
         <TimelineSeparator>
           <TimelineDot color="primary" />
           <TimelineConnector />
         </TimelineSeparator>
         <TimelineContent>
-          <Text style={{ fontWeight: "600" }}>Check-in</Text>
-          <Text style={{ color: "#64748b" }}>Arrival at the venue</Text>
+          <Text style={{ fontWeight: '600' }}>Check-in</Text>
+          <Text style={{ color: '#64748b' }}>Arrival at the venue</Text>
         </TimelineContent>
       </TimelineItem>
       <TimelineItem>
         <TimelineOppositeContent>
-          <Text style={{ color: "#64748b" }}>10:30 AM</Text>
+          <Text style={{ color: '#64748b' }}>10:30 AM</Text>
         </TimelineOppositeContent>
         <TimelineSeparator>
           <TimelineDot color="success" />
           <TimelineConnector />
         </TimelineSeparator>
         <TimelineContent>
-          <Text style={{ fontWeight: "600" }}>Keynote Speech</Text>
-          <Text style={{ color: "#64748b" }}>Main auditorium</Text>
+          <Text style={{ fontWeight: '600' }}>Keynote Speech</Text>
+          <Text style={{ color: '#64748b' }}>Main auditorium</Text>
         </TimelineContent>
       </TimelineItem>
       <TimelineItem>
         <TimelineOppositeContent>
-          <Text style={{ color: "#64748b" }}>12:00 PM</Text>
+          <Text style={{ color: '#64748b' }}>12:00 PM</Text>
         </TimelineOppositeContent>
         <TimelineSeparator>
           <TimelineDot color="warning" />
         </TimelineSeparator>
         <TimelineContent>
-          <Text style={{ fontWeight: "600" }}>Lunch Break</Text>
-          <Text style={{ color: "#64748b" }}>Food court</Text>
+          <Text style={{ fontWeight: '600' }}>Lunch Break</Text>
+          <Text style={{ color: '#64748b' }}>Food court</Text>
         </TimelineContent>
       </TimelineItem>
     </Timeline>

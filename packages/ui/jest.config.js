@@ -1,22 +1,31 @@
-/** @type {import('jest').Config} */
 module.exports = {
-  displayName: "@truongdq01/ui",
-  preset: "react-native",
-  testEnvironment: "node",
-  testMatch: ["**/__tests__/**/*.{test,perf}.{ts,tsx}"],
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  testEnvironment: 'node',
+  setupFiles: ['./jest.setup.js'],
+  setupFilesAfterEnv: ['./jest.setup.ts'],
+  testMatch: [
+    '**/__tests__/**/*.test.[jt]s?(x)',
+    '!**/dist/**',
+    '!**/node_modules/**',
+  ],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/dist-types/'],
   transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": [
-      "babel-jest",
-      { presets: ["babel-preset-expo"] },
+    '^.+\\.(js|jsx|ts|tsx)$': [
+      'babel-jest',
+      { configFile: './babel.config.js' },
     ],
   },
+  // Bun hoists into node_modules/.bun/.../node_modules/ — need .* so react-native is transformed.
   transformIgnorePatterns: [
-    "node_modules/(?!(react-native|@react-native|@react-native-community|react-native-reanimated|react-native-gesture-handler|react-native-worklets|@shopify/flash-list|@truongdq01|\\.bun)/)",
+    'node_modules/(?!.*((jest-)?react-native|@react-native|@react-native-community|@react-native/js-polyfills|lucide-react-native|@truongdq01/|@shopify/flash-list))',
+    'node_modules/@react-native-community/datetimepicker',
   ],
   moduleNameMapper: {
-    "^@truongdq01/tokens$": "<rootDir>/../tokens/src/index.ts",
-    "^@truongdq01/headless$": "<rootDir>/../headless/src/index.ts",
-    "^@truongdq01/ui$": "<rootDir>/src/index.ts",
+    '^react-native$': '<rootDir>/../headless/jest/react-native-mock.js',
+    '^@truongdq01/headless$': '<rootDir>/../headless/src',
+    '^@truongdq01/tokens$': '<rootDir>/../tokens/src',
+    '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/__mocks__/fileMock.js',
+  },
+  globals: {
+    __DEV__: true,
   },
 };

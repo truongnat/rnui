@@ -1,5 +1,11 @@
-import React, { useCallback, useMemo } from "react";
-import { Modal, View, Pressable, Text, useWindowDimensions } from "react-native";
+import React, { useCallback, useMemo } from 'react';
+import {
+  Modal,
+  View,
+  Pressable,
+  Text,
+  useWindowDimensions,
+} from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -7,13 +13,18 @@ import Animated, {
   withSpring,
   runOnJS,
   Easing,
-} from "react-native-reanimated";
-import { useTokens, useComponentTokens, useMenu } from "@truongdq01/headless";
+} from 'react-native-reanimated';
+import { useTokens, useComponentTokens, useMenu } from '@truongdq01/headless';
 
 export interface MenuProps {
   open: boolean;
   onClose?: () => void;
-  anchorEl?: { pageX: number; pageY: number; width: number; height: number } | null;
+  anchorEl?: {
+    pageX: number;
+    pageY: number;
+    width: number;
+    height: number;
+  } | null;
   children?: React.ReactNode;
 }
 
@@ -24,7 +35,9 @@ export interface MenuItemProps {
   selected?: boolean;
 }
 
-const MenuContext = React.createContext<{ getItemProps: (o: any) => any } | null>(null);
+const MenuContext = React.createContext<{
+  getItemProps: (o: any) => any;
+} | null>(null);
 
 export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
   const { menu } = useComponentTokens();
@@ -44,7 +57,10 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
       opacity.value = 0;
       scale.value = 0.9;
       requestAnimationFrame(() => {
-        opacity.value = withTiming(1, { duration: 180, easing: Easing.out(Easing.cubic) });
+        opacity.value = withTiming(1, {
+          duration: 180,
+          easing: Easing.out(Easing.cubic),
+        });
         scale.value = withSpring(1, { damping: 18, stiffness: 320 });
       });
     } else if (mounted) {
@@ -84,7 +100,12 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
   if (!mounted) return null;
 
   return (
-    <Modal visible={mounted} transparent animationType="none" onRequestClose={close}>
+    <Modal
+      visible={mounted}
+      transparent
+      animationType="none"
+      onRequestClose={close}
+    >
       <Pressable style={{ flex: 1 }} onPress={close} />
       <Animated.View
         onLayout={(e) => {
@@ -94,7 +115,7 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
         style={[
           menu.container,
           {
-            position: "absolute",
+            position: 'absolute',
             top,
             left,
             minWidth: MENU_MIN_WIDTH,
@@ -110,12 +131,20 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
   );
 }
 
-export function MenuItem({ children, onPress, disabled = false, selected = false }: MenuItemProps) {
+export function MenuItem({
+  children,
+  onPress,
+  disabled = false,
+  selected = false,
+}: MenuItemProps) {
   const { menu } = useComponentTokens();
   const tokens = useTokens();
   const ctx = React.useContext(MenuContext);
 
-  const itemProps = ctx?.getItemProps({ onClick: onPress, disabled }) ?? { onPress, disabled };
+  const itemProps = ctx?.getItemProps({ onClick: onPress, disabled }) ?? {
+    onPress,
+    disabled,
+  };
 
   return (
     <Pressable
@@ -127,10 +156,14 @@ export function MenuItem({ children, onPress, disabled = false, selected = false
         disabled && { opacity: 0.5 },
       ]}
     >
-      <Text style={{
-        color: selected ? tokens.color.brand.text : tokens.color.text.primary,
-        fontWeight: selected ? tokens.fontWeight.medium : tokens.fontWeight.regular,
-      }}>
+      <Text
+        style={{
+          color: selected ? tokens.color.brand.text : tokens.color.text.primary,
+          fontWeight: selected
+            ? tokens.fontWeight.medium
+            : tokens.fontWeight.regular,
+        }}
+      >
         {children}
       </Text>
     </Pressable>

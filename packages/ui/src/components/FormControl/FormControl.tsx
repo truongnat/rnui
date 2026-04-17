@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useMemo } from "react";
-import { View, Text, Pressable } from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import React, { createContext, useContext, useMemo } from 'react';
+import { View, Text, Pressable } from 'react-native';
+import { useComponentTokens, useTokens } from '@truongdq01/headless';
 
-export type FormControlVariant = "filled" | "outlined" | "standard";
-export type FormControlMargin = "dense" | "none" | "normal";
+export type FormControlVariant = 'filled' | 'outlined' | 'standard';
+export type FormControlMargin = 'dense' | 'none' | 'normal';
 
 interface FormControlContextValue {
   error?: boolean;
@@ -39,24 +39,38 @@ export function FormControl({
   disabled,
   focused,
   fullWidth,
-  variant = "outlined",
-  margin = "none",
+  variant = 'outlined',
+  margin = 'none',
   style,
 }: FormControlProps) {
   const { formControl } = useComponentTokens();
   const tokens = useTokens();
-  
+
   const marginSize = useMemo(() => {
-    if (margin === "dense") return tokens.spacing[2];
-    if (margin === "normal") return tokens.spacing[4];
+    if (margin === 'dense') return tokens.spacing[2];
+    if (margin === 'normal') return tokens.spacing[4];
     return 0;
   }, [margin, tokens]);
 
-  const ctxValue = useMemo(() => ({ error, required, disabled, focused, fullWidth, variant }), [error, required, disabled, focused, fullWidth, variant]);
+  const ctxValue = useMemo(
+    () => ({ error, required, disabled, focused, fullWidth, variant }),
+    [error, required, disabled, focused, fullWidth, variant]
+  );
 
   return (
     <FormControlContext.Provider value={ctxValue}>
-      <View style={[formControl.container, { alignSelf: fullWidth ? "stretch" : "flex-start", marginVertical: marginSize }, style] as any}>
+      <View
+        style={
+          [
+            formControl.container,
+            {
+              alignSelf: fullWidth ? 'stretch' : 'flex-start',
+              marginVertical: marginSize,
+            },
+            style,
+          ] as any
+        }
+      >
         {children}
       </View>
     </FormControlContext.Provider>
@@ -71,16 +85,17 @@ export interface FormLabelProps {
 export function FormLabel({ children, style }: FormLabelProps) {
   const { formControl } = useComponentTokens();
   const ctx = useFormControl();
-  
-  const color = ctx?.error 
-    ? formControl.errorText.color 
-    : ctx?.disabled 
-      ? formControl.label.color + "80" 
+
+  const color = ctx?.error
+    ? formControl.errorText.color
+    : ctx?.disabled
+      ? formControl.label.color + '80'
       : formControl.label.color;
 
   return (
     <Text style={[formControl.label, { color }, style] as any}>
-      {children}{ctx?.required ? " *" : ""}
+      {children}
+      {ctx?.required ? ' *' : ''}
     </Text>
   );
 }
@@ -93,9 +108,9 @@ export interface FormHelperTextProps {
 export function FormHelperText({ children, style }: FormHelperTextProps) {
   const { formControl } = useComponentTokens();
   const ctx = useFormControl();
-  
-  const color = ctx?.error 
-    ? formControl.errorText.color 
+
+  const color = ctx?.error
+    ? formControl.errorText.color
     : formControl.helperText.color;
 
   return (
@@ -108,7 +123,7 @@ export function FormHelperText({ children, style }: FormHelperTextProps) {
 export interface FormControlLabelProps {
   control: React.ReactElement;
   label?: React.ReactNode;
-  labelPlacement?: "end" | "start" | "top" | "bottom";
+  labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
   disabled?: boolean;
   onPress?: () => void;
   style?: object;
@@ -117,7 +132,7 @@ export interface FormControlLabelProps {
 export function FormControlLabel({
   control,
   label,
-  labelPlacement = "end",
+  labelPlacement = 'end',
   disabled,
   onPress,
   style,
@@ -127,13 +142,13 @@ export function FormControlLabel({
   const ctx = useFormControl();
   const isDisabled = disabled ?? ctx?.disabled ?? false;
 
-  const controlElement = React.cloneElement(control, {
+  const controlElement = React.cloneElement<any>(control, {
     disabled: isDisabled,
-  } as any);
+  });
 
-  const isRow = labelPlacement === "start" || labelPlacement === "end";
-  const rowReverse = labelPlacement === "start";
-  const colReverse = labelPlacement === "top";
+  const isRow = labelPlacement === 'start' || labelPlacement === 'end';
+  const rowReverse = labelPlacement === 'start';
+  const colReverse = labelPlacement === 'top';
 
   return (
     <Pressable
@@ -141,8 +156,14 @@ export function FormControlLabel({
       disabled={isDisabled}
       style={[
         {
-          flexDirection: isRow ? (rowReverse ? "row-reverse" : "row") : (colReverse ? "column-reverse" : "column"),
-          alignItems: isRow ? "center" : "flex-start",
+          flexDirection: isRow
+            ? rowReverse
+              ? 'row-reverse'
+              : 'row'
+            : colReverse
+              ? 'column-reverse'
+              : 'column',
+          alignItems: isRow ? 'center' : 'flex-start',
           gap: tokens.spacing[2],
           opacity: isDisabled ? 0.6 : 1,
         },
@@ -150,11 +171,7 @@ export function FormControlLabel({
       ]}
     >
       {controlElement}
-      {label ? (
-        <Text style={formControl.label as any}>
-          {label}
-        </Text>
-      ) : null}
+      {label ? <Text style={formControl.label as any}>{label}</Text> : null}
     </Pressable>
   );
 }

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
 export interface UseToggleGroupOptions<T = string> {
   value?: T | T[];
@@ -21,7 +21,9 @@ export function useToggleGroup<T = string>({
   exclusive = false,
   disabled = false,
 }: UseToggleGroupOptions<T> = {}): UseToggleGroupReturn<T> {
-  const [internalValue, setInternalValue] = useState<T | T[] | undefined>(defaultValue);
+  const [internalValue, setInternalValue] = useState<T | T[] | undefined>(
+    defaultValue
+  );
   const value = controlledValue !== undefined ? controlledValue : internalValue;
 
   const isSelected = useCallback(

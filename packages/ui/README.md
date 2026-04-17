@@ -25,7 +25,7 @@ bun add @truongdq01/ui
 Wrap your application in the `ThemeProvider`:
 
 ```tsx
-import { ThemeProvider } from "@truongdq01/ui";
+import { ThemeProvider } from '@truongdq01/ui';
 
 export default function App() {
   return (
@@ -39,7 +39,7 @@ export default function App() {
 ## Basic Usage
 
 ```tsx
-import { Button, Input, Card, Badge } from "@truongdq01/ui";
+import { Button, Input, Card, Badge } from '@truongdq01/ui';
 
 function MyForm() {
   return (

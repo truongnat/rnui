@@ -1,20 +1,29 @@
-import React, { useMemo, useState } from "react";
-import { Modal, View, Pressable, StyleSheet, Dimensions, type LayoutChangeEvent } from "react-native";
-import { useTokens, useComponentTokens } from "@truongdq01/headless";
+import React, { useMemo, useState } from 'react';
+import {
+  Modal,
+  View,
+  Pressable,
+  StyleSheet,
+  Dimensions,
+  type LayoutChangeEvent,
+  type StyleProp,
+  type ViewStyle,
+} from 'react-native';
+import { useTokens, useComponentTokens } from '@truongdq01/headless';
 
 export type PopperPlacement =
-  | "top"
-  | "top-start"
-  | "top-end"
-  | "bottom"
-  | "bottom-start"
-  | "bottom-end"
-  | "left"
-  | "left-start"
-  | "left-end"
-  | "right"
-  | "right-start"
-  | "right-end";
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end';
 
 export interface PopperProps {
   open: boolean;
@@ -43,30 +52,36 @@ function resolvePlacement(
   const bottomY = baseY + anchor.height;
 
   switch (placement) {
-    case "top":
+    case 'top':
       return { left: centerX, top: topY };
-    case "top-start":
+    case 'top-start':
       return { left: leftX, top: topY };
-    case "top-end":
+    case 'top-end':
       return { left: rightX, top: topY };
-    case "bottom":
+    case 'bottom':
       return { left: centerX, top: bottomY };
-    case "bottom-start":
+    case 'bottom-start':
       return { left: leftX, top: bottomY };
-    case "bottom-end":
+    case 'bottom-end':
       return { left: rightX, top: bottomY };
-    case "left":
+    case 'left':
       return { left: baseX - content.width, top: centerY };
-    case "left-start":
+    case 'left-start':
       return { left: baseX - content.width, top: baseY };
-    case "left-end":
-      return { left: baseX - content.width, top: baseY + anchor.height - content.height };
-    case "right":
+    case 'left-end':
+      return {
+        left: baseX - content.width,
+        top: baseY + anchor.height - content.height,
+      };
+    case 'right':
       return { left: baseX + anchor.width, top: centerY };
-    case "right-start":
+    case 'right-start':
       return { left: baseX + anchor.width, top: baseY };
-    case "right-end":
-      return { left: baseX + anchor.width, top: baseY + anchor.height - content.height };
+    case 'right-end':
+      return {
+        left: baseX + anchor.width,
+        top: baseY + anchor.height - content.height,
+      };
     default:
       return { left: centerX, top: bottomY };
   }
@@ -75,7 +90,7 @@ function resolvePlacement(
 export function Popper({
   open,
   anchorEl,
-  placement = "bottom",
+  placement = 'bottom',
   keepMounted = false,
   onClose,
   children,
@@ -87,18 +102,28 @@ export function Popper({
   if (!open && !keepMounted) return null;
 
   const anchorRect = anchorEl ?? { x: 0, y: 0, width: 0, height: 0 };
-  const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
   const position = useMemo(() => {
-    const pos = resolvePlacement(placement, {
-      x: anchorRect.x,
-      y: anchorRect.y,
-      width: anchorRect.width ?? 0,
-      height: anchorRect.height ?? 0,
-    }, contentSize);
+    const pos = resolvePlacement(
+      placement,
+      {
+        x: anchorRect.x,
+        y: anchorRect.y,
+        width: anchorRect.width ?? 0,
+        height: anchorRect.height ?? 0,
+      },
+      contentSize
+    );
 
-    const left = Math.max(8, Math.min(pos.left, screenWidth - contentSize.width - 8));
-    const top = Math.max(8, Math.min(pos.top, screenHeight - contentSize.height - 8));
+    const left = Math.max(
+      8,
+      Math.min(pos.left, screenWidth - contentSize.width - 8)
+    );
+    const top = Math.max(
+      8,
+      Math.min(pos.top, screenHeight - contentSize.height - 8)
+    );
     return { left, top };
   }, [placement, anchorRect, contentSize, screenWidth, screenHeight]);
 
@@ -110,14 +135,16 @@ export function Popper({
   };
 
   return (
-    <Modal visible={open} transparent animationType="fade" onRequestClose={onClose}>
+    <Modal
+      visible={open}
+      transparent
+      animationType="fade"
+      onRequestClose={onClose}
+    >
       <Pressable style={styles.backdrop} onPress={onClose} />
       <View
         onLayout={handleLayout}
-        style={[
-          popper.container,
-          position,
-        ] as any}
+        style={[popper.container, position] as StyleProp<ViewStyle>}
       >
         {children}
       </View>
@@ -130,7 +157,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   popper: {
-    position: "absolute",
+    position: 'absolute',
     borderRadius: 10,
     borderWidth: 1,
     padding: 10,

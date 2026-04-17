@@ -1,12 +1,19 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  type NativeSyntheticEvent,
-  type TextInputContentSizeChangeEventData,
-} from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  interpolateColor,
+} from 'react-native-reanimated';
+import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { useFormGroupVariant } from '../FormField/FormGroupContext';
+import { AnimatedHelperText } from '../Input/AnimatedHelperText';
+
+/** IMPROVEMENT_PLAN Issue #1 — `inside` | `above` (label row) | `below` (between field and helper) */
+export type TextAreaCounterPosition = 'inside' | 'above' | 'below';
+
+const FOCUS_MS = 150;
 
 export interface TextAreaProps {
   label?: string;
@@ -17,11 +24,21 @@ export interface TextAreaProps {
   onFocus?: () => void;
   error?: string;
   helperText?: string;
-  /** Minimum number of visible lines */
+  /**
+   * Kept for API compatibility (e.g. TextField `rows`); layout height uses `maxLines` only.
+   */
   minLines?: number;
-  /** Maximum lines before scroll kicks in */
+  /** Visible height is fixed to this many lines; extra text scrolls inside. */
   maxLines?: number;
-  /** Show character counter */
+  /** Show character counter when `maxLength` is set */
+  showCounter?: boolean;
+  /**
+   * `inside` = bottom-right inside the field (default);
+   * `above` = same row as label (top);
+   * `below` = between the field and helper/error.
+   */
+  counterPosition?: TextAreaCounterPosition;
+  /** Maximum length (enables counter when `showCounter` is true) */
   maxLength?: number;
   disabled?: boolean;
   autoFocus?: boolean;
@@ -31,98 +48,188 @@ export interface TextAreaProps {
 export function TextArea({
   label,
   placeholder,
-  value = "",
+  value = '',
   onChangeText,
   onBlur,
   onFocus,
   error,
   helperText,
-  minLines = 3,
+  minLines: _minLines = 3,
   maxLines = 8,
   maxLength,
+  showCounter = true,
+  counterPosition = 'inside',
   disabled = false,
   autoFocus = false,
   accessibilityLabel,
 }: TextAreaProps) {
   const { textArea } = useComponentTokens();
   const tokens = useTokens();
+  const formGroupVariant = useFormGroupVariant();
+  const isGrouped = formGroupVariant === 'grouped';
   const [isFocused, setIsFocused] = useState(false);
-  const [contentHeight, setContentHeight] = useState(0);
+
+  const focusProgress = useSharedValue(0);
+  const errorSv = useSharedValue(0);
+  const disabledSv = useSharedValue(0);
+  const groupedSv = useSharedValue(0);
+
+  useEffect(() => {
+    errorSv.value = error ? 1 : 0;
+  }, [error, errorSv]);
+
+  useEffect(() => {
+    disabledSv.value = disabled ? 1 : 0;
+  }, [disabled, disabledSv]);
+
+  useEffect(() => {
+    groupedSv.value = isGrouped ? 1 : 0;
+  }, [isGrouped, groupedSv]);
+
+  useEffect(() => {
+    if (error || disabled) {
+      focusProgress.value = 0;
+      return;
+    }
+    focusProgress.value = withTiming(isFocused ? 1 : 0, { duration: FOCUS_MS });
+  }, [isFocused, error, disabled, focusProgress]);
+
+  const defaultBorder = tokens.color.border.input;
+  const focusBorder = tokens.color.border.focus;
+  const errorBorder = tokens.color.border.error;
+  const disabledBorder = tokens.color.border.default;
+
+  const animatedBorderStyle = useAnimatedStyle(() => {
+    if (groupedSv.value === 1) {
+      return {};
+    }
+    if (errorSv.value === 1) {
+      return { borderColor: errorBorder };
+    }
+    if (disabledSv.value === 1) {
+      return { borderColor: disabledBorder };
+    }
+    return {
+      borderColor: interpolateColor(
+        focusProgress.value,
+        [0, 1],
+        [defaultBorder, focusBorder]
+      ),
+    };
+  }, [defaultBorder, disabledBorder, errorBorder, focusBorder]);
 
   const LINE_HEIGHT = tokens.fontSize.md * tokens.lineHeight.normal;
-  const minHeight = minLines * LINE_HEIGHT + tokens.spacing[3] * 2;
+  /** Fixed outer height from `maxLines` — no content measurement (avoids layout loops). */
   const maxHeight = maxLines * LINE_HEIGHT + tokens.spacing[3] * 2;
 
-  const dynamicHeight = contentHeight
-    ? Math.min(Math.max(contentHeight + tokens.spacing[3] * 2, minHeight), maxHeight)
-    : minHeight;
+  /** Vertical padding inside bordered container (must match `textArea.container`). */
+  const containerPadV = tokens.spacing[2];
 
-  const handleContentSizeChange = (
-    e: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
-  ) => {
-    setContentHeight(e.nativeEvent.contentSize.height);
-  };
+  const showCounterAbove = Boolean(
+    maxLength && showCounter && counterPosition === 'above'
+  );
+  const showCounterInside = Boolean(
+    maxLength && showCounter && counterPosition === 'inside'
+  );
+  const showCounterBelow = Boolean(
+    maxLength && showCounter && counterPosition === 'below'
+  );
+  const counterPaddingBottom = showCounterInside ? tokens.spacing[5] : 0;
+
+  const innerMaxH = Math.max(1, maxHeight - 2 * containerPadV);
+
+  const groupedChrome = isGrouped
+    ? {
+        borderWidth: 0,
+        borderRadius: 0,
+        backgroundColor: 'transparent' as const,
+      }
+    : {};
 
   const containerStyle = [
     textArea.container,
-    { height: dynamicHeight },
-    isFocused && textArea.state.focused,
-    error && textArea.state.error,
-    disabled && textArea.state.disabled,
+    { height: maxHeight },
+    !isGrouped && error && textArea.state.error,
+    !isGrouped && disabled && textArea.state.disabled,
+    groupedChrome,
   ];
 
   const charCount = value.length;
   const nearLimit = maxLength && charCount >= maxLength * 0.9;
   const atLimit = maxLength && charCount >= maxLength;
 
+  const counterColor = atLimit
+    ? tokens.color.error.text
+    : nearLimit
+      ? tokens.color.warning.text
+      : tokens.color.text.tertiary;
+
+  const counterWeight = atLimit
+    ? tokens.fontWeight.semibold
+    : tokens.fontWeight.regular;
+
+  const counterEl =
+    maxLength && showCounter ? (
+      <Text
+        pointerEvents="none"
+        style={{
+          fontSize: tokens.fontSize.xs,
+          color: counterColor,
+          fontWeight: counterWeight,
+        }}
+      >
+        {charCount}/{maxLength}
+      </Text>
+    ) : null;
+
   return (
     <View>
-      {/* Label row */}
-      {(label || maxLength) && (
-        <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: tokens.spacing[1] }}>
-          {label && <Text style={textArea.label}>{label}</Text>}
-          {maxLength && (
-            <Text
-              style={{
-                fontSize: tokens.fontSize.xs,
-                color: atLimit
-                  ? tokens.color.error.text
-                  : nearLimit
-                  ? tokens.color.warning.text
-                  : tokens.color.text.tertiary,
-                fontWeight: atLimit ? tokens.fontWeight.semibold : tokens.fontWeight.regular,
-              }}
-            >
-              {charCount}/{maxLength}
-            </Text>
-          )}
+      {/* Label row — counter when `above` */}
+      {(label || showCounterAbove) && (
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: tokens.spacing[1],
+          }}
+        >
+          {label ? <Text style={textArea.label}>{label}</Text> : null}
+          {showCounterAbove ? counterEl : null}
         </View>
       )}
 
       {/* Text area */}
-      <View style={containerStyle as any}>
+      <Animated.View
+        style={
+          [
+            containerStyle,
+            showCounterInside && { position: 'relative' as const },
+            animatedBorderStyle,
+          ] as any
+        }
+      >
         <TextInput
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
           placeholderTextColor={textArea.text.placeholderColor}
           multiline
-          scrollEnabled={contentHeight + tokens.spacing[3] * 2 > maxHeight}
+          scrollEnabled
           maxLength={maxLength}
           editable={!disabled}
           autoFocus={autoFocus}
           accessibilityLabel={accessibilityLabel ?? label}
           accessibilityState={{ disabled }}
-          onContentSizeChange={handleContentSizeChange}
           style={{
-            flex: 1,
-            width: "100%",
+            height: innerMaxH,
+            width: '100%',
             fontSize: tokens.fontSize.md,
             color: textArea.text.color,
             lineHeight: LINE_HEIGHT,
-            textAlignVertical: "top",
+            textAlignVertical: 'top',
             paddingTop: 0,
-            paddingBottom: 0,
+            paddingBottom: counterPaddingBottom,
           }}
           onFocus={() => {
             setIsFocused(true);
@@ -133,14 +240,45 @@ export function TextArea({
             onBlur?.();
           }}
         />
-      </View>
+        {showCounterInside && counterEl ? (
+          <View
+            style={{
+              position: 'absolute',
+              right: tokens.spacing[3],
+              bottom: tokens.spacing[2],
+            }}
+          >
+            {counterEl}
+          </View>
+        ) : null}
+      </Animated.View>
 
-      {/* Helper / error */}
-      {error ? (
-        <Text style={textArea.errorText}>{error}</Text>
-      ) : helperText ? (
-        <Text style={textArea.helperText}>{helperText}</Text>
+      {/* Counter between field and helper — `below` */}
+      {showCounterBelow && counterEl ? (
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            marginTop: tokens.spacing[1],
+          }}
+        >
+          {counterEl}
+        </View>
       ) : null}
+
+      {error ? (
+        <AnimatedHelperText
+          text={error}
+          isError={true}
+          style={textArea.errorText as any}
+        />
+      ) : (
+        <AnimatedHelperText
+          text={helperText}
+          isError={false}
+          style={textArea.helperText as any}
+        />
+      )}
     </View>
   );
 }

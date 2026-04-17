@@ -78,10 +78,10 @@ For advanced scenarios, consider:
 
 ### Common Issues
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Skill not found | Not installed | Run plugin sync |
-| Validation fails | Invalid config | Check config.yaml |
+| Issue             | Cause           | Solution             |
+| ----------------- | --------------- | -------------------- |
+| Skill not found   | Not installed   | Run plugin sync      |
+| Validation fails  | Invalid config  | Check config.yaml    |
 | Unexpected output | Missing context | Provide more details |
 
 ## Related Resources
@@ -92,4 +92,4 @@ For advanced scenarios, consider:
 
 ---
 
-*Last updated: 2025-12-30*
+_Last updated: 2025-12-30_

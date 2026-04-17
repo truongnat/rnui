@@ -1,13 +1,20 @@
-import React from "react";
-import { View, Text, Pressable } from "react-native";
+import React from 'react';
+import { View, Text, Pressable } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-} from "react-native-reanimated";
-import { useRadioGroup, useTokens, useComponentTokens } from "@truongdq01/headless";
-import { spring } from "@truongdq01/tokens";
-import type { UseRadioGroupOptions } from "@truongdq01/headless";
+  interpolate,
+  interpolateColor,
+} from 'react-native-reanimated';
+import {
+  useRadioGroup,
+  useTokens,
+  useComponentTokens,
+  useReduceMotionEnabled,
+} from '@truongdq01/headless';
+import { spring } from '@truongdq01/tokens';
+import type { UseRadioGroupOptions } from '@truongdq01/headless';
 
 // ─── RadioItem ────────────────────────────────────────────────────
 
@@ -18,7 +25,7 @@ export interface RadioItemProps<T = string> {
   disabled?: boolean;
   isSelected: boolean;
   onPress: () => void;
-  size?: "sm" | "md" | "lg";
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export function RadioItem<T = string>({
@@ -27,30 +34,52 @@ export function RadioItem<T = string>({
   disabled = false,
   isSelected,
   onPress,
-  size = "md",
+  size = 'md',
 }: RadioItemProps<T>) {
   const tokens = useTokens();
   const { radio } = useComponentTokens();
+  const reduceMotion = useReduceMotionEnabled();
 
   const outerSize = radio.container[size];
   const innerSize = radio.dot[size];
   const snappySpring = spring.snappy;
 
   const scale = useSharedValue(isSelected ? 1 : 0);
+  const ringFill = useSharedValue(isSelected ? 1 : 0);
 
   React.useEffect(() => {
-    scale.value = withSpring(isSelected ? 1 : 0, snappySpring);
-  }, [isSelected, snappySpring]);
+    const target = isSelected ? 1 : 0;
+    scale.value = reduceMotion ? target : withSpring(target, snappySpring);
+    ringFill.value = reduceMotion ? target : withSpring(target, snappySpring);
+  }, [isSelected, snappySpring, reduceMotion, scale, ringFill]);
 
   const dotStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
     opacity: scale.value,
   }));
 
+  const outerRingStyle = useAnimatedStyle(() => ({
+    borderWidth: interpolate(
+      ringFill.value,
+      [0, 1],
+      [outerSize.borderWidth, 0]
+    ),
+    borderColor: interpolateColor(
+      ringFill.value,
+      [0, 1],
+      [radio.colors.borderOff, 'transparent']
+    ),
+    backgroundColor: interpolateColor(
+      ringFill.value,
+      [0, 1],
+      [radio.colors.bgOff, radio.colors.borderOn]
+    ),
+  }));
+
   const handlePress = () => {
-    if (!isSelected) {
+    if (!isSelected && !reduceMotion) {
       scale.value = withSpring(0.6, { damping: 12, stiffness: 200 }, () => {
-        "worklet";
+        'worklet';
         scale.value = withSpring(1, snappySpring);
       });
     }
@@ -62,8 +91,8 @@ export function RadioItem<T = string>({
       onPress={handlePress}
       disabled={disabled}
       style={{
-        flexDirection: "row",
-        alignItems: "flex-start",
+        flexDirection: 'row',
+        alignItems: 'flex-start',
         gap: 10,
         opacity: disabled ? radio.colors.disabledOpacity : 1,
       }}
@@ -71,18 +100,18 @@ export function RadioItem<T = string>({
       accessibilityState={{ checked: isSelected, disabled }}
     >
       {/* Outer ring */}
-      <View
-        style={{
-          width: outerSize.width,
-          height: outerSize.height,
-          borderRadius: outerSize.borderRadius,
-          borderWidth: isSelected ? 0 : outerSize.borderWidth,
-          borderColor: isSelected ? "transparent" : radio.colors.borderOff,
-          backgroundColor: isSelected ? radio.colors.borderOn : radio.colors.bgOff,
-          alignItems: "center",
-          justifyContent: "center",
-          marginTop: 2,
-        }}
+      <Animated.View
+        style={[
+          {
+            width: outerSize.width,
+            height: outerSize.height,
+            borderRadius: outerSize.borderRadius,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: 2,
+          },
+          outerRingStyle,
+        ]}
       >
         {/* Inner dot */}
         <Animated.View
@@ -91,12 +120,12 @@ export function RadioItem<T = string>({
               width: innerSize.width,
               height: innerSize.height,
               borderRadius: innerSize.borderRadius,
-              backgroundColor: tokens.color.text.inverse,
+              backgroundColor: tokens.color.text.onBrand,
             },
             dotStyle,
           ]}
         />
-      </View>
+      </Animated.View>
 
       {(label || description) && (
         <View style={{ flex: 1, paddingTop: 1 }}>
@@ -140,15 +169,15 @@ export interface RadioOption<T = string> {
 export interface RadioGroupProps<T = string> extends UseRadioGroupOptions<T> {
   options: RadioOption<T>[];
   label?: string;
-  direction?: "vertical" | "horizontal";
-  size?: "sm" | "md" | "lg";
+  direction?: 'vertical' | 'horizontal';
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export function RadioGroup<T = string>({
   options,
   label,
-  direction = "vertical",
-  size = "md",
+  direction = 'vertical',
+  size = 'md',
   ...hookOptions
 }: RadioGroupProps<T>) {
   const tokens = useTokens();
@@ -171,9 +200,10 @@ export function RadioGroup<T = string>({
 
       <View
         style={{
-          flexDirection: direction === "horizontal" ? "row" : "column",
-          flexWrap: direction === "horizontal" ? "wrap" : "nowrap",
-          gap: direction === "horizontal" ? tokens.spacing[4] : tokens.spacing[3],
+          flexDirection: direction === 'horizontal' ? 'row' : 'column',
+          flexWrap: direction === 'horizontal' ? 'wrap' : 'nowrap',
+          gap:
+            direction === 'horizontal' ? tokens.spacing[4] : tokens.spacing[3],
         }}
       >
         {options.map((option) => {

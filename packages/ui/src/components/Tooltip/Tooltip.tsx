@@ -1,18 +1,32 @@
-import React, { useState, useCallback } from "react";
-import { View, Text, Pressable, Modal, useWindowDimensions } from "react-native";
+import React, { useState, useCallback } from 'react';
+import {
+  View,
+  Text,
+  Pressable,
+  Modal,
+  useWindowDimensions,
+} from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   runOnJS,
-} from "react-native-reanimated";
-import { useTokens, useComponentTokens } from "@truongdq01/headless";
+} from 'react-native-reanimated';
+import { useTokens, useComponentTokens } from '@truongdq01/headless';
 
 export type TooltipPlacement =
-  | "top" | "top-start" | "top-end"
-  | "bottom" | "bottom-start" | "bottom-end"
-  | "left" | "left-start" | "left-end"
-  | "right" | "right-start" | "right-end";
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end';
 
 export interface TooltipProps {
   title: React.ReactNode;
@@ -36,7 +50,7 @@ export function Tooltip({
   open: controlledOpen,
   onOpen,
   onClose,
-  placement = "top",
+  placement = 'top',
 }: TooltipProps) {
   const { tooltip } = useComponentTokens();
   const tokens = useTokens();
@@ -87,30 +101,36 @@ export function Tooltip({
   const th = triggerRect?.height ?? 0;
   const tlw = tooltipSize.width || 200;
   const tlh = tooltipSize.height || 40;
-  
+
   let top = ty - tlh - GAP;
   let left = tx + tw / 2 - tlw / 2;
 
   // Simple placement logic
-  if (placement.includes("bottom")) {
+  if (placement.includes('bottom')) {
     top = ty + th + GAP;
   }
-  if (placement.includes("left")) {
+  if (placement.includes('left')) {
     left = tx - tlw - GAP;
   }
-  if (placement.includes("right")) {
+  if (placement.includes('right')) {
     left = tx + tw + GAP;
   }
-  if (placement.includes("top-left") || placement.includes("bottom-left")) {
+  if (placement.includes('top-left') || placement.includes('bottom-left')) {
     left = tx;
   }
-  if (placement.includes("top-right") || placement.includes("bottom-right")) {
+  if (placement.includes('top-right') || placement.includes('bottom-right')) {
     left = tx + tw - tlw;
   }
 
   // Clamp to screen bounds
-  const safeTop = Math.max(PADDING, Math.min(top, windowHeight - tlh - PADDING));
-  const safeLeft = Math.max(PADDING, Math.min(left, windowWidth - tlw - PADDING));
+  const safeTop = Math.max(
+    PADDING,
+    Math.min(top, windowHeight - tlh - PADDING)
+  );
+  const safeLeft = Math.max(
+    PADDING,
+    Math.min(left, windowWidth - tlw - PADDING)
+  );
 
   const animStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
@@ -123,6 +143,8 @@ export function Tooltip({
         onPress={handleOpen}
         onLongPress={handleOpen}
         delayLongPress={400}
+        accessibilityRole="button"
+        accessibilityHint="Shows tooltip"
       >
         {children}
       </Pressable>
@@ -134,7 +156,7 @@ export function Tooltip({
         onRequestClose={handleClose}
       >
         <Pressable
-          style={{ flex: 1, backgroundColor: "transparent" }}
+          style={{ flex: 1, backgroundColor: 'transparent' }}
           onPress={handleClose}
         >
           <Animated.View
@@ -143,21 +165,23 @@ export function Tooltip({
               setTooltipSize({ width, height });
             }}
             onStartShouldSetResponder={() => true}
-            style={[
-              tooltip.container,
-              {
-                position: "absolute",
-                top: safeTop,
-                left: safeLeft,
-              },
-              animStyle,
-            ] as any}
+            style={
+              [
+                tooltip.container,
+                {
+                  position: 'absolute',
+                  top: safeTop,
+                  left: safeLeft,
+                },
+                animStyle,
+              ] as any
+            }
           >
-            {typeof title === "string" ? (
-              <Text style={tooltip.text as any}>
-                {title}
-              </Text>
-            ) : title}
+            {typeof title === 'string' ? (
+              <Text style={tooltip.text as any}>{title}</Text>
+            ) : (
+              title
+            )}
           </Animated.View>
         </Pressable>
       </Modal>

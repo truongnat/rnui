@@ -1,12 +1,16 @@
-import React, { createContext, useContext } from "react";
-import { View, Text } from "react-native";
-import { useComponentTokens, useTokens } from "@truongdq01/headless";
+import React, { createContext, useContext } from 'react';
+import { View, Text } from 'react-native';
+import { useComponentTokens, useTokens } from '@truongdq01/headless';
 
-export type TimelinePosition = "left" | "right" | "alternate" | "alternate-reverse";
+export type TimelinePosition =
+  | 'left'
+  | 'right'
+  | 'alternate'
+  | 'alternate-reverse';
 
 interface TimelineContextValue {
   position: TimelinePosition;
-  itemVariant?: "filled" | "outlined";
+  itemVariant?: 'filled' | 'outlined';
 }
 
 const TimelineContext = createContext<TimelineContextValue | null>(null);
@@ -18,46 +22,82 @@ function useTimelineContext() {
 export interface TimelineProps {
   position?: TimelinePosition;
   children?: React.ReactNode;
-  itemVariant?: "filled" | "outlined";
+  itemVariant?: 'filled' | 'outlined';
 }
 
-export function Timeline({ position = "right", itemVariant = "filled", children }: TimelineProps) {
+export function Timeline({
+  position = 'right',
+  itemVariant = 'filled',
+  children,
+}: TimelineProps) {
   const { timeline } = useComponentTokens();
   return (
     <TimelineContext.Provider value={{ position, itemVariant }}>
-      <View style={timeline.content}>{React.Children.map(children, (child, index) => {
-        if (!React.isValidElement(child)) return child;
-        const element = child as React.ReactElement<any>;
-        if (position === "alternate" || position === "alternate-reverse") {
-          const isEven = index % 2 === 0;
-          const derived = position === "alternate" ? (isEven ? "right" : "left") : (isEven ? "left" : "right");
-          return React.cloneElement(element, { position: element.props?.position ?? derived, variant: itemVariant } as any);
-        }
-        return React.cloneElement(element, { variant: itemVariant } as any);
-      })}</View>
+      <View style={timeline.content}>
+        {React.Children.map(children, (child, index) => {
+          if (
+            !React.isValidElement<{
+              position?: TimelinePosition | 'left' | 'right';
+              variant?: 'filled' | 'outlined';
+            }>(child)
+          )
+            return child;
+          if (position === 'alternate' || position === 'alternate-reverse') {
+            const isEven = index % 2 === 0;
+            const derived =
+              position === 'alternate'
+                ? isEven
+                  ? 'right'
+                  : 'left'
+                : isEven
+                  ? 'left'
+                  : 'right';
+            return React.cloneElement(child, {
+              position: child.props.position ?? derived,
+              variant: itemVariant,
+            });
+          }
+          return React.cloneElement(child, { variant: itemVariant });
+        })}
+      </View>
     </TimelineContext.Provider>
   );
 }
 
 export interface TimelineItemProps {
-  position?: "left" | "right";
-  variant?: "filled" | "outlined";
-  status?: "pending" | "active" | "completed" | "error";
+  position?: 'left' | 'right';
+  variant?: 'filled' | 'outlined';
+  status?: 'pending' | 'active' | 'completed' | 'error';
   children?: React.ReactNode;
 }
 
-export function TimelineItem({ position, variant = "filled", status = "pending", children }: TimelineItemProps) {
+export function TimelineItem({
+  position,
+  variant = 'filled',
+  status = 'pending',
+  children,
+}: TimelineItemProps) {
   const ctx = useTimelineContext();
-  const resolved = position ?? (ctx?.position === "left" || ctx?.position === "right" ? ctx.position : "right");
+  const resolved =
+    position ??
+    (ctx?.position === 'left' || ctx?.position === 'right'
+      ? ctx.position
+      : 'right');
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "stretch", minHeight: 80 }}>
+    <View
+      style={{ flexDirection: 'row', alignItems: 'stretch', minHeight: 80 }}
+    >
       <View style={{ flex: 1, paddingHorizontal: 16 }}>
-        {resolved === "right" ? extractOpposite(children) : extractContent(children)}
+        {resolved === 'right'
+          ? extractOpposite(children)
+          : extractContent(children)}
       </View>
       <TimelineSeparator status={status} variant={variant} />
       <View style={{ flex: 1, paddingHorizontal: 16 }}>
-        {resolved === "right" ? extractContent(children) : extractOpposite(children)}
+        {resolved === 'right'
+          ? extractContent(children)
+          : extractOpposite(children)}
       </View>
     </View>
   );
@@ -81,7 +121,7 @@ function extractSeparator(children: React.ReactNode) {
 function extractContent(children: React.ReactNode) {
   const result = extractChildrenByType(children, TimelineContent);
   // Wrap string content in Text
-  if (result && result.length === 1 && typeof result[0] === "string") {
+  if (result && result.length === 1 && typeof result[0] === 'string') {
     return <Text>{result[0]}</Text>;
   }
   return result;
@@ -90,31 +130,35 @@ function extractContent(children: React.ReactNode) {
 function extractOpposite(children: React.ReactNode) {
   const result = extractChildrenByType(children, TimelineOppositeContent);
   // Wrap string content in Text
-  if (result && result.length === 1 && typeof result[0] === "string") {
+  if (result && result.length === 1 && typeof result[0] === 'string') {
     return <Text>{result[0]}</Text>;
   }
   return result;
 }
 
 export interface TimelineSeparatorProps {
-  status?: "pending" | "active" | "completed" | "error";
-  variant?: "filled" | "outlined";
+  status?: 'pending' | 'active' | 'completed' | 'error';
+  variant?: 'filled' | 'outlined';
   children?: React.ReactNode;
 }
 
-export function TimelineSeparator({ status = "pending", variant = "filled", children }: TimelineSeparatorProps) {
+export function TimelineSeparator({
+  status = 'pending',
+  variant = 'filled',
+  children,
+}: TimelineSeparatorProps) {
   const { timeline } = useComponentTokens();
-  
-  const connectorColor = status === "completed" ? timeline.dot.completed.borderColor : timeline.connector.color;
+
+  const connectorColor =
+    status === 'completed'
+      ? timeline.dot.completed.borderColor
+      : timeline.connector.color;
 
   return (
-    <View style={{ alignItems: "center", width: 48, paddingHorizontal: 8 }}>
+    <View style={{ alignItems: 'center', width: 48, paddingHorizontal: 8 }}>
       {children || (
         <>
-          <TimelineDot 
-            variant={variant} 
-            status={status}
-          />
+          <TimelineDot variant={variant} status={status} />
           <TimelineConnector color={connectorColor} />
         </>
       )}
@@ -123,19 +167,40 @@ export function TimelineSeparator({ status = "pending", variant = "filled", chil
 }
 
 export interface TimelineDotProps {
-  variant?: "filled" | "outlined";
-  color?: "primary" | "secondary" | "success" | "error" | "info" | "warning" | "inherit";
-  status?: "pending" | "active" | "completed" | "error";
+  variant?: 'filled' | 'outlined';
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'error'
+    | 'info'
+    | 'warning'
+    | 'inherit';
+  status?: 'pending' | 'active' | 'completed' | 'error';
   size?: number;
 }
 
-export function TimelineDot({ variant = "filled", color = "primary", status, size }: TimelineDotProps) {
+export function TimelineDot({
+  variant = 'filled',
+  color = 'primary',
+  status,
+  size,
+}: TimelineDotProps) {
   const { timeline } = useComponentTokens();
   const tokens = useTokens();
-  
-  const resolvedStatus = status || (color === "success" ? "completed" : color === "error" ? "error" : color === "primary" ? "active" : "pending");
-  const statusTokens = (timeline.dot as any)[resolvedStatus] || timeline.dot.pending;
-  
+
+  const resolvedStatus =
+    status ||
+    (color === 'success'
+      ? 'completed'
+      : color === 'error'
+        ? 'error'
+        : color === 'primary'
+          ? 'active'
+          : 'pending');
+  const statusTokens =
+    (timeline.dot as any)[resolvedStatus] || timeline.dot.pending;
+
   const dotSize = size || timeline.dot.size || 16;
 
   return (
@@ -144,7 +209,7 @@ export function TimelineDot({ variant = "filled", color = "primary", status, siz
         width: dotSize,
         height: dotSize,
         borderRadius: dotSize / 2,
-        backgroundColor: variant === "filled" ? statusTokens.bg : "transparent",
+        backgroundColor: variant === 'filled' ? statusTokens.bg : 'transparent',
         borderWidth: 2,
         borderColor: statusTokens.borderColor,
         ...tokens.shadow.sm,
@@ -161,17 +226,36 @@ export interface TimelineConnectorProps {
 export function TimelineConnector({ color, width }: TimelineConnectorProps) {
   const { timeline } = useComponentTokens();
   const resolvedWidth = width || timeline.connector.width;
-  return <View style={{ width: resolvedWidth, flex: 1, backgroundColor: color || timeline.connector.color, marginVertical: 4, borderRadius: resolvedWidth }} />;
+  return (
+    <View
+      style={{
+        width: resolvedWidth,
+        flex: 1,
+        backgroundColor: color || timeline.connector.color,
+        marginVertical: 4,
+        borderRadius: resolvedWidth,
+      }}
+    />
+  );
 }
 
 export interface TimelineContentProps {
   children?: React.ReactNode;
-  align?: "left" | "right";
+  align?: 'left' | 'right';
 }
 
-export function TimelineContent({ children, align = "left" }: TimelineContentProps) {
+export function TimelineContent({
+  children,
+  align = 'left',
+}: TimelineContentProps) {
   return (
-    <View style={{ flex: 1, paddingHorizontal: 8, alignItems: align === "left" ? "flex-start" : "flex-end" }}>
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: 8,
+        alignItems: align === 'left' ? 'flex-start' : 'flex-end',
+      }}
+    >
       {children}
     </View>
   );
@@ -179,13 +263,22 @@ export function TimelineContent({ children, align = "left" }: TimelineContentPro
 
 export interface TimelineOppositeContentProps {
   children?: React.ReactNode;
-  align?: "left" | "right";
+  align?: 'left' | 'right';
 }
 
-export function TimelineOppositeContent({ children, align = "right" }: TimelineOppositeContentProps) {
+export function TimelineOppositeContent({
+  children,
+  align = 'right',
+}: TimelineOppositeContentProps) {
   return (
-    <View style={{ flex: 1, paddingHorizontal: 8, alignItems: align === "left" ? "flex-start" : "flex-end" }}>
-      {typeof children === "string" ? <Text>{children}</Text> : children}
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: 8,
+        alignItems: align === 'left' ? 'flex-start' : 'flex-end',
+      }}
+    >
+      {typeof children === 'string' ? <Text>{children}</Text> : children}
     </View>
   );
 }

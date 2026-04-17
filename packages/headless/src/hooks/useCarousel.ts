@@ -1,33 +1,49 @@
-import React, { useRef, useMemo, useCallback, useEffect } from "react";
-import { ScrollView, Dimensions } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
-
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+import React, { useRef, useMemo, useCallback, useEffect } from 'react';
+import { ScrollView, useWindowDimensions } from 'react-native';
+import { useSharedValue } from 'react-native-reanimated';
 
 export interface UseCarouselOptions<T> {
   data: T[];
+  /** Defaults to current window width (from `useWindowDimensions`). */
   itemWidth?: number;
   gap?: number;
+  /**
+   * Leading inset inside scroll content (e.g. horizontal padding used to center slides).
+   * Snap offsets are `contentPaddingStart + index * (itemWidth + gap)`.
+   */
+  contentPaddingStart?: number;
   loop?: boolean;
   autoPlay?: boolean;
   autoPlayInterval?: number;
 }
 
+/**
+ * Carousel scroll state. When `loop` is true and `data.length >= 2`, `displayData` is
+ * `[last, ...data, first]` for infinite scroll. When `data.length === 1` and `loop` is true,
+ * `displayData` is the single item (no clones) — same as non-loop.
+ */
 export function useCarousel<T>({
   data,
-  itemWidth = SCREEN_WIDTH,
+  itemWidth: itemWidthOption,
   gap = 0,
+  contentPaddingStart: contentPaddingStartOption = 0,
   loop = false,
   autoPlay = false,
   autoPlayInterval = 3000,
 }: UseCarouselOptions<T>) {
+  const { width: windowWidthPx } = useWindowDimensions();
+  const windowWidth = Math.max(1, windowWidthPx > 0 ? windowWidthPx : 375);
+  const itemWidth = itemWidthOption ?? windowWidth;
+
   const scrollX = useSharedValue(0);
   const scrollViewRef = useRef<ScrollView>(null);
   const isJumping = useRef(false);
   const autoPlayTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const jumpTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const n = data.length;
   const itemStep = itemWidth + gap;
+  const pad = contentPaddingStartOption;
 
   // ─── Data Preparation ───────────────────────────────────────────
   const displayData = useMemo(() => {
@@ -37,15 +53,16 @@ export function useCarousel<T>({
   }, [data, loop, n]);
 
   const snapToOffsets = useMemo(() => {
-    return displayData.map((_, i) => i * itemStep);
-  }, [displayData, itemStep]);
+    return displayData.map((_, i) => pad + i * itemStep);
+  }, [displayData, itemStep, pad]);
 
   // ─── Initial Position ───────────────────────────────────────────
   useEffect(() => {
     if (loop && n >= 2) {
       requestAnimationFrame(() => {
-        scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
-        scrollX.value = itemStep;
+        const x = pad + itemStep;
+        scrollViewRef.current?.scrollTo({ x, animated: false });
+        scrollX.value = x;
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,24 +70,46 @@ export function useCarousel<T>({
 
   // ─── Navigation ─────────────────────────────────────────────────
   const goToNextSlide = useCallback(() => {
+    if (n < 1 || itemStep <= 0) return;
     if (!loop || n < 2) {
-      const currentIndex = Math.round(scrollX.value / itemStep);
+      const currentIndex = Math.round((scrollX.value - pad) / itemStep);
       const nextIndex = currentIndex >= n - 1 ? 0 : currentIndex + 1;
-      scrollViewRef.current?.scrollTo({ x: nextIndex * itemStep, animated: true });
+      scrollViewRef.current?.scrollTo({
+        x: pad + nextIndex * itemStep,
+        animated: true,
+      });
     } else {
-      const currentIndex = Math.round(scrollX.value / itemStep);
-      const nextX = (currentIndex + 1) * itemStep;
-      if (nextX < displayData.length * itemStep) {
+      const currentIndex = Math.round((scrollX.value - pad) / itemStep);
+      const nextX = pad + (currentIndex + 1) * itemStep;
+      if (currentIndex + 1 < displayData.length) {
         scrollViewRef.current?.scrollTo({ x: nextX, animated: true });
       }
     }
-  }, [loop, n, itemStep, scrollX, displayData.length]);
+  }, [loop, n, itemStep, scrollX, displayData.length, pad]);
 
   const goToPreviousSlide = useCallback(() => {
-    const currentIndex = Math.round(scrollX.value / itemStep);
-    const prevIndex = currentIndex <= 0 ? (loop ? 0 : n - 1) : currentIndex - 1;
-    scrollViewRef.current?.scrollTo({ x: prevIndex * itemStep, animated: true });
-  }, [loop, n, itemStep, scrollX]);
+    if (n < 1 || itemStep <= 0) return;
+    const i = Math.round((scrollX.value - pad) / itemStep);
+    if (loop && n >= 2) {
+      if (i <= 0) {
+        scrollViewRef.current?.scrollTo({
+          x: pad + n * itemStep,
+          animated: true,
+        });
+      } else {
+        scrollViewRef.current?.scrollTo({
+          x: pad + (i - 1) * itemStep,
+          animated: true,
+        });
+      }
+      return;
+    }
+    const prevIndex = i <= 0 ? n - 1 : i - 1;
+    scrollViewRef.current?.scrollTo({
+      x: pad + prevIndex * itemStep,
+      animated: true,
+    });
+  }, [loop, n, itemStep, scrollX, pad]);
 
   // ─── Auto-play ──────────────────────────────────────────────────
   const startTimer = useCallback(() => {
@@ -90,42 +129,66 @@ export function useCarousel<T>({
   }, []);
 
   useEffect(() => {
+    if (n < 1) {
+      stopTimer();
+      return;
+    }
     if (autoPlay) {
       startTimer();
     } else {
       stopTimer();
     }
     return stopTimer;
-  }, [autoPlay, startTimer, stopTimer]);
+  }, [autoPlay, startTimer, stopTimer, n]);
+
+  useEffect(() => {
+    return () => {
+      jumpTimers.current.forEach(clearTimeout);
+      jumpTimers.current = [];
+    };
+  }, []);
 
   // ─── Event Handlers ─────────────────────────────────────────────
-  const onScroll = useCallback((e: any) => {
-    scrollX.value = e.nativeEvent.contentOffset.x;
-    if (autoPlay) {
-      startTimer();
-    }
-  }, [autoPlay, startTimer, scrollX]);
+  const onScroll = useCallback(
+    (e: any) => {
+      scrollX.value = e.nativeEvent.contentOffset.x;
+      if (autoPlay && n >= 1) {
+        startTimer();
+      }
+    },
+    [autoPlay, startTimer, scrollX, n]
+  );
 
-  const onMomentumScrollEnd = useCallback((e: any) => {
-    if (!loop || n < 2 || isJumping.current) return;
+  const onMomentumScrollEnd = useCallback(
+    (e: any) => {
+      if (!loop || n < 2 || isJumping.current) return;
 
-    const x = Math.round(e.nativeEvent.contentOffset.x);
-    const lastCloneX = (displayData.length - 1) * itemStep;
+      const x = Math.round(e.nativeEvent.contentOffset.x);
+      const i = Math.round((x - pad) / itemStep);
+      const lastIndex = displayData.length - 1;
 
-    if (x <= 0) {
-      // Jump from first clone to real last item
-      isJumping.current = true;
-      scrollViewRef.current?.scrollTo({ x: n * itemStep, animated: false });
-      scrollX.value = n * itemStep;
-      setTimeout(() => { isJumping.current = false; }, 50);
-    } else if (x >= lastCloneX) {
-      // Jump from last clone to real first item
-      isJumping.current = true;
-      scrollViewRef.current?.scrollTo({ x: itemStep, animated: false });
-      scrollX.value = itemStep;
-      setTimeout(() => { isJumping.current = false; }, 50);
-    }
-  }, [loop, n, itemStep, displayData.length, scrollX]);
+      if (i <= 0) {
+        isJumping.current = true;
+        const target = pad + n * itemStep;
+        scrollViewRef.current?.scrollTo({ x: target, animated: false });
+        scrollX.value = target;
+        const id = setTimeout(() => {
+          isJumping.current = false;
+        }, 50);
+        jumpTimers.current.push(id);
+      } else if (i >= lastIndex) {
+        isJumping.current = true;
+        const target = pad + itemStep;
+        scrollViewRef.current?.scrollTo({ x: target, animated: false });
+        scrollX.value = target;
+        const id = setTimeout(() => {
+          isJumping.current = false;
+        }, 50);
+        jumpTimers.current.push(id);
+      }
+    },
+    [loop, n, itemStep, displayData.length, scrollX, pad]
+  );
 
   return {
     scrollViewRef,
@@ -138,5 +201,6 @@ export function useCarousel<T>({
     goToPreviousSlide,
     itemStep,
     n,
+    contentPaddingStart: pad,
   };
 }

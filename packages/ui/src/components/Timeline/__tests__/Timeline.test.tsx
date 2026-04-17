@@ -1,10 +1,10 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Timeline, TimelineItem, TimelineContent } from "../Timeline";
-import { ThemeProvider } from "@truongdq01/headless";
-import { Text } from "react-native";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Timeline, TimelineItem, TimelineContent } from '../Timeline';
+import { ThemeProvider } from '@truongdq01/headless';
+import { Text } from 'react-native';
 
-test("Timeline renders events", () => {
+test('Timeline renders events', () => {
   const { getByText } = render(
     <ThemeProvider>
       <Timeline>
@@ -16,5 +16,5 @@ test("Timeline renders events", () => {
       </Timeline>
     </ThemeProvider>
   );
-  expect(getByText("Event 1")).toBeTruthy();
+  expect(getByText('Event 1')).toBeTruthy();
 });

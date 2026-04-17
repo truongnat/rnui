@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "createdPaths": [
+    ".cursor/commands/w-hotfix.md",
+    ".cursor/commands/w-release.md",
+    ".cursor/commands/w-ticket.md",
+    ".claude/commands/find-skill.md",
+    ".claude/commands/optimize.md",
+    ".claude/commands/route.md",
+    ".claude/commands/run-workflow.md"
+  ]
+}

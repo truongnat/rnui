@@ -1,28 +1,21 @@
 {
-    "compilerOptions": {
-        "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "moduleResolution": "NodeNext",
-        "module": "NodeNext",
-        "target": "ES2020",
-        "jsx": "react-native",
-        "resolveJsonModule": true,
-        "declarationMap": true,
-        "outDir": "dist-types",
-        "rootDir": "src",
-        "declaration": true,
-        "emitDeclarationOnly": true,
-        "noEmit": false,
-        "composite": false
-    },
-    "include": [
-        "src/**/*"
-    ],
-    "exclude": [
-        "node_modules",
-        "dist",
-        "dist-types",
-        "src/__tests__"
-    ]
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "target": "ES2020",
+    "jsx": "react-native",
+    "resolveJsonModule": true,
+    "declarationMap": true,
+    "outDir": "dist-types",
+    "rootDir": "src",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "composite": false
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "dist-types", "src/__tests__"]
 }

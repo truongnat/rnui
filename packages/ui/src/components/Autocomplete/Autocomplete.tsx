@@ -1,14 +1,24 @@
-import React, { useState, useRef } from "react";
-import { View, Text, Pressable, Modal, useWindowDimensions } from "react-native";
+import React, { useState, useRef } from 'react';
+import {
+  View,
+  Text,
+  Pressable,
+  Modal,
+  useWindowDimensions,
+} from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   withSpring,
   Easing,
-} from "react-native-reanimated";
-import { useAutocomplete, useTokens, useComponentTokens } from "@truongdq01/headless";
-import { Input } from "../Input/Input";
+} from 'react-native-reanimated';
+import {
+  useAutocomplete,
+  useTokens,
+  useComponentTokens,
+} from '@truongdq01/headless';
+import { Input } from '../Input/Input';
 
 export interface AutocompleteProps<T = string> {
   options: T[];
@@ -35,7 +45,7 @@ export function Autocomplete<T = string>({
   onChange,
   inputValue,
   onInputChange,
-  placeholder = "Select...",
+  placeholder = 'Select...',
   label,
   disabled = false,
 }: AutocompleteProps<T>) {
@@ -43,7 +53,12 @@ export function Autocomplete<T = string>({
   const { autocomplete } = useComponentTokens();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const inputRef = useRef<View>(null);
-  const [inputRect, setInputRect] = useState({ pageX: 0, pageY: 0, width: 0, height: 0 });
+  const [inputRect, setInputRect] = useState({
+    pageX: 0,
+    pageY: 0,
+    width: 0,
+    height: 0,
+  });
   const [dropdownMounted, setDropdownMounted] = useState(false);
 
   const opacity = useSharedValue(0);
@@ -59,8 +74,14 @@ export function Autocomplete<T = string>({
     selectOption,
     filteredOptions,
   } = useAutocomplete({
-    options, value, defaultValue, multiple, getOptionLabel,
-    onChange, inputValue, onInputChange,
+    options,
+    value,
+    defaultValue,
+    multiple,
+    getOptionLabel,
+    onChange,
+    inputValue,
+    onInputChange,
   });
 
   const labelOf = getOptionLabel ?? ((o: T) => String(o));
@@ -76,7 +97,10 @@ export function Autocomplete<T = string>({
         scale.value = 0.95;
         setDropdownMounted(true);
         requestAnimationFrame(() => {
-          opacity.value = withTiming(1, { duration: 160, easing: Easing.out(Easing.cubic) });
+          opacity.value = withTiming(1, {
+            duration: 160,
+            easing: Easing.out(Easing.cubic),
+          });
           scale.value = withSpring(1, { damping: 18, stiffness: 300 });
         });
       });
@@ -120,12 +144,17 @@ export function Autocomplete<T = string>({
       />
 
       {dropdownMounted && filteredOptions.length > 0 && (
-        <Modal transparent animationType="none" visible={dropdownMounted} onRequestClose={handleClose}>
+        <Modal
+          transparent
+          animationType="none"
+          visible={dropdownMounted}
+          onRequestClose={handleClose}
+        >
           <Pressable style={{ flex: 1 }} onPress={handleClose} />
           <Animated.View
             style={[
               {
-                position: "absolute",
+                position: 'absolute',
                 top: dropdownTop,
                 left: inputRect.pageX,
                 width: inputRect.width,
@@ -156,11 +185,19 @@ export function Autocomplete<T = string>({
                       ? autocomplete.item.hover.backgroundColor
                       : selected
                         ? autocomplete.item.active.backgroundColor
-                        : "transparent",
+                        : 'transparent',
                   })}
                 >
-                  {renderOption ? renderOption(option, selected) : (
-                    <Text style={{ color: selected ? tokens.color.brand.text : tokens.color.text.primary }}>
+                  {renderOption ? (
+                    renderOption(option, selected)
+                  ) : (
+                    <Text
+                      style={{
+                        color: selected
+                          ? tokens.color.brand.text
+                          : tokens.color.text.primary,
+                      }}
+                    >
                       {labelOf(option)}
                     </Text>
                   )}

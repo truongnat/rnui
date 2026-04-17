@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export interface UseRatingOptions {
   value?: number;
@@ -28,7 +28,25 @@ export function useRating({
   readOnly = false,
   onChange,
 }: UseRatingOptions = {}): UseRatingReturn {
+  const safePrecision = useMemo(() => {
+    if (
+      typeof precision !== 'number' ||
+      !Number.isFinite(precision) ||
+      precision <= 0
+    ) {
+      return 1;
+    }
+    return precision;
+  }, [precision]);
+
   const [internalValue, setInternalValue] = useState(defaultValue);
+  const prevControlled = useRef(controlledValue);
+  useEffect(() => {
+    if (prevControlled.current !== undefined && controlledValue === undefined) {
+      setInternalValue(prevControlled.current);
+    }
+    prevControlled.current = controlledValue;
+  }, [controlledValue]);
   const value = controlledValue !== undefined ? controlledValue : internalValue;
 
   const setValue = useCallback(
@@ -40,5 +58,5 @@ export function useRating({
     [disabled, readOnly, controlledValue, onChange]
   );
 
-  return { value, setValue, max, precision, disabled, readOnly };
+  return { value, setValue, max, precision: safePrecision, disabled, readOnly };
 }

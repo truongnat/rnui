@@ -5,9 +5,9 @@ Inline link that opens external URLs.
 ## Usage
 
 ```tsx
-import { Link } from "@truongdq01/ui";
+import { Link } from '@truongdq01/ui';
 
-<Link href="https://example.com">Open website</Link>
+<Link href="https://example.com">Open website</Link>;
 ```
 
 ## Notes

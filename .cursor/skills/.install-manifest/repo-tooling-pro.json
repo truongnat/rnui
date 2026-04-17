@@ -1,0 +1,11 @@
+{
+  "installed_at": "2026-04-01T12:07:45.708Z",
+  "mode": "symlink",
+  "skill_name": "repo-tooling-pro",
+  "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/repo-tooling-pro",
+  "ides": ["cursor"],
+  "targets": {
+    "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/repo-tooling-pro"
+  },
+  "primary_cursor_target": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/repo-tooling-pro"
+}

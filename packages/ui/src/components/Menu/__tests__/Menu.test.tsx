@@ -1,9 +1,9 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Menu, MenuItem } from "../Menu";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Menu, MenuItem } from '../Menu';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("Menu renders when open", () => {
+test('Menu renders when open', () => {
   const { getByText } = render(
     <ThemeProvider>
       <Menu open={true}>
@@ -11,5 +11,5 @@ test("Menu renders when open", () => {
       </Menu>
     </ThemeProvider>
   );
-  expect(getByText("Option 1")).toBeTruthy();
+  expect(getByText('Option 1')).toBeTruthy();
 });

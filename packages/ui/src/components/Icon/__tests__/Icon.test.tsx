@@ -1,9 +1,9 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { Icon } from "../Icon";
-import { ThemeProvider } from "@truongdq01/headless";
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { Icon } from '../Icon';
+import { ThemeProvider } from '@truongdq01/headless';
 
-test("Icon renders without crashing", () => {
+test('Icon renders without crashing', () => {
   const { toJSON } = render(
     <ThemeProvider>
       <Icon name="star" />

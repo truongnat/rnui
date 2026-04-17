@@ -1,0 +1,11 @@
+{
+  "installed_at": "2026-04-01T12:07:45.703Z",
+  "mode": "symlink",
+  "skill_name": "performance-tuning-pro",
+  "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/performance-tuning-pro",
+  "ides": ["cursor"],
+  "targets": {
+    "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/performance-tuning-pro"
+  },
+  "primary_cursor_target": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/performance-tuning-pro"
+}

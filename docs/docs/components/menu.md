@@ -5,12 +5,12 @@ Popup menu list.
 ## Usage
 
 ```tsx
-import { Menu, MenuItem } from "@truongdq01/ui";
+import { Menu, MenuItem } from '@truongdq01/ui';
 
 <Menu open onClose={() => {}}>
   <MenuItem>Profile</MenuItem>
   <MenuItem>Logout</MenuItem>
-</Menu>
+</Menu>;
 ```
 
 ## Notes

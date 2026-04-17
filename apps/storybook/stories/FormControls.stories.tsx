@@ -1,6 +1,6 @@
-import type { StoryObj } from "@storybook/react-native";
-import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import type { StoryObj } from '@storybook/react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import {
   ThemeProvider,
   RadioGroup,
@@ -13,8 +13,12 @@ import {
   Input,
   Select,
   useTheme,
-} from "@truongdq01/ui";
-import { Mail as LucideMail, Search as LucideSearch, Lock as LucideLock } from "lucide-react-native";
+} from '@truongdq01/ui';
+import {
+  Mail as LucideMail,
+  Search as LucideSearch,
+  Lock as LucideLock,
+} from 'lucide-react-native';
 
 const Mail = LucideMail as any;
 const Search = LucideSearch as any;
@@ -22,32 +26,53 @@ const Lock = LucideLock as any;
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
-    <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>{children}</ScrollView>
+    <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>
+      {children}
+    </ScrollView>
   </ThemeProvider>
 );
 
 // ─── Radio ────────────────────────────────────────────────────────
 
 const meta = {
-  title: "Components/FormControls",
+  title: 'Components/FormControls',
   component: RadioGroup,
-  decorators: [(Story: React.ComponentType) => <Wrap><Story /></Wrap>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <Wrap>
+        <Story />
+      </Wrap>
+    ),
+  ],
 };
 export default meta;
 
 export const Vertical: StoryObj<typeof RadioGroup> = {
   render: () => {
-    const [v, setV] = useState("react");
+    const [v, setV] = useState('react');
     return (
       <RadioGroup
         label="Framework"
         value={v}
         onChange={(val) => setV(val as string)}
         options={[
-          { value: "react", label: "React Native", description: "Cross-platform mobile" },
-          { value: "flutter", label: "Flutter", description: "Google's UI toolkit" },
-          { value: "native", label: "Native", description: "Swift / Kotlin" },
-          { value: "ionic", label: "Ionic", disabled: true, description: "Web-based (deprecated)" },
+          {
+            value: 'react',
+            label: 'React Native',
+            description: 'Cross-platform mobile',
+          },
+          {
+            value: 'flutter',
+            label: 'Flutter',
+            description: "Google's UI toolkit",
+          },
+          { value: 'native', label: 'Native', description: 'Swift / Kotlin' },
+          {
+            value: 'ionic',
+            label: 'Ionic',
+            disabled: true,
+            description: 'Web-based (deprecated)',
+          },
         ]}
       />
     );
@@ -56,7 +81,7 @@ export const Vertical: StoryObj<typeof RadioGroup> = {
 
 export const Horizontal: StoryObj<typeof RadioGroup> = {
   render: () => {
-    const [v, setV] = useState("md");
+    const [v, setV] = useState('md');
     return (
       <RadioGroup
         label="Size"
@@ -64,9 +89,9 @@ export const Horizontal: StoryObj<typeof RadioGroup> = {
         onChange={(val) => setV(val as string)}
         direction="horizontal"
         options={[
-          { value: "sm", label: "Small" },
-          { value: "md", label: "Medium" },
-          { value: "lg", label: "Large" },
+          { value: 'sm', label: 'Small' },
+          { value: 'md', label: 'Medium' },
+          { value: 'lg', label: 'Large' },
         ]}
       />
     );
@@ -76,7 +101,7 @@ export const Horizontal: StoryObj<typeof RadioGroup> = {
 // ─── Slider ───────────────────────────────────────────────────────
 
 export const SliderStory: StoryObj = {
-  name: "Slider",
+  name: 'Slider',
   render: () => {
     const [volume, setVolume] = useState(40);
     const [opacity, setOpacity] = useState(0.8);
@@ -133,10 +158,10 @@ export const SliderStory: StoryObj = {
 // ─── Avatar ───────────────────────────────────────────────────────
 
 export const AvatarStory: StoryObj = {
-  name: "Avatar",
+  name: 'Avatar',
   render: () => (
     <View style={{ gap: 20 }}>
-      <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
+      <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
         <Avatar initials="AN" size="xs" accessibilityLabel="Avatar AN" />
         <Avatar initials="BT" size="sm" accessibilityLabel="Avatar BT" />
         <Avatar initials="CL" size="md" accessibilityLabel="Avatar CL" />
@@ -144,30 +169,64 @@ export const AvatarStory: StoryObj = {
         <Avatar initials="EH" size="xl" accessibilityLabel="Avatar EH" />
       </View>
 
-      <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
-        <Avatar initials="ON" size="md" status="online" accessibilityLabel="Avatar ON" />
-        <Avatar initials="OF" size="md" status="offline" accessibilityLabel="Avatar OF" />
-        <Avatar initials="BY" size="md" status="busy" accessibilityLabel="Avatar BY" />
-        <Avatar initials="AW" size="md" status="away" accessibilityLabel="Avatar AW" />
+      <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+        <Avatar
+          initials="ON"
+          size="md"
+          status="online"
+          accessibilityLabel="Avatar ON"
+        />
+        <Avatar
+          initials="OF"
+          size="md"
+          status="offline"
+          accessibilityLabel="Avatar OF"
+        />
+        <Avatar
+          initials="BY"
+          size="md"
+          status="busy"
+          accessibilityLabel="Avatar BY"
+        />
+        <Avatar
+          initials="AW"
+          size="md"
+          status="away"
+          accessibilityLabel="Avatar AW"
+        />
       </View>
 
-      <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
-        <Avatar initials="RD" size="md" shape="rounded" accessibilityLabel="Avatar RD" />
+      <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+        <Avatar
+          initials="RD"
+          size="md"
+          shape="rounded"
+          accessibilityLabel="Avatar RD"
+        />
         <Avatar initials="" size="md" accessibilityLabel="Empty avatar" />
-        <Avatar src="https://i.pravatar.cc/150?img=1" size="md" accessibilityLabel="Avatar 1" />
-        <Avatar src="https://i.pravatar.cc/150?img=2" size="md" status="online" accessibilityLabel="Avatar 2" />
+        <Avatar
+          src="https://i.pravatar.cc/150?img=1"
+          size="md"
+          accessibilityLabel="Avatar 1"
+        />
+        <Avatar
+          src="https://i.pravatar.cc/150?img=2"
+          size="md"
+          status="online"
+          accessibilityLabel="Avatar 2"
+        />
       </View>
 
       <AvatarGroup
         size="md"
         avatars={[
-          { initials: "AN", accessibilityLabel: "AN" },
-          { initials: "BT", accessibilityLabel: "BT" },
-          { initials: "CL", accessibilityLabel: "CL" },
-          { initials: "DP", accessibilityLabel: "DP" },
-          { initials: "EH", accessibilityLabel: "EH" },
-          { initials: "FN", accessibilityLabel: "FN" },
-          { initials: "GX", accessibilityLabel: "GX" },
+          { initials: 'AN', accessibilityLabel: 'AN' },
+          { initials: 'BT', accessibilityLabel: 'BT' },
+          { initials: 'CL', accessibilityLabel: 'CL' },
+          { initials: 'DP', accessibilityLabel: 'DP' },
+          { initials: 'EH', accessibilityLabel: 'EH' },
+          { initials: 'FN', accessibilityLabel: 'FN' },
+          { initials: 'GX', accessibilityLabel: 'GX' },
         ]}
         max={4}
         overlap={12}
@@ -179,10 +238,12 @@ export const AvatarStory: StoryObj = {
 // ─── TextArea ─────────────────────────────────────────────────────
 
 export const TextAreaStory: StoryObj = {
-  name: "TextArea",
+  name: 'TextArea',
   render: () => {
-    const [bio, setBio] = useState("");
-    const [review, setReview] = useState("This is a great product! I've been using it for months and...");
+    const [bio, setBio] = useState('');
+    const [review, setReview] = useState(
+      "This is a great product! I've been using it for months and..."
+    );
     return (
       <View style={{ gap: 20 }}>
         <TextArea
@@ -208,7 +269,7 @@ export const TextAreaStory: StoryObj = {
           label="With error"
           placeholder="Required field"
           value=""
-          onChangeText={() => { }}
+          onChangeText={() => {}}
           error="This field is required"
           minLines={2}
           accessibilityLabel="With error"
@@ -217,7 +278,7 @@ export const TextAreaStory: StoryObj = {
           label="Disabled"
           placeholder=""
           value="Cannot edit this content."
-          onChangeText={() => { }}
+          onChangeText={() => {}}
           disabled
           accessibilityLabel="Disabled"
         />
@@ -229,18 +290,23 @@ export const TextAreaStory: StoryObj = {
 // ─── Checkbox ─────────────────────────────────────────────────────
 
 export const CheckboxStory: StoryObj = {
-  name: "Checkbox",
+  name: 'Checkbox',
   render: () => {
     const [a, setA] = useState(false);
     const [b, setB] = useState(true);
     return (
       <View style={{ gap: 14 }}>
         <Checkbox label="Unchecked" checked={a} onChange={setA} />
-        <Checkbox label="Checked" description="With description text" checked={b} onChange={setB} />
+        <Checkbox
+          label="Checked"
+          description="With description text"
+          checked={b}
+          onChange={setB}
+        />
         <Checkbox label="Indeterminate" indeterminate />
         <Checkbox label="Disabled unchecked" disabled />
         <Checkbox label="Disabled checked" disabled checked={true} />
-        <View style={{ flexDirection: "row", gap: 24 }}>
+        <View style={{ flexDirection: 'row', gap: 24 }}>
           <Checkbox label="SM" size="sm" checked={true} />
           <Checkbox label="MD" size="md" checked={true} />
           <Checkbox label="LG" size="lg" checked={true} />
@@ -253,17 +319,22 @@ export const CheckboxStory: StoryObj = {
 // ─── Switch ───────────────────────────────────────────────────────
 
 export const SwitchStory: StoryObj = {
-  name: "Switch",
+  name: 'Switch',
   render: () => {
     const [notifications, setNotifications] = useState(true);
     const [analytics, setAnalytics] = useState(false);
     return (
       <View style={{ gap: 16 }}>
-        <Switch label="Push notifications" description="Get notified about activity" on={notifications} onChange={setNotifications} />
+        <Switch
+          label="Push notifications"
+          description="Get notified about activity"
+          on={notifications}
+          onChange={setNotifications}
+        />
         <Switch label="Analytics" on={analytics} onChange={setAnalytics} />
         <Switch label="Disabled (on)" disabled on={true} />
         <Switch label="Disabled (off)" disabled />
-        <View style={{ flexDirection: "row", gap: 24, alignItems: "center" }}>
+        <View style={{ flexDirection: 'row', gap: 24, alignItems: 'center' }}>
           <Switch label="SM" size="sm" on={true} />
           <Switch label="MD" size="md" on={true} />
           <Switch label="LG" size="lg" on={true} />
@@ -276,9 +347,9 @@ export const SwitchStory: StoryObj = {
 // ─── Input ────────────────────────────────────────────────────────
 
 export const InputStory: StoryObj = {
-  name: "Input",
+  name: 'Input',
   render: () => {
-    const [v, setV] = useState("");
+    const [v, setV] = useState('');
     return (
       <View style={{ gap: 20 }}>
         <Input
@@ -292,7 +363,13 @@ export const InputStory: StoryObj = {
           label="Search"
           placeholder="Search items..."
           leadingElement={<Search size={20} color="#666" />}
-          trailingElement={<View style={{ backgroundColor: "#eee", padding: 4, borderRadius: 4 }}><Text style={{ fontSize: 10 }}>⌘K</Text></View>}
+          trailingElement={
+            <View
+              style={{ backgroundColor: '#eee', padding: 4, borderRadius: 4 }}
+            >
+              <Text style={{ fontSize: 10 }}>⌘K</Text>
+            </View>
+          }
         />
         <Input
           label="With error"
@@ -319,19 +396,19 @@ export const InputStory: StoryObj = {
 // ─── Select ───────────────────────────────────────────────────────
 
 export const SelectStory: StoryObj = {
-  name: "Select",
+  name: 'Select',
   render: () => {
-    const [country, setCountry] = useState<string | undefined>("vn");
-    const [tags, setTags] = useState<string[]>(["design"]);
+    const [country, setCountry] = useState<string | undefined>('vn');
+    const [tags, setTags] = useState<string[]>(['design']);
     return (
       <View style={{ gap: 20 }}>
         <Select
           label="Country"
           searchable
           options={[
-            { label: "Vietnam", value: "vn" },
-            { label: "Japan", value: "jp" },
-            { label: "Singapore", value: "sg" },
+            { label: 'Vietnam', value: 'vn' },
+            { label: 'Japan', value: 'jp' },
+            { label: 'Singapore', value: 'sg' },
           ]}
           value={country}
           onChange={(v: any) => setCountry(v as string)}
@@ -341,9 +418,9 @@ export const SelectStory: StoryObj = {
           placeholder="Pick tags..."
           multiple
           options={[
-            { label: "Design", value: "design" },
-            { label: "Engineering", value: "engineering" },
-            { label: "Docs", value: "docs" },
+            { label: 'Design', value: 'design' },
+            { label: 'Engineering', value: 'engineering' },
+            { label: 'Docs', value: 'docs' },
           ]}
           value={tags}
           onChange={(v: any) => setTags(v as string[])}
@@ -352,8 +429,8 @@ export const SelectStory: StoryObj = {
           label="With error"
           error="Please choose a value"
           options={[
-            { label: "Option A", value: "a" },
-            { label: "Option B", value: "b" },
+            { label: 'Option A', value: 'a' },
+            { label: 'Option B', value: 'b' },
           ]}
         />
       </View>
@@ -364,9 +441,9 @@ export const SelectStory: StoryObj = {
 // ─── PasswordInput ────────────────────────────────────────────────
 
 export const PasswordInputStory: StoryObj = {
-  name: "PasswordInput",
+  name: 'PasswordInput',
   render: () => {
-    const [v, setV] = useState("");
+    const [v, setV] = useState('');
     return (
       <View style={{ gap: 20 }}>
         <Input

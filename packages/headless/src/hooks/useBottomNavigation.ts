@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 export interface UseBottomNavigationOptions<T> {
   value?: T;
@@ -24,10 +24,13 @@ export function useBottomNavigation<T>({
 
   const isSelected = useCallback((val: T) => value === val, [value]);
 
-  const selectValue = useCallback((val: T) => {
-    if (!isControlled) setInternalValue(val);
-    onChange?.(val);
-  }, [isControlled, onChange]);
+  const selectValue = useCallback(
+    (val: T) => {
+      if (!isControlled) setInternalValue(val);
+      onChange?.(val);
+    },
+    [isControlled, onChange]
+  );
 
   return {
     value,
@@ -35,7 +38,7 @@ export function useBottomNavigation<T>({
     isSelected,
     getItemProps: (val: T) => ({
       onPress: () => selectValue(val),
-      accessibilityRole: "tab",
+      accessibilityRole: 'tab',
       accessibilityState: { selected: isSelected(val) },
     }),
   };

@@ -1,0 +1,11 @@
+{
+  "installed_at": "2026-04-01T12:07:45.714Z",
+  "mode": "symlink",
+  "skill_name": "strategic-consulting-pro",
+  "source": "/Users/truongdq/tx/GitHub/rnui/vendor/own-skills/skills/strategic-consulting-pro",
+  "ides": ["cursor"],
+  "targets": {
+    "cursor": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/strategic-consulting-pro"
+  },
+  "primary_cursor_target": "/Users/truongdq/tx/GitHub/rnui/.cursor/skills/strategic-consulting-pro"
+}

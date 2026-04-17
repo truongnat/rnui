@@ -9,21 +9,21 @@ A horizontal segmented control for mutually exclusive option selection. Commonly
 ## Import
 
 ```tsx
-import { SegmentedControl } from "@truongdq01/ui";
+import { SegmentedControl } from '@truongdq01/ui';
 ```
 
 ## Usage
 
 ```tsx
-import { SegmentedControl } from "@truongdq01/ui";
-import { useState } from "react";
+import { SegmentedControl } from '@truongdq01/ui';
+import { useState } from 'react';
 
 export function ViewToggle() {
   const [selected, setSelected] = useState(0);
 
   return (
     <SegmentedControl
-      values={["Day", "Week", "Month"]}
+      values={['Day', 'Week', 'Month']}
       selectedIndex={selected}
       onChange={setSelected}
     />
@@ -36,9 +36,9 @@ export function ViewToggle() {
 ```tsx
 <SegmentedControl
   segments={[
-    { label: "List", icon: "list" },
-    { label: "Grid", icon: "grid" },
-    { label: "Map", icon: "map" },
+    { label: 'List', icon: 'list' },
+    { label: 'Grid', icon: 'grid' },
+    { label: 'Map', icon: 'map' },
   ]}
   selectedIndex={selected}
   onChange={setSelected}
@@ -47,13 +47,13 @@ export function ViewToggle() {
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `values` | `string[]` | — | Simple string labels for each segment |
-| `segments` | `{ label: string; icon?: string }[]` | — | Rich segment definitions with icons |
-| `selectedIndex` | `number` | required | Currently selected segment index |
-| `onChange` | `(index: number) => void` | required | Called when selection changes |
-| `disabled` | `boolean` | `false` | Disable all segments |
-| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Control size |
-| `colorScheme` | `string` | `"brand"` | Active segment color |
-| `style` | `ViewStyle` | — | Container style override |
+| Prop            | Type                                 | Default   | Description                           |
+| --------------- | ------------------------------------ | --------- | ------------------------------------- |
+| `values`        | `string[]`                           | —         | Simple string labels for each segment |
+| `segments`      | `{ label: string; icon?: string }[]` | —         | Rich segment definitions with icons   |
+| `selectedIndex` | `number`                             | required  | Currently selected segment index      |
+| `onChange`      | `(index: number) => void`            | required  | Called when selection changes         |
+| `disabled`      | `boolean`                            | `false`   | Disable all segments                  |
+| `size`          | `"sm" \| "md" \| "lg"`               | `"md"`    | Control size                          |
+| `colorScheme`   | `string`                             | `"brand"` | Active segment color                  |
+| `style`         | `ViewStyle`                          | —         | Container style override              |
