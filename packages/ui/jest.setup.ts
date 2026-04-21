@@ -22,22 +22,6 @@ jest.mock("react-native/Libraries/TurboModule/TurboModuleRegistry", () => ({
 	getEnforcing: jest.fn(),
 }));
 
-// Mock react-native module to include Touchable mixin (must be before react-native-svg)
-jest.mock("react-native", () => {
-	const ReactNative = jest.requireActual("react-native");
-	return {
-		...ReactNative,
-		Touchable: {
-			Mixin: {},
-		},
-	};
-});
-
-// Mock react-native Touchable to prevent SVG touchable mixin error
-jest.mock("react-native/Libraries/Components/Touchable/Touchable", () => ({
-	Mixin: {},
-}));
-
 jest.mock("react-native-worklets", () => ({
 	Worklets: {
 		createRunOnJS: (fn: any) => fn,

@@ -11,7 +11,10 @@ const View = createComponent('View');
 const Text = createComponent('Text');
 const Image = createComponent('Image');
 const ScrollView = createComponent('ScrollView');
-const Modal = createComponent('Modal');
+const Modal = ({ visible, children, onRequestClose }) => {
+  if (!visible) return null;
+  return React.createElement(View, { testID: 'modal' }, children);
+};
 const ActivityIndicator = createComponent('ActivityIndicator');
 const Pressable = createComponent('Pressable');
 const TouchableOpacity = createComponent('TouchableOpacity');
