@@ -19,3 +19,5 @@ export {
 	Stop: Svg,
 	ClipPath: Svg,
 };
+
+export const Touchable = { Mixin: {} };

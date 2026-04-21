@@ -12,7 +12,7 @@ console.error = (...args: unknown[]) => {
 };
 
 jest.mock('react-native-reanimated', () => {
-  const { createReanimatedMock } = require('../../ui/test-mocks');
+  const { createReanimatedMock } = require('../ui/test-mocks');
   return createReanimatedMock();
 });
 
@@ -33,12 +33,16 @@ jest.mock('react-native-gesture-handler', () => {
       LongPress: () => ({
         enabled: () => ({ minDuration: () => ({ onStart: () => ({}) }) }),
       }),
-      Simultaneous: (...g) => g,
-      Race: (...g) => g,
+      Simultaneous: (...g: any[]) => g,
+      Race: (...g: any[]) => g,
     },
     GestureDetector: View,
     GestureHandlerRootView: View,
   };
 });
+
+declare global {
+  var IS_REACT_ACT_ENVIRONMENT: boolean;
+}
 
 global.IS_REACT_ACT_ENVIRONMENT = true;

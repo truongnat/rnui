@@ -6,8 +6,11 @@ const originalConsoleError = console.error;
 const isReactTestRendererWarning = (message: unknown) =>
 	typeof message === "string" &&
 	message.includes("react-test-renderer is deprecated");
+const isSvgTouchableMixinError = (message: unknown) =>
+	typeof message === "string" &&
+	message.includes("Cannot destructure property 'Mixin' from null or undefined value");
 console.error = (...args: unknown[]) => {
-	if (isReactTestRendererWarning(args[0])) {
+	if (isReactTestRendererWarning(args[0]) || isSvgTouchableMixinError(args[0])) {
 		return;
 	}
 	originalConsoleError(...(args as Parameters<typeof originalConsoleError>));
@@ -19,12 +22,7 @@ jest.mock("react-native/Libraries/TurboModule/TurboModuleRegistry", () => ({
 	getEnforcing: jest.fn(),
 }));
 
-// Mock react-native Touchable to prevent SVG touchable mixin error
-jest.mock("react-native/Libraries/Components/Touchable/Touchable", () => ({
-	Mixin: {},
-}));
-
-// Mock react-native module to include Touchable mixin
+// Mock react-native module to include Touchable mixin (must be before react-native-svg)
 jest.mock("react-native", () => {
 	const ReactNative = jest.requireActual("react-native");
 	return {
@@ -34,6 +32,11 @@ jest.mock("react-native", () => {
 		},
 	};
 });
+
+// Mock react-native Touchable to prevent SVG touchable mixin error
+jest.mock("react-native/Libraries/Components/Touchable/Touchable", () => ({
+	Mixin: {},
+}));
 
 jest.mock("react-native-worklets", () => ({
 	Worklets: {
@@ -105,31 +108,6 @@ jest.mock("@react-native-community/datetimepicker", () => {
 jest.mock("expo-blur", () => ({
 	BlurView: require("react").forwardRef(() => null),
 }));
-
-jest.mock("react-native-svg", () => {
-	const React = require("react");
-	const Svg = ({ children, ...props }: any) =>
-		React.createElement("Svg", props, children);
-	const mockModule = {
-		__esModule: true,
-		default: Svg,
-		Svg,
-		Circle: Svg,
-		Path: Svg,
-		Rect: Svg,
-		G: Svg,
-		Line: Svg,
-		Polygon: Svg,
-		Polyline: Svg,
-		Defs: Svg,
-		LinearGradient: Svg,
-		RadialGradient: Svg,
-		Stop: Svg,
-		ClipPath: Svg,
-		Touchable: { Mixin: {} },
-	};
-	return mockModule;
-});
 
 jest.mock("lucide-react-native", () => {
 	const React = require("react");
