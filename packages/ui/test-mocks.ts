@@ -10,8 +10,10 @@ export const createMockComponent = (name: string) => {
 export const createReanimatedMock = () => {
   const animatedValue = { value: 0 };
   const createAnimatedComponent = (name: string) => {
-    const Component = ({ children, ...props }: any) =>
-      React.createElement(name, props, children);
+    const Component = ({ children, ...props }: any) => {
+      // Preserve accessibility props by passing them through
+      return React.createElement('View', props, children);
+    };
     Component.displayName = name;
     return Component;
   };
@@ -43,8 +45,8 @@ export const createReanimatedMock = () => {
     // Hooks
     useSharedValue: (v: any) => ({ value: v }),
     useDerivedValue: (fn: any) => ({ value: fn() }),
-    useAnimatedStyle: (fn: any) => fn(),
-    useAnimatedProps: (fn: any) => fn(),
+    useAnimatedStyle: (fn: any) => ({}) as any,
+    useAnimatedProps: (fn: any) => ({}) as any,
     useAnimatedReaction: () => {},
     useAnimatedScrollHandler: () => () => {},
     useAnimatedGestureHandler: () => () => {},
