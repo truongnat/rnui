@@ -12,6 +12,8 @@ test('AnimatedList renders items', () => {
         data={data}
         estimatedItemSize={50}
         renderItem={({ item }) => <Text>{item}</Text>}
+        itemEntering={undefined}
+        itemLayout={undefined}
       />
     </ThemeProvider>
   );
