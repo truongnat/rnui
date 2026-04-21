@@ -6,6 +6,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://rnui.vercel.app',
   integrations: [
     react(),
     starlight({
@@ -14,7 +15,7 @@ export default defineConfig({
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/rnui/rnui',
+          href: 'https://github.com/truongnat/rnui',
         },
       ],
       sidebar: [
