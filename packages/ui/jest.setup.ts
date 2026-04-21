@@ -49,6 +49,31 @@ jest.mock("react-native-safe-area-context", () => ({
 	SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
+jest.mock("../src/components/BottomSheet/BottomSheet", () => {
+	const React = require("react");
+	const { useState, useImperativeHandle } = React;
+	const BottomSheet = React.forwardRef(
+		({ children, ...props }: any, ref: any) => {
+			const [mounted, setMounted] = useState(true);
+
+			useImperativeHandle(ref, () => ({
+				open: () => setMounted(true),
+				close: () => setMounted(false),
+				snapTo: () => {},
+			}));
+
+			if (!mounted) return null;
+			return React.createElement("View", { ref, ...props }, children);
+		}
+	);
+	BottomSheet.displayName = "BottomSheet";
+	return {
+		__esModule: true,
+		default: BottomSheet,
+		BottomSheet,
+	};
+});
+
 // Conditionally mock @shopify/flash-list only if the module can be resolved
 // This prevents test failures when the optional dependency is not installed
 try {
