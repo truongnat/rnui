@@ -82,7 +82,7 @@ jobs:
           bun-version: latest
       - run: bun install --frozen-lockfile
       - name: Build docs site
-        run: cd docsrasource && bun run build
+        run: cd docs && bun run build
 
   release:
     name: Release
