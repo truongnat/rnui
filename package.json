@@ -5,7 +5,7 @@
   "workspaces": [
     "packages/*",
     "apps/*",
-    "docs"
+    "docsrasource"
   ],
   "scripts": {
     "build": "turbo build",
@@ -19,8 +19,8 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "turbo build && changeset publish",
-    "docs": "cd docs && bun start",
-    "docs:build": "cd docs && bun run build"
+    "docs": "cd docsrasource && bun start",
+    "docs:build": "cd docsrasource && bun run build"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
