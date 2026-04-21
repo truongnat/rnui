@@ -12,7 +12,7 @@ console.error = (...args: unknown[]) => {
 };
 
 jest.mock('react-native-reanimated', () => {
-  const { createReanimatedMock } = require('../ui/test-mocks');
+  const { createReanimatedMock } = require('../../ui/test-mocks');
   return createReanimatedMock();
 });
 

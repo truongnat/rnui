@@ -31,6 +31,22 @@ jest.mock("react-native/Libraries/TurboModule/TurboModuleRegistry", () => ({
 	getEnforcing: jest.fn(),
 }));
 
+// Mock react-native Touchable to prevent SVG touchable mixin error
+jest.mock("react-native/Libraries/Components/Touchable/Touchable", () => ({
+	Mixin: {},
+}));
+
+// Mock react-native module to include Touchable mixin
+jest.mock("react-native", () => {
+	const ReactNative = jest.requireActual("react-native");
+	return {
+		...ReactNative,
+		Touchable: {
+			Mixin: {},
+		},
+	};
+});
+
 jest.mock("react-native-worklets", () => ({
 	Worklets: {
 		createRunOnJS: (fn: any) => fn,
@@ -122,12 +138,8 @@ jest.mock("react-native-svg", () => {
 		RadialGradient: Svg,
 		Stop: Svg,
 		ClipPath: Svg,
+		Touchable: { Mixin: {} },
 	};
-	// Prevent the library from being imported in a way that causes the touchable mixin error
-	Object.defineProperty(mockModule, "Touchable", {
-		value: { Mixin: {} },
-		enumerable: false,
-	});
 	return mockModule;
 });
 
