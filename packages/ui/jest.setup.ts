@@ -1,18 +1,6 @@
 import "@testing-library/jest-native/extend-expect";
-import { configure } from "@testing-library/react-native";
 
 // Conditionally mock @shopify/flash-list only if the module can be resolved
-
-configure({
-	hostComponentNames: {
-		text: "Text",
-		textInput: "TextInput",
-		image: "Image",
-		switch: "Switch",
-		scrollView: "ScrollView",
-		modal: "Modal",
-	},
-});
 
 const originalConsoleError = console.error;
 const isReactTestRendererWarning = (message: unknown) =>
@@ -152,5 +140,9 @@ jest.mock("lucide-react-native", () => {
 		},
 	);
 });
+
+declare global {
+	var IS_REACT_ACT_ENVIRONMENT: boolean;
+}
 
 global.IS_REACT_ACT_ENVIRONMENT = true;
