@@ -1,58 +1,40 @@
-import React, { createContext, useContext, useMemo } from 'react';
-import { View, Text } from 'react-native';
-import Animated, {
-  useSharedValue,
-  withTiming,
-  useAnimatedStyle,
-  interpolate,
-  Extrapolation,
-} from 'react-native-reanimated';
-import { GestureDetector } from 'react-native-gesture-handler';
 import {
   useDisclosure,
-  useTokens,
-  useComponentTokens,
-  usePressable,
-  useReduceMotionEnabled,
+  useTheme,
+  useId,
 } from '@truongdq01/headless';
-import { Icon } from '../Icon';
+import React, { useContext, useMemo } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { AccordionContext, AccordionGroupContext } from './context';
+import type { AccordionProps } from './types';
 
-export interface AccordionProps {
-  expanded?: boolean;
-  defaultExpanded?: boolean;
-  disabled?: boolean;
-  onChange?: (expanded: boolean) => void;
-  children?: React.ReactNode;
-}
-
-export interface AccordionSummaryProps {
-  children?: React.ReactNode;
-  expandIcon?: React.ReactNode;
-}
-
-export interface AccordionDetailsProps {
-  children?: React.ReactNode;
-}
-
-export interface AccordionActionsProps {
-  children?: React.ReactNode;
-}
-
-interface AccordionContextValue {
-  expanded: boolean;
-  toggle: () => void;
-  disabled: boolean;
-}
-
-const AccordionContext = createContext<AccordionContextValue | null>(null);
-
+/**
+ * Accordion component for collapsible content.
+ * It can be used alone or inside an AccordionGroup.
+ */
 export function Accordion({
+  id: idProp,
   expanded: controlledExpanded,
   defaultExpanded = false,
   disabled = false,
   onChange,
   children,
+  radius,
+  bordered: controlledBordered,
+  style,
+  isFirst,
+  isLast,
 }: AccordionProps) {
+  const groupCtx = useContext(AccordionGroupContext);
+  const { tokens, components: { accordion } } = useTheme();
+  const id = useId(idProp, 'accordion');
+
+  // Determine if state is managed by a parent AccordionGroup
+  const isGroupManaged = !!(groupCtx && idProp !== undefined);
+  const isInGroup = groupCtx?.inGroup ?? false;
+  const isBorderedGroup = groupCtx?.bordered ?? false;
+
+  // Uncontrolled state handler (only used when not managed by a group)
   const disclosure = useDisclosure({
     isOpen: controlledExpanded,
     defaultOpen: defaultExpanded,
@@ -60,127 +42,76 @@ export function Accordion({
     onClose: () => onChange?.(false),
   });
 
-  const { accordion } = useComponentTokens();
+  const isExpanded = isGroupManaged ? groupCtx.isExpanded(idProp!) : disclosure.isOpen;
+  const isBordered = controlledBordered ?? true;
+
+  /**
+   * Determine the effective container styles based on:
+   * 1. Standalone vs Grouped state
+   * 2. Position (First/Last) for corner rounding
+   * 3. Group bordered/gap configuration
+   */
+  const extraContainerStyle = useMemo(() => {
+    const effectiveRadius = radius ?? groupCtx?.radius ?? tokens.radius.md;
+
+    // 1. Single Mode (Not in a group)
+    if (!isInGroup) {
+      return {
+        borderRadius: effectiveRadius,
+        overflow: 'hidden' as const,
+        borderWidth: isBordered ? 1 : 0,
+        borderColor: tokens.color.border.default,
+      };
+    }
+
+    // 2. Group Mode logic
+    const gStyle = groupCtx?.groupStyle;
+    const flatGStyle = gStyle ? StyleSheet.flatten(gStyle) : {};
+    const hasGap = typeof (flatGStyle as any).gap === 'number' && (flatGStyle as any).gap > 0;
+
+    // If it's a bordered group OR list mode (shared logic for rounding items at boundary)
+    if (isBorderedGroup || !hasGap) {
+      return {
+        borderTopLeftRadius: isFirst ? effectiveRadius : 0,
+        borderTopRightRadius: isFirst ? effectiveRadius : 0,
+        borderBottomLeftRadius: isLast ? effectiveRadius : 0,
+        borderBottomRightRadius: isLast ? effectiveRadius : 0,
+        borderWidth: 0,
+        overflow: 'hidden' as const,
+      };
+    }
+
+    // Default: Group with gap -> items behave like separate rounded cards.
+    return {
+      borderRadius: effectiveRadius,
+      overflow: 'hidden' as const,
+      borderWidth: isBordered ? 1 : 0,
+      borderColor: tokens.color.border.default,
+    };
+  }, [isBorderedGroup, isInGroup, isFirst, isLast, groupCtx?.radius, groupCtx?.groupStyle, tokens, radius, isBordered]);
+
+  const handleToggle = () => {
+    if (disabled) return;
+    if (isGroupManaged) {
+      groupCtx.toggleId(idProp!);
+    } else {
+      disclosure.toggle();
+    }
+  };
 
   return (
     <AccordionContext.Provider
       value={{
-        expanded: disclosure.isOpen,
-        toggle: disclosure.toggle,
+        expanded: isExpanded,
+        toggle: handleToggle,
         disabled,
+        isFirst: isFirst ?? false,
+        isLast: isLast ?? false,
       }}
     >
-      <View style={accordion.container}>{children}</View>
-    </AccordionContext.Provider>
-  );
-}
-
-export function AccordionSummary({
-  children,
-  expandIcon,
-}: AccordionSummaryProps) {
-  const { accordion } = useComponentTokens();
-  const ctx = useContext(AccordionContext);
-  if (!ctx) return null;
-
-  const { gesture, animatedStyle, accessibilityProps } = usePressable({
-    onPress: ctx.toggle,
-    disabled: ctx.disabled,
-    feedbackMode: 'opacity',
-  });
-
-  const reduceMotion = useReduceMotionEnabled();
-  const rotation = useSharedValue(ctx.expanded ? 1 : 0);
-  React.useEffect(() => {
-    const target = ctx.expanded ? 1 : 0;
-    rotation.value = reduceMotion
-      ? target
-      : withTiming(target, { duration: 200 });
-  }, [ctx.expanded, reduceMotion]);
-
-  const iconStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        rotate: `${interpolate(rotation.value, [0, 1], [0, 180], Extrapolation.CLAMP)}deg`,
-      },
-    ],
-  }));
-
-  const containerStyle = useMemo(
-    () => [accordion.summary, animatedStyle],
-    [accordion.summary, animatedStyle]
-  );
-
-  return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View
-        style={containerStyle as any}
-        {...accessibilityProps}
-        accessibilityState={{ expanded: ctx.expanded }}
-      >
-        <Text style={accordion.title}>{children}</Text>
-        <Animated.View style={iconStyle}>
-          {expandIcon ?? (
-            <Icon
-              size={accordion.icon.size}
-              color={accordion.icon.color}
-              name={'chevronDown' as any}
-            />
-          )}
-        </Animated.View>
-      </Animated.View>
-    </GestureDetector>
-  );
-}
-
-export function AccordionDetails({ children }: AccordionDetailsProps) {
-  const { accordion } = useComponentTokens();
-  const ctx = useContext(AccordionContext);
-  const reduceMotion = useReduceMotionEnabled();
-  const [contentHeight, setContentHeight] = React.useState(0);
-  const animHeight = useSharedValue(0);
-
-  React.useEffect(() => {
-    if (!ctx) return;
-    const target = ctx.expanded ? contentHeight : 0;
-    animHeight.value = reduceMotion
-      ? target
-      : withTiming(target, { duration: 250 });
-  }, [ctx?.expanded, contentHeight, reduceMotion]);
-
-  const animStyle = useAnimatedStyle(() => ({
-    height: animHeight.value,
-    overflow: 'hidden',
-  }));
-
-  return (
-    <Animated.View style={animStyle}>
-      <View
-        onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}
-        style={[accordion.details, { position: 'absolute', left: 0, right: 0 }]}
-      >
+      <View nativeID={id} style={[accordion.container, extraContainerStyle, style]}>
         {children}
       </View>
-    </Animated.View>
-  );
-}
-
-export function AccordionActions({ children }: AccordionActionsProps) {
-  const tokens = useTokens();
-  const ctx = useContext(AccordionContext);
-  if (!ctx?.expanded) return null;
-
-  return (
-    <View
-      style={{
-        paddingHorizontal: tokens.spacing[4],
-        paddingVertical: tokens.spacing[3],
-        backgroundColor: tokens.color.bg.subtle,
-        flexDirection: 'row',
-        gap: tokens.spacing[2],
-      }}
-    >
-      {children}
-    </View>
+    </AccordionContext.Provider>
   );
 }

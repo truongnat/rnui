@@ -1,46 +1,29 @@
-import React, { useCallback, useMemo } from 'react';
+import { useMenu, useTheme } from '@truongdq01/headless';
+import React from 'react';
 import {
   Modal,
-  View,
   Pressable,
-  Text,
+  StyleSheet,
   useWindowDimensions,
 } from 'react-native';
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  withSpring,
-  runOnJS,
   Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
-import { useTokens, useComponentTokens, useMenu } from '@truongdq01/headless';
+import { scheduleOnRN } from 'react-native-worklets';
+import { MenuContext } from './context';
+import type { MenuProps } from './types';
 
-export interface MenuProps {
-  open: boolean;
-  onClose?: () => void;
-  anchorEl?: {
-    pageX: number;
-    pageY: number;
-    width: number;
-    height: number;
-  } | null;
-  children?: React.ReactNode;
-}
-
-export interface MenuItemProps {
-  children?: React.ReactNode;
-  onPress?: () => void;
-  disabled?: boolean;
-  selected?: boolean;
-}
-
-const MenuContext = React.createContext<{
-  getItemProps: (o: any) => any;
-} | null>(null);
+const MENU_MIN_WIDTH = 180;
+const GAP = 4;
 
 export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
-  const { menu } = useComponentTokens();
+  const {
+    components: { menu },
+  } = useTheme();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [menuSize, setMenuSize] = React.useState({ width: 0, height: 0 });
   const [mounted, setMounted] = React.useState(false);
@@ -50,7 +33,7 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.9);
 
-  // Animate in when open changes to true
+  // Animate in/out when open changes
   React.useEffect(() => {
     if (open) {
       setMounted(true);
@@ -66,14 +49,12 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
     } else if (mounted) {
       opacity.value = withTiming(0, { duration: 130 });
       scale.value = withTiming(0.92, { duration: 130 }, (done) => {
-        if (done) runOnJS(setMounted)(false);
+        if (done) scheduleOnRN(setMounted, false);
       });
     }
   }, [open]);
 
-  const MENU_MIN_WIDTH = 180;
-  const GAP = 4;
-
+  // Compute menu position relative to anchor element
   let top: number = 48;
   let left: number = windowWidth - MENU_MIN_WIDTH - 16;
 
@@ -106,7 +87,7 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
       animationType="none"
       onRequestClose={close}
     >
-      <Pressable style={{ flex: 1 }} onPress={close} />
+      <Pressable style={styles.backdrop} onPress={close} />
       <Animated.View
         onLayout={(e) => {
           const { width, height } = e.nativeEvent.layout;
@@ -114,12 +95,8 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
         }}
         style={[
           menu.container,
-          {
-            position: 'absolute',
-            top,
-            left,
-            minWidth: MENU_MIN_WIDTH,
-          },
+          styles.container,
+          { top, left, minWidth: MENU_MIN_WIDTH },
           animStyle,
         ]}
       >
@@ -131,41 +108,11 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
   );
 }
 
-export function MenuItem({
-  children,
-  onPress,
-  disabled = false,
-  selected = false,
-}: MenuItemProps) {
-  const { menu } = useComponentTokens();
-  const tokens = useTokens();
-  const ctx = React.useContext(MenuContext);
-
-  const itemProps = ctx?.getItemProps({ onClick: onPress, disabled }) ?? {
-    onPress,
-    disabled,
-  };
-
-  return (
-    <Pressable
-      {...itemProps}
-      style={({ pressed }) => [
-        menu.item,
-        pressed && { backgroundColor: tokens.color.bg.subtle },
-        selected && { backgroundColor: tokens.color.brand.subtle },
-        disabled && { opacity: 0.5 },
-      ]}
-    >
-      <Text
-        style={{
-          color: selected ? tokens.color.brand.text : tokens.color.text.primary,
-          fontWeight: selected
-            ? tokens.fontWeight.medium
-            : tokens.fontWeight.regular,
-        }}
-      >
-        {children}
-      </Text>
-    </Pressable>
-  );
-}
+const styles = StyleSheet.create({
+  backdrop: {
+    flex: 1,
+  },
+  container: {
+    position: 'absolute',
+  },
+});

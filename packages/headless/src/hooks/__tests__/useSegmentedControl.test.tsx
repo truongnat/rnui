@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-native';
+import { act, renderHook } from '@testing-library/react-native';
 import { useSegmentedControl } from '../useSegmentedControl';
 
 describe('useSegmentedControl', () => {
@@ -6,13 +6,13 @@ describe('useSegmentedControl', () => {
     const onChange = jest.fn();
     const options = ['One', 'Two'];
     const { result } = renderHook(() =>
-      useSegmentedControl({ defaultValue: 'One', onChange })
+      useSegmentedControl<string>({ defaultValue: 'One', onChange })
     );
 
-    expect(result.current.isSelected('One' as any)).toBe(true);
+    expect(result.current.isSelected('One')).toBe(true);
 
     act(() => {
-      result.current.setSelectedIndex(1, options as any);
+      result.current.setSelectedIndex(1, options);
     });
     expect(onChange).toHaveBeenCalledWith('Two');
   });

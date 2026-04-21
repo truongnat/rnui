@@ -1,11 +1,12 @@
 /**
  * Telegram-style section chrome + screen headers for the example app.
  */
-import React from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { useTokens, useComponentTokens } from '@truongdq01/headless';
-import { Typography, Pressable } from '@truongdq01/ui';
+
+import { useComponentTokens, useTokens, useId } from '@truongdq01/headless';
+import { Pressable, Typography } from '@truongdq01/ui';
 import { Search } from 'lucide-react-native';
+import type React from 'react';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 export function SectionHeader({ title }: { title: string }) {
   const t = useTokens();
@@ -33,6 +34,7 @@ export function SectionHeader({ title }: { title: string }) {
 }
 
 type SectionProps = {
+  id?: string;
   title: string;
   footer?: string;
   children: React.ReactNode;
@@ -42,14 +44,16 @@ type SectionProps = {
 
 /** Borderless grouped card — contrast only, like iOS / Telegram grouped tables. */
 export function Section({
+  id: idProp,
   title,
   footer,
   children,
   flush = false,
 }: SectionProps) {
   const t = useTokens();
+  const id = useId(idProp, 'section');
   return (
-    <View style={{ gap: 8 }}>
+    <View nativeID={id} style={{ gap: 8 }}>
       <SectionHeader title={title} />
       <View
         style={{

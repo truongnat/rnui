@@ -1,24 +1,25 @@
-import React, { memo, useCallback } from 'react';
 import {
-  View,
+  useRating,
+  useReduceMotionEnabled,
+  useTheme,
+} from '@truongdq01/headless';
+import { spring } from '@truongdq01/tokens';
+import type React from 'react';
+import { memo, useCallback } from 'react';
+import {
+  type AccessibilityActionEvent,
+  AccessibilityInfo,
   Pressable,
   Text,
-  AccessibilityInfo,
-  type AccessibilityActionEvent,
+  View,
 } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { spring } from '@truongdq01/tokens';
-import {
-  useRating,
-  useComponentTokens,
-  useReduceMotionEnabled,
-} from '@truongdq01/headless';
-import { Icon } from '../Icon';
 import type { IconName } from '../Icon';
+import { Icon } from '../Icon';
 
 const DEFAULT_ICON_NAMES = {
   filled: 'star' as const,
@@ -164,7 +165,9 @@ function RatingInner({
   ratingCount,
   formatLabel,
 }: RatingProps) {
-  const { rating } = useComponentTokens();
+  const {
+    components: { rating },
+  } = useTheme();
   const reduceMotion = useReduceMotionEnabled();
   const icons = { ...DEFAULT_ICON_NAMES, ...iconNamesProp };
 

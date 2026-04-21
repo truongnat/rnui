@@ -1,66 +1,20 @@
-import React, { forwardRef, useMemo } from 'react';
+import { useReduceMotionEnabled, useTheme, useId } from '@truongdq01/headless';
+import React, { forwardRef, useCallback, useMemo } from 'react';
 import {
-  View,
-  StyleProp,
-  ViewStyle,
-  StyleSheet,
-  ListRenderItemInfo,
+  FlatList,
+  type ListRenderItemInfo,
+  type ListRenderItem,
 } from 'react-native';
-import { FlatList } from 'react-native';
 import Animated, {
   FadeInDown,
-  Layout,
-  ReduceMotion,
+  LinearTransition,
 } from 'react-native-reanimated';
-import {
-  useComponentTokens,
-  useReduceMotionEnabled,
-} from '@truongdq01/headless';
-
-type FlashListProps<T> = {
-  data: T[] | null | undefined;
-  renderItem: (info: any) => React.ReactElement | null;
-  estimatedItemSize?: number;
-  contentContainerStyle?: any;
-  [key: string]: any;
-};
+import { AnimatedCell } from './AnimatedCell';
+import type { AnimatedListProps } from './types';
 
 const ReanimatedListImpl = Animated.createAnimatedComponent(
-  FlatList as any
-) as any;
-
-export interface AnimatedListProps<T> extends Omit<
-  FlashListProps<T>,
-  'renderItem'
-> {
-  /** The items to render */
-  data: T[] | null | undefined;
-  /** Function to render each item. Use `index` to stagger entering animations if desired. */
-  renderItem: (info: ListRenderItemInfo<T>) => React.ReactElement | null;
-  /**
-   * Average main-axis size of one item (usually **height** in a vertical list), in dp.
-   * FlashList uses this to size the scroll window and recycle views; **pick a value close to the real
-   * rendered row height** (± a few px). If this is far off, you may see scroll jumps or degraded
-   * performance with little warning.
-   * @see https://shopify.github.io/flash-list/docs/estimated-item-size
-   */
-  estimatedItemSize: number;
-  /** Apply entering animation to items as they appear. Recommended: FadeInDown */
-  itemEntering?: any;
-  /** Apply exiting animation to items as they disappear */
-  itemExiting?: any;
-  /** Apply layout animation when items are reordered. Recommended: Layout.springify() */
-  itemLayout?: any;
-  /**
-   * Automatically stagger item entry animations.
-   * Note: This wraps items in an Animated.View.
-   */
-  staggerEntering?: boolean;
-  /** Delay between staggered items in ms. Default 50 */
-  staggerDelay?: number;
-  /** Container style for the wrapper Animated.View */
-  itemContainerStyle?: StyleProp<ViewStyle>;
-}
+  FlatList
+);
 
 /**
  * AnimatedList wraps @shopify/flash-list with Reanimated to provide
@@ -70,61 +24,74 @@ export interface AnimatedListProps<T> extends Omit<
  */
 function AnimatedListInner<T>(
   {
+    id: idProp,
     data,
     renderItem,
     itemEntering = FadeInDown,
     itemExiting,
-    itemLayout = Layout.springify().damping(16).stiffness(150),
+    itemLayout = LinearTransition.springify().damping(16).stiffness(150),
     staggerEntering = false,
     staggerDelay = 50,
     itemContainerStyle,
     ...flashListProps
   }: AnimatedListProps<T>,
-  ref: any
+  ref: React.ForwardedRef<unknown>
 ) {
-  const { animatedList } = useComponentTokens();
+  const id = useId(idProp, 'animated-list');
+  const {
+    components: { animatedList },
+  } = useTheme();
   const reduceMotion = useReduceMotionEnabled();
 
-  const effectiveEntering = reduceMotion ? undefined : itemEntering;
-  const effectiveExiting = reduceMotion ? undefined : itemExiting;
-  const effectiveLayout = reduceMotion ? undefined : itemLayout;
+  const effectiveEntering = useMemo(() => (reduceMotion ? undefined : itemEntering), [reduceMotion, itemEntering]);
+  const effectiveExiting = useMemo(() => (reduceMotion ? undefined : itemExiting), [reduceMotion, itemExiting]);
+  const effectiveLayout = useMemo(() => (reduceMotion ? undefined : itemLayout), [reduceMotion, itemLayout]);
 
-  const ListImpl: any = useMemo(() => {
+  const ListImpl = useMemo(() => {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const mod = require('@shopify/flash-list') as { FlashList?: any };
-      const Impl = mod?.FlashList ?? FlatList;
-      return Animated.createAnimatedComponent(Impl as any);
+      // Use require for optional peer dependency
+      // Cast to unknown first then Record to avoid direct 'any' from require
+      const mod = require('@shopify/flash-list') as Record<string, unknown>;
+      const Impl = (mod?.FlashList as React.ComponentType<Record<string, unknown>>) ?? FlatList;
+      return Animated.createAnimatedComponent(Impl);
     } catch {
       return ReanimatedListImpl;
     }
   }, []);
 
-  const AnimatedCell = (info: any) => {
-    const { index } = info;
-    const enteringAnim =
-      staggerEntering && effectiveEntering?.delay
-        ? effectiveEntering.delay(Math.min(index * staggerDelay, 500))
-        : effectiveEntering;
-
-    return (
-      <Animated.View
-        entering={enteringAnim}
-        exiting={effectiveExiting}
-        layout={effectiveLayout}
-        style={[animatedList.item, itemContainerStyle, styles.itemWrapper]}
-      >
-        {renderItem(info as unknown as ListRenderItemInfo<T>)}
-      </Animated.View>
-    );
-  };
+  const internalRenderItem = useCallback(
+    (info: ListRenderItemInfo<T>) => (
+      <AnimatedCell
+        info={info}
+        renderItem={renderItem}
+        effectiveEntering={effectiveEntering}
+        effectiveExiting={effectiveExiting}
+        effectiveLayout={effectiveLayout}
+        staggerEntering={staggerEntering}
+        staggerDelay={staggerDelay}
+        animatedListStyle={animatedList.item}
+        itemContainerStyle={itemContainerStyle}
+      />
+    ),
+    [
+      renderItem,
+      effectiveEntering,
+      effectiveExiting,
+      effectiveLayout,
+      staggerEntering,
+      staggerDelay,
+      animatedList.item,
+      itemContainerStyle,
+    ]
+  );
 
   return (
     <ListImpl
-      ref={ref}
-      data={data}
-      renderItem={(info: any) => <AnimatedCell {...info} />}
-      {...flashListProps}
+      ref={ref as React.Ref<FlatList>}
+      nativeID={id}
+      data={data as unknown as (unknown[] | null | undefined)}
+      renderItem={internalRenderItem as unknown as ListRenderItem<unknown>}
+      {...(flashListProps as Record<string, unknown>)}
       contentContainerStyle={useMemo(
         () => [animatedList.container, flashListProps.contentContainerStyle],
         [animatedList.container, flashListProps.contentContainerStyle]
@@ -134,12 +101,11 @@ function AnimatedListInner<T>(
 }
 
 // eslint-disable-next-line react/display-name
-export const AnimatedList = forwardRef(AnimatedListInner as any) as <T>(
-  props: AnimatedListProps<T> & { ref?: React.Ref<any> }
+export const AnimatedList = forwardRef(
+  AnimatedListInner as React.ForwardRefRenderFunction<
+    unknown,
+    Omit<AnimatedListProps<unknown>, 'ref'>
+  >
+) as <T>(
+  props: AnimatedListProps<T> & { ref?: React.Ref<unknown> }
 ) => React.ReactElement;
-
-const styles = StyleSheet.create({
-  itemWrapper: {
-    overflow: 'hidden',
-  },
-});

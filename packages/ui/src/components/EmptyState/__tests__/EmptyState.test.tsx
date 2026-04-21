@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { EmptyState } from '../EmptyState';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { EmptyState } from '../EmptyState';
 
 test('EmptyState renders title and description', () => {
   const { getByText } = render(

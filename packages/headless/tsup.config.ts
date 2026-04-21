@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
   entry: {
     index: 'src/index.ts',
-    theme: 'src/theme.tsx',
+    theme: 'src/theme/index.ts',
     motion: 'src/motion.ts',
     'hooks/index': 'src/hooks/index.ts',
   },
@@ -11,7 +11,7 @@ export default defineConfig({
   dts: false,
   sourcemap: true,
   clean: true,
-  treeshake: false,
+  treeshake: true,
   external: [
     'react',
     'react-native',

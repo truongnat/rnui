@@ -38,6 +38,7 @@ export const defaultBrand = defineBrand({
       primary: '#0F172A',
       secondary: '#475569',
       tertiary: '#64748B',
+      muted: '#94A3B8',
       disabled: '#94A3B8',
       inverse: '#FFFFFF',
       link: '#4F46E5',
@@ -54,6 +55,7 @@ export const defaultBrand = defineBrand({
     },
     brand: {
       default: '#4F46E5',
+      primary: '#4F46E5',
       hover: '#4338CA',
       active: '#3730A3',
       subtle: '#EEF2FF',
@@ -62,12 +64,20 @@ export const defaultBrand = defineBrand({
     },
     accent: {
       default: '#F59E0B',
+      secondary: '#F59E0B',
       hover: '#D97706',
       active: '#B45309',
       subtle: '#FFFBEB',
       muted: '#FEF3C7',
       text: '#92400E',
       onAccent: '#FFFFFF',
+    },
+    status: {
+      success: '#166534',
+      warning: '#92400E',
+      error: '#991B1B',
+      danger: '#991B1B',
+      info: '#1E3A8A',
     },
     success: {
       bg: '#F0FDF4',
@@ -117,6 +127,7 @@ export const defaultBrand = defineBrand({
       primary: '#F8FAFC',
       secondary: '#CBD5E1',
       tertiary: '#94A3B8',
+      muted: '#64748B',
       disabled: '#475569',
       inverse: '#020617',
       link: '#818CF8',
@@ -133,6 +144,7 @@ export const defaultBrand = defineBrand({
     },
     brand: {
       default: '#6366F1',
+      primary: '#6366F1',
       hover: '#818CF8',
       active: '#A5B4FC',
       subtle: '#1E1B4B',
@@ -141,12 +153,20 @@ export const defaultBrand = defineBrand({
     },
     accent: {
       default: '#FBBF24',
+      secondary: '#FBBF24',
       hover: '#FCD34D',
       active: '#FDE68A',
       subtle: 'rgba(251,191,36,0.1)',
       muted: 'rgba(251,191,36,0.2)',
       text: '#FBBF24',
       onAccent: '#0F172A',
+    },
+    status: {
+      success: '#4ADE80',
+      warning: '#FBBF24',
+      error: '#F87171',
+      danger: '#F87171',
+      info: '#60A5FA',
     },
     success: {
       bg: 'rgba(34,197,94,0.12)',

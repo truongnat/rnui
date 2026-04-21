@@ -1,185 +1,97 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { View, StyleSheet, Dimensions, Modal } from 'react-native';
-import Animated from 'react-native-reanimated';
-import { GestureDetector } from 'react-native-gesture-handler';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import type { SnapPoint } from "@truongdq01/headless";
+import { useTheme } from "@truongdq01/headless";
+import { forwardRef } from "react";
+import { Modal, StyleSheet, useWindowDimensions, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { BottomSheetBackdrop } from "./BottomSheetBackdrop";
+import { BottomSheetPanel } from "./BottomSheetPanel";
 import {
-  useBottomSheet,
-  useTokens,
-  useComponentTokens,
-} from '@truongdq01/headless';
-import type { UseBottomSheetOptions, SnapPoint } from '@truongdq01/headless';
+	BOTTOM_SHEET_DEFAULT_SNAP_POINTS,
+	BOTTOM_SHEET_EXTRA_BOTTOM_PADDING,
+} from "./constants";
+import type { BottomSheetProps, BottomSheetRef } from "./types";
+import { useBottomSheetModal } from "./useBottomSheetModal";
 
-// ─── Types ────────────────────────────────────────────────────────
-
-export interface BottomSheetProps extends UseBottomSheetOptions {
-  children: React.ReactNode;
-  /** Show the pill-shaped drag handle at top */
-  showHandle?: boolean;
-  /** Horizontal border radius on the sheet. If not provided, uses theme token. */
-  borderRadius?: number;
-  /** Accessibility label for the sheet container */
-  accessibilityLabel?: string;
-  /** Accessibility label for the backdrop dismiss button */
-  backdropAccessibilityLabel?: string;
-}
-
-export interface BottomSheetRef {
-  open: (snapIndex?: number) => void;
-  close: () => void;
-  snapTo: (index: number) => void;
-}
-
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-
-// ─── Component ────────────────────────────────────────────────────
-
+/**
+ * BottomSheet — gesture-driven modal sheet with snapping, backdrop, and handle.
+ *
+ * Exposes an imperative ref API: `open(snapIndex?)`, `close()`, `snapTo(index)`.
+ */
 export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
-  function BottomSheet(
-    {
-      children,
-      snapPoints = ['50%'] as SnapPoint[],
-      initialSnapIndex,
-      onClose,
-      onSnapChange,
-      enableDismissOnSwipe = true,
-      enableBackdrop = true,
-      showHandle = true,
-      borderRadius,
-      accessibilityLabel = 'Bottom sheet',
-      backdropAccessibilityLabel = 'Dismiss bottom sheet',
-    },
-    ref
-  ) {
-    const { bottomSheet } = useComponentTokens();
-    const insets = useSafeAreaInsets();
-    const [mounted, setMounted] = useState(false);
+	function BottomSheet(
+		{
+			children,
+			snapPoints = [...BOTTOM_SHEET_DEFAULT_SNAP_POINTS] as SnapPoint[],
+			initialSnapIndex,
+			onClose,
+			onSnapChange,
+			enableDismissOnSwipe = true,
+			enableBackdrop = true,
+			showHandle = true,
+			borderRadius,
+			accessibilityLabel = "Bottom sheet",
+			backdropAccessibilityLabel = "Dismiss bottom sheet",
+		},
+		ref,
+	) {
+		const {
+			components: { bottomSheet },
+		} = useTheme();
+		const insets = useSafeAreaInsets();
+		const { height: windowHeight } = useWindowDimensions();
 
-    const handleClose = React.useCallback(() => {
-      setMounted(false);
-      onClose?.();
-    }, [onClose]);
+		const {
+			mounted,
+			handleModalShow,
+			close,
+			sheetAnimatedStyle,
+			backdropAnimatedStyle,
+			panGesture,
+			backdropTapGesture,
+		} = useBottomSheetModal(ref, {
+			snapPoints,
+			initialSnapIndex,
+			onClose,
+			onSnapChange,
+			enableDismissOnSwipe,
+			enableBackdrop,
+		});
 
-    const {
-      open: baseOpen,
-      close: baseClose,
-      snapTo,
-      sheetAnimatedStyle,
-      backdropAnimatedStyle,
-      panGesture,
-      backdropTapGesture,
-    } = useBottomSheet({
-      snapPoints,
-      initialSnapIndex,
-      onClose: handleClose,
-      onSnapChange,
-      enableDismissOnSwipe,
-      enableBackdrop,
-    });
+		const paddingBottom = insets.bottom + BOTTOM_SHEET_EXTRA_BOTTOM_PADDING;
 
-    const open = React.useCallback(
-      (idx?: number) => {
-        setMounted(true);
-        requestAnimationFrame(() => {
-          baseOpen(idx);
-        });
-      },
-      [baseOpen]
-    );
+		return (
+			<Modal
+				visible={mounted}
+				transparent
+				animationType="none"
+				onRequestClose={close}
+				onShow={handleModalShow}
+			>
+				<View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+					{enableBackdrop && (
+						<BottomSheetBackdrop
+							animatedStyle={backdropAnimatedStyle}
+							tapGesture={backdropTapGesture}
+							accessibilityLabel={backdropAccessibilityLabel}
+						/>
+					)}
 
-    // Expose imperative API via ref
-    useImperativeHandle(ref, () => ({ open, close: baseClose, snapTo }), [
-      open,
-      baseClose,
-      snapTo,
-    ]);
-
-    return (
-      <Modal
-        visible={mounted}
-        transparent
-        animationType="none"
-        onRequestClose={baseClose}
-      >
-        <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-          {/* Backdrop */}
-          {enableBackdrop && (
-            <GestureDetector gesture={backdropTapGesture}>
-              <Animated.View
-                style={
-                  [
-                    StyleSheet.absoluteFill,
-                    bottomSheet.backdrop,
-                    backdropAnimatedStyle,
-                  ] as any
-                }
-                accessibilityRole="button"
-                accessibilityLabel={backdropAccessibilityLabel}
-                accessibilityHint="Closes the bottom sheet"
-              />
-            </GestureDetector>
-          )}
-
-          {/* Sheet */}
-          <Animated.View
-            accessibilityViewIsModal
-            accessibilityRole={'none' as any}
-            accessibilityLabel={accessibilityLabel}
-            style={
-              [
-                styles.sheet,
-                bottomSheet.container,
-                {
-                  borderTopLeftRadius:
-                    borderRadius ?? bottomSheet.container.borderTopLeftRadius,
-                  borderTopRightRadius:
-                    borderRadius ?? bottomSheet.container.borderTopRightRadius,
-                  paddingBottom: insets.bottom + 8,
-                },
-                sheetAnimatedStyle,
-              ] as any
-            }
-          >
-            {/* Drag handle area — full-width tap target */}
-            <GestureDetector gesture={panGesture}>
-              <View
-                style={styles.handleArea}
-                accessibilityRole="adjustable"
-                accessibilityLabel="Drag handle"
-                accessibilityHint="Swipe up or down to resize the bottom sheet"
-              >
-                {showHandle && (
-                  <View style={[styles.handle, bottomSheet.handle]} />
-                )}
-              </View>
-            </GestureDetector>
-
-            {/* Content */}
-            <View style={{ flex: 1 }}>{children}</View>
-          </Animated.View>
-        </View>
-      </Modal>
-    );
-  }
+					<BottomSheetPanel
+						windowHeight={windowHeight}
+						paddingBottom={paddingBottom}
+						borderRadius={borderRadius}
+						containerStyle={bottomSheet.container}
+						sheetAnimatedStyle={sheetAnimatedStyle}
+						panGesture={panGesture}
+						showHandle={showHandle}
+						accessibilityLabel={accessibilityLabel}
+					>
+						{children}
+					</BottomSheetPanel>
+				</View>
+			</Modal>
+		);
+	},
 );
 
-const styles = StyleSheet.create({
-  sheet: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: SCREEN_HEIGHT,
-  },
-  handleArea: {
-    width: '100%',
-    height: 28,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  handle: {
-    width: 36,
-    height: 4,
-    borderRadius: 2,
-  },
-});
+BottomSheet.displayName = "BottomSheet";

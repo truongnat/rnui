@@ -1,8 +1,12 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
-import { View, Text, Dimensions, type LayoutChangeEvent } from 'react-native';
-import { useTokens, useComponentTokens } from '@truongdq01/headless';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+import { useTheme } from '@truongdq01/headless';
+import type React from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
+import {
+  type LayoutChangeEvent,
+  Text,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 
 export type ImageListVariant = 'standard' | 'woven' | 'masonry' | 'quilted';
 
@@ -37,7 +41,8 @@ export function ImageList({
   variant = 'standard',
   style,
 }: ImageListProps) {
-  const [width, setWidth] = useState(SCREEN_WIDTH);
+  const { width: windowWidth } = useWindowDimensions();
+  const [width, setWidth] = useState(windowWidth);
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const nextWidth = event.nativeEvent.layout.width;
@@ -117,13 +122,15 @@ export function ImageListItemBar({
   position = 'bottom',
   style,
 }: ImageListItemBarProps) {
-  const { imageList } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { imageList },
+    tokens,
+  } = useTheme();
 
   return (
     <View
       style={[
-        (imageList as any).bar,
+        imageList.bar,
         {
           position: 'absolute',
           left: 0,
@@ -134,11 +141,9 @@ export function ImageListItemBar({
       ]}
     >
       <View style={{ flex: 1 }}>
-        {title ? (
-          <Text style={(imageList as any).bar.title as any}>{title}</Text>
-        ) : null}
+        {title ? <Text style={imageList.bar.title}>{title}</Text> : null}
         {subtitle ? (
-          <Text style={(imageList as any).bar.subtitle as any}>{subtitle}</Text>
+          <Text style={imageList.bar.subtitle}>{subtitle}</Text>
         ) : null}
       </View>
       {actionIcon}

@@ -1,4 +1,5 @@
-import { renderHook, act } from '@testing-library/react-native';
+import { act, renderHook } from '@testing-library/react-native';
+import type { UseRatingOptions } from '../useRating';
 import { useRating } from '../useRating';
 
 describe('useRating', () => {
@@ -33,7 +34,7 @@ describe('useRating', () => {
   it('should respect controlled value', () => {
     const onChange = jest.fn();
     const { result, rerender } = renderHook(
-      (props: any = { value: 2, onChange }) => useRating(props)
+      (props: UseRatingOptions = { value: 2, onChange }) => useRating(props)
     );
 
     expect(result.current.value).toBe(2);

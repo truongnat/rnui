@@ -1,8 +1,8 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { Modal } from '../Modal';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
 import { Text, View } from 'react-native';
+import { Modal } from '../Modal';
 
 describe('Modal', () => {
   // ─── Rendering Tests ────────────────────────────────────────────────
@@ -385,9 +385,9 @@ describe('Modal', () => {
         </ThemeProvider>
       );
       const container = UNSAFE_root.findByProps({
-        accessibilityLabel: 'Modal',
+        accessibilityViewIsModal: true,
       });
-      expect(container.props.accessibilityViewIsModal).toBe(true);
+      expect(container.props.accessibilityLabel).toBe('Modal');
     });
 
     it('uses default accessibilityLabel values', () => {

@@ -1,8 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
+import { ThemeProvider } from '@truongdq01/headless';
+import type React from 'react';
 import { Text } from 'react-native';
 import { AnimatedOverlay } from '../AnimatedOverlay';
-import { ThemeProvider } from '@truongdq01/headless';
 
 // Note: AccessibilityInfo mock removed since component doesn't use it yet (TODO for reduced motion support)
 

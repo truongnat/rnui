@@ -1,7 +1,7 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { SpeedDial, SpeedDialAction } from '../SpeedDial';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { SpeedDial, SpeedDialAction } from '../SpeedDial';
 
 describe('SpeedDial Component', () => {
   it('renders correctly and Fab button is accessible', () => {

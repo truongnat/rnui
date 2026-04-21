@@ -1,27 +1,23 @@
-import React, { useEffect } from 'react';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  runOnJS,
-  FadeOutUp,
-  FadeInDown,
-  FadeOutDown,
-  SlideInUp,
-  SlideInDown,
-  Easing,
-} from 'react-native-reanimated';
-import { View, Text, Pressable } from 'react-native';
-import {
-  useComponentTokens,
-  useTokens,
-  useReduceMotionEnabled,
-} from '@truongdq01/headless';
-import { Icon } from '../Icon';
 import type {
   ToastItem as ToastItemType,
   ToastPosition,
 } from '@truongdq01/headless';
+import { useReduceMotionEnabled, useTheme } from '@truongdq01/headless';
+import React, { useEffect } from 'react';
+import { Pressable, Text, View } from 'react-native';
+import Animated, {
+  Easing,
+  FadeInDown,
+  FadeOutDown,
+  FadeOutUp,
+  SlideInDown,
+  SlideInUp,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
+import { Icon } from '../Icon';
 
 const VARIANT_ICONS: Record<string, string> = {
   success: 'checkCircle',
@@ -37,8 +33,10 @@ export interface ToastItemProps {
 }
 
 export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
-  const { toast } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { toast },
+    tokens,
+  } = useTheme();
   const reduceMotion = useReduceMotionEnabled();
 
   // Progress bar for auto-dismiss
@@ -47,7 +45,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
   useEffect(() => {
     if (item.persistent) return;
     progress.value = withTiming(0, { duration: item.duration }, (finished) => {
-      if (finished) runOnJS(onDismiss)(item.id);
+      if (finished) scheduleOnRN(onDismiss, item.id);
     });
     return () => {
       progress.value = 1;
@@ -101,7 +99,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
       exiting={exiting}
       style={[
         toast.container,
-        toast.variant[item.variant] as any,
+        toast.variant[item.variant],
         { overflow: 'hidden', marginBottom: 8 },
       ]}
     >
@@ -129,7 +127,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
           <Icon
             size={20}
             color={v.iconColor}
-            name={(VARIANT_ICONS[item.variant] ?? 'info') as any}
+            name={VARIANT_ICONS[item.variant] ?? 'info'}
           />
         )
       )}
@@ -167,7 +165,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
         accessibilityRole="button"
         accessibilityLabel="Dismiss"
       >
-        <Icon size={18} color={toast.text.color} name={'close' as any} />
+        <Icon size={18} color={toast.text.color} name="close" />
       </Pressable>
 
       {/* Progress bar */}

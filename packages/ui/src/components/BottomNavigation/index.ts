@@ -1,5 +1,14 @@
-export { BottomNavigation, BottomNavigationAction } from './BottomNavigation';
+// Components
+export { BottomNavigation } from "./BottomNavigation";
+export { BottomNavigationAction } from "./BottomNavigationAction";
+
+// Context + hook
+export { BottomNavContext, useBottomNavContext } from "./context";
+
+// Types
 export type {
-  BottomNavigationProps,
-  BottomNavigationActionProps,
-} from './BottomNavigation';
+	BottomNavContextValue,
+	BottomNavigationActionProps,
+	BottomNavigationItemProps,
+	BottomNavigationProps,
+} from "./types";

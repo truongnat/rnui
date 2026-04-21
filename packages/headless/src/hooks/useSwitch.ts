@@ -1,10 +1,12 @@
 import { useCallback, useState } from 'react';
+import { useId } from './useId';
 
 export interface UseSwitchOptions {
   defaultOn?: boolean;
   on?: boolean;
   onChange?: (on: boolean) => void;
   disabled?: boolean;
+  id?: string;
 }
 
 export interface UseSwitchReturn {
@@ -15,6 +17,7 @@ export interface UseSwitchReturn {
     accessible: boolean;
     accessibilityRole: 'switch';
     accessibilityState: { checked: boolean; disabled: boolean };
+    nativeID: string;
   };
 }
 
@@ -23,7 +26,9 @@ export function useSwitch({
   on: controlledOn,
   onChange,
   disabled = false,
+  id: idProp,
 }: UseSwitchOptions = {}): UseSwitchReturn {
+  const id = useId(idProp, 'switch');
   const [internalOn, setInternalOn] = useState(defaultOn);
   const isOn = controlledOn !== undefined ? controlledOn : internalOn;
 
@@ -42,6 +47,7 @@ export function useSwitch({
       accessible: true,
       accessibilityRole: 'switch',
       accessibilityState: { checked: isOn, disabled },
+      nativeID: id,
     },
   };
 }

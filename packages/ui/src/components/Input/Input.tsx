@@ -1,24 +1,25 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import { useId, useIconStyle, useTheme } from '@truongdq01/headless';
+import React, {
+  forwardRef,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import {
-  TextInput as RNTextInput,
-  View,
-  Text,
-  type TextInputProps as RNTextInputProps,
   type NativeSyntheticEvent,
+  TextInput as RNTextInput,
+  type TextInputProps as RNTextInputProps,
+  Text,
   type TextInputChangeEventData,
+  View,
 } from 'react-native';
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  interpolateColor,
   interpolate,
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
-import {
-  useComponentTokens,
-  useTokens,
-  useIconStyle,
-} from '@truongdq01/headless';
 import { useFormGroupVariant } from '../FormField/FormGroupContext';
 import { AnimatedHelperText } from './AnimatedHelperText';
 
@@ -34,6 +35,8 @@ export interface InputProps extends Omit<
   RNTextInputProps,
   'style' | 'onChange'
 > {
+  /** Unique identifier for the input component */
+  id?: string;
   /** Callback for when the text changes */
   onChange?: (text: string) => void;
   /** Field label shown above input (or floating inside when `floatingLabel`) */
@@ -42,7 +45,7 @@ export interface InputProps extends Omit<
   error?: string;
   /** Helper text shown below input (overridden by error) */
   helperText?: string;
-  /** Animate label inside the field (Material / Telegram-style) */
+  /** Animate label inside the field (Material design style) */
   floatingLabel?: boolean;
   /** Size preset */
   size?: InputSize;
@@ -58,27 +61,34 @@ export interface InputProps extends Omit<
 
 // ─── Component ────────────────────────────────────────────────────
 
-export function Input({
-  label,
-  error,
-  helperText,
-  floatingLabel = false,
-  size = 'md',
-  leadingElement,
-  trailingElement,
-  disabled = false,
-  onClearError,
-  onFocus,
-  onBlur,
-  onChange,
-  value,
-  defaultValue,
-  placeholder,
-  accessibilityLabel: accessibilityLabelProp,
-  ...rest
-}: InputProps) {
-  const { input } = useComponentTokens();
-  const tokens = useTokens();
+export const Input = forwardRef<RNTextInput, InputProps>(function Input(
+  {
+    id: idProp,
+    label,
+    error,
+    helperText,
+    floatingLabel = false,
+    size = 'md',
+    leadingElement,
+    trailingElement,
+    disabled = false,
+    onClearError,
+    onFocus,
+    onBlur,
+    onChange,
+    value,
+    defaultValue,
+    placeholder,
+    accessibilityLabel: accessibilityLabelProp,
+    ...rest
+  },
+  ref
+) {
+  const id = useId(idProp, 'input');
+  const {
+    components: { input },
+    tokens,
+  } = useTheme();
   const { size: iconSize, color: iconColor } = useIconStyle('input');
   const formGroupVariant = useFormGroupVariant();
   const isGrouped = formGroupVariant === 'grouped';
@@ -103,15 +113,15 @@ export function Input({
   const groupedSv = useSharedValue(0);
 
   useEffect(() => {
-    errorSv.value = error ? 1 : 0;
+    errorSv.value = withTiming(error ? 1 : 0, { duration: FOCUS_MS });
   }, [error, errorSv]);
 
   useEffect(() => {
-    disabledSv.value = disabled ? 1 : 0;
+    disabledSv.value = withTiming(disabled ? 1 : 0, { duration: FOCUS_MS });
   }, [disabled, disabledSv]);
 
   useEffect(() => {
-    groupedSv.value = isGrouped ? 1 : 0;
+    groupedSv.value = withTiming(isGrouped ? 1 : 0, { duration: FOCUS_MS });
   }, [isGrouped, groupedSv]);
 
   useEffect(() => {
@@ -258,11 +268,11 @@ export function Input({
         }}
       >
         {floatingLabel && label ? (
-          <Animated.Text style={floatingLabelStyle as any}>
-            {label}
-          </Animated.Text>
+          <Animated.Text style={floatingLabelStyle}>{label}</Animated.Text>
         ) : null}
         <AnimatedTextInput
+          ref={ref}
+          nativeID={`${id}-input`}
           style={[
             {
               flex: 1,
@@ -295,14 +305,12 @@ export function Input({
   );
 
   return (
-    <View>
+    <View nativeID={id}>
       {label && !floatingLabel ? (
         <Text style={input.label}>{label}</Text>
       ) : null}
 
-      <Animated.View
-        style={[staticContainerStyle as any, animatedContainerStyle]}
-      >
+      <Animated.View style={[staticContainerStyle, animatedContainerStyle]}>
         {inner}
       </Animated.View>
 
@@ -310,15 +318,15 @@ export function Input({
         <AnimatedHelperText
           text={error}
           isError={true}
-          style={input.errorText as any}
+          style={input.errorText}
         />
       ) : (
         <AnimatedHelperText
           text={helperText}
           isError={false}
-          style={input.helperText as any}
+          style={input.helperText}
         />
       )}
     </View>
   );
-}
+});

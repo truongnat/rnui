@@ -38,6 +38,7 @@ export const oceanBrand = defineBrand({
       primary: '#042F2E',
       secondary: '#134E4A',
       tertiary: '#0D9488',
+      muted: '#5EEAD4',
       disabled: '#5EEAD4',
       inverse: '#FFFFFF',
       link: '#0891B2',
@@ -54,6 +55,7 @@ export const oceanBrand = defineBrand({
     },
     brand: {
       default: '#0D9488',
+      primary: '#0D9488',
       hover: '#0F766E',
       active: '#115E59',
       subtle: '#F0FDFA',
@@ -62,12 +64,20 @@ export const oceanBrand = defineBrand({
     },
     accent: {
       default: '#06B6D4',
+      secondary: '#06B6D4',
       hover: '#0891B2',
       active: '#0E7490',
       subtle: '#ECFEFF',
       muted: '#CFFAFE',
       text: '#164E63',
       onAccent: '#FFFFFF',
+    },
+    status: {
+      success: '#166534',
+      warning: '#92400E',
+      error: '#991B1B',
+      danger: '#991B1B',
+      info: '#164E63',
     },
     success: {
       bg: '#F0FDF4',
@@ -117,6 +127,7 @@ export const oceanBrand = defineBrand({
       primary: '#F0FDFA',
       secondary: '#99F6E4',
       tertiary: '#5EEAD4',
+      muted: '#134E4A',
       disabled: '#134E4A',
       inverse: '#020A0A',
       link: '#2DD4BF',
@@ -133,6 +144,7 @@ export const oceanBrand = defineBrand({
     },
     brand: {
       default: '#2DD4BF',
+      primary: '#2DD4BF',
       hover: '#5EEAD4',
       active: '#99F6E4',
       subtle: '#042F2E',
@@ -141,12 +153,20 @@ export const oceanBrand = defineBrand({
     },
     accent: {
       default: '#22D3EE',
+      secondary: '#22D3EE',
       hover: '#67E8F9',
       active: '#A5F3FC',
       subtle: 'rgba(34, 211, 238, 0.1)',
       muted: 'rgba(34, 211, 238, 0.2)',
       text: '#22D3EE',
       onAccent: '#020A0A',
+    },
+    status: {
+      success: '#4ADE80',
+      warning: '#FBBF24',
+      error: '#F87171',
+      danger: '#F87171',
+      info: '#22D3EE',
     },
     success: {
       bg: 'rgba(34,197,94,0.12)',

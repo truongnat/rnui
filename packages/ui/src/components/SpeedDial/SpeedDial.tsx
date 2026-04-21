@@ -1,10 +1,7 @@
-import React, { createContext, useContext, useMemo } from 'react';
-import { View, Text, Pressable } from 'react-native';
-import {
-  useDisclosure,
-  useTokens,
-  useComponentTokens,
-} from '@truongdq01/headless';
+import { useDisclosure, useTheme } from '@truongdq01/headless';
+import type React from 'react';
+import { createContext, useContext, useMemo } from 'react';
+import { Pressable, Text, View } from 'react-native';
 import { Fab } from '../Fab/Fab';
 
 export interface SpeedDialProps {
@@ -41,9 +38,10 @@ export function SpeedDial({
   hidden = false,
   children,
 }: SpeedDialProps) {
-  const { speedDial } = useComponentTokens();
+  const {
+    components: { speedDial },
+  } = useTheme();
   const disclosure = useDisclosure({ isOpen: controlledOpen, onOpen, onClose });
-  const tokens = useTokens();
 
   if (hidden) return null;
 
@@ -52,7 +50,7 @@ export function SpeedDial({
       ? 'row'
       : 'column') as 'row' | 'column',
     alignItems: 'center' as const,
-    gap: tokens.spacing[3],
+    gap: speedDial.container.gap,
   };
 
   const ctxValue = useMemo(
@@ -79,8 +77,9 @@ export function SpeedDialAction({
   tooltipTitle,
   onPress,
 }: SpeedDialActionProps) {
-  const { speedDial } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { speedDial },
+  } = useTheme();
   const ctx = useContext(SpeedDialContext);
   if (!ctx?.isOpen) return null;
 
@@ -90,30 +89,11 @@ export function SpeedDialAction({
         onPress?.();
         ctx.close();
       }}
-      style={speedDial.action as any}
+      style={speedDial.action}
     >
-      <View
-        style={
-          [
-            (speedDial.action as any).iconContainer,
-            {
-              width: 40,
-              height: 40,
-              borderRadius: 20,
-              backgroundColor: tokens.color.surface.default,
-              alignItems: 'center',
-              justifyContent: 'center',
-              ...tokens.shadow.sm,
-            },
-          ] as any
-        }
-      >
-        {icon}
-      </View>
+      <View style={speedDial.action.iconContainer}>{icon}</View>
       {tooltipTitle && (
-        <Text style={(speedDial.action as any).tooltip as any}>
-          {tooltipTitle}
-        </Text>
+        <Text style={speedDial.action.tooltip}>{tooltipTitle}</Text>
       )}
     </Pressable>
   );

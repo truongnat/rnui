@@ -1,24 +1,25 @@
 import type { StoryObj } from '@storybook/react-native';
-import React, { useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
 import {
-  ThemeProvider,
-  RadioGroup,
-  Slider,
   Avatar,
   AvatarGroup,
-  TextArea,
   Checkbox,
-  Switch,
   Input,
+  RadioGroup,
   Select,
+  Slider,
+  Switch,
+  TextArea,
+  ThemeProvider,
   useTheme,
 } from '@truongdq01/ui';
 import {
+  Lock as LucideLock,
   Mail as LucideMail,
   Search as LucideSearch,
-  Lock as LucideLock,
 } from 'lucide-react-native';
+import type React from 'react';
+import { useState } from 'react';
+import { ScrollView, Text, View } from 'react-native';
 
 const Mail = LucideMail as any;
 const Search = LucideSearch as any;

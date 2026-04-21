@@ -1,8 +1,10 @@
-import React from 'react';
 import { mock } from 'bun:test';
+import React from 'react';
+
+type MockViewProps = React.PropsWithChildren<Record<string, unknown>>;
 
 const createMockComponent = (name: string) => {
-  const Component = ({ children, ...props }: any) =>
+  const Component = ({ children, ...props }: MockViewProps) =>
     React.createElement(name, props, children);
   Component.displayName = name;
   return Component;
@@ -11,22 +13,22 @@ const createMockComponent = (name: string) => {
 const createReanimatedMock = () => {
   const animatedValue = { value: 0 };
   const createAnimatedComponent = (name: string) => {
-    const Component = ({ children, ...props }: any) =>
+    const Component = ({ children, ...props }: MockViewProps) =>
       React.createElement(name, props, children);
     Component.displayName = name;
     return Component;
   };
 
   const mockApi = {
-    useSharedValue: (v: any) => ({ value: v }),
-    useDerivedValue: (fn: any) => ({ value: fn() }),
-    useAnimatedStyle: (fn: any) => fn(),
-    useAnimatedProps: (fn: any) => fn(),
+    useSharedValue: <T>(v: T) => ({ value: v }),
+    useDerivedValue: (fn: () => unknown) => ({ value: fn() }),
+    useAnimatedStyle: <S>(fn: () => S) => fn(),
+    useAnimatedProps: <P>(fn: () => P) => fn(),
     useAnimatedReaction: () => {},
     useAnimatedScrollHandler: () => () => {},
     useAnimatedGestureHandler: () => () => {},
     useAnimatedRef: () => ({ current: null }),
-    useWorkletCallback: (fn: any) => fn,
+    useWorkletCallback: <F extends (...args: never[]) => unknown>(fn: F) => fn,
     useFrameCallback: () => {},
     useAnimatedKeyboard: () => ({
       height: animatedValue,
@@ -35,36 +37,38 @@ const createReanimatedMock = () => {
     useAnimatedSensor: () => ({ sensor: animatedValue }),
     useScrollViewOffset: () => animatedValue,
 
-    withTiming: (v: any) => v,
-    withSpring: (v: any) => v,
-    withDecay: (v: any) => v,
-    withDelay: (_delay: any, v: any) => v,
-    withRepeat: (v: any) => v,
-    withSequence: (...v: any[]) => v[v.length - 1],
+    withTiming: <T>(v: T) => v,
+    withSpring: <T>(v: T) => v,
+    withDecay: <T>(v: T) => v,
+    withDelay: <T>(_delay: number, v: T) => v,
+    withRepeat: <T>(v: T) => v,
+    withSequence: (...v: unknown[]) => v[v.length - 1],
     cancelAnimation: () => {},
 
-    runOnJS: (fn: any) => fn,
-    runOnUI: (fn: any) => fn,
-    makeMutable: (v: any) => ({ value: v }),
-    makeShareable: (v: any) => v,
+    runOnJS: <F extends (...args: never[]) => unknown>(fn: F) => fn,
+    runOnUI: <F extends (...args: never[]) => unknown>(fn: F) => fn,
+    makeMutable: <T>(v: T) => ({ value: v }),
+    makeShareable: <T>(v: T) => v,
 
     Easing: {
       bezier: (x1: number, y1: number, x2: number, y2: number) => (t: number) =>
         t,
       linear: (t: number) => t,
-      out: (easing: any) => easing,
+      out: <E>(easing: E) => easing,
       cubic: (t: number) => t,
     },
 
-    createAnimatedComponent: (c: any) => c,
+    createAnimatedComponent: <C>(c: C) => c,
     View: createAnimatedComponent('Reanimated.View'),
     Text: createAnimatedComponent('Reanimated.Text'),
     ScrollView: createAnimatedComponent('Reanimated.ScrollView'),
     Image: createAnimatedComponent('Reanimated.Image'),
     FlatList: createAnimatedComponent('Reanimated.FlatList'),
 
-    interpolate: (_v: any, _input: any, output: any) => output[0],
-    interpolateColor: (_v: any, _input: any, output: any) => output[0],
+    interpolate: <T>(_v: number, _input: number[], output: readonly T[]) =>
+      output[0],
+    interpolateColor: <T>(_v: number, _input: number[], output: readonly T[]) =>
+      output[0],
     Extrapolation: {
       CLAMP: 'clamp',
       EXTEND: 'extend',
@@ -83,7 +87,7 @@ const createReanimatedMock = () => {
     ScrollView: createAnimatedComponent('Reanimated.ScrollView'),
     Image: createAnimatedComponent('Reanimated.Image'),
     FlatList: createAnimatedComponent('Reanimated.FlatList'),
-    createAnimatedComponent: (c: any) => c,
+    createAnimatedComponent: <C>(c: C) => c,
   };
 
   return { __esModule: true, ...mockApi, default: defaultExport };
@@ -120,7 +124,8 @@ const createGestureHandlerMock = () => {
     return chain;
   };
 
-  const GestureDetector = ({ children }: any) => children;
+  const GestureDetector = ({ children }: React.PropsWithChildren) =>
+    children;
 
   return {
     GestureDetector,
@@ -135,9 +140,9 @@ const createGestureHandlerMock = () => {
       Hover: createGestureBuilder,
       Native: createGestureBuilder,
       Manual: createGestureBuilder,
-      Simultaneous: (...g: any[]) => g,
-      Race: (...g: any[]) => g,
-      Exclusive: (...g: any[]) => g,
+      Simultaneous: (...g: unknown[]) => g,
+      Race: (...g: unknown[]) => g,
+      Exclusive: (...g: unknown[]) => g,
     },
     GestureStateManager: {},
     State: {
@@ -174,15 +179,15 @@ mock.module('react-native', () => ({
   Switch: createMockComponent('Switch'),
 
   StyleSheet: {
-    create: (styles: any) => styles,
-    flatten: (style: any) => style,
-    compose: (a: any, b: any) => [a, b],
+    create: <T extends Record<string, unknown>>(styles: T) => styles,
+    flatten: (style: unknown) => style,
+    compose: (a: unknown, b: unknown) => [a, b],
   },
 
   Platform: {
     OS: 'ios',
     Version: '17.0',
-    select: (obj: any) => obj.ios || obj.default,
+    select: (obj: Record<string, unknown>) => obj.ios || obj.default,
   },
 
   Dimensions: {
@@ -205,15 +210,15 @@ mock.module('react-native', () => ({
         return this;
       }
     },
-    timing: () => ({ start: (cb?: any) => cb?.() }),
-    spring: () => ({ start: (cb?: any) => cb?.() }),
-    decay: () => ({ start: (cb?: any) => cb?.() }),
-    sequence: () => ({ start: (cb?: any) => cb?.() }),
-    parallel: () => ({ start: (cb?: any) => cb?.() }),
-    stagger: () => ({ start: (cb?: any) => cb?.() }),
-    loop: () => ({ start: (cb?: any) => cb?.() }),
+    timing: () => ({ start: (cb?: () => void) => cb?.() }),
+    spring: () => ({ start: (cb?: () => void) => cb?.() }),
+    decay: () => ({ start: (cb?: () => void) => cb?.() }),
+    sequence: () => ({ start: (cb?: () => void) => cb?.() }),
+    parallel: () => ({ start: (cb?: () => void) => cb?.() }),
+    stagger: () => ({ start: (cb?: () => void) => cb?.() }),
+    loop: () => ({ start: (cb?: () => void) => cb?.() }),
     event: () => () => {},
-    createAnimatedComponent: (c: any) => c,
+    createAnimatedComponent: <C>(c: C) => c,
   },
 
   Linking: {
@@ -260,26 +265,29 @@ mock.module('react-native-reanimated', () => createReanimatedMock());
 mock.module('react-native-gesture-handler', () => createGestureHandlerMock());
 mock.module('react-native-worklets', () => ({
   Worklets: {
-    createRunOnJS: (fn: any) => fn,
-    createRunOnUI: (fn: any) => fn,
+    createRunOnJS: <F extends (...args: never[]) => unknown>(fn: F) => fn,
+    createRunOnUI: <F extends (...args: never[]) => unknown>(fn: F) => fn,
     createContext: () => ({}),
   },
-  useSharedValue: (v: any) => ({ value: v }),
-  useDerivedValue: (fn: any) => ({ value: fn() }),
-  useWorkletCallback: (fn: any) => fn,
-  createSerializable: (v: any) => v,
-  scheduleOnRN: (fn: any) => fn(),
-  scheduleOnUI: (fn: any) => fn(),
-  runOnJS: (fn: any) => fn,
-  runOnUI: (fn: any) => fn,
-  makeShareable: (v: any) => v,
+  useSharedValue: <T>(v: T) => ({ value: v }),
+  useDerivedValue: (fn: () => unknown) => ({ value: fn() }),
+  useWorkletCallback: <F extends (...args: never[]) => unknown>(fn: F) => fn,
+  createSerializable: <T>(v: T) => v,
+  scheduleOnRN: <T>(fn: () => T) => fn(),
+  scheduleOnUI: <T>(fn: () => T) => fn(),
+  runOnJS: <F extends (...args: never[]) => unknown>(fn: F) => fn,
+  runOnUI: <F extends (...args: never[]) => unknown>(fn: F) => fn,
+  makeShareable: <T>(v: T) => v,
   isWorklet: () => false,
   isReanimated: () => false,
 }));
 
 global.IS_REACT_ACT_ENVIRONMENT = true;
-global.requestAnimationFrame = (cb: any) => setTimeout(cb, 0);
-global.cancelAnimationFrame = (id: any) => clearTimeout(id);
+global.requestAnimationFrame = (cb: FrameRequestCallback) =>
+  setTimeout(() => cb(performance.now()), 0) as unknown as number;
+global.cancelAnimationFrame = (id: number) => {
+  clearTimeout(id as unknown as ReturnType<typeof setTimeout>);
+};
 
 const shouldSuppressTestWarning = (args: unknown[]) =>
   args.some(

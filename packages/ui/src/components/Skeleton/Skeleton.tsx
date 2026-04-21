@@ -1,23 +1,23 @@
+import { useId, useIsDark, useTheme } from '@truongdq01/headless';
 import React, {
+  Children,
+  cloneElement,
   createContext,
+  isValidElement,
   useContext,
   useEffect,
   useState,
-  Children,
-  isValidElement,
-  cloneElement,
 } from 'react';
 import { View } from 'react-native';
 import Animated, {
-  useSharedValue,
+  cancelAnimation,
+  interpolate,
+  type SharedValue,
   useAnimatedStyle,
+  useSharedValue,
   withRepeat,
   withTiming,
-  interpolate,
-  cancelAnimation,
-  type SharedValue,
 } from 'react-native-reanimated';
-import { useTokens, useComponentTokens, useIsDark } from '@truongdq01/headless';
 
 /**
  * Available shimmer animation directions
@@ -99,6 +99,7 @@ function useShimmerValue(
 // ─── Base Skeleton ────────────────────────────────────────────────
 
 export interface SkeletonProps {
+  id?: string;
   width?: number | `${number}%`;
   height?: number;
   borderRadius?: number;
@@ -111,6 +112,7 @@ export interface SkeletonProps {
 }
 
 export function Skeleton({
+  id: idProp,
   width = '100%',
   height = 16,
   borderRadius,
@@ -118,7 +120,10 @@ export function Skeleton({
   delayMs = 0,
   shimmerDirection = 'pulse',
 }: SkeletonProps) {
-  const { skeleton } = useComponentTokens();
+  const id = useId(idProp, 'skeleton');
+  const {
+    components: { skeleton },
+  } = useTheme();
   const isDark = useIsDark();
   const shimmer = useShimmerValue(animate, delayMs);
   const [layoutW, setLayoutW] = useState(0);
@@ -152,9 +157,10 @@ export function Skeleton({
 
   return (
     <Animated.View
+      nativeID={id}
       style={[
         {
-          width: width as any,
+          width: width,
           height,
           borderRadius: borderRadius ?? skeleton.borderRadius,
           backgroundColor: skeleton.backgroundColor,
@@ -216,7 +222,7 @@ export const SkeletonText = React.memo(function SkeletonText({
   lastLineWidth?: `${number}%`;
   shimmerDirection?: SkeletonShimmerDirection;
 }) {
-  const tokens = useTokens();
+  const { tokens } = useTheme();
   return (
     <View style={{ gap: tokens.spacing[2] }}>
       {Array.from({ length: lines }).map((_, i) => (
@@ -232,7 +238,7 @@ export const SkeletonText = React.memo(function SkeletonText({
 });
 
 export const SkeletonCard = React.memo(function SkeletonCard() {
-  const tokens = useTokens();
+  const { tokens } = useTheme();
   return (
     <View
       style={{
@@ -264,7 +270,7 @@ export const SkeletonCard = React.memo(function SkeletonCard() {
 });
 
 export const SkeletonListItem = React.memo(function SkeletonListItem() {
-  const tokens = useTokens();
+  const { tokens } = useTheme();
   return (
     <View
       style={{
@@ -287,7 +293,7 @@ export const SkeletonListItem = React.memo(function SkeletonListItem() {
 
 /** Avatar + two text lines — profile card placeholder */
 export const SkeletonProfile = React.memo(function SkeletonProfile() {
-  const tokens = useTokens();
+  const { tokens } = useTheme();
   return (
     <View style={{ gap: tokens.spacing[4], alignItems: 'center' }}>
       <Skeleton
@@ -304,7 +310,7 @@ export const SkeletonProfile = React.memo(function SkeletonProfile() {
 
 /** 16:9 block + title lines */
 export const SkeletonMedia = React.memo(function SkeletonMedia() {
-  const tokens = useTokens();
+  const { tokens } = useTheme();
   return (
     <View style={{ gap: tokens.spacing[3] }}>
       <Skeleton
@@ -325,7 +331,7 @@ export const SkeletonForm = React.memo(function SkeletonForm({
 }: {
   rows?: number;
 }) {
-  const tokens = useTokens();
+  const { tokens } = useTheme();
   return (
     <View style={{ gap: tokens.spacing[4] }}>
       {Array.from({ length: rows }).map((_, i) => (
@@ -348,7 +354,7 @@ export const SkeletonGrid = React.memo(function SkeletonGrid({
   rows?: number;
   cell?: number;
 }) {
-  const tokens = useTokens();
+  const { tokens } = useTheme();
   return (
     <View
       style={{ flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing[2] }}
@@ -373,7 +379,7 @@ export const SkeletonTable = React.memo(function SkeletonTable({
   columns?: number;
   dataRows?: number;
 }) {
-  const tokens = useTokens();
+  const { tokens } = useTheme();
   return (
     <View style={{ gap: tokens.spacing[2] }}>
       <View style={{ flexDirection: 'row', gap: tokens.spacing[2] }}>

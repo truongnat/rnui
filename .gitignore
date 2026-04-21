@@ -24,6 +24,10 @@ apps/*/build/
 .nuxt
 .expo/
 
+# Generated declaration files (should never appear in src/)
+packages/*/src/**/*.d.ts
+packages/*/src/**/*.d.ts.map
+
 # IDE
 .idea
 .vscode

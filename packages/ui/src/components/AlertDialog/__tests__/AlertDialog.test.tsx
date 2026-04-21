@@ -1,7 +1,7 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { AlertDialog } from '../AlertDialog';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import type React from 'react';
+import { AlertDialog } from '../AlertDialog';
 
 // Helper to wrap components with ThemeProvider
 const renderWithTheme = (component: React.ReactElement) => {

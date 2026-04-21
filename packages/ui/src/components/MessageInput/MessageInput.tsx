@@ -1,23 +1,19 @@
+import { useIconStyle, useTheme } from '@truongdq01/headless';
 import React, { useRef, useState } from 'react';
 import {
-  View,
-  TextInput as RNTextInput,
   Pressable,
+  TextInput as RNTextInput,
   StyleSheet,
-  type TextInputProps,
   Text,
+  type TextInputProps,
+  View,
 } from 'react-native';
 import Animated, {
-  useSharedValue,
   useAnimatedStyle,
-  withTiming,
+  useSharedValue,
   withSpring,
+  withTiming,
 } from 'react-native-reanimated';
-import {
-  useTokens,
-  useComponentTokens,
-  useIconStyle,
-} from '@truongdq01/headless';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -65,8 +61,10 @@ export function MessageInput({
   placeholder = 'Type a message...',
   ...rest
 }: MessageInputProps) {
-  const tokens = useTokens();
-  const { input } = useComponentTokens();
+  const {
+    components: { input },
+    tokens,
+  } = useTheme();
   const { size: iconSize } = useIconStyle('input');
   const inputRef = useRef<RNTextInput>(null);
   const [focused, setFocused] = useState(false);

@@ -1,6 +1,6 @@
-import { primitive } from './primitive';
 import type { Brand, BrandColorGroup } from './brand';
 import { getBrandColors } from './brand';
+import { primitive } from './primitive';
 
 /**
  * Semantic tokens — maps raw primitives to design intent.
@@ -129,7 +129,7 @@ export const lightTokens = {
   color: {
     // Backgrounds
     bg: {
-      // Telegram-like grouping: app background is slightly tinted,
+      // Grouping: app background is slightly tinted,
       // while primary surfaces remain white for contrast and hierarchy.
       default: color.gray[50], // #F8FAFC
       subtle: color.gray[100], // #F1F5F9
@@ -156,6 +156,7 @@ export const lightTokens = {
       primary: color.gray[950], // 020617 - Pure contrast
       secondary: color.gray[700], // 334155 - Very readable
       tertiary: color.gray[500], // 64748B - Not "faded" anymore
+      muted: color.gray[500], // Alias for tertiary
       disabled: color.gray[500], // #64748B — 4.8x on white ✅ WCAG AA
       inverse: color.white,
       link: color.brand[700], // #6D28D9
@@ -173,6 +174,7 @@ export const lightTokens = {
       default: color.gray[300], // #CBD5E1 - Default decorative border
       subtle: color.gray[200], // #E2E8F0 - Subtle border
       strong: color.gray[500], // #64748B - Strong border
+      emphasis: color.gray[700], // High contrast border
       input: color.gray[400], // #94A3B8 - Form input border
       focus: color.brand[600], // #7C3AED - Focus ring
       error: color.red[600], // #DC2626
@@ -183,6 +185,7 @@ export const lightTokens = {
     // Brand — Violet
     brand: {
       default: color.brand[600], // #7C3AED — 5.7x on white ✅
+      primary: color.brand[600], // Alias for default
       hover: color.brand[700], // #6D28D9
       active: color.brand[800], // #5B21B6
       subtle: color.brand[100], // #EDE9FE
@@ -192,6 +195,7 @@ export const lightTokens = {
     // Accent — Amber (CTAs, highlights)
     accent: {
       default: color.amber[500], // #F59E0B
+      secondary: color.amber[500], // Alias for default
       hover: color.amber[600], // #D97706
       active: color.amber[700], // #B45309
       subtle: color.amber[50], // #FFFBEB
@@ -205,24 +209,36 @@ export const lightTokens = {
       text: color.green[900],
       border: color.green[500],
       icon: color.green[600],
+      emphasis: color.green[700],
     },
     warning: {
       bg: color.amber[50],
       text: color.amber[900],
       border: color.amber[500],
       icon: color.amber[600],
+      emphasis: color.amber[700],
     },
     error: {
       bg: color.red[50],
       text: color.red[900],
       border: color.red[500],
       icon: color.red[600],
+      emphasis: color.red[700],
     },
     info: {
       bg: color.blue[50],
       text: color.blue[900],
       border: color.blue[500],
       icon: color.blue[600],
+      emphasis: color.blue[700],
+    },
+    /** Semantic status group alias for direct access */
+    status: {
+      success: color.green[600],
+      warning: color.amber[600],
+      error: color.red[600],
+      danger: color.red[600],
+      info: color.blue[600],
     },
   },
 
@@ -295,6 +311,7 @@ export const darkTokens = {
       primary: color.gray[50],
       secondary: color.gray[400],
       tertiary: color.gray[500], // #64748B — 4.2x on dark-bg ✅
+      muted: color.gray[500], // Alias
       disabled: color.gray[600], // #475569 — clearer than before
       inverse: color.gray[900],
       link: color.brand[400], // #A78BFA
@@ -311,6 +328,7 @@ export const darkTokens = {
       default: color.gray[700], // #334155 - Standard border
       subtle: color.gray[800], // #1E293B - Subtle
       strong: color.gray[500], // #64748B - Visible border ✅
+      emphasis: color.gray[400], // High contrast
       input: color.gray[600], // #475569 - Form input border
       focus: color.brand[400], // #A78BFA - Focus ring ✅
       error: color.red[400],
@@ -321,6 +339,7 @@ export const darkTokens = {
     // Brand — Violet dark mode
     brand: {
       default: color.brand[400], // #A78BFA — 7.1x on dark-bg ✅ AAA
+      primary: color.brand[400], // Alias
       hover: color.brand[300], // #C4B5FD
       active: color.brand[200], // #DDD6FE
       subtle: color.brand[950], // #2E1065
@@ -330,6 +349,7 @@ export const darkTokens = {
     // Accent — Amber dark mode
     accent: {
       default: color.amber[400], // #FBBF24 — 11.6x on dark-bg ✅ AAA
+      secondary: color.amber[400], // Alias
       hover: color.amber[300], // #FCD34D
       active: color.amber[500], // #F59E0B
       subtle: 'rgba(251,191,36,0.12)',
@@ -342,24 +362,35 @@ export const darkTokens = {
       text: color.green[400],
       border: color.green[600],
       icon: color.green[400],
+      emphasis: color.green[500],
     },
     warning: {
       bg: `rgba(245,158,11,0.12)`,
       text: color.amber[400],
       border: color.amber[600],
       icon: color.amber[400],
+      emphasis: color.amber[500],
     },
     error: {
       bg: `rgba(239,68,68,0.12)`,
       text: color.red[400],
       border: color.red[600],
       icon: color.red[400],
+      emphasis: color.red[500],
     },
     info: {
       bg: `rgba(59,130,246,0.12)`,
       text: color.blue[400],
       border: color.blue[600],
       icon: color.blue[400],
+      emphasis: color.blue[500],
+    },
+    status: {
+      success: color.green[400],
+      warning: color.amber[400],
+      error: color.red[400],
+      danger: color.red[400],
+      info: color.blue[400],
     },
   },
 

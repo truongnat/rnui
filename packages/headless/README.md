@@ -10,8 +10,7 @@ This package provides the engine behind the RNUI components. It handles gestures
 
 - `usePressable`: Enhanced press interactions with gesture and feedback support.
 - `useDisclosure`: State management for modals, drawers, and popovers.
-- `useTheme`: Context hook to access design tokens.
-- `useControllableState`: Manage both controlled and uncontrolled states.
+- `useTheme`: Context hook to access design tokens (from `@truongdq01/headless/theme`).
 
 ## Installation
 
@@ -62,8 +61,8 @@ import { usePressable, useDisclosure } from '@truongdq01/headless/hooks';
 // Import theme utilities
 import { ThemeProvider, useTheme } from '@truongdq01/headless/theme';
 
-// Import motion presets
-import { timingPresets } from '@truongdq01/headless/motion';
+// Motion — ví dụ: motionPresets (metadata), timingPreset, resolveTimingPreset (withTiming)
+import { motionPresets, timingPreset } from '@truongdq01/headless/motion';
 ```
 
 ## Peer Dependencies

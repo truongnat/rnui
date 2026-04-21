@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Autocomplete } from '../Autocomplete';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { Autocomplete } from '../Autocomplete';
 
 test('Autocomplete renders', () => {
   const { getByPlaceholderText } = render(

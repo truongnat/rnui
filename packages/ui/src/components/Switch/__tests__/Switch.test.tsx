@@ -1,7 +1,7 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { Switch } from '../Switch';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { Switch } from '../Switch';
 
 test('Switch handles toggle', () => {
   const onValueChange = jest.fn();

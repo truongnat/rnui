@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Animated from 'react-native-reanimated';
+import { usePressable, useTheme } from '@truongdq01/headless';
+import type React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
-import { usePressable, useComponentTokens } from '@truongdq01/headless';
+import Animated from 'react-native-reanimated';
 import { Icon } from '../Icon';
 
 export interface FabProps {
@@ -12,7 +12,7 @@ export interface FabProps {
   disabled?: boolean;
   color?: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'circular' | 'extended';
+  variant?: 'circular' | 'extended' | 'outline' | 'ghost';
   accessibilityLabel?: string;
 }
 
@@ -26,7 +26,9 @@ export function Fab({
   variant = 'circular',
   accessibilityLabel,
 }: FabProps) {
-  const { fab } = useComponentTokens();
+  const {
+    components: { fab },
+  } = useTheme();
   const { gesture, animatedStyle, accessibilityProps } = usePressable({
     onPress,
     disabled,
@@ -37,11 +39,27 @@ export function Fab({
   });
 
   const isExtended = variant === 'extended' && !!label;
+  const isOutline = variant === 'outline';
+  const isGhost = variant === 'ghost';
 
   // Base color from component tokens - Fab only has primary/secondary in tokens
   const baseColor =
     color === 'primary' ? fab.color.primary.bg : fab.color.secondary.bg;
-  const textColor = '#FFFFFF';
+
+  const getBackgroundColor = () => {
+    if (isOutline || isGhost) return 'transparent';
+    return baseColor;
+  };
+
+  const getBorderColor = () => {
+    if (isOutline) return baseColor;
+    return 'transparent';
+  };
+
+  const getIconColor = () => {
+    if (isOutline || isGhost) return baseColor;
+    return '#FFFFFF';
+  };
 
   const sizeMap = {
     sm: { size: 40, iconSize: 20 },
@@ -54,7 +72,9 @@ export function Fab({
   const containerStyle = [
     fab.container,
     {
-      backgroundColor: baseColor,
+      backgroundColor: getBackgroundColor(),
+      borderColor: getBorderColor(),
+      borderWidth: isOutline ? 1 : 0,
       height: s.size,
       minWidth: s.size,
       borderRadius: s.size / 2,
@@ -64,17 +84,24 @@ export function Fab({
     animatedStyle,
   ];
 
+  const iconColor = getIconColor();
+
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View style={containerStyle as any} {...accessibilityProps}>
         <View style={styles.content}>
           {icon && (
-            <Icon size={s.iconSize} color={textColor}>
+            <Icon size={s.iconSize} color={iconColor}>
               {icon}
             </Icon>
           )}
           {isExtended && (
-            <Text style={[styles.label, { marginLeft: icon ? 8 : 0 }]}>
+            <Text
+              style={[
+                styles.label,
+                { marginLeft: icon ? 8 : 0, color: iconColor },
+              ]}
+            >
               {label}
             </Text>
           )}

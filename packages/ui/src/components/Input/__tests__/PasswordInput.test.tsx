@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { PasswordInput } from '../../Input/PasswordInput';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { PasswordInput } from '../../Input/PasswordInput';
 
 test('PasswordInput renders', () => {
   const { getByPlaceholderText } = render(

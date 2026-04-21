@@ -1,9 +1,11 @@
-import { renderHook, act } from '@testing-library/react-native';
-import { useToast, dismissAllToasts } from '../useToast';
+import { act, renderHook } from '@testing-library/react-native';
+import { resetToastStore, useToast } from '../useToast';
 
 describe('useToast', () => {
   afterEach(() => {
-    dismissAllToasts();
+    act(() => {
+      resetToastStore();
+    });
   });
 
   it('should show and dismiss a toast', () => {

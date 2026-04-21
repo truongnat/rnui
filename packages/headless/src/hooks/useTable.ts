@@ -1,18 +1,20 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-export interface UseTableOptions<T> {
+export type TableRowId = string | number;
+
+export interface UseTableOptions<T, Id extends TableRowId = TableRowId> {
   data: T[];
   rowsPerPage?: number;
   initialPage?: number;
-  initialSort?: { key: keyof T; direction: 'asc' | 'desc' };
+  initialSort?: { key: keyof T; direction: 'asc' | 'desc' } | null;
 }
 
-export interface UseTableReturn<T> {
+export interface UseTableReturn<T, Id extends TableRowId = TableRowId> {
   // State
   page: number;
   rowsPerPage: number;
   sort: { key: keyof T; direction: 'asc' | 'desc' } | null;
-  selected: Set<any>;
+  selected: Set<Id>;
 
   // Computed
   processedData: T[];
@@ -23,17 +25,17 @@ export interface UseTableReturn<T> {
   setPage: (page: number) => void;
   setRowsPerPage: (rows: number) => void;
   handleSort: (key: keyof T) => void;
-  toggleSelect: (id: any) => void;
-  toggleSelectAll: (ids: any[]) => void;
-  isSelected: (id: any) => boolean;
+  toggleSelect: (id: Id) => void;
+  toggleSelectAll: (ids: Id[]) => void;
+  isSelected: (id: Id) => boolean;
 }
 
-export function useTable<T>({
+export function useTable<T, Id extends TableRowId = TableRowId>({
   data,
   rowsPerPage: initialRowsPerPage = 10,
   initialPage = 0,
-  initialSort = null as any,
-}: UseTableOptions<T>): UseTableReturn<T> {
+  initialSort,
+}: UseTableOptions<T, Id>): UseTableReturn<T, Id> {
   const [page, setPage] = useState(initialPage);
   const [rowsPerPage, setRowsPerPageRaw] = useState(
     Math.max(1, initialRowsPerPage)
@@ -42,8 +44,11 @@ export function useTable<T>({
     (n: number) => setRowsPerPageRaw(Math.max(1, n)),
     []
   );
-  const [sort, setSort] = useState(initialSort);
-  const [selected, setSelected] = useState<Set<any>>(new Set());
+  const [sort, setSort] = useState<{
+    key: keyof T;
+    direction: 'asc' | 'desc';
+  } | null>(initialSort ?? null);
+  const [selected, setSelected] = useState<Set<Id>>(new Set());
 
   // 1. Processing (Sort)
   const processedData = useMemo(() => {
@@ -65,7 +70,7 @@ export function useTable<T>({
 
   // 3. Handlers
   const handleSort = useCallback((key: keyof T) => {
-    setSort((prev: any) => {
+    setSort((prev) => {
       if (prev?.key === key) {
         return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
       }
@@ -73,7 +78,7 @@ export function useTable<T>({
     });
   }, []);
 
-  const toggleSelect = useCallback((id: any) => {
+  const toggleSelect = useCallback((id: Id) => {
     setSelected((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -82,14 +87,14 @@ export function useTable<T>({
     });
   }, []);
 
-  const toggleSelectAll = useCallback((ids: any[]) => {
+  const toggleSelectAll = useCallback((ids: Id[]) => {
     setSelected((prev) => {
-      if (prev.size === ids.length) return new Set();
+      if (prev.size === ids.length) return new Set<Id>();
       return new Set(ids);
     });
   }, []);
 
-  const isSelected = useCallback((id: any) => selected.has(id), [selected]);
+  const isSelected = useCallback((id: Id) => selected.has(id), [selected]);
 
   return {
     page,

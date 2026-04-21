@@ -1,8 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
+import { ThemeProvider } from '@truongdq01/headless';
+import type React from 'react';
 import { Text } from 'react-native';
 import { Badge } from '../Badge';
-import { ThemeProvider } from '@truongdq01/headless';
 
 // Helper to wrap components with ThemeProvider
 const renderWithTheme = (component: React.ReactElement) => {
@@ -241,6 +241,15 @@ describe('Badge', () => {
         </ThemeProvider>
       );
       expect(getByText('Updated')).toBeTruthy();
+    });
+  });
+
+  describe('Custom style', () => {
+    it('merges style prop onto container', () => {
+      const { getByText } = renderWithTheme(
+        <Badge label="Styled" style={{ opacity: 0.9 }} />
+      );
+      expect(getByText('Styled')).toBeTruthy();
     });
   });
 

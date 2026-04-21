@@ -1,8 +1,8 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { Pressable } from '../Pressable';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import type React from 'react';
 import { Text } from 'react-native';
+import { Pressable } from '../Pressable';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider colorScheme="light">{children}</ThemeProvider>

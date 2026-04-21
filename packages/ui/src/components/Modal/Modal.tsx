@@ -1,31 +1,24 @@
+import { useTheme } from '@truongdq01/headless';
 import React from 'react';
 import {
-  Modal as RNModal,
-  View,
   Pressable,
+  Modal as RNModal,
   StyleSheet,
-  type StyleProp,
-  type ViewStyle,
+  View,
 } from 'react-native';
-import { useComponentTokens } from '@truongdq01/headless';
+import { ModalContent } from './ModalContent';
+import type { ModalProps } from './types';
 
-export interface ModalProps {
-  open: boolean;
-  onClose?: () => void;
-  children?: React.ReactNode;
-  keepMounted?: boolean;
-  hideBackdrop?: boolean;
-  disableAutoFocus?: boolean;
-  disableEscapeKeyDown?: boolean;
-  /** Accessibility label for the modal content container */
-  accessibilityLabel?: string;
-  /** Accessibility label for the backdrop dismiss button */
-  backdropAccessibilityLabel?: string;
-  BackdropComponent?: React.ComponentType<any>;
-  BackdropProps?: object;
-  contentStyle?: StyleProp<ViewStyle>;
-}
+export { ModalContent } from './ModalContent';
+export { ModalFooter } from './ModalFooter';
+export { ModalHeader } from './ModalHeader';
 
+/**
+ * Modal — accessible overlay dialog built on React Native's Modal primitive.
+ *
+ * Renders a pressable backdrop (or a custom BackdropComponent) and a centered
+ * ModalContent container. Supports full-screen and keep-mounted modes.
+ */
 export function Modal({
   open,
   onClose,
@@ -37,9 +30,12 @@ export function Modal({
   backdropAccessibilityLabel = 'Dismiss modal',
   BackdropComponent,
   BackdropProps,
-  contentStyle,
+  contentContainerStyle,
+  fullScreen = false,
 }: ModalProps) {
-  const { modal } = useComponentTokens();
+  const {
+    components: { modal },
+  } = useTheme();
 
   if (!open && !keepMounted) return null;
 
@@ -62,7 +58,9 @@ export function Modal({
             (() => {
               const el = <BackdropComponent {...BackdropProps} />;
               return React.isValidElement(el)
-                ? React.cloneElement(el as any, { collapsable: false })
+                ? React.cloneElement(el as React.ReactElement<any>, {
+                    collapsable: false,
+                  })
                 : el;
             })()
           ) : (
@@ -77,14 +75,14 @@ export function Modal({
               accessibilityHint="Closes the modal"
             />
           ))}
-        <View
-          accessibilityViewIsModal
-          accessibilityRole="none"
+
+        <ModalContent
+          fullScreen={fullScreen}
+          style={contentContainerStyle}
           accessibilityLabel={accessibilityLabel}
-          style={[styles.content, modal.container, contentStyle]}
         >
           {children}
-        </View>
+        </ModalContent>
       </View>
     </RNModal>
   );
@@ -95,9 +93,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  content: {
-    minWidth: 280,
-    maxWidth: '90%',
   },
 });

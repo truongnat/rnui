@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { CircularProgress } from '../CircularProgress';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { CircularProgress } from '../CircularProgress';
 
 test('CircularProgress renders', () => {
   const { toJSON } = render(

@@ -1,8 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Tooltip } from '../Tooltip';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
 import { Text } from 'react-native';
+import { Tooltip } from '../Tooltip';
 
 test('Tooltip renders title', () => {
   const { getByText } = render(

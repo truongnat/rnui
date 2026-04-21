@@ -1,14 +1,14 @@
 import type { StoryObj } from '@storybook/react-native';
-import React from 'react';
-import { View } from 'react-native';
 import {
-  ThemeProvider,
   AnimatedList,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
   Avatar,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ThemeProvider,
 } from '@truongdq01/ui';
+import type React from 'react';
+import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>

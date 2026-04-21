@@ -1,17 +1,35 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 export interface UseMenuOptions {
   onClose?: () => void;
   onOpen?: () => void;
 }
 
+/** Props spreadable onto a trigger `Pressable` / touchable host. */
+export type UseMenuTriggerProps = {
+  onPress: () => void;
+  accessibilityRole: 'button';
+  accessibilityHasPopup: 'menu';
+  accessibilityState: { expanded: boolean };
+};
+
+/** Props spreadable onto a menu row `Pressable`. */
+export type UseMenuItemProps = {
+  onPress: () => void;
+  accessibilityRole: 'menuitem';
+  accessibilityState: { disabled?: boolean };
+};
+
 export interface UseMenuReturn {
   isOpen: boolean;
-  open: (event?: any) => void;
+  open: () => void;
   close: () => void;
   toggle: () => void;
-  getTriggerProps: () => any;
-  getItemProps: (options?: { onClick?: () => void; disabled?: boolean }) => any;
+  getTriggerProps: () => UseMenuTriggerProps;
+  getItemProps: (options?: {
+    onClick?: () => void;
+    disabled?: boolean;
+  }) => UseMenuItemProps;
 }
 
 export function useMenu({

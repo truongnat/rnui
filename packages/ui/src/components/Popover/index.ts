@@ -1,7 +1,12 @@
 export { Popover } from './Popover';
+export { PopoverContent } from './PopoverContent';
+export { PopoverArrow } from './PopoverArrow';
+
 export type {
   PopoverProps,
   PopoverOrigin,
-  PopoverOriginHorizontal,
   PopoverOriginVertical,
-} from './Popover';
+  PopoverOriginHorizontal,
+  PopoverContentProps,
+  PopoverArrowProps,
+} from './types';

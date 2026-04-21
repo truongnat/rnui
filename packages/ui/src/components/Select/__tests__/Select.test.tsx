@@ -1,7 +1,7 @@
-import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
-import { Select } from '../Select';
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { Select } from '../Select';
 
 const mockOptions = [
   { label: 'Option 1', value: '1' },
@@ -219,76 +219,97 @@ describe('Select', () => {
   // ─── Search Functionality ───────────────────────────────────────────
 
   describe('Search', () => {
-    it('renders search input when searchable', () => {
+    it('renders search input when searchable', async () => {
       const { getByText, getByPlaceholderText } = render(
         <ThemeProvider>
           <Select placeholder="Choose" options={mockOptions} searchable />
         </ThemeProvider>
       );
       fireEvent.press(getByText('Choose'));
-      expect(getByPlaceholderText('Search…')).toBeTruthy();
+      await waitFor(() => {
+        expect(getByPlaceholderText('Search…')).toBeTruthy();
+      });
     });
 
-    it('filters options based on search query', () => {
+    it('filters options based on search query', async () => {
       const { getByText, getByPlaceholderText, queryByText } = render(
         <ThemeProvider>
           <Select placeholder="Choose" options={mockOptions} searchable />
         </ThemeProvider>
       );
       fireEvent.press(getByText('Choose'));
+      await waitFor(() => {
+        expect(getByPlaceholderText('Search…')).toBeTruthy();
+      });
       const searchInput = getByPlaceholderText('Search…');
       fireEvent.changeText(searchInput, 'Option 2');
 
-      expect(getByText('Option 2')).toBeTruthy();
-      expect(queryByText('Option 1')).toBeNull();
-      expect(queryByText('Option 3')).toBeNull();
+      await waitFor(() => {
+        expect(getByText('Option 2')).toBeTruthy();
+        expect(queryByText('Option 1')).toBeNull();
+        expect(queryByText('Option 3')).toBeNull();
+      });
     });
 
-    it('shows no results message when search has no matches', () => {
+    it('shows no results message when search has no matches', async () => {
       const { getByText, getByPlaceholderText } = render(
         <ThemeProvider>
           <Select placeholder="Choose" options={mockOptions} searchable />
         </ThemeProvider>
       );
       fireEvent.press(getByText('Choose'));
+      await waitFor(() => {
+        expect(getByPlaceholderText('Search…')).toBeTruthy();
+      });
       const searchInput = getByPlaceholderText('Search…');
       fireEvent.changeText(searchInput, 'NonExistent');
 
-      expect(getByText(/No results for "NonExistent"/)).toBeTruthy();
+      await waitFor(() => {
+        expect(getByText(/No results for "NonExistent"/)).toBeTruthy();
+      });
     });
 
-    it('clears search query when clear button pressed', () => {
-      const { getByText, getByPlaceholderText, queryByText } = render(
-        <ThemeProvider>
-          <Select placeholder="Choose" options={mockOptions} searchable />
-        </ThemeProvider>
-      );
-      fireEvent.press(getByText('Choose'));
-      const searchInput = getByPlaceholderText('Search…');
-      fireEvent.changeText(searchInput, 'Option 2');
-
-      // Find and press clear button (implementation may vary)
-      // After clearing, all options should be visible again
-      fireEvent.changeText(searchInput, '');
-      expect(getByText('Option 1')).toBeTruthy();
-      expect(getByText('Option 2')).toBeTruthy();
-      expect(getByText('Option 3')).toBeTruthy();
-    });
-
-    it('search is case-insensitive', () => {
+    it('clears search query when clear button pressed', async () => {
       const { getByText, getByPlaceholderText } = render(
         <ThemeProvider>
           <Select placeholder="Choose" options={mockOptions} searchable />
         </ThemeProvider>
       );
       fireEvent.press(getByText('Choose'));
+      await waitFor(() => {
+        expect(getByPlaceholderText('Search…')).toBeTruthy();
+      });
+      const searchInput = getByPlaceholderText('Search…');
+      fireEvent.changeText(searchInput, 'Option 2');
+
+      // After clearing, all options should be visible again
+      fireEvent.changeText(searchInput, '');
+      await waitFor(() => {
+        expect(getByText('Option 1')).toBeTruthy();
+        expect(getByText('Option 2')).toBeTruthy();
+        expect(getByText('Option 3')).toBeTruthy();
+      });
+    });
+
+    it('search is case-insensitive', async () => {
+      const { getByText, getByPlaceholderText } = render(
+        <ThemeProvider>
+          <Select placeholder="Choose" options={mockOptions} searchable />
+        </ThemeProvider>
+      );
+      fireEvent.press(getByText('Choose'));
+      await waitFor(() => {
+        expect(getByPlaceholderText('Search…')).toBeTruthy();
+      });
       const searchInput = getByPlaceholderText('Search…');
       fireEvent.changeText(searchInput, 'option 2');
 
-      expect(getByText('Option 2')).toBeTruthy();
+      await waitFor(() => {
+        expect(getByText('Option 2')).toBeTruthy();
+      });
     });
 
-    it('resets search query when reopening', () => {
+    it('resets search query when reopening', async () => {
       const { getByText, getAllByText, getByPlaceholderText } = render(
         <ThemeProvider>
           <Select placeholder="Choose" options={mockOptions} searchable />
@@ -297,6 +318,9 @@ describe('Select', () => {
 
       // Open and search
       fireEvent.press(getByText('Choose'));
+      await waitFor(() => {
+        expect(getByPlaceholderText('Search…')).toBeTruthy();
+      });
       const searchInput = getByPlaceholderText('Search…');
       fireEvent.changeText(searchInput, 'Option 2');
 
@@ -305,8 +329,10 @@ describe('Select', () => {
 
       // Reopen - search should be reset
       fireEvent.press(getAllByText('Option 2')[0]);
-      const newSearchInput = getByPlaceholderText('Search…');
-      expect(newSearchInput.props.value).toBe('');
+      await waitFor(() => {
+        const newSearchInput = getByPlaceholderText('Search…');
+        expect(newSearchInput.props.value).toBe('');
+      });
     });
   });
 

@@ -1,8 +1,8 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { Drawer } from '../Drawer';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
 import { Text } from 'react-native';
+import { Drawer } from '../Drawer';
 
 describe('Drawer', () => {
   it('renders children when open', () => {
@@ -18,37 +18,31 @@ describe('Drawer', () => {
 
   describe('Accessibility', () => {
     it('has accessibilityViewIsModal on content container', () => {
-      const { UNSAFE_root } = render(
+      const { getByLabelText } = render(
         <ThemeProvider>
           <Drawer open={true}>
             <Text>Content</Text>
           </Drawer>
         </ThemeProvider>
       );
-      const container = UNSAFE_root.findByProps({
-        accessibilityLabel: 'Drawer',
-      });
+      const container = getByLabelText('Drawer');
       expect(container.props.accessibilityViewIsModal).toBe(true);
     });
 
     it('uses default accessibilityLabel values', () => {
-      const { UNSAFE_root } = render(
+      const { getByLabelText } = render(
         <ThemeProvider>
           <Drawer open={true}>
             <Text>Content</Text>
           </Drawer>
         </ThemeProvider>
       );
-      expect(
-        UNSAFE_root.findByProps({ accessibilityLabel: 'Drawer' })
-      ).toBeTruthy();
-      expect(
-        UNSAFE_root.findByProps({ accessibilityLabel: 'Dismiss drawer' })
-      ).toBeTruthy();
+      expect(getByLabelText('Drawer')).toBeTruthy();
+      expect(getByLabelText('Dismiss drawer')).toBeTruthy();
     });
 
     it('applies custom accessibilityLabel', () => {
-      const { UNSAFE_root } = render(
+      const { getByLabelText } = render(
         <ThemeProvider>
           <Drawer
             open={true}
@@ -59,41 +53,33 @@ describe('Drawer', () => {
           </Drawer>
         </ThemeProvider>
       );
-      expect(
-        UNSAFE_root.findByProps({ accessibilityLabel: 'Navigation menu' })
-      ).toBeTruthy();
-      expect(
-        UNSAFE_root.findByProps({ accessibilityLabel: 'Close navigation' })
-      ).toBeTruthy();
+      expect(getByLabelText('Navigation menu')).toBeTruthy();
+      expect(getByLabelText('Close navigation')).toBeTruthy();
     });
 
     it('backdrop has button role and hint', () => {
-      const { UNSAFE_root } = render(
+      const { getByLabelText } = render(
         <ThemeProvider>
           <Drawer open={true}>
             <Text>Content</Text>
           </Drawer>
         </ThemeProvider>
       );
-      const backdrop = UNSAFE_root.findByProps({
-        accessibilityLabel: 'Dismiss drawer',
-      });
+      const backdrop = getByLabelText('Dismiss drawer');
       expect(backdrop.props.accessibilityRole).toBe('button');
       expect(backdrop.props.accessibilityHint).toBe('Closes the drawer');
     });
 
     it('calls onClose when backdrop is pressed', () => {
       const onClose = jest.fn();
-      const { UNSAFE_root } = render(
+      const { getByLabelText } = render(
         <ThemeProvider>
           <Drawer open={true} onClose={onClose}>
             <Text>Content</Text>
           </Drawer>
         </ThemeProvider>
       );
-      const backdrop = UNSAFE_root.findByProps({
-        accessibilityLabel: 'Dismiss drawer',
-      });
+      const backdrop = getByLabelText('Dismiss drawer');
       fireEvent.press(backdrop);
       expect(onClose).toHaveBeenCalledTimes(1);
     });

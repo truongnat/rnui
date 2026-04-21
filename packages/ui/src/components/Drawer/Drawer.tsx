@@ -1,39 +1,28 @@
-import React, { useEffect } from 'react';
-import {
-  Modal,
-  View,
-  Pressable,
-  StyleSheet,
-  Dimensions,
-  type ViewStyle,
-} from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-  runOnJS,
-} from 'react-native-reanimated';
-import {
-  useComponentTokens,
-  useTokens,
-  useReduceMotionEnabled,
-} from '@truongdq01/headless';
+import { useReduceMotionEnabled } from '@truongdq01/headless';
 import { spring } from '@truongdq01/tokens';
+import React, { useEffect } from 'react';
+import { Modal, useWindowDimensions, type ViewStyle } from 'react-native';
+import {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
+import { DrawerBackdrop } from './DrawerBackdrop';
+import { DrawerContent } from './DrawerContent';
+import type { DrawerProps } from './types';
 
-export type DrawerAnchor = 'left' | 'right' | 'top' | 'bottom';
+export { DrawerBackdrop } from './DrawerBackdrop';
+export { DrawerContent } from './DrawerContent';
+export { DrawerFooter } from './DrawerFooter';
+export { DrawerHeader } from './DrawerHeader';
 
-export interface DrawerProps {
-  open: boolean;
-  onClose?: () => void;
-  anchor?: DrawerAnchor;
-  children?: React.ReactNode;
-  /** Accessibility label for the drawer container */
-  accessibilityLabel?: string;
-  /** Accessibility label for the backdrop dismiss button */
-  backdropAccessibilityLabel?: string;
-}
-
+/**
+ * Drawer — slide-in modal panel anchored to any screen edge.
+ *
+ * Supports left / right / top / bottom anchors with spring animation
+ * and a pressable backdrop that calls onClose.
+ */
 export function Drawer({
   open,
   onClose,
@@ -42,10 +31,8 @@ export function Drawer({
   accessibilityLabel = 'Drawer',
   backdropAccessibilityLabel = 'Dismiss drawer',
 }: DrawerProps) {
-  const { drawer } = useComponentTokens();
-  const tokens = useTokens();
   const reduceMotion = useReduceMotionEnabled();
-  const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
+  const { height: windowHeight } = useWindowDimensions();
 
   const isVertical = anchor === 'top' || anchor === 'bottom';
   const size = isVertical ? windowHeight * 0.4 : 280;
@@ -67,13 +54,13 @@ export function Drawer({
         setMounted(false);
       } else {
         progress.value = withSpring(0, spring.snappy, (finished) => {
-          if (finished) runOnJS(setMounted)(false);
+          if (finished) scheduleOnRN(setMounted, false);
         });
       }
     }
   }, [open, reduceMotion]);
 
-  const animatedStyle = useAnimatedStyle(() => {
+  const animatedPanelStyle = useAnimatedStyle(() => {
     const translate = (1 - progress.value) * size;
     let transform: any[] = [];
 
@@ -82,16 +69,12 @@ export function Drawer({
     else if (anchor === 'top') transform = [{ translateY: -translate }];
     else if (anchor === 'bottom') transform = [{ translateY: translate }];
 
-    return {
-      transform,
-    };
+    return { transform };
   });
 
-  const backdropStyle = useAnimatedStyle(() => ({
+  const backdropAnimatedStyle = useAnimatedStyle(() => ({
     opacity: progress.value,
   }));
-
-  if (!mounted) return null;
 
   const containerStyle: ViewStyle = {
     position: 'absolute',
@@ -103,6 +86,8 @@ export function Drawer({
       : {}),
   };
 
+  if (!mounted) return null;
+
   return (
     <Modal
       visible={mounted}
@@ -110,27 +95,19 @@ export function Drawer({
       animationType="none"
       onRequestClose={onClose}
     >
-      <View style={{ flex: 1 }}>
-        <Animated.View
-          style={[StyleSheet.absoluteFill, drawer.overlay, backdropStyle]}
-        >
-          <Pressable
-            style={{ flex: 1 }}
-            onPress={onClose}
-            accessibilityRole="button"
-            accessibilityLabel={backdropAccessibilityLabel}
-            accessibilityHint="Closes the drawer"
-          />
-        </Animated.View>
-        <Animated.View
-          accessibilityViewIsModal
-          accessibilityRole={'none' as any}
-          accessibilityLabel={accessibilityLabel}
-          style={[drawer.container, containerStyle, animatedStyle] as any}
-        >
-          {children}
-        </Animated.View>
-      </View>
+      <DrawerBackdrop
+        animatedStyle={backdropAnimatedStyle}
+        onPress={onClose}
+        accessibilityLabel={backdropAccessibilityLabel}
+      />
+      <DrawerContent
+        animatedStyle={animatedPanelStyle}
+        containerStyle={containerStyle}
+        accessibilityLabel={accessibilityLabel}
+      >
+        {children}
+      </DrawerContent>
     </Modal>
   );
 }
+

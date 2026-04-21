@@ -20,7 +20,11 @@
     }
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.mjs",
+    "dist/**/*.d.ts",
+    "!dist/**/*.map",
+    "!dist/tsup.config.*"
   ],
   "scripts": {
     "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
@@ -61,7 +65,8 @@
     }
   },
   "devDependencies": {
-    "@testing-library/react-native": "^12.9.0",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^30.0.0",
     "@types/react": "^19.2.14",
     "@types/react-native": "^0.73.0",
@@ -70,7 +75,6 @@
     "metro-react-native-babel-preset": "^0.77.0",
     "react": "19.2.0",
     "react-native": "0.83.2",
-    "react-test-renderer": "19.2.0",
     "tsup": "^8.5.1",
     "typescript": "^5.8.3"
   }

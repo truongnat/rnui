@@ -1,13 +1,13 @@
+import { spring } from '@truongdq01/tokens';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { Gesture } from 'react-native-gesture-handler';
 import type { SharedValue } from 'react-native-reanimated';
 import {
-  useSharedValue,
   useAnimatedStyle,
+  useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
-import { Gesture } from 'react-native-gesture-handler';
-import { spring } from '@truongdq01/tokens';
 
 export type SliderOrientation = 'horizontal' | 'vertical';
 
@@ -445,10 +445,12 @@ export function useSlider({
     const scale = thumbScale.value;
     if (isVertical) {
       return {
-        transform: [{ translateY: (1 - ratio) * len }, { scale }] as any,
+        transform: [{ translateY: (1 - ratio) * len }, { scale }],
       };
     }
-    return { transform: [{ translateX: ratio * len }, { scale }] as any };
+    return {
+      transform: [{ translateX: ratio * len }, { scale }],
+    };
   });
 
   const thumbLowAnimatedStyle = useAnimatedStyle(() => {
@@ -457,10 +459,12 @@ export function useSlider({
     const sc = thumbScaleLow.value;
     if (isVertical) {
       return {
-        transform: [{ translateY: (1 - r) * len }, { scale: sc }] as any,
+        transform: [{ translateY: (1 - r) * len }, { scale: sc }],
       };
     }
-    return { transform: [{ translateX: r * len }, { scale: sc }] as any };
+    return {
+      transform: [{ translateX: r * len }, { scale: sc }],
+    };
   });
 
   const thumbHighAnimatedStyle = useAnimatedStyle(() => {
@@ -469,10 +473,12 @@ export function useSlider({
     const sc = thumbScaleHigh.value;
     if (isVertical) {
       return {
-        transform: [{ translateY: (1 - r) * len }, { scale: sc }] as any,
+        transform: [{ translateY: (1 - r) * len }, { scale: sc }],
       };
     }
-    return { transform: [{ translateX: r * len }, { scale: sc }] as any };
+    return {
+      transform: [{ translateX: r * len }, { scale: sc }],
+    };
   });
 
   const fillAnimatedStyleSingle = useAnimatedStyle(() => {

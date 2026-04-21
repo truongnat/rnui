@@ -1,15 +1,16 @@
 import type { StoryObj } from '@storybook/react-native';
-import React, { useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
 import {
-  ThemeProvider,
   Alert,
-  Dialog,
-  Snackbar,
-  CircularProgress,
-  LinearProgress,
   Button,
+  CircularProgress,
+  Dialog,
+  LinearProgress,
+  Snackbar,
+  ThemeProvider,
 } from '@truongdq01/ui';
+import type React from 'react';
+import { useState } from 'react';
+import { ScrollView, Text, View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>
@@ -55,7 +56,7 @@ export const ProgressStory: StoryObj = {
   name: 'Progress',
   render: () => (
     <View style={{ gap: 12 }}>
-      <CircularProgress />
+      <CircularProgress indeterminate />
       <LinearProgress value={40} variant="determinate" />
       <LinearProgress value={30} valueBuffer={70} variant="buffer" />
     </View>

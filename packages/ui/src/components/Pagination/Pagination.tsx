@@ -1,11 +1,10 @@
-import React from 'react';
-import { View, Text, Pressable } from 'react-native';
 import {
-  usePagination,
   type PaginationItem,
-  useTokens,
-  useComponentTokens,
+  usePagination,
+  useTheme,
 } from '@truongdq01/headless';
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
 
 export interface PaginationProps {
   count: number;
@@ -26,8 +25,10 @@ export function Pagination({
   shape = 'rounded',
   size = 'md',
 }: PaginationProps) {
-  const tokens = useTokens();
-  const { pagination } = useComponentTokens();
+  const {
+    components: { pagination },
+    tokens,
+  } = useTheme();
   const {
     page: current,
     setPage,

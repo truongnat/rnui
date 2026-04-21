@@ -16,27 +16,25 @@
  *   switchBrand(oceanBrand)
  */
 
-// ── Brand presets ──────────────────────────────────────────────────
-export { defaultBrand } from './brands/default';
-export { loveBrand } from './brands/love';
-export { oceanBrand } from './brands/ocean';
-export { forestBrand } from './brands/forest';
-export { sunsetBrand } from './brands/sunset';
-export { midnightBrand } from './brands/midnight';
-
 // ── Types (re-exported for convenience) ───────────────────────────
 export type { Brand, BrandColorGroup } from '@truongdq01/tokens';
-export { defineBrand } from '@truongdq01/tokens';
-export { defineBrand as createBrand } from '@truongdq01/tokens';
+export { defineBrand, defineBrand as createBrand } from '@truongdq01/tokens';
+// ── Brand presets ──────────────────────────────────────────────────
+export { defaultBrand } from './brands/default';
+export { forestBrand } from './brands/forest';
+export { loveBrand } from './brands/love';
+export { midnightBrand } from './brands/midnight';
+export { oceanBrand } from './brands/ocean';
+export { sunsetBrand } from './brands/sunset';
 
+import type { Brand } from '@truongdq01/tokens';
 // ── All brands registry (for brand pickers, docs, etc.) ───────────
 import { defaultBrand } from './brands/default';
-import { loveBrand } from './brands/love';
-import { oceanBrand } from './brands/ocean';
 import { forestBrand } from './brands/forest';
-import { sunsetBrand } from './brands/sunset';
+import { loveBrand } from './brands/love';
 import { midnightBrand } from './brands/midnight';
-import type { Brand } from '@truongdq01/tokens';
+import { oceanBrand } from './brands/ocean';
+import { sunsetBrand } from './brands/sunset';
 
 export const allBrands: Brand[] = [
   defaultBrand,

@@ -1,9 +1,9 @@
-import { renderHook, act } from '@testing-library/react-native';
-import { useToggleGroup } from '../useToggleGroup';
+import { act, renderHook } from '@testing-library/react-native';
+import { type UseToggleGroupOptions, useToggleGroup } from '../useToggleGroup';
 
 describe('useToggleGroup', () => {
   describe('uncontrolled mode', () => {
-    it('should initialize with empty array if no defaultValue', () => {
+    it('should initialize with undefined if no defaultValue', () => {
       const { result } = renderHook(() => useToggleGroup());
       expect(result.current.value).toBeUndefined();
     });
@@ -57,7 +57,7 @@ describe('useToggleGroup', () => {
   describe('controlled mode', () => {
     it('should respect controlled value', () => {
       const { result, rerender } = renderHook(
-        ({ value }) => useToggleGroup({ value }),
+        (props: UseToggleGroupOptions<string>) => useToggleGroup(props),
         { initialProps: { value: ['a'] } }
       );
 
@@ -76,8 +76,8 @@ describe('useToggleGroup', () => {
 
     it('should respect controlled value in exclusive mode', () => {
       const { result, rerender } = renderHook(
-        ({ value }) => useToggleGroup({ value, exclusive: true }),
-        { initialProps: { value: 'a' } }
+        (props: UseToggleGroupOptions<string>) => useToggleGroup(props),
+        { initialProps: { value: 'a', exclusive: true } }
       );
 
       expect(result.current.value).toBe('a');
@@ -89,7 +89,7 @@ describe('useToggleGroup', () => {
       expect(result.current.value).toBe('a');
 
       // Manually update prop
-      rerender({ value: 'b' });
+      rerender({ value: 'b', exclusive: true });
       expect(result.current.value).toBe('b');
     });
   });

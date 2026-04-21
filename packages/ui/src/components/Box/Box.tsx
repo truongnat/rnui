@@ -1,22 +1,13 @@
-import React from 'react';
-import { View, type ViewStyle } from 'react-native';
-import { useComponentTokens } from '@truongdq01/headless';
+import { memo } from "react";
+import { View } from "react-native";
+import type { BoxProps } from "./types";
+import { useBoxStyle } from "./useBoxStyle";
 
-export interface BoxProps {
-  children?: React.ReactNode;
-  style?: ViewStyle | ViewStyle[];
-  sx?: ViewStyle | ViewStyle[];
-  flex?: number;
+function BoxInner({ children, style, sx, flex }: BoxProps) {
+	const mergedStyle = useBoxStyle({ flex, sx, style });
+
+	return <View style={mergedStyle}>{children}</View>;
 }
 
-export function Box({ children, style, sx, flex }: BoxProps) {
-  const { box } = useComponentTokens();
-  const merged = [
-    box.defaults,
-    flex !== undefined ? { flex } : null,
-    sx,
-    style,
-  ];
-
-  return <View style={merged as ViewStyle[]}>{children}</View>;
-}
+export const Box = memo(BoxInner);
+Box.displayName = "Box";

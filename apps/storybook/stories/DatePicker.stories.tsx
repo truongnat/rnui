@@ -1,7 +1,8 @@
 import type { StoryObj } from '@storybook/react-native';
-import React, { useState } from 'react';
-import { View, Text } from 'react-native';
-import { ThemeProvider, DatePicker } from '@truongdq01/ui';
+import { DatePicker, ThemeProvider } from '@truongdq01/ui';
+import type React from 'react';
+import { useState } from 'react';
+import { Text, View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>

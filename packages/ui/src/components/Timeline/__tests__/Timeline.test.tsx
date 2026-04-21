@@ -1,8 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Timeline, TimelineItem, TimelineContent } from '../Timeline';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
 import { Text } from 'react-native';
+import { Timeline, TimelineContent, TimelineItem } from '../Timeline';
 
 test('Timeline renders events', () => {
   const { getByText } = render(

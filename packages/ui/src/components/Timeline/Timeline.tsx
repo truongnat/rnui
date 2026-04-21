@@ -1,6 +1,6 @@
+import { useTheme } from '@truongdq01/headless';
 import React, { createContext, useContext } from 'react';
-import { View, Text } from 'react-native';
-import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { Text, View } from 'react-native';
 
 export type TimelinePosition =
   | 'left'
@@ -30,7 +30,9 @@ export function Timeline({
   itemVariant = 'filled',
   children,
 }: TimelineProps) {
-  const { timeline } = useComponentTokens();
+  const {
+    components: { timeline },
+  } = useTheme();
   return (
     <TimelineContext.Provider value={{ position, itemVariant }}>
       <View style={timeline.content}>
@@ -147,7 +149,9 @@ export function TimelineSeparator({
   variant = 'filled',
   children,
 }: TimelineSeparatorProps) {
-  const { timeline } = useComponentTokens();
+  const {
+    components: { timeline },
+  } = useTheme();
 
   const connectorColor =
     status === 'completed'
@@ -186,8 +190,10 @@ export function TimelineDot({
   status,
   size,
 }: TimelineDotProps) {
-  const { timeline } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { timeline },
+    tokens,
+  } = useTheme();
 
   const resolvedStatus =
     status ||
@@ -198,8 +204,8 @@ export function TimelineDot({
         : color === 'primary'
           ? 'active'
           : 'pending');
-  const statusTokens =
-    (timeline.dot as any)[resolvedStatus] || timeline.dot.pending;
+  const dotConfig = timeline.dot as Record<string, any>;
+  const statusTokens = dotConfig[resolvedStatus] || timeline.dot.pending;
 
   const dotSize = size || timeline.dot.size || 16;
 
@@ -224,7 +230,9 @@ export interface TimelineConnectorProps {
 }
 
 export function TimelineConnector({ color, width }: TimelineConnectorProps) {
-  const { timeline } = useComponentTokens();
+  const {
+    components: { timeline },
+  } = useTheme();
   const resolvedWidth = width || timeline.connector.width;
   return (
     <View

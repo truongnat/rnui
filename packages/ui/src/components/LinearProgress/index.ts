@@ -1,6 +1,6 @@
-export { LinearProgress } from './LinearProgress';
 export type {
-  LinearProgressProps,
   LinearProgressColor,
+  LinearProgressProps,
   LinearProgressVariant,
 } from './LinearProgress';
+export { LinearProgress } from './LinearProgress';

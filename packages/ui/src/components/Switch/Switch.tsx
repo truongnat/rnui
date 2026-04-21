@@ -1,33 +1,43 @@
-import React from 'react';
-import { View, Text, Pressable } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  interpolateColor,
-} from 'react-native-reanimated';
+import type { UseSwitchOptions } from '@truongdq01/headless';
 import {
-  useSwitch,
-  useTokens,
-  useComponentTokens,
   useReduceMotionEnabled,
+  useSwitch,
+  useTheme,
 } from '@truongdq01/headless';
 import { spring } from '@truongdq01/tokens';
-import type { UseSwitchOptions } from '@truongdq01/headless';
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
 
 export interface SwitchProps extends UseSwitchOptions {
   label?: string;
   description?: string;
   size?: 'sm' | 'md' | 'lg';
+  id?: string;
 }
 
 export const Switch = React.memo(
-  ({ label, description, size = 'md', ...hookOptions }: SwitchProps) => {
-    const tokens = useTokens();
-    const { switch: switchT } = useComponentTokens();
+  ({
+    label,
+    description,
+    size = 'md',
+    id: idProp,
+    ...hookOptions
+  }: SwitchProps) => {
+    const {
+      components: { switch: switchT },
+      tokens,
+    } = useTheme();
     const reduceMotion = useReduceMotionEnabled();
-    const { isOn, isDisabled, toggle, accessibilityProps } =
-      useSwitch(hookOptions);
+    const { isOn, isDisabled, toggle, accessibilityProps } = useSwitch({
+      id: idProp,
+      ...hookOptions,
+    });
 
     const tTrack = switchT.track[size];
     const tThumb = switchT.thumb[size];

@@ -38,6 +38,7 @@ export const forestBrand = defineBrand({
       primary: '#064E3B',
       secondary: '#065F46',
       tertiary: '#10B981',
+      muted: '#6EE7B7',
       disabled: '#6EE7B7',
       inverse: '#FFFFFF',
       link: '#059669',
@@ -54,6 +55,7 @@ export const forestBrand = defineBrand({
     },
     brand: {
       default: '#059669',
+      primary: '#059669',
       hover: '#047857',
       active: '#065F46',
       subtle: '#F0FDF4',
@@ -62,6 +64,7 @@ export const forestBrand = defineBrand({
     },
     accent: {
       default: '#84CC16',
+      secondary: '#84CC16',
       hover: '#65A30D',
       active: '#4D7C0F',
       subtle: '#F7FEE7',
@@ -69,8 +72,16 @@ export const forestBrand = defineBrand({
       text: '#3F6212',
       onAccent: '#FFFFFF',
     },
+    status: {
+      success: '#166534',
+      warning: '#92400E',
+      error: '#991B1B',
+      danger: '#991B1B',
+      info: '#1E3A8A',
+    },
     success: {
-      bg: '#F0FDF4',
+      /** Distinct from `bg.subtle` (#F0FDF4) so success surfaces (badge, alert) read as filled. */
+      bg: '#DCFCE7',
       text: '#166534',
       border: '#22C55E',
       icon: '#16A34A',
@@ -117,6 +128,7 @@ export const forestBrand = defineBrand({
       primary: '#ECFDF5',
       secondary: '#A7F3D0',
       tertiary: '#34D399',
+      muted: '#065F46',
       disabled: '#065F46',
       inverse: '#020806',
       link: '#10B981',
@@ -133,6 +145,7 @@ export const forestBrand = defineBrand({
     },
     brand: {
       default: '#10B981',
+      primary: '#10B981',
       hover: '#34D399',
       active: '#6EE7B7',
       subtle: '#064E3B',
@@ -141,12 +154,20 @@ export const forestBrand = defineBrand({
     },
     accent: {
       default: '#A3E635',
+      secondary: '#A3E635',
       hover: '#BEF264',
       active: '#D9F99D',
       subtle: 'rgba(163, 230, 53, 0.1)',
       muted: 'rgba(163, 230, 53, 0.2)',
       text: '#A3E635',
       onAccent: '#020806',
+    },
+    status: {
+      success: '#4ADE80',
+      warning: '#FBBF24',
+      error: '#F87171',
+      danger: '#F87171',
+      info: '#60A5FA',
     },
     success: {
       bg: 'rgba(34,197,94,0.12)',

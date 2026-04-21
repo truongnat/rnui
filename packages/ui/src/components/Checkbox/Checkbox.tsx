@@ -1,19 +1,18 @@
-import React from 'react';
-import { View, Text, Pressable } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  interpolateColor,
-} from 'react-native-reanimated';
+import type { UseCheckboxOptions } from '@truongdq01/headless';
 import {
   useCheckbox,
-  useComponentTokens,
-  useTokens,
   useReduceMotionEnabled,
+  useTheme,
 } from '@truongdq01/headless';
 import { spring } from '@truongdq01/tokens';
-import type { UseCheckboxOptions } from '@truongdq01/headless';
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
 
 export interface CheckboxProps extends UseCheckboxOptions {
   label?: string;
@@ -25,13 +24,16 @@ export function Checkbox({
   label,
   description,
   size = 'md',
+  id: idProp,
   ...hookOptions
 }: CheckboxProps) {
-  const { checkbox } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { checkbox },
+    tokens,
+  } = useTheme();
   const reduceMotion = useReduceMotionEnabled();
   const { isChecked, isIndeterminate, isDisabled, toggle, accessibilityProps } =
-    useCheckbox(hookOptions);
+    useCheckbox({ id: idProp, ...hookOptions });
 
   const sizeConfig = checkbox.size[size];
 
@@ -96,8 +98,8 @@ export function Checkbox({
             height: sizeConfig.height,
             borderRadius: sizeConfig.borderRadius,
             borderWidth: sizeConfig.borderWidth,
-            alignItems: checkbox.container.alignItems as any,
-            justifyContent: checkbox.container.justifyContent as any,
+            alignItems: checkbox.container.alignItems,
+            justifyContent: checkbox.container.justifyContent,
             marginTop: 1,
           },
           boxStyle,

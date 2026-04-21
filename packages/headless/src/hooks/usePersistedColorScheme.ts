@@ -1,9 +1,9 @@
-import React from 'react';
 import type { ColorScheme } from '@truongdq01/tokens';
+import React from 'react';
 
 /**
  * Minimal async storage contract — implement with `@react-native-async-storage/async-storage`
- * or any key/value backend. Headless does not ship a concrete storage dependency.
+ * or an arbitrary key/value backend. Headless does not ship a concrete storage dependency.
  */
 export interface PersistedColorSchemeStorage {
   getItem(key: string): Promise<string | null>;

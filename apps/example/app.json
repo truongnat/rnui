@@ -28,9 +28,18 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": ["expo-router", "expo-dev-client"],
+    "plugins": [
+      "expo-router",
+      "expo-dev-client"
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "f7d1cb91-c2a8-4891-b37e-6d7b7e4df4cb"
+      }
     }
   }
 }

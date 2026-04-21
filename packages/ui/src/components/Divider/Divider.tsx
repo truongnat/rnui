@@ -1,6 +1,6 @@
+import { useTheme } from '@truongdq01/headless';
 import React from 'react';
-import { View, Text } from 'react-native';
-import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { Text, View } from 'react-native';
 
 export interface DividerProps {
   /** Label shown centered in the divider */
@@ -18,8 +18,10 @@ export function Divider({
   emphasis = false,
   spacing = 'md',
 }: DividerProps) {
-  const { divider } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { divider },
+    tokens,
+  } = useTheme();
 
   const lineColor = emphasis ? tokens.color.border.strong : divider.color;
 

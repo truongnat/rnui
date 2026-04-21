@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { useTheme } from '@truongdq01/headless';
 import type { SemanticTokens } from '@truongdq01/tokens';
-import { Icon } from '../Icon';
+import React from 'react';
+import { Text, View } from 'react-native';
 import type { IconName } from '../Icon';
+import { Icon } from '../Icon';
 
 export type EmptyStateSize = 'sm' | 'md' | 'lg';
 
@@ -99,8 +99,10 @@ export function EmptyState({
   variant = 'default',
   illustration,
 }: EmptyStateProps) {
-  const { emptyState } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { emptyState },
+    tokens,
+  } = useTheme();
 
   const meta = variant !== 'default' ? VARIANT_DEFAULTS[variant] : null;
   const resolvedTitle = title ?? meta?.title;
@@ -123,7 +125,7 @@ export function EmptyState({
     <View
       accessibilityRole="none"
       style={[
-        emptyState.container as any,
+        emptyState.container,
         { padding: sizePad.padding, gap: sizePad.gap },
       ]}
     >
@@ -132,7 +134,7 @@ export function EmptyState({
       )}
 
       {resolvedIcon && (
-        <View style={[emptyState.iconWrap as any, { backgroundColor: wrapBg }]}>
+        <View style={[emptyState.iconWrap, { backgroundColor: wrapBg }]}>
           {React.isValidElement<{ size?: number | string; color?: string }>(
             resolvedIcon
           )
@@ -145,13 +147,11 @@ export function EmptyState({
       )}
 
       {resolvedTitle && (
-        <Text style={[emptyState.title as any, titleSize]}>
-          {resolvedTitle}
-        </Text>
+        <Text style={[emptyState.title, titleSize]}>{resolvedTitle}</Text>
       )}
 
       {resolvedDescription && (
-        <Text style={[emptyState.description as any, descSize]}>
+        <Text style={[emptyState.description, descSize]}>
           {resolvedDescription}
         </Text>
       )}

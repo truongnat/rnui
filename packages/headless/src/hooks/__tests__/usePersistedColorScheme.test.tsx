@@ -1,6 +1,6 @@
-import { renderHook, act } from '@testing-library/react-native';
-import { usePersistedColorScheme } from '../usePersistedColorScheme';
+import { act, renderHook } from '@testing-library/react-native';
 import type { PersistedColorSchemeStorage } from '../usePersistedColorScheme';
+import { usePersistedColorScheme } from '../usePersistedColorScheme';
 
 function createMemoryStorage(initial: Record<string, string> = {}) {
   const map = { ...initial };

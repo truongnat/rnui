@@ -1,12 +1,12 @@
-import React from 'react';
-import { View, ScrollView, useWindowDimensions } from 'react-native';
+import { useCarousel, useTheme } from '@truongdq01/headless';
+import type React from 'react';
+import { ScrollView, useWindowDimensions, View } from 'react-native';
 import Animated, {
-  useAnimatedStyle,
-  interpolate,
   Extrapolation,
-  SharedValue,
+  interpolate,
+  type SharedValue,
+  useAnimatedStyle,
 } from 'react-native-reanimated';
-import { useCarousel, useComponentTokens } from '@truongdq01/headless';
 
 function defaultKeyExtractor<T>(_item: T, index: number): string {
   return `carousel-${index}`;
@@ -66,13 +66,17 @@ export function Carousel<T>({
   // Automatically disable loop if we only have 1 item.
   const isLoop = loop && data.length > 1;
 
-  const { carousel } = useComponentTokens();
+  const {
+    components: { carousel },
+  } = useTheme();
   const {
     scrollViewRef,
     scrollX,
     displayData,
     snapToOffsets,
     onScroll,
+    onScrollBeginDrag,
+    onScrollEndDrag,
     onMomentumScrollEnd,
     itemStep,
     n,
@@ -101,6 +105,8 @@ export function Carousel<T>({
         snapToOffsets={snapToOffsets}
         snapToAlignment="start"
         onScroll={onScroll}
+        onScrollBeginDrag={onScrollBeginDrag}
+        onScrollEndDrag={onScrollEndDrag}
         scrollEventThrottle={16}
         onMomentumScrollEnd={onMomentumScrollEnd}
         contentContainerStyle={{
@@ -165,7 +171,7 @@ function PaginationDot({
   contentPaddingStart: number;
   isLoop: boolean;
   n: number;
-  dot: ReturnType<typeof useComponentTokens>['carousel']['dot'];
+  dot: any;
 }) {
   const dotStyle = useAnimatedStyle(() => {
     let activeIndex = (scrollX.value - contentPaddingStart) / itemStep;

@@ -1,130 +1,82 @@
-import React, { useCallback, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  withSpring,
-  Easing,
-} from 'react-native-reanimated';
 import { useReduceMotionEnabled } from '@truongdq01/headless';
-
-/**
- * Animation types for overlay transitions
- */
-export type OverlayAnimationType =
-  | 'scale'
-  | 'slideUp'
-  | 'slideDown'
-  | 'fade'
-  | 'none';
-
-/**
- * Props for the AnimatedOverlay component
- */
-export interface AnimatedOverlayProps {
-  /** Whether the overlay is visible */
-  visible: boolean;
-  /** Animation type for enter/exit transitions */
-  animationType?: OverlayAnimationType;
-  /** Animation duration in milliseconds */
-  duration?: number;
-  /** Whether to use spring animation instead of timing */
-  useSpring?: boolean;
-  /** Spring configuration for spring animations */
-  springConfig?: {
-    dampingRatio?: number;
-    mass?: number;
-  };
-  /** Children to render inside the overlay */
-  children: React.ReactNode;
-  /** Custom styles for the overlay container */
-  style?: any;
-  /** Accessibility label for the overlay */
-  accessibilityLabel?: string;
-  /** Callback when animation starts */
-  onAnimationStart?: (entering: boolean) => void;
-  /** Callback when animation ends */
-  onAnimationEnd?: (entering: boolean) => void;
-  /** Test ID for testing */
-  testID?: string;
-}
+import { useCallback, useEffect, useMemo } from 'react';
+import { Pressable, StyleSheet } from 'react-native';
+import Animated, {
+  Easing,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+  type WithSpringConfig,
+  type WithTimingConfig,
+} from 'react-native-reanimated';
+import type { AnimatedOverlayProps } from './types';
 
 /**
  * AnimatedOverlay provides consistent, smooth overlay animations for modals, dialogs, and other floating UI.
  * Supports multiple animation types with reduced motion detection and accessibility features.
- *
- * This primitive ensures all overlays in the design system use the same motion language,
- * providing a cohesive user experience across different components.
- *
- * @param props - AnimatedOverlay configuration props
- * @returns Animated overlay component with consistent motion
- *
- * @example
- * ```tsx
- * <AnimatedOverlay
- *   visible={isOpen}
- *   animationType="scale"
- *   duration={300}
- *   accessibilityLabel="Settings dialog"
- * >
- *   <ModalContent />
- * </AnimatedOverlay>
- * ```
  */
 export function AnimatedOverlay({
-  visible,
+  visible: visibleProp,
+  isVisible,
   animationType = 'scale',
   duration = 300,
   useSpring = false,
   springConfig = {},
   children,
   style,
+  backdropStyle,
+  backdropOpacity = 0.5,
+  backdropColor = '#000',
+  showBackdrop = true,
+  onBackdropPress,
   accessibilityLabel = 'Overlay content',
   onAnimationStart,
   onAnimationEnd,
   testID = 'animated-overlay',
 }: AnimatedOverlayProps) {
   const reducedMotion = useReduceMotionEnabled();
+  const visible = isVisible ?? visibleProp ?? false;
 
   // Animation values
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.9);
   const translateY = useSharedValue(20);
+  const backdropAlpha = useSharedValue(0);
 
   // Animation configuration
-  const animationConfig = useSpring
-    ? {
-        dampingRatio: springConfig.dampingRatio ?? 0.8, // Balanced underdamped spring
+  const springConfiguration = useMemo<WithSpringConfig>(() => {
+    if (springConfig.dampingRatio !== undefined) {
+      return {
+        dampingRatio: springConfig.dampingRatio,
         mass: springConfig.mass ?? 1,
-      }
-    : {
-        duration: reducedMotion ? 0 : duration,
-        easing: Easing.out(Easing.cubic),
-      };
+      } as WithSpringConfig;
+    }
+    return {
+      stiffness: springConfig.stiffness ?? 100,
+      damping: springConfig.damping ?? 10,
+      mass: springConfig.mass ?? 1,
+    } as WithSpringConfig;
+  }, [springConfig]);
 
-  // Create animated style based on animation type
-  const animatedStyle = useAnimatedStyle(() => {
-    let transform: any[] = [];
+  const timingConfiguration = useMemo<WithTimingConfig>(() => ({
+    duration: reducedMotion ? 0 : duration,
+    easing: Easing.out(Easing.cubic),
+  }), [reducedMotion, duration]);
 
-    switch (animationType) {
-      case 'scale':
-        transform = [{ scale: scale.value }];
-        break;
-      case 'slideUp':
-        transform = [{ translateY: translateY.value }];
-        break;
-      case 'slideDown':
-        transform = [{ translateY: translateY.value }];
-        break;
-      case 'fade':
-        // No transform for fade-only
-        break;
-      case 'none':
-        // No animations - use shared value for consistency
-        return {
-          opacity: opacity.value,
-        };
+  // Create animated styles
+  const backdropAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: backdropAlpha.value * backdropOpacity,
+  }));
+
+  const contentAnimatedStyle = useAnimatedStyle(() => {
+    const transform = [];
+
+    if (animationType === 'scale') {
+      transform.push({ scale: scale.value });
+    } else if (animationType === 'slideUp' || animationType === 'slideDown') {
+      transform.push({ translateY: translateY.value });
     }
 
     return {
@@ -146,44 +98,50 @@ export function AnimatedOverlay({
           ? 20
           : -20;
 
-      const animateValue = (value: any, target: number) => {
-        return useSpring
-          ? withSpring(target, animationConfig)
-          : withTiming(target, animationConfig);
+      const onFinished = (finished?: boolean) => {
+        'worklet';
+        if (finished && onAnimationEnd) {
+          runOnJS(onAnimationEnd)(entering);
+        }
       };
 
+      // Backdrop animation (always fade)
+      backdropAlpha.value = withTiming(entering ? 1 : 0, timingConfiguration);
+
       if (animationType === 'none') {
-        // Immediate value setting for no animation
         opacity.value = targetOpacity;
-      } else {
-        opacity.value = animateValue(opacity, targetOpacity);
-        scale.value = animateValue(scale, targetScale);
-
-        if (animationType === 'slideUp' || animationType === 'slideDown') {
-          translateY.value = animateValue(translateY, targetTranslateY);
-        }
-      }
-
-      // Call completion callback after animation
-      if (!reducedMotion) {
-        setTimeout(() => {
-          onAnimationEnd?.(entering);
-        }, duration);
-      } else {
+        scale.value = targetScale;
+        translateY.value = targetTranslateY;
         onAnimationEnd?.(entering);
+      } else {
+        if (useSpring) {
+          opacity.value = withSpring(targetOpacity, springConfiguration);
+          if (animationType === 'slideUp' || animationType === 'slideDown') {
+            translateY.value = withSpring(targetTranslateY, springConfiguration, onFinished);
+          } else {
+            scale.value = withSpring(targetScale, springConfiguration, onFinished);
+          }
+        } else {
+          opacity.value = withTiming(targetOpacity, timingConfiguration);
+          if (animationType === 'slideUp' || animationType === 'slideDown') {
+            translateY.value = withTiming(targetTranslateY, timingConfiguration, onFinished);
+          } else {
+            scale.value = withTiming(targetScale, timingConfiguration, onFinished);
+          }
+        }
       }
     },
     [
       animationType,
-      duration,
       useSpring,
-      animationConfig,
+      springConfiguration,
+      timingConfiguration,
       onAnimationStart,
       onAnimationEnd,
-      reducedMotion,
       opacity,
       scale,
       translateY,
+      backdropAlpha,
     ]
   );
 
@@ -194,24 +152,45 @@ export function AnimatedOverlay({
 
   return (
     <Animated.View
-      style={[styles.container, animatedStyle, style]}
-      accessible={false}
+      style={[styles.container, style]}
+      pointerEvents={visible ? 'auto' : 'none'}
       testID={testID}
     >
-      {children}
+      {showBackdrop && (
+        <Pressable
+          onPress={onBackdropPress}
+          style={StyleSheet.absoluteFill}
+          accessibilityRole="button"
+          accessibilityLabel="Close overlay"
+        >
+          <Animated.View
+            style={[
+              StyleSheet.absoluteFill,
+              { backgroundColor: backdropColor },
+              backdropAnimatedStyle,
+              backdropStyle,
+            ]}
+          />
+        </Pressable>
+      )}
+      <Animated.View
+        style={[contentAnimatedStyle, styles.content]}
+        accessible={false}
+        accessibilityLabel={accessibilityLabel}
+      >
+        {children}
+      </Animated.View>
     </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // Base styles for overlay positioning
-    position: 'absolute' as const,
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    // Ensure content can be properly sized
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 1000,
+  },
+  content: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

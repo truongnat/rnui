@@ -1,17 +1,17 @@
+export type {
+  SkeletonGroupProps,
+  SkeletonProps,
+  SkeletonShimmerDirection,
+} from './Skeleton';
 export {
   Skeleton,
   SkeletonCard,
-  SkeletonListItem,
-  SkeletonText,
-  SkeletonGroup,
-  SkeletonProfile,
-  SkeletonMedia,
   SkeletonForm,
   SkeletonGrid,
+  SkeletonGroup,
+  SkeletonListItem,
+  SkeletonMedia,
+  SkeletonProfile,
   SkeletonTable,
-} from './Skeleton';
-export type {
-  SkeletonProps,
-  SkeletonShimmerDirection,
-  SkeletonGroupProps,
+  SkeletonText,
 } from './Skeleton';

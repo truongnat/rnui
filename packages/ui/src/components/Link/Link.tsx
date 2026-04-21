@@ -1,6 +1,6 @@
-import React from 'react';
-import { Text, type TextStyle, Linking } from 'react-native';
-import { useComponentTokens } from '@truongdq01/headless';
+import { useTheme } from '@truongdq01/headless';
+import type React from 'react';
+import { Linking, Text, type TextStyle } from 'react-native';
 
 export interface LinkProps {
   children?: React.ReactNode;
@@ -19,7 +19,9 @@ export function Link({
   underline = 'always',
   style,
 }: LinkProps) {
-  const { link } = useComponentTokens();
+  const {
+    components: { link },
+  } = useTheme();
   const decoration = underline === 'none' ? 'none' : 'underline';
 
   return (

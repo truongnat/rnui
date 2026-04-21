@@ -38,6 +38,7 @@ export const sunsetBrand = defineBrand({
       primary: '#431407',
       secondary: '#9A3412',
       tertiary: '#EA580C',
+      muted: '#FDBA74',
       disabled: '#FDBA74',
       inverse: '#FFFFFF',
       link: '#F97316',
@@ -54,6 +55,7 @@ export const sunsetBrand = defineBrand({
     },
     brand: {
       default: '#F97316',
+      primary: '#F97316',
       hover: '#EA580C',
       active: '#C2410C',
       subtle: '#FFF7ED',
@@ -62,12 +64,20 @@ export const sunsetBrand = defineBrand({
     },
     accent: {
       default: '#F59E0B',
+      secondary: '#F59E0B',
       hover: '#D97706',
       active: '#B45309',
       subtle: '#FFFBEB',
       muted: '#FEF3C7',
       text: '#92400E',
       onAccent: '#FFFFFF',
+    },
+    status: {
+      success: '#166534',
+      warning: '#92400E',
+      error: '#991B1B',
+      danger: '#991B1B',
+      info: '#1E3A8A',
     },
     success: {
       bg: '#F0FDF4',
@@ -117,6 +127,7 @@ export const sunsetBrand = defineBrand({
       primary: '#FFF7ED',
       secondary: '#FED7AA',
       tertiary: '#FB923C',
+      muted: '#7C2D12',
       disabled: '#7C2D12',
       inverse: '#0C0502',
       link: '#FDBA74',
@@ -133,6 +144,7 @@ export const sunsetBrand = defineBrand({
     },
     brand: {
       default: '#FB923C',
+      primary: '#FB923C',
       hover: '#FDBA74',
       active: '#FED7AA',
       subtle: '#431407',
@@ -141,12 +153,20 @@ export const sunsetBrand = defineBrand({
     },
     accent: {
       default: '#FBBF24',
+      secondary: '#FBBF24',
       hover: '#FCD34D',
       active: '#FDE68A',
       subtle: 'rgba(251, 191, 36, 0.1)',
       muted: 'rgba(251, 191, 36, 0.2)',
       text: '#FBBF24',
       onAccent: '#0C0502',
+    },
+    status: {
+      success: '#4ADE80',
+      warning: '#FBBF24',
+      error: '#F87171',
+      danger: '#F87171',
+      info: '#60A5FA',
     },
     success: {
       bg: 'rgba(34,197,94,0.12)',

@@ -1,104 +1,109 @@
-import React from 'react';
-import { View } from 'react-native';
-import { useTokens, useComponentTokens } from '@truongdq01/headless';
+import { useTheme } from "@truongdq01/headless";
+import React from "react";
+import type { StyleProp, ViewStyle } from "react-native";
+import { View } from "react-native";
 
 export interface ButtonGroupProps {
-  children?: React.ReactNode;
-  variant?:
-    | 'solid'
-    | 'outline'
-    | 'ghost'
-    | 'destructive'
-    | 'text'
-    | 'contained'
-    | 'outlined';
-  size?: 'sm' | 'md' | 'lg';
-  orientation?: 'horizontal' | 'vertical';
-  disabled?: boolean;
-  fullWidth?: boolean;
+	children?: React.ReactNode;
+	variant?:
+		| "solid"
+		| "outline"
+		| "ghost"
+		| "destructive"
+		| "text"
+		| "contained"
+		| "outlined";
+	size?: "sm" | "md" | "lg";
+	orientation?: "horizontal" | "vertical";
+	disabled?: boolean;
+	fullWidth?: boolean;
 }
 
 export function ButtonGroup({
-  children,
-  variant = 'outlined',
-  size = 'md',
-  orientation = 'horizontal',
-  disabled = false,
-  fullWidth = false,
+	children,
+	variant = "outlined",
+	size = "md",
+	orientation = "horizontal",
+	disabled = false,
+	fullWidth = false,
 }: ButtonGroupProps) {
-  const tokens = useTokens();
-  const { buttonGroup } = useComponentTokens();
-  const isRow = orientation === 'horizontal';
+	const {
+		components: { buttonGroup },
+	} = useTheme();
+	const isRow = orientation === "horizontal";
 
-  const items = React.Children.toArray(children);
+	const items = React.Children.toArray(children);
 
-  return (
-    <View
-      style={{
-        ...buttonGroup.container,
-        flexDirection: isRow ? 'row' : 'column',
-        alignSelf: fullWidth ? 'stretch' : 'flex-start',
-      }}
-    >
-      {items.map((child, i) => {
-        if (
-          !React.isValidElement<{
-            variant?: string;
-            size?: string;
-            disabled?: boolean;
-            fullWidth?: boolean;
-            style?: any;
-          }>(child)
-        )
-          return child;
-        const isFirst = i === 0;
-        const isLast = i === items.length - 1;
+	return (
+		<View
+			style={{
+				...buttonGroup.container,
+				flexDirection: isRow ? "row" : "column",
+				alignSelf: fullWidth ? "stretch" : "flex-start",
+				width: fullWidth ? ("100%" as const) : undefined,
+				alignItems: isRow ? "stretch" : undefined,
+			}}
+		>
+			{items.map((child, i) => {
+				if (
+					!React.isValidElement<{
+						variant?: string;
+						size?: string;
+						disabled?: boolean;
+						fullWidth?: boolean;
+						style?: StyleProp<ViewStyle>;
+					}>(child)
+				)
+					return child;
+				const isFirst = i === 0;
+				const isLast = i === items.length - 1;
 
-        const borderStyle = isRow
-          ? {
-              borderRightWidth: isLast ? 0 : buttonGroup.divider.width,
-              borderRightColor: buttonGroup.divider.backgroundColor,
-            }
-          : {
-              borderBottomWidth: isLast ? 0 : buttonGroup.divider.width,
-              borderBottomColor: buttonGroup.divider.backgroundColor,
-            };
+				const borderStyle = isRow
+					? {
+							borderRightWidth: isLast ? 0 : buttonGroup.divider.width,
+							borderRightColor: buttonGroup.divider.backgroundColor,
+						}
+					: {
+							borderBottomWidth: isLast ? 0 : buttonGroup.divider.width,
+							borderBottomColor: buttonGroup.divider.backgroundColor,
+						};
 
-        const radiusStyle = isFirst
-          ? isRow
-            ? {
-                borderTopLeftRadius: buttonGroup.container.borderRadius,
-                borderBottomLeftRadius: buttonGroup.container.borderRadius,
-              }
-            : {
-                borderTopLeftRadius: buttonGroup.container.borderRadius,
-                borderTopRightRadius: buttonGroup.container.borderRadius,
-              }
-          : isLast
-            ? isRow
-              ? {
-                  borderTopRightRadius: buttonGroup.container.borderRadius,
-                  borderBottomRightRadius: buttonGroup.container.borderRadius,
-                }
-              : {
-                  borderBottomLeftRadius: buttonGroup.container.borderRadius,
-                  borderBottomRightRadius: buttonGroup.container.borderRadius,
-                }
-            : { borderRadius: 0 };
+				const radiusStyle = isFirst
+					? isRow
+						? {
+								borderTopLeftRadius: buttonGroup.container.borderRadius,
+								borderBottomLeftRadius: buttonGroup.container.borderRadius,
+							}
+						: {
+								borderTopLeftRadius: buttonGroup.container.borderRadius,
+								borderTopRightRadius: buttonGroup.container.borderRadius,
+							}
+					: isLast
+						? isRow
+							? {
+									borderTopRightRadius: buttonGroup.container.borderRadius,
+									borderBottomRightRadius: buttonGroup.container.borderRadius,
+								}
+							: {
+									borderBottomLeftRadius: buttonGroup.container.borderRadius,
+									borderBottomRightRadius: buttonGroup.container.borderRadius,
+								}
+						: { borderRadius: 0 };
 
-        return React.cloneElement(child, {
-          variant,
-          size,
-          disabled: disabled || child.props.disabled,
-          fullWidth: fullWidth || child.props.fullWidth,
-          style: [
-            { borderRadius: 0, borderWidth: 0 },
-            borderStyle,
-            radiusStyle,
-            child.props.style,
-          ].filter(Boolean),
-        });
-      })}
-    </View>
-  );
+				return React.cloneElement(child, {
+					variant,
+					size,
+					disabled: disabled || child.props.disabled,
+					fullWidth: fullWidth || child.props.fullWidth,
+					style: [
+						fullWidth && isRow && { flex: 1 },
+						{ borderRadius: 0, borderWidth: 0 },
+						borderStyle,
+						radiusStyle,
+						child.props.style,
+					].filter(Boolean),
+				});
+			})}
+		</View>
+	);
 }

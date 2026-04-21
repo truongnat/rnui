@@ -1,16 +1,16 @@
+import { useTheme } from '@truongdq01/headless';
 import React, { useState } from 'react';
 import {
   Image as RNImage,
-  ImageProps as RNImageProps,
-  View,
+  type ImageProps as RNImageProps,
   StyleSheet,
+  View,
 } from 'react-native';
 import Animated, {
   useAnimatedStyle,
-  withTiming,
   useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
-import { useComponentTokens } from '@truongdq01/headless';
 
 const AnimatedImage = Animated.createAnimatedComponent(RNImage);
 
@@ -28,7 +28,9 @@ export function RnImage({
   onLoad,
   ...props
 }: RnImageProps) {
-  const { image } = useComponentTokens();
+  const {
+    components: { image },
+  } = useTheme();
   const [isLoaded, setIsLoaded] = useState(false);
   const opacity = useSharedValue(0);
 

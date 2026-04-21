@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { ToggleButton, ToggleButtonGroup } from '../ToggleButton';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { ToggleButton, ToggleButtonGroup } from '../ToggleButton';
 
 test('ToggleButton renders children', () => {
   const { getByText } = render(

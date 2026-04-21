@@ -1,7 +1,7 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { Pagination } from '../Pagination';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { Pagination } from '../Pagination';
 
 test('Pagination handles page change', () => {
   const onChange = jest.fn();

@@ -1,6 +1,6 @@
+import { useTheme } from '@truongdq01/headless';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { StyleSheet, Text, View } from 'react-native';
 import { Input } from '../Input/Input';
 import { PasswordInput } from '../Input/PasswordInput';
 import { FormGroupContext, useFormGroupVariant } from './FormGroupContext';
@@ -44,8 +44,10 @@ export function FormField({
   labelTrailing,
   children,
 }: FormFieldProps) {
-  const { formField, formControl, formGroup } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { formField, formControl, formGroup },
+    tokens,
+  } = useTheme();
   const groupVariant = useFormGroupVariant();
   const isGrouped = groupVariant === 'grouped';
 
@@ -63,16 +65,14 @@ export function FormField({
 
   return (
     <View
-      style={
-        [
-          formField.container as any,
-          isGrouped && (formField.groupedContainer as any),
-          isGrouped && {
-            paddingHorizontal: tokens.spacing[3],
-            paddingVertical: tokens.spacing[2],
-          },
-        ] as any
-      }
+      style={[
+        formField.container,
+        isGrouped && formField.groupedContainer,
+        isGrouped && {
+          paddingHorizontal: tokens.spacing[3],
+          paddingVertical: tokens.spacing[2],
+        },
+      ]}
     >
       {showLabelRow && (label || labelTrailing) ? (
         <View
@@ -85,7 +85,7 @@ export function FormField({
         >
           {label ? (
             <View style={{ flexDirection: 'row', gap: 3 }}>
-              <Text style={formControl.label as any}>{label}</Text>
+              <Text style={formControl.label}>{label}</Text>
               {required ? (
                 <Text
                   style={{
@@ -108,9 +108,7 @@ export function FormField({
       {showMessagesBelowField ? (
         error ? (
           <Text
-            style={
-              [formControl.errorText, { marginTop: tokens.spacing[2] }] as any
-            }
+            style={[formControl.errorText, { marginTop: tokens.spacing[2] }]}
             accessibilityRole="alert"
             accessibilityLiveRegion="polite"
           >
@@ -118,9 +116,7 @@ export function FormField({
           </Text>
         ) : helperText ? (
           <Text
-            style={
-              [formControl.helperText, { marginTop: tokens.spacing[2] }] as any
-            }
+            style={[formControl.helperText, { marginTop: tokens.spacing[2] }]}
           >
             {helperText}
           </Text>
@@ -147,8 +143,10 @@ export function FormGroup({
   footer,
   error,
 }: FormGroupProps) {
-  const tokens = useTokens();
-  const { formGroup } = useComponentTokens();
+  const {
+    components: { formGroup },
+    tokens,
+  } = useTheme();
   const gapSize = {
     sm: tokens.spacing[3],
     md: tokens.spacing[5],
@@ -168,7 +166,7 @@ export function FormGroup({
   return (
     <FormGroupContext.Provider value="grouped">
       <View>
-        <View style={formGroup.grouped.card as any}>
+        <View style={formGroup.grouped.card}>
           {items.map((child, i) => (
             <React.Fragment key={i}>
               {child}
@@ -184,10 +182,8 @@ export function FormGroup({
             </React.Fragment>
           ))}
         </View>
-        {error ? (
-          <Text style={formGroup.errorBelowCard as any}>{error}</Text>
-        ) : null}
-        {footer ? <Text style={formGroup.footer as any}>{footer}</Text> : null}
+        {error ? <Text style={formGroup.errorBelowCard}>{error}</Text> : null}
+        {footer ? <Text style={formGroup.footer}>{footer}</Text> : null}
       </View>
     </FormGroupContext.Provider>
   );

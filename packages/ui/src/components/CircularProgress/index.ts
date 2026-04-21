@@ -1,6 +1,6 @@
-export { CircularProgress } from './CircularProgress';
 export type {
-  CircularProgressProps,
   CircularProgressColor,
+  CircularProgressProps,
   CircularProgressVariant,
 } from './CircularProgress';
+export { CircularProgress } from './CircularProgress';

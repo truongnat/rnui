@@ -1,4 +1,5 @@
-import { renderHook, act } from '@testing-library/react-native';
+import { act, renderHook } from '@testing-library/react-native';
+import type { UseAutocompleteOptions } from '../useAutocomplete';
 import { useAutocomplete } from '../useAutocomplete';
 
 describe('useAutocomplete', () => {
@@ -14,7 +15,7 @@ describe('useAutocomplete', () => {
     expect(result.current.inputValue).toBe('');
     expect(result.current.value).toBeUndefined();
     expect(result.current.isOpen).toBe(false);
-    expect(result.current.filteredOptions).toEqual(defaultOptions);
+    expect(result.current.filteredOptions).toEqual([]);
   });
 
   it('should initialize with provided default values', () => {
@@ -37,6 +38,22 @@ describe('useAutocomplete', () => {
     const { result } = renderHook(() =>
       useAutocomplete({
         options: defaultOptions,
+      })
+    );
+
+    act(() => {
+      result.current.setInputValue('er');
+    });
+
+    expect(result.current.inputValue).toBe('er');
+    expect(result.current.filteredOptions).toEqual(['Cherry', 'Elderberry']);
+  });
+
+  it('should filter immediately while typing when filterDebounceMs > 0 (merged live + debounced)', () => {
+    const { result } = renderHook(() =>
+      useAutocomplete({
+        options: defaultOptions,
+        filterDebounceMs: 200,
       })
     );
 
@@ -107,7 +124,7 @@ describe('useAutocomplete', () => {
 
       expect(result.current.value).toBeUndefined();
       expect(result.current.inputValue).toBe('');
-      expect(result.current.filteredOptions).toEqual(defaultOptions);
+      expect(result.current.filteredOptions).toEqual([]);
     });
   });
 
@@ -226,7 +243,7 @@ describe('useAutocomplete', () => {
   describe('Controlled mode', () => {
     it('should use controlled value and inputValue', () => {
       const { result, rerender } = renderHook(
-        (props: any) => useAutocomplete(props),
+        (props: UseAutocompleteOptions<string>) => useAutocomplete(props),
         {
           initialProps: {
             options: defaultOptions,

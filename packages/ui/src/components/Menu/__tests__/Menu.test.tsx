@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Menu, MenuItem } from '../Menu';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { Menu, MenuItem } from '../Menu';
 
 test('Menu renders when open', () => {
   const { getByText } = render(

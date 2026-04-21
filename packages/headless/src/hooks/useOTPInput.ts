@@ -1,5 +1,5 @@
-import { useState, useCallback, useRef } from 'react';
-import { TextInput, type TextInputProps } from 'react-native';
+import { useCallback, useRef, useState } from 'react';
+import type { TextInput, TextInputProps } from 'react-native';
 
 /** Props for the hidden single-field OTP `TextInput` (paste/autofill). */
 export type OtpHiddenInputProps = Pick<

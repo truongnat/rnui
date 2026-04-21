@@ -1,7 +1,7 @@
+import { useTheme } from '@truongdq01/headless';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
-import { useTokens, useComponentTokens } from '@truongdq01/headless';
 
 export type LinearProgressVariant =
   | 'indeterminate'
@@ -42,8 +42,10 @@ export function LinearProgress({
   thickness,
   style,
 }: LinearProgressProps) {
-  const tokens = useTokens();
-  const { linearProgress } = useComponentTokens();
+  const {
+    components: { linearProgress },
+    tokens,
+  } = useTheme();
   const progressValue = clamp(value);
 
   const barColor =

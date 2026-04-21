@@ -1,20 +1,19 @@
-import React from 'react';
-import { View, Text, Pressable } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  interpolate,
-  interpolateColor,
-} from 'react-native-reanimated';
+import type { UseRadioGroupOptions } from '@truongdq01/headless';
 import {
   useRadioGroup,
-  useTokens,
-  useComponentTokens,
   useReduceMotionEnabled,
+  useTheme,
 } from '@truongdq01/headless';
 import { spring } from '@truongdq01/tokens';
-import type { UseRadioGroupOptions } from '@truongdq01/headless';
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
+import Animated, {
+  interpolate,
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
 
 // ─── RadioItem ────────────────────────────────────────────────────
 
@@ -26,6 +25,7 @@ export interface RadioItemProps<T = string> {
   isSelected: boolean;
   onPress: () => void;
   size?: 'sm' | 'md' | 'lg';
+  nativeID?: string;
 }
 
 export function RadioItem<T = string>({
@@ -35,9 +35,12 @@ export function RadioItem<T = string>({
   isSelected,
   onPress,
   size = 'md',
+  nativeID,
 }: RadioItemProps<T>) {
-  const tokens = useTokens();
-  const { radio } = useComponentTokens();
+  const {
+    components: { radio },
+    tokens,
+  } = useTheme();
   const reduceMotion = useReduceMotionEnabled();
 
   const outerSize = radio.container[size];
@@ -96,6 +99,7 @@ export function RadioItem<T = string>({
         gap: 10,
         opacity: disabled ? radio.colors.disabledOpacity : 1,
       }}
+      nativeID={nativeID}
       accessibilityRole="radio"
       accessibilityState={{ checked: isSelected, disabled }}
     >
@@ -180,8 +184,8 @@ export function RadioGroup<T = string>({
   size = 'md',
   ...hookOptions
 }: RadioGroupProps<T>) {
-  const tokens = useTokens();
   const { isSelected, getItemProps } = useRadioGroup(hookOptions);
+  const { tokens } = useTheme();
 
   return (
     <View>
@@ -218,6 +222,7 @@ export function RadioGroup<T = string>({
               isSelected={isSelected(option.value)}
               onPress={itemProps.onPress}
               size={size}
+              nativeID={itemProps.nativeID}
             />
           );
         })}

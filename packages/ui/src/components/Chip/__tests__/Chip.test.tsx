@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Chip } from '../Chip';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { Chip } from '../Chip';
 
 test('Chip renders label', () => {
   const { getByText } = render(

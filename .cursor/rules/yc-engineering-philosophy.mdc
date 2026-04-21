@@ -1,0 +1,14 @@
+---
+description: YC-style engineering — ship first, self-explanatory code, no auto git commit/push.
+globs: "**/*"
+alwaysApply: false
+---
+
+# Triết lý coding (đồng bộ với CLAUDE.md)
+
+- Thứ tự ưu tiên: chạy được → đúng → nhanh → đẹp. Tránh over-engineer sớm.
+- Rule of Three cho abstraction.
+- **Không** tự `git commit` / `git push` trừ khi user yêu cầu rõ.
+- TODO có chủ đích kèm lý do; trả nợ kỹ thuật định kỳ.
+
+Bản đầy đủ + `alwaysApply`: `~/.cursor/rules/yc-engineering-philosophy.mdc`.

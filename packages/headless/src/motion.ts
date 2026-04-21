@@ -1,23 +1,22 @@
-import {
-  Easing,
-  withSpring,
-  withTiming,
-  type EasingFunction,
-  type EasingFunctionFactory,
-} from 'react-native-reanimated';
-
 // Preset animations removed in react-native-reanimated v4
 // These were part of the design system but are not currently used in UI components
 // Keeping for future implementation with new animation builders
 // Previous imports: FadeInUp, FadeInDown, FadeIn, ZoomIn, SlideInDown, SlideInUp,
 // SlideInRight, FadeOutDown, FadeOutUp, FadeOut, ZoomOut, SlideOutDown, SlideOutUp, SlideOutRight
 import {
-  spring,
-  timingPreset,
-  focusRingAnimation,
   easing as easingTokens,
+  focusRingAnimation,
+  spring,
   type TimingPresetKey,
+  timingPreset,
 } from '@truongdq01/tokens';
+import {
+  Easing,
+  type EasingFunction,
+  type EasingFunctionFactory,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 
 /** Alias for {@link import('@truongdq01/tokens').motionPreset} — layout animation name metadata from tokens. */
 export { motionPreset as motionPresets } from '@truongdq01/tokens';
@@ -27,6 +26,10 @@ export { motionPreset as motionPresets } from '@truongdq01/tokens';
  * Note: Preset animations removed in react-native-reanimated v4.
  * These would need to be reimplemented using the new animation builders.
  * Previous implementation used FadeIn/FadeOut/ZoomIn/ZoomOut/SlideIn/SlideOut presets.
+ */
+/**
+ * Stub: Reanimated v4 removed preset layout enter/exit helpers from v3.
+ * `enter`/`exit` are empty until reimplemented with animation builders — đừng rely vào transition thật từ export này.
  */
 export const sharedTransition = {
   // TODO: Reimplement with react-native-reanimated v4 animation builders
@@ -69,6 +72,7 @@ export function resolveTimingPreset(key: TimingPresetKey): {
  * Hero transitions now use the new Shared Element API.
  * Previous implementation attempted custom shared transition with spring animations.
  */
+/** Intentionally `null` until Shared Element API được dùng lại — consumer phải null-check. */
 export const heroTransition = null; // TODO: Reimplement with react-native-reanimated v4 Shared Element API
 
-export { timingPreset, focusRingAnimation, type TimingPresetKey };
+export { focusRingAnimation, type TimingPresetKey, timingPreset };

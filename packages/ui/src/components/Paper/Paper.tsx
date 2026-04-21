@@ -1,6 +1,6 @@
-import React from 'react';
+import { useTheme } from '@truongdq01/headless';
+import type React from 'react';
 import { View, type ViewStyle } from 'react-native';
-import { useComponentTokens, useTokens } from '@truongdq01/headless';
 
 export interface PaperProps {
   children?: React.ReactNode;
@@ -17,8 +17,10 @@ export function Paper({
   square = false,
   style,
 }: PaperProps) {
-  const { paper } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { paper },
+    tokens,
+  } = useTheme();
 
   return (
     <View

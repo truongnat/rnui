@@ -1,7 +1,7 @@
 import {
-  primitive,
-  lightTokens,
   darkTokens,
+  lightTokens,
+  primitive,
   resolveComponentTokens,
 } from '@truongdq01/tokens';
 

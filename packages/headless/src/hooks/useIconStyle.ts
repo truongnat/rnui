@@ -1,5 +1,5 @@
+import type { SemanticTokens } from '@truongdq01/tokens';
 import { useTokens } from '../theme';
-import { type SemanticTokens } from '@truongdq01/tokens';
 
 /**
  * Hook to apply default icon styles (size, color) based on component context.

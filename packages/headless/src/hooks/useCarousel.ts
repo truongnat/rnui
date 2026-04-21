@@ -1,5 +1,10 @@
-import React, { useRef, useMemo, useCallback, useEffect } from 'react';
-import { ScrollView, useWindowDimensions } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import {
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+  type ScrollView,
+  useWindowDimensions,
+} from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 
 export interface UseCarouselOptions<T> {
@@ -65,8 +70,7 @@ export function useCarousel<T>({
         scrollX.value = x;
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [loop, n, pad, itemStep, scrollX]);
 
   // ─── Navigation ─────────────────────────────────────────────────
   const goToNextSlide = useCallback(() => {
@@ -150,17 +154,23 @@ export function useCarousel<T>({
 
   // ─── Event Handlers ─────────────────────────────────────────────
   const onScroll = useCallback(
-    (e: any) => {
+    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
       scrollX.value = e.nativeEvent.contentOffset.x;
-      if (autoPlay && n >= 1) {
-        startTimer();
-      }
     },
-    [autoPlay, startTimer, scrollX, n]
+    [scrollX]
   );
 
+  const onScrollBeginDrag = useCallback(() => {
+    stopTimer();
+  }, [stopTimer]);
+
+  const onScrollEndDrag = useCallback(() => {
+    if (autoPlay) startTimer();
+  }, [autoPlay, startTimer]);
+
   const onMomentumScrollEnd = useCallback(
-    (e: any) => {
+    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (autoPlay) startTimer();
       if (!loop || n < 2 || isJumping.current) return;
 
       const x = Math.round(e.nativeEvent.contentOffset.x);
@@ -187,7 +197,7 @@ export function useCarousel<T>({
         jumpTimers.current.push(id);
       }
     },
-    [loop, n, itemStep, displayData.length, scrollX, pad]
+    [loop, n, itemStep, displayData.length, scrollX, pad, autoPlay, startTimer]
   );
 
   return {
@@ -196,6 +206,8 @@ export function useCarousel<T>({
     displayData,
     snapToOffsets,
     onScroll,
+    onScrollBeginDrag,
+    onScrollEndDrag,
     onMomentumScrollEnd,
     goToNextSlide,
     goToPreviousSlide,

@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet, ViewStyle, StyleProp } from 'react-native';
+import type React from 'react';
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 
 /**
  * Props for the AspectRatio component

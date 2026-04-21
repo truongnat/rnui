@@ -1,7 +1,7 @@
-export { ImageList, ImageListItem, ImageListItemBar } from './ImageList';
 export type {
-  ImageListProps,
-  ImageListItemProps,
   ImageListItemBarProps,
+  ImageListItemProps,
+  ImageListProps,
   ImageListVariant,
 } from './ImageList';
+export { ImageList, ImageListItem, ImageListItemBar } from './ImageList';

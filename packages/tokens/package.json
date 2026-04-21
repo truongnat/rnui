@@ -44,7 +44,11 @@
     }
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.mjs",
+    "dist/**/*.d.ts",
+    "!dist/**/*.map",
+    "!dist/**/chunk-*"
   ],
   "scripts": {
     "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",

@@ -1,8 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { AppBar, Toolbar } from '../AppBar';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
 import { Text } from 'react-native';
+import { AppBar, Toolbar } from '../AppBar';
 
 describe('AppBar', () => {
   it('renders children correctly', () => {

@@ -1,8 +1,8 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { fireEvent, render } from '@testing-library/react-native';
+import { ThemeProvider } from '@truongdq01/headless';
+import type React from 'react';
 import { Text } from 'react-native';
 import { Card } from '../Card';
-import { ThemeProvider } from '@truongdq01/headless';
 
 // Helper to wrap components with ThemeProvider
 const renderWithTheme = (component: React.ReactElement) => {

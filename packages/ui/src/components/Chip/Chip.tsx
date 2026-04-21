@@ -1,33 +1,18 @@
-import React from 'react';
-import { View, Text, Pressable } from 'react-native';
-import {
-  useTokens,
-  useIconStyle,
-  useComponentTokens,
-} from '@truongdq01/headless';
+import { useIconStyle, useId, useTheme } from '@truongdq01/headless';
+import React, { useMemo } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { ChipAvatar } from './ChipAvatar';
+import { ChipDeleteButton } from './ChipDeleteButton';
+import { ChipIcon } from './ChipIcon';
+import { ChipLabel } from './ChipLabel';
+import type { ChipColorTokens, ChipProps } from './types';
 
-export interface ChipProps {
-  label: React.ReactNode;
-  variant?: 'solid' | 'outlined' | 'subtle';
-  color?:
-    | 'default'
-    | 'primary'
-    | 'secondary'
-    | 'error'
-    | 'info'
-    | 'success'
-    | 'warning';
-  size?: 'sm' | 'md' | 'lg';
-  avatar?: React.ReactNode;
-  icon?: React.ReactNode;
-  deleteIcon?: React.ReactNode;
-  onDelete?: () => void;
-  onClick?: () => void;
-  disabled?: boolean;
-  clickable?: boolean;
-}
-
+/**
+ * Chip — pressable container that manages selected/disabled state
+ * and composes the label, avatar, icon, and delete sub-components.
+ */
 export function Chip({
+  id: idProp,
   label,
   variant = 'solid',
   color = 'default',
@@ -40,143 +25,110 @@ export function Chip({
   disabled = false,
   clickable = false,
 }: ChipProps) {
-  const tokens = useTokens();
-  const { chip } = useComponentTokens();
-  const { size: iconSize, color: iconColor } = useIconStyle('list');
+  const id = useId(idProp, 'chip');
+  const {
+    components: { chip },
+    tokens,
+  } = useTheme();
+  const { color: iconColor } = useIconStyle('list');
 
-  const palette = {
-    default: {
-      bg: tokens.color.bg.muted,
-      text: tokens.color.text.primary,
-      border: tokens.color.border.default,
-    },
-    primary: {
-      bg: tokens.color.brand.subtle,
-      text: tokens.color.brand.text,
-      border: tokens.color.brand.default,
-    },
-    secondary: {
-      bg: tokens.color.brand.muted,
-      text: tokens.color.brand.text,
-      border: tokens.color.brand.default,
-    },
-    success: {
-      bg: tokens.color.success.bg,
-      text: tokens.color.success.text,
-      border: tokens.color.success.border,
-    },
-    error: {
-      bg: tokens.color.error.bg,
-      text: tokens.color.error.text,
-      border: tokens.color.error.border,
-    },
-    info: {
-      bg: tokens.color.info.bg,
-      text: tokens.color.info.text,
-      border: tokens.color.info.border,
-    },
-    warning: {
-      bg: tokens.color.warning.bg,
-      text: tokens.color.warning.text,
-      border: tokens.color.warning.border,
-    },
-  } as const;
+  const palette: Record<string, ChipColorTokens> = useMemo(
+    () => ({
+      default: {
+        bg: tokens.color.bg.muted,
+        text: tokens.color.text.primary,
+        border: tokens.color.border.default,
+      },
+      primary: {
+        bg: tokens.color.brand.subtle,
+        text: tokens.color.brand.text,
+        border: tokens.color.brand.default,
+      },
+      secondary: {
+        bg: tokens.color.brand.muted,
+        text: tokens.color.brand.text,
+        border: tokens.color.brand.default,
+      },
+      success: {
+        bg: tokens.color.success.bg,
+        text: tokens.color.success.text,
+        border: tokens.color.success.border,
+      },
+      error: {
+        bg: tokens.color.error.bg,
+        text: tokens.color.error.text,
+        border: tokens.color.error.border,
+      },
+      info: {
+        bg: tokens.color.info.bg,
+        text: tokens.color.info.text,
+        border: tokens.color.info.border,
+      },
+      warning: {
+        bg: tokens.color.warning.bg,
+        text: tokens.color.warning.text,
+        border: tokens.color.warning.border,
+      },
+    }),
+    [tokens]
+  );
 
   const colors = palette[color];
   const vStyle = chip.variant[variant];
+  const sizeStyle = chip.size[size] || chip.size.md;
 
-  // Map specific color overrides matching the palette to variant styling
   const customBg =
     variant === 'solid' && color !== 'default' ? colors.bg : vStyle.bg;
   const customBorder =
-    variant === 'outlined' && color !== 'default'
-      ? colors.border
-      : vStyle.border;
+    variant === 'outlined' && color !== 'default' ? colors.border : vStyle.border;
   const customText = color !== 'default' ? colors.text : vStyle.text;
 
-  const sizeStyle = chip.size[size] || chip.size.md;
+  const iconSize = size === 'sm' ? 14 : 16;
 
-  const container = {
-    flexDirection: chip.container.flexDirection,
-    alignItems: chip.container.alignItems,
-    justifyContent: chip.container.justifyContent,
-    gap: tokens.spacing[2],
-    paddingHorizontal: sizeStyle.paddingHorizontal,
-    paddingVertical: tokens.spacing[1],
-    height: sizeStyle.height,
-    borderRadius: chip.container.borderRadius,
-    backgroundColor: customBg,
-    borderWidth: variant === 'outlined' ? 1 : 0,
-    borderColor: customBorder,
-    opacity: disabled ? tokens.opacity[60] : 1,
-    minHeight: size === 'sm' ? 24 : size === 'lg' ? 40 : 32,
-  };
-
-  const renderIcon = (node: React.ReactNode) => {
-    if (!node) return null;
-    if (
-      React.isValidElement<{ size?: number | string; color?: string }>(node)
-    ) {
-      return React.cloneElement(node, {
-        size: node.props.size ?? (size === 'sm' ? 14 : 16),
-        color: node.props.color ?? iconColor,
-      });
-    }
-    return node;
-  };
-
-  const avatarStyle = {
-    width: size === 'sm' ? 20 : size === 'lg' ? 28 : 24,
-    height: size === 'sm' ? 20 : size === 'lg' ? 28 : 24,
-    borderRadius: 12,
-    marginRight: tokens.spacing[1],
-  };
-
-  const deleteButtonStyle = {
-    padding: tokens.spacing[1],
-    marginLeft: tokens.spacing[1],
-    borderRadius: tokens.radius.full,
-    minWidth: 28,
-    minHeight: 28,
-    alignItems: 'center' as const,
-    justifyContent: 'center' as const,
-  };
+  const containerStyle = useMemo(
+    () => [
+      styles.container,
+      {
+        gap: tokens.spacing[2],
+        paddingHorizontal: sizeStyle.paddingHorizontal,
+        paddingVertical: tokens.spacing[1],
+        height: sizeStyle.height,
+        borderRadius: chip.container.borderRadius,
+        backgroundColor: customBg,
+        borderWidth: variant === 'outlined' ? 1 : 0,
+        borderColor: customBorder,
+        opacity: disabled ? tokens.opacity[60] : 1,
+        minHeight: size === 'sm' ? 24 : size === 'lg' ? 40 : 32,
+      },
+    ],
+    [tokens, sizeStyle, chip, customBg, customBorder, variant, disabled, size]
+  );
 
   const content = (
-    <View style={container}>
-      {avatar && <View style={avatarStyle}>{avatar}</View>}
-      {renderIcon(icon)}
-      <Text
-        style={{
-          color: customText,
-          fontSize: sizeStyle.fontSize,
-          fontWeight: tokens.fontWeight.medium,
-          lineHeight: sizeStyle.fontSize * 1.4,
-        }}
+    <View nativeID={id} style={containerStyle}>
+      {avatar && (
+        <ChipAvatar size={size} spacing={tokens.spacing[1]}>
+          {avatar}
+        </ChipAvatar>
+      )}
+      <ChipIcon iconSize={iconSize} iconColor={iconColor}>
+        {icon}
+      </ChipIcon>
+      <ChipLabel
+        color={customText}
+        fontSize={sizeStyle.fontSize}
+        fontWeight={tokens.fontWeight.medium}
       >
         {label}
-      </Text>
+      </ChipLabel>
       {onDelete && (
-        <Pressable
-          onPress={onDelete}
-          hitSlop={8}
-          style={deleteButtonStyle}
-          accessibilityRole="button"
-          accessibilityLabel="Remove"
-        >
-          {deleteIcon ?? (
-            <Text
-              style={{
-                color: customText,
-                fontSize: 14,
-                fontWeight: tokens.fontWeight.bold,
-                opacity: 0.7,
-              }}
-            >
-              ×
-            </Text>
-          )}
-        </Pressable>
+        <ChipDeleteButton
+          deleteIcon={deleteIcon}
+          onDelete={onDelete}
+          textColor={customText}
+          spacing={tokens.spacing[1]}
+          radius={tokens.radius.full}
+        />
       )}
     </View>
   );
@@ -184,9 +136,10 @@ export function Chip({
   if (onClick || clickable) {
     return (
       <Pressable
+        nativeID={id}
         onPress={onClick}
         disabled={disabled}
-        style={{ opacity: disabled ? 0.5 : 1 }}
+        style={disabled ? styles.disabledPressable : undefined}
       >
         {content}
       </Pressable>
@@ -195,3 +148,14 @@ export function Chip({
 
   return content;
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  disabledPressable: {
+    opacity: 0.5,
+  },
+});

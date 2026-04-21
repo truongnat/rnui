@@ -1,40 +1,41 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, AccessibilityInfo } from 'react-native';
+import { useTheme } from "@truongdq01/headless";
+import type React from "react";
+import { useCallback, useEffect, useRef } from "react";
+import type { LayoutChangeEvent } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-  withRepeat,
-  withSequence,
-  cancelAnimation,
-  runOnJS,
-  Easing,
-} from 'react-native-reanimated';
-import { useTokens } from '@truongdq01/headless';
+	cancelAnimation,
+	Easing,
+	useAnimatedStyle,
+	useSharedValue,
+	withRepeat,
+	withSequence,
+	withTiming,
+} from "react-native-reanimated";
 
 export interface MarqueeProps {
-  /** Content to scroll */
-  children: React.ReactNode;
-  /** Speed of animation (pixels per second) */
-  speed?: number;
-  /** Direction of scroll */
-  direction?: 'left' | 'right' | 'up' | 'down';
-  /** Whether to pause on hover/press (for web compatibility) */
-  pauseOnHover?: boolean;
-  /** Whether to pause on press */
-  pauseOnPress?: boolean;
-  /** Whether to repeat infinitely */
-  loop?: boolean;
-  /** Delay before starting animation */
-  delay?: number;
-  /** Gradient fade edges */
-  fadeEdges?: boolean;
-  /** Custom gradient colors for fade */
-  fadeColor?: string;
-  /** Accessibility label */
-  accessibilityLabel?: string;
-  /** Test ID for testing */
-  testID?: string;
+	/** Content to scroll */
+	children: React.ReactNode;
+	/** Speed of animation (pixels per second) */
+	speed?: number;
+	/** Direction of scroll */
+	direction?: "left" | "right" | "up" | "down";
+	/** Whether to pause on hover/press (for web compatibility) */
+	pauseOnHover?: boolean;
+	/** Whether to pause on press */
+	pauseOnPress?: boolean;
+	/** Whether to repeat infinitely */
+	loop?: boolean;
+	/** Delay before starting animation */
+	delay?: number;
+	/** Gradient fade edges */
+	fadeEdges?: boolean;
+	/** Custom gradient colors for fade */
+	fadeColor?: string;
+	/** Accessibility label */
+	accessibilityLabel?: string;
+	/** Test ID for testing */
+	testID?: string;
 }
 
 /**
@@ -42,221 +43,257 @@ export interface MarqueeProps {
  * Uses React Native Reanimated for smooth GPU-accelerated animations.
  */
 export function Marquee({
-  children,
-  speed = 50,
-  direction = 'left',
-  pauseOnHover = false,
-  pauseOnPress = false,
-  loop = true,
-  delay = 0,
-  fadeEdges = true,
-  fadeColor,
-  accessibilityLabel = 'Scrolling content',
-  testID = 'marquee',
+	children,
+	speed = 50,
+	direction = "left",
+	pauseOnHover: _pauseOnHover = false,
+	pauseOnPress = false,
+	loop = true,
+	delay = 0,
+	fadeEdges = true,
+	fadeColor,
+	accessibilityLabel = "Scrolling content",
+	testID = "marquee",
 }: MarqueeProps) {
-  const tokens = useTokens();
-  const containerRef = useRef<View>(null);
-  const contentRef = useRef<Animated.View>(null);
+	const { tokens } = useTheme();
 
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(0);
-  const isPaused = useSharedValue(false);
+	const translateX = useSharedValue(0);
+	const translateY = useSharedValue(0);
 
-  const animatedStyle = useAnimatedStyle(() => {
-    if (direction === 'left' || direction === 'right') {
-      return {
-        transform: [{ translateX: translateX.value }],
-      };
-    } else {
-      return {
-        transform: [{ translateY: translateY.value }],
-      };
-    }
-  });
+	const containerSize = useRef({ width: 0, height: 0 });
+	const contentSize = useRef({ width: 0, height: 0 });
+	const delayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const startAnimation = (containerWidth: number, contentWidth: number) => {
-    if (contentWidth <= containerWidth) return; // No need to scroll
+	const animatedStyle = useAnimatedStyle(() => {
+		if (direction === "left" || direction === "right") {
+			return {
+				transform: [{ translateX: translateX.value }],
+			};
+		} else {
+			return {
+				transform: [{ translateY: translateY.value }],
+			};
+		}
+	});
 
-    const distance = contentWidth - containerWidth;
-    const duration = (distance / speed) * 1000; // Convert to milliseconds
+	const startAnimation = useCallback(
+		(containerExtent: number, contentExtent: number) => {
+			if (contentExtent <= containerExtent) return;
 
-    const startValue = direction === 'left' ? 0 : -distance;
-    const endValue = direction === 'left' ? -distance : 0;
+			if (delayTimerRef.current != null) {
+				clearTimeout(delayTimerRef.current);
+				delayTimerRef.current = null;
+			}
 
-    if (direction === 'left' || direction === 'right') {
-      translateX.value = startValue;
-    } else {
-      translateY.value = startValue;
-    }
+			const distance = contentExtent - containerExtent;
+			const duration = (distance / speed) * 1000;
 
-    const animation = withTiming(endValue, {
-      duration,
-      easing: Easing.linear,
-    });
+			// "left" / "up": scroll toward negative translation; "right" / "down": opposite
+			const isForward = direction === "left" || direction === "up";
+			const startValue = isForward ? 0 : -distance;
+			const endValue = isForward ? -distance : 0;
 
-    const repeatedAnimation = loop
-      ? withRepeat(
-          withSequence(
-            withTiming(endValue, { duration, easing: Easing.linear }),
-            withTiming(startValue, { duration: 0 }) // Reset instantly
-          ),
-          -1, // Infinite
-          false
-        )
-      : animation;
+			const animation = withTiming(endValue, {
+				duration,
+				easing: Easing.linear,
+			});
 
-    if (delay > 0) {
-      setTimeout(() => {
-        if (direction === 'left' || direction === 'right') {
-          translateX.value = repeatedAnimation;
-        } else {
-          translateY.value = repeatedAnimation;
-        }
-      }, delay);
-    } else {
-      if (direction === 'left' || direction === 'right') {
-        translateX.value = repeatedAnimation;
-      } else {
-        translateY.value = repeatedAnimation;
-      }
-    }
-  };
+			const repeatedAnimation = loop
+				? withRepeat(
+						withSequence(
+							withTiming(endValue, { duration, easing: Easing.linear }),
+							withTiming(startValue, { duration: 0 }),
+						),
+						-1,
+						false,
+					)
+				: animation;
 
-  const pauseAnimation = () => {
-    isPaused.value = true;
-    cancelAnimation(translateX);
-    cancelAnimation(translateY);
-  };
+			const run = () => {
+				if (direction === "left" || direction === "right") {
+					translateX.value = startValue;
+					translateX.value = repeatedAnimation;
+				} else {
+					translateY.value = startValue;
+					translateY.value = repeatedAnimation;
+				}
+			};
 
-  const resumeAnimation = () => {
-    isPaused.value = false;
-    // Re-measure and restart animation
-    measureAndStart();
-  };
+			if (delay > 0) {
+				if (direction === "left" || direction === "right") {
+					translateX.value = startValue;
+				} else {
+					translateY.value = startValue;
+				}
+				delayTimerRef.current = setTimeout(() => {
+					delayTimerRef.current = null;
+					run();
+				}, delay);
+			} else {
+				run();
+			}
+		},
+		[delay, direction, loop, speed, translateX, translateY],
+	);
 
-  const measureAndStart = () => {
-    containerRef.current?.measure((x, y, width, height) => {
-      contentRef.current?.measure((cx, cy, cWidth, cHeight) => {
-        if (direction === 'left' || direction === 'right') {
-          startAnimation(width, cWidth);
-        } else {
-          startAnimation(height, cHeight);
-        }
-      });
-    });
-  };
+	const tryStart = useCallback(() => {
+		const { width: cw, height: ch } = containerSize.current;
+		const { width: contentW, height: contentH } = contentSize.current;
 
-  useEffect(() => {
-    // Start animation after layout
-    const timeout = setTimeout(measureAndStart, 100);
-    return () => {
-      clearTimeout(timeout);
-      cancelAnimation(translateX);
-      cancelAnimation(translateY);
-    };
-  }, [children, speed, direction, loop]);
+		if (direction === "left" || direction === "right") {
+			if (cw > 0 && contentW > 0) startAnimation(cw, contentW);
+		} else if (ch > 0 && contentH > 0) {
+			startAnimation(ch, contentH);
+		}
+	}, [direction, startAnimation]);
 
-  const handlePressIn = () => {
-    if (pauseOnPress) {
-      pauseAnimation();
-    }
-  };
+	const onContainerLayout = useCallback(
+		(e: LayoutChangeEvent) => {
+			const { width, height } = e.nativeEvent.layout;
+			containerSize.current = { width, height };
+			tryStart();
+		},
+		[tryStart],
+	);
 
-  const handlePressOut = () => {
-    if (pauseOnPress) {
-      resumeAnimation();
-    }
-  };
+	const onContentLayout = useCallback(
+		(e: LayoutChangeEvent) => {
+			const { width, height } = e.nativeEvent.layout;
+			contentSize.current = { width, height };
+			tryStart();
+		},
+		[tryStart],
+	);
 
-  const fadeGradient = fadeColor || tokens.color.surface.default;
+	const pauseAnimation = () => {
+		cancelAnimation(translateX);
+		cancelAnimation(translateY);
+	};
 
-  return (
-    <View
-      ref={containerRef}
-      style={styles.container}
-      accessibilityLabel={accessibilityLabel}
-      accessibilityRole="text"
-      testID={testID}
-    >
-      {fadeEdges && (
-        <>
-          <View
-            style={[
-              styles.fadeLeft,
-              { backgroundColor: fadeGradient },
-              direction === 'up' || direction === 'down'
-                ? styles.fadeTop
-                : undefined,
-            ]}
-          />
-          <View
-            style={[
-              styles.fadeRight,
-              { backgroundColor: fadeGradient },
-              direction === 'up' || direction === 'down'
-                ? styles.fadeBottom
-                : undefined,
-            ]}
-          />
-        </>
-      )}
-      <Animated.View
-        ref={contentRef}
-        style={[
-          animatedStyle,
-          direction === 'up' || direction === 'down'
-            ? styles.vertical
-            : styles.horizontal,
-        ]}
-        onTouchStart={handlePressIn}
-        onTouchEnd={handlePressOut}
-        accessible={false} // Let parent handle accessibility
-      >
-        {children}
-      </Animated.View>
-    </View>
-  );
+	const resumeAnimation = () => {
+		tryStart();
+	};
+
+	useEffect(() => {
+		cancelAnimation(translateX);
+		cancelAnimation(translateY);
+		tryStart();
+		return () => {
+			if (delayTimerRef.current != null) {
+				clearTimeout(delayTimerRef.current);
+				delayTimerRef.current = null;
+			}
+			cancelAnimation(translateX);
+			cancelAnimation(translateY);
+		};
+	}, [tryStart, translateX, translateY]);
+
+	const handlePressIn = () => {
+		if (pauseOnPress) {
+			pauseAnimation();
+		}
+	};
+
+	const handlePressOut = () => {
+		if (pauseOnPress) {
+			resumeAnimation();
+		}
+	};
+
+	const fadeGradient = fadeColor || tokens.color.surface.default;
+
+	return (
+		<View
+			style={styles.container}
+			accessibilityLabel={accessibilityLabel}
+			accessibilityRole="text"
+			testID={testID}
+			onLayout={onContainerLayout}
+		>
+			{fadeEdges && (
+				<>
+					<View
+						style={[
+							styles.fadeLeft,
+							{ backgroundColor: fadeGradient },
+							direction === "up" || direction === "down"
+								? styles.fadeTop
+								: undefined,
+						]}
+					/>
+					<View
+						style={[
+							styles.fadeRight,
+							{ backgroundColor: fadeGradient },
+							direction === "up" || direction === "down"
+								? styles.fadeBottom
+								: undefined,
+						]}
+					/>
+				</>
+			)}
+			<Animated.View
+				collapsable={false}
+				style={[
+					animatedStyle,
+					direction === "up" || direction === "down"
+						? styles.vertical
+						: styles.horizontal,
+				]}
+				onLayout={onContentLayout}
+				onTouchStart={handlePressIn}
+				onTouchEnd={handlePressOut}
+				accessible={false} // Let parent handle accessibility
+			>
+				{children}
+			</Animated.View>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  horizontal: {
-    flexDirection: 'row',
-  },
-  vertical: {
-    flexDirection: 'column',
-  },
-  fadeLeft: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
-    width: 20,
-    zIndex: 1,
-  },
-  fadeRight: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    bottom: 0,
-    width: 20,
-    zIndex: 1,
-  },
-  fadeTop: {
-    left: 0,
-    right: 0,
-    top: 0,
-    height: 20,
-    width: undefined,
-  },
-  fadeBottom: {
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: 20,
-    width: undefined,
-  },
+	container: {
+		overflow: "hidden",
+		position: "relative",
+		alignSelf: "stretch",
+		minWidth: 0,
+	},
+	horizontal: {
+		flexDirection: "row",
+		alignSelf: "flex-start",
+	},
+	vertical: {
+		flexDirection: "column",
+		alignSelf: "flex-start",
+	},
+	fadeLeft: {
+		position: "absolute",
+		left: 0,
+		top: 0,
+		bottom: 0,
+		width: 20,
+		zIndex: 1,
+	},
+	fadeRight: {
+		position: "absolute",
+		right: 0,
+		top: 0,
+		bottom: 0,
+		width: 20,
+		zIndex: 1,
+	},
+	fadeTop: {
+		left: 0,
+		right: 0,
+		top: 0,
+		height: 20,
+		width: undefined,
+	},
+	fadeBottom: {
+		left: 0,
+		right: 0,
+		bottom: 0,
+		height: 20,
+		width: undefined,
+	},
 });

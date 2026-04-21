@@ -38,6 +38,7 @@ export const loveBrand = defineBrand({
       primary: '#4C0519',
       secondary: '#881337',
       tertiary: '#BE123C',
+      muted: '#E11D48',
       // WCAG UI text / disabled — ≥3:1 on #FFFFFF (rose-600)
       disabled: '#E11D48',
       inverse: '#FFFFFF',
@@ -55,6 +56,7 @@ export const loveBrand = defineBrand({
     },
     brand: {
       default: '#F43F5E',
+      primary: '#F43F5E',
       hover: '#E11D48',
       active: '#BE123C',
       subtle: '#FFF1F2',
@@ -63,12 +65,20 @@ export const loveBrand = defineBrand({
     },
     accent: {
       default: '#FB7185',
+      secondary: '#FB7185',
       hover: '#F43F5E',
       active: '#E11D48',
       subtle: '#FFF1F2',
       muted: '#FFE4E6',
       text: '#881337',
       onAccent: '#FFFFFF',
+    },
+    status: {
+      success: '#166534',
+      warning: '#92400E',
+      error: '#991B1B',
+      danger: '#991B1B',
+      info: '#1E3A8A',
     },
     success: {
       bg: '#F0FDF4',
@@ -118,6 +128,7 @@ export const loveBrand = defineBrand({
       primary: '#FFF1F2',
       secondary: '#FDA4AF',
       tertiary: '#FB7185',
+      muted: '#881337',
       disabled: '#881337',
       inverse: '#0F0205',
       link: '#FB7185',
@@ -134,6 +145,7 @@ export const loveBrand = defineBrand({
     },
     brand: {
       default: '#FB7185',
+      primary: '#FB7185',
       hover: '#FDA4AF',
       active: '#FECDD3',
       subtle: '#4C0519',
@@ -142,12 +154,20 @@ export const loveBrand = defineBrand({
     },
     accent: {
       default: '#FDA4AF',
+      secondary: '#FDA4AF',
       hover: '#FECDD3',
       active: '#FFE4E6',
       subtle: 'rgba(251, 113, 133, 0.1)',
       muted: 'rgba(251, 113, 133, 0.2)',
       text: '#FDA4AF',
       onAccent: '#0F0205',
+    },
+    status: {
+      success: '#4ADE80',
+      warning: '#FBBF24',
+      error: '#F87171',
+      danger: '#F87171',
+      info: '#60A5FA',
     },
     success: {
       bg: 'rgba(34,197,94,0.12)',

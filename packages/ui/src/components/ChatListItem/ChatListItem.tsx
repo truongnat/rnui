@@ -1,11 +1,11 @@
-import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { useTheme } from '@truongdq01/headless';
+import type React from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
-  useSharedValue,
   useAnimatedStyle,
+  useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { useTokens, useComponentTokens } from '@truongdq01/headless';
 import { Avatar } from '../Avatar';
 import { Badge } from '../Badge';
 
@@ -66,8 +66,10 @@ export function ChatListItem({
   onLongPress,
   trailingElement,
 }: ChatListItemProps) {
-  const tokens = useTokens();
-  const { list } = useComponentTokens();
+  const {
+    components: { list },
+    tokens,
+  } = useTheme();
 
   const pressed = useSharedValue(0);
 

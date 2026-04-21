@@ -6,15 +6,16 @@
  *
  * Run with: bun test:perf
  */
-import React, { useState, useRef } from 'react';
-import { render, fireEvent, act } from '@testing-library/react-native';
+
+import { act, fireEvent, render } from '@testing-library/react-native';
+import React, { useRef, useState } from 'react';
 import {
-  ThemeProvider,
+  Badge,
   Button,
+  Checkbox,
   Input,
   Switch,
-  Checkbox,
-  Badge,
+  ThemeProvider,
 } from '../../index';
 
 // ─── Render counter utility ───────────────────────────────────────

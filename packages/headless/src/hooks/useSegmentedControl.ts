@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 export interface UseSegmentedControlOptions<T> {
   value?: T;
@@ -7,11 +7,17 @@ export interface UseSegmentedControlOptions<T> {
   disabled?: boolean;
 }
 
+export type UseSegmentedControlTabProps = {
+  onPress: () => void;
+  accessibilityRole: 'tab';
+  accessibilityState: { selected: boolean; disabled: boolean };
+};
+
 export interface UseSegmentedControlReturn<T> {
   value: T;
   setSelectedIndex: (index: number, options: T[]) => void;
   isSelected: (val: T) => boolean;
-  getTabProps: (val: T, index: number) => any;
+  getTabProps: (val: T, index: number) => UseSegmentedControlTabProps;
 }
 
 export function useSegmentedControl<T>({

@@ -1,6 +1,7 @@
 import type { StoryObj } from '@storybook/react-native';
-import React, { useState } from 'react';
-import { ThemeProvider, Tabs, Tab } from '@truongdq01/ui';
+import { Tab, Tabs, ThemeProvider } from '@truongdq01/ui';
+import type React from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (

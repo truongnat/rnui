@@ -1,9 +1,9 @@
 import {
-  useSharedValue,
+  Extrapolation,
+  interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  interpolate,
-  Extrapolation,
+  useSharedValue,
 } from 'react-native-reanimated';
 
 export interface UseScrollHeaderOptions {
@@ -51,7 +51,7 @@ export function useScrollHeader({
       extrapolateRight: Extrapolation.CLAMP,
     });
     return {
-      transform: [{ translateY }, { scale }] as any,
+      transform: [{ translateY }, { scale }],
     };
   });
 

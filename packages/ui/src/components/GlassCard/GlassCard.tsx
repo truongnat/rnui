@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react';
+import { useTheme } from '@truongdq01/headless';
+import type React from 'react';
+import { useMemo } from 'react';
 import {
-  View,
-  StyleSheet,
-  type ViewProps,
   type StyleProp,
+  StyleSheet,
+  View,
+  type ViewProps,
   type ViewStyle,
 } from 'react-native';
-import { useTokens } from '@truongdq01/headless';
 
 let BlurView: React.ComponentType<any> | null = null;
 try {
@@ -35,7 +36,7 @@ export function GlassCard({
   children,
   ...rest
 }: GlassCardProps) {
-  const t = useTokens();
+  const { tokens: t } = useTheme();
   const isDark = t.color.bg.default !== '#F8FAFC';
 
   const resolvedTint = tint ?? (isDark ? 'dark' : 'light');

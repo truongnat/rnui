@@ -1,0 +1,36 @@
+---
+title: Welcome to RNUI
+description: A comprehensive collection of React Native UI components.
+template: splash
+hero:
+  tagline: A comprehensive collection of React Native UI components built for speed and aesthetics.
+  image:
+    file: ../../assets/houston.webp
+  actions:
+    - text: Getting Started
+      link: /getting-started
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/rnui/rnui
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Next steps
+
+<CardGrid stagger>
+  <Card title="Install the library" icon="pencil">
+    Run `bun add @rnui/ui` to install the UI library.
+  </Card>
+  <Card title="Browse Components" icon="add-document">
+    Check out the [Components](/components) to see what's available.
+  </Card>
+  <Card title="Configure Theming" icon="setting">
+    Learn how to customize the look and feel in the [Theming guide](/theming).
+  </Card>
+  <Card title="Headless Hooks" icon="open-book">
+    Build your own UI using our [Headless hooks](/headless).
+  </Card>
+</CardGrid>

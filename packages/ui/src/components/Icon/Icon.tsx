@@ -1,72 +1,72 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { useTokens, useComponentTokens } from '@truongdq01/headless';
+import { useTheme } from '@truongdq01/headless';
 import {
-  // Navigation & Actions
-  Star,
-  Heart,
-  Check,
-  Info,
-  AlertTriangle,
   AlertCircle,
-  CheckCircle,
-  X,
-  XCircle,
-  Menu,
-  MoreVertical,
-  MoreHorizontal,
-  Search,
-  Settings,
-  Bell,
-  Home,
-  User,
-  Plus,
-  Minus,
-  Edit,
-  Trash,
-  Share,
-  Download,
-  Upload,
-  RefreshCw,
-  ExternalLink,
-  ChevronUp,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  ArrowUp,
+  AlertTriangle,
   ArrowDown,
   ArrowLeft,
   ArrowRight,
+  ArrowUp,
+  Bell,
+  Box,
+  Calendar,
+  Camera,
+  Check,
+  CheckCircle,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  Clock,
+  Copy,
+  CreditCard,
+  Download,
+  Edit,
+  ExternalLink,
   Eye,
   EyeOff,
-  Lock,
-  Unlock,
-  Calendar,
-  Clock,
-  MapPin,
-  Camera,
-  Image,
-  Video,
   FileText,
-  Copy,
-  Layout,
-  Grid,
-  List,
-  Layers,
-  Box,
-  Package,
-  ShoppingCart,
-  CreditCard,
-  Mail,
-  Phone,
-  MessageSquare,
-  Send,
-  Zap,
   Flame,
+  Grid,
+  Heart,
+  Home,
+  Image,
+  Info,
+  Layers,
+  Layout,
+  List,
+  Lock,
+  Mail,
+  MapPin,
+  Menu,
+  MessageSquare,
+  Minus,
+  MoreHorizontal,
+  MoreVertical,
+  Package,
+  Phone,
+  Plus,
+  RefreshCw,
+  Search,
+  Send,
+  Settings,
+  Share,
+  ShoppingCart,
+  // Navigation & Actions
+  Star,
   StarHalf,
-  ThumbsUp,
   ThumbsDown,
+  ThumbsUp,
+  Trash,
+  Unlock,
+  Upload,
+  User,
+  Video,
+  X,
+  XCircle,
+  Zap,
 } from 'lucide-react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
 
 export const ICON_MAP = {
   star: Star,
@@ -163,8 +163,10 @@ export interface IconProps {
  * Provides theme-aware sizing and colors.
  */
 export function Icon({ name, children, size, color, style }: IconProps) {
-  const { icon: iconTokens } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { icon: iconTokens },
+    tokens,
+  } = useTheme();
 
   // Resolve the icon name from either prop or children
   const iconNameString = (name ??
@@ -211,7 +213,7 @@ export function IconWrapper({
   size?: number;
   color?: string;
 }) {
-  const tokens = useTokens();
+  const { tokens } = useTheme();
   if (!React.isValidElement<Partial<{ color: string; size: number }>>(children))
     return null;
   return React.cloneElement(children, {

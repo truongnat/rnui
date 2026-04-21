@@ -1,6 +1,6 @@
+import { useId, useTheme } from '@truongdq01/headless';
 import React from 'react';
-import { Text, type TextStyle, type AccessibilityRole } from 'react-native';
-import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { type AccessibilityRole, Text, type TextStyle } from 'react-native';
 
 export type TypographyVariant =
   | 'display'
@@ -50,8 +50,13 @@ export interface TypographyProps {
   gutterBottom?: boolean;
   noWrap?: boolean;
   paragraph?: boolean;
+  /** Maximum number of lines for text */
+  numberOfLines?: number;
   display?: 'none' | 'flex' | 'contents' | 'block' | 'inline' | 'inline-flex';
-  style?: TextStyle | TextStyle[];
+  /** Unique identifier for the typography element */
+  id?: string;
+  fontWeight?: import('react-native').TextStyle['fontWeight'];
+  style?: import('react-native').StyleProp<import('react-native').TextStyle>;
 }
 
 function accessibilityForAs(as: TypographyAs | undefined): {
@@ -75,6 +80,7 @@ function accessibilityForAs(as: TypographyAs | undefined): {
 }
 
 function TypographyInner({
+  id: idProp,
   children,
   variant = 'body1',
   as,
@@ -83,11 +89,16 @@ function TypographyInner({
   gutterBottom = false,
   noWrap = false,
   paragraph = false,
+  numberOfLines,
   display,
+  fontWeight,
   style,
 }: TypographyProps) {
-  const { typography } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { typography },
+    tokens,
+  } = useTheme();
+  const id = useId(idProp, 'typography');
 
   const variantStyle =
     variant === 'inherit'
@@ -117,12 +128,14 @@ function TypographyInner({
 
   return (
     <Text
+      nativeID={id}
       {...a11y}
-      numberOfLines={noWrap ? 1 : undefined}
+      numberOfLines={numberOfLines ?? (noWrap ? 1 : undefined)}
       style={[
         {
           color: resolvedColor,
           textAlign: align === 'inherit' ? undefined : align,
+          fontWeight,
         },
         variantStyle,
         !skipSans && sansFont,

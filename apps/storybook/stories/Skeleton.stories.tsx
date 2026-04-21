@@ -1,14 +1,14 @@
 import type { StoryObj } from '@storybook/react-native';
-import React from 'react';
 import {
-  ThemeProvider,
   Skeleton,
-  SkeletonText,
   SkeletonCard,
-  SkeletonProfile,
-  SkeletonMedia,
   SkeletonGroup,
+  SkeletonMedia,
+  SkeletonProfile,
+  SkeletonText,
+  ThemeProvider,
 } from '@truongdq01/ui';
+import type React from 'react';
 import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (

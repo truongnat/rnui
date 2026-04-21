@@ -1,14 +1,14 @@
+import type { Brand } from '@truongdq01/tokens';
 import {
+  allBrands,
   defaultBrand,
   forestBrand,
+  getBrandById,
   loveBrand,
   midnightBrand,
   oceanBrand,
   sunsetBrand,
-  allBrands,
-  getBrandById,
 } from '../index';
-import type { Brand } from '@truongdq01/tokens';
 
 describe('Brands', () => {
   const brands = [

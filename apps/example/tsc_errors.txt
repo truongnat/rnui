@@ -1,0 +1,192 @@
+apps/example/app/components/AnimatedList.tsx(88,97): error TS2339: Property 'muted' does not exist on type '{ primary: string; secondary: string; tertiary: string; disabled: string; inverse: string; link: string; visited?: string; selected?: string; onBrand: string; onAccent: string; success?: string; warning?: string; error?: string; info?: string; }'.
+apps/example/app/components/AnimatedList.tsx(102,97): error TS2339: Property 'muted' does not exist on type '{ primary: string; secondary: string; tertiary: string; disabled: string; inverse: string; link: string; visited?: string; selected?: string; onBrand: string; onAccent: string; success?: string; warning?: string; error?: string; info?: string; }'.
+apps/example/app/components/AnimatedList.tsx(114,97): error TS2339: Property 'muted' does not exist on type '{ primary: string; secondary: string; tertiary: string; disabled: string; inverse: string; link: string; visited?: string; selected?: string; onBrand: string; onAccent: string; success?: string; warning?: string; error?: string; info?: string; }'.
+apps/example/app/components/AnimatedList.tsx(132,7): error TS2451: Cannot redeclare block-scoped variable 'styles'.
+apps/example/app/components/AnimatedList.tsx(135,7): error TS2451: Cannot redeclare block-scoped variable 'styles'.
+apps/example/app/components/AspectRatio.tsx(34,75): error TS2339: Property 'muted' does not exist on type '{ bg: string; text: string; border: string; icon: string; }'.
+apps/example/app/components/Autocomplete.tsx(36,39): error TS2322: Type 'string | ((prevState: string) => string)' is not assignable to type 'string'.
+  Type '(prevState: string) => string' is not assignable to type 'string'.
+apps/example/app/components/Avatar.tsx(19,45): error TS2322: Type '{ children: Element[]; direction: "row"; spacing: "md"; wrap: string; alignItems: "center"; }' is not assignable to type 'IntrinsicAttributes & StackProps'.
+  Property 'wrap' does not exist on type 'IntrinsicAttributes & StackProps'.
+apps/example/app/components/Avatar.tsx(30,45): error TS2322: Type '{ children: Element[]; direction: "row"; spacing: "lg"; wrap: string; }' is not assignable to type 'IntrinsicAttributes & StackProps'.
+  Property 'wrap' does not exist on type 'IntrinsicAttributes & StackProps'.
+apps/example/app/components/Badge.tsx(19,45): error TS2322: Type '{ children: Element[]; direction: "row"; spacing: "sm"; wrap: string; }' is not assignable to type 'IntrinsicAttributes & StackProps'.
+  Property 'wrap' does not exist on type 'IntrinsicAttributes & StackProps'.
+apps/example/app/components/Badge.tsx(30,45): error TS2322: Type '{ children: Element[]; direction: "row"; spacing: "sm"; wrap: string; }' is not assignable to type 'IntrinsicAttributes & StackProps'.
+  Property 'wrap' does not exist on type 'IntrinsicAttributes & StackProps'.
+apps/example/app/components/BottomNavigation.tsx(52,71): error TS2322: Type 'string' is not assignable to type 'boolean'.
+apps/example/app/components/BottomNavigation.tsx(63,71): error TS2322: Type 'string' is not assignable to type 'boolean'.
+apps/example/app/components/BottomSheet.tsx(77,20): error TS2322: Type '{ children: Element[]; direction: string; }' is not assignable to type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+  Property 'direction' does not exist on type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+apps/example/app/components/Box.tsx(15,20): error TS2322: Type '"md"' is not assignable to type 'DimensionValue'.
+apps/example/app/components/Box.tsx(31,20): error TS2322: Type '"lg"' is not assignable to type 'DimensionValue'.
+apps/example/app/components/Box.tsx(31,96): error TS2322: Type '"md"' is not assignable to type 'DimensionValue'.
+apps/example/app/components/Box.tsx(39,20): error TS2322: Type '"xl"' is not assignable to type 'DimensionValue'.
+apps/example/app/components/Box.tsx(40,22): error TS2322: Type '"md"' is not assignable to type 'DimensionValue'.
+apps/example/app/components/Breadcrumbs.tsx(35,36): error TS2322: Type '{ children: string; onPress: () => void; leadingIcon: Element; }' is not assignable to type 'IntrinsicAttributes & LinkProps'.
+  Property 'leadingIcon' does not exist on type 'IntrinsicAttributes & LinkProps'.
+apps/example/app/components/Button.tsx(33,45): error TS2322: Type '{ children: Element[]; direction: "row"; spacing: "sm"; wrap: string; }' is not assignable to type 'IntrinsicAttributes & StackProps'.
+  Property 'wrap' does not exist on type 'IntrinsicAttributes & StackProps'.
+apps/example/app/components/CircularProgress.tsx(29,57): error TS2322: Type '{ value: number; size: number; strokeWidth: number; showValue: true; }' is not assignable to type 'IntrinsicAttributes & CircularProgressProps'.
+  Property 'strokeWidth' does not exist on type 'IntrinsicAttributes & CircularProgressProps'.
+apps/example/app/components/CircularProgress.tsx(42,42): error TS2322: Type 'string' is not assignable to type 'CircularProgressColor'.
+apps/example/app/components/CircularProgress.tsx(43,56): error TS2339: Property 'status' does not exist on type 'BrandColorGroup'.
+apps/example/app/components/CircularProgress.tsx(44,56): error TS2339: Property 'status' does not exist on type 'BrandColorGroup'.
+apps/example/app/components/CircularProgress.tsx(45,56): error TS2339: Property 'status' does not exist on type 'BrandColorGroup'.
+apps/example/app/components/CircularProgress.tsx(54,51): error TS2322: Type '{ value: number; size: number; strokeWidth: number; }' is not assignable to type 'IntrinsicAttributes & CircularProgressProps'.
+  Property 'strokeWidth' does not exist on type 'IntrinsicAttributes & CircularProgressProps'.
+apps/example/app/components/CircularProgress.tsx(55,51): error TS2322: Type '{ value: number; size: number; strokeWidth: number; }' is not assignable to type 'IntrinsicAttributes & CircularProgressProps'.
+  Property 'strokeWidth' does not exist on type 'IntrinsicAttributes & CircularProgressProps'.
+apps/example/app/components/CircularProgress.tsx(56,51): error TS2322: Type '{ value: number; size: number; strokeWidth: number; }' is not assignable to type 'IntrinsicAttributes & CircularProgressProps'.
+  Property 'strokeWidth' does not exist on type 'IntrinsicAttributes & CircularProgressProps'.
+apps/example/app/components/CircularProgress.tsx(57,51): error TS2322: Type '{ value: number; size: number; strokeWidth: number; }' is not assignable to type 'IntrinsicAttributes & CircularProgressProps'.
+  Property 'strokeWidth' does not exist on type 'IntrinsicAttributes & CircularProgressProps'.
+apps/example/app/components/CircularProgress.tsx(66,29): error TS2322: Type '{ indeterminate: true; size: number; strokeWidth: number; }' is not assignable to type 'IntrinsicAttributes & CircularProgressProps'.
+  Property 'indeterminate' does not exist on type 'IntrinsicAttributes & CircularProgressProps'.
+apps/example/app/components/Collapsible.tsx(66,70): error TS2339: Property 'primary' does not exist on type '{ default: string; hover: string; active: string; subtle: string; muted: string; text: string; }'.
+apps/example/app/components/ContextMenu.tsx(24,88): error TS2339: Property 'status' does not exist on type 'BrandColorGroup'.
+apps/example/app/components/ContextMenu.tsx(64,11): error TS2322: Type '(event: any) => void' is not assignable to type '() => void'.
+  Target signature provides too few arguments. Expected 1 or more, but got 0.
+apps/example/app/components/Drawer.tsx(28,11): error TS2322: Type '{ children: Element; open: boolean; onClose: () => void; title: string; }' is not assignable to type 'IntrinsicAttributes & DrawerProps'.
+  Property 'title' does not exist on type 'IntrinsicAttributes & DrawerProps'.
+apps/example/app/components/Drawer.tsx(31,19): error TS2339: Property 'Item' does not exist on type '({ id: idProp, children, dense, disablePadding, subheader, style, }: ListProps) => Element'.
+apps/example/app/components/Drawer.tsx(32,19): error TS2339: Property 'Item' does not exist on type '({ id: idProp, children, dense, disablePadding, subheader, style, }: ListProps) => Element'.
+apps/example/app/components/Drawer.tsx(33,19): error TS2339: Property 'Item' does not exist on type '({ id: idProp, children, dense, disablePadding, subheader, style, }: ListProps) => Element'.
+apps/example/app/components/Drawer.tsx(35,19): error TS2339: Property 'Item' does not exist on type '({ id: idProp, children, dense, disablePadding, subheader, style, }: ListProps) => Element'.
+apps/example/app/components/Drawer.tsx(36,19): error TS2339: Property 'Item' does not exist on type '({ id: idProp, children, dense, disablePadding, subheader, style, }: ListProps) => Element'.
+apps/example/app/components/Drawer.tsx(37,19): error TS2339: Property 'Item' does not exist on type '({ id: idProp, children, dense, disablePadding, subheader, style, }: ListProps) => Element'.
+apps/example/app/components/Form.tsx(60,25): error TS2322: Type '{ checked: boolean; onChange: (v: boolean) => void; }' is not assignable to type 'IntrinsicAttributes & SwitchProps'.
+  Property 'checked' does not exist on type 'IntrinsicAttributes & SwitchProps'.
+apps/example/app/components/Form.tsx(71,25): error TS2322: Type '{ checked: boolean; onChange: (v: boolean) => void; }' is not assignable to type 'IntrinsicAttributes & SwitchProps'.
+  Property 'checked' does not exist on type 'IntrinsicAttributes & SwitchProps'.
+apps/example/app/components/FormControl.tsx(9,3): error TS2305: Module '"@truongdq01/ui"' has no exported member 'Radio'.
+apps/example/app/components/FormControl.tsx(56,16): error TS2322: Type '{ children: Element[]; gap: number; }' is not assignable to type 'IntrinsicAttributes & StackProps'.
+  Property 'gap' does not exist on type 'IntrinsicAttributes & StackProps'.
+apps/example/app/components/FormControl.tsx(63,30): error TS2322: Type '{ value: boolean; onValueChange: Dispatch<SetStateAction<boolean>>; }' is not assignable to type 'IntrinsicAttributes & SwitchProps'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & SwitchProps'.
+apps/example/app/components/FormControl.tsx(91,12): error TS2322: Type '{ children: Element; value: string; onValueChange: Dispatch<SetStateAction<string>>; }' is not assignable to type 'IntrinsicAttributes & RadioGroupProps<string>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RadioGroupProps<string>'.
+apps/example/app/components/FormControl.tsx(92,20): error TS2322: Type '{ children: Element[]; gap: number; }' is not assignable to type 'IntrinsicAttributes & StackProps'.
+  Property 'gap' does not exist on type 'IntrinsicAttributes & StackProps'.
+apps/example/app/components/FormControl.tsx(93,33): error TS2322: Type '{ value: string; control: Element; label: string; }' is not assignable to type 'IntrinsicAttributes & FormControlLabelProps'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & FormControlLabelProps'.
+apps/example/app/components/FormControl.tsx(94,33): error TS2322: Type '{ value: string; control: Element; label: string; }' is not assignable to type 'IntrinsicAttributes & FormControlLabelProps'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & FormControlLabelProps'.
+apps/example/app/components/FormControl.tsx(95,33): error TS2322: Type '{ value: string; control: Element; label: string; }' is not assignable to type 'IntrinsicAttributes & FormControlLabelProps'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & FormControlLabelProps'.
+apps/example/app/components/FormField.tsx(39,19): error TS2322: Type '{ children: string; size: string; onPress: () => void; }' is not assignable to type 'IntrinsicAttributes & LinkProps'.
+  Property 'size' does not exist on type 'IntrinsicAttributes & LinkProps'.
+apps/example/app/components/Gradient.tsx(28,23): error TS2322: Type '"sunset"' is not assignable to type '"success" | "brand" | "accent" | "sunrise" | "ocean" | "midnight"'.
+apps/example/app/components/Gradient.tsx(33,23): error TS2322: Type '"forest"' is not assignable to type '"success" | "brand" | "accent" | "sunrise" | "ocean" | "midnight"'.
+apps/example/app/components/Grid.tsx(51,78): error TS2339: Property 'emphasis' does not exist on type '{ default: string; hover: string; active: string; subtle: string; muted: string; text: string; }'.
+apps/example/app/components/Icon.tsx(40,54): error TS2339: Property 'emphasis' does not exist on type '{ primary: string; secondary: string; tertiary: string; disabled: string; inverse: string; link: string; visited?: string; selected?: string; onBrand: string; onAccent: string; success?: string; warning?: string; error?: string; info?: string; }'.
+apps/example/app/components/Icon.tsx(41,56): error TS2339: Property 'emphasis' does not exist on type '{ primary: string; secondary: string; tertiary: string; disabled: string; inverse: string; link: string; visited?: string; selected?: string; onBrand: string; onAccent: string; success?: string; warning?: string; error?: string; info?: string; }'.
+apps/example/app/components/Icon.tsx(42,54): error TS2339: Property 'emphasis' does not exist on type '{ primary: string; secondary: string; tertiary: string; disabled: string; inverse: string; link: string; visited?: string; selected?: string; onBrand: string; onAccent: string; success?: string; warning?: string; error?: string; info?: string; }'.
+apps/example/app/components/Icon.tsx(43,54): error TS2339: Property 'emphasis' does not exist on type '{ primary: string; secondary: string; tertiary: string; disabled: string; inverse: string; link: string; visited?: string; selected?: string; onBrand: string; onAccent: string; success?: string; warning?: string; error?: string; info?: string; }'.
+apps/example/app/components/Icon.tsx(44,58): error TS2339: Property 'emphasis' does not exist on type '{ primary: string; secondary: string; tertiary: string; disabled: string; inverse: string; link: string; visited?: string; selected?: string; onBrand: string; onAccent: string; success?: string; warning?: string; error?: string; info?: string; }'.
+apps/example/app/components/Icon.tsx(51,61): error TS2339: Property 'status' does not exist on type 'BrandColorGroup'.
+apps/example/app/components/Icon.tsx(55,60): error TS2339: Property 'status' does not exist on type 'BrandColorGroup'.
+apps/example/app/components/Icon.tsx(59,53): error TS2339: Property 'status' does not exist on type 'BrandColorGroup'.
+apps/example/app/components/Icon.tsx(74,62): error TS2339: Property 'emphasis' does not exist on type '{ default: string; subtle: string; strong: string; input: string; focus: string; error: string; success?: string; warning?: string; info?: string; }'.
+apps/example/app/components/Icon.tsx(75,55): error TS2339: Property 'status' does not exist on type 'BrandColorGroup'.
+apps/example/app/components/Icon.tsx(76,54): error TS2339: Property 'status' does not exist on type 'BrandColorGroup'.
+apps/example/app/components/Image.tsx(19,20): error TS2322: Type '{ children: Element[]; direction: string; }' is not assignable to type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+  Property 'direction' does not exist on type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+apps/example/app/components/Label.tsx(33,20): error TS2322: Type '{ children: string; color: string; }' is not assignable to type 'IntrinsicAttributes & LabelProps'.
+  Property 'color' does not exist on type 'IntrinsicAttributes & LabelProps'.
+apps/example/app/components/Label.tsx(34,20): error TS2322: Type '{ children: string; color: string; }' is not assignable to type 'IntrinsicAttributes & LabelProps'.
+  Property 'color' does not exist on type 'IntrinsicAttributes & LabelProps'.
+apps/example/app/components/Label.tsx(35,20): error TS2322: Type '{ children: string; disabled: true; }' is not assignable to type 'IntrinsicAttributes & LabelProps'.
+  Property 'disabled' does not exist on type 'IntrinsicAttributes & LabelProps'.
+apps/example/app/components/Label.tsx(45,24): error TS2322: Type '{ children: string; variant: string; }' is not assignable to type 'IntrinsicAttributes & LabelProps'.
+  Property 'variant' does not exist on type 'IntrinsicAttributes & LabelProps'.
+apps/example/app/components/Label.tsx(49,24): error TS2322: Type '{ children: string; variant: string; }' is not assignable to type 'IntrinsicAttributes & LabelProps'.
+  Property 'variant' does not exist on type 'IntrinsicAttributes & LabelProps'.
+apps/example/app/components/Link.tsx(37,13): error TS2322: Type '{ children: string; onPress: () => string; trailingIcon: Element; }' is not assignable to type 'IntrinsicAttributes & LinkProps'.
+  Property 'trailingIcon' does not exist on type 'IntrinsicAttributes & LinkProps'.
+apps/example/app/components/Link.tsx(48,20): error TS2322: Type '{ children: string; variant: string; }' is not assignable to type 'IntrinsicAttributes & LinkProps'.
+  Property 'variant' does not exist on type 'IntrinsicAttributes & LinkProps'.
+apps/example/app/components/Link.tsx(49,20): error TS2322: Type '{ children: string; variant: string; }' is not assignable to type 'IntrinsicAttributes & LinkProps'.
+  Property 'variant' does not exist on type 'IntrinsicAttributes & LinkProps'.
+apps/example/app/components/Link.tsx(50,20): error TS2322: Type '{ children: string; variant: string; }' is not assignable to type 'IntrinsicAttributes & LinkProps'.
+  Property 'variant' does not exist on type 'IntrinsicAttributes & LinkProps'.
+apps/example/app/components/List.tsx(78,17): error TS2322: Type '{ style: { marginLeft: number; }; color: string; }' is not assignable to type 'IntrinsicAttributes & DividerProps'.
+  Property 'style' does not exist on type 'IntrinsicAttributes & DividerProps'.
+apps/example/app/components/Marquee.tsx(34,68): error TS2339: Property 'primary' does not exist on type '{ default: string; hover: string; active: string; subtle: string; muted: string; text: string; }'.
+apps/example/app/components/Marquee.tsx(72,68): error TS2339: Property 'primary' does not exist on type '{ default: string; hover: string; active: string; subtle: string; muted: string; text: string; }'.
+apps/example/app/components/Menu.tsx(100,52): error TS2339: Property 'status' does not exist on type 'BrandColorGroup'.
+apps/example/app/components/Pagination.tsx(26,11): error TS2322: Type '{ count: number; page: number; onChange: Dispatch<SetStateAction<number>>; color: string; }' is not assignable to type 'IntrinsicAttributes & PaginationProps'.
+  Property 'color' does not exist on type 'IntrinsicAttributes & PaginationProps'.
+apps/example/app/components/Pagination.tsx(37,13): error TS2820: Type '"outline"' is not assignable to type '"text" | "outlined"'. Did you mean '"outlined"'?
+apps/example/app/components/Pagination.tsx(46,13): error TS2322: Type '{ count: number; shape: "rounded"; page: number; onChange: Dispatch<SetStateAction<number>>; color: string; }' is not assignable to type 'IntrinsicAttributes & PaginationProps'.
+  Property 'color' does not exist on type 'IntrinsicAttributes & PaginationProps'.
+apps/example/app/components/Pagination.tsx(70,11): error TS2322: Type '{ count: number; page: number; onChange: Dispatch<SetStateAction<number>>; boundaryCount: number; siblingCount: number; }' is not assignable to type 'IntrinsicAttributes & PaginationProps'.
+  Property 'boundaryCount' does not exist on type 'IntrinsicAttributes & PaginationProps'.
+apps/example/app/components/Popper.tsx(72,13): error TS2322: Type 'number' is not assignable to type '"none" | "sm" | "md" | "lg"'.
+apps/example/app/components/Pressable.tsx(77,20): error TS2322: Type '{ children: Element; direction: string; }' is not assignable to type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+  Property 'direction' does not exist on type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+apps/example/app/components/Radio.tsx(48,20): error TS2322: Type '{ children: Element; label: string; }' is not assignable to type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+  Property 'label' does not exist on type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+apps/example/app/components/Radio.tsx(62,20): error TS2322: Type '{ children: Element; label: string; }' is not assignable to type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+  Property 'label' does not exist on type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+apps/example/app/components/Radio.tsx(78,20): error TS2322: Type '{ children: Element; label: string; }' is not assignable to type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+  Property 'label' does not exist on type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+apps/example/app/components/Radio.tsx(79,22): error TS2322: Type '{ children: Element[]; direction: string; }' is not assignable to type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+  Property 'direction' does not exist on type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+apps/example/app/components/Radio.tsx(99,20): error TS2322: Type '{ children: Element; label: string; }' is not assignable to type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+  Property 'label' does not exist on type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+apps/example/app/components/ScrollArea.tsx(21,28): error TS2322: Type '"md"' is not assignable to type 'DimensionValue'.
+apps/example/app/components/ScrollArea.tsx(53,28): error TS2322: Type '"md"' is not assignable to type 'DimensionValue'.
+apps/example/app/components/ScrollArea.tsx(73,199): error TS2322: Type '"sm"' is not assignable to type 'DimensionValue'.
+apps/example/app/components/SegmentedControl.tsx(41,115): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: ViewProps): View', gave the following error.
+    Object literal may only specify known properties, and 'borderWeight' does not exist in type 'ViewStyle | RecursiveArray<ViewStyle | Falsy>'.
+  Overload 2 of 2, '(props: ViewProps, context: any): View', gave the following error.
+    Object literal may only specify known properties, and 'borderWeight' does not exist in type 'ViewStyle | RecursiveArray<ViewStyle | Falsy>'.
+apps/example/app/components/SegmentedControl.tsx(48,97): error TS2339: Property 'subtle' does not exist on type '{ default: string; raised: string; overlay: string; sunken: string; hover: string; disabled: string; glass?: string; glassBorder?: string; }'.
+apps/example/app/components/SettingsMenu.tsx(41,15): error TS2322: Type '{ value: boolean; onValueChange: Dispatch<SetStateAction<boolean>>; }' is not assignable to type 'IntrinsicAttributes & SwitchProps'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & SwitchProps'.
+apps/example/app/components/Skeleton.tsx(90,50): error TS2339: Property 'subtle' does not exist on type '{ default: string; raised: string; overlay: string; sunken: string; hover: string; disabled: string; glass?: string; glassBorder?: string; }'.
+apps/example/app/components/Skeleton.tsx(99,39): error TS2322: Type '{ lines: number; style: { width: string; }; }' is not assignable to type 'IntrinsicAttributes & { lines?: number; lastLineWidth?: `${number}%`; shimmerDirection?: SkeletonShimmerDirection; }'.
+  Property 'style' does not exist on type 'IntrinsicAttributes & { lines?: number; lastLineWidth?: `${number}%`; shimmerDirection?: SkeletonShimmerDirection; }'.
+apps/example/app/components/Skeleton.tsx(107,35): error TS2322: Type '{ lines: number; style: { width: string; }; }' is not assignable to type 'IntrinsicAttributes & { lines?: number; lastLineWidth?: `${number}%`; shimmerDirection?: SkeletonShimmerDirection; }'.
+  Property 'style' does not exist on type 'IntrinsicAttributes & { lines?: number; lastLineWidth?: `${number}%`; shimmerDirection?: SkeletonShimmerDirection; }'.
+apps/example/app/components/Snackbar.tsx(54,15): error TS2322: Type '"brand"' is not assignable to type 'ButtonColor'.
+apps/example/app/components/Snackbar.tsx(66,20): error TS2322: Type '{ children: Element[]; direction: string; }' is not assignable to type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+  Property 'direction' does not exist on type 'IntrinsicAttributes & { children: ReactNode; gap?: number; }'.
+apps/example/app/components/Stepper.tsx(33,36): error TS2322: Type '{ children: Element; key: string; completed: boolean; }' is not assignable to type 'IntrinsicAttributes & Partial<StepInternalProps> & StepProps'.
+  Property 'completed' does not exist on type 'IntrinsicAttributes & Partial<StepInternalProps> & StepProps'.
+apps/example/app/components/Stepper.tsx(74,12): error TS2741: Property 'index' is missing in type '{ children: Element[]; }' but required in type 'StepProps'.
+apps/example/app/components/Stepper.tsx(80,12): error TS2741: Property 'index' is missing in type '{ children: Element[]; }' but required in type 'StepProps'.
+apps/example/app/components/Stepper.tsx(87,12): error TS2741: Property 'index' is missing in type '{ children: Element; }' but required in type 'StepProps'.
+apps/example/app/components/Stepper.tsx(95,17): error TS2322: Type '{ children: Element; completed: true; }' is not assignable to type 'IntrinsicAttributes & Partial<StepInternalProps> & StepProps'.
+  Property 'completed' does not exist on type 'IntrinsicAttributes & Partial<StepInternalProps> & StepProps'.
+apps/example/app/components/Stepper.tsx(98,12): error TS2741: Property 'index' is missing in type '{ children: Element; }' but required in type 'StepProps'.
+apps/example/app/components/Stepper.tsx(99,24): error TS2322: Type '{ children: string; error: string; }' is not assignable to type 'IntrinsicAttributes & StepLabelProps'.
+  Property 'error' does not exist on type 'IntrinsicAttributes & StepLabelProps'.
+apps/example/app/components/Stepper.tsx(101,12): error TS2741: Property 'index' is missing in type '{ children: Element; }' but required in type 'StepProps'.
+apps/example/app/components/Timeline.tsx(120,71): error TS2339: Property 'status' does not exist on type 'BrandColorGroup'.
+apps/example/app/components/ToggleButton.tsx(25,16): error TS2322: Type '{ children: Element[]; gap: number; }' is not assignable to type 'IntrinsicAttributes & StackProps'.
+  Property 'gap' does not exist on type 'IntrinsicAttributes & StackProps'.
+apps/example/app/components/ToggleButton.tsx(52,16): error TS2322: Type '{ children: Element[]; gap: number; }' is not assignable to type 'IntrinsicAttributes & StackProps'.
+  Property 'gap' does not exist on type 'IntrinsicAttributes & StackProps'.
+apps/example/app/components/ToggleButton.tsx(75,16): error TS2322: Type '{ children: Element[]; gap: number; }' is not assignable to type 'IntrinsicAttributes & StackProps'.
+  Property 'gap' does not exist on type 'IntrinsicAttributes & StackProps'.
+apps/example/app/components/Typography.tsx(69,37): error TS2339: Property 'md' does not exist on type '{ readonly 0: 0; readonly 0.5: 2; readonly 1: 4; readonly 1.5: 6; readonly 2: 8; readonly 2.5: 10; readonly 3: 12; readonly 3.5: 14; readonly 4: 16; readonly 5: 20; readonly 6: 24; readonly 7: 28; readonly 8: 32; ... 8 more ...; readonly 28: 112; }'.
+packages/ui/src/components/Accordion/AccordionSummary.tsx(67,9): error TS2322: Type '({ readonly paddingHorizontal: 16; readonly paddingVertical: 12; readonly backgroundColor: string; readonly gap: 8; } | DefaultStyle | { flexDirection: "row"; alignItems: "center"; justifyContent: "space-between"; })[]' is not assignable to type 'StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>'.
+  Type '({ readonly paddingHorizontal: 16; readonly paddingVertical: 12; readonly backgroundColor: string; readonly gap: 8; } | DefaultStyle | { flexDirection: "row"; alignItems: "center"; justifyContent: "space-between"; })[]' is not assignable to type '(false | "" | ViewStyle | SharedValueDisableContravariance<ViewStyle> | { backfaceVisibility?: MaybeSharedValue<"hidden"> | MaybeSharedValue<...>; ... 172 more ...; translateY?: number | ... 3 more ... | { ...; }; } | ... 6 more ... | (false | ... 4 more ... | SharedValueDisableContravariance<...>)[])[]'.
+    Type '{ readonly paddingHorizontal: 16; readonly paddingVertical: 12; readonly backgroundColor: string; readonly gap: 8; } | DefaultStyle | { flexDirection: "row"; alignItems: "center"; justifyContent: "space-between"; }' is not assignable to type 'false | "" | ViewStyle | SharedValueDisableContravariance<ViewStyle> | { backfaceVisibility?: MaybeSharedValue<"hidden"> | MaybeSharedValue<...>; ... 172 more ...; translateY?: number | ... 3 more ... | { ...; }; } | ... 6 more ... | (false | ... 4 more ... | SharedValueDisableContravariance<...>)[]'.
+      Type 'TextStyle' is not assignable to type 'false | "" | ViewStyle | SharedValueDisableContravariance<ViewStyle> | { backfaceVisibility?: MaybeSharedValue<"hidden"> | MaybeSharedValue<...>; ... 172 more ...; translateY?: number | ... 3 more ... | { ...; }; } | ... 6 more ... | (false | ... 4 more ... | SharedValueDisableContravariance<...>)[]'.
+        Type 'TextStyle' is not assignable to type 'ViewStyle | SharedValueDisableContravariance<ViewStyle> | { backfaceVisibility?: MaybeSharedValue<"hidden"> | MaybeSharedValue<...>; ... 172 more ...; translateY?: number | ... 3 more ... | { ...; }; } | ... 6 more ... | (false | ... 4 more ... | SharedValueDisableContravariance<...>)[]'.
+          Type 'TextStyle' is not assignable to type '{ backfaceVisibility?: MaybeSharedValue<"hidden"> | MaybeSharedValue<"visible">; backgroundColor?: string | OpaqueColorValue | SharedValueDisableContravariance<...> | SharedValueDisableContravariance<...> | { ...; }; ... 171 more ...; translateY?: number | ... 3 more ... | { ...; }; }'.
+            Types of property 'cursor' are incompatible.
+              Type 'string' is not assignable to type '"auto" | "pointer" | SharedValueDisableContravariance<"auto"> | SharedValueDisableContravariance<"pointer">'.
+packages/ui/src/components/Select/Select.tsx(4,15): error TS2724: '"../BottomSheet/BottomSheet"' has no exported member named 'BottomSheetRef'. Did you mean 'BottomSheet'?
+packages/ui/src/components/Select/SelectDropdown.tsx(106,7): error TS2322: Type 'string[]' is not assignable to type 'SnapPoint[]'.
+  Type 'string' is not assignable to type 'SnapPoint'.
+packages/ui/src/components/Tabs/TabPanel.tsx(17,7): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: ViewProps): View', gave the following error.
+    Type '"tabpanel"' is not assignable to type 'AccessibilityRole'.
+  Overload 2 of 2, '(props: ViewProps, context: any): View', gave the following error.
+    Type '"tabpanel"' is not assignable to type 'AccessibilityRole'.
+packages/ui/src/components/TextField/TextField.tsx(6,23): error TS2459: Module '"../Select/Select"' declares 'SelectProps' locally, but it is not exported.

@@ -1,8 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { ButtonGroup } from '../ButtonGroup';
-import { Button } from '../../Button';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { Button } from '../../Button';
+import { ButtonGroup } from '../ButtonGroup';
 
 test('ButtonGroup renders children', () => {
   const { getByText } = render(

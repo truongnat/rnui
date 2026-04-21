@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { useId, useTheme } from '@truongdq01/headless';
+import React, { useEffect, useState } from 'react';
+import { Text, TextInput, View } from 'react-native';
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
   interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
-import { useComponentTokens, useTokens } from '@truongdq01/headless';
 import { useFormGroupVariant } from '../FormField/FormGroupContext';
 import { AnimatedHelperText } from '../Input/AnimatedHelperText';
 
@@ -43,6 +43,7 @@ export interface TextAreaProps {
   disabled?: boolean;
   autoFocus?: boolean;
   accessibilityLabel?: string;
+  id?: string;
 }
 
 export function TextArea({
@@ -62,9 +63,13 @@ export function TextArea({
   disabled = false,
   autoFocus = false,
   accessibilityLabel,
+  id: idProp,
 }: TextAreaProps) {
-  const { textArea } = useComponentTokens();
-  const tokens = useTokens();
+  const id = useId(idProp, 'textarea');
+  const {
+    components: { textArea },
+    tokens,
+  } = useTheme();
   const formGroupVariant = useFormGroupVariant();
   const isGrouped = formGroupVariant === 'grouped';
   const [isFocused, setIsFocused] = useState(false);
@@ -183,7 +188,7 @@ export function TextArea({
     ) : null;
 
   return (
-    <View>
+    <View nativeID={id}>
       {/* Label row — counter when `above` */}
       {(label || showCounterAbove) && (
         <View
@@ -201,13 +206,11 @@ export function TextArea({
 
       {/* Text area */}
       <Animated.View
-        style={
-          [
-            containerStyle,
-            showCounterInside && { position: 'relative' as const },
-            animatedBorderStyle,
-          ] as any
-        }
+        style={[
+          containerStyle,
+          showCounterInside && { position: 'relative' as const },
+          animatedBorderStyle,
+        ]}
       >
         <TextInput
           value={value}
@@ -220,6 +223,7 @@ export function TextArea({
           editable={!disabled}
           autoFocus={autoFocus}
           accessibilityLabel={accessibilityLabel ?? label}
+          nativeID={`${id}-input`}
           accessibilityState={{ disabled }}
           style={{
             height: innerMaxH,
@@ -270,13 +274,13 @@ export function TextArea({
         <AnimatedHelperText
           text={error}
           isError={true}
-          style={textArea.errorText as any}
+          style={textArea.errorText}
         />
       ) : (
         <AnimatedHelperText
           text={helperText}
           isError={false}
-          style={textArea.helperText as any}
+          style={textArea.helperText}
         />
       )}
     </View>

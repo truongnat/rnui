@@ -1,8 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Carousel } from '../Carousel';
 import { ThemeProvider } from '@truongdq01/headless';
+import type React from 'react';
 import { Text } from 'react-native';
+import { Carousel } from '../Carousel';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider colorScheme="light" brand={undefined} override={undefined}>

@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useCallback } from 'react';
-import { View, ScrollView, StyleSheet, Platform } from 'react-native';
-import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { useTheme } from '@truongdq01/headless';
+import React, { createContext, useCallback, useContext } from 'react';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 export interface FormContextValue {
   values: Record<string, any>;
@@ -66,8 +66,6 @@ export function Form({
   style,
   testID = 'form',
 }: FormProps) {
-  const tokens = useTokens();
-
   const [values, setValues] =
     React.useState<Record<string, any>>(initialValues);
   const [errors, setErrors] = React.useState<Record<string, string>>({});

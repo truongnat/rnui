@@ -24,7 +24,7 @@
       "require": "./dist/hooks/index.js"
     },
     "./theme": {
-      "types": "./dist/theme.d.ts",
+      "types": "./dist/theme/index.d.ts",
       "import": "./dist/theme.mjs",
       "require": "./dist/theme.js"
     },
@@ -35,10 +35,14 @@
     }
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.mjs",
+    "dist/**/*.d.ts",
+    "!dist/**/*.map",
+    "!dist/**/chunk-*"
   ],
   "scripts": {
-    "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
+    "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types && echo 'export * from \"./theme/index\";' > dist/theme.d.ts",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "bash scripts/run-jest.sh",
@@ -61,14 +65,14 @@
     "@babel/plugin-transform-flow-strip-types": "^7.27.1",
     "@babel/plugin-transform-private-methods": "^7.28.6",
     "@babel/plugin-transform-private-property-in-object": "^7.28.6",
-    "@testing-library/react-native": "^12.9.0",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^30.0.0",
     "@types/react": "^19.2.14",
     "babel-jest": "^29.7.0",
     "jest": "^29.7.0",
     "react": "19.2.0",
     "react-native": "0.83.2",
-    "react-test-renderer": "19.2.0",
     "tsup": "^8.5.1",
     "typescript": "^5.8.3"
   }

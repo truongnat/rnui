@@ -1,8 +1,8 @@
-import React from 'react';
-import Animated from 'react-native-reanimated';
-import { GestureDetector } from 'react-native-gesture-handler';
-import { usePressable, useComponentTokens } from '@truongdq01/headless';
 import type { UsePressableOptions } from '@truongdq01/headless';
+import { usePressable, useTheme } from '@truongdq01/headless';
+import type React from 'react';
+import { GestureDetector } from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
 
 export interface PressableProps extends UsePressableOptions {
   children:
@@ -17,7 +17,9 @@ export function Pressable({
   testID,
   ...hookOptions
 }: PressableProps) {
-  const { pressable } = useComponentTokens();
+  const {
+    components: { pressable },
+  } = useTheme();
   const { gesture, animatedStyle, accessibilityProps, isPressed } =
     usePressable({
       ...hookOptions,

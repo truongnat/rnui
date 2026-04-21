@@ -1,7 +1,7 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { OTPInput } from '../OTPInput';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { OTPInput } from '../OTPInput';
 
 test('OTPInput renders', () => {
   const { toJSON } = render(

@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
-import { Text, StyleProp, TextStyle } from 'react-native';
-import { useTokens } from '@truongdq01/headless';
+import { useTheme } from '@truongdq01/headless';
+import type React from 'react';
+import { useMemo } from 'react';
+import { type StyleProp, Text, type TextStyle } from 'react-native';
 
 /**
  * Props for the Label component
@@ -42,7 +43,7 @@ export function Label({
   style,
   testID = 'label',
 }: LabelProps) {
-  const tokens = useTokens();
+  const { tokens } = useTheme();
 
   const labelStyle = useMemo(
     () => [

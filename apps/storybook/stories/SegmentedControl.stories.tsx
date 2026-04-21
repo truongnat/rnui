@@ -1,7 +1,8 @@
 import type { StoryObj } from '@storybook/react-native';
-import React, { useState } from 'react';
+import { SegmentedControl, ThemeProvider } from '@truongdq01/ui';
+import type React from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
-import { ThemeProvider, SegmentedControl } from '@truongdq01/ui';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>

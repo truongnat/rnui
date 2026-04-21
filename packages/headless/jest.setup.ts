@@ -1,4 +1,15 @@
-import '@testing-library/react-native/extend-expect';
+import '@testing-library/jest-native/extend-expect';
+
+const originalConsoleError = console.error;
+const isReactTestRendererWarning = (message: unknown) =>
+  typeof message === 'string' &&
+  message.includes('react-test-renderer is deprecated');
+console.error = (...args: unknown[]) => {
+  if (isReactTestRendererWarning(args[0])) {
+    return;
+  }
+  originalConsoleError(...(args as Parameters<typeof originalConsoleError>));
+};
 
 jest.mock('react-native-reanimated', () => {
   const { createReanimatedMock } = require('../ui/test-mocks');

@@ -1,3 +1,0 @@
-# Python 3.10–3.13 recommended. Configure via Markdown (config.md); PyYAML not required.
-numpy>=1.26.0,<3.0.0
-sentence-transformers>=3.0.0,<5.0.0

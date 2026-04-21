@@ -22,7 +22,7 @@
     "expo": "~55.0.0",
     "expo-blur": "^55.0.12",
     "expo-constants": "~55.0.9",
-    "expo-dev-client": "~55.0.18",
+    "expo-dev-client": "~55.0.27",
     "expo-haptics": "~55.0.8",
     "expo-router": "~55.0.0",
     "expo-system-ui": "^55.0.9",
@@ -37,9 +37,10 @@
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
-    "typescript": "^5.8.3",
     "detox": "^20.21.0",
     "jest-circus": "^29.7.0",
-    "reassure": "^0.10.1"
+    "reassure": "^0.10.1",
+    "ts-morph": "^28.0.0",
+    "typescript": "^5.8.3"
   }
 }

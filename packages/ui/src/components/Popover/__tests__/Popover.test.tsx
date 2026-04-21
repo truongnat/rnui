@@ -1,8 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Popover } from '../Popover';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
 import { Text, View } from 'react-native';
+import { Popover } from '../Popover';
 
 test('Popover renders children', () => {
   const { getByText } = render(

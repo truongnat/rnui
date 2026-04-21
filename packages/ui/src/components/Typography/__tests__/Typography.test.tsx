@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Typography } from '../Typography';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { Typography } from '../Typography';
 
 test('Typography renders different variants', () => {
   const { getByText } = render(

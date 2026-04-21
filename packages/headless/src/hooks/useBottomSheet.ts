@@ -1,16 +1,14 @@
-import { useCallback, useRef, useMemo, useState } from 'react';
+import { spring } from '@truongdq01/tokens';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { useWindowDimensions } from 'react-native';
+import { Gesture } from 'react-native-gesture-handler';
 import {
-  useSharedValue,
   useAnimatedStyle,
+  useSharedValue,
   withSpring,
   withTiming,
-  interpolate,
-  Extrapolation,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
-import { Gesture } from 'react-native-gesture-handler';
-import { Dimensions } from 'react-native';
-import { spring } from '@truongdq01/tokens';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -52,16 +50,6 @@ export interface UseBottomSheetReturn {
   backdropTapGesture: ReturnType<typeof Gesture.Tap>;
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────
-
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-
-function resolveSnapPoint(point: SnapPoint): number {
-  if (typeof point === 'number') return point;
-  const pct = parseFloat(point) / 100;
-  return SCREEN_HEIGHT * pct;
-}
-
 // ─── Hook ─────────────────────────────────────────────────────────
 
 export function useBottomSheet({
@@ -72,12 +60,33 @@ export function useBottomSheet({
   enableDismissOnSwipe = true,
   enableBackdrop = true,
 }: UseBottomSheetOptions = {}): UseBottomSheetReturn {
+  const { height: SCREEN_HEIGHT } = useWindowDimensions();
+
+  const resolveSnapPoint = useCallback(
+    (point: SnapPoint): number => {
+      if (typeof point === 'number') return point;
+      const pct = parseFloat(point) / 100;
+      return SCREEN_HEIGHT * pct;
+    },
+    [SCREEN_HEIGHT]
+  );
+
   const snapPoints = useMemo(() => {
     const resolved = rawSnapPoints.map(resolveSnapPoint);
     return resolved.length > 0 ? resolved : [SCREEN_HEIGHT * 0.5];
-  }, [rawSnapPoints]);
+  }, [rawSnapPoints, resolveSnapPoint, SCREEN_HEIGHT]);
+
   const maxHeight = useMemo(() => Math.max(...snapPoints), [snapPoints]);
-  const defaultSnapIndex = initialSnapIndex ?? snapPoints.length - 1;
+  const defaultSnapIndex = useMemo(() => {
+    if (
+      initialSnapIndex !== undefined &&
+      initialSnapIndex >= 0 &&
+      initialSnapIndex < snapPoints.length
+    ) {
+      return initialSnapIndex;
+    }
+    return snapPoints.length - 1;
+  }, [initialSnapIndex, snapPoints.length]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [currentSnapIndex, setCurrentSnapIndex] = useState(defaultSnapIndex);
@@ -85,7 +94,6 @@ export function useBottomSheet({
   const isOpenRef = useRef(false);
   const currentIndexRef = useRef(defaultSnapIndex);
 
-  // Sync ref with state just in case internally needed. Actually, better to just use refs and update state together
   const updateState = useCallback((open: boolean, index: number) => {
     isOpenRef.current = open;
     currentIndexRef.current = index;
@@ -103,12 +111,20 @@ export function useBottomSheet({
   // ── JS-thread open/close/snap ────────────────────────────────
   const open = useCallback(
     (snapIndex?: number) => {
-      const idx = snapIndex ?? defaultSnapIndex;
+      let idx = snapIndex ?? defaultSnapIndex;
+
+      // Ensure index is valid
+      if (idx < 0 || idx >= snapPoints.length) {
+        idx = snapPoints.length - 1;
+      }
+
       updateState(true, idx);
-      const targetHeight = snapPoints[idx] ?? snapPoints[snapPoints.length - 1];
+      const targetHeight = snapPoints[idx]!;
       const targetY = SCREEN_HEIGHT - targetHeight;
       if (typeof targetY !== 'number' || isNaN(targetY)) {
-        console.warn('Invalid targetY calculated for open:', targetY);
+        if (__DEV__) {
+          console.warn('Invalid targetY calculated for open:', targetY);
+        }
         return;
       }
       translateY.value = withSpring(targetY, gentleSpring);
@@ -122,11 +138,13 @@ export function useBottomSheet({
       snapPoints,
       maxHeight,
       defaultSnapIndex,
+      updateState,
       translateY,
       backdropOpacity,
       enableBackdrop,
       onSnapChange,
       gentleSpring,
+      SCREEN_HEIGHT,
     ]
   );
 
@@ -142,7 +160,13 @@ export function useBottomSheet({
       }
     });
     backdropOpacity.value = withTiming(0, { duration: 200 });
-  }, [translateY, backdropOpacity, handleCloseEnd, gentleSpring]);
+  }, [
+    translateY,
+    backdropOpacity,
+    handleCloseEnd,
+    gentleSpring,
+    SCREEN_HEIGHT,
+  ]);
 
   const snapTo = useCallback(
     (index: number) => {
@@ -151,7 +175,9 @@ export function useBottomSheet({
       const targetHeight = snapPoints[index]!;
       const targetY = SCREEN_HEIGHT - targetHeight;
       if (typeof targetY !== 'number' || isNaN(targetY)) {
-        console.warn('Invalid targetY calculated for snapTo:', targetY);
+        if (__DEV__) {
+          console.warn('Invalid targetY calculated for snapTo:', targetY);
+        }
         return;
       }
       translateY.value = withSpring(targetY, gentleSpring);
@@ -164,11 +190,13 @@ export function useBottomSheet({
     [
       snapPoints,
       maxHeight,
+      updateState,
       translateY,
       backdropOpacity,
       enableBackdrop,
       onSnapChange,
       gentleSpring,
+      SCREEN_HEIGHT,
     ]
   );
 

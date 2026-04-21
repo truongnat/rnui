@@ -1,6 +1,6 @@
 import type { StoryObj } from '@storybook/react-native';
+import { Pagination, ThemeProvider } from '@truongdq01/ui';
 import React from 'react';
-import { ThemeProvider, Pagination } from '@truongdq01/ui';
 import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (

@@ -1,8 +1,8 @@
+import { useIconStyle } from '@truongdq01/headless';
 import React, { useState } from 'react';
 import { Pressable } from 'react-native';
-import { useIconStyle } from '@truongdq01/headless';
-import { Input, type InputProps } from './Input';
 import { Icon } from '../Icon';
+import { Input, type InputProps } from './Input';
 
 export interface PasswordInputProps extends InputProps {}
 

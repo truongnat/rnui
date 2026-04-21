@@ -1,8 +1,8 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { Pressable, Text, AccessibilityInfo } from 'react-native';
-import { Rating } from '../Rating';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import type React from 'react';
+import { AccessibilityInfo, Pressable, Text } from 'react-native';
+import { Rating } from '../Rating';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider colorScheme="light" brand={undefined} override={undefined}>

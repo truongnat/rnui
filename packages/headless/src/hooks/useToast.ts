@@ -89,6 +89,13 @@ export function dismissAllToasts() {
   notify();
 }
 
+/** Resets the store and counter — useful for tests */
+export function resetToastStore() {
+  store.queue = [];
+  _idCounter = 0;
+  notify();
+}
+
 // ─── Hook ─────────────────────────────────────────────────────────
 
 export interface UseToastReturn {

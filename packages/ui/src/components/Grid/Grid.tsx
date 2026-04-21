@@ -1,6 +1,6 @@
-import React from 'react';
+import { useTheme } from '@truongdq01/headless';
+import type React from 'react';
 import { View, type ViewStyle } from 'react-native';
-import { useComponentTokens } from '@truongdq01/headless';
 
 export interface GridProps {
   children?: React.ReactNode;
@@ -29,7 +29,9 @@ export function Grid({
   offset,
   style,
 }: GridProps) {
-  const { grid } = useComponentTokens();
+  const {
+    components: { grid },
+  } = useTheme();
 
   const resolveGap = (s: 'sm' | 'md' | 'lg' | number | undefined) => {
     if (s === undefined) return undefined;
@@ -64,14 +66,9 @@ export function Grid({
   const widthValue = widthPct as unknown as ViewStyle['width'];
   const itemStyle: ViewStyle = {
     flexGrow: size === 'grow' ? 1 : 0,
-    flexBasis:
-      size === 'grow' ? 0 : size === 'auto' ? undefined : (widthValue as any),
+    flexBasis: size === 'grow' ? 0 : size === 'auto' ? undefined : widthValue,
     maxWidth:
-      size === 'grow'
-        ? undefined
-        : size === 'auto'
-          ? undefined
-          : (widthValue as any),
+      size === 'grow' ? undefined : size === 'auto' ? undefined : widthValue,
     marginLeft: offset
       ? (`${(offset / columns) * 100}%` as unknown as ViewStyle['marginLeft'])
       : undefined,

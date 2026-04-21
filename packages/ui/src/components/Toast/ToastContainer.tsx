@@ -1,11 +1,11 @@
+import type { ToastPosition } from '@truongdq01/headless';
+import { dismissToast, useToast } from '@truongdq01/headless';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, {
   LinearTransition as RawLinearTransition,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useToast, dismissToast } from '@truongdq01/headless';
-import type { ToastPosition } from '@truongdq01/headless';
 import { ToastItem } from './ToastItem';
 
 // ─── Props ────────────────────────────────────────────────────────

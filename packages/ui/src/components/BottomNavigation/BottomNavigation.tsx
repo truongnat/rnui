@@ -1,104 +1,59 @@
-import React, { createContext, useContext, useMemo } from 'react';
-import { View, Text, Pressable } from 'react-native';
-import {
-  useTokens,
-  useComponentTokens,
-  useBottomNavigation,
-} from '@truongdq01/headless';
+import { useBottomNavigation, useTheme } from "@truongdq01/headless";
+import { useMemo } from "react";
+import { StyleSheet, View } from "react-native";
+import { BottomNavContext } from "./context";
+import type { BottomNavContextValue, BottomNavigationProps } from "./types";
 
-export interface BottomNavigationProps<T = string> {
-  value?: T;
-  defaultValue?: T;
-  onChange?: (value: T) => void;
-  showLabels?: boolean;
-  children?: React.ReactNode;
-}
+// Re-export sub-components and types so that imports from './BottomNavigation'
+// remain backward-compatible with existing consumers and tests.
+export { BottomNavigationAction } from "./BottomNavigationAction";
+export type {
+	BottomNavContextValue,
+	BottomNavigationActionProps,
+	BottomNavigationItemProps,
+	BottomNavigationProps,
+} from "./types";
 
-export interface BottomNavigationActionProps<T = string> {
-  value: T;
-  label?: string;
-  icon?: React.ReactNode;
-}
-
-interface BottomNavContextValue<T = string> {
-  value?: T;
-  isSelected: (value: T) => boolean;
-  getItemProps: (value: T) => any;
-  showLabels: boolean;
-}
-
-const BottomNavContext = createContext<BottomNavContextValue<any> | null>(null);
-
+/**
+ * Root BottomNavigation component.
+ * Owns the context provider and the safe-area-aware container row.
+ * Action items are rendered as BottomNavigationAction children.
+ */
 export function BottomNavigation<T = string>({
-  value: controlledValue,
-  defaultValue,
-  onChange,
-  showLabels = false,
-  children,
+	value: controlledValue,
+	defaultValue,
+	onChange,
+	showLabels = false,
+	children,
 }: BottomNavigationProps<T>) {
-  const { bottomNavigation } = useComponentTokens();
-  const { value, isSelected, getItemProps } = useBottomNavigation<T>({
-    value: controlledValue,
-    defaultValue,
-    onChange,
-  });
+	const {
+		components: { bottomNavigation },
+	} = useTheme();
+	const { value, isSelected, getItemProps } = useBottomNavigation<T>({
+		value: controlledValue,
+		defaultValue,
+		onChange,
+	});
 
-  const ctx = useMemo(
-    () => ({ value, isSelected, getItemProps, showLabels }),
-    [value, isSelected, getItemProps, showLabels]
-  );
+	const ctx = useMemo(
+		() => ({ value, isSelected, getItemProps, showLabels }),
+		[value, isSelected, getItemProps, showLabels],
+	);
 
-  return (
-    <BottomNavContext.Provider value={ctx}>
-      <View
-        style={[
-          bottomNavigation.container,
-          { flexDirection: 'row', justifyContent: 'space-around' },
-        ]}
-      >
-        {children}
-      </View>
-    </BottomNavContext.Provider>
-  );
+	return (
+		<BottomNavContext.Provider value={ctx as BottomNavContextValue<unknown>}>
+			<View style={[bottomNavigation.container, styles.container]}>
+				{children}
+			</View>
+		</BottomNavContext.Provider>
+	);
 }
 
-export function BottomNavigationAction<T = string>({
-  value,
-  label,
-  icon,
-}: BottomNavigationActionProps<T>) {
-  const { bottomNavigation } = useComponentTokens();
-  const tokens = useTokens();
-  const ctx = useContext(
-    BottomNavContext as React.Context<BottomNavContextValue<T> | null>
-  );
-  if (!ctx) return null;
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: "row",
+		justifyContent: "space-around",
+	},
+});
 
-  const selected = ctx.isSelected(value);
-
-  return (
-    <Pressable
-      {...ctx.getItemProps(value)}
-      style={{
-        alignItems: 'center',
-        gap: 4,
-        paddingHorizontal: 12,
-        paddingVertical: 6,
-      }}
-    >
-      {icon}
-      {(ctx.showLabels || selected) && label && (
-        <Text
-          style={{
-            fontSize: tokens.fontSize.xs,
-            color: selected
-              ? bottomNavigation.item.active.color
-              : bottomNavigation.item.inactive.color,
-          }}
-        >
-          {label}
-        </Text>
-      )}
-    </Pressable>
-  );
-}
+BottomNavigation.displayName = "BottomNavigation";

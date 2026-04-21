@@ -41,6 +41,7 @@ export interface BrandColorGroup {
     primary: string;
     secondary: string;
     tertiary: string;
+    muted: string; // Alias for tertiary
     disabled: string;
     inverse: string;
     link: string;
@@ -57,6 +58,7 @@ export interface BrandColorGroup {
     default: string;
     subtle: string;
     strong: string;
+    emphasis?: string; // High contrast border
     input: string;
     focus: string;
     error: string;
@@ -66,6 +68,7 @@ export interface BrandColorGroup {
   };
   brand: {
     default: string;
+    primary: string; // Alias for default
     hover: string;
     active: string;
     subtle: string;
@@ -74,6 +77,7 @@ export interface BrandColorGroup {
   };
   accent: {
     default: string;
+    secondary: string; // Alias for default
     hover: string;
     active: string;
     subtle: string;
@@ -81,10 +85,18 @@ export interface BrandColorGroup {
     text: string;
     onAccent: string;
   };
-  success: { bg: string; text: string; border: string; icon: string };
-  warning: { bg: string; text: string; border: string; icon: string };
-  error: { bg: string; text: string; border: string; icon: string };
-  info: { bg: string; text: string; border: string; icon: string };
+  /** Semantic status group alias for direct access */
+  status: {
+    success: string;
+    warning: string;
+    error: string;
+    danger: string; // Alias for error
+    info: string;
+  };
+  success: { bg: string; text: string; border: string; icon: string; emphasis?: string };
+  warning: { bg: string; text: string; border: string; icon: string; emphasis?: string };
+  error: { bg: string; text: string; border: string; icon: string; emphasis?: string };
+  info: { bg: string; text: string; border: string; icon: string; emphasis?: string };
 }
 
 // ─── Brand — the root plugin unit ────────────────────────────────

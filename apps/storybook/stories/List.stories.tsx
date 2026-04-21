@@ -1,21 +1,21 @@
 import type { StoryObj } from '@storybook/react-native';
-import React from 'react';
-import { View } from 'react-native';
 import {
-  ThemeProvider,
+  Badge,
   ListData,
   ListItem,
-  ListItemText,
   ListItemIcon,
-  Badge,
+  ListItemText,
+  ThemeProvider,
   Typography,
 } from '@truongdq01/ui';
 import {
+  Archive as LucideArchive,
   Mail as LucideMail,
   Star as LucideStar,
-  Archive as LucideArchive,
   Trash2 as LucideTrash2,
 } from 'lucide-react-native';
+import type React from 'react';
+import { View } from 'react-native';
 
 const Mail = LucideMail as any;
 const Star = LucideStar as any;

@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { ViewStyle } from 'react-native';
 
 export interface UseSkeletonOptions {
   isLoaded: boolean;
@@ -9,7 +10,7 @@ export interface UseSkeletonOptions {
 
 export interface UseSkeletonReturn {
   isLoading: boolean;
-  animationStyle: any;
+  animationStyle: ViewStyle;
   getStaggerDelay: (index: number) => number;
 }
 
@@ -22,7 +23,7 @@ export function useSkeleton(options: UseSkeletonOptions): UseSkeletonReturn {
   } = options;
 
   const isLoading = !isLoaded;
-  const animationRef = useRef<any>(null);
+  const animationRef = useRef<{ stop?: () => void } | null>(null);
 
   useEffect(() => {
     if (isLoaded && animationRef.current) {

@@ -1,37 +1,47 @@
 import { performance } from 'perf_hooks';
 
-function currentApproach(selected: any[], options: any[], placeholder: string) {
+type SelectOption = { value: string; label: string };
+type Selected = string | string[] | null | undefined;
+
+function currentApproach(
+  selected: Selected,
+  options: SelectOption[],
+  placeholder: string
+): string {
   if (!selected || (Array.isArray(selected) && selected.length === 0))
     return placeholder;
   if (Array.isArray(selected)) {
     const labels = selected
       .map((v) => options.find((o) => o.value === v)?.label)
-      .filter(Boolean);
+      .filter((x): x is string => Boolean(x));
     return labels.join(', ');
   }
   return options.find((o) => o.value === selected)?.label ?? placeholder;
 }
 
 function optimizedApproach(
-  selected: any[],
-  options: any[],
+  selected: Selected,
+  options: SelectOption[],
   placeholder: string
-) {
+): string {
   if (!selected || (Array.isArray(selected) && selected.length === 0))
     return placeholder;
   if (Array.isArray(selected)) {
-    const optionsMap = new Map();
+    const optionsMap = new Map<string, string>();
     for (let i = 0; i < options.length; i++) {
-      optionsMap.set(options[i].value, options[i].label);
+      const o = options[i]!;
+      optionsMap.set(o.value, o.label);
     }
-    const labels = selected.map((v) => optionsMap.get(v)).filter(Boolean);
+    const labels = selected
+      .map((v) => optionsMap.get(v))
+      .filter((x): x is string => Boolean(x));
     return labels.join(', ');
   }
   return options.find((o) => o.value === selected)?.label ?? placeholder;
 }
 
-const optionsCount = 10000;
-const selectedCount = 1000;
+const optionsCount = 10_000;
+const selectedCount = 1_000;
 
 const options = Array.from({ length: optionsCount }, (_, i) => ({
   value: `val_${i}`,

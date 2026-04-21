@@ -1,10 +1,12 @@
 import { useCallback, useState } from 'react';
+import { useId } from './useId';
 
 export interface UseRadioGroupOptions<T = string> {
   defaultValue?: T;
   value?: T;
   onChange?: (value: T) => void;
   disabled?: boolean;
+  id?: string;
 }
 
 export interface UseRadioGroupReturn<T = string> {
@@ -19,6 +21,7 @@ export interface UseRadioGroupReturn<T = string> {
     onPress: () => void;
     accessibilityRole: 'radio';
     accessibilityState: { checked: boolean; disabled: boolean };
+    nativeID: string;
   };
 }
 
@@ -27,7 +30,9 @@ export function useRadioGroup<T = string>({
   value: controlledValue,
   onChange,
   disabled = false,
+  id: idProp,
 }: UseRadioGroupOptions<T> = {}): UseRadioGroupReturn<T> {
+  const id = useId(idProp, 'radio-group');
   const [internalValue, setInternalValue] = useState<T | undefined>(
     defaultValue
   );
@@ -56,8 +61,9 @@ export function useRadioGroup<T = string>({
         checked: isSelected(val),
         disabled: disabled || itemDisabled,
       },
+      nativeID: `${id}-${String(val)}`,
     }),
-    [select, isSelected, disabled]
+    [select, isSelected, disabled, id]
   );
 
   return {

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { Select } from '../Select';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import React, { useState } from 'react';
+import { Select } from '../Select';
 
 const options = Array.from({ length: 10000 }).map((_, i) => ({
   label: `Option ${i}`,

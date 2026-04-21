@@ -1,15 +1,15 @@
-export {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  FormControlLabel,
-  useFormControl,
-} from './FormControl';
 export type {
+  FormControlLabelProps,
+  FormControlMargin,
   FormControlProps,
   FormControlVariant,
-  FormControlMargin,
-  FormLabelProps,
   FormHelperTextProps,
-  FormControlLabelProps,
+  FormLabelProps,
+} from './FormControl';
+export {
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  FormLabel,
+  useFormControl,
 } from './FormControl';

@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react';
+import { primitive } from '@truongdq01/tokens';
+import type React from 'react';
+import { useMemo } from 'react';
 import {
-  View,
-  StyleSheet,
-  type ViewProps,
   type StyleProp,
+  StyleSheet,
+  View,
+  type ViewProps,
   type ViewStyle,
 } from 'react-native';
-import { primitive } from '@truongdq01/tokens';
 
 let ExpoLinearGradient: React.ComponentType<any> | null = null;
 try {

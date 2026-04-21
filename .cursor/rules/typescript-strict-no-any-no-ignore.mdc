@@ -1,0 +1,45 @@
+---
+description: Enforce strict TS typing: no any, no eslint-disable/ts-ignore; remove dead code.
+globs: **/*.{ts,tsx,js,jsx}
+alwaysApply: true
+---
+
+# TypeScript strictness (project-wide)
+
+## No `any` (and no type escapes)
+
+- Do **not** use `any`, `unknown as any`, `as any`, `as never` (unless proven safe and unavoidable), or other type-escape patterns.
+- If a value is unknown, **model it** with proper types:
+  - Prefer **generics**, **union types**, **discriminated unions**, and **type guards**.
+  - Prefer deriving types from existing exports: `typeof`, `ReturnType<>`, `Parameters<>`, `ComponentProps<>`, indexed access types, etc.
+- For 3rd-party or dynamic inputs, define a minimal **runtime validation** + type predicate instead of `any`.
+
+## No eslint/ts suppression
+
+- Do **not** add:
+  - `// eslint-disable`, `/* eslint-disable */`, `// eslint-disable-next-line ...`
+  - `// @ts-ignore`, `// @ts-expect-error`
+- Fix the root cause by correcting types, narrowing, or refactoring.
+- If suppression seems necessary, stop and redesign the API/types instead of suppressing.
+
+## Always “refer type” / type-safe composition
+
+- Prefer importing **types** explicitly (`import type { X } from '...'`) when possible.
+- Prefer referencing existing types from the source of truth rather than re-declaring:
+  - `type Props = ComponentProps<typeof Button>`
+  - `type Fn = typeof someFunction`
+  - `type T = ReturnType<typeof useHook>`
+
+## After implementation: delete dead/unused code
+
+- Remove:
+  - Unused exports, unused variables, unused imports, unused components/hooks
+  - Stale code paths / feature flags that are no longer reachable
+  - Leftover TODO/test scaffolding not used
+- Keep the change minimal and clean; do not leave commented-out code.
+
+## Quality gate
+
+- All touched files must compile without TS errors.
+- No new lint warnings/errors should be introduced.
+

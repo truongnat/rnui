@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Label } from '../Label';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { Label } from '../Label';
 
 // Helper to wrap components with ThemeProvider
 const renderWithTheme = (component: React.ReactElement) => {

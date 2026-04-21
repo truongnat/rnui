@@ -1,6 +1,6 @@
+import { useTheme } from '@truongdq01/headless';
 import React, { createContext, useContext, useMemo } from 'react';
-import { View, Text, Pressable } from 'react-native';
-import { useComponentTokens, useTokens } from '@truongdq01/headless';
+import { Pressable, Text, View } from 'react-native';
 
 export type FormControlVariant = 'filled' | 'outlined' | 'standard';
 export type FormControlMargin = 'dense' | 'none' | 'normal';
@@ -43,8 +43,10 @@ export function FormControl({
   margin = 'none',
   style,
 }: FormControlProps) {
-  const { formControl } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { formControl },
+    tokens,
+  } = useTheme();
 
   const marginSize = useMemo(() => {
     if (margin === 'dense') return tokens.spacing[2];
@@ -60,16 +62,14 @@ export function FormControl({
   return (
     <FormControlContext.Provider value={ctxValue}>
       <View
-        style={
-          [
-            formControl.container,
-            {
-              alignSelf: fullWidth ? 'stretch' : 'flex-start',
-              marginVertical: marginSize,
-            },
-            style,
-          ] as any
-        }
+        style={[
+          formControl.container,
+          {
+            alignSelf: fullWidth ? 'stretch' : 'flex-start',
+            marginVertical: marginSize,
+          },
+          style,
+        ]}
       >
         {children}
       </View>
@@ -83,7 +83,9 @@ export interface FormLabelProps {
 }
 
 export function FormLabel({ children, style }: FormLabelProps) {
-  const { formControl } = useComponentTokens();
+  const {
+    components: { formControl },
+  } = useTheme();
   const ctx = useFormControl();
 
   const color = ctx?.error
@@ -93,7 +95,7 @@ export function FormLabel({ children, style }: FormLabelProps) {
       : formControl.label.color;
 
   return (
-    <Text style={[formControl.label, { color }, style] as any}>
+    <Text style={[formControl.label, { color }, style]}>
       {children}
       {ctx?.required ? ' *' : ''}
     </Text>
@@ -106,7 +108,9 @@ export interface FormHelperTextProps {
 }
 
 export function FormHelperText({ children, style }: FormHelperTextProps) {
-  const { formControl } = useComponentTokens();
+  const {
+    components: { formControl },
+  } = useTheme();
   const ctx = useFormControl();
 
   const color = ctx?.error
@@ -114,9 +118,7 @@ export function FormHelperText({ children, style }: FormHelperTextProps) {
     : formControl.helperText.color;
 
   return (
-    <Text style={[formControl.helperText, { color }, style] as any}>
-      {children}
-    </Text>
+    <Text style={[formControl.helperText, { color }, style]}>{children}</Text>
   );
 }
 
@@ -137,8 +139,10 @@ export function FormControlLabel({
   onPress,
   style,
 }: FormControlLabelProps) {
-  const { formControl } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { formControl },
+    tokens,
+  } = useTheme();
   const ctx = useFormControl();
   const isDisabled = disabled ?? ctx?.disabled ?? false;
 
@@ -152,7 +156,7 @@ export function FormControlLabel({
 
   return (
     <Pressable
-      onPress={onPress ?? (control.props as any)?.onPress}
+      onPress={onPress ?? (control.props as { onPress?: () => void })?.onPress}
       disabled={isDisabled}
       style={[
         {
@@ -171,7 +175,7 @@ export function FormControlLabel({
       ]}
     >
       {controlElement}
-      {label ? <Text style={formControl.label as any}>{label}</Text> : null}
+      {label ? <Text style={formControl.label}>{label}</Text> : null}
     </Pressable>
   );
 }

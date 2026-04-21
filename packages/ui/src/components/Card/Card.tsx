@@ -1,14 +1,16 @@
-import React, { useMemo } from 'react';
-import Animated from 'react-native-reanimated';
+import { useId, usePressable, useTheme } from '@truongdq01/headless';
+import type React from 'react';
+import { useMemo } from 'react';
+import { type StyleProp, View, type ViewStyle } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
-import { View, StyleProp, ViewStyle } from 'react-native';
-import { usePressable, useComponentTokens } from '@truongdq01/headless';
+import Animated from 'react-native-reanimated';
 
 // ─── Types ────────────────────────────────────────────────────────
 
 export type CardPadding = 'sm' | 'md' | 'lg' | 'none';
 
 export interface CardProps {
+  id?: string;
   children: React.ReactNode;
   /** If provided, card becomes pressable */
   onPress?: () => void;
@@ -20,16 +22,20 @@ export interface CardProps {
   style?: StyleProp<ViewStyle>;
 }
 
-// ─── Component ────────────────────────────────────────────────────
+// ─── Component ───────────────────────────────────────────────────
 
 export function Card({
+  id: idProp,
   children,
   onPress,
   padding = 'md',
   accessibilityLabel,
   style,
 }: CardProps) {
-  const { card } = useComponentTokens();
+  const id = useId(idProp, 'card');
+  const {
+    components: { card },
+  } = useTheme();
 
   const containerStyle = useMemo(
     () => [
@@ -42,6 +48,7 @@ export function Card({
 
   if (onPress) {
     const { animatedStyle, gesture, accessibilityProps } = usePressable({
+      id,
       onPress,
       feedbackMode: 'scaleSubtle',
       accessibilityLabel,
@@ -61,5 +68,5 @@ export function Card({
     );
   }
 
-  return <View style={containerStyle}>{children}</View>;
+  return <View nativeID={id} style={containerStyle}>{children}</View>;
 }

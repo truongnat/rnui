@@ -1,5 +1,20 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useDisclosure } from './useDisclosure';
+import { useDebouncedValue } from './useDebouncedValue';
+
+/** Resolves live input vs debounced value so filtering stays usable (no “full list” flash). */
+function resolveFilterInput(
+  live: string,
+  debounced: string,
+  debounceMs: number
+): string {
+  if (debounceMs <= 0) return live;
+  if (live.length === 0) return '';
+  if (debounced.length === 0) return live;
+  if (live.length > debounced.length) return live;
+  if (live.length < debounced.length) return live;
+  return debounced;
+}
 
 export interface UseAutocompleteOptions<T = string> {
   options: T[];
@@ -12,6 +27,8 @@ export interface UseAutocompleteOptions<T = string> {
   onChange?: (value: T | T[] | undefined) => void;
   getOptionLabel?: (option: T) => string;
   filterOptions?: (options: T[], inputValue: string) => T[];
+  /** When > 0, option filtering uses a debounced query (reduces work while typing). Default 0. */
+  filterDebounceMs?: number;
   open?: boolean;
   onOpen?: () => void;
   onClose?: () => void;
@@ -25,7 +42,7 @@ export interface UseAutocompleteReturn<T = string> {
   open: () => void;
   close: () => void;
   isSelected: (value: T) => boolean;
-  selectOption: (value: T) => void;
+  selectOption: (value: T | undefined) => void;
   clear: () => void;
   filteredOptions: T[];
 }
@@ -41,6 +58,7 @@ export function useAutocomplete<T = string>({
   onChange,
   getOptionLabel,
   filterOptions,
+  filterDebounceMs = 0,
   open: controlledOpen,
   onOpen,
   onClose,
@@ -77,20 +95,20 @@ export function useAutocomplete<T = string>({
   );
 
   const selectOption = useCallback(
-    (v: T) => {
+    (v: T | undefined) => {
       let next: T | T[] | undefined;
-      if (multiple) {
+      if (multiple && v !== undefined) {
         const arr = Array.isArray(value) ? value : [];
         next = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
       } else {
         next = v;
-        disclosure.close();
+        if (v !== undefined) disclosure.close();
       }
 
       if (controlledValue === undefined) setInternalValue(next);
       onChange?.(next);
 
-      if (!multiple) {
+      if (!multiple && v !== undefined) {
         const label = getOptionLabel ? getOptionLabel(v) : String(v);
         setInputValue(label);
       }
@@ -113,14 +131,23 @@ export function useAutocomplete<T = string>({
     setInputValue('');
   }, [controlledValue, multiple, onChange, setInputValue]);
 
+  const debouncedForFilter = useDebouncedValue(inputValue, filterDebounceMs);
+  const filterInput = useMemo(
+    () =>
+      resolveFilterInput(inputValue, debouncedForFilter, filterDebounceMs),
+    [inputValue, debouncedForFilter, filterDebounceMs]
+  );
+
   const filteredOptions = useMemo(() => {
-    const base = filterOptions ? filterOptions(options, inputValue) : options;
-    if (!inputValue) return base;
+    const trimmed = filterInput.trim();
+    if (!trimmed) {
+      return [];
+    }
+    const base = filterOptions ? filterOptions(options, filterInput) : options;
     const labelOf = getOptionLabel ?? ((o: T) => String(o));
-    return base.filter((opt) =>
-      labelOf(opt).toLowerCase().includes(inputValue.toLowerCase())
-    );
-  }, [options, inputValue, filterOptions, getOptionLabel]);
+    const q = trimmed.toLowerCase();
+    return base.filter((opt) => labelOf(opt).toLowerCase().includes(q));
+  }, [options, filterInput, filterOptions, getOptionLabel]);
 
   return {
     value,

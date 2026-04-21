@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-native';
-import { useMemoStyles } from '../useMemoStyles';
-import { useTokens } from '../../theme';
 import type { SemanticTokens } from '@truongdq01/tokens';
+import { useTokens } from '../../theme';
+import { useMemoStyles } from '../useMemoStyles';
 
 jest.mock('../../theme', () => ({
   useTokens: jest.fn(),

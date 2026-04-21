@@ -1,5 +1,0 @@
-{
-  "buildCommand": "pwd && ls -la && ls -la ../ && bun run build",
-  "outputDirectory": "build",
-  "installCommand": "bun install --frozen-lockfile"
-}

@@ -1,15 +1,15 @@
+import { useId, useTheme } from '@truongdq01/headless';
 import React, { useMemo } from 'react';
-import { Text, StyleSheet } from 'react-native';
-import { useTokens } from '@truongdq01/headless';
-import { type SemanticTokens } from '@truongdq01/tokens';
-import { Dialog, DialogProps } from '../Dialog';
+import { StyleSheet, View } from 'react-native';
 import { Button } from '../Button';
+import { Dialog, type DialogProps } from '../Dialog';
+import { Typography } from '../Typography';
 
 /**
  * Props for the AlertDialog component
  */
-export interface AlertDialogProps extends Omit<DialogProps, 'actions'> {
-  /** Alert title */
+export interface AlertDialogProps extends Omit<DialogProps, 'actions' | 'title'> {
+  /** Alert title string */
   title: string;
   /** Alert description/message */
   description?: string;
@@ -17,9 +17,9 @@ export interface AlertDialogProps extends Omit<DialogProps, 'actions'> {
   cancelText?: string;
   /** Confirm button text */
   confirmText?: string;
-  /** @experimental Overrides defeat auto-logic */
+  /** Button variant for cancel action */
   cancelVariant?: 'solid' | 'outline' | 'ghost';
-  /** @experimental Overrides defeat auto-logic */
+  /** Button variant for confirm action */
   confirmVariant?: 'solid' | 'outline' | 'ghost' | 'destructive';
   /** Called when cancel is pressed */
   onCancel?: () => void;
@@ -31,26 +31,17 @@ export interface AlertDialogProps extends Omit<DialogProps, 'actions'> {
 
 /**
  * AlertDialog component for confirmation dialogs and alerts.
- * Provides a standardized alert interface with cancel/confirm actions.
+ *
+ * Action button layout:
+ * - With cancel button: a flex row, each button gets flex:1 (equal width).
+ *   If button text is long it wraps inside the button naturally.
+ * - Without cancel button: single button fills full width.
  *
  * @param props - AlertDialog configuration props
  * @returns React alert dialog component
- *
- * @example
- * ```tsx
- * <AlertDialog
- *   open={isOpen}
- *   title="Delete Item"
- *   description="Are you sure you want to delete this item? This action cannot be undone."
- *   confirmText="Delete"
- *   cancelText="Cancel"
- *   onConfirm={handleDelete}
- *   onCancel={() => setIsOpen(false)}
- *   destructive={true}
- * />
- * ```
  */
 export function AlertDialog({
+  id: idProp,
   title,
   description,
   cancelText = 'Cancel',
@@ -62,50 +53,91 @@ export function AlertDialog({
   destructive = false,
   ...dialogProps
 }: AlertDialogProps) {
-  const tokens = useTokens();
+  const id = useId(idProp, 'alert-dialog');
+  const {
+    tokens,
+    components: { dialog },
+  } = useTheme();
 
-  const finalConfirmVariant =
-    confirmVariant ?? (destructive ? 'destructive' : 'solid');
-
-  const actions = useMemo(
-    () => (
-      <>
-        {onCancel && (
-          <Button variant={cancelVariant} onPress={onCancel}>
-            {cancelText}
-          </Button>
-        )}
-        <Button variant={finalConfirmVariant} onPress={onConfirm}>
-          {confirmText}
-        </Button>
-      </>
-    ),
-    [
-      cancelText,
-      cancelVariant,
-      confirmText,
-      finalConfirmVariant,
-      onCancel,
-      onConfirm,
-    ]
+  const finalConfirmVariant = useMemo(
+    () => confirmVariant ?? (destructive ? 'destructive' : 'solid'),
+    [confirmVariant, destructive]
   );
 
+  const actionsNode = useMemo(() => {
+    // Single action — fill the full width
+    if (!onCancel) {
+      return (
+        <Button
+          id={`${id}-confirm`}
+          variant={finalConfirmVariant}
+          onPress={onConfirm}
+          style={styles.fullWidth}
+        >
+          {confirmText}
+        </Button>
+      );
+    }
+
+    // Two actions — a simple flex row, equal width, text wraps inside when long
+    return (
+      <View style={[styles.row, { gap: tokens.spacing[3] }]}>
+        <Button
+          id={`${id}-cancel`}
+          variant={cancelVariant}
+          onPress={onCancel}
+          style={styles.flex}
+        >
+          {cancelText}
+        </Button>
+        <Button
+          id={`${id}-confirm`}
+          variant={finalConfirmVariant}
+          onPress={onConfirm}
+          style={styles.flex}
+        >
+          {confirmText}
+        </Button>
+      </View>
+    );
+  }, [
+    id,
+    confirmText,
+    cancelText,
+    finalConfirmVariant,
+    cancelVariant,
+    onConfirm,
+    onCancel,
+    tokens.spacing,
+  ]);
+
   return (
-    <Dialog {...dialogProps} title={title} actions={actions}>
+    <Dialog {...dialogProps} id={id} title={title} actions={actionsNode}>
       {description && (
-        <Text
-          style={[
-            styles.description(tokens),
-            { color: tokens.color.text.secondary },
-          ]}
+        <Typography
+          id={`${id}-description`}
+          variant="body2"
+          style={[dialog.content, { marginTop: tokens.spacing[2] }]}
         >
           {description}
-        </Text>
+        </Typography>
       )}
     </Dialog>
   );
 }
 
-const styles = {
-  description: (tokens: SemanticTokens) => ({ marginTop: tokens.spacing[2] }),
-};
+const styles = StyleSheet.create({
+  /** Two-button row: each button takes equal width, text wraps inside when long */
+  row: {
+    flexDirection: 'row',
+    width: '100%',
+  },
+  /** Each button in the row grows to fill its half */
+  flex: {
+    flex: 1,
+  },
+  /** Single-button mode */
+  fullWidth: {
+    width: '100%',
+  },
+});

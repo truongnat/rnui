@@ -1,54 +1,41 @@
+import { useAlert, useTheme } from '@truongdq01/headless';
 import React, { useMemo } from 'react';
-import { View, Text, Pressable } from 'react-native';
-import { useComponentTokens, useTokens, useAlert } from '@truongdq01/headless';
-import { Icon } from '../Icon';
+import { View } from 'react-native';
+import type { AlertProps } from './types';
+import { AlertIcon } from './AlertIcon';
+import { AlertContent } from './AlertContent';
+import { AlertCloseButton } from './AlertCloseButton';
 
-export type AlertSeverity = 'error' | 'warning' | 'info' | 'success';
-export type AlertVariant = 'standard' | 'filled' | 'outlined';
-
-export interface AlertProps {
-  /** Severity of the alert */
-  severity?: AlertSeverity;
-  /** Visual variant */
-  variant?: AlertVariant;
-  /** Custom icon or false to hide */
-  icon?: React.ReactNode | false;
-  /** Action element (e.g. Button) */
-  action?: React.ReactNode;
-  /** Callback on close button press */
-  onClose?: () => void;
-  /** Content of the alert */
-  children?: React.ReactNode;
-}
-
-export interface AlertTitleProps {
-  children?: React.ReactNode;
-}
-
-const SEVERITY_ICONS: Record<AlertSeverity, string> = {
-  info: 'info',
-  success: 'checkCircle',
-  warning: 'warning',
-  error: 'error',
-};
-
+/**
+ * Alert component provides contextual feedback messages for user actions with various intensities.
+ * Includes support for icons, actions, close buttons, and multiple visual variants.
+ */
 export function Alert({
+  id,
   severity = 'info',
   variant = 'standard',
   icon,
   action,
   onClose,
   children,
+  style,
 }: AlertProps) {
-  const { alert } = useComponentTokens();
-  const tokens = useTokens();
-  const { isOpen, getAlertProps, getCloseButtonProps } = useAlert({ onClose });
+  const {
+    components: { alert },
+  } = useTheme();
+
+  // Retrieve theme tokens for the specific severity level
   const severityTokens = alert.variant[severity];
+  
+  // Manage alert open/close state logic
+  const { isOpen, getAlertProps, getCloseButtonProps } = useAlert({ onClose, id });
 
-  if (!isOpen) return null;
-
+  /**
+   * Calculate dynamic container styles based on variant and severity.
+   */
   const containerStyle = useMemo(() => {
     const base = [alert.container];
+    
     if (variant === 'filled') {
       base.push({
         backgroundColor: severityTokens.icon,
@@ -71,43 +58,36 @@ export function Alert({
     return base;
   }, [alert, severityTokens, variant]);
 
+  // Early return if alert is closed (all hooks called above)
+  if (!isOpen) return null;
+
+  // Resolve colors for icons and text
   const textColor = variant === 'filled' ? '#FFFFFF' : severityTokens.text;
   const iconColor = variant === 'filled' ? '#FFFFFF' : severityTokens.icon;
 
   return (
-    <View style={containerStyle as any} {...getAlertProps()}>
-      {icon !== false && (
-        <View style={{ marginTop: 2 }}>
-          {icon ?? (
-            <Icon size={20} color={iconColor}>
-              {SEVERITY_ICONS[severity]}
-            </Icon>
-          )}
-        </View>
-      )}
-      <View style={{ flex: 1 }}>{children}</View>
+    <View style={[containerStyle, style]} {...getAlertProps()}>
+      {/* Icon Section */}
+      <AlertIcon 
+        severity={severity} 
+        icon={icon} 
+        color={iconColor} 
+      />
+
+      {/* Message Content Section */}
+      <AlertContent>
+        {children}
+      </AlertContent>
+
+      {/* Custom Action Section */}
       {action}
-      {onClose && (
-        <Pressable
-          hitSlop={8}
-          style={{ marginTop: 2 }}
-          {...getCloseButtonProps()}
-        >
-          <Icon
-            size={18}
-            color={textColor || tokens.color.text.inverse}
-            name={'close' as any}
-          />
-        </Pressable>
-      )}
+
+      {/* Close Button Section */}
+      <AlertCloseButton 
+        onClose={onClose}
+        getCloseButtonProps={getCloseButtonProps}
+        textColor={textColor}
+      />
     </View>
   );
-}
-
-export function AlertTitle({ children }: AlertTitleProps) {
-  const { alert } = useComponentTokens();
-  // We can't easily get the parent Alert's severity here without context,
-  // but we can use a generic color or inherit from View style.
-  // For now, let's use a standard bold style.
-  return <Text style={alert.title}>{children}</Text>;
 }

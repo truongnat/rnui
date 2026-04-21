@@ -1,8 +1,8 @@
 import type { StoryObj } from '@storybook/react-native';
-import React from 'react';
+import { Badge, ThemeProvider } from '@truongdq01/ui';
+import { AlertCircle, AlertTriangle, Check, Info } from 'lucide-react-native';
+import type React from 'react';
 import { View } from 'react-native';
-import { ThemeProvider, Badge } from '@truongdq01/ui';
-import { Check, AlertTriangle, AlertCircle, Info } from 'lucide-react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider override={{}}>

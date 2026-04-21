@@ -1,11 +1,11 @@
 import type { StoryObj } from '@storybook/react-native';
-import React from 'react';
 import {
-  ThemeProvider,
+  Icon,
   SpeedDial,
   SpeedDialAction,
-  Icon,
+  ThemeProvider,
 } from '@truongdq01/ui';
+import type React from 'react';
 import { View } from 'react-native';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (

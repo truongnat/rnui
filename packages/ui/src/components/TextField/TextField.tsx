@@ -1,10 +1,10 @@
+import { useTheme } from '@truongdq01/headless';
 import React, { useState } from 'react';
-import { Input, type InputProps } from '../Input/Input';
-import { TextArea } from '../TextArea/TextArea';
-import { Select, type SelectProps } from '../Select/Select';
 import { Pressable } from 'react-native';
-import { useComponentTokens } from '@truongdq01/headless';
 import { Icon } from '../Icon';
+import { Input, type InputProps } from '../Input/Input';
+import { Select, type SelectProps } from '../Select/Select';
+import { TextArea } from '../TextArea/TextArea';
 
 export interface TextFieldProps extends Omit<InputProps, 'error'> {
   variant?: 'outlined' | 'filled' | 'standard';
@@ -17,6 +17,8 @@ export interface TextFieldProps extends Omit<InputProps, 'error'> {
   required?: boolean;
   select?: boolean;
   selectProps?: SelectProps<any>;
+  onBlur?: (e?: any) => void;
+  onFocus?: (e?: any) => void;
   type?: 'text' | 'password' | 'email' | 'number';
 }
 
@@ -35,7 +37,9 @@ export function TextField({
   label,
   ...rest
 }: TextFieldProps) {
-  const { textField } = useComponentTokens();
+  const {
+    components: { textField },
+  } = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === 'password';
 
@@ -59,7 +63,12 @@ export function TextField({
 
   if (select) {
     return (
-      <Select label={labelText} error={errorText} {...(selectProps as any)} />
+      <Select
+        label={labelText}
+        error={errorText}
+        options={[]}
+        {...(selectProps as any)}
+      />
     );
   }
 
@@ -71,7 +80,7 @@ export function TextField({
         helperText={errorText ? undefined : helperText}
         minLines={minRows ?? rows ?? 3}
         maxLines={maxRows ?? 8}
-        {...(rest as any)}
+        {...rest}
       />
     );
   }

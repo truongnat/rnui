@@ -1,33 +1,19 @@
+import { useTheme } from '@truongdq01/headless';
 import React, { useEffect, useMemo } from 'react';
-import { View, Text, Pressable, Modal, StyleSheet } from 'react-native';
+import { Modal, StyleSheet, View } from 'react-native';
 import Animated, {
-  useSharedValue,
   useAnimatedStyle,
-  withTiming,
+  useSharedValue,
   withSpring,
-  runOnJS,
+  withTiming,
 } from 'react-native-reanimated';
-import { useTokens, useComponentTokens } from '@truongdq01/headless';
-import { Icon } from '../Icon';
+import { scheduleOnRN } from 'react-native-worklets';
+import { SnackbarContent } from './SnackbarContent';
+import type { SnackbarProps } from './types';
 
-export interface SnackbarProps {
-  /** If true, the snackbar is shown */
-  open: boolean;
-  /** The message to display */
-  message: React.ReactNode;
-  /** Duration in ms before auto-hiding. Use null to disable. */
-  autoHideDuration?: number | null;
-  /** Callback on close */
-  onClose?: () => void;
-  /** Action element (e.g. Button) */
-  action?: React.ReactNode;
-  /** Position on screen */
-  anchorOrigin?: {
-    vertical: 'top' | 'bottom';
-    horizontal: 'left' | 'center' | 'right';
-  };
-}
-
+/**
+ * Snackbar — positions the animated container and manages show/hide lifecycle.
+ */
 export function Snackbar({
   open,
   message,
@@ -36,11 +22,13 @@ export function Snackbar({
   action,
   anchorOrigin = { vertical: 'bottom', horizontal: 'center' },
 }: SnackbarProps) {
-  const { snackbar } = useComponentTokens();
-  const tokens = useTokens();
-  const [mounted, setMounted] = React.useState(open);
+  const {
+    components: { snackbar },
+  } = useTheme();
 
+  const [mounted, setMounted] = React.useState(open);
   const isBottom = anchorOrigin.vertical === 'bottom';
+
   const translateY = useSharedValue(isBottom ? 100 : -100);
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.95);
@@ -54,7 +42,7 @@ export function Snackbar({
   const animateOut = (onDone: () => void) => {
     translateY.value = withTiming(isBottom ? 100 : -100, { duration: 200 });
     opacity.value = withTiming(0, { duration: 150 }, (done) => {
-      if (done) runOnJS(onDone)();
+      if (done) scheduleOnRN(onDone);
     });
   };
 
@@ -75,12 +63,15 @@ export function Snackbar({
     return () => clearTimeout(t);
   }, [open, autoHideDuration, onClose]);
 
-  const verticalStyle = isBottom ? { bottom: 32 } : { top: 48 };
+  const verticalStyle = useMemo(
+    () => (isBottom ? styles.positionBottom : styles.positionTop),
+    [isBottom]
+  );
+
   const horizontalStyle = useMemo(() => {
-    if (anchorOrigin.horizontal === 'center')
-      return { alignSelf: 'center' as const };
-    if (anchorOrigin.horizontal === 'left') return { left: 16 };
-    return { right: 16 };
+    if (anchorOrigin.horizontal === 'center') return styles.alignCenter;
+    if (anchorOrigin.horizontal === 'left') return styles.alignLeft;
+    return styles.alignRight;
   }, [anchorOrigin.horizontal]);
 
   const animStyle = useAnimatedStyle(() => ({
@@ -106,21 +97,16 @@ export function Snackbar({
             snackbar.container,
             verticalStyle,
             horizontalStyle,
-            animStyle as any,
-            { position: 'absolute' },
+            animStyle,
+            styles.absolute,
           ]}
         >
-          <Text style={[snackbar.text, { flex: 1 }]}>{message}</Text>
-          {action}
-          {onClose && (
-            <Pressable onPress={onClose} hitSlop={8} style={{ marginLeft: 8 }}>
-              <Icon
-                size={18}
-                color={snackbar.text.color}
-                name={'close' as any}
-              />
-            </Pressable>
-          )}
+          <SnackbarContent
+            message={message}
+            action={action}
+            onClose={onClose}
+            textColor={snackbar.text.color as string}
+          />
         </Animated.View>
       </View>
     </Modal>
@@ -130,5 +116,23 @@ export function Snackbar({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
+  },
+  absolute: {
+    position: 'absolute',
+  },
+  positionBottom: {
+    bottom: 32,
+  },
+  positionTop: {
+    top: 48,
+  },
+  alignCenter: {
+    alignSelf: 'center',
+  },
+  alignLeft: {
+    left: 16,
+  },
+  alignRight: {
+    right: 16,
   },
 });

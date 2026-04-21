@@ -1,15 +1,16 @@
-import React, { useMemo, useState } from 'react';
+import { useTheme } from '@truongdq01/headless';
+import type React from 'react';
+import { useMemo, useState } from 'react';
 import {
-  Modal,
-  View,
-  Pressable,
-  StyleSheet,
-  Dimensions,
   type LayoutChangeEvent,
+  Modal,
+  Pressable,
   type StyleProp,
+  StyleSheet,
+  useWindowDimensions,
+  View,
   type ViewStyle,
 } from 'react-native';
-import { useTokens, useComponentTokens } from '@truongdq01/headless';
 
 export type PopperPlacement =
   | 'top'
@@ -95,14 +96,16 @@ export function Popper({
   onClose,
   children,
 }: PopperProps) {
-  const { popper } = useComponentTokens();
-  const tokens = useTokens();
+  const {
+    components: { popper },
+    tokens,
+  } = useTheme();
+  const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const [contentSize, setContentSize] = useState({ width: 0, height: 0 });
 
   if (!open && !keepMounted) return null;
 
   const anchorRect = anchorEl ?? { x: 0, y: 0, width: 0, height: 0 };
-  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
   const position = useMemo(() => {
     const pos = resolvePlacement(

@@ -1,8 +1,8 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { Dialog } from '../Dialog';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
 import { Text } from 'react-native';
+import { Dialog } from '../Dialog';
 
 describe('Dialog', () => {
   it('renders title and content', () => {

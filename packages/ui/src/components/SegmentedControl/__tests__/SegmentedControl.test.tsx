@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { SegmentedControl } from '../SegmentedControl';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { SegmentedControl } from '../SegmentedControl';
 
 test('SegmentedControl renders options', () => {
   const { getByText } = render(

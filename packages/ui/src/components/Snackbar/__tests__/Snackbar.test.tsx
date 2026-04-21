@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Snackbar } from '../Snackbar';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { Snackbar } from '../Snackbar';
 
 test('Snackbar renders message', () => {
   const { getByText } = render(

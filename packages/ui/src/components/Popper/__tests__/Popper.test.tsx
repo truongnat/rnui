@@ -1,8 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Popper } from '../Popper';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
 import { Text } from 'react-native';
+import { Popper } from '../Popper';
 
 test('Popper renders content', () => {
   const { getByText } = render(

@@ -1,20 +1,22 @@
+import { pressFeedback, spring } from '@truongdq01/tokens';
 import { useCallback, useState } from 'react';
+import { type AccessibilityRole, Platform } from 'react-native';
 import {
-  useSharedValue,
+  Gesture,
+  type GestureStateChangeEvent,
+  type LongPressGestureHandlerEventPayload,
+  type TapGestureHandlerEventPayload,
+} from 'react-native-gesture-handler';
+import {
   useAnimatedStyle,
+  useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
-import {
-  Gesture,
-  type GestureStateChangeEvent,
-  type TapGestureHandlerEventPayload,
-  type LongPressGestureHandlerEventPayload,
-} from 'react-native-gesture-handler';
-import { Platform, type AccessibilityRole } from 'react-native';
+import { triggerHaptic } from './useHaptics';
+import { useId } from './useId';
 import { useReduceMotionEnabled } from './useMotionPreference';
-import { spring, pressFeedback } from '@truongdq01/tokens';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -26,6 +28,8 @@ export type PressFeedbackMode =
   | 'none';
 
 export interface UsePressableOptions {
+  /** Unique identifier for the pressable element */
+  id?: string;
   /** Called when press completes */
   onPress?: () => void;
   /** Called when long press fires (default 500ms) */
@@ -57,8 +61,9 @@ export interface UsePressableReturn {
   animatedStyle: ReturnType<typeof useAnimatedStyle>;
   /** Pass to GestureDetector gesture prop */
   gesture: ReturnType<typeof Gesture.Simultaneous>;
-  /** Spread onto View for accessibility */
+  /** Spread onto View for accessibility and identification */
   accessibilityProps: {
+    nativeID: string;
     accessible: boolean;
     accessibilityRole: AccessibilityRole;
     accessibilityLabel?: string;
@@ -75,6 +80,7 @@ export interface UsePressableReturn {
 // ─── Hook ─────────────────────────────────────────────────────────
 
 export function usePressable({
+  id: idProp,
   onPress,
   onLongPress,
   longPressMinDuration = 500,
@@ -87,6 +93,7 @@ export function usePressable({
   hitSlop,
   testID,
 }: UsePressableOptions = {}): UsePressableReturn {
+  const id = useId(idProp, 'pressable');
   const [isPressed, setIsPressed] = useState(false);
   const reduceMotion = useReduceMotionEnabled();
   const effectiveFeedbackMode: PressFeedbackMode =
@@ -190,6 +197,7 @@ export function usePressable({
     accessibilityHint,
     accessibilityState: { disabled },
     testID,
+    nativeID: id,
   };
 
   return {
@@ -199,44 +207,4 @@ export function usePressable({
     isPressed,
     onPress: handlePress,
   };
-}
-
-// ─── Haptic helper ────────────────────────────────────────────────
-// Resolved once at module load; subsequent calls skip require() overhead.
-
-type HapticType = 'light' | 'medium' | 'heavy';
-
-let _hapticModule: any = null;
-let _hapticProvider: 'expo' | 'rn' | 'none' | undefined;
-
-function resolveHapticProvider() {
-  if (_hapticProvider !== undefined) return;
-  try {
-    _hapticModule = require('expo-haptics');
-    _hapticProvider = 'expo';
-    return;
-  } catch {}
-  try {
-    _hapticModule = require('react-native-haptic-feedback').default;
-    _hapticProvider = 'rn';
-    return;
-  } catch {}
-  _hapticProvider = 'none';
-}
-
-function triggerHaptic(type: HapticType) {
-  resolveHapticProvider();
-  if (_hapticProvider === 'expo') {
-    const map = {
-      light: _hapticModule.ImpactFeedbackStyle.Light,
-      medium: _hapticModule.ImpactFeedbackStyle.Medium,
-      heavy: _hapticModule.ImpactFeedbackStyle.Heavy,
-    };
-    _hapticModule.impactAsync(map[type]);
-  } else if (_hapticProvider === 'rn') {
-    _hapticModule.trigger(
-      Platform.OS === 'ios' ? 'impactLight' : 'notificationSuccess',
-      { enableVibrateFallback: true, ignoreAndroidSystemSettings: false }
-    );
-  }
 }

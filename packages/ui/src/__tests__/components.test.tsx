@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
+import type React from 'react';
+import { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import {
-  ThemeProvider,
-  Button,
-  Input,
-  Checkbox,
-  Switch,
   Badge,
+  Button,
+  Checkbox,
   Divider,
+  EmptyState,
   FormField,
   FormGroup,
-  EmptyState,
+  Input,
   Skeleton,
+  Switch,
+  ThemeProvider,
 } from '../index';
 
 const Wrap = ({ children }: { children: React.ReactNode }) => (

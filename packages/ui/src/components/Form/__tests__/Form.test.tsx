@@ -1,8 +1,8 @@
-import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
-import { Text, TextInput, Pressable } from 'react-native';
-import { Form, useForm } from '../Form';
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import React from 'react';
+import { Pressable, Text, TextInput } from 'react-native';
+import { Form, useForm } from '../Form';
 
 // Helper to wrap components with ThemeProvider
 const renderWithTheme = (component: React.ReactElement) => {

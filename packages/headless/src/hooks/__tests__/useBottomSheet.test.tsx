@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-native';
+import { act, renderHook } from '@testing-library/react-native';
 import { useBottomSheet } from '../useBottomSheet';
 
 // Mocking dependencies
@@ -6,6 +6,8 @@ jest.mock('react-native', () => ({
   Dimensions: {
     get: jest.fn().mockReturnValue({ height: 1000, width: 500 }),
   },
+  useWindowDimensions: jest.fn().mockReturnValue({ height: 1000, width: 500 }),
+  Platform: { OS: 'ios' },
 }));
 
 jest.mock('react-native-reanimated', () => ({

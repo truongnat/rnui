@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-native';
-import { useIconStyle } from '../useIconStyle';
 import { useTokens } from '../../theme';
+import { useIconStyle } from '../useIconStyle';
 
 jest.mock('../../theme', () => ({
   useTokens: jest.fn(),

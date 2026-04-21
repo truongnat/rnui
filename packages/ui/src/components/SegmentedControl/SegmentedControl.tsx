@@ -1,15 +1,12 @@
-import React, { useState, useRef } from 'react';
-import { View, Pressable, Text, type LayoutChangeEvent } from 'react-native';
+import { useSegmentedControl, useTheme } from '@truongdq01/headless';
+import React, { useRef, useState } from 'react';
+import { type LayoutChangeEvent, Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
-  withSpring,
   useSharedValue,
+  withSpring,
 } from 'react-native-reanimated';
-import {
-  useTokens,
-  useComponentTokens,
-  useSegmentedControl,
-} from '@truongdq01/headless';
+
 const TRACK_PADDING = 2;
 
 /** Critically damped — fast, no overshoot (replaces snappy spring for segment indicator). */
@@ -59,8 +56,10 @@ export function SegmentedControl({
   height: heightProp,
   disabled = false,
 }: SegmentedControlProps) {
-  const tokens = useTokens();
-  const { segmentedControl } = useComponentTokens();
+  const {
+    components: { segmentedControl },
+    tokens,
+  } = useTheme();
   const { isSelected, setSelectedIndex, getTabProps } = useSegmentedControl({
     value: selectedIndex,
     onChange: (val) => onChange(val as number),
@@ -134,14 +133,14 @@ export function SegmentedControl({
       )}
 
       {options.map((option, index) => {
-        const selected = isSelected(index as any);
+        const selected = isSelected(index);
         const label = getLabel(option);
         const icon = getIcon(option);
         return (
           <Pressable
             key={label}
             disabled={disabled}
-            {...getTabProps(index as any, index)}
+            {...getTabProps(index, index)}
             style={{
               flex: 1,
               flexDirection: 'row',

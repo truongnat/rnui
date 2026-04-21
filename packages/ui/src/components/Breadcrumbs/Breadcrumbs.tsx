@@ -1,54 +1,47 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { useComponentTokens } from '@truongdq01/headless';
+import { useTheme } from "@truongdq01/headless";
+import { Fragment, isValidElement, memo, type ReactNode } from "react";
+import { Text, View } from "react-native";
+import type { BreadcrumbsProps } from "./types";
+import { useBreadcrumbsDisplayItems } from "./useBreadcrumbsDisplayItems";
 
-export interface BreadcrumbsProps {
-  children?: React.ReactNode;
-  separator?: React.ReactNode;
-  maxItems?: number;
-  itemsBeforeCollapse?: number;
-  itemsAfterCollapse?: number;
+function breadcrumbRowKey(child: ReactNode, idx: number): string {
+	if (isValidElement(child) && child.key != null && child.key !== "") {
+		return String(child.key);
+	}
+	return `breadcrumb-row-${idx}`;
 }
 
-export function Breadcrumbs({
-  children,
-  separator = '/',
-  maxItems = 8,
-  itemsBeforeCollapse = 1,
-  itemsAfterCollapse = 1,
+function BreadcrumbsInner({
+	children,
+	separator = "/",
+	maxItems = 8,
+	itemsBeforeCollapse = 1,
+	itemsAfterCollapse = 1,
 }: BreadcrumbsProps) {
-  const { breadcrumbs } = useComponentTokens();
-  const items = React.Children.toArray(children);
+	const {
+		components: { breadcrumbs },
+	} = useTheme();
 
-  let displayItems = items;
-  if (items.length > maxItems) {
-    displayItems = [
-      ...items.slice(0, itemsBeforeCollapse),
-      <Text key="ellipsis" style={{ color: breadcrumbs.separator.color }}>
-        ...
-      </Text>,
-      ...items.slice(items.length - itemsAfterCollapse),
-    ];
-  }
+	const displayItems = useBreadcrumbsDisplayItems(children, {
+		maxItems,
+		itemsBeforeCollapse,
+		itemsAfterCollapse,
+		ellipsisStyle: breadcrumbs.separator,
+	});
 
-  return (
-    <View style={breadcrumbs.container}>
-      {displayItems.map((child, idx) => (
-        <React.Fragment key={idx}>
-          {child}
-          {idx < displayItems.length - 1 && (
-            <Text
-              style={{
-                marginHorizontal: breadcrumbs.container.gap,
-                color: breadcrumbs.separator.color,
-                fontSize: breadcrumbs.separator.fontSize,
-              }}
-            >
-              {separator}
-            </Text>
-          )}
-        </React.Fragment>
-      ))}
-    </View>
-  );
+	return (
+		<View style={breadcrumbs.container}>
+			{displayItems.map((child, idx) => (
+				<Fragment key={breadcrumbRowKey(child, idx)}>
+					{child}
+					{idx < displayItems.length - 1 && (
+						<Text style={breadcrumbs.separator}>{separator}</Text>
+					)}
+				</Fragment>
+			))}
+		</View>
+	);
 }
+
+export const Breadcrumbs = memo(BreadcrumbsInner);
+Breadcrumbs.displayName = "Breadcrumbs";

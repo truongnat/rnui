@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
-import { View, TextInput, Pressable, Text } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  withSpring,
-  useSharedValue,
-  withTiming,
-  withSequence,
-  withRepeat,
-  cancelAnimation,
-} from 'react-native-reanimated';
 import {
-  useComponentTokens,
   useOTPInput,
   useReduceMotionEnabled,
+  useTheme,
 } from '@truongdq01/headless';
+import React, { useEffect } from 'react';
+import { Pressable, Text, TextInput, View } from 'react-native';
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 
 export interface OTPInputProps {
   length?: number;
@@ -33,7 +33,9 @@ export function OTPInput({
   disabled = false,
   mask = false,
 }: OTPInputProps) {
-  const { otpInput } = useComponentTokens();
+  const {
+    components: { otpInput },
+  } = useTheme();
   const reduceMotion = useReduceMotionEnabled();
   const { inputRef, isFocused, handlePress, getOtpProps } = useOTPInput({
     length,
@@ -47,7 +49,7 @@ export function OTPInput({
     <View style={{ width: '100%' }}>
       <TextInput
         testID="rnui-otp-input"
-        ref={inputRef as any}
+        ref={inputRef}
         caretHidden
         style={{
           position: 'absolute',
@@ -103,7 +105,9 @@ function OTPCell({
   mask: boolean;
   reduceMotion: boolean;
 }) {
-  const { otpInput } = useComponentTokens();
+  const {
+    components: { otpInput },
+  } = useTheme();
   const scale = useSharedValue(1);
   const cursorOpacity = useSharedValue(1);
 

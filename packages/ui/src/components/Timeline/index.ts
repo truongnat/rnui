@@ -1,18 +1,18 @@
-export {
-  Timeline,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineDot,
-  TimelineConnector,
-  TimelineContent,
-  TimelineOppositeContent,
-} from './Timeline';
 export type {
-  TimelineProps,
-  TimelineItemProps,
-  TimelineSeparatorProps,
-  TimelineDotProps,
   TimelineContentProps,
+  TimelineDotProps,
+  TimelineItemProps,
   TimelineOppositeContentProps,
   TimelinePosition,
+  TimelineProps,
+  TimelineSeparatorProps,
+} from './Timeline';
+export {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineOppositeContent,
+  TimelineSeparator,
 } from './Timeline';

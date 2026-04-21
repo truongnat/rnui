@@ -637,8 +637,8 @@ Build Status: ✅ All passing
 - ⬜ Product Manager
 - ⬜ Engineering Manager
 
-**Approved By:** ********\_********  
-**Date:** ********\_********
+**Approved By:** **\*\*\*\***\_**\*\*\*\***  
+**Date:** **\*\*\*\***\_**\*\*\*\***
 
 ---
 

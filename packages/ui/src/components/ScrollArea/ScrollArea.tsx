@@ -1,14 +1,14 @@
-import React from 'react';
+import { useTheme } from '@truongdq01/headless';
+import type React from 'react';
 import {
-  ScrollView,
-  View,
-  StyleSheet,
   Platform,
+  ScrollView,
   type ScrollViewProps,
-  type ViewStyle,
   type StyleProp,
+  StyleSheet,
+  View,
+  type ViewStyle,
 } from 'react-native';
-import { useTokens, useComponentTokens } from '@truongdq01/headless';
 
 /**
  * Scroll indicator style options
@@ -95,11 +95,10 @@ export function ScrollArea({
   testID = 'scroll-area',
   ...scrollViewProps
 }: ScrollAreaProps) {
-  const tokens = useTokens();
-
-  // Determine scroll directions based on direction prop
   const horizontal = direction === 'horizontal' || direction === 'both';
   const vertical = direction === 'vertical' || direction === 'both';
+
+  const { tokens } = useTheme();
 
   // Indicator styling (iOS supports different styles, Android uses default)
   const platformIndicatorStyle =
@@ -118,7 +117,7 @@ export function ScrollArea({
       showsVerticalScrollIndicator={
         vertical ? showVerticalScrollIndicator : false
       }
-      indicatorStyle={platformIndicatorStyle as any}
+      indicatorStyle={platformIndicatorStyle}
       pagingEnabled={pagingEnabled}
       snapToInterval={snapToInterval}
       testID={testID}

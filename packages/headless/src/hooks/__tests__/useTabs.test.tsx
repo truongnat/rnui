@@ -1,5 +1,5 @@
-import { renderHook, act } from '@testing-library/react-native';
-import { useTabs } from '../useTabs';
+import { act, renderHook } from '@testing-library/react-native';
+import { type UseTabsOptions, useTabs } from '../useTabs';
 
 describe('useTabs', () => {
   it('should initialize with undefined default value', () => {
@@ -38,9 +38,12 @@ describe('useTabs', () => {
 
   it('should respect controlled value', () => {
     const onChange = jest.fn();
-    const { result, rerender } = renderHook((props) => useTabs(props), {
-      initialProps: { value: 'tab1', onChange },
-    });
+    const { result, rerender } = renderHook(
+      (props: UseTabsOptions<string>) => useTabs(props),
+      {
+        initialProps: { value: 'tab1', onChange },
+      }
+    );
 
     expect(result.current.value).toBe('tab1');
 
