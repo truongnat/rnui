@@ -34,7 +34,7 @@ jobs:
           restore-keys: turbo-${{ runner.os }}-
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun install
 
       - name: Build packages
         run: bun turbo build
@@ -63,7 +63,7 @@ jobs:
         with:
           node-version: '20'
 
-      - run: bun install --frozen-lockfile
+      - run: bun install
 
       - name: Build packages
         run: bun turbo build --filter=@truongdq01/ui...
@@ -80,7 +80,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-      - run: bun install --frozen-lockfile
+      - run: bun install
       - name: Build docs site
         run: cd docs && bun run build
 
@@ -100,7 +100,7 @@ jobs:
         with:
           bun-version: latest
 
-      - run: bun install --frozen-lockfile
+      - run: bun install
 
       - name: Build packages
         run: bun turbo build
