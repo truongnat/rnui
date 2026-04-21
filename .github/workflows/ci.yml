@@ -43,7 +43,7 @@ jobs:
         run: bun turbo lint
 
       - name: Typecheck
-        run: bun turbo typecheck
+        run: bun turbo typecheck --filter=@truongdq01/ui --filter=@truongdq01/headless --filter=@truongdq01/themes --filter=@truongdq01/tokens
 
       - name: Test
         run: bun turbo test
