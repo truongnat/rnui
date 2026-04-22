@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
 import React from 'react';
-import { Step, Stepper } from '../Stepper';
+import { Step, Stepper } from '../index';
 
 test('Stepper renders steps', () => {
   const { getByText } = render(

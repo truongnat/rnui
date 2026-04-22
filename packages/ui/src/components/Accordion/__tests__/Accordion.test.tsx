@@ -1,8 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
-import React from 'react';
 import { Text } from 'react-native';
-import { Accordion, AccordionDetails, AccordionSummary } from '../Accordion';
+import { Accordion, AccordionDetails, AccordionSummary } from '..';
 
 test('Accordion renders and expands on press', () => {
   const { getByText } = render(

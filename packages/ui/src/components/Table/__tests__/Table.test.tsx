@@ -1,7 +1,6 @@
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
-import React from 'react';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '../Table';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '../index';
 
 test('Table renders rows and cells', () => {
   const { getByText } = render(
