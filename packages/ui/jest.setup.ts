@@ -39,6 +39,11 @@ jest.mock("react-native-reanimated", () => {
 	return createReanimatedMock();
 });
 
+// Mock scheduleOnRN from react-native-worklets to execute callbacks immediately
+jest.mock("react-native-worklets-core", () => ({
+	scheduleOnRN: (fn: any) => fn(),
+}));
+
 jest.mock("react-native-gesture-handler", () => {
 	const { createGestureHandlerMock } = require("./test-mocks");
 	return createGestureHandlerMock();
