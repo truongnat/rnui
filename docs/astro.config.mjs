@@ -11,6 +11,7 @@ export default defineConfig({
     react(),
     starlight({
       title: 'RNUI',
+      customCss: ['./src/styles/custom.css'],
       social: [
         {
           icon: 'github',
