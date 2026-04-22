@@ -36,7 +36,7 @@ export * from './components/Carousel';
 export * from './components/ChatListItem';
 export * from './components/Checkbox';
 export * from './components/Chip';
-export * from './components/CircularProgress';
+// export * from './components/CircularProgress'; // Temporarily disabled due to react-native-svg Touchable.Mixin error
 export * from './components/ContextMenu';
 export * from './components/DatePicker';
 export * from './components/Dialog';
