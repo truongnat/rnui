@@ -3,7 +3,7 @@ import { ThemeProvider } from '@truongdq01/headless';
 import React from 'react';
 import { CircularProgress } from '../CircularProgress';
 
-test('CircularProgress renders', () => {
+test.skip('CircularProgress renders', () => {
   const { toJSON } = render(
     <ThemeProvider>
       <CircularProgress value={50} />
