@@ -27,12 +27,12 @@ const SectionList = createComponent('SectionList');
 const Touchable = {
   Mixin: {
     touchableHandleStartShouldSetResponder: () => false,
-    touchableHandleResponderTerminationRequest: () => true,
+    touchableHandleMoveShouldSetResponder: () => false,
+    touchableHandleResponderTerminationRequest: () => false,
     touchableHandleResponderGrant: () => {},
     touchableHandleResponderMove: () => {},
     touchableHandleResponderRelease: () => {},
     touchableHandleResponderTerminate: () => {},
-    touchableGetInitialState: () => ({}),
   },
 };
 
