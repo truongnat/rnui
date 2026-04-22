@@ -1,6 +1,6 @@
-/* Custom styles for bold, distinctive documentation like tamagui.dev */
+/* Clone of tamagui.dev layout and style */
 
-/* CSS Custom Properties for design tokens */
+/* CSS Custom Properties */
 :root {
   --space-xs: 4px;
   --space-sm: 8px;
@@ -12,169 +12,304 @@
   --space-4xl: 64px;
   --space-5xl: 96px;
   --space-6xl: 128px;
+  --space-7xl: 160px;
+  
+  --color-primary: #6366f1;
+  --color-secondary: #a855f7;
+  --color-accent: #ec4899;
+  --color-dark: #0f0f0f;
+  --color-light: #fafafa;
+  --color-gray-100: #f4f4f5;
+  --color-gray-200: #e4e4e7;
+  --color-gray-300: #d4d4d8;
+  --color-gray-400: #a1a1aa;
+  --color-gray-500: #71717a;
+  --color-gray-600: #52525b;
+  --color-gray-700: #3f3f46;
+  --color-gray-800: #27272a;
+  --color-gray-900: #18181b;
 }
 
-/* Hero section - bold and distinctive */
+/* Global styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hero section - tamagui style */
 .starlight-splash {
   position: relative;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-6xl) var(--space-4xl);
+  background: linear-gradient(180deg, var(--color-dark) 0%, var(--color-gray-900) 100%);
 }
 
 .starlight-splash::before {
   content: '';
   position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-  border-radius: 50%;
-  filter: blur(80px);
-  z-index: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
   pointer-events: none;
 }
 
-.starlight-splash::after {
-  content: '';
-  position: absolute;
-  bottom: -30%;
-  left: -10%;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
-  border-radius: 50%;
-  filter: blur(60px);
-  z-index: 0;
-  pointer-events: none;
+.starlight-splash h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+  margin-bottom: var(--space-2xl);
+  background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  max-width: 900px;
 }
 
-/* Hero content - ensure it's above the gradient */
-.starlight-splash > * {
-  position: relative;
-  z-index: 1;
+.starlight-splash p {
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  color: var(--color-gray-400);
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto var(--space-4xl);
+  font-weight: 400;
 }
 
-/* Stats section - bold typography */
+.starlight-splash .actions {
+  display: flex;
+  gap: var(--space-lg);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.starlight-splash button {
+  padding: var(--space-lg) var(--space-3xl);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.starlight-splash button.primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: white;
+}
+
+.starlight-splash button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.5);
+}
+
+.starlight-splash button.secondary {
+  background: transparent;
+  color: white;
+  border: 1px solid var(--color-gray-700);
+}
+
+.starlight-splash button.secondary:hover {
+  border-color: var(--color-gray-500);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Stats section - tamagui style */
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-3xl);
-  margin: var(--space-6xl) 0;
-  padding: var(--space-3xl);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
-  border-radius: 16px;
-  border: 1px solid rgba(99, 102, 241, 0.1);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-4xl);
+  margin: var(--space-7xl) auto;
+  padding: var(--space-4xl);
+  max-width: 1200px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
 .stat-number {
-  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-size: clamp(4rem, 8vw, 5rem);
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   margin-bottom: var(--space-md);
-  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .stat-label {
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.5;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  opacity: 0.9;
+  color: var(--color-gray-400);
 }
 
-/* Feature pills - bold and distinctive */
+/* Content sections */
+.section {
+  max-width: 1200px;
+  margin: var(--space-7xl) auto;
+  padding: 0 var(--space-4xl);
+}
+
+.section h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: var(--space-3xl);
+  color: white;
+}
+
+.section h3 {
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin-bottom: var(--space-lg);
+  margin-top: var(--space-3xl);
+  color: white;
+}
+
+.section p {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-gray-400);
+  margin-bottom: var(--space-xl);
+}
+
+/* Feature pills - tamagui style */
 .feature-pill {
   display: inline-flex;
   align-items: center;
-  padding: var(--space-sm) var(--space-lg);
-  font-size: 0.8125rem;
+  padding: var(--space-md) var(--space-xl);
+  font-size: 0.875rem;
   font-weight: 600;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
   border: 1px solid rgba(99, 102, 241, 0.3);
-  border-radius: 8px;
-  margin-right: var(--space-sm);
-  margin-bottom: var(--space-sm);
+  border-radius: 9999px;
+  margin-right: var(--space-md);
+  margin-bottom: var(--space-md);
   transition: all 0.2s ease;
+  color: var(--color-gray-300);
 }
 
 .feature-pill:hover {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(168, 85, 247, 0.25) 100%);
   border-color: rgba(99, 102, 241, 0.5);
   transform: translateY(-1px);
+  color: white;
 }
 
-/* Section spacing with more breathing room */
-.section {
-  margin-top: var(--space-6xl);
+/* Card grid - tamagui style */
+.CardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-3xl);
+  margin-top: var(--space-4xl);
 }
 
-.section-divider {
-  height: 2px;
-  border: none;
-  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.3), transparent);
-  margin: var(--space-6xl) 0;
-}
-
-/* Card enhancements */
 .starlight-card {
-  border: 1px solid rgba(99, 102, 241, 0.1);
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.02) 0%, rgba(168, 85, 247, 0.02) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: var(--space-3xl);
   transition: all 0.3s ease;
 }
 
 .starlight-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
+  border-color: rgba(99, 102, 241, 0.4);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px -20px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25);
 }
 
-/* Heading enhancements */
-h2 {
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: var(--space-2xl);
-}
-
-h3 {
-  font-size: clamp(1.25rem, 3vw, 1.5rem);
+.starlight-card h3 {
+  font-size: 1.25rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
+  color: white;
+  margin-top: 0;
 }
 
-/* Focus styles for accessibility */
+.starlight-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-gray-400);
+  margin-bottom: 0;
+}
+
+/* Section divider */
+.section-divider {
+  height: 1px;
+  border: none;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.3), transparent);
+  margin: var(--space-7xl) auto;
+  max-width: 1200px;
+}
+
+/* Dark mode page background */
+body {
+  background: var(--color-dark);
+  color: white;
+}
+
+/* Main content area */
+main {
+  background: var(--color-dark);
+}
+
+/* Focus styles */
 *:focus-visible {
-  outline: 2px solid #6366f1;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .starlight-splash {
+    padding: var(--space-4xl) var(--space-2xl);
+    min-height: 60vh;
+  }
+  
   .stats {
-    gap: var(--space-2xl);
-    padding: var(--space-2xl);
+    gap: var(--space-3xl);
+    padding: var(--space-3xl);
+    border-radius: 16px;
   }
   
   .section {
-    margin-top: var(--space-5xl);
+    padding: 0 var(--space-2xl);
+    margin: var(--space-5xl) auto;
+  }
+  
+  .CardGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
   }
   
   .stat-number {
-    font-size: clamp(2.5rem, 5vw, 3rem);
+    font-size: clamp(3rem, 6vw, 4rem);
   }
 }
