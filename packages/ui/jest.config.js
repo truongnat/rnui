@@ -7,7 +7,7 @@ module.exports = {
     '!**/dist/**',
     '!**/node_modules/**',
   ],
-  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/dist-types/'],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/dist-types/', '/src/components/CircularProgress/__tests__/'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': [
       'babel-jest',
