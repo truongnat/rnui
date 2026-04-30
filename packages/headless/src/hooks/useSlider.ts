@@ -439,45 +439,45 @@ export function useSlider({
     ]
   );
 
-  const thumbAnimatedStyle = useAnimatedStyle(() => {
+  const thumbAnimatedStyle = useAnimatedStyle((): import('react-native').ViewStyle => {
     const len = trackLength.value;
     const ratio = thumbRatio.value;
     const scale = thumbScale.value;
     if (isVertical) {
       return {
-        transform: [{ translateY: (1 - ratio) * len }, { scale }],
+        transform: [{ translateY: (1 - ratio) * len }, { scale: scale as never }],
       };
     }
     return {
-      transform: [{ translateX: ratio * len }, { scale }],
+      transform: [{ translateX: ratio * len }, { scale: scale as never }],
     };
   });
 
-  const thumbLowAnimatedStyle = useAnimatedStyle(() => {
+  const thumbLowAnimatedStyle = useAnimatedStyle((): import('react-native').ViewStyle => {
     const len = trackLength.value;
     const r = thumbRatioLow.value;
     const sc = thumbScaleLow.value;
     if (isVertical) {
       return {
-        transform: [{ translateY: (1 - r) * len }, { scale: sc }],
+        transform: [{ translateY: (1 - r) * len }, { scale: sc as never }],
       };
     }
     return {
-      transform: [{ translateX: r * len }, { scale: sc }],
+      transform: [{ translateX: r * len }, { scale: sc as never }],
     };
   });
 
-  const thumbHighAnimatedStyle = useAnimatedStyle(() => {
+  const thumbHighAnimatedStyle = useAnimatedStyle((): import('react-native').ViewStyle => {
     const len = trackLength.value;
     const r = thumbRatioHigh.value;
     const sc = thumbScaleHigh.value;
     if (isVertical) {
       return {
-        transform: [{ translateY: (1 - r) * len }, { scale: sc }],
+        transform: [{ translateY: (1 - r) * len }, { scale: sc as never }],
       };
     }
     return {
-      transform: [{ translateX: r * len }, { scale: sc }],
+      transform: [{ translateX: r * len }, { scale: sc as never }],
     };
   });
 
