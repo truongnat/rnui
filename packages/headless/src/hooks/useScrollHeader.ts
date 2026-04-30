@@ -39,7 +39,7 @@ export function useScrollHeader({
   });
 
   // Image parallax effect (moves up slightly slower than the scroll, and scales up when pulling down)
-  const imageStyle = useAnimatedStyle((): import('react-native').ViewStyle => {
+  const imageStyle = useAnimatedStyle(() => {
     const translateY = interpolate(
       scrollY.value,
       [-headerMaxHeight, 0, scrollDistance],
@@ -51,12 +51,12 @@ export function useScrollHeader({
       extrapolateRight: Extrapolation.CLAMP,
     });
     return {
-      transform: [{ translateY }, { scale: scale as never }],
+      transform: [{ translateY }, { scale }],
     };
   });
 
   // Header Title style (fades in as header collapses)
-  const titleStyle = useAnimatedStyle((): import('react-native').ViewStyle => {
+  const titleStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
       scrollY.value,
       [scrollDistance * 0.6, scrollDistance * 0.9],
