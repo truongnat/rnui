@@ -39,10 +39,14 @@ jest.mock("react-native-reanimated", () => {
 	return createReanimatedMock();
 });
 
-// Mock scheduleOnRN from react-native-worklets to execute callbacks immediately
-jest.mock("react-native-worklets-core", () => ({
-	scheduleOnRN: (fn: any) => fn(),
-}));
+try {
+	require.resolve("react-native-worklets-core");
+	jest.mock("react-native-worklets-core", () => ({
+		scheduleOnRN: (fn: any) => fn(),
+	}));
+} catch {
+	// Module not available, skip mocking
+}
 
 jest.mock("react-native-gesture-handler", () => {
 	const { createGestureHandlerMock } = require("./test-mocks");
@@ -54,7 +58,7 @@ jest.mock("react-native-safe-area-context", () => ({
 	SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-jest.mock("../src/components/BottomSheet/BottomSheet", () => {
+jest.mock("./src/components/BottomSheet/BottomSheet", () => {
 	const React = require("react");
 	const { useState, useImperativeHandle } = React;
 	const BottomSheet = React.forwardRef(
