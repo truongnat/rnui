@@ -445,11 +445,11 @@ export function useSlider({
     const scale = thumbScale.value;
     if (isVertical) {
       return {
-        transform: [{ translateY: (1 - ratio) * len }, { scale }],
+        transform: [{ translateY: (1 - ratio) * len }, { scale }] as any,
       };
     }
     return {
-      transform: [{ translateX: ratio * len }, { scale }],
+      transform: [{ translateX: ratio * len }, { scale }] as any,
     };
   });
 
@@ -459,11 +459,11 @@ export function useSlider({
     const sc = thumbScaleLow.value;
     if (isVertical) {
       return {
-        transform: [{ translateY: (1 - r) * len }, { scale: sc }],
+        transform: [{ translateY: (1 - r) * len }, { scale: sc }] as any,
       };
     }
     return {
-      transform: [{ translateX: r * len }, { scale: sc }],
+      transform: [{ translateX: r * len }, { scale: sc }] as any,
     };
   });
 
@@ -473,11 +473,11 @@ export function useSlider({
     const sc = thumbScaleHigh.value;
     if (isVertical) {
       return {
-        transform: [{ translateY: (1 - r) * len }, { scale: sc }],
+        transform: [{ translateY: (1 - r) * len }, { scale: sc }] as any,
       };
     }
     return {
-      transform: [{ translateX: r * len }, { scale: sc }],
+      transform: [{ translateX: r * len }, { scale: sc }] as any,
     };
   });
 

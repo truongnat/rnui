@@ -51,7 +51,7 @@ export function useScrollHeader({
       extrapolateRight: Extrapolation.CLAMP,
     });
     return {
-      transform: [{ translateY }, { scale }],
+      transform: [{ translateY }, { scale }] as any,
     };
   });
 
