@@ -54,7 +54,7 @@ jest.mock("react-native-safe-area-context", () => ({
 	SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-jest.mock("../src/components/BottomSheet/BottomSheet", () => {
+jest.mock("./src/components/BottomSheet/BottomSheet", () => {
 	const React = require("react");
 	const { useState, useImperativeHandle } = React;
 	const BottomSheet = React.forwardRef(

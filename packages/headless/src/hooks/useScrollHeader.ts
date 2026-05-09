@@ -52,7 +52,7 @@ export function useScrollHeader({
     });
     return {
       transform: [{ translateY }, { scale }],
-    };
+    } as any;
   });
 
   // Header Title style (fades in as header collapses)

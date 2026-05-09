@@ -1,14 +1,15 @@
+import { describe, expect, mock, test, beforeEach } from "bun:test";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { fireEvent, render } from "@testing-library/react-native";
 import { ThemeProvider } from "@truongdq01/headless";
 import { DatePicker } from "../DatePicker";
 
-jest.mock("@react-native-community/datetimepicker", () => ({
+mock.module("@react-native-community/datetimepicker", () => ({
 	__esModule: true,
-	default: jest.fn(() => null),
+	default: mock(() => null),
 }));
 
-const DateTimePickerMock = DateTimePicker as unknown as jest.Mock;
+const DateTimePickerMock = DateTimePicker as unknown as ReturnType<typeof mock>;
 
 describe("DatePicker", () => {
 	beforeEach(() => {
@@ -25,7 +26,7 @@ describe("DatePicker", () => {
 	});
 
 	test("forwards locale and timezone props to DateTimePicker", () => {
-		const onChange = jest.fn();
+		const onChange = mock();
 		const { getByText } = render(
 			<ThemeProvider>
 				<DatePicker
@@ -54,7 +55,7 @@ describe("DatePicker", () => {
 	});
 
 	test("clear button calls onChange with null", () => {
-		const onChange = jest.fn();
+		const onChange = mock();
 		const { getByLabelText } = render(
 			<ThemeProvider>
 				<DatePicker date={new Date(2024, 5, 15)} onChange={onChange} />

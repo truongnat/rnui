@@ -446,11 +446,11 @@ export function useSlider({
     if (isVertical) {
       return {
         transform: [{ translateY: (1 - ratio) * len }, { scale }],
-      };
+      } as any;
     }
     return {
       transform: [{ translateX: ratio * len }, { scale }],
-    };
+    } as any;
   });
 
   const thumbLowAnimatedStyle = useAnimatedStyle(() => {
@@ -460,11 +460,11 @@ export function useSlider({
     if (isVertical) {
       return {
         transform: [{ translateY: (1 - r) * len }, { scale: sc }],
-      };
+      } as any;
     }
     return {
       transform: [{ translateX: r * len }, { scale: sc }],
-    };
+    } as any;
   });
 
   const thumbHighAnimatedStyle = useAnimatedStyle(() => {
@@ -474,11 +474,11 @@ export function useSlider({
     if (isVertical) {
       return {
         transform: [{ translateY: (1 - r) * len }, { scale: sc }],
-      };
+      } as any;
     }
     return {
       transform: [{ translateX: r * len }, { scale: sc }],
-    };
+    } as any;
   });
 
   const fillAnimatedStyleSingle = useAnimatedStyle(() => {
