@@ -1,11 +1,6 @@
 import { useTheme } from '@truongdq01/headless';
 import React from 'react';
-import {
-  Pressable,
-  Modal as RNModal,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { Pressable, Modal as RNModal, StyleSheet, View } from 'react-native';
 import { ModalContent } from './ModalContent';
 import type { ModalProps } from './types';
 

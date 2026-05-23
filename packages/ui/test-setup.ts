@@ -4,6 +4,7 @@ import {
   createFlashListMock,
   createGestureHandlerMock,
   createReanimatedMock,
+  createSvgMock,
 } from './test-mocks';
 
 // Mock React Native BEFORE it gets imported to avoid Flow type errors
@@ -199,6 +200,9 @@ mock.module('react-native-safe-area-context', () => {
     useSafeAreaFrame: () => ({ x: 0, y: 0, width: 375, height: 812 }),
   };
 });
+
+// Mock react-native-svg (real package requires Touchable.Mixin — unavailable in tests)
+mock.module('react-native-svg', () => createSvgMock());
 
 // Mock @shopify/flash-list
 mock.module('@shopify/flash-list', () => createFlashListMock());

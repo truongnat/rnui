@@ -5,7 +5,12 @@ import type { ChipLabelProps } from './types';
 /**
  * Text label for the Chip with overflow ellipsis.
  */
-export function ChipLabel({ children, color, fontSize, fontWeight }: ChipLabelProps) {
+export function ChipLabel({
+  children,
+  color,
+  fontSize,
+  fontWeight,
+}: ChipLabelProps) {
   return (
     <Text
       numberOfLines={1}

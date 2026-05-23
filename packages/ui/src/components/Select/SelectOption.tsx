@@ -64,10 +64,7 @@ export function SelectOption<T = string>({
 
   if (renderOption) {
     return (
-      <Pressable
-        onPress={handlePress}
-        style={styles.customOptionWrapper}
-      >
+      <Pressable onPress={handlePress} style={styles.customOptionWrapper}>
         {renderOption(option, { selected })}
       </Pressable>
     );

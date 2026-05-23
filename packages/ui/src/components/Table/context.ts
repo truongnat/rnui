@@ -15,7 +15,9 @@ export function useTableContext(): TableContextValue | null {
  * Context providing sort state (sortColumn, sortDirection, onSort)
  * to TableSortLabel components within the table header.
  */
-export const TableSortContext = createContext<TableSortContextValue | null>(null);
+export const TableSortContext = createContext<TableSortContextValue | null>(
+  null
+);
 
 export function useTableSortContext(): TableSortContextValue | null {
   return useContext(TableSortContext);

@@ -1,5 +1,6 @@
 import { spring } from '@truongdq01/tokens';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
+import type { ViewStyle } from 'react-native';
 import { Gesture } from 'react-native-gesture-handler';
 import type { SharedValue } from 'react-native-reanimated';
 import {
@@ -10,6 +11,24 @@ import {
 import { scheduleOnRN } from 'react-native-worklets';
 
 export type SliderOrientation = 'horizontal' | 'vertical';
+
+type ThumbTransformStyle = Pick<ViewStyle, 'transform'>;
+
+function buildThumbTransformStyle(
+  isVertical: boolean,
+  trackLength: number,
+  ratio: number,
+  scale: number
+): ThumbTransformStyle {
+  if (isVertical) {
+    return {
+      transform: [{ translateY: (1 - ratio) * trackLength }, { scale }],
+    };
+  }
+  return {
+    transform: [{ translateX: ratio * trackLength }, { scale }],
+  };
+}
 
 type BaseSliderOptions = {
   min?: number;
@@ -439,47 +458,32 @@ export function useSlider({
     ]
   );
 
-  const thumbAnimatedStyle = useAnimatedStyle(() => {
-    const len = trackLength.value;
-    const ratio = thumbRatio.value;
-    const scale = thumbScale.value;
-    if (isVertical) {
-      return {
-        transform: [{ translateY: (1 - ratio) * len }, { scale }],
-      };
-    }
-    return {
-      transform: [{ translateX: ratio * len }, { scale }],
-    };
-  });
+  const thumbAnimatedStyle = useAnimatedStyle(() =>
+    buildThumbTransformStyle(
+      isVertical,
+      trackLength.value,
+      thumbRatio.value,
+      thumbScale.value
+    )
+  );
 
-  const thumbLowAnimatedStyle = useAnimatedStyle(() => {
-    const len = trackLength.value;
-    const r = thumbRatioLow.value;
-    const sc = thumbScaleLow.value;
-    if (isVertical) {
-      return {
-        transform: [{ translateY: (1 - r) * len }, { scale: sc }],
-      };
-    }
-    return {
-      transform: [{ translateX: r * len }, { scale: sc }],
-    };
-  });
+  const thumbLowAnimatedStyle = useAnimatedStyle(() =>
+    buildThumbTransformStyle(
+      isVertical,
+      trackLength.value,
+      thumbRatioLow.value,
+      thumbScaleLow.value
+    )
+  );
 
-  const thumbHighAnimatedStyle = useAnimatedStyle(() => {
-    const len = trackLength.value;
-    const r = thumbRatioHigh.value;
-    const sc = thumbScaleHigh.value;
-    if (isVertical) {
-      return {
-        transform: [{ translateY: (1 - r) * len }, { scale: sc }],
-      };
-    }
-    return {
-      transform: [{ translateX: r * len }, { scale: sc }],
-    };
-  });
+  const thumbHighAnimatedStyle = useAnimatedStyle(() =>
+    buildThumbTransformStyle(
+      isVertical,
+      trackLength.value,
+      thumbRatioHigh.value,
+      thumbScaleHigh.value
+    )
+  );
 
   const fillAnimatedStyleSingle = useAnimatedStyle(() => {
     const ratio = thumbRatio.value;

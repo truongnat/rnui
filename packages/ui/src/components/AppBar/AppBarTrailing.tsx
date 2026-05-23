@@ -6,14 +6,9 @@ import type { AppBarTrailingProps } from './types';
 export function AppBarTrailing({ children, style }: AppBarTrailingProps) {
   const { tokens } = useTheme();
 
-  const rowStyle = useMemo(
-    () => ({ gap: tokens.spacing[1] }),
-    [tokens],
-  );
+  const rowStyle = useMemo(() => ({ gap: tokens.spacing[1] }), [tokens]);
 
-  return (
-    <View style={[styles.container, rowStyle, style]}>{children}</View>
-  );
+  return <View style={[styles.container, rowStyle, style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({

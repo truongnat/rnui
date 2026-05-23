@@ -1,15 +1,15 @@
+export { SelectContext, useSelectContext } from './context';
 export { Select } from './Select';
-export { SelectTrigger } from './SelectTrigger';
 export { SelectDropdown } from './SelectDropdown';
 export { SelectOption } from './SelectOption';
 export { SelectPlaceholder } from './SelectPlaceholder';
-export { SelectContext, useSelectContext } from './context';
+export { SelectTrigger } from './SelectTrigger';
 
 export type {
-  SelectProps,
-  SelectOptionType,
-  SelectTriggerProps,
   SelectDropdownProps,
   SelectOptionProps,
+  SelectOptionType,
   SelectPlaceholderProps,
+  SelectProps,
+  SelectTriggerProps,
 } from './types';

@@ -13,7 +13,7 @@ export const DATE_PICKER_SHEET_RADIUS = 16;
 export const DATE_PICKER_DRAG_HANDLE_WIDTH = 36;
 export const DATE_PICKER_DRAG_HANDLE_HEIGHT = 4;
 
-export const DATE_PICKER_BACKDROP = "rgba(0,0,0,0.4)";
+export const DATE_PICKER_BACKDROP = 'rgba(0,0,0,0.4)';
 
 /** Years shown in year grid (centered on current year). */
 export const DATE_PICKER_YEAR_SPAN = 12;

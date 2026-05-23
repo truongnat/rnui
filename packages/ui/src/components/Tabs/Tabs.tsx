@@ -9,7 +9,13 @@ import type { TabsProps } from './types';
 export { Tab } from './Tab';
 export { TabList } from './TabList';
 export { TabPanel } from './TabPanel';
-export type { TabProps, TabListProps, TabPanelProps, TabsContextValue, TabsProps } from './types';
+export type {
+  TabListProps,
+  TabPanelProps,
+  TabProps,
+  TabsContextValue,
+  TabsProps,
+} from './types';
 
 /**
  * Root Tabs component.
@@ -39,9 +45,7 @@ export function Tabs<T = string>({
   const containerStyle = useMemo(
     () => [
       tabs.container,
-      orientation === 'horizontal'
-        ? styles.borderBottom
-        : styles.borderLeft,
+      orientation === 'horizontal' ? styles.borderBottom : styles.borderLeft,
       centered ? styles.justifyCenter : styles.justifyStart,
       orientation === 'horizontal'
         ? styles.rowDirection

@@ -1,9 +1,5 @@
 import type React from 'react';
-import type {
-  ListRenderItem,
-  StyleProp,
-  ViewStyle,
-} from 'react-native';
+import type { ListRenderItem, StyleProp, ViewStyle } from 'react-native';
 
 /**
  * Internal context value shared from List root to child components.

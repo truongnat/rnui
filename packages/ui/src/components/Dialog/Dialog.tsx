@@ -83,10 +83,7 @@ export function Dialog({
   const overlayStyle = useMemo(() => {
     // Keep the modal mounted for exit animation, but hide the dimmed backdrop immediately on close.
     // This avoids a perceived "delay" where the screen looks blocked until the animation ends.
-    return [
-      modal.overlay,
-      !open && { backgroundColor: 'transparent' },
-    ];
+    return [modal.overlay, !open && { backgroundColor: 'transparent' }];
   }, [modal.overlay, open]);
 
   if (!mounted) return null;
@@ -166,10 +163,7 @@ export function Dialog({
             {actions && (
               <View
                 nativeID={`${id}-actions`}
-                style={[
-                  dialog.actions,
-                  { width: '100%', flexWrap: 'wrap' },
-                ]}
+                style={[dialog.actions, { width: '100%', flexWrap: 'wrap' }]}
               >
                 {actions}
               </View>

@@ -1,6 +1,6 @@
 import { useReduceMotionEnabled, useTheme } from '@truongdq01/headless';
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
   Extrapolation,
   interpolate,
@@ -16,10 +16,12 @@ import type { AccordionDetailsProps } from './types';
  * It uses layout measurements to smoothly animate height changes.
  */
 export function AccordionDetails({ children }: AccordionDetailsProps) {
-  const { components: { accordion } } = useTheme();
+  const {
+    components: { accordion },
+  } = useTheme();
   const ctx = useContext(AccordionContext);
   const reduceMotion = useReduceMotionEnabled();
-  
+
   const [contentHeight, setContentHeight] = useState(0);
   const animHeight = useSharedValue(0);
 
@@ -57,10 +59,7 @@ export function AccordionDetails({ children }: AccordionDetailsProps) {
             setContentHeight(h);
           }
         }}
-        style={[
-          accordion.details,
-          styles.contentWrapper,
-        ]}
+        style={[accordion.details, styles.contentWrapper]}
       >
         {children}
       </View>

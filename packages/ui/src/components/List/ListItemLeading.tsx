@@ -7,7 +7,10 @@ import type { ListItemLeadingProps } from './types';
  * Left-side slot for an avatar or icon within a ListItem.
  * Provides fixed minimum width and right spacing so content is always aligned.
  */
-export function ListItemLeading({ id: idProp, children }: ListItemLeadingProps) {
+export function ListItemLeading({
+  id: idProp,
+  children,
+}: ListItemLeadingProps) {
   const id = useId(idProp, 'list-item-leading');
   const { tokens } = useTheme();
 

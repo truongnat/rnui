@@ -1,11 +1,11 @@
 export { Tooltip } from './Tooltip';
-export { TooltipContent } from './TooltipContent';
 export { TooltipArrow } from './TooltipArrow';
+export { TooltipContent } from './TooltipContent';
 
 export type {
-  TooltipProps,
-  TooltipPlacement,
-  TriggerRect,
-  TooltipContentProps,
   TooltipArrowProps,
+  TooltipContentProps,
+  TooltipPlacement,
+  TooltipProps,
+  TriggerRect,
 } from './types';

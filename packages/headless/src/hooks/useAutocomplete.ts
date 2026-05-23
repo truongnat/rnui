@@ -133,8 +133,7 @@ export function useAutocomplete<T = string>({
 
   const debouncedForFilter = useDebouncedValue(inputValue, filterDebounceMs);
   const filterInput = useMemo(
-    () =>
-      resolveFilterInput(inputValue, debouncedForFilter, filterDebounceMs),
+    () => resolveFilterInput(inputValue, debouncedForFilter, filterDebounceMs),
     [inputValue, debouncedForFilter, filterDebounceMs]
   );
 

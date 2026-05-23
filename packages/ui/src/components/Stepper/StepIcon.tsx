@@ -15,8 +15,16 @@ export function StepIcon({
   pendingColor,
 }: StepIconProps) {
   const circleStyle = useMemo(() => {
-    const borderColor = isCompleted ? completedColor : isActive ? activeColor : pendingColor;
-    const bgColor = isCompleted ? completedColor : isActive ? `${activeColor}20` : 'transparent';
+    const borderColor = isCompleted
+      ? completedColor
+      : isActive
+        ? activeColor
+        : pendingColor;
+    const bgColor = isCompleted
+      ? completedColor
+      : isActive
+        ? `${activeColor}20`
+        : 'transparent';
     return [styles.circle, { backgroundColor: bgColor, borderColor }];
   }, [isActive, isCompleted, activeColor, completedColor, pendingColor]);
 

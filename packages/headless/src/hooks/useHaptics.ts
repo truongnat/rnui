@@ -126,7 +126,10 @@ const RN_HAPTIC_METHOD: Record<HapticIntensity, string> = {
   impactHeavy: 'impactHeavy',
 };
 
-function triggerRn(mod: RnHapticFeedbackModule, intensity: HapticIntensity): void {
+function triggerRn(
+  mod: RnHapticFeedbackModule,
+  intensity: HapticIntensity
+): void {
   mod.trigger(RN_HAPTIC_METHOD[intensity], {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,

@@ -307,6 +307,54 @@ export const createGestureHandlerMock = () => {
   };
 };
 
+/** Mock react-native-svg without loading Touchable.Mixin (crashes in test env). */
+export const createSvgMock = () => {
+  const { View } = require('react-native') as typeof import('react-native');
+
+  const createShape = (displayName: string, withChildren = false) => {
+    const Component = React.forwardRef<
+      typeof View,
+      { children?: React.ReactNode } & Record<string, unknown>
+    >(({ children, ...props }, ref) =>
+      withChildren
+        ? React.createElement(View, { ref, ...props }, children)
+        : React.createElement(View, { ref, ...props })
+    );
+    Component.displayName = displayName;
+    return Component;
+  };
+
+  const Svg = createShape('Svg', true);
+  const Circle = createShape('Circle');
+  const Path = createShape('Path');
+  const Rect = createShape('Rect');
+  const Ellipse = createShape('Ellipse');
+  const Line = createShape('Line');
+  const Polygon = createShape('Polygon');
+  const Polyline = createShape('Polyline');
+  const G = createShape('G', true);
+  const Defs = createShape('Defs', true);
+  const LinearGradient = createShape('LinearGradient');
+  const Stop = createShape('Stop');
+
+  return {
+    __esModule: true,
+    default: Svg,
+    Svg,
+    Circle,
+    Path,
+    Rect,
+    Ellipse,
+    Line,
+    Polygon,
+    Polyline,
+    G,
+    Defs,
+    LinearGradient,
+    Stop,
+  };
+};
+
 export const createFlashListMock = () => {
   const FlashList = ({
     data = [],

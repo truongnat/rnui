@@ -16,9 +16,7 @@ export interface TextFieldProps extends Omit<InputProps, 'error'> {
   error?: boolean | string;
   required?: boolean;
   select?: boolean;
-  selectProps?: SelectProps<any>;
-  onBlur?: (e?: any) => void;
-  onFocus?: (e?: any) => void;
+  selectProps?: SelectProps<string>;
   type?: 'text' | 'password' | 'email' | 'number';
 }
 
@@ -67,7 +65,7 @@ export function TextField({
         label={labelText}
         error={errorText}
         options={[]}
-        {...(selectProps as any)}
+        {...selectProps}
       />
     );
   }

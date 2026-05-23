@@ -1,10 +1,10 @@
 import { useAlert, useTheme } from '@truongdq01/headless';
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import type { AlertProps } from './types';
-import { AlertIcon } from './AlertIcon';
-import { AlertContent } from './AlertContent';
 import { AlertCloseButton } from './AlertCloseButton';
+import { AlertContent } from './AlertContent';
+import { AlertIcon } from './AlertIcon';
+import type { AlertProps } from './types';
 
 /**
  * Alert component provides contextual feedback messages for user actions with various intensities.
@@ -26,16 +26,19 @@ export function Alert({
 
   // Retrieve theme tokens for the specific severity level
   const severityTokens = alert.variant[severity];
-  
+
   // Manage alert open/close state logic
-  const { isOpen, getAlertProps, getCloseButtonProps } = useAlert({ onClose, id });
+  const { isOpen, getAlertProps, getCloseButtonProps } = useAlert({
+    onClose,
+    id,
+  });
 
   /**
    * Calculate dynamic container styles based on variant and severity.
    */
   const containerStyle = useMemo(() => {
     const base = [alert.container];
-    
+
     if (variant === 'filled') {
       base.push({
         backgroundColor: severityTokens.icon,
@@ -68,22 +71,16 @@ export function Alert({
   return (
     <View style={[containerStyle, style]} {...getAlertProps()}>
       {/* Icon Section */}
-      <AlertIcon 
-        severity={severity} 
-        icon={icon} 
-        color={iconColor} 
-      />
+      <AlertIcon severity={severity} icon={icon} color={iconColor} />
 
       {/* Message Content Section */}
-      <AlertContent>
-        {children}
-      </AlertContent>
+      <AlertContent>{children}</AlertContent>
 
       {/* Custom Action Section */}
       {action}
 
       {/* Close Button Section */}
-      <AlertCloseButton 
+      <AlertCloseButton
         onClose={onClose}
         getCloseButtonProps={getCloseButtonProps}
         textColor={textColor}

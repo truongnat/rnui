@@ -14,7 +14,7 @@
     "format": "prettier --write .",
     "test": "turbo test",
     "test:coverage": "turbo test -- --coverage --coverage-reporter=text --coverage-reporter=lcov",
-    "typecheck": "turbo typecheck",
+    "typecheck": "turbo typecheck --filter=@truongdq01/ui --filter=@truongdq01/headless --filter=@truongdq01/themes --filter=@truongdq01/tokens",
     "clean": "turbo clean && rm -rf node_modules",
     "changeset": "changeset",
     "version-packages": "changeset version",

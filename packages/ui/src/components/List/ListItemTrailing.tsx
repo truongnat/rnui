@@ -6,7 +6,10 @@ import type { ListItemTrailingProps } from './types';
 /**
  * Right-side slot for an action, icon, or value within a ListItem.
  */
-export function ListItemTrailing({ id: idProp, children }: ListItemTrailingProps) {
+export function ListItemTrailing({
+  id: idProp,
+  children,
+}: ListItemTrailingProps) {
   const id = useId(idProp, 'list-item-trailing');
   const { tokens } = useTheme();
 

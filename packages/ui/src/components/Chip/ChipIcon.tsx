@@ -8,7 +8,9 @@ import type { ChipIconProps } from './types';
 export function ChipIcon({ children, iconSize, iconColor }: ChipIconProps) {
   if (!children) return null;
 
-  if (React.isValidElement<{ size?: number | string; color?: string }>(children)) {
+  if (
+    React.isValidElement<{ size?: number | string; color?: string }>(children)
+  ) {
     return React.cloneElement(children, {
       size: children.props.size ?? iconSize,
       color: children.props.color ?? iconColor,

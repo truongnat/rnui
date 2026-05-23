@@ -1,10 +1,6 @@
-import {
-  useDisclosure,
-  useTheme,
-  useId,
-} from '@truongdq01/headless';
+import { useDisclosure, useId, useTheme } from '@truongdq01/headless';
 import React, { useContext, useMemo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { AccordionContext, AccordionGroupContext } from './context';
 import type { AccordionProps } from './types';
 
@@ -26,7 +22,10 @@ export function Accordion({
   isLast,
 }: AccordionProps) {
   const groupCtx = useContext(AccordionGroupContext);
-  const { tokens, components: { accordion } } = useTheme();
+  const {
+    tokens,
+    components: { accordion },
+  } = useTheme();
   const id = useId(idProp, 'accordion');
 
   // Determine if state is managed by a parent AccordionGroup
@@ -42,7 +41,9 @@ export function Accordion({
     onClose: () => onChange?.(false),
   });
 
-  const isExpanded = isGroupManaged ? groupCtx.isExpanded(idProp!) : disclosure.isOpen;
+  const isExpanded = isGroupManaged
+    ? groupCtx.isExpanded(idProp!)
+    : disclosure.isOpen;
   const isBordered = controlledBordered ?? true;
 
   /**
@@ -67,7 +68,9 @@ export function Accordion({
     // 2. Group Mode logic
     const gStyle = groupCtx?.groupStyle;
     const flatGStyle = gStyle ? StyleSheet.flatten(gStyle) : {};
-    const hasGap = typeof (flatGStyle as any).gap === 'number' && (flatGStyle as any).gap > 0;
+    const hasGap =
+      typeof (flatGStyle as any).gap === 'number' &&
+      (flatGStyle as any).gap > 0;
 
     // If it's a bordered group OR list mode (shared logic for rounding items at boundary)
     if (isBorderedGroup || !hasGap) {
@@ -88,7 +91,17 @@ export function Accordion({
       borderWidth: isBordered ? 1 : 0,
       borderColor: tokens.color.border.default,
     };
-  }, [isBorderedGroup, isInGroup, isFirst, isLast, groupCtx?.radius, groupCtx?.groupStyle, tokens, radius, isBordered]);
+  }, [
+    isBorderedGroup,
+    isInGroup,
+    isFirst,
+    isLast,
+    groupCtx?.radius,
+    groupCtx?.groupStyle,
+    tokens,
+    radius,
+    isBordered,
+  ]);
 
   const handleToggle = () => {
     if (disabled) return;
@@ -109,7 +122,10 @@ export function Accordion({
         isLast: isLast ?? false,
       }}
     >
-      <View nativeID={id} style={[accordion.container, extraContainerStyle, style]}>
+      <View
+        nativeID={id}
+        style={[accordion.container, extraContainerStyle, style]}
+      >
         {children}
       </View>
     </AccordionContext.Provider>

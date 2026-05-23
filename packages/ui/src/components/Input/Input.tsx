@@ -1,10 +1,5 @@
-import { useId, useIconStyle, useTheme } from '@truongdq01/headless';
-import React, {
-  forwardRef,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { useIconStyle, useId, useTheme } from '@truongdq01/headless';
+import React, { forwardRef, useEffect, useMemo, useState } from 'react';
 import {
   type NativeSyntheticEvent,
   TextInput as RNTextInput,
@@ -31,10 +26,8 @@ const AnimatedTextInput = Animated.createAnimatedComponent(RNTextInput);
 
 export type InputSize = 'sm' | 'md' | 'lg';
 
-export interface InputProps extends Omit<
-  RNTextInputProps,
-  'style' | 'onChange'
-> {
+export interface InputProps
+  extends Omit<RNTextInputProps, 'style' | 'onChange'> {
   /** Unique identifier for the input component */
   id?: string;
   /** Callback for when the text changes */

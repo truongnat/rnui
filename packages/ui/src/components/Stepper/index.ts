@@ -11,7 +11,7 @@ export type {
   StepIconProps,
   StepInternalProps,
   StepLabelProps,
+  StepProps,
   StepperContextValue,
   StepperProps,
-  StepProps,
 } from './types';

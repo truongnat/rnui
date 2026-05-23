@@ -45,7 +45,10 @@ export type SliderHookOptions = UseSliderOptions;
 /**
  * Shared text style used by live value labels.
  */
-export type LiveValueStyle = Pick<TextStyle, 'fontSize' | 'fontWeight' | 'color'>;
+export type LiveValueStyle = Pick<
+  TextStyle,
+  'fontSize' | 'fontWeight' | 'color'
+>;
 
 /**
  * Props for the SliderTrack sub-component.
@@ -71,7 +74,10 @@ export interface SliderThumbProps {
   thumbShellStyle: object;
   kind: 'single' | 'low' | 'high';
   value: number;
-  thumbRenderer?: (args: { kind: 'single' | 'low' | 'high'; value: number }) => React.ReactNode;
+  thumbRenderer?: (args: {
+    kind: 'single' | 'low' | 'high';
+    value: number;
+  }) => React.ReactNode;
 }
 
 /**

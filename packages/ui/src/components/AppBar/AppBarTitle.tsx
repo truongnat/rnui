@@ -9,7 +9,7 @@ export function AppBarTitle({ children, subtitle, style }: AppBarTitleProps) {
 
   const subtitleStyle = useMemo(
     () => ({ color: tokens.color.text.secondary }),
-    [tokens],
+    [tokens]
   );
 
   return (

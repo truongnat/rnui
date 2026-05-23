@@ -1,12 +1,12 @@
 export { AppBar, Toolbar } from './AppBar';
-export { AppBarTitle } from './AppBarTitle';
 export { AppBarLeading } from './AppBarLeading';
+export { AppBarTitle } from './AppBarTitle';
 export { AppBarTrailing } from './AppBarTrailing';
 
 export type {
-  AppBarProps,
-  ToolbarProps,
-  AppBarTitleProps,
   AppBarLeadingProps,
+  AppBarProps,
+  AppBarTitleProps,
   AppBarTrailingProps,
+  ToolbarProps,
 } from './types';

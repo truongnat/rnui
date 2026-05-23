@@ -3,8 +3,8 @@ export { SnackbarContent } from './SnackbarContent';
 export { SnackbarIcon } from './SnackbarIcon';
 
 export type {
-  SnackbarProps,
   SnackbarAnchorOrigin,
   SnackbarContentProps,
   SnackbarIconProps,
+  SnackbarProps,
 } from './types';

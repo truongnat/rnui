@@ -8,7 +8,11 @@ import type { ListItemContentProps } from './types';
  * Primary + secondary text block for a list item (flex: 1).
  * Reads dense flag from ListContext to adjust font size.
  */
-export function ListItemContent({ id: idProp, primary, secondary }: ListItemContentProps) {
+export function ListItemContent({
+  id: idProp,
+  primary,
+  secondary,
+}: ListItemContentProps) {
   const id = useId(idProp, 'list-item-content');
   const {
     components: { list },
@@ -17,10 +21,7 @@ export function ListItemContent({ id: idProp, primary, secondary }: ListItemCont
   const ctx = useListContext();
 
   const primaryTextStyle = useMemo(
-    () => [
-      list.itemText,
-      ctx?.dense ? { fontSize: tokens.fontSize.sm } : null,
-    ],
+    () => [list.itemText, ctx?.dense ? { fontSize: tokens.fontSize.sm } : null],
     [list.itemText, ctx?.dense, tokens]
   );
 

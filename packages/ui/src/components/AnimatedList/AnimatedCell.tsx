@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
-import Animated, { BaseAnimationBuilder } from 'react-native-reanimated';
+import Animated, { type BaseAnimationBuilder } from 'react-native-reanimated';
 import type { AnimatedCellProps } from './types';
 
 export function AnimatedCell<T>({
@@ -15,10 +15,10 @@ export function AnimatedCell<T>({
   itemContainerStyle,
 }: AnimatedCellProps<T>) {
   const { index } = info;
-  
+
   const enteringAnim = useMemo(() => {
     if (!effectiveEntering) return undefined;
-    
+
     const hasDelay = (anim: unknown): anim is BaseAnimationBuilder => {
       return (
         typeof anim === 'object' &&

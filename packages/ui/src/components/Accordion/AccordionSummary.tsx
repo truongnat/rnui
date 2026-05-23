@@ -1,6 +1,10 @@
-import { usePressable, useReduceMotionEnabled, useTheme } from '@truongdq01/headless';
+import {
+  usePressable,
+  useReduceMotionEnabled,
+  useTheme,
+} from '@truongdq01/headless';
 import React, { useContext, useEffect } from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolation,
@@ -21,7 +25,9 @@ export function AccordionSummary({
   children,
   expandIcon,
 }: AccordionSummaryProps) {
-  const { components: { accordion } } = useTheme();
+  const {
+    components: { accordion },
+  } = useTheme();
   const ctx = useContext(AccordionContext);
   const reduceMotion = useReduceMotionEnabled();
 
@@ -76,7 +82,7 @@ export function AccordionSummary({
               width: accordion.icon.size,
               height: accordion.icon.size,
             },
-            styles.iconWrapper
+            styles.iconWrapper,
           ]}
         >
           {expandIcon ?? (

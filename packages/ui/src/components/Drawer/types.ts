@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 /** The edge from which the drawer slides in. */
 export type DrawerAnchor = 'left' | 'right' | 'top' | 'bottom';

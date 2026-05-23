@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
 import React, { useState } from 'react';
+import { Pressable, Text } from 'react-native';
 import { Select } from '../Select';
 
 const options = Array.from({ length: 10000 }).map((_, i) => ({
@@ -19,12 +20,12 @@ const TestWrapper = () => {
         error={error}
         searchable
       />
-      <button
+      <Pressable
         testID="toggle-error"
-        onClick={() => setError((e) => (e ? undefined : 'Error'))}
+        onPress={() => setError((e) => (e ? undefined : 'Error'))}
       >
-        Toggle Error
-      </button>
+        <Text>Toggle Error</Text>
+      </Pressable>
     </ThemeProvider>
   );
 };

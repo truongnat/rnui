@@ -18,7 +18,9 @@ export function DrawerBackdrop({
   } = useTheme();
 
   return (
-    <Animated.View style={[StyleSheet.absoluteFill, drawer.overlay, animatedStyle]}>
+    <Animated.View
+      style={[StyleSheet.absoluteFill, drawer.overlay, animatedStyle]}
+    >
       <Pressable
         style={styles.fill}
         onPress={onPress}

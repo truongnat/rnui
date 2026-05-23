@@ -1,6 +1,6 @@
 import { useTheme } from '@truongdq01/headless';
 import React, { useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { AccordionContext } from './context';
 import type { AccordionActionsProps } from './types';
 
@@ -25,7 +25,7 @@ export function AccordionActions({ children }: AccordionActionsProps) {
           backgroundColor: tokens.color.bg.subtle,
           gap: tokens.spacing[2],
           borderTopColor: tokens.color.border.subtle,
-        }
+        },
       ]}
     >
       {children}

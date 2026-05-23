@@ -42,7 +42,7 @@ jest.mock("react-native-reanimated", () => {
 // Mock scheduleOnRN from react-native-worklets to execute callbacks immediately
 jest.mock("react-native-worklets-core", () => ({
 	scheduleOnRN: (fn: any) => fn(),
-}));
+}), { virtual: true });
 
 jest.mock("react-native-gesture-handler", () => {
 	const { createGestureHandlerMock } = require("./test-mocks");
@@ -54,7 +54,7 @@ jest.mock("react-native-safe-area-context", () => ({
 	SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-jest.mock("../src/components/BottomSheet/BottomSheet", () => {
+jest.mock("./src/components/BottomSheet/BottomSheet", () => {
 	const React = require("react");
 	const { useState, useImperativeHandle } = React;
 	const BottomSheet = React.forwardRef(
@@ -79,41 +79,35 @@ jest.mock("../src/components/BottomSheet/BottomSheet", () => {
 	};
 });
 
-// Conditionally mock @shopify/flash-list only if the module can be resolved
-// This prevents test failures when the optional dependency is not installed
-try {
-	require.resolve("@shopify/flash-list");
-	jest.mock("@shopify/flash-list", () => {
-		const React = require("react");
-		const FlashList = ({
-			data = [],
-			renderItem,
-			keyExtractor,
-			...props
-		}: any) => {
-			if (typeof renderItem !== "function") {
-				return React.createElement("FlashList", props);
-			}
+jest.mock("@shopify/flash-list", () => {
+	const React = require("react");
+	const FlashList = ({
+		data = [],
+		renderItem,
+		keyExtractor,
+		...props
+	}: any) => {
+		if (typeof renderItem !== "function") {
+			return React.createElement("FlashList", props);
+		}
 
-			const children = (data || []).map((item: any, index: number) => {
-				const element = renderItem({ item, index });
-				const key = keyExtractor ? keyExtractor(item, index) : index;
-				return React.isValidElement(element)
-					? React.cloneElement(element, { key })
-					: element;
-			});
+		const children = (data || []).map((item: any, index: number) => {
+			const element = renderItem({ item, index });
+			const key = keyExtractor ? keyExtractor(item, index) : index;
+			return React.isValidElement(element)
+				? React.cloneElement(element, { key })
+				: element;
+		});
 
-			return React.createElement("FlashList", props, children);
-		};
-		FlashList.displayName = "FlashList";
+		return React.createElement("FlashList", props, children);
+	};
+	FlashList.displayName = "FlashList";
 
-		const MasonryFlashList = FlashList;
+	const MasonryFlashList = FlashList;
 
-		return { FlashList, MasonryFlashList };
-	});
-} catch {
-	// Module not available, skip mocking
-}
+	return { FlashList, MasonryFlashList };
+}, { virtual: true });
+
 jest.mock("@react-native-community/datetimepicker", () => {
 	const React = require("react");
 	return React.forwardRef(() => null);
@@ -131,6 +125,11 @@ jest.mock("lucide-react-native", () => {
 			get: () => (props: any) => React.createElement("Icon", props, null),
 		},
 	);
+});
+
+jest.mock("react-native-svg", () => {
+	const { createSvgMock } = require("./test-mocks");
+	return createSvgMock();
 });
 
 declare global {

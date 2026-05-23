@@ -1,17 +1,17 @@
 // Components
-export { Tabs } from './Tabs';
-export { Tab } from './Tab';
-export { TabList } from './TabList';
-export { TabPanel } from './TabPanel';
 
 // Context + hook
 export { TabsContext, useTabsContext } from './context';
+export { Tab } from './Tab';
+export { TabList } from './TabList';
+export { TabPanel } from './TabPanel';
+export { Tabs } from './Tabs';
 
 // Types
 export type {
-  TabsProps,
-  TabProps,
   TabListProps,
   TabPanelProps,
+  TabProps,
   TabsContextValue,
+  TabsProps,
 } from './types';

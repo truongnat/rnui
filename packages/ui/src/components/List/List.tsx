@@ -25,11 +25,12 @@ export function List({
   return (
     <ListContext.Provider value={{ dense, disablePadding }}>
       <View nativeID={id} style={[list.container, style]}>
-        {subheader != null && (
-          typeof subheader === 'string'
-            ? <ListSubheader>{subheader}</ListSubheader>
-            : <View style={list.subheader}>{subheader}</View>
-        )}
+        {subheader != null &&
+          (typeof subheader === 'string' ? (
+            <ListSubheader>{subheader}</ListSubheader>
+          ) : (
+            <View style={list.subheader}>{subheader}</View>
+          ))}
         {children}
       </View>
     </ListContext.Provider>

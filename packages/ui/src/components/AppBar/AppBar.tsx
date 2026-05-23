@@ -24,7 +24,7 @@ export function AppBar({
       tokens.shadow.lg,
       tokens.shadow.xl,
     ],
-    [tokens],
+    [tokens]
   );
 
   const bgMap: Record<string, string> = useMemo(
@@ -35,7 +35,7 @@ export function AppBar({
       secondary: tokens.color.brand.muted,
       transparent: 'transparent',
     }),
-    [appBar, tokens],
+    [appBar, tokens]
   );
 
   const containerStyle = useMemo(
@@ -45,7 +45,7 @@ export function AppBar({
       borderBottomColor: tokens.color.border.default,
       zIndex: appBar.container.zIndex,
     }),
-    [bgMap, color, variant, tokens, appBar],
+    [bgMap, color, variant, tokens, appBar]
   );
 
   const positionStyle = useMemo(
@@ -53,7 +53,7 @@ export function AppBar({
       position === 'absolute' || position === 'fixed'
         ? styles.absolutePosition
         : null,
-    [position],
+    [position]
   );
 
   return (
@@ -81,12 +81,10 @@ export function Toolbar({ children, style }: ToolbarProps) {
       paddingHorizontal: appBar.container.paddingHorizontal,
       gap: tokens.spacing[3],
     }),
-    [appBar, tokens],
+    [appBar, tokens]
   );
 
-  return (
-    <View style={[styles.toolbar, toolbarStyle, style]}>{children}</View>
-  );
+  return <View style={[styles.toolbar, toolbarStyle, style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({

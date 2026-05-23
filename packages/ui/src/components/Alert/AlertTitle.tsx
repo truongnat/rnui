@@ -12,9 +12,5 @@ export function AlertTitle({ children, style }: AlertTitleProps) {
     components: { alert },
   } = useTheme();
 
-  return (
-    <Text style={[alert.title, style]}>
-      {children}
-    </Text>
-  );
+  return <Text style={[alert.title, style]}>{children}</Text>;
 }

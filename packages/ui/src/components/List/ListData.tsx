@@ -1,5 +1,6 @@
 import { useId } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
+import type React from 'react';
+import { useMemo } from 'react';
 import { FlatList } from 'react-native';
 import { List } from './List';
 import type { ListDataProps } from './types';

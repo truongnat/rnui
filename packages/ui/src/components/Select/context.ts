@@ -23,7 +23,9 @@ export interface SelectContextValue<T = string> {
   multiple?: boolean;
 }
 
-export const SelectContext = createContext<SelectContextValue<any> | null>(null);
+export const SelectContext = createContext<SelectContextValue<any> | null>(
+  null
+);
 
 /**
  * Consume Select state from any child of the Select tree.
@@ -32,7 +34,9 @@ export const SelectContext = createContext<SelectContextValue<any> | null>(null)
 export function useSelectContext<T = string>(): SelectContextValue<T> {
   const ctx = useContext(SelectContext) as SelectContextValue<T> | null;
   if (!ctx) {
-    throw new Error('useSelectContext must be used inside a <Select> component');
+    throw new Error(
+      'useSelectContext must be used inside a <Select> component'
+    );
   }
   return ctx;
 }

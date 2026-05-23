@@ -93,10 +93,34 @@ export interface BrandColorGroup {
     danger: string; // Alias for error
     info: string;
   };
-  success: { bg: string; text: string; border: string; icon: string; emphasis?: string };
-  warning: { bg: string; text: string; border: string; icon: string; emphasis?: string };
-  error: { bg: string; text: string; border: string; icon: string; emphasis?: string };
-  info: { bg: string; text: string; border: string; icon: string; emphasis?: string };
+  success: {
+    bg: string;
+    text: string;
+    border: string;
+    icon: string;
+    emphasis?: string;
+  };
+  warning: {
+    bg: string;
+    text: string;
+    border: string;
+    icon: string;
+    emphasis?: string;
+  };
+  error: {
+    bg: string;
+    text: string;
+    border: string;
+    icon: string;
+    emphasis?: string;
+  };
+  info: {
+    bg: string;
+    text: string;
+    border: string;
+    icon: string;
+    emphasis?: string;
+  };
 }
 
 // ─── Brand — the root plugin unit ────────────────────────────────

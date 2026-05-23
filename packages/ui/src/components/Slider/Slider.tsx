@@ -178,7 +178,7 @@ export function Slider({
         >
           {(label || showValue) && (
             <View style={headerRowStyle}>
-              {label && <Text style={labelTextStyle}>{label}</Text>}
+              {label ? <Text style={labelTextStyle}>{label}</Text> : null}
               {showValue && (
                 <SliderValueLabelRange
                   show={showValue}
@@ -276,7 +276,7 @@ export function Slider({
       >
         {(label || showValue) && (
           <View style={headerRowStyle}>
-            {label && <Text style={labelTextStyle}>{label}</Text>}
+            {label ? <Text style={labelTextStyle}>{label}</Text> : null}
             {showValue && (
               <SliderValueLabelSingle
                 show={showValue}

@@ -110,7 +110,7 @@ function TypographyInner({
     color != null &&
     color !== '' &&
     typeof color === 'string' &&
-    Object.prototype.hasOwnProperty.call(presetColors, color)
+    color in presetColors
       ? presetColors[color as keyof typeof presetColors]
       : color || presetColors.primary;
 

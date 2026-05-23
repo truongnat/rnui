@@ -30,6 +30,7 @@
     "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
+    "lint": "biome check --linter-enabled=false ./src",
     "test": "bun test",
     "test:jest": "node ./scripts/run-jest.cjs --testPathPattern=\"__tests__(?!/perf)\"",
     "clean": "rm -rf dist dist-types",

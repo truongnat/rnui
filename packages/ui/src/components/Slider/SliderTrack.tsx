@@ -1,6 +1,6 @@
 import { useTheme } from '@truongdq01/headless';
 import React, { useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import type { SliderTrackProps } from './types';
 
@@ -33,14 +33,15 @@ export function SliderTrack({
     [isVertical, trackPad]
   );
 
-  const measureViewStyle = useMemo(() =>
-    isVertical
-      ? {
-          width: thumbW + trackPad * 2,
-          height: sliderHeight,
-          justifyContent: 'center' as const,
-        }
-      : { height: thumbH + trackPad * 2, justifyContent: 'center' as const },
+  const measureViewStyle = useMemo(
+    () =>
+      isVertical
+        ? {
+            width: thumbW + trackPad * 2,
+            height: sliderHeight,
+            justifyContent: 'center' as const,
+          }
+        : { height: thumbH + trackPad * 2, justifyContent: 'center' as const },
     [isVertical, thumbW, thumbH, trackPad, sliderHeight]
   );
 
@@ -69,11 +70,18 @@ export function SliderTrack({
       backgroundColor: slider.track.bgOn,
       borderRadius: slider.track.borderRadius,
     }),
-    [isVertical, slider.track.height, slider.track.bgOn, slider.track.borderRadius]
+    [
+      isVertical,
+      slider.track.height,
+      slider.track.bgOn,
+      slider.track.borderRadius,
+    ]
   );
 
   return (
-    <Animated.View style={[outerPaddingStyle, trackAnimatedStyle] as any}>
+    <Animated.View
+      style={[outerPaddingStyle, trackAnimatedStyle] as StyleProp<ViewStyle>}
+    >
       <View
         style={measureViewStyle}
         onLayout={(e) =>
@@ -85,7 +93,9 @@ export function SliderTrack({
         }
       >
         <View style={railStyle}>
-          <Animated.View style={[fillStyle, fillAnimatedStyle] as any} />
+          <Animated.View
+            style={[fillStyle, fillAnimatedStyle] as StyleProp<ViewStyle>}
+          />
         </View>
         {children}
       </View>

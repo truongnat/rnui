@@ -1,5 +1,6 @@
 import type { SelectOption, UseSelectOptions } from '@truongdq01/headless';
 import type React from 'react';
+import type { BottomSheetRef } from '../BottomSheet/types';
 
 /**
  * A single option entry in the Select list.
@@ -44,7 +45,7 @@ export interface SelectTriggerProps {
  * Props for the SelectDropdown sub-component.
  */
 export interface SelectDropdownProps<T = string> {
-  sheetRef: React.RefObject<any>;
+  sheetRef: React.RefObject<BottomSheetRef | null>;
   searchable: boolean;
   options: SelectOption<T>[];
   isOpen: boolean;

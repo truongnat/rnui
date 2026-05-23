@@ -49,12 +49,8 @@ export function TableCell({
     () => [
       table.cell,
       { textAlign: align },
-      variant === 'head'
-        ? { fontWeight: tokens.fontWeight.semibold }
-        : null,
-      resolvedSize === 'small'
-        ? { fontSize: tokens.fontSize.sm }
-        : null,
+      variant === 'head' ? { fontWeight: tokens.fontWeight.semibold } : null,
+      resolvedSize === 'small' ? { fontSize: tokens.fontSize.sm } : null,
     ],
     [table.cell, align, variant, resolvedSize, tokens]
   );

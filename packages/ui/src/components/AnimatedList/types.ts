@@ -1,9 +1,5 @@
 import type React from 'react';
-import {
-  type ListRenderItemInfo,
-  type StyleProp,
-  type ViewStyle,
-} from 'react-native';
+import type { ListRenderItemInfo, StyleProp, ViewStyle } from 'react-native';
 import type {
   BaseAnimationBuilder,
   EntryExitAnimationFunction,
@@ -30,10 +26,8 @@ export type LayoutProp =
   | LayoutAnimationFunction
   | typeof BaseAnimationBuilder;
 
-export interface AnimatedListProps<T> extends Omit<
-  FlashListProps<T>,
-  'renderItem' | 'contentContainerStyle'
-> {
+export interface AnimatedListProps<T>
+  extends Omit<FlashListProps<T>, 'renderItem' | 'contentContainerStyle'> {
   /** Optional ID for testing or automation */
   id?: string;
   /** The items to render */

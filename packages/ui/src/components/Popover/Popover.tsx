@@ -7,10 +7,20 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { PopoverContent } from './PopoverContent';
-import type { PopoverOriginHorizontal, PopoverOriginVertical, PopoverProps } from './types';
+import type {
+  PopoverOriginHorizontal,
+  PopoverOriginVertical,
+  PopoverProps,
+} from './types';
 
-const defaultOrigin = { vertical: 'bottom' as const, horizontal: 'left' as const };
-const defaultTransform = { vertical: 'top' as const, horizontal: 'left' as const };
+const defaultOrigin = {
+  vertical: 'bottom' as const,
+  horizontal: 'left' as const,
+};
+const defaultTransform = {
+  vertical: 'top' as const,
+  horizontal: 'left' as const,
+};
 
 function resolveOrigin(
   value: PopoverOriginVertical | PopoverOriginHorizontal,
@@ -48,8 +58,14 @@ export function Popover({
 
   const anchorOffsetX = resolveOrigin(anchorOrigin.horizontal, anchorWidth);
   const anchorOffsetY = resolveOrigin(anchorOrigin.vertical, anchorHeight);
-  const transformOffsetX = resolveOrigin(transformOrigin.horizontal, contentSize.width);
-  const transformOffsetY = resolveOrigin(transformOrigin.vertical, contentSize.height);
+  const transformOffsetX = resolveOrigin(
+    transformOrigin.horizontal,
+    contentSize.width
+  );
+  const transformOffsetY = resolveOrigin(
+    transformOrigin.vertical,
+    contentSize.height
+  );
 
   const position = useMemo(() => {
     let left = anchorX + anchorOffsetX - transformOffsetX;

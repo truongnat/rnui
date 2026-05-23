@@ -30,7 +30,7 @@ export function Step({
 
   const isActive = index === activeStep;
   const isCompleted = ctx?.completed
-    ? ctx.completed[index] ?? false
+    ? (ctx.completed[index] ?? false)
     : index < activeStep;
 
   const { activeColor, completedColor, pendingColor } = useMemo(
@@ -46,9 +46,8 @@ export function Step({
     () => [
       styles.container,
       {
-        flexDirection: orientation === 'horizontal'
-          ? ('column' as const)
-          : ('row' as const),
+        flexDirection:
+          orientation === 'horizontal' ? ('column' as const) : ('row' as const),
       },
     ],
     [orientation]

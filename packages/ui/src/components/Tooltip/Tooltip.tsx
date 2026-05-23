@@ -85,8 +85,14 @@ export function Tooltip({
   if (placement.includes('top-right') || placement.includes('bottom-right'))
     left = tx + tw - tlw;
 
-  const safeTop = Math.max(PADDING, Math.min(top, windowHeight - tlh - PADDING));
-  const safeLeft = Math.max(PADDING, Math.min(left, windowWidth - tlw - PADDING));
+  const safeTop = Math.max(
+    PADDING,
+    Math.min(top, windowHeight - tlh - PADDING)
+  );
+  const safeLeft = Math.max(
+    PADDING,
+    Math.min(left, windowWidth - tlw - PADDING)
+  );
 
   const animStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
 

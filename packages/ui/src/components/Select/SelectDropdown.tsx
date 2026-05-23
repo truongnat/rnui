@@ -1,9 +1,11 @@
-import type { SnapPoint } from '@truongdq01/headless';
+import type { SelectOption, SnapPoint } from '@truongdq01/headless';
 import { useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
+import type React from 'react';
+import { useMemo } from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  type FlatListProps,
   Pressable,
   StyleSheet,
   TextInput,
@@ -12,6 +14,11 @@ import {
 import { BottomSheet } from '../BottomSheet/BottomSheet';
 import { Icon } from '../Icon';
 import type { SelectDropdownProps } from './types';
+
+/** FlatList props plus FlashList-only `estimatedItemSize` when FlashList is available. */
+type SelectListProps<T> = FlatListProps<SelectOption<T>> & {
+  estimatedItemSize?: number;
+};
 
 export function SelectDropdown<T = string>({
   sheetRef,
@@ -32,10 +39,10 @@ export function SelectDropdown<T = string>({
   const { tokens } = useTheme();
 
   // FlashList is an optional native dependency — fall back to FlatList when absent.
-  const ListImpl: React.ComponentType<any> = useMemo(() => {
+  const ListImpl = useMemo((): React.ComponentType<SelectListProps<T>> => {
     try {
       const mod = require('@shopify/flash-list') as {
-        FlashList?: React.ComponentType<any>;
+        FlashList?: React.ComponentType<SelectListProps<T>>;
       };
       return mod?.FlashList ?? FlatList;
     } catch {
@@ -64,7 +71,12 @@ export function SelectDropdown<T = string>({
       marginBottom: tokens.spacing[3],
       backgroundColor: tokens.color.bg.subtle,
     }),
-    [tokens.color.border.default, tokens.radius.md, tokens.spacing, tokens.color.bg.subtle]
+    [
+      tokens.color.border.default,
+      tokens.radius.md,
+      tokens.spacing,
+      tokens.color.bg.subtle,
+    ]
   );
 
   const searchInputStyle = useMemo(
@@ -100,7 +112,9 @@ export function SelectDropdown<T = string>({
   );
 
   const snapPoints: SnapPoint[] =
-    searchable || options.length > 6 ? (['70%'] as SnapPoint[]) : (['40%'] as SnapPoint[]);
+    searchable || options.length > 6
+      ? (['70%'] as SnapPoint[])
+      : (['40%'] as SnapPoint[]);
 
   return (
     <BottomSheet
@@ -114,7 +128,11 @@ export function SelectDropdown<T = string>({
         {searchable && isOpen && (
           <View style={searchBarStyle}>
             <View style={styles.searchIconWrapper}>
-              <Icon size={20} color={tokens.color.text.tertiary} name="search" />
+              <Icon
+                size={20}
+                color={tokens.color.text.tertiary}
+                name="search"
+              />
             </View>
             <TextInput
               value={query}
@@ -127,7 +145,11 @@ export function SelectDropdown<T = string>({
             />
             {query.length > 0 && (
               <Pressable onPress={() => onQueryChange('')} hitSlop={8}>
-                <Icon size={18} color={tokens.color.text.tertiary} name="close" />
+                <Icon
+                  size={18}
+                  color={tokens.color.text.tertiary}
+                  name="close"
+                />
               </Pressable>
             )}
           </View>
@@ -141,7 +163,7 @@ export function SelectDropdown<T = string>({
             data={filtered}
             extraData={query}
             renderItem={renderItem}
-            keyExtractor={(item: any) => String(item.value)}
+            keyExtractor={(item) => String(item.value)}
             onEndReached={onEndReached}
             onEndReachedThreshold={0.35}
             ItemSeparatorComponent={() => <View style={separatorStyle} />}

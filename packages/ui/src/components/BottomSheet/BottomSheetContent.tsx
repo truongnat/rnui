@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import type { BottomSheetContentProps } from "./types";
+import { StyleSheet, View } from 'react-native';
+import type { BottomSheetContentProps } from './types';
 
 /**
  * Content area wrapper for the BottomSheet.
@@ -7,11 +7,11 @@ import type { BottomSheetContentProps } from "./types";
  * Safe-area bottom inset is applied by the sheet container itself.
  */
 export function BottomSheetContent({ children }: BottomSheetContentProps) {
-	return <View style={styles.content}>{children}</View>;
+  return <View style={styles.content}>{children}</View>;
 }
 
 const styles = StyleSheet.create({
-	content: {
-		flex: 1,
-	},
+  content: {
+    flex: 1,
+  },
 });

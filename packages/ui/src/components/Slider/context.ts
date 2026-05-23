@@ -35,7 +35,9 @@ export const SliderContext = createContext<SliderContextValue | null>(null);
 export function useSliderContext(): SliderContextValue {
   const ctx = useContext(SliderContext);
   if (!ctx) {
-    throw new Error('useSliderContext must be used inside a <Slider> component');
+    throw new Error(
+      'useSliderContext must be used inside a <Slider> component'
+    );
   }
   return ctx;
 }

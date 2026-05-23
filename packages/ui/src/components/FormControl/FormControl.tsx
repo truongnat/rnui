@@ -123,7 +123,7 @@ export function FormHelperText({ children, style }: FormHelperTextProps) {
 }
 
 export interface FormControlLabelProps {
-  control: React.ReactElement;
+  control: React.ReactElement<{ disabled?: boolean }>;
   label?: React.ReactNode;
   labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
   disabled?: boolean;
@@ -146,7 +146,7 @@ export function FormControlLabel({
   const ctx = useFormControl();
   const isDisabled = disabled ?? ctx?.disabled ?? false;
 
-  const controlElement = React.cloneElement<any>(control, {
+  const controlElement = React.cloneElement(control, {
     disabled: isDisabled,
   });
 

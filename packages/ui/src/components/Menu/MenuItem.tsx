@@ -40,12 +40,12 @@ export function MenuItem({
         : tokens.fontWeight.regular,
       fontSize: tokens.fontSize.md,
     }),
-    [textColor, selected, tokens],
+    [textColor, selected, tokens]
   );
 
   const iconWrapperStyle = useMemo(
     () => ({ marginRight: tokens.spacing[3] }),
-    [tokens],
+    [tokens]
   );
 
   const pressableStyle = useMemo(
@@ -53,7 +53,7 @@ export function MenuItem({
       paddingHorizontal: tokens.spacing[4],
       paddingVertical: tokens.spacing[3],
     }),
-    [tokens],
+    [tokens]
   );
 
   const selectedBg = tokens.color.brand.subtle;
@@ -71,18 +71,16 @@ export function MenuItem({
         disabled && styles.disabled,
       ]}
     >
-      {icon && (
+      {icon ? (
         <View style={iconWrapperStyle}>
-          {React.isValidElement(icon)
-            ? React.cloneElement(icon as React.ReactElement, {
-                // @ts-ignore - dynamic icon props
-                size: (icon.props as any).size ?? 18,
-                // @ts-ignore - dynamic icon props
-                color: (icon.props as any).color ?? textColor,
+          {React.isValidElement<{ size?: number; color?: string }>(icon)
+            ? React.cloneElement(icon, {
+                size: icon.props.size ?? 18,
+                color: icon.props.color ?? textColor,
               })
             : icon}
         </View>
-      )}
+      ) : null}
       <View style={styles.labelContainer}>
         {label ? (
           <Text style={textStyle}>{label}</Text>

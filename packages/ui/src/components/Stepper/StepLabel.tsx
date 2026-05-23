@@ -19,9 +19,7 @@ export function StepLabel({ children, subtitle, style }: StepLabelProps) {
   return (
     <View>
       <Text style={labelStyle}>{children}</Text>
-      {subtitle != null && (
-        <Text style={styles.subtitle}>{subtitle}</Text>
-      )}
+      {subtitle != null && <Text style={styles.subtitle}>{subtitle}</Text>}
     </View>
   );
 }

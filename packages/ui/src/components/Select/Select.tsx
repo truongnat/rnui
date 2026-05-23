@@ -112,7 +112,16 @@ export function Select<T = string>({
       options,
       multiple: hookOptions.multiple,
     }),
-    [isOpen, open, close, selectOption, isSelected, displayLabel, options, hookOptions.multiple]
+    [
+      isOpen,
+      open,
+      close,
+      selectOption,
+      isSelected,
+      displayLabel,
+      options,
+      hookOptions.multiple,
+    ]
   );
 
   return (

@@ -6,10 +6,10 @@ import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
-  withTiming,
   type WithSpringConfig,
   type WithTimingConfig,
+  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import type { AnimatedOverlayProps } from './types';
 
@@ -60,10 +60,13 @@ export function AnimatedOverlay({
     } as WithSpringConfig;
   }, [springConfig]);
 
-  const timingConfiguration = useMemo<WithTimingConfig>(() => ({
-    duration: reducedMotion ? 0 : duration,
-    easing: Easing.out(Easing.cubic),
-  }), [reducedMotion, duration]);
+  const timingConfiguration = useMemo<WithTimingConfig>(
+    () => ({
+      duration: reducedMotion ? 0 : duration,
+      easing: Easing.out(Easing.cubic),
+    }),
+    [reducedMotion, duration]
+  );
 
   // Create animated styles
   const backdropAnimatedStyle = useAnimatedStyle(() => ({
@@ -117,16 +120,32 @@ export function AnimatedOverlay({
         if (useSpring) {
           opacity.value = withSpring(targetOpacity, springConfiguration);
           if (animationType === 'slideUp' || animationType === 'slideDown') {
-            translateY.value = withSpring(targetTranslateY, springConfiguration, onFinished);
+            translateY.value = withSpring(
+              targetTranslateY,
+              springConfiguration,
+              onFinished
+            );
           } else {
-            scale.value = withSpring(targetScale, springConfiguration, onFinished);
+            scale.value = withSpring(
+              targetScale,
+              springConfiguration,
+              onFinished
+            );
           }
         } else {
           opacity.value = withTiming(targetOpacity, timingConfiguration);
           if (animationType === 'slideUp' || animationType === 'slideDown') {
-            translateY.value = withTiming(targetTranslateY, timingConfiguration, onFinished);
+            translateY.value = withTiming(
+              targetTranslateY,
+              timingConfiguration,
+              onFinished
+            );
           } else {
-            scale.value = withTiming(targetScale, timingConfiguration, onFinished);
+            scale.value = withTiming(
+              targetScale,
+              timingConfiguration,
+              onFinished
+            );
           }
         }
       }

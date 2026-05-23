@@ -1,6 +1,6 @@
 import { useTheme } from '@truongdq01/headless';
 import React, { useMemo } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text, type TextStyle } from 'react-native';
 import { Icon } from '../Icon';
 import type { SelectTriggerProps } from './types';
 
@@ -24,11 +24,16 @@ export function SelectTrigger({
   const labelTextStyle = useMemo(
     () => ({
       fontSize: tokens.fontSize.sm,
-      fontWeight: tokens.fontWeight.medium as any,
+      fontWeight: tokens.fontWeight.medium as TextStyle['fontWeight'],
       color: tokens.color.text.secondary,
       marginBottom: tokens.spacing[1],
     }),
-    [tokens.fontSize.sm, tokens.fontWeight.medium, tokens.color.text.secondary, tokens.spacing]
+    [
+      tokens.fontSize.sm,
+      tokens.fontWeight.medium,
+      tokens.color.text.secondary,
+      tokens.spacing,
+    ]
   );
 
   const triggerStyle = useMemo(
@@ -69,7 +74,12 @@ export function SelectTrigger({
         ? tokens.color.text.primary
         : tokens.color.text.tertiary,
     }),
-    [hasSelection, tokens.fontSize.md, tokens.color.text.primary, tokens.color.text.tertiary]
+    [
+      hasSelection,
+      tokens.fontSize.md,
+      tokens.color.text.primary,
+      tokens.color.text.tertiary,
+    ]
   );
 
   const errorTextStyle = useMemo(
@@ -83,7 +93,7 @@ export function SelectTrigger({
 
   return (
     <>
-      {label && <Text style={labelTextStyle}>{label}</Text>}
+      {label ? <Text style={labelTextStyle}>{label}</Text> : null}
       <Pressable
         nativeID={`${id}-trigger`}
         onPress={onPress}
@@ -99,7 +109,7 @@ export function SelectTrigger({
           {isOpen ? 'chevronUp' : 'chevronDown'}
         </Icon>
       </Pressable>
-      {error && <Text style={errorTextStyle}>{error}</Text>}
+      {error ? <Text style={errorTextStyle}>{error}</Text> : null}
     </>
   );
 }

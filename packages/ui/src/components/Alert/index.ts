@@ -3,7 +3,7 @@ export { AlertTitle } from './AlertTitle';
 
 export type {
   AlertProps,
-  AlertTitleProps,
   AlertSeverity,
+  AlertTitleProps,
   AlertVariant,
 } from './types';

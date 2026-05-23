@@ -8,7 +8,8 @@ import { Typography } from '../Typography';
 /**
  * Props for the AlertDialog component
  */
-export interface AlertDialogProps extends Omit<DialogProps, 'actions' | 'title'> {
+export interface AlertDialogProps
+  extends Omit<DialogProps, 'actions' | 'title'> {
   /** Alert title string */
   title: string;
   /** Alert description/message */

@@ -80,7 +80,9 @@ export function Chip({
   const customBg =
     variant === 'solid' && color !== 'default' ? colors.bg : vStyle.bg;
   const customBorder =
-    variant === 'outlined' && color !== 'default' ? colors.border : vStyle.border;
+    variant === 'outlined' && color !== 'default'
+      ? colors.border
+      : vStyle.border;
   const customText = color !== 'default' ? colors.text : vStyle.text;
 
   const iconSize = size === 'sm' ? 14 : 16;

@@ -26,7 +26,10 @@ export function Stepper({
   const containerStyle = useMemo(
     () => [
       stepper.container,
-      { flexDirection: orientation === 'horizontal' ? ('row' as const) : ('column' as const) },
+      {
+        flexDirection:
+          orientation === 'horizontal' ? ('row' as const) : ('column' as const),
+      },
     ],
     [stepper.container, orientation]
   );

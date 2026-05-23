@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useTabsContext } from './context';
 import type { TabPanelProps } from './types';
 
@@ -13,10 +13,7 @@ export function TabPanel<T = string>({ value, children }: TabPanelProps<T>) {
   if (!ctx.isSelected(value)) return null;
 
   return (
-    <View
-      accessibilityRole="none"
-      style={styles.panel}
-    >
+    <View accessibilityRole="none" style={styles.panel}>
       {children}
     </View>
   );

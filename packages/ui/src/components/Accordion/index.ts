@@ -1,13 +1,13 @@
 export { Accordion } from './Accordion';
+export { AccordionActions } from './AccordionActions';
+export { AccordionDetails } from './AccordionDetails';
 export { AccordionGroup } from './AccordionGroup';
 export { AccordionSummary } from './AccordionSummary';
-export { AccordionDetails } from './AccordionDetails';
-export { AccordionActions } from './AccordionActions';
 
 export type {
-  AccordionProps,
-  AccordionGroupProps,
-  AccordionSummaryProps,
-  AccordionDetailsProps,
   AccordionActionsProps,
+  AccordionDetailsProps,
+  AccordionGroupProps,
+  AccordionProps,
+  AccordionSummaryProps,
 } from './types';

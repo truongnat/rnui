@@ -1,2 +1,2 @@
-export * from './types';
 export { AnimatedOverlay } from './AnimatedOverlay';
+export * from './types';

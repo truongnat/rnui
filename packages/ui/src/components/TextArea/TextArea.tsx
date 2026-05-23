@@ -1,6 +1,12 @@
 import { useId, useTheme } from '@truongdq01/headless';
 import React, { useEffect, useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import {
+  type BlurEvent,
+  type FocusEvent,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -20,8 +26,8 @@ export interface TextAreaProps {
   placeholder?: string;
   value?: string;
   onChangeText?: (text: string) => void;
-  onBlur?: () => void;
-  onFocus?: () => void;
+  onBlur?: (e: BlurEvent) => void;
+  onFocus?: (e: FocusEvent) => void;
   error?: string;
   helperText?: string;
   /**
@@ -235,13 +241,13 @@ export function TextArea({
             paddingTop: 0,
             paddingBottom: counterPaddingBottom,
           }}
-          onFocus={() => {
+          onFocus={(e) => {
             setIsFocused(true);
-            onFocus?.();
+            onFocus?.(e);
           }}
-          onBlur={() => {
+          onBlur={(e) => {
             setIsFocused(false);
-            onBlur?.();
+            onBlur?.(e);
           }}
         />
         {showCounterInside && counterEl ? (
