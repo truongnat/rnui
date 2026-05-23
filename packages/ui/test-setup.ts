@@ -207,6 +207,34 @@ mock.module('react-native-svg', () => createSvgMock());
 // Mock @shopify/flash-list
 mock.module('@shopify/flash-list', () => createFlashListMock());
 
+// Mock expo-blur (optional peer — may resolve from app workspace on CI)
+mock.module('expo-blur', () => {
+  const createMockComponent = (name: string) => {
+    const Component = ({ children, ...props }: { children?: React.ReactNode }) =>
+      React.createElement(name, props, children);
+    Component.displayName = name;
+    return Component;
+  };
+
+  return {
+    BlurView: createMockComponent('BlurView'),
+  };
+});
+
+// Mock expo-linear-gradient (optional peer — may resolve from app workspace on CI)
+mock.module('expo-linear-gradient', () => {
+  const createMockComponent = (name: string) => {
+    const Component = ({ children, ...props }: { children?: React.ReactNode }) =>
+      React.createElement(name, props, children);
+    Component.displayName = name;
+    return Component;
+  };
+
+  return {
+    LinearGradient: createMockComponent('LinearGradient'),
+  };
+});
+
 // Mock @react-native-community/datetimepicker
 mock.module('@react-native-community/datetimepicker', () => {
   const createMockComponent = (name: string) => {
@@ -308,6 +336,7 @@ mock.module('lucide-react-native', () => {
 
 // Set global test environment
 global.IS_REACT_ACT_ENVIRONMENT = true;
+global.__DEV__ = true;
 
 // Add requestAnimationFrame for tests that need it
 global.requestAnimationFrame = (cb: any) => setTimeout(cb, 0);
