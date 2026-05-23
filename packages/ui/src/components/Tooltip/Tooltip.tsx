@@ -6,7 +6,7 @@ import {
   useWindowDimensions,
   type View,
 } from 'react-native';
-import Animated, {
+import {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -42,13 +42,16 @@ export function Tooltip({
 
   const animateIn = useCallback(() => {
     opacity.value = withTiming(1, { duration: 150 });
-  }, []);
+  }, [opacity]);
 
-  const animateOut = useCallback((onDone: () => void) => {
-    opacity.value = withTiming(0, { duration: 100 }, () => {
-      if (onDone) scheduleOnRN(onDone);
-    });
-  }, []);
+  const animateOut = useCallback(
+    (onDone: () => void) => {
+      opacity.value = withTiming(0, { duration: 100 }, () => {
+        if (onDone) scheduleOnRN(onDone);
+      });
+    },
+    [opacity]
+  );
 
   const handleOpen = () => {
     triggerRef.current?.measure((_x, _y, w, h, pageX, pageY) => {

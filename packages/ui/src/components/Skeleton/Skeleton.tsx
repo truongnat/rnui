@@ -62,7 +62,7 @@ export function ShimmerProvider({
   useEffect(() => {
     shimmer.value = withRepeat(withTiming(1, { duration }), -1, true);
     return () => cancelAnimation(shimmer);
-  }, [duration]);
+  }, [duration, shimmer]);
   return <ShimmerCtx.Provider value={shimmer}>{children}</ShimmerCtx.Provider>;
 }
 
@@ -91,7 +91,7 @@ function useShimmerValue(
     }
     start();
     return () => cancelAnimation(local);
-  }, [animate, delayMs, !!shared]);
+  }, [animate, delayMs, local, shared]);
 
   return shared ?? local;
 }

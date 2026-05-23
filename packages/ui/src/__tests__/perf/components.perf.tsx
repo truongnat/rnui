@@ -8,7 +8,7 @@
  */
 
 import { act, fireEvent, render } from '@testing-library/react-native';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Badge,
   Button,
@@ -45,7 +45,7 @@ test('Button: does not re-render on unrelated parent state change', () => {
   const { Counted: CountedButton, count } = createCountedComponent(Button);
 
   function Parent() {
-    const [n, setN] = useState(0);
+    const [_n, setN] = useState(0);
     return (
       <Wrap>
         <Button label="unrelated" onPress={() => setN((c) => c + 1)} />
@@ -182,7 +182,7 @@ test('Badge: zero re-renders after mount with static props', () => {
   const { Counted: CountedBadge, count } = createCountedComponent(Badge);
 
   function Parent() {
-    const [unrelated, setUnrelated] = useState(0);
+    const [_unrelated, setUnrelated] = useState(0);
     return (
       <Wrap>
         <Button label="inc" onPress={() => setUnrelated((p) => p + 1)} />

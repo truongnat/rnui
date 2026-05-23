@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "app/_layout.tsx",
+    "app/index.tsx",
+    "app/kitchen-sink.tsx",
+    "app/kitchen/**/*.tsx",
+    "app/components/_shared/**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ],
+  "exclude": ["app/components/**/*.tsx"]
+}

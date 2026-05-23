@@ -1,8 +1,6 @@
 import { useTheme } from '@truongdq01/headless';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Divider } from '../Divider';
-import { List, ListItem, ListItemIcon, ListItemText } from '../List';
 
 // ─── Types ────────────────────────────────────────────────────────
 

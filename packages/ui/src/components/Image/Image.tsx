@@ -1,5 +1,5 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Image as RNImage,
   type ImageProps as RNImageProps,

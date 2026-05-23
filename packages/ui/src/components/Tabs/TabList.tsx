@@ -1,4 +1,3 @@
-import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useTabsContext } from './context';
 import type { TabListProps } from './types';

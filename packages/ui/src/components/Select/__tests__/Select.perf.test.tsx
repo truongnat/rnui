@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Pressable, Text } from 'react-native';
 import { Select } from '../Select';
 

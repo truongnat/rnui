@@ -1,7 +1,12 @@
 {
   "name": "@truongdq01/headless",
   "version": "1.0.3",
-  "description": "Headless primitives for RNUI — logic, state, a11y. No styles.",
+  "description": "Headless primitives for RNUI — ThemeProvider, theme hooks, behavior and a11y. No UI styles.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/truongnat/rnui.git",
+    "directory": "packages/headless"
+  },
   "keywords": [
     "react-native",
     "headless",
@@ -45,7 +50,9 @@
     "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types && echo 'export * from \"./theme/index\";' > dist/theme.d.ts",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "lint": "biome check --linter-enabled=false ./src",
+    "lint": "biome check ./src",
+    "format": "biome format --write ./src",
+    "format:check": "biome format ./src",
     "test": "bash scripts/run-jest.sh",
     "test:jest": "bash scripts/run-jest.sh --passWithNoTests",
     "clean": "rm -rf dist dist-types"

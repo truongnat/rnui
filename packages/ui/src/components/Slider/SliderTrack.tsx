@@ -1,6 +1,6 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
-import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
+import { useMemo } from 'react';
+import { type StyleProp, View, type ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import type { SliderTrackProps } from './types';
 

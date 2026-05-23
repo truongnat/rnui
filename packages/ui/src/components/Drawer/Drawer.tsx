@@ -58,7 +58,7 @@ export function Drawer({
         });
       }
     }
-  }, [open, reduceMotion]);
+  }, [open, reduceMotion, progress]);
 
   const animatedPanelStyle = useAnimatedStyle(() => {
     const translate = (1 - progress.value) * size;

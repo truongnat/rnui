@@ -1,4 +1,3 @@
-import type React from 'react';
 import { useMemo } from 'react';
 import { View } from 'react-native';
 import { TableContext, TableSortContext } from './context';

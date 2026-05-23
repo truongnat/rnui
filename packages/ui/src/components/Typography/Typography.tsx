@@ -1,6 +1,6 @@
 import { useId, useTheme } from '@truongdq01/headless';
 import React from 'react';
-import { type AccessibilityRole, Text, type TextStyle } from 'react-native';
+import { type AccessibilityRole, Text } from 'react-native';
 
 export type TypographyVariant =
   | 'display'

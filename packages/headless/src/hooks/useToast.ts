@@ -1,4 +1,4 @@
-import { useCallback, useRef, useSyncExternalStore } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -45,7 +45,9 @@ const store: ToastStore = {
 };
 
 function notify() {
-  store.listeners.forEach((l) => l());
+  for (const listener of store.listeners) {
+    listener();
+  }
 }
 
 function getSnapshot(): ToastItem[] {

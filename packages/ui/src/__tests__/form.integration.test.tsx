@@ -1,6 +1,5 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { useField } from '@truongdq01/headless';
-import React from 'react';
 import { Button, FormField, FormGroup, Input, ThemeProvider } from '../index';
 
 // ─── Full form integration ────────────────────────────────────────

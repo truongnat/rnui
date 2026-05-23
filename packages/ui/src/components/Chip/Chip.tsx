@@ -1,5 +1,5 @@
 import { useIconStyle, useId, useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { ChipAvatar } from './ChipAvatar';
 import { ChipDeleteButton } from './ChipDeleteButton';

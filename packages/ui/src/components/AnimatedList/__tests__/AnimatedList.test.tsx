@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
-import React from 'react';
 import { AnimatedList } from '../AnimatedList';
 
 test.skip('AnimatedList renders without crashing', () => {
@@ -9,7 +8,7 @@ test.skip('AnimatedList renders without crashing', () => {
       <AnimatedList
         data={[]}
         estimatedItemSize={50}
-        renderItem={({ item }) => null}
+        renderItem={({ item: _item }) => null}
       />
     </ThemeProvider>
   );

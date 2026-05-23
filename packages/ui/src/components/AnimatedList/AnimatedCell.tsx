@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, { type BaseAnimationBuilder } from 'react-native-reanimated';
 import type { AnimatedCellProps } from './types';

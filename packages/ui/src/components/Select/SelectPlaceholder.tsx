@@ -1,6 +1,6 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { useMemo } from 'react';
+import { Text, View } from 'react-native';
 import { SkeletonListItem } from '../Skeleton';
 import type { SelectPlaceholderProps } from './types';
 

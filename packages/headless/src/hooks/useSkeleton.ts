@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import type { ViewStyle } from 'react-native';
 
 export interface UseSkeletonOptions {
@@ -15,12 +15,7 @@ export interface UseSkeletonReturn {
 }
 
 export function useSkeleton(options: UseSkeletonOptions): UseSkeletonReturn {
-  const {
-    isLoaded,
-    animationDuration = 1000,
-    staggerDelay = 100,
-    count = 1,
-  } = options;
+  const { isLoaded, staggerDelay = 100 } = options;
 
   const isLoading = !isLoaded;
   const animationRef = useRef<{ stop?: () => void } | null>(null);

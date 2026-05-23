@@ -1,7 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
-import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { Input } from '../Input';
 
 describe('Input', () => {

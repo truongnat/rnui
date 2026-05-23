@@ -2,7 +2,12 @@
   "name": "@truongdq01/themes",
   "version": "1.0.3",
   "private": false,
-  "description": "Multi-brand plugin presets for @truongdq01/ui",
+  "description": "Multi-brand color presets for RNUI ThemeProvider",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/truongnat/rnui.git",
+    "directory": "packages/themes"
+  },
   "keywords": [
     "react-native",
     "ui",
@@ -65,7 +70,9 @@
     "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "lint": "biome check --linter-enabled=false ./src",
+    "lint": "biome check ./src",
+    "format": "biome format --write ./src",
+    "format:check": "biome format ./src",
     "test": "bun test",
     "test:jest": "bash ../headless/scripts/run-jest.sh --passWithNoTests",
     "clean": "rm -rf dist dist-types"

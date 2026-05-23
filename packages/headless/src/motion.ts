@@ -6,7 +6,6 @@
 import {
   easing as easingTokens,
   focusRingAnimation,
-  spring,
   type TimingPresetKey,
   timingPreset,
 } from '@truongdq01/tokens';
@@ -14,8 +13,6 @@ import {
   Easing,
   type EasingFunction,
   type EasingFunctionFactory,
-  withSpring,
-  withTiming,
 } from 'react-native-reanimated';
 
 /** Alias for {@link import('@truongdq01/tokens').motionPreset} — layout animation name metadata from tokens. */

@@ -1,5 +1,5 @@
 import { useIconStyle } from '@truongdq01/headless';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Pressable } from 'react-native';
 import { Icon } from '../Icon';
 import { Input, type InputProps } from './Input';

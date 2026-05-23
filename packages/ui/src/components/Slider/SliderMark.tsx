@@ -1,6 +1,6 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useMemo } from 'react';
+import { View } from 'react-native';
 import type { SliderMarkProps } from './types';
 
 /**

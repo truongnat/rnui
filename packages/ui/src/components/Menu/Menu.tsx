@@ -52,7 +52,7 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
         if (done) scheduleOnRN(setMounted, false);
       });
     }
-  }, [open]);
+  }, [open, scale, opacity, mounted]);
 
   // Compute menu position relative to anchor element
   let top: number = 48;

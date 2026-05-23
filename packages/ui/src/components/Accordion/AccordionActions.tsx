@@ -1,5 +1,5 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AccordionContext } from './context';
 import type { AccordionActionsProps } from './types';
@@ -13,7 +13,7 @@ export function AccordionActions({ children }: AccordionActionsProps) {
   const { tokens } = useTheme();
 
   // Actions are only visible when the accordion is expanded
-  if (!ctx || !ctx.expanded) return null;
+  if (!ctx?.expanded) return null;
 
   return (
     <View

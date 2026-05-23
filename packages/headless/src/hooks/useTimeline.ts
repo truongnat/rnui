@@ -74,7 +74,7 @@ export function useTimeline(options: UseTimelineOptions): UseTimelineReturn {
   const expandAll = useCallback(() => {
     if (!expandable) return;
     setExpandedSteps(new Set(steps.map((_, i) => i)));
-  }, [expandable, steps.length]);
+  }, [expandable, steps.map]);
 
   const collapseAll = useCallback(() => {
     setExpandedSteps(new Set());

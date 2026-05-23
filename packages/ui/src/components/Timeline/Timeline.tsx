@@ -116,7 +116,7 @@ function extractChildrenByType(children: React.ReactNode, type: any) {
   return items.length > 0 ? items : null;
 }
 
-function extractSeparator(children: React.ReactNode) {
+function _extractSeparator(children: React.ReactNode) {
   return extractChildrenByType(children, TimelineSeparator);
 }
 

@@ -11,7 +11,6 @@ import {
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 
@@ -77,7 +76,7 @@ export function MessageInput({
 
   React.useEffect(() => {
     attachVisible.value = withTiming(hasText ? 0 : 1, { duration: 180 });
-  }, [hasText]);
+  }, [hasText, attachVisible]);
 
   const inputStyle = useAnimatedStyle(() => ({
     minHeight: height.value,

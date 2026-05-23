@@ -65,7 +65,7 @@ describe('useMemoStyles', () => {
     let callCount = 0;
 
     const { result, rerender } = renderHook(
-      (props: { isInline: boolean }) => {
+      (_props: { isInline: boolean }) => {
         // Create a new function reference on every render
         const inlineFactory = (tokens: SemanticTokens) => {
           callCount++;

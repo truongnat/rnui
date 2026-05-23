@@ -100,7 +100,7 @@ describe('Rating', () => {
   });
 
   it('renders custom icons via renderIcon', () => {
-    const renderIcon = jest.fn((state: string, size: number) => (
+    const renderIcon = jest.fn((state: string, _size: number) => (
       <Text>{state === 'filled' ? '❤️' : '🤍'}</Text>
     ));
     render(

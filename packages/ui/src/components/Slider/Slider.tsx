@@ -1,6 +1,6 @@
 import { useId, useSlider, useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { useMemo } from 'react';
+import { Text, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import { SliderContext } from './context';
 import { SliderMark } from './SliderMark';
@@ -302,28 +302,26 @@ export function Slider({
           onTrackLayout={onTrackLayout}
         >
           <GestureDetector gesture={panGesture}>
-            <>
-              {showMarks &&
-                !isVertical &&
-                marks.map((mark) => (
-                  <SliderMark
-                    key={mark}
-                    mark={mark}
-                    min={min}
-                    max={max}
-                    isActive={mark <= currentValue}
-                    thumbH={thumbH}
-                    trackPad={trackPad}
-                  />
-                ))}
-              <SliderThumb
-                animatedStyle={thumbAnimatedStyle}
-                thumbShellStyle={thumbShellStyle}
-                kind="single"
-                value={currentValue}
-                thumbRenderer={thumbRenderer}
-              />
-            </>
+            {showMarks &&
+              !isVertical &&
+              marks.map((mark) => (
+                <SliderMark
+                  key={mark}
+                  mark={mark}
+                  min={min}
+                  max={max}
+                  isActive={mark <= currentValue}
+                  thumbH={thumbH}
+                  trackPad={trackPad}
+                />
+              ))}
+            <SliderThumb
+              animatedStyle={thumbAnimatedStyle}
+              thumbShellStyle={thumbShellStyle}
+              kind="single"
+              value={currentValue}
+              thumbRenderer={thumbRenderer}
+            />
           </GestureDetector>
         </SliderTrack>
 

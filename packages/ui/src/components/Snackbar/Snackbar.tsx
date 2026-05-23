@@ -1,5 +1,5 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Modal, StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -26,25 +26,28 @@ export function Snackbar({
     components: { snackbar },
   } = useTheme();
 
-  const [mounted, setMounted] = React.useState(open);
+  const [mounted, setMounted] = useState(open);
   const isBottom = anchorOrigin.vertical === 'bottom';
 
   const translateY = useSharedValue(isBottom ? 100 : -100);
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.95);
 
-  const animateIn = () => {
+  const animateIn = useCallback(() => {
     translateY.value = withSpring(0, { damping: 25, stiffness: 300, mass: 1 });
     opacity.value = withTiming(1, { duration: 200 });
     scale.value = withSpring(1, { damping: 25, stiffness: 300 });
-  };
+  }, [opacity, scale, translateY]);
 
-  const animateOut = (onDone: () => void) => {
-    translateY.value = withTiming(isBottom ? 100 : -100, { duration: 200 });
-    opacity.value = withTiming(0, { duration: 150 }, (done) => {
-      if (done) scheduleOnRN(onDone);
-    });
-  };
+  const animateOut = useCallback(
+    (onDone: () => void) => {
+      translateY.value = withTiming(isBottom ? 100 : -100, { duration: 200 });
+      opacity.value = withTiming(0, { duration: 150 }, (done) => {
+        if (done) scheduleOnRN(onDone);
+      });
+    },
+    [isBottom, opacity, translateY]
+  );
 
   useEffect(() => {
     if (open) {
@@ -55,7 +58,7 @@ export function Snackbar({
     } else if (mounted) {
       animateOut(() => setMounted(false));
     }
-  }, [open]);
+  }, [open, opacity, animateOut, translateY, isBottom, mounted, animateIn]);
 
   useEffect(() => {
     if (!open || autoHideDuration === null) return;

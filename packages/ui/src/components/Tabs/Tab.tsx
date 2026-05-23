@@ -1,5 +1,5 @@
 import { useId, useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { useTabsContext } from './context';
 import type { TabProps } from './types';

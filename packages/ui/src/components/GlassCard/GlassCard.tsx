@@ -9,13 +9,30 @@ import {
   type ViewStyle,
 } from 'react-native';
 
-let BlurView: React.ComponentType<any> | null = null;
+type ExpoBlurViewProps = {
+  intensity?: number;
+  tint?: 'light' | 'dark' | 'default';
+  style?: StyleProp<ViewStyle>;
+};
+
+let BlurView: React.ComponentType<ExpoBlurViewProps> | null = null;
 try {
+  // Optional: expo-blur enables native blur. Without it, GlassCard uses a translucent fallback.
+  // Expo: npx expo install expo-blur
   BlurView = require('expo-blur').BlurView;
 } catch {
   // expo-blur not installed — fall back to translucent View
 }
 
+/**
+ * Frosted-glass surface card.
+ *
+ * Uses `expo-blur` when installed for native blur. Without `expo-blur`, renders a
+ * translucent background so the component still works in bare React Native apps.
+ *
+ * @example
+ * npx expo install expo-blur
+ */
 export interface GlassCardProps extends ViewProps {
   /** Blur intensity (0–100). Only effective when expo-blur is installed. Default 40. */
   intensity?: number;

@@ -3,7 +3,7 @@ import {
   useReduceMotionEnabled,
   useTheme,
 } from '@truongdq01/headless';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import Animated, {
   cancelAnimation,
@@ -126,7 +126,7 @@ function OTPCell({
       cursorOpacity.value = 1;
     }
     return () => cancelAnimation(cursorOpacity);
-  }, [showCursor, reduceMotion]);
+  }, [showCursor, reduceMotion, cursorOpacity]);
 
   useEffect(() => {
     if (isFocused) {
@@ -139,7 +139,7 @@ function OTPCell({
     } else {
       scale.value = withTiming(1, { duration: 150 });
     }
-  }, [isFocused, isFilled]);
+  }, [isFocused, isFilled, scale]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],

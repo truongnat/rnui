@@ -7,7 +7,6 @@ import React, { useEffect } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
   Easing,
-  FadeInDown,
   FadeOutDown,
   FadeOutUp,
   SlideInDown,
@@ -50,7 +49,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
     return () => {
       progress.value = 1;
     };
-  }, [item.id, item.duration, item.persistent]);
+  }, [item.id, item.duration, item.persistent, progress, onDismiss]);
 
   const progressStyle = useAnimatedStyle(() => ({
     width: `${progress.value * 100}%`,

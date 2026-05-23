@@ -46,15 +46,17 @@ export function Card({
     [card, padding, style]
   );
 
-  if (onPress) {
-    const { animatedStyle, gesture, accessibilityProps } = usePressable({
-      id,
-      onPress,
-      feedbackMode: 'scaleSubtle',
-      accessibilityLabel,
-      accessibilityRole: 'button',
-    });
+  const isPressable = onPress != null;
+  const { animatedStyle, gesture, accessibilityProps } = usePressable({
+    id,
+    onPress: onPress ?? (() => {}),
+    disabled: !isPressable,
+    feedbackMode: isPressable ? 'scaleSubtle' : 'none',
+    accessibilityLabel,
+    accessibilityRole: isPressable ? 'button' : undefined,
+  });
 
+  if (isPressable) {
     return (
       <GestureDetector gesture={gesture}>
         <Animated.View

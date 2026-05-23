@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
 import type React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { ScrollArea } from '../ScrollArea';
 
 // Helper to wrap components with ThemeProvider

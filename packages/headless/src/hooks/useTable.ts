@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 export type TableRowId = string | number;
 
-export interface UseTableOptions<T, Id extends TableRowId = TableRowId> {
+export interface UseTableOptions<T, _Id extends TableRowId = TableRowId> {
   data: T[];
   rowsPerPage?: number;
   initialPage?: number;

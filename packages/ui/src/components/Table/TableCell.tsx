@@ -1,5 +1,5 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Text, View } from 'react-native';
 import { useTableContext } from './context';
 import type { TableCellProps } from './types';

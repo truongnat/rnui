@@ -1,6 +1,5 @@
-import { useTheme } from '@truongdq01/headless';
 import React, { createContext, useCallback, useContext } from 'react';
-import { Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 export interface FormContextValue {
   values: Record<string, any>;

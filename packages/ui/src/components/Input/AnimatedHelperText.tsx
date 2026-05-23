@@ -1,4 +1,3 @@
-import React from 'react';
 import { Text, type TextStyle } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 

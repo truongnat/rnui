@@ -1,13 +1,12 @@
 import { useTheme } from '@truongdq01/headless';
 import React, { createContext, useContext } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, {
   interpolate,
   interpolateColor,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  withTiming,
 } from 'react-native-reanimated';
 import { Badge } from '../Badge';
 
@@ -115,7 +114,7 @@ export function TabBarItem<T = string>({
       damping: 22,
       stiffness: 300,
     });
-  }, [selected]);
+  }, [selected, progress]);
 
   const iconStyle = useAnimatedStyle(() => ({
     transform: [{ scale: interpolate(progress.value, [0, 1], [1, 1.15]) }],

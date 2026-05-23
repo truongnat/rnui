@@ -1,12 +1,7 @@
 import { pressFeedback, spring } from '@truongdq01/tokens';
 import { useCallback, useState } from 'react';
-import { type AccessibilityRole, Platform } from 'react-native';
-import {
-  Gesture,
-  type GestureStateChangeEvent,
-  type LongPressGestureHandlerEventPayload,
-  type TapGestureHandlerEventPayload,
-} from 'react-native-gesture-handler';
+import type { AccessibilityRole } from 'react-native';
+import { Gesture } from 'react-native-gesture-handler';
 import {
   useAnimatedStyle,
   useSharedValue,

@@ -3,7 +3,7 @@ import {
   useReduceMotionEnabled,
   useTheme,
 } from '@truongdq01/headless';
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated, {

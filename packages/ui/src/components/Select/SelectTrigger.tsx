@@ -1,6 +1,6 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
-import { Pressable, StyleSheet, Text, type TextStyle } from 'react-native';
+import { useMemo } from 'react';
+import { Pressable, Text, type TextStyle } from 'react-native';
 import { Icon } from '../Icon';
 import type { SelectTriggerProps } from './types';
 

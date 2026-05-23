@@ -1,5 +1,5 @@
 import { useId, useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../Button';
 import { Dialog, type DialogProps } from '../Dialog';

@@ -1,5 +1,5 @@
 import { useAlert, useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { View } from 'react-native';
 import { AlertCloseButton } from './AlertCloseButton';
 import { AlertContent } from './AlertContent';

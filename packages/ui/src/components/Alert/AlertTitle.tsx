@@ -1,5 +1,4 @@
 import { useTheme } from '@truongdq01/headless';
-import React from 'react';
 import { Text } from 'react-native';
 import type { AlertTitleProps } from './types';
 

@@ -1,5 +1,5 @@
 import { useId, useTheme } from '@truongdq01/headless';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   type BlurEvent,
   type FocusEvent,

@@ -1,5 +1,4 @@
 import { useTheme } from '@truongdq01/headless';
-import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import Animated from 'react-native-reanimated';
 import type { TooltipContentProps } from './types';

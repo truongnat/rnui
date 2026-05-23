@@ -1,4 +1,3 @@
-import type { SemanticTokens } from '@truongdq01/tokens';
 import { useTokens } from '../theme';
 
 /**

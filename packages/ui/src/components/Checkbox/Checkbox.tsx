@@ -46,7 +46,7 @@ export function Checkbox({
     fillProgress.value = reduceMotion
       ? target
       : withSpring(target, spring.snappy);
-  }, [isChecked, isIndeterminate, reduceMotion]);
+  }, [isChecked, isIndeterminate, reduceMotion, fillProgress]);
 
   const boxStyle = useAnimatedStyle(() => ({
     backgroundColor: interpolateColor(

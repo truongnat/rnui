@@ -1,5 +1,5 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { View } from 'react-native';
 import { StepperContext } from './context';
 import type { StepperProps } from './types';

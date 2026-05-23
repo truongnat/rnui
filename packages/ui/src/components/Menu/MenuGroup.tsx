@@ -1,5 +1,4 @@
 import { useTheme } from '@truongdq01/headless';
-import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import type { MenuGroupProps } from './types';
 

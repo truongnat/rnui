@@ -203,7 +203,16 @@ export function useSlider({
     const r = (controlledSingle - min) / safeRange;
     thumbRatio.value = Math.max(0, Math.min(1, r));
     lastEmittedValue.value = snapToStep(controlledSingle, min, max, step);
-  }, [isRange, controlledSingle, min, max, step, thumbRatio, lastEmittedValue]);
+  }, [
+    isRange,
+    controlledSingle,
+    min,
+    max,
+    step,
+    thumbRatio,
+    lastEmittedValue,
+    safeRange,
+  ]);
 
   useEffect(() => {
     if (!isRange || controlledPair === undefined) return;
@@ -225,6 +234,7 @@ export function useSlider({
     thumbRatioHigh,
     lastEmittedLow,
     lastEmittedHigh,
+    safeRange,
   ]);
 
   const onTrackLayout = useCallback(
@@ -321,7 +331,6 @@ export function useSlider({
       max,
       min,
       step,
-      snappySpringConfig,
       dragStartRatio,
       isDragging,
       lastEmittedValue,
@@ -330,6 +339,7 @@ export function useSlider({
       trackLength,
       emitChange,
       emitChangeEnd,
+      safeRange,
     ]
   );
 
@@ -380,17 +390,15 @@ export function useSlider({
       min,
       minRatioGap,
       step,
-      snappySpringConfig,
       dragStartLow,
       isDraggingLow,
-      lastEmittedHigh,
-      lastEmittedLow,
       thumbRatioHigh,
       thumbRatioLow,
       thumbScaleLow,
       trackLength,
       emitChangeEndPair,
       emitChangePair,
+      safeRange,
     ]
   );
 
@@ -444,17 +452,15 @@ export function useSlider({
       min,
       minRatioGap,
       step,
-      snappySpringConfig,
       dragStartHigh,
       isDraggingHigh,
-      lastEmittedHigh,
-      lastEmittedLow,
       thumbRatioHigh,
       thumbRatioLow,
       thumbScaleHigh,
       trackLength,
       emitChangeEndPair,
       emitChangePair,
+      safeRange,
     ]
   );
 

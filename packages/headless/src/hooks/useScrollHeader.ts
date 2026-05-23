@@ -1,3 +1,4 @@
+import type { ViewStyle } from 'react-native';
 import {
   Extrapolation,
   interpolate,
@@ -5,6 +6,25 @@ import {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+
+type ParallaxStyle = Pick<ViewStyle, 'transform'>;
+type TitleStyle = Pick<ViewStyle, 'opacity' | 'transform'>;
+
+function buildParallaxTransformStyle(
+  translateY: number,
+  scale: number
+): ParallaxStyle {
+  return {
+    transform: [{ translateY }, { scale }],
+  };
+}
+
+function buildTitleStyle(opacity: number, translateY: number): TitleStyle {
+  return {
+    opacity,
+    transform: [{ translateY }],
+  };
+}
 
 export interface UseScrollHeaderOptions {
   /** Maximum height of the header when fully expanded */
@@ -50,9 +70,7 @@ export function useScrollHeader({
       extrapolateLeft: Extrapolation.EXTEND,
       extrapolateRight: Extrapolation.CLAMP,
     });
-    return {
-      transform: [{ translateY }, { scale }],
-    };
+    return buildParallaxTransformStyle(translateY, scale);
   });
 
   // Header Title style (fades in as header collapses)
@@ -69,10 +87,7 @@ export function useScrollHeader({
       [10, 0],
       Extrapolation.CLAMP
     );
-    return {
-      opacity,
-      transform: [{ translateY }],
-    };
+    return buildTitleStyle(opacity, translateY);
   });
 
   // Useful for blending backgrounds or top navigation color

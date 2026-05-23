@@ -1,5 +1,5 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from '../Button/Button';
 import { Icon } from '../Icon';

@@ -91,7 +91,7 @@ export function FormLabel({ children, style }: FormLabelProps) {
   const color = ctx?.error
     ? formControl.errorText.color
     : ctx?.disabled
-      ? formControl.label.color + '80'
+      ? `${formControl.label.color}80`
       : formControl.label.color;
 
   return (

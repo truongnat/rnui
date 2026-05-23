@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { SnackbarIcon } from './SnackbarIcon';
 import type { SnackbarContentProps } from './types';

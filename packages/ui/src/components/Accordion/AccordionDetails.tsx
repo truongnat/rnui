@@ -1,5 +1,5 @@
 import { useReduceMotionEnabled, useTheme } from '@truongdq01/headless';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
   Extrapolation,

@@ -121,7 +121,7 @@ export function useBottomSheet({
       updateState(true, idx);
       const targetHeight = snapPoints[idx]!;
       const targetY = SCREEN_HEIGHT - targetHeight;
-      if (typeof targetY !== 'number' || isNaN(targetY)) {
+      if (typeof targetY !== 'number' || Number.isNaN(targetY)) {
         if (__DEV__) {
           console.warn('Invalid targetY calculated for open:', targetY);
         }
@@ -143,7 +143,6 @@ export function useBottomSheet({
       backdropOpacity,
       enableBackdrop,
       onSnapChange,
-      gentleSpring,
       SCREEN_HEIGHT,
     ]
   );
@@ -160,13 +159,7 @@ export function useBottomSheet({
       }
     });
     backdropOpacity.value = withTiming(0, { duration: 200 });
-  }, [
-    translateY,
-    backdropOpacity,
-    handleCloseEnd,
-    gentleSpring,
-    SCREEN_HEIGHT,
-  ]);
+  }, [translateY, backdropOpacity, handleCloseEnd, SCREEN_HEIGHT]);
 
   const snapTo = useCallback(
     (index: number) => {
@@ -174,7 +167,7 @@ export function useBottomSheet({
       updateState(isOpenRef.current, index);
       const targetHeight = snapPoints[index]!;
       const targetY = SCREEN_HEIGHT - targetHeight;
-      if (typeof targetY !== 'number' || isNaN(targetY)) {
+      if (typeof targetY !== 'number' || Number.isNaN(targetY)) {
         if (__DEV__) {
           console.warn('Invalid targetY calculated for snapTo:', targetY);
         }
@@ -195,7 +188,6 @@ export function useBottomSheet({
       backdropOpacity,
       enableBackdrop,
       onSnapChange,
-      gentleSpring,
       SCREEN_HEIGHT,
     ]
   );

@@ -1,5 +1,5 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Icon } from '../Icon';
 import type { TableSortLabelProps } from './types';

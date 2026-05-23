@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
-import React from 'react';
 import { RadioGroup } from '../Radio';
 
 test('RadioGroup renders options', () => {

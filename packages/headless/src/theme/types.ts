@@ -56,4 +56,9 @@ export interface ThemeProviderProps {
   override?: ThemeOverride;
   /** Animate opacity when color scheme or brand changes. Default false. */
   animateTransition?: boolean;
+  /**
+   * Wrap children in `GestureHandlerRootView`. Default `true`.
+   * Set to `false` when your app root already provides `GestureHandlerRootView`.
+   */
+  withGestureRoot?: boolean;
 }

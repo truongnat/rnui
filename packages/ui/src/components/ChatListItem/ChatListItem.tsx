@@ -66,10 +66,7 @@ export function ChatListItem({
   onLongPress,
   trailingElement,
 }: ChatListItemProps) {
-  const {
-    components: { list },
-    tokens,
-  } = useTheme();
+  const { tokens } = useTheme();
 
   const pressed = useSharedValue(0);
 

@@ -1,7 +1,12 @@
 {
   "name": "@truongdq01/tokens",
   "version": "1.0.3",
-  "description": "Design tokens for RNUI — primitive, semantic, component",
+  "description": "Design tokens for RNUI — primitive, semantic, component, and motion scales",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/truongnat/rnui.git",
+    "directory": "packages/tokens"
+  },
   "keywords": [
     "react-native",
     "design-tokens",
@@ -54,7 +59,9 @@
     "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "lint": "biome check --linter-enabled=false ./src",
+    "lint": "biome check ./src",
+    "format": "biome format --write ./src",
+    "format:check": "biome format ./src",
     "clean": "rm -rf dist dist-types"
   },
   "devDependencies": {

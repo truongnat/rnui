@@ -70,6 +70,20 @@ setColorScheme("dark");
 setColorScheme("system"); // returns to following OS preference
 ```
 
+## GestureHandlerRootView
+
+`ThemeProvider` wraps children in `GestureHandlerRootView` by default (required for gesture-driven components). If your app root already includes `GestureHandlerRootView`, disable the inner wrapper:
+
+```tsx
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+<GestureHandlerRootView style={{ flex: 1 }}>
+  <ThemeProvider withGestureRoot={false}>
+    <App />
+  </ThemeProvider>
+</GestureHandlerRootView>
+```
+
 ## Brand override
 
 Any semantic token can be overridden per color scheme:

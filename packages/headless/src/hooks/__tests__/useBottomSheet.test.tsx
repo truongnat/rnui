@@ -13,11 +13,11 @@ jest.mock('react-native', () => ({
 jest.mock('react-native-reanimated', () => ({
   useSharedValue: jest.fn((init) => ({ value: init })),
   useAnimatedStyle: jest.fn((cb) => cb()),
-  withSpring: jest.fn((val, config, cb) => {
+  withSpring: jest.fn((val, _config, cb) => {
     if (cb) cb(true);
     return val;
   }),
-  withTiming: jest.fn((val, config, cb) => {
+  withTiming: jest.fn((val, _config, cb) => {
     if (cb) cb(true);
     return val;
   }),

@@ -54,7 +54,7 @@ export const Switch = React.memo(
       progress.value = reduceMotion
         ? target
         : withSpring(target, spring.snappy);
-    }, [isOn, reduceMotion]);
+    }, [isOn, reduceMotion, progress]);
 
     const trackStyle = useAnimatedStyle(() => ({
       backgroundColor: interpolateColor(

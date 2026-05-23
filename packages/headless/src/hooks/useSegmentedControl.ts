@@ -46,7 +46,7 @@ export function useSegmentedControl<T>({
     setSelectedIndex: (index: number, options: T[]) =>
       selectValue(options[index]),
     isSelected,
-    getTabProps: (val: T, index: number) => ({
+    getTabProps: (val: T, _index: number) => ({
       onPress: () => selectValue(val),
       accessibilityRole: 'tab',
       accessibilityState: { selected: isSelected(val), disabled },

@@ -7,7 +7,6 @@ import {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
@@ -63,7 +62,7 @@ export function useListItem({
   const close = useCallback(() => {
     translateX.value = withSpring(0, snappySpring);
     isRevealedValue.value = false;
-  }, [translateX, isRevealedValue, snappySpring]);
+  }, [translateX, isRevealedValue]);
 
   // ── Press gesture ────────────────────────────────────────────
   const tapGesture = Gesture.Tap()

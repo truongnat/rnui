@@ -6,13 +6,7 @@ import {
   type SemanticTokens,
   semanticTokens,
 } from '@truongdq01/tokens';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, {
@@ -33,6 +27,7 @@ export function ThemeProvider({
   override,
   onColorSchemeChange,
   animateTransition = false,
+  withGestureRoot = true,
 }: ThemeProviderProps) {
   const systemScheme = useColorScheme();
   const isControlled = typeof onColorSchemeChange === 'function';
@@ -86,7 +81,7 @@ export function ThemeProvider({
     }
     prevSchemeRef.current = activeScheme;
     prevBrandRef.current = activeBrand?.id;
-  }, [activeScheme, activeBrand?.id, animateTransition]);
+  }, [activeScheme, activeBrand?.id, animateTransition, transitionOpacity]);
 
   const transitionStyle = useAnimatedStyle(() => ({
     opacity: transitionOpacity.value,
@@ -120,9 +115,17 @@ export function ThemeProvider({
     children
   );
 
+  const provider = (
+    <ThemeContext.Provider value={theme}>{content}</ThemeContext.Provider>
+  );
+
+  if (!withGestureRoot) {
+    return provider;
+  }
+
   return (
     <GestureHandlerRootView style={ROOT_STYLE}>
-      <ThemeContext.Provider value={theme}>{content}</ThemeContext.Provider>
+      {provider}
     </GestureHandlerRootView>
   );
 }

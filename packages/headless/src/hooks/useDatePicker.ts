@@ -33,7 +33,7 @@ export interface UseDatePickerReturn {
   goToMonth: (month: number, year: number) => void;
 }
 
-const DEFAULT_PRESETS: DatePickerPreset[] = [
+export const DEFAULT_DATE_PICKER_PRESETS: DatePickerPreset[] = [
   { label: 'Today', value: () => new Date() },
   {
     label: 'Last 7 days',
@@ -68,8 +68,6 @@ export function useDatePicker(
     defaultDate,
     minDate,
     maxDate,
-    presets = DEFAULT_PRESETS,
-    mode = 'date',
     range = false,
     onDateChange,
   } = options;

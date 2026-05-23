@@ -27,6 +27,7 @@ export default defineConfig({
             { label: 'Theming', slug: 'theming' },
             { label: 'Headless Hooks', slug: 'headless' },
             { label: 'Component Tree', slug: 'component-tree' },
+            { label: 'Component Status', slug: 'components/status' },
           ],
         },
         {

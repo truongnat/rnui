@@ -1,5 +1,4 @@
 import { type UseAlertCloseButtonProps, useTokens } from '@truongdq01/headless';
-import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { Icon } from '../Icon';
 

@@ -1,5 +1,4 @@
 import { useTheme } from '@truongdq01/headless';
-import React from 'react';
 import { View } from 'react-native';
 import type { TableHeadProps } from './types';
 

@@ -95,6 +95,11 @@ function AnimatedListInner<T>(
     ]
   );
 
+  const contentContainerStyle = useMemo(
+    () => [animatedList.container, flashListProps.contentContainerStyle],
+    [animatedList.container, flashListProps.contentContainerStyle]
+  );
+
   return (
     <ListImpl
       ref={ref as React.Ref<FlatList>}
@@ -102,10 +107,7 @@ function AnimatedListInner<T>(
       data={data as unknown as unknown[] | null | undefined}
       renderItem={internalRenderItem as unknown as ListRenderItem<unknown>}
       {...(flashListProps as Record<string, unknown>)}
-      contentContainerStyle={useMemo(
-        () => [animatedList.container, flashListProps.contentContainerStyle],
-        [animatedList.container, flashListProps.contentContainerStyle]
-      )}
+      contentContainerStyle={contentContainerStyle}
     />
   );
 }

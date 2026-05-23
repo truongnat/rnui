@@ -3,7 +3,6 @@ import {
   usePagination,
   useTheme,
 } from '@truongdq01/headless';
-import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 export interface PaginationProps {

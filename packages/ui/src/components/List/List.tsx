@@ -1,5 +1,4 @@
 import { useId, useTheme } from '@truongdq01/headless';
-import React from 'react';
 import { View } from 'react-native';
 import { ListContext } from './context';
 import { ListSubheader } from './ListSubheader';

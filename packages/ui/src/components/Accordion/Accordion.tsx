@@ -1,5 +1,5 @@
 import { useDisclosure, useId, useTheme } from '@truongdq01/headless';
-import React, { useContext, useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AccordionContext, AccordionGroupContext } from './context';
 import type { AccordionProps } from './types';

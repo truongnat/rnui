@@ -1,49 +1,81 @@
-# Starlight Starter Kit: Basics
+# RNUI documentation site
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+This directory contains the public documentation for [RNUI](https://github.com/truongnat/rnui), built with [Astro Starlight](https://starlight.astro.build/).
 
-```
-bun create astro@latest -- --template starlight
-```
+## Run locally
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+From the docs directory:
 
-## 🚀 Project Structure
-
-Inside of your Astro + Starlight project, you'll see the following folders and files:
-
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
+```bash
+cd docs
+bun install
+bun start
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+From the repository root:
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+```bash
+bun run docs
+```
 
-Static assets, like favicons, can be placed in the `public/` directory.
+Dev server: [http://localhost:4321](http://localhost:4321)
 
-## 🧞 Commands
+Production build:
 
-All commands are run from the root of the project, from a terminal:
+```bash
+bun run docs:build
+# or
+cd docs && bun run build
+```
 
-| Command               | Action                                           |
-| :-------------------- | :----------------------------------------------- |
-| `bun install`         | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+Output is written to `docs/dist/`.
 
-## 👀 Want to learn more?
+## Content layout
 
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+Documentation lives under `src/content/docs/`:
+
+| Area | Path | Contents |
+| ---- | ---- | -------- |
+| Guides | `getting-started.md`, `theming.md`, `headless.md`, `component-tree.md` | Setup, theming, hooks overview |
+| Components | `components/*.md` | One page per UI component |
+| Reference | `reference/` | Example app and integration notes |
+
+Starlight autogenerates the **Components** sidebar from `src/content/docs/components/`. Site config: `astro.config.mjs`.
+
+## Adding a component doc
+
+1. Create `src/content/docs/components/your-component.md` with frontmatter:
+
+   ```md
+   ---
+   title: YourComponent
+   ---
+
+   # YourComponent
+   ```
+
+2. Include:
+   - **Import** — `import { YourComponent } from '@truongdq01/ui';`
+   - **Usage** — minimal example inside `<ThemeProvider>`
+   - **Props** — table or list of main props
+   - **Dependencies** — required peers (`react-native-reanimated`, etc.) and optional peers (`expo-blur`, `@shopify/flash-list`, …)
+   - **Status** — link to or mirror [components/status.md](src/content/docs/components/status.md)
+
+3. Run `bun run docs` and verify the page appears under Components.
+
+4. If the component needs new optional native modules, document install commands (e.g. `npx expo install expo-blur`).
+
+## Tech stack
+
+- [Astro](https://astro.build/) + [Starlight](https://starlight.astro.build/)
+- React islands where needed (`@astrojs/react`)
+- Bun for scripts (matches monorepo)
+
+## Related packages
+
+Docs describe packages published from the monorepo root:
+
+- `@truongdq01/tokens`
+- `@truongdq01/headless`
+- `@truongdq01/ui`
+- `@truongdq01/themes`

@@ -1,6 +1,5 @@
-import { fireEvent, render } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
-import React from 'react';
 import { Pagination } from '../Pagination';
 
 test('Pagination handles page change', () => {

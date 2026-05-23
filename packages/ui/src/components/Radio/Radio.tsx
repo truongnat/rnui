@@ -54,7 +54,7 @@ export function RadioItem<T = string>({
     const target = isSelected ? 1 : 0;
     scale.value = reduceMotion ? target : withSpring(target, snappySpring);
     ringFill.value = reduceMotion ? target : withSpring(target, snappySpring);
-  }, [isSelected, snappySpring, reduceMotion, scale, ringFill]);
+  }, [isSelected, reduceMotion, scale, ringFill]);
 
   const dotStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],

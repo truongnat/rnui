@@ -1,5 +1,4 @@
 import { useTheme } from '@truongdq01/headless';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { PopoverContentProps } from './types';
 

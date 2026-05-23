@@ -68,7 +68,7 @@ export function Popup({
     translateY.value = withSpring(0, { damping: 25, stiffness: 300 });
     opacity.value = withTiming(1, { duration: 200 });
     scale.value = withSpring(1, { damping: 25, stiffness: 300 });
-  }, []);
+  }, [scale, translateY, opacity]);
 
   const animateOut = useCallback(
     (onDone: () => void) => {
@@ -79,7 +79,7 @@ export function Popup({
         if (done) scheduleOnRN(onDone);
       });
     },
-    [position]
+    [position, translateY, opacity]
   );
 
   React.useEffect(() => {
@@ -91,7 +91,7 @@ export function Popup({
     } else if (mounted) {
       animateOut(() => setMounted(false));
     }
-  }, [open]);
+  }, [open, translateY, animateIn, mounted, position, opacity, animateOut]);
 
   React.useEffect(() => {
     if (!open || autoHideDuration === null) return;
