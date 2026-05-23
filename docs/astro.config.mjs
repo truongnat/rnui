@@ -28,6 +28,7 @@ export default defineConfig({
             { label: 'Headless Hooks', slug: 'headless' },
             { label: 'Component Tree', slug: 'component-tree' },
             { label: 'Component Status', slug: 'components/status' },
+            { label: 'AI usage', slug: 'guides/ai-usage' },
           ],
         },
         {

@@ -1,0 +1,60 @@
+{
+  "libraryName": "RNUI",
+  "description": "AI-native React Native UI kit and design system with structured metadata for coding agents",
+  "packageScope": "@truongdq01",
+  "primaryPackage": "@truongdq01/ui",
+  "supportedRuntime": {
+    "react": "19.x",
+    "reactNative": ">=0.83",
+    "expo": "supported through example app",
+    "newArchitecture": "recommended"
+  },
+  "designPrinciples": [
+    "Prefer existing RNUI components over custom UI",
+    "Use theme tokens — never random hex colors or magic spacing",
+    "Mobile-first, accessible, production-like screens",
+    "Respect package boundaries: tokens → headless → ui → app",
+    "TypeScript-safe generated code for Expo / React Native"
+  ],
+  "packageMapPath": ".ai/package-map.json",
+  "componentRegistryPath": ".ai/component-registry.json",
+  "designRulesPath": ".ai/design-rules.md",
+  "screenGenerationGuidePath": ".ai/screen-generation.md",
+  "agentInstructionsPath": "AGENTS.md",
+  "promptTemplates": {
+    "buildScreen": ".ai/prompts/build-screen.md",
+    "buildAppFlow": ".ai/prompts/build-app-flow.md",
+    "addComponentDoc": ".ai/prompts/add-component-doc.md",
+    "reviewRnuiUsage": ".ai/prompts/review-rnui-usage.md",
+    "refactorToRnui": ".ai/prompts/refactor-to-rnui.md"
+  },
+  "examples": {
+    "login": ".ai/examples/login-screen.tsx",
+    "settings": ".ai/examples/settings-screen.tsx",
+    "profile": ".ai/examples/profile-screen.tsx",
+    "dashboard": ".ai/examples/dashboard-screen.tsx",
+    "listDetail": ".ai/examples/list-detail-screen.tsx",
+    "form": ".ai/examples/form-screen.tsx"
+  },
+  "forbiddenPatterns": [
+    "Custom Button, Card, Input, or Typography when RNUI exports them",
+    "Hardcoded hex colors instead of theme semantic colors",
+    "Random spacing/radius/shadow numbers without tokens",
+    "New UI libraries without explicit approval",
+    "Breaking @truongdq01/* public APIs without request",
+    "Styled components inside @truongdq01/tokens",
+    "Business logic inside @truongdq01/ui components package",
+    "Falsy && render with empty string or zero in JSX"
+  ],
+  "recommendedImports": [
+    "import { ThemeProvider, Button, Card, Input, Stack, Box, Typography } from '@truongdq01/ui';",
+    "import { useTheme, useTokens, useToast } from '@truongdq01/headless';"
+  ],
+  "optionalNativePeers": {
+    "@shopify/flash-list": "Select list performance",
+    "expo-blur": "GlassCard native blur",
+    "expo-linear-gradient": "Gradient backgrounds",
+    "react-native-svg": "Icon, CircularProgress",
+    "lucide-react-native": "Icon"
+  }
+}

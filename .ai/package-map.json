@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "packages": {
+    "@truongdq01/tokens": {
+      "purpose": "Design tokens: primitive, semantic, component, brand, and motion values",
+      "useWhen": [
+        "Defining or extending the design system token pipeline",
+        "Building semantic color/spacing/type scales",
+        "Referencing token types in headless or theme code",
+        "Low-level design math without React components"
+      ],
+      "doNotUseFor": [
+        "React components or JSX",
+        "App business logic",
+        "Direct imports in app screens for one-off styling (prefer useTheme/useTokens via headless)",
+        "Native module integration"
+      ]
+    },
+    "@truongdq01/headless": {
+      "purpose": "ThemeProvider, theme hooks, behavior hooks, accessibility helpers, and motion primitives",
+      "useWhen": [
+        "Wrapping the app with ThemeProvider",
+        "Reading theme/tokens with useTheme, useTokens, useIsDark",
+        "Shared interaction logic (usePressable, useModal, useToast, useSelect, etc.)",
+        "Building custom components that need RNUI behavior without styled opinions"
+      ],
+      "doNotUseFor": [
+        "Styled UI in app screens when @truongdq01/ui already exports a component",
+        "Duplicating component visuals that exist in @truongdq01/ui",
+        "App-specific API calls or navigation"
+      ]
+    },
+    "@truongdq01/ui": {
+      "purpose": "Styled React Native UI components — primary import for app screens",
+      "useWhen": [
+        "Composing app screens and features",
+        "Any standard UI: buttons, inputs, cards, lists, modals, feedback",
+        "Re-exported ThemeProvider and theme hooks for convenience"
+      ],
+      "doNotUseFor": [
+        "Defining new design tokens (use tokens package)",
+        "Heavy business logic (keep in app hooks/services)",
+        "Bundling or re-wrapping native modules inside the library"
+      ]
+    },
+    "@truongdq01/themes": {
+      "purpose": "Pre-built brand theme presets (default, ocean, forest, etc.)",
+      "useWhen": [
+        "Applying a packaged brand to ThemeProvider",
+        "Switching brand presets at runtime",
+        "Demo / multi-brand apps"
+      ],
+      "doNotUseFor": [
+        "One-off app colors (use ThemeProvider overrides instead)",
+        "Components or hooks",
+        "Replacing semantic tokens in the tokens package"
+      ]
+    },
+    "apps/example": {
+      "purpose": "Expo example app with per-component showcase screens",
+      "useWhen": [
+        "Visual reference for component usage",
+        "Manual QA on device/simulator",
+        "Copying patterns for demo screens"
+      ],
+      "doNotUseFor": [
+        "Importing example code into published packages",
+        "Treating showcase screens as type-safe canonical API reference (some drift exists)"
+      ]
+    },
+    "docs": {
+      "purpose": "Astro Starlight documentation site",
+      "useWhen": [
+        "Human-readable component docs",
+        "AI usage guide at guides/ai-usage",
+        "Publishing docs to static site"
+      ],
+      "doNotUseFor": [
+        "Runtime app dependencies",
+        "Replacing .ai/component-registry.json for machine-readable metadata"
+      ]
+    }
+  }
+}

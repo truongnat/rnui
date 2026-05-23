@@ -1,0 +1,47 @@
+---
+description: RNUI AI-native design system rules for agents generating React Native UI.
+globs: "**/*.{ts,tsx,md,mdx,json}"
+alwaysApply: true
+---
+
+# RNUI — AI agent rules
+
+RNUI is a **React Native design system and UI kit**. When editing this repo or generating screens that use RNUI:
+
+## Must do
+
+- Read `.ai/rnui.manifest.json` first for AI metadata paths.
+- Prefer **existing RNUI components** from `.ai/component-registry.json` before creating custom UI.
+- Use **theme/tokens** from `@truongdq01/headless` — never random hex colors or magic spacing numbers.
+- Wrap the app with **`ThemeProvider`** once at root (`withGestureRoot={false}` if app already has `GestureHandlerRootView`).
+- Import UI from **`@truongdq01/ui`**:
+
+```tsx
+import { ThemeProvider, Button, Card, Input, Stack, Typography } from '@truongdq01/ui';
+```
+
+- Keep screens **mobile-first**, **accessible** (`accessibilityLabel` on icon-only actions), **TypeScript-safe**.
+- Follow `.ai/design-rules.md` and `.ai/screen-generation.md`.
+
+## Must not do
+
+- Add new dependencies unless truly necessary.
+- Duplicate Button, Card, Input, Typography, Stack, or other exported components.
+- Modify package public APIs without explicit user request.
+- Put styled UI in `tokens` or business logic in `ui` — respect package boundaries (see `.ai/package-map.json`).
+- Use `any`, `@ts-ignore`, or eslint-disable.
+
+## Package boundaries
+
+| Package | Role |
+| ------- | ---- |
+| `@truongdq01/tokens` | Design tokens only |
+| `@truongdq01/headless` | Theme, hooks, a11y, logic |
+| `@truongdq01/ui` | Styled components |
+| `@truongdq01/themes` | Brand presets |
+
+## Validation
+
+Run `bun run ai:check` after adding AI metadata. Run `bun run typecheck` and `bun run lint` after code changes.
+
+Full guide: [`AGENTS.md`](../../AGENTS.md)

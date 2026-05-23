@@ -187,6 +187,30 @@ See [`docs/README.md`](docs/README.md) for docs site structure.
 
 Component inventory and maturity notes: [Component status](docs/src/content/docs/components/status.md) (also on the docs site when built).
 
+## AI-native usage
+
+RNUI ships **AI-readable metadata** so coding agents generate screens with the design system — not one-off custom UI.
+
+| Resource | Purpose |
+| -------- | ------- |
+| [`.ai/rnui.manifest.json`](.ai/rnui.manifest.json) | Top-level AI entrypoint |
+| [`.ai/component-registry.json`](.ai/component-registry.json) | Machine-readable component catalog |
+| [`.ai/design-rules.md`](.ai/design-rules.md) | Layout, tokens, anti-patterns |
+| [`.ai/screen-generation.md`](.ai/screen-generation.md) | Screen workflow and templates |
+| [`.ai/prompts/`](.ai/prompts/) | Copyable agent prompts |
+| [`.ai/examples/`](.ai/examples/) | Reference screen implementations |
+| [`AGENTS.md`](AGENTS.md) | Full agent instructions |
+
+Validate AI files: `bun run ai:check`
+
+**Example prompt:**
+
+```text
+Build a clean mobile settings screen using only RNUI components. Read .ai/rnui.manifest.json first, follow .ai/design-rules.md, and use components from .ai/component-registry.json. Do not create custom Button, Card, Input, Typography, or layout primitives.
+```
+
+Docs: [AI usage guide](docs/src/content/docs/guides/ai-usage.md) (also on the docs site under Introduction → AI usage).
+
 ## Scripts
 
 | Script | Description |
@@ -198,6 +222,7 @@ Component inventory and maturity notes: [Component status](docs/src/content/docs
 | `bun run test` | Unit tests |
 | `bun run docs` | Start docs dev server |
 | `bun run docs:build` | Build docs site |
+| `bun run ai:check` | Verify AI metadata files exist |
 | `bun run changeset` | Create a changeset for release |
 | `bun run release` | Build and publish (maintainers) |
 

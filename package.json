@@ -20,7 +20,9 @@
     "version-packages": "changeset version",
     "release": "turbo build && changeset publish",
     "docs": "cd docs && bun start",
-    "docs:build": "cd docs && bun run build"
+    "docs:build": "cd docs && bun run build",
+    "ai:check": "bun run ai:check:files",
+    "ai:check:files": "node scripts/check-ai-files.mjs"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

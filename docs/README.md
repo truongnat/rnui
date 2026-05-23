@@ -36,7 +36,7 @@ Documentation lives under `src/content/docs/`:
 
 | Area | Path | Contents |
 | ---- | ---- | -------- |
-| Guides | `getting-started.md`, `theming.md`, `headless.md`, `component-tree.md` | Setup, theming, hooks overview |
+| Guides | `getting-started.md`, `theming.md`, `headless.md`, `guides/ai-usage.md` | Setup, theming, hooks, **AI agent usage** |
 | Components | `components/*.md` | One page per UI component |
 | Reference | `reference/` | Example app and integration notes |
 
@@ -79,3 +79,5 @@ Docs describe packages published from the monorepo root:
 - `@truongdq01/headless`
 - `@truongdq01/ui`
 - `@truongdq01/themes`
+
+Machine-readable AI metadata for agents lives at the repo root in [`.ai/`](../.ai/) — see [guides/ai-usage.md](src/content/docs/guides/ai-usage.md).

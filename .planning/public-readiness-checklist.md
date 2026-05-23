@@ -8,6 +8,8 @@ Use this before opening the repo publicly or cutting a major release.
 - [x] `docs/README.md` — docs site contributor guide
 - [x] Astro Starlight site builds (`bun run docs:build`)
 - [x] Component status page (`docs/src/content/docs/components/status.md`)
+- [x] AI-native metadata (`.ai/`, `AGENTS.md`, `bun run ai:check`)
+- [x] AI usage docs (`docs/src/content/docs/guides/ai-usage.md`)
 - [ ] Every exported component has a docs page (many still stubbed)
 - [ ] API props tables complete for complex components (Select, DatePicker, …)
 
