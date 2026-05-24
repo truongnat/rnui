@@ -1,6 +1,18 @@
 import { useTheme } from '@truongdq01/headless';
-import React from 'react';
-import { Pressable, Modal as RNModal, StyleSheet, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  KeyboardAvoidingView,
+  Pressable,
+  Modal as RNModal,
+  StyleSheet,
+  View,
+} from 'react-native';
+import {
+  getOverlayKeyboardBehavior,
+  overlayHostStyles,
+  useOverlayHostPadding,
+} from '../AnimatedOverlay/overlayHostLayout';
+import { AnimatedOverlay } from '../AnimatedOverlay';
 import { ModalContent } from './ModalContent';
 import type { ModalProps } from './types';
 
@@ -32,7 +44,21 @@ export function Modal({
     components: { modal },
   } = useTheme();
 
-  if (!open && !keepMounted) return null;
+  const [mounted, setMounted] = useState(open);
+
+  useEffect(() => {
+    if (open) setMounted(true);
+  }, [open]);
+
+  const hostPadding = useOverlayHostPadding(modal.hostInset, fullScreen);
+  const keyboardBehavior = getOverlayKeyboardBehavior();
+
+  const hostStyle = useMemo(
+    () => [overlayHostStyles.host, hostPadding],
+    [hostPadding]
+  );
+
+  if (!mounted && !keepMounted) return null;
 
   const handleRequestClose = () => {
     if (!disableEscapeKeyDown) {
@@ -40,22 +66,31 @@ export function Modal({
     }
   };
 
+  const handleAnimationEnd = (entering: boolean) => {
+    if (!entering && !keepMounted) {
+      setMounted(false);
+    }
+  };
+
   return (
     <RNModal
-      visible={open}
+      visible={mounted || keepMounted}
       transparent
-      animationType="fade"
+      animationType="none"
       onRequestClose={handleRequestClose}
     >
-      <View style={[styles.overlay, modal.overlay]}>
+      <View style={overlayHostStyles.overlayRoot}>
         {!hideBackdrop &&
           (BackdropComponent ? (
             (() => {
               const el = <BackdropComponent {...BackdropProps} />;
               return React.isValidElement(el)
-                ? React.cloneElement(el as React.ReactElement<any>, {
-                    collapsable: false,
-                  })
+                ? React.cloneElement(
+                    el as React.ReactElement<{ collapsable?: boolean }>,
+                    {
+                      collapsable: false,
+                    }
+                  )
                 : el;
             })()
           ) : (
@@ -71,22 +106,27 @@ export function Modal({
             />
           ))}
 
-        <ModalContent
-          fullScreen={fullScreen}
-          style={contentContainerStyle}
-          accessibilityLabel={accessibilityLabel}
+        <AnimatedOverlay
+          visible={open}
+          animationType="scale"
+          showBackdrop={false}
+          onAnimationEnd={handleAnimationEnd}
         >
-          {children}
-        </ModalContent>
+          <KeyboardAvoidingView
+            style={hostStyle}
+            behavior={keyboardBehavior}
+            pointerEvents="box-none"
+          >
+            <ModalContent
+              fullScreen={fullScreen}
+              style={contentContainerStyle}
+              accessibilityLabel={accessibilityLabel}
+            >
+              {children}
+            </ModalContent>
+          </KeyboardAvoidingView>
+        </AnimatedOverlay>
       </View>
     </RNModal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

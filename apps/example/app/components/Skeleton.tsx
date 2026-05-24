@@ -1,11 +1,4 @@
-/**
- * RN `TextStyle.fontWeight` typings expect string literals (e.g. "600", "700") — keep consistent to avoid TS noise.
- */
-
-import {
-  useTheme,
-  useTokens,
-} from '@truongdq01/headless';
+import { useTheme, useTokens } from '@truongdq01/headless';
 import {
   Button,
   SegmentedControl,
@@ -20,7 +13,7 @@ import {
 } from '@truongdq01/ui';
 import { useState } from 'react';
 import { View } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 export default function SkeletonScreen() {
   const [showSkeleton, setShowSkeleton] = useState(true);
@@ -30,95 +23,97 @@ export default function SkeletonScreen() {
   const { tokens } = useTheme();
 
   return (
-    <DemoPage 
-      title="Skeleton" 
-      description="Placeholder components used to indicate that content is loading, providing a smoother perceived performance."
+    <DemoPage
+      title="Skeleton"
+      description="Placeholder UI while content loads — smoother perceived performance."
     >
-      <DemoSection title="Skeleton Presets">
-        <View style={{ gap: tokens.spacing[4] }}>
-          <SegmentedControl
-            options={[
-              'Card',
-              'Profile',
-              'Media',
-              'Form',
-              'Grid',
-              'Table',
-              'Group',
-            ]}
-            selectedIndex={skelPreset}
-            onChange={setSkelPreset}
-          />
-          
-          <Button
-            label={showSkeleton ? 'Hide Content' : 'Show Content'}
-            variant="outline"
-            size="sm"
-            onPress={() => setShowSkeleton((p) => !p)}
-          />
+      <DemoSection
+        title="Presets"
+        description="Switch between card, profile, media, form, grid, table, and group layouts."
+      >
+        <SegmentedControl
+          options={[
+            'Card',
+            'Profile',
+            'Media',
+            'Form',
+            'Grid',
+            'Table',
+            'Group',
+          ]}
+          selectedIndex={skelPreset}
+          onChange={setSkelPreset}
+        />
 
+        <Button
+          label={showSkeleton ? 'Hide Content' : 'Show Content'}
+          variant="outline"
+          size="sm"
+          onPress={() => setShowSkeleton((p) => !p)}
+          style={{ alignSelf: 'flex-start', marginTop: tokens.spacing[3] }}
+        />
+
+        <DemoPreview>
           {showSkeleton ? (
-            <View style={{ gap: 12 }}>
-              {skelPreset === 0 && (
+            <View style={{ gap: t.spacing[3] }}>
+              {skelPreset === 0 ? (
                 <>
                   <SkeletonCard />
-                  <View style={{ height: 12 }} />
+                  <View style={{ height: t.spacing[3] }} />
                   <SkeletonCard />
                 </>
-              )}
-              {skelPreset === 1 && <SkeletonProfile />}
-              {skelPreset === 2 && <SkeletonMedia />}
-              {skelPreset === 3 && <SkeletonForm rows={3} />}
-              {skelPreset === 4 && (
+              ) : null}
+              {skelPreset === 1 ? <SkeletonProfile /> : null}
+              {skelPreset === 2 ? <SkeletonMedia /> : null}
+              {skelPreset === 3 ? <SkeletonForm rows={3} /> : null}
+              {skelPreset === 4 ? (
                 <SkeletonGrid columns={4} rows={2} cell={40} />
-              )}
-              {skelPreset === 5 && <SkeletonTable columns={3} dataRows={2} />}
-              {skelPreset === 6 && (
+              ) : null}
+              {skelPreset === 5 ? (
+                <SkeletonTable columns={3} dataRows={2} />
+              ) : null}
+              {skelPreset === 6 ? (
                 <SkeletonGroup stagger={100}>
                   <SkeletonText lines={1} />
-                  <View style={{ height: 8 }} />
+                  <View style={{ height: t.spacing[2] }} />
                   <SkeletonText lines={1} />
-                  <View style={{ height: 8 }} />
+                  <View style={{ height: t.spacing[2] }} />
                   <SkeletonText lines={1} />
                 </SkeletonGroup>
-              )}
+              ) : null}
             </View>
           ) : (
-            <View 
-              style={{ 
-                height: 200, 
-                backgroundColor: t.color.surface.subtle, 
-                borderRadius: t.radius.lg,
+            <View
+              style={{
+                height: 200,
                 alignItems: 'center',
                 justifyContent: 'center',
-                borderWidth: 1,
-                borderColor: t.color.border.default,
-                borderStyle: 'dashed'
               }}
             >
-              <SkeletonText lines={1} style={{ width: '60%' }} />
+              <SkeletonText lines={1} lastLineWidth="60%" />
             </View>
           )}
-        </View>
+        </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Custom Text Skeleton">
-        <View style={{ gap: tokens.spacing[3] }}>
-          <SkeletonText lines={1} style={{ width: '40%' }} />
-          <SkeletonText lines={3} />
-        </View>
+      <DemoSection title="Text Lines" description="Single and multi-line placeholders.">
+        <SkeletonText lines={1} lastLineWidth="40%" />
+        <View style={{ height: tokens.spacing[3] }} />
+        <SkeletonText lines={3} />
       </DemoSection>
 
-      <DemoSection title="Skeleton Group (Staggered)">
+      <DemoSection
+        title="Staggered Group"
+        description="Sequential reveal animation across children."
+      >
         <SkeletonGroup stagger={150}>
           <SkeletonCard />
-          <View style={{ height: 12 }} />
+          <View style={{ height: t.spacing[3] }} />
           <SkeletonCard />
-          <View style={{ height: 12 }} />
+          <View style={{ height: t.spacing[3] }} />
           <SkeletonCard />
         </SkeletonGroup>
       </DemoSection>
     </DemoPage>
   );
 }
-

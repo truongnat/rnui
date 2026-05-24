@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Checkbox, Divider } from '@truongdq01/ui';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function CheckboxScreen() {
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(true);
-  const [partialCheck, setPartialCheck] = useState<boolean | 'indeterminate'>('indeterminate');
+  const [partialCheck, setPartialCheck] = useState<boolean | 'indeterminate'>(
+    'indeterminate',
+  );
 
   return (
-    <DemoPage 
-      title="Checkbox" 
-      description="Selection controls that allow the user to select one or more items from a set."
+    <DemoPage
+      title="Checkbox"
+      description="Select one or more items from a set."
     >
-      <DemoSection title="Basic Examples">
+      <DemoSection title="Basic" description="Label and optional description text.">
         <Checkbox
           label="Basic Checkbox"
           checked={checked1}
@@ -20,37 +22,26 @@ export default function CheckboxScreen() {
         />
         <Divider spacing="md" />
         <Checkbox
-          label="Checkbox with Description"
-          description="This is a helper text to explain the setting."
+          label="With Description"
+          description="Helper text to explain the setting."
           checked={checked2}
           onChange={setChecked2}
         />
       </DemoSection>
 
-      <DemoSection title="States">
+      <DemoSection title="States" description="Indeterminate and disabled.">
         <Checkbox
-          label="Indeterminate State"
-          description="Used when child items are partially selected"
+          label="Indeterminate"
+          description="Child items partially selected"
           checked={partialCheck === true}
           indeterminate={partialCheck === 'indeterminate'}
           onChange={(v) => setPartialCheck(v)}
         />
         <Divider spacing="md" />
-        <Checkbox
-          label="Disabled Checkbox"
-          disabled
-          checked={true}
-          onChange={() => {}}
-        />
+        <Checkbox label="Disabled (Checked)" disabled checked onChange={() => {}} />
         <Divider spacing="md" />
-        <Checkbox
-          label="Disabled (Unchecked)"
-          disabled
-          checked={false}
-          onChange={() => {}}
-        />
+        <Checkbox label="Disabled (Unchecked)" disabled checked={false} onChange={() => {}} />
       </DemoSection>
     </DemoPage>
   );
 }
-

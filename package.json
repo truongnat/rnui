@@ -21,6 +21,8 @@
     "release": "turbo build && changeset publish",
     "docs": "cd docs && bun start",
     "docs:build": "cd docs && bun run build",
+    "demo": "cd apps/example && bun run start",
+    "demo:go": "cd apps/example && bun run start:go",
     "ai:check": "bun run ai:check:files",
     "ai:check:files": "node scripts/check-ai-files.mjs"
   },

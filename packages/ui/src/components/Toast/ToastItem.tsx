@@ -6,11 +6,10 @@ import { useReduceMotionEnabled, useTheme } from '@truongdq01/headless';
 import React, { useEffect } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
-  Easing,
+  FadeInDown,
+  FadeInUp,
   FadeOutDown,
   FadeOutUp,
-  SlideInDown,
-  SlideInUp,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -84,8 +83,8 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
   const entering = reduceMotion
     ? undefined
     : position === 'top'
-      ? SlideInDown.duration(280).easing(Easing.out(Easing.cubic))
-      : SlideInUp.duration(280).easing(Easing.out(Easing.cubic));
+      ? FadeInDown.duration(280)
+      : FadeInUp.duration(280);
   const exiting = reduceMotion
     ? undefined
     : position === 'top'
@@ -117,7 +116,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
           )
             ? React.cloneElement(item.icon, {
                 size: item.icon.props.size ?? 20,
-                color: item.icon.props.color ?? '#FFFFFF',
+                color: item.icon.props.color ?? toast.text.color,
               })
             : item.icon}
         </View>
@@ -145,15 +144,7 @@ export function ToastItem({ item, position, onDismiss }: ToastItemProps) {
           }}
           style={{ paddingLeft: 4 }}
         >
-          <Text
-            style={{
-              fontSize: 13,
-              fontWeight: '700',
-              color: tokens.color.brand.muted,
-            }}
-          >
-            {item.action.label}
-          </Text>
+          <Text style={toast.action}>{item.action.label}</Text>
         </Pressable>
       )}
 

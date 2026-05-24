@@ -1,13 +1,13 @@
 import { useReduceMotionEnabled } from '@truongdq01/headless';
-import { spring } from '@truongdq01/tokens';
 import React, { useEffect } from 'react';
 import { Modal, useWindowDimensions, type ViewStyle } from 'react-native';
 import {
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
+import { overlaySlideIn, overlaySlideOut } from '../../motion/overlayTiming';
 import { DrawerBackdrop } from './DrawerBackdrop';
 import { DrawerContent } from './DrawerContent';
 import type { DrawerProps } from './types';
@@ -20,7 +20,7 @@ export { DrawerHeader } from './DrawerHeader';
 /**
  * Drawer — slide-in modal panel anchored to any screen edge.
  *
- * Supports left / right / top / bottom anchors with spring animation
+ * Supports left / right / top / bottom anchors with timing animation
  * and a pressable backdrop that calls onClose.
  */
 export function Drawer({
@@ -32,10 +32,12 @@ export function Drawer({
   backdropAccessibilityLabel = 'Dismiss drawer',
 }: DrawerProps) {
   const reduceMotion = useReduceMotionEnabled();
-  const { height: windowHeight } = useWindowDimensions();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
 
   const isVertical = anchor === 'top' || anchor === 'bottom';
-  const size = isVertical ? windowHeight * 0.4 : 280;
+  const size = isVertical
+    ? windowHeight * 0.4
+    : Math.min(Math.round(windowWidth * 0.86), 320);
 
   const progress = useSharedValue(0);
   const [mounted, setMounted] = React.useState(open);
@@ -46,30 +48,25 @@ export function Drawer({
       if (reduceMotion) {
         progress.value = 1;
       } else {
-        progress.value = withSpring(1, spring.snappy);
+        progress.value = withTiming(1, overlaySlideIn);
       }
+    } else if (reduceMotion) {
+      progress.value = 0;
+      setMounted(false);
     } else {
-      if (reduceMotion) {
-        progress.value = 0;
-        setMounted(false);
-      } else {
-        progress.value = withSpring(0, spring.snappy, (finished) => {
-          if (finished) scheduleOnRN(setMounted, false);
-        });
-      }
+      progress.value = withTiming(0, overlaySlideOut, (finished) => {
+        if (finished) scheduleOnRN(setMounted, false);
+      });
     }
   }, [open, reduceMotion, progress]);
 
   const animatedPanelStyle = useAnimatedStyle(() => {
     const translate = (1 - progress.value) * size;
-    let transform: any[] = [];
 
-    if (anchor === 'left') transform = [{ translateX: -translate }];
-    else if (anchor === 'right') transform = [{ translateX: translate }];
-    else if (anchor === 'top') transform = [{ translateY: -translate }];
-    else if (anchor === 'bottom') transform = [{ translateY: translate }];
-
-    return { transform };
+    if (anchor === 'left') return { transform: [{ translateX: -translate }] };
+    if (anchor === 'right') return { transform: [{ translateX: translate }] };
+    if (anchor === 'top') return { transform: [{ translateY: -translate }] };
+    return { transform: [{ translateY: translate }] };
   });
 
   const backdropAnimatedStyle = useAnimatedStyle(() => ({

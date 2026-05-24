@@ -1,5 +1,7 @@
 import { useTheme } from '@truongdq01/headless';
+import { useMemo } from 'react';
 import Animated from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { DrawerContentProps } from './types';
 
 /**
@@ -15,13 +17,22 @@ export function DrawerContent({
   const {
     components: { drawer },
   } = useTheme();
+  const insets = useSafeAreaInsets();
+
+  const safeAreaStyle = useMemo(
+    () => ({
+      paddingTop: insets.top,
+      paddingBottom: insets.bottom,
+    }),
+    [insets.top, insets.bottom]
+  );
 
   return (
     <Animated.View
       accessibilityViewIsModal
       accessibilityRole="none"
       accessibilityLabel={accessibilityLabel}
-      style={[drawer.container, containerStyle, animatedStyle]}
+      style={[drawer.container, containerStyle, safeAreaStyle, animatedStyle]}
     >
       {children}
     </Animated.View>

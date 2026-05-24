@@ -14,6 +14,8 @@ export interface ListProps {
   children?: React.ReactNode;
   dense?: boolean;
   disablePadding?: boolean;
+  /** Grouped list surface with rounded corners and raised background */
+  variant?: 'plain' | 'inset';
   subheader?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
 }
@@ -47,7 +49,10 @@ export interface ListItemTrailingProps {
 }
 
 export interface ListDividerProps {
+  /** Left inset for standard text-only rows */
   inset?: boolean;
+  /** Left inset aligned with content after a leading avatar */
+  insetLeading?: boolean;
 }
 
 export interface ListSubheaderProps {

@@ -4,9 +4,9 @@ export function cardTokens(t: SemanticTokens) {
   return {
     container: {
       backgroundColor: t.color.surface.raised,
-      borderRadius: t.radius.lg,
+      borderRadius: t.radius.xl,
       borderWidth: 1,
-      borderColor: t.color.border.default,
+      borderColor: t.color.border.subtle,
       ...t.shadow.sm,
     },
     padding: {

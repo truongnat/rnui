@@ -59,7 +59,7 @@ export default function LoginScreenExample() {
 
           {phase === 'error' && errorMessage ? (
             <Alert severity="error" onClose={() => setPhase('idle')}>
-              {errorMessage}
+              <Typography variant="body2">{errorMessage}</Typography>
             </Alert>
           ) : null}
 

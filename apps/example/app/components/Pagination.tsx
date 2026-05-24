@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
 import { useTokens } from '@truongdq01/headless';
-import { Pagination, Typography } from '@truongdq01/ui';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { Pagination } from '@truongdq01/ui';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function PaginationScreen() {
   const t = useTokens();
@@ -12,29 +12,20 @@ export default function PaginationScreen() {
   return (
     <DemoPage
       title="Pagination"
-      description="Pagination allows users to navigate through a large set of data divided into multiple pages."
+      description="Navigate large datasets divided into pages."
     >
-      <DemoSection title="Standard Pagination">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          The default look for navigating small to medium sized sets.
-          Current page: {page}
-        </Typography>
-        <Pagination
-          count={10}
-          page={page}
-          onChange={setPage}
-          color="brand"
-        />
+      <DemoSection
+        title="Standard"
+        description={`Default pagination. Current page: ${page}`}
+      >
+        <Pagination count={10} page={page} onChange={setPage} />
       </DemoSection>
 
-      <DemoSection title="Outlined & Circle">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Different shapes and variants to match your UI's aesthetic.
-        </Typography>
+      <DemoSection title="Outlined & Rounded" description="Shape and variant options.">
         <View style={{ gap: t.spacing[4] }}>
           <Pagination
             count={8}
-            variant="outline"
+            variant="outlined"
             page={page2}
             onChange={setPage2}
           />
@@ -43,15 +34,11 @@ export default function PaginationScreen() {
             shape="rounded"
             page={page2}
             onChange={setPage2}
-            color="success"
           />
         </View>
       </DemoSection>
 
-      <DemoSection title="Sizes">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Small, medium, and large sizes for different screen densities.
-        </Typography>
+      <DemoSection title="Sizes" description="sm, md, and lg densities.">
         <View style={{ gap: t.spacing[4], alignItems: 'flex-start' }}>
           <Pagination count={5} size="sm" />
           <Pagination count={5} size="md" />
@@ -59,19 +46,9 @@ export default function PaginationScreen() {
         </View>
       </DemoSection>
 
-      <DemoSection title="Complex Sets">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Automatic truncation for large number of pages.
-        </Typography>
-        <Pagination
-          count={100}
-          page={page}
-          onChange={setPage}
-          boundaryCount={2}
-          siblingCount={1}
-        />
+      <DemoSection title="Large Page Count" description="Truncates with ellipsis for many pages.">
+        <Pagination count={100} page={page} onChange={setPage} />
       </DemoSection>
     </DemoPage>
   );
 }
-

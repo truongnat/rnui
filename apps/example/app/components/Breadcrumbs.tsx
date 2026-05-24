@@ -1,19 +1,18 @@
-import React from 'react';
 import { View } from 'react-native';
 import { Breadcrumbs, Typography, Link } from '@truongdq01/ui';
-import { Home, ChevronRight, Slash } from 'lucide-react-native';
+import { Home, Slash } from 'lucide-react-native';
 import { useTheme } from '@truongdq01/headless';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function BreadcrumbsScreen() {
   const { tokens } = useTheme();
 
   return (
-    <DemoPage 
-      title="Breadcrumbs" 
-      description="Breadcrumbs allow users to make selections from a range of values."
+    <DemoPage
+      title="Breadcrumbs"
+      description="Hierarchical navigation showing the user's location in the app."
     >
-      <DemoSection title="Basic Breadcrumbs">
+      <DemoSection title="Basic">
         <Breadcrumbs>
           <Link onPress={() => {}}>Home</Link>
           <Link onPress={() => {}}>Components</Link>
@@ -32,16 +31,19 @@ export default function BreadcrumbsScreen() {
 
       <DemoSection title="With Icons">
         <Breadcrumbs>
-          <Link onPress={() => {}} leadingIcon={<Home size={16} />}>Home</Link>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing[1] }}>
+            <Home size={16} color={tokens.color.brand.default} />
+            <Link onPress={() => {}}>Home</Link>
+          </View>
           <Link onPress={() => {}}>Settings</Link>
           <Typography color="secondary">Security</Typography>
         </Breadcrumbs>
       </DemoSection>
-      
-      <DemoSection title="Max Items / Collapsed">
-        <Typography variant="body2" gutterBottom>
-            Breadcrumbs can automatically collapse when they exceed a certain limit.
-        </Typography>
+
+      <DemoSection
+        title="Collapsed"
+        description="Automatically collapse when exceeding maxItems."
+      >
         <Breadcrumbs maxItems={3}>
           <Link onPress={() => {}}>Home</Link>
           <Link onPress={() => {}}>Catalog</Link>
@@ -53,4 +55,3 @@ export default function BreadcrumbsScreen() {
     </DemoPage>
   );
 }
-

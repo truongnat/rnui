@@ -1,13 +1,12 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { useTokens, useToast } from '@truongdq01/headless';
-import { Select, Typography } from '@truongdq01/ui';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
-import { COUNTRIES, LARGE_COUNTRIES } from '../kitchen/constants';
+import { useCallback, useMemo, useState } from 'react';
+import { useToast } from '@truongdq01/headless';
+import { Select } from '@truongdq01/ui';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
+import { COUNTRIES, LARGE_COUNTRIES } from '@/demo/demoData';
 
 export default function SelectScreen() {
-  const t = useTokens();
   const toast = useToast();
-  
+
   const [country, setCountry] = useState<string | undefined>();
   const [bigCountry, setBigCountry] = useState<string | undefined>();
   const [bigLoaded, setBigLoaded] = useState(15);
@@ -15,15 +14,14 @@ export default function SelectScreen() {
 
   const bigOptions = useMemo(
     () => LARGE_COUNTRIES.slice(0, bigLoaded),
-    [bigLoaded]
+    [bigLoaded],
   );
-  
+
   const bigHasMore = bigLoaded < LARGE_COUNTRIES.length;
-  
+
   const onBigLoadMore = useCallback(() => {
     if (!bigHasMore || bigLoadingMore) return;
     setBigLoadingMore(true);
-    // Simulate API delay
     setTimeout(() => {
       setBigLoaded((n) => Math.min(n + 12, LARGE_COUNTRIES.length));
       setBigLoadingMore(false);
@@ -33,28 +31,28 @@ export default function SelectScreen() {
   return (
     <DemoPage
       title="Select"
-      description="Select components allow users to choose one or more items from a list, supporting search, infinite scrolling, and customizable options."
+      description="Choose one item from a list — search, infinite scroll, and custom options."
     >
-      <DemoSection title="Basic Picker">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          A standard dropdown for small to medium lists.
-        </Typography>
+      <DemoSection
+        title="Basic Picker"
+        description="Standard dropdown for small to medium lists."
+      >
         <Select
           label="Country Selection"
           options={COUNTRIES.slice(0, 10)}
           value={country}
           onChange={(v) => {
-              setCountry(v as string);
-              toast.info(`Selected: ${v}`);
+            setCountry(v as string);
+            toast.info(`Selected: ${v}`);
           }}
           placeholder="Choose a country…"
         />
       </DemoSection>
 
-      <DemoSection title="Search & Filtering">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Enable the searchable prop for large datasets to help users find options quickly via a text filter.
-        </Typography>
+      <DemoSection
+        title="Search & Filtering"
+        description="Searchable prop filters large datasets as the user types."
+      >
         <Select
           label="Filtered Location"
           options={COUNTRIES}
@@ -65,17 +63,16 @@ export default function SelectScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Performance & Pagination">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Built-in support for infinite scrolling. This example simulates loading more 
-          data as the user reaches the end of the list.
-        </Typography>
+      <DemoSection
+        title="Infinite Scroll"
+        description="Load more options as the user scrolls to the end."
+      >
         <Select
           label="Paginated Dataset"
           options={bigOptions}
           value={bigCountry}
           onChange={(v) => setBigCountry(v as string)}
-          placeholder="Scroll to load more content…"
+          placeholder="Scroll to load more…"
           searchable
           hasMore={bigHasMore}
           loadingMore={bigLoadingMore}
@@ -85,4 +82,3 @@ export default function SelectScreen() {
     </DemoPage>
   );
 }
-

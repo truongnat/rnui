@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useTokens } from '@truongdq01/headless';
-import { CircularProgress, Typography, Button } from '@truongdq01/ui';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { CircularProgress, Button } from '@truongdq01/ui';
+import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 export default function CircularProgressScreen() {
   const t = useTokens();
@@ -18,27 +18,41 @@ export default function CircularProgressScreen() {
   return (
     <DemoPage
       title="Circular Progress"
-      description="Circular progress indicators display the length of a process or an indeterminate wait time using a circular track."
+      description="Circular track for process length or indeterminate waits."
     >
-      <DemoSection title="Animated Progress">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          The component supports smooth animations between value changes. 
-          Current progress: {Math.round(progress * 100)}%
-        </Typography>
-        <View style={{ alignItems: 'center', gap: t.spacing[6] }}>
-          <CircularProgress value={progress} size={120} strokeWidth={12} showValue />
-          <View style={{ flexDirection: 'row', gap: t.spacing[3] }}>
-            <Button size="sm" label="Decrease" variant="outline" onPress={() => setProgress(v => Math.max(0, v - 0.1))} />
-            <Button size="sm" label="Increase" variant="outline" onPress={() => setProgress(v => Math.min(1, v + 0.1))} />
+      <DemoSection
+        title="Animated"
+        description={`Smooth value transitions. Current: ${Math.round(progress * 100)}%`}
+      >
+        <DemoPreview>
+          <View style={{ alignItems: 'center', gap: t.spacing[4] }}>
+            <CircularProgress value={progress} size={120} strokeWidth={12} showValue />
+            <View style={{ flexDirection: 'row', gap: t.spacing[3] }}>
+              <Button
+                size="sm"
+                label="Decrease"
+                variant="outline"
+                onPress={() => setProgress((v) => Math.max(0, v - 0.1))}
+              />
+              <Button
+                size="sm"
+                label="Increase"
+                variant="outline"
+                onPress={() => setProgress((v) => Math.min(1, v + 0.1))}
+              />
+            </View>
           </View>
-        </View>
+        </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Colors & Theming">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Customize track and indicator colors to match specific semantic states.
-        </Typography>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+      <DemoSection title="Colors" description="Semantic track and indicator colors.">
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+          }}
+        >
           <CircularProgress value={0.75} color={t.color.brand.default} size={60} />
           <CircularProgress value={0.6} color={t.color.status.success} size={60} />
           <CircularProgress value={0.4} color={t.color.status.danger} size={60} />
@@ -46,11 +60,14 @@ export default function CircularProgressScreen() {
         </View>
       </DemoSection>
 
-      <DemoSection title="Sizes & Density">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Configurable sizes and stroke widths for various layout requirements.
-        </Typography>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+      <DemoSection title="Sizes">
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
           <CircularProgress value={0.4} size={32} strokeWidth={4} />
           <CircularProgress value={0.5} size={48} strokeWidth={6} />
           <CircularProgress value={0.7} size={64} strokeWidth={8} />
@@ -58,10 +75,7 @@ export default function CircularProgressScreen() {
         </View>
       </DemoSection>
 
-      <DemoSection title="Indeterminate State">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Use the indeterminate prop for processes where the duration is unknown.
-        </Typography>
+      <DemoSection title="Indeterminate" description="Unknown duration processes.">
         <View style={{ alignItems: 'center' }}>
           <CircularProgress indeterminate size={60} strokeWidth={6} />
         </View>
@@ -69,4 +83,3 @@ export default function CircularProgressScreen() {
     </DemoPage>
   );
 }
-

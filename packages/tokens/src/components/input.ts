@@ -4,8 +4,8 @@ export function inputTokens(t: SemanticTokens) {
   return {
     container: {
       borderWidth: 1,
-      borderColor: t.color.border.input,
-      borderRadius: t.radius.lg,
+      borderColor: t.color.border.subtle,
+      borderRadius: t.radius.xl,
       backgroundColor: t.color.surface.default,
       flexDirection: 'row' as const,
       alignItems: 'center' as const,

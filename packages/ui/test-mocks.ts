@@ -61,8 +61,22 @@ export const createReanimatedMock = () => {
     useScrollViewOffset: () => animatedValue,
 
     // Animations
-    withTiming: (v: any) => v,
-    withSpring: (v: any) => v,
+    withTiming: (
+      v: any,
+      _config?: unknown,
+      callback?: (finished: boolean) => void
+    ) => {
+      if (callback) callback(true);
+      return v;
+    },
+    withSpring: (
+      v: any,
+      _config?: unknown,
+      callback?: (finished: boolean) => void
+    ) => {
+      if (callback) callback(true);
+      return v;
+    },
     withDecay: (v: any) => v,
     withDelay: (_delay: any, v: any) => v,
     withRepeat: (v: any) => v,

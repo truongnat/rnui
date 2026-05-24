@@ -57,6 +57,13 @@ describe('Badge', () => {
       expect(getByText('Brand')).toBeTruthy();
     });
 
+    it('renders accent variant', () => {
+      const { getByText } = renderWithTheme(
+        <Badge label="Accent" variant="accent" />
+      );
+      expect(getByText('Accent')).toBeTruthy();
+    });
+
     it('renders success variant', () => {
       const { getByText } = renderWithTheme(
         <Badge label="Success" variant="success" />
@@ -76,6 +83,15 @@ describe('Badge', () => {
         <Badge label="Error" variant="error" />
       );
       expect(getByText('Error')).toBeTruthy();
+    });
+
+    it('applies border from variant tokens', () => {
+      const { getByText, toJSON } = renderWithTheme(
+        <Badge label="Bordered" variant="success" />
+      );
+      expect(getByText('Bordered')).toBeTruthy();
+      const tree = JSON.stringify(toJSON());
+      expect(tree).toContain('"borderWidth":1');
     });
 
     it('renders info variant', () => {

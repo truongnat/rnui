@@ -1,24 +1,20 @@
-import React, { useState } from 'react';
-import { 
-  FormControl, 
-  FormLabel, 
-  FormHelperText, 
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
   FormControlLabel,
   Input,
   Checkbox,
-  Radio,
   RadioGroup,
   Switch,
-  Typography, 
+  Typography,
   Divider,
-  Stack
+  Stack,
 } from '@truongdq01/ui';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
-import { useTokens } from '@truongdq01/headless';
+import { useState } from 'react';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function FormControlScreen() {
-  const t = useTokens();
   const [checked, setChecked] = useState(false);
   const [radioValue, setRadioValue] = useState('one');
   const [switchValue, setSwitchValue] = useState(false);
@@ -26,9 +22,12 @@ export default function FormControlScreen() {
   return (
     <DemoPage
       title="FormControl"
-      description="Components for organizing and labeling form inputs including labels, helper text, and state management."
+      description="Labels, helper text, and state for form inputs and selection controls."
     >
-      <DemoSection title="Basic Input Layout">
+      <DemoSection
+        title="Basic Layout"
+        description="Label, input, and helper text in one control."
+      >
         <FormControl fullWidth margin="normal">
           <FormLabel>Email Address</FormLabel>
           <Input placeholder="name@example.com" />
@@ -36,15 +35,13 @@ export default function FormControlScreen() {
         </FormControl>
       </DemoSection>
 
-      <DemoSection title="States">
+      <DemoSection title="States" description="Error and disabled variants.">
         <FormControl error fullWidth margin="normal">
           <FormLabel>Password</FormLabel>
           <Input placeholder="Enter password" secureTextEntry />
           <FormHelperText>Incorrect password. Please try again.</FormHelperText>
         </FormControl>
-
         <Divider spacing="md" />
-
         <FormControl disabled fullWidth margin="normal">
           <FormLabel>Username</FormLabel>
           <Input value="truongdang" disabled />
@@ -52,53 +49,53 @@ export default function FormControlScreen() {
         </FormControl>
       </DemoSection>
 
-      <DemoSection title="Control Labels">
-        <Stack gap={12}>
+      <DemoSection
+        title="Control Labels"
+        description="Pair inputs with Checkbox, Switch, and label placement options."
+      >
+        <Stack spacing="md">
           <FormControlLabel
             control={<Checkbox checked={checked} onChange={setChecked} />}
             label="I agree to the terms and conditions"
           />
-
           <FormControlLabel
-            control={<Switch value={switchValue} onValueChange={setSwitchValue} />}
+            control={<Switch on={switchValue} onChange={setSwitchValue} />}
             label="Enable Push Notifications"
           />
-
           <Divider />
-
-          <Typography variant="subtitle2" style={{ marginBottom: 4 }}>Label Placements</Typography>
+          <Typography variant="subtitle2">Label Placements</Typography>
           <FormControlLabel
-            control={<Checkbox checked={true} onChange={() => {}} />}
+            control={<Checkbox checked onChange={() => {}} />}
             label="End (Default)"
             labelPlacement="end"
           />
           <FormControlLabel
-            control={<Checkbox checked={true} onChange={() => {}} />}
+            control={<Checkbox checked onChange={() => {}} />}
             label="Start"
             labelPlacement="start"
           />
           <FormControlLabel
-            control={<Checkbox checked={true} onChange={() => {}} />}
+            control={<Checkbox checked onChange={() => {}} />}
             label="Top"
             labelPlacement="top"
           />
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Radio Group Integration">
+      <DemoSection title="Radio Group">
         <FormControl>
           <FormLabel>Subscription Plan</FormLabel>
-          <RadioGroup value={radioValue} onValueChange={setRadioValue}>
-            <Stack gap={8}>
-              <FormControlLabel value="one" control={<Radio />} label="Free Tier" />
-              <FormControlLabel value="two" control={<Radio />} label="Pro ($10/mo)" />
-              <FormControlLabel value="three" control={<Radio />} label="Enterprise" />
-            </Stack>
-          </RadioGroup>
+          <RadioGroup
+            value={radioValue}
+            onChange={(v) => setRadioValue(v as string)}
+            options={[
+              { value: 'one', label: 'Free Tier' },
+              { value: 'two', label: 'Pro ($10/mo)' },
+              { value: 'three', label: 'Enterprise' },
+            ]}
+          />
         </FormControl>
       </DemoSection>
     </DemoPage>
   );
 }
-
-const styles = StyleSheet.create({});

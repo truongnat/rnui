@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { LinearProgress, Typography, Stack, Button } from '@truongdq01/ui';
+import { LinearProgress, Typography, Stack } from '@truongdq01/ui';
 import { useTheme } from '@truongdq01/headless';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function LinearProgressScreen() {
   const { tokens } = useTheme();
@@ -20,59 +20,63 @@ export default function LinearProgressScreen() {
   }, []);
 
   return (
-    <DemoPage 
-      title="Linear Progress" 
-      description="Visual indicators for the status of an ongoing process, such as loading or downloading."
+    <DemoPage
+      title="Linear Progress"
+      description="Horizontal bar for loading, uploading, or processing."
     >
-      <DemoSection title="Indeterminate Progress">
-        <Typography variant="body2" gutterBottom>
-            Used when the wait time is unknown or the process doesn't provide granular updates.
-        </Typography>
+      <DemoSection title="Indeterminate" description="Unknown wait time or no granular updates.">
         <LinearProgress variant="indeterminate" />
       </DemoSection>
 
-      <DemoSection title="Determinate Progress">
-        <Typography variant="body2" gutterBottom>
-            Used when progress can be measured (e.g., file upload).
-        </Typography>
+      <DemoSection title="Determinate" description="Measured progress such as file uploads.">
         <Stack spacing="lg">
-            <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
-                    <Typography variant="caption">Simulated Progress</Typography>
-                    <Typography variant="caption" fontWeight="bold">
-                        {Math.round(progress * 100)}%
-                    </Typography>
-                </View>
-                <LinearProgress value={progress} />
+          <View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginBottom: tokens.spacing[2],
+              }}
+            >
+              <Typography variant="caption">Simulated Progress</Typography>
+              <Typography variant="caption" fontWeight="bold">
+                {Math.round(progress * 100)}%
+              </Typography>
             </View>
-            
-            <View>
-                <Typography variant="caption" gutterBottom>Static 45%</Typography>
-                <LinearProgress value={0.45} color="brand" />
-            </View>
+            <LinearProgress value={progress} />
+          </View>
+
+          <View>
+            <Typography variant="caption" gutterBottom>
+              Static 45%
+            </Typography>
+            <LinearProgress value={0.45} color="brand" />
+          </View>
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Colors & Styles">
-          <Typography variant="body2" gutterBottom>
-              Customizable colors and thickness for different contexts.
-          </Typography>
-          <Stack spacing="lg">
-              <View>
-                <Typography variant="caption" gutterBottom>Success State</Typography>
-                <LinearProgress value={1} color="success" />
-              </View>
-              <View>
-                <Typography variant="caption" gutterBottom>Warning State</Typography>
-                <LinearProgress value={0.7} color="warning" />
-              </View>
-              <View>
-                <Typography variant="caption" gutterBottom>Error State</Typography>
-                <LinearProgress value={0.3} color="error" />
-              </View>
-          </Stack>
+      <DemoSection title="Semantic Colors">
+        <Stack spacing="lg">
+          <View>
+            <Typography variant="caption" gutterBottom>
+              Success
+            </Typography>
+            <LinearProgress value={1} color="success" />
+          </View>
+          <View>
+            <Typography variant="caption" gutterBottom>
+              Warning
+            </Typography>
+            <LinearProgress value={0.7} color="warning" />
+          </View>
+          <View>
+            <Typography variant="caption" gutterBottom>
+              Error
+            </Typography>
+            <LinearProgress value={0.3} color="error" />
+          </View>
+        </Stack>
       </DemoSection>
     </DemoPage>
   );
 }
-

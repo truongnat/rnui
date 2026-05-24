@@ -1,7 +1,12 @@
 import { useTheme } from '@truongdq01/headless';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { AppBarContext, type AppBarTone } from './context';
 import type { AppBarProps, ToolbarProps } from './types';
+
+function resolveTone(color: AppBarProps['color']): AppBarTone {
+  return color === 'primary' || color === 'secondary' ? 'inverse' : 'default';
+}
 
 export function AppBar({
   children,
@@ -57,16 +62,18 @@ export function AppBar({
   );
 
   return (
-    <View
-      style={[
-        containerStyle,
-        variant === 'elevation' ? shadows[elevation] : null,
-        positionStyle,
-        style,
-      ]}
-    >
-      {children}
-    </View>
+    <AppBarContext.Provider value={resolveTone(color)}>
+      <View
+        style={[
+          containerStyle,
+          variant === 'elevation' ? shadows[elevation] : null,
+          positionStyle,
+          style,
+        ]}
+      >
+        {children}
+      </View>
+    </AppBarContext.Provider>
   );
 }
 

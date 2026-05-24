@@ -11,7 +11,7 @@ export default defineConfig({
     react(),
     starlight({
       title: 'RNUI',
-      customCss: ['./src/styles/custom.css'],
+      customCss: ['./src/styles/custom.css', './src/styles/preview.css'],
       social: [
         {
           icon: 'github',
@@ -29,6 +29,7 @@ export default defineConfig({
             { label: 'Component Tree', slug: 'component-tree' },
             { label: 'Component Status', slug: 'components/status' },
             { label: 'AI usage', slug: 'guides/ai-usage' },
+            { label: 'Example app', slug: 'guides/example' },
           ],
         },
         {

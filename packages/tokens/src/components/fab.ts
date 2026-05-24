@@ -8,7 +8,7 @@ export function fabTokens(t: SemanticTokens) {
       ...t.shadow.lg,
     },
     size: {
-      sm: { width: 40, height: 40, borderRadius: 20 },
+      sm: { width: 44, height: 44, borderRadius: 22 },
       md: { width: 56, height: 56, borderRadius: 28 },
       lg: { width: 72, height: 72, borderRadius: 36 },
     },

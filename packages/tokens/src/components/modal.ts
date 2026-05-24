@@ -9,15 +9,19 @@ export function modalTokens(t: SemanticTokens) {
       height: '100%' as const,
       justifyContent: 'center' as const,
       alignItems: 'center' as const,
-      padding: t.spacing[4],
+    },
+    /** Screen-edge inset applied around the animated modal host (see Modal.tsx) */
+    hostInset: {
+      paddingHorizontal: t.spacing[4],
+      paddingVertical: t.spacing[4],
     },
     container: {
       backgroundColor: t.color.surface.overlay,
       borderRadius: t.radius.xl,
       width: '100%',
-      maxWidth: 500,
-      ...t.shadow.xl,
-      overflow: 'hidden' as const,
+      maxWidth: 400,
+      padding: t.spacing[6],
+      ...t.shadow.lg,
     },
   } as const;
 }

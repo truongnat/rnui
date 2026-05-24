@@ -1,7 +1,18 @@
 import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
-import { Text } from 'react-native';
+import { resolveComponentTokens, semanticTokens } from '@truongdq01/tokens';
+import { KeyboardAvoidingView, Text } from 'react-native';
 import { Dialog } from '../Dialog';
+
+describe('Dialog tokens regression', () => {
+  it('defines host inset, container maxWidth, and lg shadow', () => {
+    const { dialog } = resolveComponentTokens(semanticTokens.light);
+    expect(dialog.hostInset.paddingHorizontal).toBe(16);
+    expect(dialog.container.maxWidth).toBe(400);
+    expect(dialog.container.padding).toBe(24);
+    expect(dialog.container.shadowOpacity).toBeDefined();
+  });
+});
 
 describe('Dialog', () => {
   it('renders title and content', () => {
@@ -98,6 +109,49 @@ describe('Dialog', () => {
       });
       fireEvent.press(backdrop);
       expect(onClose).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('Layout', () => {
+    it('wraps content in KeyboardAvoidingView', () => {
+      const { UNSAFE_root } = render(
+        <ThemeProvider>
+          <Dialog open={true} title="Test">
+            <Text>Content</Text>
+          </Dialog>
+        </ThemeProvider>
+      );
+      expect(
+        UNSAFE_root.findAllByType(KeyboardAvoidingView).length
+      ).toBeGreaterThan(0);
+    });
+
+    it('renders title and actions slots', () => {
+      const { getByText } = render(
+        <ThemeProvider>
+          <Dialog
+            open={true}
+            title="Confirm"
+            actions={<Text>Confirm Action</Text>}
+          >
+            <Text>Body copy</Text>
+          </Dialog>
+        </ThemeProvider>
+      );
+      expect(getByText('Confirm')).toBeTruthy();
+      expect(getByText('Body copy')).toBeTruthy();
+      expect(getByText('Confirm Action')).toBeTruthy();
+    });
+
+    it('supports form content without throwing', () => {
+      const { getByText } = render(
+        <ThemeProvider>
+          <Dialog open={true} title="Form">
+            <Text>Email field</Text>
+          </Dialog>
+        </ThemeProvider>
+      );
+      expect(getByText('Email field')).toBeTruthy();
     });
   });
 });

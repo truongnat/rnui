@@ -36,8 +36,8 @@ export function checkboxTokens(t: SemanticTokens) {
     },
     state: {
       default: {
-        borderColor: t.color.border.strong,
-        backgroundColor: 'transparent',
+        borderColor: t.color.border.default,
+        backgroundColor: t.color.surface.default,
       },
       checked: {
         borderColor: t.color.brand.default,

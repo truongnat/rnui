@@ -41,6 +41,7 @@ export function ModalContent({
       accessibilityViewIsModal
       accessibilityRole="none"
       accessibilityLabel={accessibilityLabel}
+      testID="modal-content"
       style={[
         styles.content,
         modal.container,
@@ -56,7 +57,8 @@ export function ModalContent({
 const styles = StyleSheet.create({
   content: {
     minWidth: 280,
-    maxWidth: '90%',
+    width: '100%',
+    maxWidth: '100%',
   },
   fullScreen: {
     width: '100%',
@@ -64,5 +66,6 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     minWidth: '100%',
     borderRadius: 0,
+    padding: 0,
   },
 });

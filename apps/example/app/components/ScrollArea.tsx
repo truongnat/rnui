@@ -1,81 +1,134 @@
-import { useTokens } from '@truongdq01/headless';
-import { ScrollArea, Typography, Paper, Box } from '@truongdq01/ui';
-import React from 'react';
+import { useMemo } from 'react';
 import { View } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { useTokens } from '@truongdq01/headless';
+import { ScrollArea, Typography, Paper } from '@truongdq01/ui';
+import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 export default function ScrollAreaScreen() {
   const t = useTokens();
-  
+
+  const preview = useMemo(
+    () => ({
+      verticalHeight: t.spacing[16] + t.spacing[16],
+      horizontalCard: {
+        width: t.spacing[24] + t.spacing[5],
+        height: t.spacing[20] + t.spacing[5],
+      },
+      fadeHeight: t.spacing[20] + t.spacing[10],
+      page: {
+        width: t.spacing[24] * 3 + t.spacing[4],
+        height: t.spacing[18] + t.spacing[6],
+      },
+    }),
+    [t.spacing],
+  );
+
   return (
     <DemoPage
       title="ScrollArea"
-      description="Customizable scrollable containers with token-based styling, fade edges, and platform-specific optimizations."
+      description="Scrollable containers with fade edges and platform optimizations."
     >
-      <DemoSection title="Vertical Scroll">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Standard vertical scrolling container with fixed height.
-        </Typography>
-        <Paper variant="outlined" style={{ height: 160, overflow: 'hidden' }}>
-            <ScrollArea showVerticalScrollIndicator={true}>
-                <Box sx={{ padding: 'md', gap: 'md' }}>
-                    {[...Array(10)].map((_, i) => (
-                        <Paper key={i} elevation="sm" style={{ padding: t.spacing[3] }}>
-                            <Typography variant="body2">Scrollable Item {i + 1}</Typography>
-                        </Paper>
-                    ))}
-                </Box>
-            </ScrollArea>
-        </Paper>
-      </DemoSection>
-
-      <DemoSection title="Horizontal Scroll">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Scrolling content horizontally.
-        </Typography>
-        <ScrollArea direction="horizontal" showHorizontalScrollIndicator={false}>
-            <Box sx={{ flexDirection: 'row', gap: 'md' }}>
-                {[...Array(6)].map((_, i) => (
-                    <Paper key={i} elevation="sm" style={{ width: 140, height: 100, justifyContent: 'center', alignItems: 'center' }}>
-                         <Typography variant="h6">#{i + 1}</Typography>
-                    </Paper>
+      <DemoSection
+        title="Vertical Scroll"
+        description="Fixed-height container with vertical overflow."
+      >
+        <DemoPreview>
+          <Paper
+            variant="outlined"
+            style={{ height: preview.verticalHeight, overflow: 'hidden' }}
+          >
+            <ScrollArea showVerticalScrollIndicator>
+              <View style={{ padding: t.spacing[4], gap: t.spacing[4] }}>
+                {[...Array(10)].map((_, i) => (
+                  <Paper key={i} elevation="sm" style={{ padding: t.spacing[3] }}>
+                    <Typography variant="body2">
+                      Scrollable Item {i + 1}
+                    </Typography>
+                  </Paper>
                 ))}
-            </Box>
-        </ScrollArea>
-      </DemoSection>
-
-      <DemoSection title="Fade Edges">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Adds subtle fade effects at the edges to indicate that content is scrollable.
-        </Typography>
-        <Paper variant="outlined" style={{ height: 120, overflow: 'hidden' }}>
-             <ScrollArea fadeEdges fadeSize={40}>
-                <Box sx={{ padding: 'md', gap: 'sm' }}>
-                    {[...Array(10)].map((_, i) => (
-                        <Typography key={i} variant="body2">Line of text number {i + 1} for scrolling demo</Typography>
-                    ))}
-                </Box>
+              </View>
             </ScrollArea>
-        </Paper>
+          </Paper>
+        </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Paging Behavior">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Snap to content intervals, useful for carousels or page-like layouts.
-        </Typography>
-        <ScrollArea 
-            direction="horizontal" 
-            pagingEnabled 
+      <DemoSection title="Horizontal Scroll" description="Row-based scrolling content.">
+        <DemoPreview>
+          <ScrollArea direction="horizontal" showHorizontalScrollIndicator={false}>
+            <View style={{ flexDirection: 'row', gap: t.spacing[4] }}>
+              {[...Array(6)].map((_, i) => (
+                <Paper
+                  key={i}
+                  elevation="sm"
+                  style={{
+                    ...preview.horizontalCard,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Typography variant="h6">#{i + 1}</Typography>
+                </Paper>
+              ))}
+            </View>
+          </ScrollArea>
+        </DemoPreview>
+      </DemoSection>
+
+      <DemoSection
+        title="Fade Edges"
+        description="Subtle fade at edges to indicate scrollable content."
+      >
+        <DemoPreview>
+          <Paper
+            variant="outlined"
+            style={{ height: preview.fadeHeight, overflow: 'hidden' }}
+          >
+            <ScrollArea fadeEdges fadeSize={t.spacing[10]}>
+              <View style={{ padding: t.spacing[4], gap: t.spacing[2] }}>
+                {[...Array(10)].map((_, i) => (
+                  <Typography key={i} variant="body2">
+                    Line of text number {i + 1} for scrolling demo
+                  </Typography>
+                ))}
+              </View>
+            </ScrollArea>
+          </Paper>
+        </DemoPreview>
+      </DemoSection>
+
+      <DemoSection
+        title="Paging"
+        description="Snap to intervals — useful for carousels."
+      >
+        <DemoPreview>
+          <ScrollArea
+            direction="horizontal"
+            pagingEnabled
             showHorizontalScrollIndicator={false}
-        >
-            <Box sx={{ flexDirection: 'row' }}>
-                {[...Array(3)].map((_, i) => (
-                    <Box key={i} sx={{ width: 300, height: 150, backgroundColor: i % 2 === 0 ? 'brand.subtle' : 'surface.subtle', justifyContent: 'center', alignItems: 'center', borderRadius: 'md', marginHorizontal: 'sm' }}>
-                         <Typography variant="h5">Page {i + 1}</Typography>
-                    </Box>
-                ))}
-            </Box>
-        </ScrollArea>
+          >
+            <View style={{ flexDirection: 'row' }}>
+              {[...Array(3)].map((_, i) => (
+                <View
+                  key={i}
+                  style={{
+                    width: preview.page.width,
+                    height: preview.page.height,
+                    backgroundColor:
+                      i % 2 === 0
+                        ? t.color.brand.subtle
+                        : t.color.surface.sunken,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: t.radius.md,
+                    marginHorizontal: t.spacing[2],
+                  }}
+                >
+                  <Typography variant="h5">Page {i + 1}</Typography>
+                </View>
+              ))}
+            </View>
+          </ScrollArea>
+        </DemoPreview>
       </DemoSection>
     </DemoPage>
   );

@@ -40,6 +40,7 @@ export function typographyTokens(t: SemanticTokens) {
       disabled: t.color.text.disabled,
       brand: t.color.brand.text,
       error: t.color.error.text,
+      inverse: t.color.text.inverse,
     },
   } as const;
 }

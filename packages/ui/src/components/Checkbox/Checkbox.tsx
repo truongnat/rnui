@@ -86,7 +86,7 @@ export function Checkbox({
       style={{
         flexDirection: 'row',
         alignItems: 'flex-start',
-        gap: 10,
+        gap: tokens.spacing[2.5],
         opacity: isDisabled ? checkbox.state.disabled.opacity : 1,
       }}
       {...accessibilityProps}

@@ -2,13 +2,19 @@ import type { SemanticTokens } from '../semantic';
 
 export function dialogTokens(t: SemanticTokens) {
   return {
+    /** Screen-edge inset — same rhythm as modal.hostInset (applied in Dialog.tsx host wrapper) */
+    hostInset: {
+      paddingHorizontal: t.spacing[4],
+      paddingVertical: t.spacing[4],
+    },
     container: {
-      backgroundColor: t.color.surface.default,
+      backgroundColor: t.color.surface.overlay,
       borderRadius: t.radius.xl,
       padding: t.spacing[6],
-      maxWidth: '100%' as const,
+      width: '100%' as const,
+      maxWidth: 400,
       flexShrink: 1,
-      ...t.shadow.xl,
+      ...t.shadow.lg,
     },
     title: {
       fontSize: t.fontSize.xl,

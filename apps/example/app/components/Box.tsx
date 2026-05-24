@@ -1,43 +1,98 @@
-import React from 'react';
 import { Box, Typography } from '@truongdq01/ui';
 import { useTheme } from '@truongdq01/headless';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 export default function BoxScreen() {
   const { tokens } = useTheme();
 
   return (
-    <DemoPage 
-      title="Box" 
-      description="The Box component serves as a wrapper component for most of the CSS utility needs."
+    <DemoPage
+      title="Box"
+      description="Layout wrapper for padding, flexbox, and nested surfaces."
     >
-      <DemoSection title="Basic Layout">
-        <Box sx={{ padding: 'md', backgroundColor: 'surface.raised', borderRadius: 'lg' }}>
-          <Typography variant="body1">
-            This is a Box with padding, background color, and border radius from tokens.
-          </Typography>
+      <DemoSection title="Basic" description="Padding, background, and border radius.">
+        <DemoPreview>
+          <Box
+            style={{
+              padding: tokens.spacing[4],
+              backgroundColor: tokens.color.surface.raised,
+              borderRadius: tokens.radius.lg,
+            }}
+          >
+            <Typography variant="body1">
+              Box with token-based padding and surface color.
+            </Typography>
+          </Box>
+        </DemoPreview>
+      </DemoSection>
+
+      <DemoSection title="Flexbox" description="Row layout with gap and alignment.">
+        <Box
+          style={{
+            flexDirection: 'row',
+            gap: tokens.spacing[4],
+            alignItems: 'center',
+          }}
+        >
+          <Box
+            style={{
+              width: tokens.spacing[12],
+              height: tokens.spacing[12],
+              backgroundColor: tokens.color.brand.default,
+              borderRadius: tokens.radius.md,
+            }}
+          />
+          <Box
+            style={{
+              width: tokens.spacing[12],
+              height: tokens.spacing[12],
+              backgroundColor: tokens.color.warning.border,
+              borderRadius: tokens.radius.md,
+            }}
+          />
+          <Box
+            style={{
+              width: tokens.spacing[12],
+              height: tokens.spacing[12],
+              backgroundColor: tokens.color.success.icon,
+              borderRadius: tokens.radius.md,
+            }}
+          />
         </Box>
       </DemoSection>
 
-      <DemoSection title="Flexbox Utility">
-        <Box sx={{ flexDirection: 'row', gap: 'md', alignItems: 'center' }}>
-          <Box sx={{ width: 50, height: 50, backgroundColor: 'brand.default', borderRadius: 'md' }} />
-          <Box sx={{ width: 50, height: 50, backgroundColor: 'accent.default', borderRadius: 'md' }} />
-          <Box sx={{ width: 50, height: 50, backgroundColor: 'success.default', borderRadius: 'md' }} />
-        </Box>
-      </DemoSection>
-
-      <DemoSection title="Spacing Hooks">
-        <Box sx={{ marginVertical: 'lg', borderLeftWidth: 4, borderLeftColor: 'brand.default', paddingLeft: 'md' }}>
+      <DemoSection title="Accent Border" description="Semantic spacing and brand accent.">
+        <Box
+          style={{
+            marginVertical: tokens.spacing[6],
+            borderLeftWidth: 4,
+            borderLeftColor: tokens.color.brand.default,
+            paddingLeft: tokens.spacing[4],
+          }}
+        >
           <Typography variant="body2" color="secondary">
-            Box supports semantic spacing tokens for margins and paddings.
+            Left accent border with semantic spacing tokens.
           </Typography>
         </Box>
       </DemoSection>
-      
-      <DemoSection title="Nested Boxes">
-        <Box sx={{ padding: 'xl', backgroundColor: 'surface.subtle', borderRadius: 'xl' }}>
-          <Box sx={{ padding: 'md', backgroundColor: 'surface.default', borderRadius: 'lg', border: 'subtle' }}>
+
+      <DemoSection title="Nested" bare>
+        <Box
+          style={{
+            padding: tokens.spacing[6],
+            backgroundColor: tokens.color.bg.subtle,
+            borderRadius: tokens.radius.xl,
+          }}
+        >
+          <Box
+            style={{
+              padding: tokens.spacing[4],
+              backgroundColor: tokens.color.surface.default,
+              borderRadius: tokens.radius.lg,
+              borderWidth: 1,
+              borderColor: tokens.color.border.subtle,
+            }}
+          >
             <Typography variant="body1">Nested Content</Typography>
           </Box>
         </Box>
@@ -45,4 +100,3 @@ export default function BoxScreen() {
     </DemoPage>
   );
 }
-

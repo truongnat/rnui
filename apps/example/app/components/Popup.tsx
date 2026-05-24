@@ -1,27 +1,22 @@
 import { useTokens } from '@truongdq01/headless';
-import { Button, Popup, Stack, Typography } from '@truongdq01/ui';
+import { Button, Popup, Stack } from '@truongdq01/ui';
 import { AlertTriangle, CheckCircle, Info, XCircle } from 'lucide-react-native';
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { useState } from 'react';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function PopupScreen() {
   const t = useTokens();
-  
   const [activePopup, setActivePopup] = useState<string | null>(null);
 
   const showPopup = (id: string) => () => setActivePopup(id);
   const hidePopup = () => setActivePopup(null);
 
   return (
-    <DemoPage 
-      title="Popup" 
-      description="Temporary overlay messages that appear in response to user actions, with support for various styles and auto-hide functionality."
+    <DemoPage
+      title="Popup"
+      description="Temporary overlay messages with auto-hide and severity variants."
     >
-      <DemoSection title="Severity Variants">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Popups can convey different meanings through predefined severity levels.
-        </Typography>
+      <DemoSection title="Severity" description="Info, success, warning, and error levels.">
         <Stack spacing="md">
           <Button label="Show Info Popup" variant="outline" onPress={showPopup('info')} />
           <Button label="Show Success Popup" variant="outline" onPress={showPopup('success')} />
@@ -37,7 +32,6 @@ export default function PopupScreen() {
           icon={<Info size={20} color={t.color.info.icon} />}
           onClose={hidePopup}
         />
-
         <Popup
           open={activePopup === 'success'}
           variant="success"
@@ -46,7 +40,6 @@ export default function PopupScreen() {
           icon={<CheckCircle size={20} color={t.color.success.icon} />}
           onClose={hidePopup}
         />
-
         <Popup
           open={activePopup === 'warning'}
           variant="warning"
@@ -55,7 +48,6 @@ export default function PopupScreen() {
           icon={<AlertTriangle size={20} color={t.color.warning.icon} />}
           onClose={hidePopup}
         />
-
         <Popup
           open={activePopup === 'error'}
           variant="error"
@@ -66,10 +58,7 @@ export default function PopupScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Positions">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Place popups at the top, center, or bottom of the screen.
-        </Typography>
+      <DemoSection title="Positions" description="Top, center, or bottom of the screen.">
         <Stack direction="row" spacing="sm">
           <Button label="Top" size="sm" variant="outline" onPress={showPopup('pos-top')} />
           <Button label="Center" size="sm" variant="outline" onPress={showPopup('pos-center')} />
@@ -96,10 +85,7 @@ export default function PopupScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Interactions & Content">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Add actions or use persistent popups that don't auto-hide.
-        </Typography>
+      <DemoSection title="Actions & Persistent" description="Inline actions or no auto-hide.">
         <Stack spacing="md">
           <Button label="Popup with Actions" variant="outline" onPress={showPopup('actions')} />
           <Button label="Persistent Popup" variant="outline" onPress={showPopup('persistent')} />
@@ -111,20 +97,14 @@ export default function PopupScreen() {
           message="The message has been moved to trash."
           onClose={hidePopup}
           actions={
-            <Button 
-                label="UNDO" 
-                size="sm" 
-                variant="ghost" 
-                onPress={hidePopup} 
-            />
+            <Button label="UNDO" size="sm" variant="ghost" onPress={hidePopup} />
           }
         />
-
         <Popup
           open={activePopup === 'persistent'}
           autoHideDuration={null}
           title="Persistent Notice"
-          message="This popup will stay until you tap outside or close it manually."
+          message="Stays until you tap outside or close manually."
           onClose={hidePopup}
         />
       </DemoSection>

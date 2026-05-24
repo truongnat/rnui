@@ -8,7 +8,6 @@ const COMPONENTS_OUT_DIR = path.join(
   '../apps/example/app/components'
 );
 
-// 1. Get all UI Components
 const uiComps = fs
   .readdirSync(UI_COMPS_DIR)
   .filter((d) => fs.statSync(path.join(UI_COMPS_DIR, d)).isDirectory())
@@ -18,49 +17,32 @@ if (!fs.existsSync(COMPONENTS_OUT_DIR)) {
   fs.mkdirSync(COMPONENTS_OUT_DIR, { recursive: true });
 }
 
-// Scaffold all components without destroying TS typing
 uiComps.forEach((comp) => {
-  const fileContent = `import React from 'react';
-import { View, ScrollView } from 'react-native';
-import { Typography, Button } from '@truongdq01/ui';
-import { ScreenHeader, Section } from '../kitchen/ui';
-import { useTokens } from '@truongdq01/headless';
+  const fileContent = `import { Typography } from '@truongdq01/ui';
+import { DemoPage, DemoSection } from './_shared/DemoPage';
 
 export default function ${comp}Screen() {
-  const t = useTokens();
-  
   return (
-    <View style={{ flex: 1, backgroundColor: t.color.bg.subtle }}>
-      <ScreenHeader title="${comp}" />
-      <ScrollView contentContainerStyle={{ padding: t.spacing[4], gap: t.spacing[4], paddingBottom: 100 }}>
-        
-        <Section title="Overview">
-          <Typography variant="body1" color="secondary">
-            Demo for ${comp} component. Migrate specific examples from kitchen-sink.tsx 
-            to showcase all variants here.
-          </Typography>
-        </Section>
-        
-        <Section title="Basic Usage">
-            <Typography variant="body1" color="tertiary">Placeholder</Typography>
-        </Section>
-
-      </ScrollView>
-    </View>
+    <DemoPage title="${comp}" description="Demo for the ${comp} component.">
+      <DemoSection title="Overview">
+        <Typography variant="body1" color="secondary">
+          Add ${comp} usage examples here.
+        </Typography>
+      </DemoSection>
+    </DemoPage>
   );
 }
 `;
   fs.writeFileSync(path.join(COMPONENTS_OUT_DIR, `${comp}.tsx`), fileContent);
 });
 
-// Rewrite index.tsx to be a directory
-const newIndexContent = `import React, { useState } from 'react';
-import { View, FlatList, Pressable, StyleSheet } from 'react-native';
-import { Typography, Divider, Icon, Button, Section } from '@truongdq01/ui';
-import { ScreenHeader, PillSearchBar } from './kitchen/ui';
-import { useTokens } from '@truongdq01/headless';
+const newIndexContent = `import { useTokens } from '@truongdq01/headless';
+import { Typography } from '@truongdq01/ui';
 import { useRouter } from 'expo-router';
 import { ChevronRight } from 'lucide-react-native';
+import { useState } from 'react';
+import { FlatList, Pressable, View } from 'react-native';
+import { PillSearchBar, ScreenHeader } from './components/_shared/ExampleChrome';
 
 const COMPONENTS = [
 ${uiComps.map((c) => `  '${c}',`).join('\n')}
@@ -71,7 +53,9 @@ export default function ComponentsListScreen() {
   const router = useRouter();
   const [search, setSearch] = useState('');
 
-  const filtered = COMPONENTS.filter(c => c.toLowerCase().includes(search.toLowerCase()));
+  const filtered = COMPONENTS.filter((c) =>
+    c.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <View style={{ flex: 1, backgroundColor: t.color.bg.subtle }}>
@@ -82,18 +66,19 @@ export default function ComponentsListScreen() {
           onChangeText={setSearch}
           placeholder="Search components..."
         />
-        <View style={{ marginTop: 10 }}>
-          <Button label="View Legacy Kitchen Sink" size="sm" variant="outline" onPress={() => router.push('/kitchen-sink' as any)} />
-        </View>
       </View>
       <FlatList
         data={filtered}
         keyExtractor={(item) => item}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ padding: t.spacing[4], gap: t.spacing[2], paddingBottom: 100 }}
+        contentContainerStyle={{
+          padding: t.spacing[4],
+          gap: t.spacing[2],
+          paddingBottom: 100,
+        }}
         renderItem={({ item }) => (
-          <Pressable 
-            onPress={() => router.push(\`/components/\${item}\` as any)}
+          <Pressable
+            onPress={() => router.push(\`/components/\${item}\`)}
             style={({ pressed }) => ({
               padding: t.spacing[4],
               backgroundColor: pressed ? t.color.bg.muted : t.color.bg.default,

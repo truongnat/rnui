@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
 import { Slider } from '@truongdq01/ui';
 import { useTheme } from '@truongdq01/headless';
 import { Star } from 'lucide-react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function SliderScreen() {
   const { tokens } = useTheme();
@@ -15,9 +15,9 @@ export default function SliderScreen() {
   return (
     <DemoPage
       title="Slider"
-      description="Sliders allow users to make selections from a range of values, with support for single values, intervals, and custom thumb rendering."
+      description="Select from a range — single value, interval, or custom thumb."
     >
-      <DemoSection title="Basic Slider">
+      <DemoSection title="Basic" description="Single value with min/max labels.">
         <Slider
           label="Volume"
           showValue
@@ -31,7 +31,7 @@ export default function SliderScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Range Selection">
+      <DemoSection title="Range" description="Dual-thumb interval selection.">
         <Slider
           range
           label="Price Range"
@@ -46,11 +46,18 @@ export default function SliderScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Vertical Orientation">
-        <View style={{ height: 220, alignItems: 'center', justifyContent: 'center', paddingVertical: 10 }}>
+      <DemoSection title="Vertical" description="Column orientation for brightness-style controls.">
+        <View
+          style={{
+            height: tokens.spacing[24] * 2 + tokens.spacing[7],
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingVertical: tokens.spacing[2.5],
+          }}
+        >
           <Slider
             orientation="vertical"
-            sliderHeight={180}
+            sliderHeight={tokens.spacing[18] * 2 + tokens.spacing[6]}
             label="Brightness"
             showValue
             min={0}
@@ -62,7 +69,7 @@ export default function SliderScreen() {
         </View>
       </DemoSection>
 
-      <DemoSection title="Custom Thumb">
+      <DemoSection title="Custom Thumb" description="Render a custom icon inside the thumb.">
         <Slider
           label="Star Level"
           showValue
@@ -90,4 +97,3 @@ export default function SliderScreen() {
     </DemoPage>
   );
 }
-

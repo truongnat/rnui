@@ -1,29 +1,52 @@
 import { useReduceMotionEnabled } from '@truongdq01/headless';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import Animated, {
-  Easing,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
-  type WithSpringConfig,
   type WithTimingConfig,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import {
+  overlayFadeIn,
+  overlayFadeOut,
+  overlayPopIn,
+  overlayPopOut,
+  overlaySlideIn,
+  overlaySlideOut,
+} from '../../motion/overlayTiming';
 import type { AnimatedOverlayProps } from './types';
+
+function buildTimingConfig(
+  entering: boolean,
+  animationType: AnimatedOverlayProps['animationType'],
+  reducedMotion: boolean
+): WithTimingConfig {
+  if (reducedMotion) {
+    return { duration: 0 };
+  }
+
+  const isSlide = animationType === 'slideUp' || animationType === 'slideDown';
+
+  if (isSlide) {
+    const preset = entering ? overlaySlideIn : overlaySlideOut;
+    return { duration: preset.duration, easing: preset.easing };
+  }
+
+  const preset = entering ? overlayPopIn : overlayPopOut;
+  return { duration: preset.duration, easing: preset.easing };
+}
 
 /**
  * AnimatedOverlay provides consistent, smooth overlay animations for modals, dialogs, and other floating UI.
- * Supports multiple animation types with reduced motion detection and accessibility features.
+ * Uses design-system timing presets (no spring bounce).
  */
 export function AnimatedOverlay({
   visible: visibleProp,
   isVisible,
   animationType = 'scale',
-  duration = 300,
-  useSpring = false,
-  springConfig = {},
+  duration: durationOverride,
   children,
   style,
   backdropStyle,
@@ -39,39 +62,10 @@ export function AnimatedOverlay({
   const reducedMotion = useReduceMotionEnabled();
   const visible = isVisible ?? visibleProp ?? false;
 
-  // Animation values
   const opacity = useSharedValue(0);
-  const scale = useSharedValue(0.9);
+  const scale = useSharedValue(0.96);
   const translateY = useSharedValue(20);
   const backdropAlpha = useSharedValue(0);
-
-  // Animation configuration
-  const springConfiguration = useMemo<WithSpringConfig>(() => {
-    if (springConfig.dampingRatio !== undefined) {
-      return {
-        dampingRatio: springConfig.dampingRatio,
-        mass: springConfig.mass ?? 1,
-      } as WithSpringConfig;
-    }
-    return {
-      stiffness: springConfig.stiffness ?? 100,
-      damping: springConfig.damping ?? 10,
-      mass: springConfig.mass ?? 1,
-    } as WithSpringConfig;
-  }, [springConfig]);
-
-  const timingConfiguration = useMemo<WithTimingConfig>(
-    () => ({
-      duration: reducedMotion ? 0 : duration,
-      easing: Easing.out(Easing.cubic),
-    }),
-    [reducedMotion, duration]
-  );
-
-  // Create animated styles
-  const backdropAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: backdropAlpha.value * backdropOpacity,
-  }));
 
   const contentAnimatedStyle = useAnimatedStyle(() => {
     const transform = [];
@@ -88,18 +82,35 @@ export function AnimatedOverlay({
     };
   });
 
-  // Animation trigger function
+  const backdropAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: backdropAlpha.value * backdropOpacity,
+  }));
+
   const animate = useCallback(
     (entering: boolean) => {
       onAnimationStart?.(entering);
 
       const targetOpacity = entering ? 1 : 0;
-      const targetScale = entering ? 1 : 0.9;
+      const targetScale = entering ? 1 : 0.96;
       const targetTranslateY = entering
         ? 0
         : animationType === 'slideUp'
           ? 20
           : -20;
+
+      const contentTiming = buildTimingConfig(
+        entering,
+        animationType,
+        reducedMotion
+      );
+      const backdropTiming: WithTimingConfig = reducedMotion
+        ? { duration: 0 }
+        : {
+            duration:
+              durationOverride ??
+              (entering ? overlayFadeIn.duration : overlayFadeOut.duration),
+            easing: entering ? overlayFadeIn.easing : overlayFadeOut.easing,
+          };
 
       const onFinished = (finished?: boolean) => {
         'worklet';
@@ -108,53 +119,36 @@ export function AnimatedOverlay({
         }
       };
 
-      // Backdrop animation (always fade)
-      backdropAlpha.value = withTiming(entering ? 1 : 0, timingConfiguration);
+      backdropAlpha.value = withTiming(entering ? 1 : 0, backdropTiming);
 
       if (animationType === 'none') {
         opacity.value = targetOpacity;
         scale.value = targetScale;
         translateY.value = targetTranslateY;
         onAnimationEnd?.(entering);
+        return;
+      }
+
+      if (animationType === 'fade') {
+        opacity.value = withTiming(targetOpacity, contentTiming, onFinished);
+        return;
+      }
+
+      opacity.value = withTiming(targetOpacity, contentTiming);
+      if (animationType === 'slideUp' || animationType === 'slideDown') {
+        translateY.value = withTiming(
+          targetTranslateY,
+          contentTiming,
+          onFinished
+        );
       } else {
-        if (useSpring) {
-          opacity.value = withSpring(targetOpacity, springConfiguration);
-          if (animationType === 'slideUp' || animationType === 'slideDown') {
-            translateY.value = withSpring(
-              targetTranslateY,
-              springConfiguration,
-              onFinished
-            );
-          } else {
-            scale.value = withSpring(
-              targetScale,
-              springConfiguration,
-              onFinished
-            );
-          }
-        } else {
-          opacity.value = withTiming(targetOpacity, timingConfiguration);
-          if (animationType === 'slideUp' || animationType === 'slideDown') {
-            translateY.value = withTiming(
-              targetTranslateY,
-              timingConfiguration,
-              onFinished
-            );
-          } else {
-            scale.value = withTiming(
-              targetScale,
-              timingConfiguration,
-              onFinished
-            );
-          }
-        }
+        scale.value = withTiming(targetScale, contentTiming, onFinished);
       }
     },
     [
       animationType,
-      useSpring,
-      springConfiguration,
-      timingConfiguration,
+      reducedMotion,
+      durationOverride,
       onAnimationStart,
       onAnimationEnd,
       opacity,
@@ -164,7 +158,6 @@ export function AnimatedOverlay({
     ]
   );
 
-  // Trigger animation when visibility changes
   useEffect(() => {
     animate(visible);
   }, [visible, animate]);
@@ -175,7 +168,7 @@ export function AnimatedOverlay({
       pointerEvents={visible ? 'auto' : 'none'}
       testID={testID}
     >
-      {showBackdrop && (
+      {showBackdrop ? (
         <Pressable
           onPress={onBackdropPress}
           style={StyleSheet.absoluteFill}
@@ -191,7 +184,7 @@ export function AnimatedOverlay({
             ]}
           />
         </Pressable>
-      )}
+      ) : null}
       <Animated.View
         style={[contentAnimatedStyle, styles.content]}
         accessible={false}

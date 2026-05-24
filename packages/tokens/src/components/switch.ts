@@ -13,9 +13,9 @@ export function switchTokens(t: SemanticTokens) {
       lg: { width: 26, height: 26, borderRadius: 13 },
     },
     colors: {
-      trackOff: t.color.border.default,
+      trackOff: t.color.bg.muted,
       trackOn: t.color.brand.default,
-      thumb: t.color.surface.raised,
+      thumb: t.color.surface.default,
       disabledOpacity: t.opacity[40],
     },
   };

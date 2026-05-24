@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Switch, Divider } from '@truongdq01/ui';
 import { useTheme } from '@truongdq01/headless';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function SwitchScreen() {
   const { colorScheme, setColorScheme } = useTheme();
@@ -9,11 +9,8 @@ export default function SwitchScreen() {
   const [airplaneMode, setAirplaneMode] = useState(false);
 
   return (
-    <DemoPage 
-      title="Switch" 
-      description="Toggles the state of a single setting on or off."
-    >
-      <DemoSection title="Basic Selection">
+    <DemoPage title="Switch" description="Toggle a single setting on or off.">
+      <DemoSection title="Basic" description="Label and description for context.">
         <Switch
           label="Push Notifications"
           description="Receive alerts on your device"
@@ -30,27 +27,12 @@ export default function SwitchScreen() {
       </DemoSection>
 
       <DemoSection title="States">
-        <Switch
-          label="Airplane Mode"
-          on={airplaneMode}
-          onChange={setAirplaneMode}
-        />
+        <Switch label="Airplane Mode" on={airplaneMode} onChange={setAirplaneMode} />
         <Divider spacing="md" />
-        <Switch
-          label="Disabled (On)"
-          disabled
-          on={true}
-          onChange={() => {}}
-        />
+        <Switch label="Disabled (On)" disabled on onChange={() => {}} />
         <Divider spacing="md" />
-        <Switch
-          label="Disabled (Off)"
-          disabled
-          on={false}
-          onChange={() => {}}
-        />
+        <Switch label="Disabled (Off)" disabled on={false} onChange={() => {}} />
       </DemoSection>
     </DemoPage>
   );
 }
-

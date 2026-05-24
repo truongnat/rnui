@@ -7,13 +7,12 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
+import { overlayPopIn, overlayPopOut } from '../../motion/overlayTiming';
 import { MenuContext } from './context';
 import type { MenuProps } from './types';
 
@@ -33,28 +32,23 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.9);
 
-  // Animate in/out when open changes
   React.useEffect(() => {
     if (open) {
       setMounted(true);
       opacity.value = 0;
       scale.value = 0.9;
       requestAnimationFrame(() => {
-        opacity.value = withTiming(1, {
-          duration: 180,
-          easing: Easing.out(Easing.cubic),
-        });
-        scale.value = withSpring(1, { damping: 18, stiffness: 320 });
+        opacity.value = withTiming(1, overlayPopIn);
+        scale.value = withTiming(1, overlayPopIn);
       });
     } else if (mounted) {
-      opacity.value = withTiming(0, { duration: 130 });
-      scale.value = withTiming(0.92, { duration: 130 }, (done) => {
+      opacity.value = withTiming(0, overlayPopOut);
+      scale.value = withTiming(0.92, overlayPopOut, (done) => {
         if (done) scheduleOnRN(setMounted, false);
       });
     }
   }, [open, scale, opacity, mounted]);
 
-  // Compute menu position relative to anchor element
   let top: number = 48;
   let left: number = windowWidth - MENU_MIN_WIDTH - 16;
 

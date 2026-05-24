@@ -46,6 +46,7 @@ export interface TypographyProps {
     | 'disabled'
     | 'brand'
     | 'error'
+    | 'inverse'
     | string;
   gutterBottom?: boolean;
   noWrap?: boolean;

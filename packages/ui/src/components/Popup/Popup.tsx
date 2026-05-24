@@ -12,10 +12,17 @@ import {
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
+import {
+  overlayFadeIn,
+  overlayFadeOut,
+  overlayPopIn,
+  overlayPopOut,
+  overlaySlideIn,
+  overlaySlideOut,
+} from '../../motion/overlayTiming';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -65,21 +72,23 @@ export function Popup({
   const scale = useSharedValue(0.95);
 
   const animateIn = useCallback(() => {
-    translateY.value = withSpring(0, { damping: 25, stiffness: 300 });
-    opacity.value = withTiming(1, { duration: 200 });
-    scale.value = withSpring(1, { damping: 25, stiffness: 300 });
+    translateY.value = withTiming(0, overlaySlideIn);
+    opacity.value = withTiming(1, overlayFadeIn);
+    scale.value = withTiming(1, overlayPopIn);
   }, [scale, translateY, opacity]);
 
   const animateOut = useCallback(
     (onDone: () => void) => {
-      translateY.value = withTiming(position === 'bottom' ? 100 : -100, {
-        duration: 200,
-      });
-      opacity.value = withTiming(0, { duration: 150 }, (done) => {
+      translateY.value = withTiming(
+        position === 'bottom' ? 100 : -100,
+        overlaySlideOut
+      );
+      scale.value = withTiming(0.95, overlayPopOut);
+      opacity.value = withTiming(0, overlayFadeOut, (done) => {
         if (done) scheduleOnRN(onDone);
       });
     },
-    [position, translateY, opacity]
+    [position, translateY, opacity, scale]
   );
 
   React.useEffect(() => {

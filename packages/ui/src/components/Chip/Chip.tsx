@@ -85,6 +85,9 @@ export function Chip({
       : vStyle.border;
   const customText = color !== 'default' ? colors.text : vStyle.text;
 
+  const borderWidth =
+    variant === 'outlined' || customBorder !== 'transparent' ? 1 : 0;
+
   const iconSize = size === 'sm' ? 14 : 16;
 
   const containerStyle = useMemo(
@@ -97,14 +100,32 @@ export function Chip({
         height: sizeStyle.height,
         borderRadius: chip.container.borderRadius,
         backgroundColor: customBg,
-        borderWidth: variant === 'outlined' ? 1 : 0,
+        borderWidth,
         borderColor: customBorder,
         opacity: disabled ? tokens.opacity[60] : 1,
-        minHeight: size === 'sm' ? 24 : size === 'lg' ? 40 : 32,
       },
     ],
-    [tokens, sizeStyle, chip, customBg, customBorder, variant, disabled, size]
+    [
+      tokens,
+      sizeStyle,
+      chip,
+      customBg,
+      customBorder,
+      borderWidth,
+      disabled,
+    ]
   );
+
+  const pressHitSlop = useMemo(() => {
+    const height = sizeStyle.height;
+    const padding = Math.max(0, (44 - height) / 2);
+    return {
+      top: padding,
+      bottom: padding,
+      left: padding,
+      right: padding,
+    };
+  }, [sizeStyle.height]);
 
   const content = (
     <View nativeID={id} style={containerStyle}>
@@ -141,6 +162,7 @@ export function Chip({
         nativeID={id}
         onPress={onClick}
         disabled={disabled}
+        hitSlop={pressHitSlop}
         style={disabled ? styles.disabledPressable : undefined}
       >
         {content}

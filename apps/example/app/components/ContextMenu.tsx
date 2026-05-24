@@ -1,14 +1,8 @@
 import { useTokens } from '@truongdq01/headless';
-import {
-  Button,
-  Card,
-  ContextMenu,
-  Icon,
-  Typography,
-} from '@truongdq01/ui';
-import React, { useCallback, useRef, useState } from 'react';
+import { Button, Card, ContextMenu, Icon } from '@truongdq01/ui';
+import { useCallback, useMemo, useRef, useState, type RefObject } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 type Anchor = { x: number; y: number; width: number; height: number };
 
@@ -21,47 +15,68 @@ export default function ContextMenuScreen() {
   const cardRefB = useRef<View>(null);
   const buttonWrapRef = useRef<View>(null);
 
-  const openMenu = useCallback((ref: React.RefObject<View | null>) => {
+  const openMenu = useCallback((ref: RefObject<View | null>) => {
     ref.current?.measureInWindow((x, y, width, height) => {
       setAnchor({ x, y, width, height });
       setOpen(true);
     });
   }, []);
 
-  const contextItems = [
-    {
-      id: 'edit',
-      label: 'Edit Post',
-      icon: <Icon name="edit" size={18} color={t.color.text.secondary} />,
-    },
-    {
-      id: 'share',
-      label: 'Share',
-      icon: <Icon name="share" size={18} color={t.color.text.secondary} />,
-    },
-    {
-      id: 'download',
-      label: 'Download',
-      icon: <Icon name="download" size={18} color={t.color.text.secondary} />,
-    },
-    {
-      id: 'delete',
-      label: 'Delete',
-      icon: <Icon name="trash" size={18} color={t.color.status.error} />,
-      destructive: true,
-    },
-  ];
+  const contextItems = useMemo(
+    () => [
+      {
+        id: 'edit',
+        label: 'Edit Post',
+        icon: <Icon name="edit" size={18} color={t.color.text.secondary} />,
+      },
+      {
+        id: 'share',
+        label: 'Share',
+        icon: <Icon name="share" size={18} color={t.color.text.secondary} />,
+      },
+      {
+        id: 'download',
+        label: 'Download',
+        icon: <Icon name="download" size={18} color={t.color.text.secondary} />,
+      },
+      {
+        id: 'delete',
+        label: 'Delete',
+        icon: <Icon name="trash" size={18} color={t.color.status.error} />,
+        destructive: true,
+      },
+    ],
+    [t.color.text.secondary, t.color.status.error],
+  );
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        grid: {
+          flexDirection: 'row',
+          gap: t.spacing[4],
+        },
+        pressable: {
+          flex: 1,
+        },
+        itemCard: {
+          padding: t.spacing[6],
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        buttonWrap: {
+          alignSelf: 'flex-start',
+        },
+      }),
+    [t.spacing],
+  );
 
   return (
     <DemoPage
       title="ContextMenu"
-      description="A temporary menu that appears when a user interacts with an element, often used for additional actions."
+      description="Temporary menu for additional actions on an element."
     >
-      <DemoSection title="Basic Invocations">
-        <Typography variant="body2" style={{ marginBottom: 12 }}>
-          Click the cards below to trigger a context menu.
-        </Typography>
-
+      <DemoSection title="Card Triggers" description="Tap cards to open a context menu.">
         <View style={styles.grid}>
           <Pressable
             ref={cardRefA}
@@ -69,14 +84,11 @@ export default function ContextMenuScreen() {
             onPress={() => openMenu(cardRefA)}
             style={({ pressed }) => [
               styles.pressable,
-              pressed && { opacity: 0.92 },
+              pressed ? { opacity: 0.92 } : null,
             ]}
           >
             <Card style={styles.itemCard}>
               <Icon name="more-vertical" size={24} color={t.color.text.secondary} />
-              <Typography variant="caption" style={{ marginTop: 8 }}>
-                Top Right
-              </Typography>
             </Card>
           </Pressable>
 
@@ -86,14 +98,11 @@ export default function ContextMenuScreen() {
             onPress={() => openMenu(cardRefB)}
             style={({ pressed }) => [
               styles.pressable,
-              pressed && { opacity: 0.92 },
+              pressed ? { opacity: 0.92 } : null,
             ]}
           >
             <Card style={styles.itemCard}>
               <Icon name="image" size={24} color={t.color.text.secondary} />
-              <Typography variant="caption" style={{ marginTop: 8 }}>
-                Image Actions
-              </Typography>
             </Card>
           </Pressable>
         </View>
@@ -119,27 +128,9 @@ export default function ContextMenuScreen() {
           label: i.label,
           icon: i.icon,
           destructive: i.destructive,
-          onPress: () => console.log('Clicked', i.id),
+          onPress: () => {},
         }))}
       />
     </DemoPage>
   );
 }
-
-const styles = StyleSheet.create({
-  grid: {
-    flexDirection: 'row',
-    gap: 16,
-  },
-  pressable: {
-    flex: 1,
-  },
-  itemCard: {
-    padding: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonWrap: {
-    alignSelf: 'flex-start',
-  },
-});

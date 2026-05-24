@@ -96,7 +96,7 @@ export function RadioItem<T = string>({
       style={{
         flexDirection: 'row',
         alignItems: 'flex-start',
-        gap: 10,
+        gap: tokens.spacing[2.5],
         opacity: disabled ? radio.colors.disabledOpacity : 1,
       }}
       nativeID={nativeID}
@@ -112,7 +112,7 @@ export function RadioItem<T = string>({
             borderRadius: outerSize.borderRadius,
             alignItems: 'center',
             justifyContent: 'center',
-            marginTop: 2,
+            marginTop: tokens.spacing[0.5],
           },
           outerRingStyle,
         ]}
@@ -149,7 +149,7 @@ export function RadioItem<T = string>({
               style={{
                 fontSize: tokens.fontSize.sm,
                 color: tokens.color.text.secondary,
-                marginTop: 2,
+                marginTop: tokens.spacing[0.5],
               }}
             >
               {description}

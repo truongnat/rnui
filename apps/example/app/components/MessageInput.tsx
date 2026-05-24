@@ -1,9 +1,9 @@
 import { useTokens } from '@truongdq01/headless';
-import { Button, MessageInput, Stack, Typography } from '@truongdq01/ui';
-import { Camera, Mic, Smile } from 'lucide-react-native';
-import React, { useState } from 'react';
+import { Button, MessageInput, Stack } from '@truongdq01/ui';
+import { Camera, Mic } from 'lucide-react-native';
+import { useState } from 'react';
 import { Alert, View } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function MessageInputScreen() {
   const t = useTokens();
@@ -16,12 +16,9 @@ export default function MessageInputScreen() {
   return (
     <DemoPage
       title="MessageInput"
-      description="A rich text input component designed for chat interfaces with support for actions, glass effects, and auto-expanding height."
+      description="Chat input with attachments, glass effects, and auto-expanding height."
     >
-      <DemoSection title="Basic Component">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          The default MessageInput with attachment and emoji buttons.
-        </Typography>
+      <DemoSection title="Basic" description="Default input with attach and emoji buttons.">
         <MessageInput
           value={value}
           onChangeText={setValue}
@@ -31,23 +28,20 @@ export default function MessageInputScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Custom Actions">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Add custom actions to the left or right of the input area.
-        </Typography>
+      <DemoSection title="Custom Actions" description="Left and right action slots.">
         <MessageInput
-          placeholder="With custom buttons..."
+          placeholder="With custom buttons…"
           leftActions={
             <Button
               variant="ghost"
-              style={{ width: 40, height: 40 }}
+              style={{ width: t.spacing[10], height: t.spacing[10] }}
               leadingIcon={<Camera size={20} color={t.color.text.secondary} />}
             />
           }
           rightActions={
             <Button
               variant="ghost"
-              style={{ width: 40, height: 40 }}
+              style={{ width: t.spacing[10], height: t.spacing[10] }}
               leadingIcon={<Mic size={20} color={t.color.text.secondary} />}
             />
           }
@@ -55,14 +49,17 @@ export default function MessageInputScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="No Glass Effect">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Disable the glass background for a more solid, standard appearance.
-        </Typography>
-        <View style={{ padding: t.spacing[2], backgroundColor: t.color.bg.muted, borderRadius: t.radius.lg }}>
+      <DemoSection title="Flat Background" description="Disable glass for a solid appearance.">
+        <View
+          style={{
+            padding: t.spacing[2],
+            backgroundColor: t.color.bg.muted,
+            borderRadius: t.radius.lg,
+          }}
+        >
           <MessageInput
             glassEffect={false}
-            placeholder="Flat background style..."
+            placeholder="Flat background style…"
             onSend={handleSend}
           />
         </View>
@@ -70,40 +67,30 @@ export default function MessageInputScreen() {
 
       <DemoSection title="States">
         <Stack spacing="lg">
-          <View>
-            <Typography variant="overline" style={{ marginBottom: t.spacing[2] }}>Disabled</Typography>
-            <MessageInput
-              disabled
-              placeholder="Cannot type here..."
-              value="This input is disabled"
-            />
-          </View>
-          
-          <View>
-            <Typography variant="overline" style={{ marginBottom: t.spacing[2] }}>Custom Send Button</Typography>
-            <MessageInput
-              placeholder="Custom button style..."
-              sendButton={
-                <Button 
-                  label="SEND" 
-                  size="sm" 
-                  style={{ marginLeft: 8 }} 
-                  onPress={() => Alert.alert('Custom Send')}
-                />
-              }
-            />
-          </View>
+          <MessageInput
+            disabled
+            placeholder="Cannot type here…"
+            value="This input is disabled"
+          />
+          <MessageInput
+            placeholder="Custom send button…"
+            sendButton={
+              <Button
+                label="SEND"
+                size="sm"
+                style={{ marginLeft: t.spacing[2] }}
+                onPress={() => Alert.alert('Custom Send')}
+              />
+            }
+          />
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Minimal Appearance">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Hide default actions for a cleaner look.
-        </Typography>
+      <DemoSection title="Minimal" description="Hide default attach and sticker actions.">
         <MessageInput
           showAttach={false}
           showSticker={false}
-          placeholder="Simple input..."
+          placeholder="Simple input…"
           onSend={handleSend}
         />
       </DemoSection>

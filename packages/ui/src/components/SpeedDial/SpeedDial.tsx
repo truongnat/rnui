@@ -1,7 +1,7 @@
 import { useDisclosure, useTheme } from '@truongdq01/headless';
 import type React from 'react';
 import { createContext, useContext, useMemo } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Fab } from '../Fab/Fab';
 
 export interface SpeedDialProps {
@@ -43,6 +43,11 @@ export function SpeedDial({
   } = useTheme();
   const disclosure = useDisclosure({ isOpen: controlledOpen, onOpen, onClose });
 
+  const ctxValue = useMemo(
+    () => ({ isOpen: disclosure.isOpen, close: disclosure.close }),
+    [disclosure.isOpen, disclosure.close]
+  );
+
   if (hidden) return null;
 
   const stackStyle = {
@@ -52,11 +57,6 @@ export function SpeedDial({
     alignItems: 'center' as const,
     gap: speedDial.container.gap,
   };
-
-  const ctxValue = useMemo(
-    () => ({ isOpen: disclosure.isOpen, close: disclosure.close }),
-    [disclosure.isOpen, disclosure.close]
-  );
 
   return (
     <SpeedDialContext.Provider value={ctxValue}>
@@ -89,12 +89,23 @@ export function SpeedDialAction({
         onPress?.();
         ctx.close();
       }}
-      style={speedDial.action}
+      accessibilityRole="button"
+      accessibilityLabel={tooltipTitle ?? 'Action'}
+      style={styles.actionHitArea}
     >
       <View style={speedDial.action.iconContainer}>{icon}</View>
-      {tooltipTitle && (
+      {tooltipTitle ? (
         <Text style={speedDial.action.tooltip}>{tooltipTitle}</Text>
-      )}
+      ) : null}
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  actionHitArea: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    minWidth: 44,
+    minHeight: 44,
+  },
+});

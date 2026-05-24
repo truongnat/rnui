@@ -252,7 +252,9 @@ export const Feedback: Story = {
 
     return (
       <View style={{ gap: 20 }}>
-        <Alert severity="success">Saved successfully</Alert>
+        <Alert severity="success">
+          <Typography variant="body2">Saved successfully</Typography>
+        </Alert>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
           <CircularProgress indeterminate />
           <LinearProgress

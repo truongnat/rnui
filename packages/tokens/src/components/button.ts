@@ -2,7 +2,7 @@ import type { SemanticTokens } from '../semantic';
 
 export function buttonTokens(t: SemanticTokens) {
   const base = {
-    borderRadius: t.brandStyle?.buttonRadius ?? t.radius.full,
+    borderRadius: t.brandStyle?.buttonRadius ?? t.radius.lg,
     flexDirection: 'row' as const,
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
@@ -16,7 +16,7 @@ export function buttonTokens(t: SemanticTokens) {
           ...base,
           backgroundColor: t.color.brand.default,
           borderWidth: 0,
-          ...t.shadow.md,
+          ...t.shadow.sm,
         },
         text: {
           color: t.color.text.onBrand,
@@ -27,21 +27,21 @@ export function buttonTokens(t: SemanticTokens) {
       outline: {
         container: {
           ...base,
-          backgroundColor: 'transparent',
-          borderWidth: 1.5,
-          borderColor: t.color.border.default,
+          backgroundColor: t.color.surface.default,
+          borderWidth: 1,
+          borderColor: t.color.border.subtle,
         },
         text: {
           color: t.color.text.primary,
-          fontWeight: t.fontWeight.semibold,
+          fontWeight: t.fontWeight.medium,
         },
-        pressed: { backgroundColor: t.color.bg.muted },
+        pressed: { backgroundColor: t.color.bg.subtle },
       },
       ghost: {
         container: { ...base, backgroundColor: 'transparent', borderWidth: 0 },
         text: {
-          color: t.color.brand.default,
-          fontWeight: t.fontWeight.semibold,
+          color: t.color.brand.text,
+          fontWeight: t.fontWeight.medium,
         },
         pressed: { backgroundColor: t.color.brand.subtle },
       },
@@ -52,8 +52,8 @@ export function buttonTokens(t: SemanticTokens) {
           borderWidth: 1,
           borderColor: t.color.error.border,
         },
-        text: { color: t.color.error.text, fontWeight: t.fontWeight.semibold },
-        pressed: { backgroundColor: t.color.error.border },
+        text: { color: t.color.error.text, fontWeight: t.fontWeight.medium },
+        pressed: { backgroundColor: t.color.error.bg },
       },
       // Accent/CTA — Amber, stands out from brand violet
       accent: {
@@ -61,7 +61,7 @@ export function buttonTokens(t: SemanticTokens) {
           ...base,
           backgroundColor: t.color.accent.default,
           borderWidth: 0,
-          ...t.shadow.md,
+          ...t.shadow.sm,
         },
         text: {
           color: t.color.accent.onAccent,

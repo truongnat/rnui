@@ -1,5 +1,5 @@
-import { useToast, useTokens } from '@truongdq01/headless';
-import { Button, Stack, Typography } from '@truongdq01/ui';
+import { useToast } from '@truongdq01/headless';
+import { Button, Stack } from '@truongdq01/ui';
 import {
   AlertCircle,
   CheckCircle2,
@@ -8,22 +8,20 @@ import {
   Mail,
   TriangleAlert,
 } from 'lucide-react-native';
-import React from 'react';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function ToastScreen() {
   const toast = useToast();
-  const t = useTokens();
 
   return (
     <DemoPage
       title="Toast"
-      description="Toasts provide brief messages about app processes at the bottom of the screen."
+      description="Brief, non-blocking messages about app processes. Shown via ToastContainer at the app root."
     >
-      <DemoSection title="Variants">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Standard variants for success, error, warning, and informational messages.
-        </Typography>
+      <DemoSection
+        title="Variants"
+        description="Semantic variants for success, error, warning, and info."
+      >
         <Stack spacing="md">
           <Button
             label="Success Toast"
@@ -52,10 +50,10 @@ export default function ToastScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Customizations">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Toasts can include custom icons and actionable buttons.
-        </Typography>
+      <DemoSection
+        title="Customizations"
+        description="Optional custom icons and action buttons."
+      >
         <Stack spacing="md">
           <Button
             label="Custom Icon"
@@ -86,23 +84,27 @@ export default function ToastScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Durations">
-         <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Control how long the toast stays on screen.
-        </Typography>
+      <DemoSection
+        title="Durations"
+        description="Control how long the toast stays visible."
+      >
         <Stack direction="row" spacing="sm">
-            <Button
-                label="Quick (1s)"
-                variant="outline"
-                size="sm"
-                onPress={() => toast.show({ message: 'Quick flash!', duration: 1000 })}
-            />
-            <Button
-                label="Long (5s)"
-                variant="outline"
-                size="sm"
-                onPress={() => toast.show({ message: 'Staying longer', duration: 5000 })}
-            />
+          <Button
+            label="Quick (1s)"
+            variant="outline"
+            size="sm"
+            onPress={() =>
+              toast.show({ message: 'Quick flash!', duration: 1000 })
+            }
+          />
+          <Button
+            label="Long (5s)"
+            variant="outline"
+            size="sm"
+            onPress={() =>
+              toast.show({ message: 'Staying longer', duration: 5000 })
+            }
+          />
         </Stack>
       </DemoSection>
     </DemoPage>

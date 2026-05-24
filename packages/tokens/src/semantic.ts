@@ -47,13 +47,13 @@ const shared = {
    */
   typography: {
     display: {
-      fontSize: 36,
-      fontWeight: '800' as const,
-      lineHeight: 44,
-      letterSpacing: -0.5,
+      fontSize: 34,
+      fontWeight: '700' as const,
+      lineHeight: 40,
+      letterSpacing: -0.4,
     },
-    h1: { fontSize: 30, fontWeight: '700' as const, lineHeight: 38 },
-    h2: { fontSize: 24, fontWeight: '700' as const, lineHeight: 32 },
+    h1: { fontSize: 28, fontWeight: '700' as const, lineHeight: 36 },
+    h2: { fontSize: 22, fontWeight: '600' as const, lineHeight: 30 },
     h3: { fontSize: 20, fontWeight: '600' as const, lineHeight: 28 },
     h4: { fontSize: 18, fontWeight: '600' as const, lineHeight: 26 },
     h5: { fontSize: 16, fontWeight: '600' as const, lineHeight: 24 },
@@ -129,35 +129,33 @@ export const lightTokens = {
   color: {
     // Backgrounds
     bg: {
-      // Grouping: app background is slightly tinted,
-      // while primary surfaces remain white for contrast and hierarchy.
-      default: color.gray[50], // #F8FAFC
-      subtle: color.gray[100], // #F1F5F9
-      muted: color.gray[200], // E2E8F0
-      emphasis: color.gray[400], // 94A3B8 - Highly visible for skeletons
-      inverse: color.gray[900], // 0F172A
-      overlay: 'rgba(0,0,0,0.6)',
-      hover: color.gray[100], // #F1F5F9 - hover state
-      disabled: color.gray[100], // #F1F5F9 - disabled background
+      // Soft premium app canvas — slight violet warmth, not flat gray
+      default: '#F3F1F8',
+      subtle: '#ECE8F4',
+      muted: color.gray[200],
+      emphasis: color.gray[300],
+      inverse: color.gray[900],
+      overlay: 'rgba(15,23,42,0.32)',
+      hover: '#E8E4F0',
+      disabled: '#ECE8F4',
     },
     // Surfaces (cards, sheets, modals)
     surface: {
       default: color.white,
-      raised: color.white,
+      raised: '#FDFCFF',
       overlay: color.white,
-      sunken: color.gray[100],
-      hover: color.gray[50], // #F8FAFC - subtle hover on elevated surface
-      disabled: color.gray[100], // #F1F5F9
-      glass: 'rgba(255,255,255,0.72)',
-      glassBorder: 'rgba(255,255,255,0.3)',
+      sunken: '#ECE8F4',
+      hover: '#F8F6FC',
+      disabled: '#ECE8F4',
+      glass: 'rgba(255,255,255,0.78)',
+      glassBorder: 'rgba(255,255,255,0.45)',
     },
-    // Text - Much darker overall
     text: {
-      primary: color.gray[950], // 020617 - Pure contrast
-      secondary: color.gray[700], // 334155 - Very readable
-      tertiary: color.gray[500], // 64748B - Not "faded" anymore
-      muted: color.gray[500], // Alias for tertiary
-      disabled: color.gray[500], // #64748B — 4.8x on white ✅ WCAG AA
+      primary: color.gray[900],
+      secondary: color.gray[600],
+      tertiary: color.gray[500],
+      muted: color.gray[500],
+      disabled: color.gray[400],
       inverse: color.white,
       link: color.brand[700], // #6D28D9
       visited: color.brand[900], // #4C1D95
@@ -169,14 +167,13 @@ export const lightTokens = {
       error: color.red[900],
       info: color.blue[900],
     },
-    // Border - Ultra visible
     border: {
-      default: color.gray[300], // #CBD5E1 - Default decorative border
-      subtle: color.gray[200], // #E2E8F0 - Subtle border
-      strong: color.gray[500], // #64748B - Strong border
-      emphasis: color.gray[700], // High contrast border
-      input: color.gray[400], // #94A3B8 - Form input border
-      focus: color.brand[600], // #7C3AED - Focus ring
+      default: '#E4E0EC',
+      subtle: '#EEEAF4',
+      strong: color.gray[400],
+      emphasis: color.gray[600],
+      input: color.gray[300],
+      focus: color.brand[600],
       error: color.red[600], // #DC2626
       success: color.green[500],
       warning: color.amber[500],
@@ -198,37 +195,37 @@ export const lightTokens = {
       secondary: color.amber[500], // Alias for default
       hover: color.amber[600], // #D97706
       active: color.amber[700], // #B45309
-      subtle: color.amber[50], // #FFFBEB
-      muted: color.amber[100], // #FEF3C7
+      subtle: color.amber[100],
+      muted: color.amber[200], // #FDE68A — borders / secondary accent fill
       text: color.amber[800], // #92400E — 5.0x on white ✅
       onAccent: '#1C1917', // near-black text on amber bg
     },
     // Feedback - Max visibility, high contrast
     success: {
-      bg: color.green[50],
-      text: color.green[900],
-      border: color.green[500],
+      bg: color.green[100],
+      text: color.green[800],
+      border: color.green[300],
       icon: color.green[600],
       emphasis: color.green[700],
     },
     warning: {
-      bg: color.amber[50],
+      bg: color.amber[100],
       text: color.amber[900],
-      border: color.amber[500],
+      border: color.amber[300],
       icon: color.amber[600],
       emphasis: color.amber[700],
     },
     error: {
-      bg: color.red[50],
-      text: color.red[900],
-      border: color.red[500],
+      bg: color.red[100],
+      text: color.red[800],
+      border: color.red[300],
       icon: color.red[600],
       emphasis: color.red[700],
     },
     info: {
-      bg: color.blue[50],
-      text: color.blue[900],
-      border: color.blue[500],
+      bg: color.blue[100],
+      text: color.blue[800],
+      border: color.blue[300],
       icon: color.blue[600],
       emphasis: color.blue[700],
     },
@@ -252,32 +249,32 @@ export const lightTokens = {
       elevation: 0,
     },
     sm: {
-      shadowColor: color.black,
+      shadowColor: '#1E1B4B',
       shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.08,
-      shadowRadius: 3,
+      shadowOpacity: 0.05,
+      shadowRadius: 4,
       elevation: 2,
     },
     md: {
-      shadowColor: color.black,
+      shadowColor: '#1E1B4B',
       shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.12,
-      shadowRadius: 8,
+      shadowOpacity: 0.08,
+      shadowRadius: 12,
       elevation: 4,
     },
     lg: {
-      shadowColor: color.black,
+      shadowColor: '#1E1B4B',
       shadowOffset: { width: 0, height: 8 },
-      shadowOpacity: 0.16,
-      shadowRadius: 16,
+      shadowOpacity: 0.1,
+      shadowRadius: 20,
       elevation: 8,
     },
     xl: {
-      shadowColor: color.black,
-      shadowOffset: { width: 0, height: 16 },
-      shadowOpacity: 0.2,
-      shadowRadius: 32,
-      elevation: 16,
+      shadowColor: '#1E1B4B',
+      shadowOffset: { width: 0, height: 12 },
+      shadowOpacity: 0.12,
+      shadowRadius: 28,
+      elevation: 12,
     },
   },
 } as const;
@@ -288,24 +285,24 @@ export const darkTokens = {
 
   color: {
     bg: {
-      default: '#0D0D14', // warm near-black (not pure cold gray)
-      subtle: color.gray[900],
-      muted: color.gray[800],
-      emphasis: color.gray[700],
+      default: '#12121C',
+      subtle: '#181824',
+      muted: '#222233',
+      emphasis: color.gray[600],
       inverse: color.gray[50],
-      overlay: `rgba(0,0,0,0.6)`,
-      hover: color.gray[800], // #1E293B - hover state dark
-      disabled: color.gray[800], // #1E293B - disabled bg dark
+      overlay: 'rgba(0,0,0,0.55)',
+      hover: '#222233',
+      disabled: '#181824',
     },
     surface: {
-      default: color.gray[900],
-      raised: color.gray[800],
-      overlay: color.gray[800],
-      sunken: color.gray[950],
-      hover: color.gray[700],
-      disabled: '#0D0D14',
-      glass: 'rgba(15,23,42,0.72)',
-      glassBorder: 'rgba(255,255,255,0.08)',
+      default: '#1A1A28',
+      raised: '#222233',
+      overlay: '#222233',
+      sunken: '#0E0E16',
+      hover: '#2A2A3D',
+      disabled: '#181824',
+      glass: 'rgba(26,26,40,0.82)',
+      glassBorder: 'rgba(255,255,255,0.1)',
     },
     text: {
       primary: color.gray[50],
@@ -325,12 +322,12 @@ export const darkTokens = {
       info: color.blue[400],
     },
     border: {
-      default: color.gray[700], // #334155 - Standard border
-      subtle: color.gray[800], // #1E293B - Subtle
-      strong: color.gray[500], // #64748B - Visible border ✅
-      emphasis: color.gray[400], // High contrast
-      input: color.gray[600], // #475569 - Form input border
-      focus: color.brand[400], // #A78BFA - Focus ring ✅
+      default: '#34344A',
+      subtle: '#2A2A3D',
+      strong: color.gray[500],
+      emphasis: color.gray[400],
+      input: '#3D3D56',
+      focus: color.brand[400],
       error: color.red[400],
       success: color.green[400],
       warning: color.amber[400],
@@ -353,35 +350,35 @@ export const darkTokens = {
       hover: color.amber[300], // #FCD34D
       active: color.amber[500], // #F59E0B
       subtle: 'rgba(251,191,36,0.12)',
-      muted: 'rgba(251,191,36,0.2)',
+      muted: 'rgba(251,191,36,0.28)',
       text: color.amber[400], // #FBBF24
       onAccent: '#1C1917',
     },
     success: {
-      bg: `rgba(34,197,94,0.12)`,
+      bg: `rgba(34,197,94,0.2)`,
       text: color.green[400],
-      border: color.green[600],
+      border: color.green[700],
       icon: color.green[400],
       emphasis: color.green[500],
     },
     warning: {
-      bg: `rgba(245,158,11,0.12)`,
+      bg: `rgba(245,158,11,0.2)`,
       text: color.amber[400],
-      border: color.amber[600],
+      border: color.amber[700],
       icon: color.amber[400],
       emphasis: color.amber[500],
     },
     error: {
-      bg: `rgba(239,68,68,0.12)`,
+      bg: `rgba(239,68,68,0.2)`,
       text: color.red[400],
-      border: color.red[600],
+      border: color.red[700],
       icon: color.red[400],
       emphasis: color.red[500],
     },
     info: {
-      bg: `rgba(59,130,246,0.12)`,
+      bg: `rgba(59,130,246,0.2)`,
       text: color.blue[400],
-      border: color.blue[600],
+      border: color.blue[700],
       icon: color.blue[400],
       emphasis: color.blue[500],
     },
@@ -404,32 +401,32 @@ export const darkTokens = {
       elevation: 0,
     },
     sm: {
-      shadowColor: color.brand[900],
+      shadowColor: '#000000',
       shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.3,
+      shadowOpacity: 0.35,
       shadowRadius: 4,
       elevation: 2,
     },
     md: {
-      shadowColor: color.brand[900],
+      shadowColor: '#000000',
       shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.4,
       shadowRadius: 10,
       elevation: 4,
     },
     lg: {
-      shadowColor: color.brand[800],
+      shadowColor: '#000000',
       shadowOffset: { width: 0, height: 8 },
-      shadowOpacity: 0.5,
-      shadowRadius: 20,
+      shadowOpacity: 0.45,
+      shadowRadius: 18,
       elevation: 8,
     },
     xl: {
-      shadowColor: color.brand[800],
-      shadowOffset: { width: 0, height: 16 },
-      shadowOpacity: 0.6,
-      shadowRadius: 36,
-      elevation: 16,
+      shadowColor: '#000000',
+      shadowOffset: { width: 0, height: 12 },
+      shadowOpacity: 0.5,
+      shadowRadius: 28,
+      elevation: 12,
     },
   },
 } as const;

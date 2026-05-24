@@ -1,7 +1,18 @@
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
 import { Text } from 'react-native';
-import { Drawer } from '../Drawer';
+import { Drawer, DrawerHeader } from '../Drawer';
+
+describe('DrawerHeader', () => {
+  it('wraps string titles in Typography', () => {
+    const { getByText } = render(
+      <ThemeProvider>
+        <DrawerHeader title="RNUI Settings" />
+      </ThemeProvider>
+    );
+    expect(getByText('RNUI Settings')).toBeTruthy();
+  });
+});
 
 describe('Drawer', () => {
   it('renders children when open', () => {

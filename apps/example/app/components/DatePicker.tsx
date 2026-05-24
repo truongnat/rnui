@@ -1,34 +1,26 @@
-import { useTheme } from '@truongdq01/headless';
-import { DatePicker, Typography, Stack } from '@truongdq01/ui';
-import React, { useState } from 'react';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DatePicker, Stack } from '@truongdq01/ui';
+import { useState } from 'react';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function DatePickerScreen() {
-  const { tokens } = useTheme();
   const [date, setDate] = useState<Date | null>(new Date());
   const [birthDate, setBirthDate] = useState<Date | null>(null);
 
   return (
     <DemoPage
       title="Date Picker"
-      description="A standardized input for selecting dates, providing a consistent experience across iOS and Android with integrated validation."
+      description="Cross-platform date selection with validation and locale support."
     >
-      <DemoSection title="Basic Features">
-        <Typography variant="body2" color="tertiary" style={{ marginBottom: 12 }}>
-          Integrates with native system pickers while maintaining design system consistency for labels and validation.
-        </Typography>
+      <DemoSection title="Basic" description="Native pickers with design-system labels.">
         <DatePicker
-          label="Appointement Date"
+          label="Appointment Date"
           placeholder="Pick a date"
           date={date}
           onChange={setDate}
         />
       </DemoSection>
 
-      <DemoSection title="Placeholder State">
-        <Typography variant="body2" color="tertiary" style={{ marginBottom: 12 }}>
-          Clear and readable placeholder state when no date is selected.
-        </Typography>
+      <DemoSection title="Placeholder" description="Empty state before selection.">
         <DatePicker
           label="Birth Date"
           placeholder="Select your birthday"
@@ -37,10 +29,7 @@ export default function DatePickerScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Format & Vietnamese labels">
-        <Typography variant="body2" color="tertiary" style={{ marginBottom: 12 }}>
-          Custom display via formatOptions, and modal copy via strings (month/year titles, actions).
-        </Typography>
+      <DemoSection title="Vietnamese Locale" description="Custom formatOptions and modal strings.">
         <DatePicker
           label="Ngày hẹn"
           placeholder="Chọn ngày"
@@ -59,7 +48,7 @@ export default function DatePickerScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Component States">
+      <DemoSection title="States">
         <Stack spacing="lg">
           <DatePicker
             label="Read-only / Disabled"

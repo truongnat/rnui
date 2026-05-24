@@ -7,6 +7,7 @@ import { type StyleProp, Text, View, type ViewStyle } from 'react-native';
 export type BadgeVariant =
   | 'default'
   | 'brand'
+  | 'accent'
   | 'success'
   | 'warning'
   | 'error'
@@ -50,26 +51,30 @@ function BadgeInner({
 
   const iconPx = Math.round(fontSize * 0.85);
 
+  const variantTokens = badge.variant[variant];
+
   const containerStyle = useMemo(
     () => [
       badge.base,
       sizeBox,
       {
-        backgroundColor: badge.variant[variant].bg,
+        backgroundColor: variantTokens.bg,
+        borderWidth: dot ? 0 : badge.base.borderWidth,
+        borderColor: variantTokens.border,
         flexDirection: 'row' as const,
         alignItems: 'center' as const,
         gap: BADGE_ROW_GAP[size],
       },
     ],
-    [badge.base, badge.variant, sizeBox, variant, size]
+    [badge.base, variantTokens, sizeBox, dot, size]
   );
 
   const textStyle = useMemo(
-    () => [badge.text, { color: badge.variant[variant].text, fontSize }],
-    [badge.text, badge.variant, variant, fontSize]
+    () => [badge.text, { color: variantTokens.text, fontSize }],
+    [badge.text, variantTokens.text, fontSize]
   );
 
-  const iconColor = String(badge.variant[variant].text);
+  const iconColor = String(variantTokens.text);
 
   const renderIcon = useCallback(
     (el: React.ReactNode) => {

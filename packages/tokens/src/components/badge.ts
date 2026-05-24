@@ -1,10 +1,13 @@
 import type { SemanticTokens } from '../semantic';
 
 export function badgeTokens(t: SemanticTokens) {
+  const { color: c } = t;
+
   return {
     base: {
       borderRadius: t.radius.full,
       alignSelf: 'flex-start' as const,
+      borderWidth: 1,
     },
     size: {
       sm: {
@@ -24,14 +27,41 @@ export function badgeTokens(t: SemanticTokens) {
       },
     },
     variant: {
-      default: { bg: t.color.bg.emphasis, text: t.color.text.secondary },
-      /** `brand.subtle` often matches `bg.subtle` (e.g. Forest/Love) — muted stays visible on the page. */
-      brand: { bg: t.color.brand.muted, text: t.color.brand.text },
-      accent: { bg: t.color.accent.muted, text: t.color.accent.text },
-      success: { bg: t.color.success.bg, text: t.color.success.text },
-      warning: { bg: t.color.warning.bg, text: t.color.warning.text },
-      error: { bg: t.color.error.bg, text: t.color.error.text },
-      info: { bg: t.color.info.bg, text: t.color.info.text },
+      default: {
+        bg: c.surface.raised,
+        text: c.text.secondary,
+        border: c.border.default,
+      },
+      brand: {
+        bg: c.brand.subtle,
+        text: c.brand.text,
+        border: c.brand.muted,
+      },
+      accent: {
+        bg: c.accent.subtle,
+        text: c.accent.text,
+        border: c.accent.muted,
+      },
+      success: {
+        bg: c.success.bg,
+        text: c.success.text,
+        border: c.success.border,
+      },
+      warning: {
+        bg: c.warning.bg,
+        text: c.warning.text,
+        border: c.warning.border,
+      },
+      error: {
+        bg: c.error.bg,
+        text: c.error.text,
+        border: c.error.border,
+      },
+      info: {
+        bg: c.info.bg,
+        text: c.info.text,
+        border: c.info.border,
+      },
     },
     text: {
       fontWeight: t.fontWeight.semibold,

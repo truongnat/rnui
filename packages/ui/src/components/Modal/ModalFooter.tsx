@@ -10,9 +10,7 @@ export function ModalFooter({ children }: ModalFooterProps) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
     paddingTop: 8,
-    paddingBottom: 16,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     gap: 8,

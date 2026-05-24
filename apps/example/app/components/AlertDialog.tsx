@@ -1,11 +1,8 @@
-import { useTokens } from '@truongdq01/headless';
-import { AlertDialog, Button, Stack, Typography } from '@truongdq01/ui';
-import React, { useState } from 'react';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { AlertDialog, Button, Stack } from '@truongdq01/ui';
+import { useState } from 'react';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function AlertDialogScreen() {
-  const t = useTokens();
-  
   const [basicOpen, setBasicOpen] = useState(false);
   const [destructiveOpen, setDestructiveOpen] = useState(false);
   const [longOpen, setLongOpen] = useState(false);
@@ -19,20 +16,17 @@ export default function AlertDialogScreen() {
   };
 
   return (
-    <DemoPage 
-      title="AlertDialog" 
-      description="A modal dialog that interrupts the user with urgent information, details, or required actions."
+    <DemoPage
+      title="AlertDialog"
+      description="Modal dialog for urgent information or required actions."
     >
-      <DemoSection title="Standard Actions">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Standard modal for simple confirmations.
-        </Typography>
-        <Button 
-          label="Show Standard Alert" 
-          variant="outline" 
-          onPress={() => setBasicOpen(true)} 
+      <DemoSection title="Standard" description="Simple confirmation with OK and Cancel.">
+        <Button
+          label="Show Standard Alert"
+          variant="outline"
+          onPress={() => setBasicOpen(true)}
         />
-        
+
         <AlertDialog
           open={basicOpen}
           title="Confirm Action"
@@ -44,16 +38,13 @@ export default function AlertDialogScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Destructive Variant">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Highlight irreversible or dangerous actions with the destructive variant.
-        </Typography>
-        <Button 
-          label="Show Destructive Alert" 
-          variant="destructive" 
-          onPress={() => setDestructiveOpen(true)} 
+      <DemoSection title="Destructive" description="Highlight irreversible actions.">
+        <Button
+          label="Show Destructive Alert"
+          variant="destructive"
+          onPress={() => setDestructiveOpen(true)}
         />
-        
+
         <AlertDialog
           open={destructiveOpen}
           title="Delete Item?"
@@ -66,22 +57,18 @@ export default function AlertDialogScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Advanced Configuration">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Customize button labels and variants for more specific outcomes.
-        </Typography>
+      <DemoSection title="Advanced" description="Custom button labels and variants.">
         <Stack spacing="md">
-            <Button 
-              label="Long Action Labels" 
-              variant="outline" 
-              onPress={() => setLongOpen(true)} 
-            />
-            
-            <Button 
-              label="Custom Button Styling" 
-              variant="solid" 
-              onPress={() => setCustomOpen(true)} 
-            />
+          <Button
+            label="Long Action Labels"
+            variant="outline"
+            onPress={() => setLongOpen(true)}
+          />
+          <Button
+            label="Custom Button Styling"
+            variant="solid"
+            onPress={() => setCustomOpen(true)}
+          />
         </Stack>
 
         <AlertDialog
@@ -97,7 +84,7 @@ export default function AlertDialogScreen() {
         <AlertDialog
           open={customOpen}
           title="Update Available"
-          description="A new version of the app is available with critical security updates."
+          description="A new version with critical security updates is available."
           confirmText="Update Now"
           cancelText="Later"
           confirmVariant="solid"

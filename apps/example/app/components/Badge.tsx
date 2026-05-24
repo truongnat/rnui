@@ -1,22 +1,15 @@
-import { useTokens } from '@truongdq01/headless';
-import { Badge, Stack, Typography } from '@truongdq01/ui';
+import { Badge, Stack } from '@truongdq01/ui';
 import { CheckCircle2, Clock, Plus, TriangleAlert } from 'lucide-react-native';
-import React from 'react';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function BadgeScreen() {
-  const t = useTokens();
-
   return (
-    <DemoPage 
-      title="Badge" 
-      description="Small status descriptors for elements, indicating counts, status, or categories."
+    <DemoPage
+      title="Badge"
+      description="Small status descriptors — counts, categories, and availability."
     >
-      <DemoSection title="Variants">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Semantic colors for different states and categories.
-        </Typography>
-        <Stack direction="row" spacing="sm" wrap="wrap">
+      <DemoSection title="Variants" description="Semantic colors for states and categories.">
+        <Stack direction="row" spacing="sm" wrap>
           <Badge label="Default" variant="default" />
           <Badge label="Brand" variant="brand" />
           <Badge label="Success" variant="success" />
@@ -27,7 +20,7 @@ export default function BadgeScreen() {
       </DemoSection>
 
       <DemoSection title="With Icons">
-        <Stack direction="row" spacing="sm" wrap="wrap">
+        <Stack direction="row" spacing="sm" wrap>
           <Badge label="Verified" variant="brand" icon={<CheckCircle2 size={12} />} />
           <Badge label="Pending" variant="warning" icon={<Clock size={12} />} />
           <Badge label="Danger" variant="error" icon={<TriangleAlert size={12} />} />
@@ -43,10 +36,7 @@ export default function BadgeScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Dots & Counts">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Badges can be dots for status or counts for notifications.
-        </Typography>
+      <DemoSection title="Dots & Counts" description="Status dots and notification counts.">
         <Stack direction="row" spacing="md" alignItems="center">
           <Badge dot size="md" variant="error" />
           <Badge dot size="md" variant="success" />

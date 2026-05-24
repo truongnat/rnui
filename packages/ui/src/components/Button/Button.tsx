@@ -85,19 +85,6 @@ function ButtonInner({
     };
   }, [button, size, label, children]);
 
-  const { animatedStyle, gesture, accessibilityProps } = usePressable({
-    onPress: handlePress,
-    onLongPress,
-    disabled: isDisabled,
-    feedbackMode,
-    accessibilityLabel:
-      accessibilityLabel ?? (typeof children === 'string' ? children : label),
-    accessibilityHint,
-    accessibilityRole: 'button',
-    hitSlop,
-    id: idProp,
-  });
-
   const containerStyle = useMemo(
     () => [
       button.variant[resolvedVariant].container,
@@ -135,6 +122,19 @@ function ButtonInner({
       style,
     ]
   );
+
+  const { animatedStyle, gesture, accessibilityProps } = usePressable({
+    onPress: handlePress,
+    onLongPress,
+    disabled: isDisabled,
+    feedbackMode,
+    accessibilityLabel:
+      accessibilityLabel ?? (typeof children === 'string' ? children : label),
+    accessibilityHint,
+    accessibilityRole: 'button',
+    hitSlop,
+    id: idProp,
+  });
 
   const textStyle = useMemo(
     () => [
@@ -174,6 +174,19 @@ function ButtonInner({
     typeof content === 'string' || typeof content === 'number';
   const leading = startIcon ?? leadingIcon;
   const trailing = endIcon ?? trailingIcon;
+
+  if (
+    typeof __DEV__ !== 'undefined' &&
+    __DEV__ &&
+    !accessibilityLabel &&
+    !label &&
+    !children &&
+    (leading || trailing)
+  ) {
+    console.warn(
+      '[Button] Icon-only buttons should include accessibilityLabel for screen readers.'
+    );
+  }
 
   const renderIcon = (icon: React.ReactNode) => {
     if (!icon) return null;

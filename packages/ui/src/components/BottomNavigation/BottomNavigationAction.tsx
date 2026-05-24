@@ -20,11 +20,24 @@ export function BottomNavigationAction<T = string>({
   } = useTheme();
   const ctx = useBottomNavContext<T>();
 
-  // Derive values before hooks — all hooks must run unconditionally (Rules of Hooks).
   const selected = ctx ? ctx.isSelected(value) : false;
   const showLabel = ctx ? ctx.showLabels || selected : false;
   const activeColor = bottomNavigation.item.active.color;
   const inactiveColor = bottomNavigation.item.inactive.color;
+
+  const actionStyle = useMemo(
+    () => ({
+      flex: bottomNavigation.item.flex,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
+      minHeight: 44,
+      minWidth: 44,
+      gap: tokens.spacing[1],
+      paddingHorizontal: tokens.spacing[2],
+      paddingVertical: tokens.spacing[1.5],
+    }),
+    [bottomNavigation.item.flex, tokens]
+  );
 
   const labelStyle = useMemo(
     () => [
@@ -39,8 +52,10 @@ export function BottomNavigationAction<T = string>({
 
   if (!ctx) return null;
 
+  const itemProps = ctx.getItemProps(value);
+
   return (
-    <Pressable {...ctx.getItemProps(value)} style={styles.action}>
+    <Pressable {...itemProps} accessibilityLabel={label} style={actionStyle}>
       {icon}
       {showLabel && label ? <Text style={labelStyle}>{label}</Text> : null}
     </Pressable>
@@ -50,13 +65,5 @@ export function BottomNavigationAction<T = string>({
 BottomNavigationAction.displayName = 'BottomNavigationAction';
 
 const styles = StyleSheet.create({
-  action: {
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  label: {
-    // fontSize and color applied via useMemo override
-  },
+  label: {},
 });

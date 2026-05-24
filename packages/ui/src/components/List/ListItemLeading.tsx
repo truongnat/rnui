@@ -1,4 +1,4 @@
-import { useId, useTheme } from '@truongdq01/headless';
+import { useId } from '@truongdq01/headless';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { ListItemLeadingProps } from './types';
@@ -12,12 +12,8 @@ export function ListItemLeading({
   children,
 }: ListItemLeadingProps) {
   const id = useId(idProp, 'list-item-leading');
-  const { tokens } = useTheme();
 
-  const containerStyle = useMemo(
-    () => ({ marginRight: tokens.spacing[4] }),
-    [tokens]
-  );
+  const containerStyle = useMemo(() => ({ marginRight: 0 }), []);
 
   return (
     <View nativeID={id} style={[styles.container, containerStyle]}>

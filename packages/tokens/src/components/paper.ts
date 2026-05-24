@@ -4,9 +4,9 @@ export function paperTokens(t: SemanticTokens) {
   return {
     container: {
       backgroundColor: t.color.surface.default,
-      borderRadius: t.radius.md,
+      borderRadius: t.radius.lg,
       borderWidth: 0,
-      borderColor: t.color.border.default,
+      borderColor: t.color.border.subtle,
     },
     elevation: {
       none: { ...t.shadow.none },

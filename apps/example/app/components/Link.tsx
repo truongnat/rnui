@@ -1,8 +1,7 @@
-import React from 'react';
 import { View } from 'react-native';
 import { Link, Typography, Stack } from '@truongdq01/ui';
 import { useTheme, useToast } from '@truongdq01/headless';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 import { ExternalLink } from 'lucide-react-native';
 
 export default function LinkScreen() {
@@ -10,53 +9,54 @@ export default function LinkScreen() {
   const toast = useToast();
 
   return (
-    <DemoPage 
-      title="Link" 
-      description="Interactive text elements used for navigation or triggering actions."
+    <DemoPage
+      title="Link"
+      description="Interactive text for navigation or triggering actions."
     >
-      <DemoSection title="Basic Links">
-        <Typography variant="body2" gutterBottom>
-            Standard links for inline or standalone navigation.
-        </Typography>
+      <DemoSection title="Basic" description="Inline or standalone navigation links.">
         <Stack spacing="md" alignItems="flex-start">
-            <Link onPress={() => toast.info('Navigating to profile...')}>
-                My Profile
-            </Link>
-            <Link color="secondary" onPress={() => toast.info('Opening settings...')}>
-                Account Settings
-            </Link>
+          <Link onPress={() => toast.info('Navigating to profile…')}>
+            My Profile
+          </Link>
+          <Link
+            color={tokens.color.text.secondary}
+            onPress={() => toast.info('Opening settings…')}
+          >
+            Account Settings
+          </Link>
         </Stack>
       </DemoSection>
 
-      <DemoSection title="External Links">
-        <Typography variant="body2" gutterBottom>
-            Links that lead to external resources often include an icon.
-        </Typography>
-        <Link 
-            onPress={() => toast.info('Opening browser...')}
-            trailingIcon={<ExternalLink size={14} color={tokens.color.brand.default} />}
-        >
+      <DemoSection title="External" description="Often paired with an external-link icon.">
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing[1] }}>
+          <Link onPress={() => toast.info('Opening browser…')}>
             Visit GitHub Repository
-        </Link>
+          </Link>
+          <ExternalLink size={14} color={tokens.color.brand.default} />
+        </View>
       </DemoSection>
 
-      <DemoSection title="Typography Variants">
-        <Typography variant="body2" gutterBottom>
-            Links can inherit or specify typography styles.
-        </Typography>
+      <DemoSection title="Typography Variants" description="Wrap in Typography for different sizes.">
         <Stack spacing="md" alignItems="flex-start">
-             <Link variant="h4">Header Link</Link>
-             <Link variant="body2">Small Body Link</Link>
-             <Link variant="caption">Caption Link Style</Link>
+          <Typography variant="h4">
+            <Link onPress={() => {}}>Header Link</Link>
+          </Typography>
+          <Typography variant="body2">
+            <Link onPress={() => {}}>Small Body Link</Link>
+          </Typography>
+          <Typography variant="caption">
+            <Link onPress={() => {}}>Caption Link Style</Link>
+          </Typography>
         </Stack>
       </DemoSection>
 
       <DemoSection title="Inline Usage">
-          <Typography variant="body1">
-              Read our <Link onPress={() => {}}>Privacy Policy</Link> and <Link onPress={() => {}}>Terms of Service</Link> to learn how we protect your data.
-          </Typography>
+        <Typography variant="body1">
+          Read our <Link onPress={() => {}}>Privacy Policy</Link> and{' '}
+          <Link onPress={() => {}}>Terms of Service</Link> to learn how we
+          protect your data.
+        </Typography>
       </DemoSection>
     </DemoPage>
   );
 }
-

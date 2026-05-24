@@ -14,7 +14,7 @@ export function ChipDeleteButton({
   return (
     <Pressable
       onPress={onDelete}
-      hitSlop={8}
+      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
       style={[styles.button, { marginLeft: spacing, borderRadius: radius }]}
       accessibilityRole="button"
       accessibilityLabel="Remove"

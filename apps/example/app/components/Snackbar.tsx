@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import { useState } from 'react';
 import { useTokens } from '@truongdq01/headless';
-import { Button, Snackbar, Typography } from '@truongdq01/ui';
-import { DemoPage, DemoSection, DemoGroup } from './_shared/DemoPage';
+import { Button, Snackbar } from '@truongdq01/ui';
+import { DemoPage, DemoSection, DemoGroup } from '@/demo/DemoPage';
 
 export default function SnackbarScreen() {
   const t = useTokens();
@@ -16,15 +15,15 @@ export default function SnackbarScreen() {
   return (
     <DemoPage
       title="Snackbar"
-      description="Brief messages about app processes at the bottom of the screen, designed to inform the user of an action without interrupting their experience."
+      description="Brief bottom-of-screen messages that inform without interrupting."
     >
-      <DemoSection title="Core Behavior">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Snackbars automatically disappear after a timeout (default 4000ms) or can be closed manually.
-        </Typography>
-        <Button 
-          label="Show Simple Snackbar" 
-          onPress={() => setBasicOpen(true)} 
+      <DemoSection
+        title="Core Behavior"
+        description="Auto-dismiss after 4s or close manually."
+      >
+        <Button
+          label="Show Simple Snackbar"
+          onPress={() => setBasicOpen(true)}
         />
         <Snackbar
           open={basicOpen}
@@ -33,58 +32,64 @@ export default function SnackbarScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="With Actions">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Include buttons to allow users to take immediate action on the notification.
-        </Typography>
-        <Button 
-          label="Show with Undo" 
+      <DemoSection
+        title="With Actions"
+        description="Inline buttons for immediate follow-up."
+      >
+        <Button
+          label="Show with Undo"
           variant="outline"
-          onPress={() => setActionOpen(true)} 
+          onPress={() => setActionOpen(true)}
         />
         <Snackbar
           open={actionOpen}
           message="1 item deleted from your list"
           action={
-            <Button 
-              label="UNDO" 
-              variant="ghost" 
-              size="sm" 
-              onPress={() => setActionOpen(false)} 
-              color="brand"
-              style={{ paddingHorizontal: 4 }}
+            <Button
+              label="UNDO"
+              variant="ghost"
+              size="sm"
+              onPress={() => setActionOpen(false)}
+              color="primary"
+              style={{ paddingHorizontal: t.spacing[1] }}
             />
           }
           onClose={() => setActionOpen(false)}
         />
       </DemoSection>
 
-      <DemoSection title="Anchoring & Positioning">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Snackbars can be anchored to different parts of the screen: Top, Bottom, and Horizontal alignments.
-        </Typography>
+      <DemoSection
+        title="Positioning"
+        description="Anchor to top, bottom, or horizontal alignment."
+      >
         <DemoGroup direction="row">
-          <Button 
-            label="Top Center" 
+          <Button
+            label="Top Center"
             size="sm"
             variant="ghost"
-            onPress={() => setPosition({ vertical: 'top', horizontal: 'center' })} 
+            onPress={() =>
+              setPosition({ vertical: 'top', horizontal: 'center' })
+            }
           />
-          <Button 
-            label="Bottom Right" 
+          <Button
+            label="Bottom Right"
             size="sm"
             variant="ghost"
-            onPress={() => setPosition({ vertical: 'bottom', horizontal: 'right' })} 
+            onPress={() =>
+              setPosition({ vertical: 'bottom', horizontal: 'right' })
+            }
           />
-          <Button 
-            label="Bottom Left" 
+          <Button
+            label="Bottom Left"
             size="sm"
             variant="ghost"
-            onPress={() => setPosition({ vertical: 'bottom', horizontal: 'left' })} 
+            onPress={() =>
+              setPosition({ vertical: 'bottom', horizontal: 'left' })
+            }
           />
         </DemoGroup>
 
-        {position && (
+        {position ? (
           <Snackbar
             open={!!position}
             anchorOrigin={position}
@@ -92,9 +97,8 @@ export default function SnackbarScreen() {
             autoHideDuration={2000}
             onClose={() => setPosition(null)}
           />
-        )}
+        ) : null}
       </DemoSection>
     </DemoPage>
   );
 }
-

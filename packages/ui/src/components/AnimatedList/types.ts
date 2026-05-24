@@ -43,7 +43,7 @@ export interface AnimatedListProps<T>
   itemEntering?: AnimationProp;
   /** Apply exiting animation to items as they disappear */
   itemExiting?: AnimationProp;
-  /** Apply layout animation when items are reordered. Recommended: LinearTransition.springify() */
+  /** Apply layout animation when items are reordered. Default: smooth linear timing (no spring bounce). */
   itemLayout?: LayoutProp;
   /**
    * Automatically stagger item entry animations.

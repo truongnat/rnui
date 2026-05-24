@@ -40,7 +40,7 @@ export function ModalHeader({ title, trailing, children }: ModalHeaderProps) {
             title
           ))}
       </View>
-      {trailing != null && <View>{trailing}</View>}
+      {trailing != null ? <View>{trailing}</View> : null}
     </View>
   );
 }
@@ -49,8 +49,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingTop: 16,
     paddingBottom: 8,
   },
   title: {

@@ -1,7 +1,19 @@
 import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
-import { Text, View } from 'react-native';
+import { resolveComponentTokens, semanticTokens } from '@truongdq01/tokens';
+import { KeyboardAvoidingView, Text, View } from 'react-native';
+import { ModalHeader } from '../ModalHeader';
+import { ModalFooter } from '../ModalFooter';
 import { Modal } from '../Modal';
+
+describe('Modal tokens regression', () => {
+  it('defines container padding and host inset', () => {
+    const { modal } = resolveComponentTokens(semanticTokens.light);
+    expect(modal.container.padding).toBe(24);
+    expect(modal.hostInset.paddingHorizontal).toBe(16);
+    expect(modal.container.maxWidth).toBe(400);
+  });
+});
 
 describe('Modal', () => {
   // ─── Rendering Tests ────────────────────────────────────────────────
@@ -43,7 +55,7 @@ describe('Modal', () => {
     it('renders with custom content style', () => {
       const { getByText } = render(
         <ThemeProvider>
-          <Modal open={true} contentStyle={{ padding: 20 }}>
+          <Modal open={true} contentContainerStyle={{ padding: 20 }}>
             <Text>Styled Content</Text>
           </Modal>
         </ThemeProvider>
@@ -331,7 +343,7 @@ describe('Modal', () => {
       );
 
       const modal = UNSAFE_root.findByType('Modal' as any);
-      expect(modal.props.animationType).toBe('fade');
+      expect(modal.props.animationType).toBe('none');
     });
 
     it('renders as transparent modal', () => {
@@ -516,7 +528,7 @@ describe('Modal', () => {
             disableEscapeKeyDown={false}
             BackdropComponent={CustomBackdrop}
             BackdropProps={{ testID: 'backdrop' }}
-            contentStyle={{ padding: 20 }}
+            contentContainerStyle={{ padding: 20 }}
           >
             <Text>Full Props Content</Text>
           </Modal>
@@ -563,7 +575,7 @@ describe('Modal', () => {
       expect(getByText('Max Width Content')).toBeTruthy();
     });
 
-    it('respects custom content style', () => {
+    it('respects custom contentContainerStyle', () => {
       const customStyle = {
         backgroundColor: 'red',
         padding: 30,
@@ -571,12 +583,42 @@ describe('Modal', () => {
       };
       const { getByText } = render(
         <ThemeProvider>
-          <Modal open={true} contentStyle={customStyle}>
+          <Modal open={true} contentContainerStyle={customStyle}>
             <Text>Custom Styled Content</Text>
           </Modal>
         </ThemeProvider>
       );
       expect(getByText('Custom Styled Content')).toBeTruthy();
+    });
+
+    it('wraps content in KeyboardAvoidingView when not fullScreen', () => {
+      const { UNSAFE_root } = render(
+        <ThemeProvider>
+          <Modal open={true}>
+            <Text>Keyboard Content</Text>
+          </Modal>
+        </ThemeProvider>
+      );
+      expect(
+        UNSAFE_root.findAllByType(KeyboardAvoidingView).length
+      ).toBeGreaterThan(0);
+    });
+
+    it('renders header/footer compound composition', () => {
+      const { getByText } = render(
+        <ThemeProvider>
+          <Modal open={true}>
+            <ModalHeader title="Settings" />
+            <Text>Body</Text>
+            <ModalFooter>
+              <Text>Save</Text>
+            </ModalFooter>
+          </Modal>
+        </ThemeProvider>
+      );
+      expect(getByText('Settings')).toBeTruthy();
+      expect(getByText('Body')).toBeTruthy();
+      expect(getByText('Save')).toBeTruthy();
     });
   });
 
@@ -584,7 +626,7 @@ describe('Modal', () => {
 
   describe('Integration', () => {
     it('works with form elements', () => {
-      const { getByText, getByPlaceholderText } = render(
+      const { getByText } = render(
         <ThemeProvider>
           <Modal open={true}>
             <Text>Login Form</Text>

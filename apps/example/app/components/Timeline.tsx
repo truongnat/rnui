@@ -1,59 +1,84 @@
-import React from 'react';
-import { 
-  Timeline, 
-  TimelineItem, 
-  TimelineContent, 
-  TimelineSeparator, 
-  TimelineDot, 
-  TimelineConnector, 
+import { useMemo } from 'react';
+import {
+  Timeline,
+  TimelineItem,
+  TimelineContent,
+  TimelineSeparator,
+  TimelineDot,
+  TimelineConnector,
   TimelineOppositeContent,
   Typography,
   Card,
-  Divider,
-  Icon
+  Icon,
 } from '@truongdq01/ui';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { View, StyleSheet } from 'react-native';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 import { useTokens } from '@truongdq01/headless';
 
 export default function TimelineScreen() {
   const t = useTokens();
 
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        card: {
+          padding: t.spacing[3],
+        },
+        customDot: {
+          width: t.spacing[6],
+          height: t.spacing[6],
+          borderRadius: t.radius.full,
+          backgroundColor: t.color.success.icon,
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+      }),
+    [t],
+  );
+
   return (
     <DemoPage
       title="Timeline"
-      description="Display a list of events in chronological order."
+      description="Events in chronological order with status indicators."
     >
-      <DemoSection title="Basic Timeline">
+      <DemoSection title="Basic" description="completed, active, and pending states.">
         <Timeline>
           <TimelineItem status="completed">
             <TimelineContent>
               <Typography variant="subtitle1">Order Placed</Typography>
-              <Typography variant="body2" color="secondary">Your order has been received</Typography>
+              <Typography variant="body2" color="secondary">
+                Your order has been received
+              </Typography>
             </TimelineContent>
           </TimelineItem>
           <TimelineItem status="completed">
             <TimelineContent>
               <Typography variant="subtitle1">Payment Confirmed</Typography>
-              <Typography variant="body2" color="secondary">Transaction successful</Typography>
+              <Typography variant="body2" color="secondary">
+                Transaction successful
+              </Typography>
             </TimelineContent>
           </TimelineItem>
           <TimelineItem status="active">
             <TimelineContent>
               <Typography variant="subtitle1">Processing</Typography>
-              <Typography variant="body2" color="secondary">Preparing your items</Typography>
+              <Typography variant="body2" color="secondary">
+                Preparing your items
+              </Typography>
             </TimelineContent>
           </TimelineItem>
           <TimelineItem status="pending">
             <TimelineContent>
               <Typography variant="subtitle1">Shipped</Typography>
-              <Typography variant="body2" color="secondary">Pending pickup</Typography>
+              <Typography variant="body2" color="secondary">
+                Pending pickup
+              </Typography>
             </TimelineContent>
           </TimelineItem>
         </Timeline>
       </DemoSection>
 
-      <DemoSection title="Opposite Content (Left Aligned)">
+      <DemoSection title="Opposite Content" description="Timestamps on the left.">
         <Timeline position="left">
           <TimelineItem status="completed">
             <TimelineOppositeContent>
@@ -74,7 +99,7 @@ export default function TimelineScreen() {
         </Timeline>
       </DemoSection>
 
-      <DemoSection title="Alternate Position">
+      <DemoSection title="Alternate" description="Zigzag layout with cards.">
         <Timeline position="alternate">
           <TimelineItem status="completed">
             <TimelineOppositeContent>
@@ -109,7 +134,7 @@ export default function TimelineScreen() {
         </Timeline>
       </DemoSection>
 
-      <DemoSection title="Custom Dots & Variations">
+      <DemoSection title="Custom Dots" description="Outlined and custom icon dots.">
         <Timeline>
           <TimelineItem status="error">
             <TimelineSeparator>
@@ -117,7 +142,10 @@ export default function TimelineScreen() {
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
-              <Typography variant="subtitle2" style={{ color: t.color.status.error }}>
+              <Typography
+                variant="subtitle2"
+                style={{ color: t.color.status.error }}
+              >
                 System Failure
               </Typography>
             </TimelineContent>
@@ -125,7 +153,7 @@ export default function TimelineScreen() {
           <TimelineItem status="completed">
             <TimelineSeparator>
               <View style={styles.customDot}>
-                <Icon name="check" size={12} color="#fff" />
+                <Icon name="check" size={12} color={t.color.text.inverse} />
               </View>
               <TimelineConnector />
             </TimelineSeparator>
@@ -138,17 +166,3 @@ export default function TimelineScreen() {
     </DemoPage>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    padding: 12,
-  },
-  customDot: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: '#10B981',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

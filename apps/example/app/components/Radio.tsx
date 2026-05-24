@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { RadioGroup, RadioItem, Divider } from '@truongdq01/ui';
+import { useState } from 'react';
+import { RadioGroup, RadioItem } from '@truongdq01/ui';
 import { useRadioGroup } from '@truongdq01/headless';
-import { DemoPage, DemoSection, DemoGroup } from './_shared/DemoPage';
+import { DemoPage, DemoSection, DemoGroup } from '@/demo/DemoPage';
 
 export default function RadioScreen() {
   const [plan, setPlan] = useState('pro');
@@ -15,11 +14,11 @@ export default function RadioScreen() {
   });
 
   return (
-    <DemoPage 
-      title="Radio" 
-      description="Allows the user to select one option from a set of mutually exclusive choices."
+    <DemoPage
+      title="Radio"
+      description="Select one option from mutually exclusive choices."
     >
-      <DemoSection title="Basic Radio Group">
+      <DemoSection title="Radio Group" description="Vertical list with descriptions.">
         <RadioGroup
           label="Subscription Plan"
           value={plan}
@@ -30,10 +29,10 @@ export default function RadioScreen() {
               label: 'Free',
               description: 'Up to 3 projects, community support',
             },
-            { 
-              value: 'pro', 
-              label: 'Pro', 
-              description: '$12/month, unlimited projects, priority support' 
+            {
+              value: 'pro',
+              label: 'Pro',
+              description: '$12/month, unlimited projects, priority support',
             },
             {
               value: 'enterprise',
@@ -44,8 +43,8 @@ export default function RadioScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Directions & Sizes">
-        <DemoGroup label="Horizontal Group (SM)">
+      <DemoSection title="Direction & Size" description="Horizontal layout and compact density.">
+        <DemoGroup label="Horizontal (SM)">
           <RadioGroup
             direction="horizontal"
             value={plan}
@@ -59,7 +58,7 @@ export default function RadioScreen() {
           />
         </DemoGroup>
 
-        <DemoGroup label="Gender Selection">
+        <DemoGroup label="Gender">
           <RadioGroup
             direction="horizontal"
             value={gender}
@@ -74,42 +73,37 @@ export default function RadioScreen() {
         </DemoGroup>
       </DemoSection>
 
-      <DemoSection title="Standalone Radio Items">
-        <DemoGroup label="Custom Layout using useRadioGroup hooks">
-          <DemoGroup direction="row">
-            <RadioItem
-              value="one"
-              label="Option One"
-              isSelected={standaloneRadioGroup.isSelected('one')}
-              onPress={standaloneRadioGroup.getItemProps('one').onPress}
-              size="md"
-            />
-            <RadioItem
-              value="two"
-              label="Option Two"
-              isSelected={standaloneRadioGroup.isSelected('two')}
-              onPress={standaloneRadioGroup.getItemProps('two').onPress}
-              size="md"
-            />
-          </DemoGroup>
+      <DemoSection title="Standalone Items" description="Custom layout with useRadioGroup.">
+        <DemoGroup direction="row">
+          <RadioItem
+            value="one"
+            label="Option One"
+            isSelected={standaloneRadioGroup.isSelected('one')}
+            onPress={standaloneRadioGroup.getItemProps('one').onPress}
+            size="md"
+          />
+          <RadioItem
+            value="two"
+            label="Option Two"
+            isSelected={standaloneRadioGroup.isSelected('two')}
+            onPress={standaloneRadioGroup.getItemProps('two').onPress}
+            size="md"
+          />
         </DemoGroup>
       </DemoSection>
 
-      <DemoSection title="States">
-        <DemoGroup label="Disabled Radio Group">
-          <RadioGroup
-            label="Locked Selection"
-            disabled
-            value="fixed"
-            onChange={() => {}}
-            options={[
-              { value: 'fixed', label: 'Fixed Option' },
-              { value: 'other', label: 'Other Option' },
-            ]}
-          />
-        </DemoGroup>
+      <DemoSection title="Disabled">
+        <RadioGroup
+          label="Locked Selection"
+          disabled
+          value="fixed"
+          onChange={() => {}}
+          options={[
+            { value: 'fixed', label: 'Fixed Option' },
+            { value: 'other', label: 'Other Option' },
+          ]}
+        />
       </DemoSection>
     </DemoPage>
   );
 }
-

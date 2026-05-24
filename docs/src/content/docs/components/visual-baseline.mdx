@@ -1,0 +1,148 @@
+---
+title: Visual Baseline
+description: One-page reference for RNUI typography, controls, surfaces, and the visible-surface rule.
+---
+
+import ComponentPreview from '../../../components/preview/ComponentPreview';
+import TypographyDemo from '../../../components/demos/TypographyDemo';
+import ButtonDemo from '../../../components/demos/ButtonDemo';
+import InputDemo from '../../../components/demos/InputDemo';
+import CardDemo from '../../../components/demos/CardDemo';
+import BadgeDemo from '../../../components/demos/BadgeDemo';
+import StatusComponentsDemo from '../../../components/demos/StatusComponentsDemo';
+import VisibleSurfaceDemo from '../../../components/demos/VisibleSurfaceDemo';
+
+# Visual Baseline
+
+Review the default RNUI visual language in one place — typography, controls, elevated surfaces, and status treatments. Use this page after token or component changes to confirm nothing regressed.
+
+## Typography
+
+Hierarchy should feel mobile-native: clear steps without overpowering body copy.
+
+<ComponentPreview
+  title="Type scale"
+  description="Display through caption in a realistic content block"
+>
+  <TypographyDemo client:visible />
+</ComponentPreview>
+
+## Buttons
+
+Default radius is rounded-lg (not pill). Solid actions stay premium with soft elevation; outline and ghost stay lightweight.
+
+<ComponentPreview
+  title="Button variants"
+  description="Hero card plus solid · outline · ghost · destructive"
+>
+  <ButtonDemo client:visible />
+</ComponentPreview>
+
+## Input
+
+Native-friendly 48px height, soft borders, and readable placeholder text.
+
+<ComponentPreview
+  title="Profile form"
+  description="Label, helper text, and error state"
+>
+  <InputDemo client:visible />
+</ComponentPreview>
+
+## Card & Paper
+
+Elevated surfaces use subtle border + soft shadow — not competing heavy treatments.
+
+<ComponentPreview
+  title="Settings card"
+  description="Realistic profile / product layout"
+>
+  <CardDemo client:visible />
+</ComponentPreview>
+
+## Badges
+
+Every variant includes background, border, and text so pills read on normal app backgrounds.
+
+<ComponentPreview
+  title="Badge variants"
+  description="default · brand · accent · success · warning · error · info"
+>
+  <BadgeDemo client:visible />
+</ComponentPreview>
+
+## Chips, alerts, toast & controls
+
+Status surfaces stay refined — elevated toast and snackbar cards (not heavy inverse slabs). Alerts use severity borders on standard variant.
+
+<ComponentPreview
+  title="Feedback & toggles"
+  description="Chips, alerts, toast, snackbar, switch, and checkbox"
+>
+  <StatusComponentsDemo client:visible />
+</ComponentPreview>
+
+## Visible surface test
+
+Status components must be visible **without** relying on iOS glass, blur, notification-shade blending, or dark overlays.
+
+<ComponentPreview
+  title="Visibility matrix"
+  description="Badges, chips, and compact alerts on five surfaces"
+  mobile={false}
+>
+  <VisibleSurfaceDemo client:visible />
+</ComponentPreview>
+
+### Rules
+
+1. **Background** — status fill must differ from the surface behind it
+2. **Border** — 1px semantic border defines the edge
+3. **Text** — semantic text color stays readable (WCAG AA on the fill)
+4. **No blur dependency** — if a badge only looks correct over glass, the tokens are wrong
+
+### Surfaces tested
+
+| Surface | Token reference |
+| ------- | ---------------- |
+| White | `#FFFFFF` |
+| App background | `color.bg.default` |
+| Card | `color.surface.raised` |
+| Glass | `color.glass.surface` |
+| Dark | `color.surface.default` (dark) |
+
+## Native overlay QA
+
+CSS demos above approximate tokens — **overlays must be verified in the example app** on iOS and Android.
+
+### Example app screens
+
+| Component | Example screen | Native checks |
+| --------- | -------------- | ------------- |
+| Modal | `apps/example/app/components/Modal.tsx` | Inset, safe area, keyboard form, animation |
+| Dialog | `Dialog.tsx` | Host inset, actions slot, form input |
+| AlertDialog | `AlertDialog.tsx` | Destructive confirm, button layout |
+| Alert | `Alert.tsx` | Compound title + body severity colors |
+
+Run: `cd apps/example && bun run ios` (or `android`). Full checklist: [Example app guide](/guides/example/).
+
+### Device checklist (summary)
+
+**Light + dark on iPhone-sized simulator and one Android emulator:**
+
+1. Modal/Dialog never flush to screen edges (host inset visible)
+2. Form-in-modal: primary action stays above keyboard (iOS)
+3. Alert title + body share severity hue without manual color props
+4. Toast action label readable; Snackbar uses elevated surface
+5. Badge default and accent readable on app background
+6. Backdrop tap and hardware back dismiss where `onClose` is set
+
+Repo copy: `.planning/device-qa-checklist.md`
+
+## Related
+
+- [Example app](/guides/example/) — native QA workflow
+- [Modal](/components/modal/) · [Dialog](/components/dialog/) · [Alert](/components/alert/)
+- [Badge](/components/badge/) — order and account demos
+- [Button](/components/button/) — full API reference
+- [Card](/components/card/) — elevated surface patterns

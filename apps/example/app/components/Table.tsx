@@ -9,11 +9,10 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  Typography,
 } from '@truongdq01/ui';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 interface DataItem {
   id: number;
@@ -47,22 +46,22 @@ export default function TableScreen() {
     const fieldA = a[sortColumn as keyof DataItem];
     const fieldB = b[sortColumn as keyof DataItem];
     if (sortDirection === 'asc') {
-        return fieldA > fieldB ? 1 : -1;
+      return fieldA > fieldB ? 1 : -1;
     }
     return fieldA < fieldB ? 1 : -1;
   });
 
   const paginatedData = sortedData.slice(
     page * rowsPerPage,
-    (page + 1) * rowsPerPage
+    (page + 1) * rowsPerPage,
   );
 
   return (
     <DemoPage
       title="Table"
-      description="Tables display data in an easy-to-scan format, with rows and columns."
+      description="Scan-friendly rows and columns for structured data."
     >
-      <DemoSection title="Basic Table">
+      <DemoSection title="Basic" flush>
         <TableContainer>
           <Table>
             <TableHead>
@@ -70,7 +69,9 @@ export default function TableScreen() {
                 <TableCell variant="head">ID</TableCell>
                 <TableCell variant="head">Name</TableCell>
                 <TableCell variant="head">Role</TableCell>
-                <TableCell variant="head" align="right">Status</TableCell>
+                <TableCell variant="head" align="right">
+                  Status
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -87,14 +88,15 @@ export default function TableScreen() {
         </TableContainer>
       </DemoSection>
 
-      <DemoSection title="Size & Padding">
-        <Typography variant="subtitle2" style={{ marginBottom: t.spacing[2] }}>Small Size, No Padding</Typography>
+      <DemoSection title="Size & Padding" description="Small size with no cell padding." flush>
         <TableContainer style={{ marginBottom: t.spacing[4] }}>
           <Table size="small" padding="none">
             <TableHead>
               <TableRow>
                 <TableCell variant="head">Category</TableCell>
-                <TableCell variant="head" align="right">Value</TableCell>
+                <TableCell variant="head" align="right">
+                  Value
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -111,7 +113,7 @@ export default function TableScreen() {
         </TableContainer>
       </DemoSection>
 
-      <DemoSection title="Interactive Sorting & Pagination">
+      <DemoSection title="Sort & Pagination" description="Interactive column sorting with footer pagination." flush>
         <TableContainer>
           <Table
             sortColumn={sortColumn}
@@ -130,7 +132,7 @@ export default function TableScreen() {
                   </TableSortLabel>
                 </TableCell>
                 <TableCell variant="head">
-                   <TableSortLabel
+                  <TableSortLabel
                     active={sortColumn === 'role'}
                     direction={sortColumn === 'role' ? sortDirection : 'asc'}
                     onClick={() => handleSort('role')}
@@ -138,7 +140,9 @@ export default function TableScreen() {
                     Role
                   </TableSortLabel>
                 </TableCell>
-                <TableCell variant="head" align="right">Status</TableCell>
+                <TableCell variant="head" align="right">
+                  Status
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -151,14 +155,14 @@ export default function TableScreen() {
               ))}
             </TableBody>
             <TableFooter>
-               <TableRow>
+              <TableRow>
                 <View style={{ flex: 1 }}>
-                    <TablePagination
-                        count={INITIAL_DATA.length}
-                        page={page}
-                        rowsPerPage={rowsPerPage}
-                        onPageChange={setPage}
-                    />
+                  <TablePagination
+                    count={INITIAL_DATA.length}
+                    page={page}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={setPage}
+                  />
                 </View>
               </TableRow>
             </TableFooter>
@@ -166,28 +170,28 @@ export default function TableScreen() {
         </TableContainer>
       </DemoSection>
 
-      <DemoSection title="Sticky Header">
+      <DemoSection title="Sticky Header" description="Header stays visible while scrolling." flush>
         <View style={{ height: 200 }}>
-            <TableContainer>
+          <TableContainer>
             <Table stickyHeader>
-                <TableHead>
+              <TableHead>
                 <TableRow>
-                    <TableCell variant="head">Column 1</TableCell>
-                    <TableCell variant="head">Column 2</TableCell>
-                    <TableCell variant="head">Column 3</TableCell>
+                  <TableCell variant="head">Column 1</TableCell>
+                  <TableCell variant="head">Column 2</TableCell>
+                  <TableCell variant="head">Column 3</TableCell>
                 </TableRow>
-                </TableHead>
-                <TableBody>
+              </TableHead>
+              <TableBody>
                 {[...Array(10)].map((_, i) => (
-                    <TableRow key={i}>
+                  <TableRow key={i}>
                     <TableCell>Row {i + 1} Col 1</TableCell>
                     <TableCell>Row {i + 1} Col 2</TableCell>
                     <TableCell>Row {i + 1} Col 3</TableCell>
-                    </TableRow>
+                  </TableRow>
                 ))}
-                </TableBody>
+              </TableBody>
             </Table>
-            </TableContainer>
+          </TableContainer>
         </View>
       </DemoSection>
     </DemoPage>

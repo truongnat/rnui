@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./*"],
       "@truongdq01/ui": ["../../packages/ui/src/index.ts"],
       "@truongdq01/tokens": ["../../packages/tokens/src/index.ts"],
       "@truongdq01/headless": ["../../packages/headless/src/index.ts"]
@@ -11,6 +12,8 @@
   "include": [
     "app/**/*.ts",
     "app/**/*.tsx",
+    "demo/**/*.ts",
+    "demo/**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
   ]

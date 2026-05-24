@@ -1,118 +1,118 @@
-import {
-  useTheme,
-  useToast,
-  useTokens,
-} from '@truongdq01/headless';
+import { useToast, useTokens } from '@truongdq01/headless';
 import {
   Avatar,
+  Badge,
+  List,
+  ListDivider,
   ListItem,
+  ListItemContent,
+  ListItemLeading,
+  ListItemTrailing,
   Typography,
-  Divider,
 } from '@truongdq01/ui';
 import { ChevronRight } from 'lucide-react-native';
 import { View } from 'react-native';
-import { CONTACTS } from '../kitchen/constants';
-import { UnreadBadge } from '../kitchen/ui';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { CONTACTS } from '@/demo/demoData';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function ListScreen() {
   const t = useTokens();
-  const { tokens } = useTheme();
   const toast = useToast();
 
   return (
-    <DemoPage 
-      title="List" 
+    <DemoPage
+      title="List"
       description="Display collections of data using list items, supporting various layouts, avatars, and status badges."
     >
-      <DemoSection title="Basic List Items">
-        <View style={{ borderRadius: tokens.radius.lg, overflow: 'hidden', backgroundColor: tokens.color.surface.raised }}>
-          <ListItem 
-            onPress={() => toast.info('Menu item 1')}
-            divider
-          >
-            <Typography>Profile Settings</Typography>
-            <ChevronRight size={16} color={tokens.color.text.tertiary} />
+      <DemoSection title="Basic List Items" flush>
+        <List variant="inset">
+          <ListItem onPress={() => toast.info('Menu item 1')} divider>
+            <ListItemContent primary="Profile Settings" />
+            <ListItemTrailing>
+              <ChevronRight size={16} color={t.color.text.tertiary} />
+            </ListItemTrailing>
           </ListItem>
-          <ListItem 
-            onPress={() => toast.info('Menu item 2')}
-            divider
-          >
-            <Typography>Notifications</Typography>
-            <ChevronRight size={16} color={tokens.color.text.tertiary} />
+          <ListItem onPress={() => toast.info('Menu item 2')} divider>
+            <ListItemContent primary="Notifications" />
+            <ListItemTrailing>
+              <ChevronRight size={16} color={t.color.text.tertiary} />
+            </ListItemTrailing>
           </ListItem>
-          <ListItem 
-            onPress={() => toast.info('Menu item 3')}
-          >
-            <Typography>Help & Support</Typography>
-            <ChevronRight size={16} color={tokens.color.text.tertiary} />
+          <ListItem onPress={() => toast.info('Menu item 3')}>
+            <ListItemContent primary="Help & Support" />
+            <ListItemTrailing>
+              <ChevronRight size={16} color={t.color.text.tertiary} />
+            </ListItemTrailing>
           </ListItem>
-        </View>
+        </List>
       </DemoSection>
 
-      <DemoSection title="Chat List (Telegram Style)">
+      <DemoSection
+        title="Chat List"
+        description="Telegram-style rows with avatar, subtitle, time, and unread badge."
+        flush
+      >
         {CONTACTS.slice(0, 5).map((contact, index) => (
           <View key={contact.id}>
-            <ListItem
-              onPress={() => toast.info(`Chat with ${contact.name}`)}
-              style={{ paddingVertical: 10 }}
-            >
-              <Avatar initials={contact.initials} size="md" />
-              <View style={{ flex: 1, marginLeft: tokens.spacing[3] }}>
-                <Typography fontWeight="semibold" variant="body1">
-                  {contact.name}
-                </Typography>
-                <Typography variant="body2" color="secondary" numberOfLines={1}>
-                  {contact.role}
-                </Typography>
-              </View>
-              <View style={{ alignItems: 'flex-end', gap: 4 }}>
-                <Typography variant="caption" color="tertiary">
-                  {contact.time}
-                </Typography>
-                <UnreadBadge count={contact.unread} />
-              </View>
-            </ListItem>
-            {index < 4 && (
-              <Divider 
-                style={{ marginLeft: 64 }} 
-                color={tokens.color.border.subtle} 
+            <ListItem onPress={() => toast.info(`Chat with ${contact.name}`)}>
+              <ListItemLeading>
+                <Avatar initials={contact.initials} size="md" />
+              </ListItemLeading>
+              <ListItemContent
+                primary={contact.name}
+                secondary={contact.role}
               />
-            )}
+              <ListItemTrailing>
+                <View style={{ alignItems: 'flex-end', gap: t.spacing[1] }}>
+                  <Typography variant="caption" color="tertiary">
+                    {contact.time}
+                  </Typography>
+                  {contact.unread > 0 ? (
+                    <Badge
+                      count={contact.unread > 99 ? '99+' : contact.unread}
+                      variant="brand"
+                      size="sm"
+                    />
+                  ) : null}
+                </View>
+              </ListItemTrailing>
+            </ListItem>
+            {index < 4 ? <ListDivider insetLeading /> : null}
           </View>
         ))}
       </DemoSection>
 
-      <DemoSection title="List with Subtitles & Avatars">
-        <View style={{ borderRadius: tokens.radius.lg, overflow: 'hidden', backgroundColor: tokens.color.surface.raised }}>
+      <DemoSection title="Subtitles & Avatars" flush>
+        <List variant="inset">
           {CONTACTS.slice(5, 8).map((contact, index) => (
             <ListItem
               key={contact.id}
               onPress={() => toast.info(`Viewing ${contact.name}`)}
               divider={index < 2}
             >
-              <Avatar initials={contact.initials} size="sm" />
-              <View style={{ flex: 1, marginLeft: tokens.spacing[3] }}>
-                <Typography fontWeight="semibold" variant="body2">
-                  {contact.name}
-                </Typography>
-                <Typography variant="caption" color="secondary">
-                  {contact.role}
-                </Typography>
-              </View>
-              <ChevronRight size={14} color={tokens.color.text.tertiary} />
+              <ListItemLeading>
+                <Avatar initials={contact.initials} size="sm" />
+              </ListItemLeading>
+              <ListItemContent
+                primary={contact.name}
+                secondary={contact.role}
+              />
+              <ListItemTrailing>
+                <ChevronRight size={14} color={t.color.text.tertiary} />
+              </ListItemTrailing>
             </ListItem>
           ))}
-        </View>
+        </List>
       </DemoSection>
 
-      <DemoSection title="Disabled State">
+      <DemoSection title="Disabled State" flush>
         <ListItem disabled onPress={() => {}}>
-          <Typography color="disabled">Disabled List Item</Typography>
-          <Typography variant="caption" color="disabled">Unavailable</Typography>
+          <ListItemContent
+            primary="Disabled List Item"
+            secondary="Unavailable"
+          />
         </ListItem>
       </DemoSection>
     </DemoPage>
   );
 }
-

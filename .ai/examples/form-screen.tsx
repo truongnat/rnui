@@ -59,11 +59,17 @@ export default function FormScreenExample() {
           </Stack>
 
           {phase === 'success' ? (
-            <Alert severity="success">Thanks — your message was sent.</Alert>
+            <Alert severity="success">
+              <Typography variant="body2">
+                Thanks — your message was sent.
+              </Typography>
+            </Alert>
           ) : null}
 
           {phase === 'error' && fieldError ? (
-            <Alert severity="error">{fieldError}</Alert>
+            <Alert severity="error">
+              <Typography variant="body2">{fieldError}</Typography>
+            </Alert>
           ) : null}
 
           <Stack spacing="md">

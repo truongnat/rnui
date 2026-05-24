@@ -1,7 +1,6 @@
-import React from 'react';
-import { ImageList, ImageListItem, ImageListItemBar, Typography, Icon } from '@truongdq01/ui';
-import { View, StyleSheet, Image, ScrollView } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { ImageList, ImageListItem, ImageListItemBar, Icon } from '@truongdq01/ui';
+import { Image, StyleSheet } from 'react-native';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 import { useTokens } from '@truongdq01/headless';
 
 const IMAGES = [
@@ -19,10 +18,10 @@ export default function ImageListScreen() {
   return (
     <DemoPage
       title="ImageList"
-      description="Display a collection of images in an optimized grid layout."
+      description="Optimized image grids — standard, quilted, and woven layouts."
     >
-      <DemoSection title="Standard Layout">
-        <ImageList cols={2} gap={8} rowHeight={160}>
+      <DemoSection title="Standard" description="Two columns with title bars." flush>
+        <ImageList cols={2} gap={t.spacing[2]} rowHeight={160}>
           {IMAGES.map((item) => (
             <ImageListItem key={item.id}>
               <Image
@@ -33,7 +32,12 @@ export default function ImageListScreen() {
                 title={item.title}
                 subtitle={`by @${item.author}`}
                 actionIcon={
-                  <Icon name="heart" size={20} color="#fff" style={{ marginRight: 8 }} />
+                  <Icon
+                    name="heart"
+                    size={20}
+                    color={t.color.text.inverse}
+                    style={{ marginRight: t.spacing[2] }}
+                  />
                 }
               />
             </ImageListItem>
@@ -41,13 +45,13 @@ export default function ImageListScreen() {
         </ImageList>
       </DemoSection>
 
-      <DemoSection title="Quilted (Masonry-like)">
-        <ImageList variant="quilted" cols={3} gap={4} rowHeight={100}>
+      <DemoSection title="Quilted" description="Masonry-like variable cell sizes." flush>
+        <ImageList variant="quilted" cols={3} gap={t.spacing[1]} rowHeight={100}>
           {IMAGES.map((item) => (
-            <ImageListItem 
-              key={item.id} 
-              cols={item.cols || 1} 
-              rows={item.rows || 1}
+            <ImageListItem
+              key={item.id}
+              cols={item.cols ?? 1}
+              rows={item.rows ?? 1}
             >
               <Image
                 source={{ uri: `https://picsum.photos/400/400?random=${item.id + 10}` }}
@@ -58,13 +62,13 @@ export default function ImageListScreen() {
         </ImageList>
       </DemoSection>
 
-      <DemoSection title="Woven Layout">
-        <ImageList variant="woven" cols={2} gap={12}>
+      <DemoSection title="Woven" description="Staggered portrait tiles." flush>
+        <ImageList variant="woven" cols={2} gap={t.spacing[3]}>
           {IMAGES.slice(0, 4).map((item) => (
             <ImageListItem key={item.id}>
               <Image
                 source={{ uri: `https://picsum.photos/400/600?random=${item.id + 20}` }}
-                style={[styles.image, { borderRadius: 16 }]}
+                style={[styles.image, { borderRadius: t.radius.lg }]}
               />
             </ImageListItem>
           ))}

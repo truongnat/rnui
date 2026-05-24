@@ -16,7 +16,7 @@ bun turbo build
 | `packages/tokens`   | Design tokens — edit here to change visual language |
 | `packages/headless` | Logic hooks — no styles, pure React                 |
 | `packages/ui`       | Styled components — wrap headless, use tokens       |
-| `apps/example`      | Expo app kitchen sink                               |
+| `apps/example`      | Expo example app — component showcase screens       |
 | `apps/storybook`    | RN Storybook on-device                              |
 
 ## Rules
@@ -37,7 +37,7 @@ bun turbo build
 4. Export from `packages/ui/src/index.ts`
 5. Add unit tests to `packages/headless/src/__tests__/hooks.test.tsx`
 6. Add Storybook story to `apps/storybook/stories/`
-7. Add to kitchen sink at `apps/example/app/index.tsx`
+7. Add a showcase screen at `apps/example/app/components/<Name>.tsx` and list the component in `apps/example/app/index.tsx`
 8. Add E2E scenario to `apps/example/e2e/main.e2e.ts`
 
 ## Testing

@@ -5,17 +5,26 @@ import type { ListDividerProps } from './types';
 
 /**
  * Thin horizontal separator between list items.
- * The `inset` prop adds left padding to align with item content.
+ * Use `insetLeading` for rows with a leading avatar.
  */
-export function ListDivider({ inset = false }: ListDividerProps) {
-  const { tokens } = useTheme();
+export function ListDivider({
+  inset = false,
+  insetLeading = false,
+}: ListDividerProps) {
+  const {
+    components: { list },
+  } = useTheme();
 
   const dividerStyle = useMemo(
     () => ({
-      borderBottomColor: tokens.color.border.subtle,
-      marginLeft: inset ? tokens.spacing[10] : 0,
+      borderBottomColor: list.separator.color,
+      marginLeft: insetLeading
+        ? list.separator.insetLeading
+        : inset
+          ? list.separator.insetLeft
+          : 0,
     }),
-    [tokens, inset]
+    [list.separator, inset, insetLeading]
   );
 
   return <View style={[styles.divider, dividerStyle]} />;

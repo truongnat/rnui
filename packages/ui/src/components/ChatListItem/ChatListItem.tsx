@@ -1,5 +1,6 @@
 import { useTheme } from '@truongdq01/headless';
 import type React from 'react';
+import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -70,6 +71,86 @@ export function ChatListItem({
 
   const pressed = useSharedValue(0);
 
+  const layoutStyles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: tokens.spacing[4],
+          paddingVertical: tokens.spacing[2.5],
+          minHeight: 72,
+        },
+        avatar: {
+          marginRight: tokens.spacing[3],
+        },
+        content: {
+          flex: 1,
+          justifyContent: 'center',
+          minWidth: 0,
+        },
+        headerRow: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: tokens.spacing[1],
+        },
+        nameContainer: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          flex: 1,
+          marginRight: tokens.spacing[2],
+          minWidth: 0,
+        },
+        name: {
+          fontSize: tokens.fontSize.md,
+          fontWeight: tokens.fontWeight.medium,
+          lineHeight: tokens.fontSize.md * 1.25,
+          flex: 1,
+        },
+        iconPin: {
+          marginRight: tokens.spacing[1],
+          fontSize: tokens.fontSize.sm,
+        },
+        iconMute: {
+          marginLeft: tokens.spacing[1],
+          fontSize: tokens.fontSize.sm,
+        },
+        time: {
+          fontSize: tokens.fontSize.sm,
+          lineHeight: tokens.fontSize.sm * 1.25,
+          textAlign: 'right',
+        },
+        previewRow: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        },
+        previewContainer: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          flex: 1,
+          marginRight: tokens.spacing[2],
+          minWidth: 0,
+        },
+        checkmark: {
+          fontSize: tokens.fontSize.xs,
+          marginRight: tokens.spacing[1],
+        },
+        preview: {
+          fontSize: tokens.fontSize.sm,
+          lineHeight: tokens.fontSize.sm * 1.3,
+          flex: 1,
+        },
+        rightContainer: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: tokens.spacing[2],
+        },
+      }),
+    [tokens]
+  );
+
   const containerStyle = useAnimatedStyle(() => ({
     backgroundColor:
       pressed.value === 1
@@ -91,7 +172,7 @@ export function ChatListItem({
         pressed.value = withSpring(0, { damping: 20 });
       }}
     >
-      <Animated.View style={[styles.container, containerStyle]}>
+      <Animated.View style={[layoutStyles.container, containerStyle]}>
         {/* Avatar */}
         {avatar && (
           <Avatar
@@ -99,18 +180,18 @@ export function ChatListItem({
             initials={avatar.initials}
             status={avatar.status}
             size="md"
-            style={styles.avatar}
+            style={layoutStyles.avatar}
           />
         )}
 
         {/* Content */}
-        <View style={styles.content}>
-          <View style={styles.headerRow}>
-            <View style={styles.nameContainer}>
+        <View style={layoutStyles.content}>
+          <View style={layoutStyles.headerRow}>
+            <View style={layoutStyles.nameContainer}>
               {pinned && (
                 <Text
                   style={[
-                    styles.iconPin,
+                    layoutStyles.iconPin,
                     { color: tokens.color.brand.default },
                   ]}
                 >
@@ -119,7 +200,7 @@ export function ChatListItem({
               )}
               <Text
                 style={[
-                  styles.name,
+                  layoutStyles.name,
                   { color: tokens.color.text.primary },
                   muted && { color: tokens.color.text.secondary },
                 ]}
@@ -130,7 +211,7 @@ export function ChatListItem({
               {muted && (
                 <Text
                   style={[
-                    styles.iconMute,
+                    layoutStyles.iconMute,
                     { color: tokens.color.text.tertiary },
                   ]}
                 >
@@ -142,12 +223,12 @@ export function ChatListItem({
             {time && (
               <Text
                 style={[
-                  styles.time,
+                  layoutStyles.time,
                   { color: tokens.color.text.tertiary },
                   unread && unread > 0
                     ? {
                         color: tokens.color.brand.default,
-                        fontWeight: '600' as const,
+                        fontWeight: tokens.fontWeight.semibold,
                       }
                     : undefined,
                 ]}
@@ -157,12 +238,12 @@ export function ChatListItem({
             )}
           </View>
 
-          <View style={styles.previewRow}>
-            <View style={styles.previewContainer}>
+          <View style={layoutStyles.previewRow}>
+            <View style={layoutStyles.previewContainer}>
               {outgoing && (
                 <Text
                   style={[
-                    styles.checkmark,
+                    layoutStyles.checkmark,
                     {
                       color: read
                         ? tokens.color.info.icon
@@ -176,7 +257,7 @@ export function ChatListItem({
               {preview && (
                 <Text
                   style={[
-                    styles.preview,
+                    layoutStyles.preview,
                     { color: tokens.color.text.secondary },
                   ]}
                   numberOfLines={1}
@@ -186,7 +267,7 @@ export function ChatListItem({
               )}
             </View>
 
-            <View style={styles.rightContainer}>
+            <View style={layoutStyles.rightContainer}>
               {unread && unread > 0 && (
                 <Badge label={String(unread)} size="sm" />
               )}
@@ -198,78 +279,3 @@ export function ChatListItem({
     </Pressable>
   );
 }
-
-// ─── Styles ───────────────────────────────────────────────────────
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    minHeight: 72,
-  },
-  avatar: {
-    marginRight: 12,
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  nameContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-    marginRight: 8,
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: '500',
-    lineHeight: 20,
-    flex: 1,
-  },
-  iconPin: {
-    marginRight: 4,
-    fontSize: 14,
-  },
-  iconMute: {
-    marginLeft: 4,
-    fontSize: 14,
-  },
-  time: {
-    fontSize: 13,
-    lineHeight: 16,
-    textAlign: 'right',
-  },
-  previewRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  previewContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-    marginRight: 8,
-  },
-  checkmark: {
-    fontSize: 12,
-    marginRight: 4,
-  },
-  preview: {
-    fontSize: 14,
-    lineHeight: 18,
-    flex: 1,
-  },
-  rightContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-});

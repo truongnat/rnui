@@ -1,4 +1,4 @@
-import { useTheme } from '@truongdq01/headless';
+import { useIsDark, useTheme } from '@truongdq01/headless';
 import type React from 'react';
 import { useMemo } from 'react';
 import {
@@ -40,6 +40,8 @@ export interface GlassCardProps extends ViewProps {
   tint?: 'light' | 'dark' | 'default';
   /** Border radius override. Uses `radius.xl` by default. */
   borderRadius?: number;
+  /** Inner content padding. Uses `spacing[4]` by default. */
+  contentPadding?: number;
   /** Extra styles for the outer container. */
   style?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
@@ -49,19 +51,22 @@ export function GlassCard({
   intensity = 40,
   tint,
   borderRadius,
+  contentPadding,
   style,
   children,
   ...rest
 }: GlassCardProps) {
   const { tokens: t } = useTheme();
-  const isDark = t.color.bg.default !== '#F8FAFC';
+  const isDark = useIsDark();
 
   const resolvedTint = tint ?? (isDark ? 'dark' : 'light');
   const resolvedRadius = borderRadius ?? t.radius.xl;
+  const resolvedPadding = contentPadding ?? t.spacing[4];
 
   const containerStyle = useMemo<ViewStyle>(
     () => ({
       borderRadius: resolvedRadius,
+      borderCurve: 'continuous',
       overflow: 'hidden' as const,
       borderWidth: 1,
       borderColor:
@@ -81,6 +86,13 @@ export function GlassCard({
     [t.color.surface.glass, isDark]
   );
 
+  const contentStyle = useMemo(
+    () => ({
+      padding: resolvedPadding,
+    }),
+    [resolvedPadding]
+  );
+
   return (
     <View style={[containerStyle, style]} {...rest}>
       {BlurView ? (
@@ -92,7 +104,7 @@ export function GlassCard({
       ) : (
         <View style={fallbackStyle} />
       )}
-      <View style={styles.content}>{children}</View>
+      <View style={[styles.content, contentStyle]}>{children}</View>
     </View>
   );
 }

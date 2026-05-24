@@ -12,16 +12,6 @@ export type OverlayAnimationType =
   | 'none';
 
 /**
- * Spring configuration for spring animations
- */
-export interface SpringConfig {
-  dampingRatio?: number;
-  mass?: number;
-  stiffness?: number;
-  damping?: number;
-}
-
-/**
  * Props for the AnimatedOverlay component
  */
 export interface AnimatedOverlayProps {
@@ -31,12 +21,8 @@ export interface AnimatedOverlayProps {
   visible?: boolean;
   /** Animation type for enter/exit transitions */
   animationType?: OverlayAnimationType;
-  /** Animation duration in milliseconds */
+  /** Optional backdrop fade duration override (ms) */
   duration?: number;
-  /** Whether to use spring animation instead of timing */
-  useSpring?: boolean;
-  /** Spring configuration for spring animations */
-  springConfig?: SpringConfig;
   /** Children to render inside the overlay */
   children: React.ReactNode;
   /** Custom styles for the overlay container */

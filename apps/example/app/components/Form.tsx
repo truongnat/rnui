@@ -1,96 +1,82 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { Button, TextField, Checkbox, Typography, Card, Stack, Switch } from '@truongdq01/ui';
-import { useTheme, useToast } from '@truongdq01/headless';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { useToast } from '@truongdq01/headless';
+import { Button, Checkbox, Divider, Stack, Switch, TextField, Card } from '@truongdq01/ui';
+import { useState } from 'react';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function FormScreen() {
-  const { tokens } = useTheme();
   const toast = useToast();
-  
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     subscribe: true,
-    notifications: false
+    notifications: false,
+    termsAccepted: false,
   });
 
   const handleSubmit = () => {
     toast.success('Form submitted successfully!');
-    console.log('Form Data:', formData);
   };
 
   return (
-    <DemoPage 
-      title="Form Components" 
-      description="A collection of input components designed to capture user data consistently."
+    <DemoPage
+      title="Form Components"
+      description="Structured input layouts combining TextField, Switch, and Checkbox."
     >
-      <DemoSection title="Account Details">
-        <Typography variant="body2" gutterBottom>
-            Forms use Stack and Card components to create structured input layouts.
-        </Typography>
+      <DemoSection
+        title="Account Details"
+        description="Stack fields inside a Card for grouped forms."
+        bare
+      >
         <Card>
-            <Stack spacing="lg">
-                <TextField 
-                    label="Username" 
-                    placeholder="e.g. janesmith" 
-                    value={formData.username}
-                    onChangeText={(v) => setFormData(d => ({ ...d, username: v }))}
-                />
-                <TextField 
-                    label="Email Address" 
-                    placeholder="email@example.com" 
-                    keyboardType="email-address"
-                    value={formData.email}
-                    onChangeText={(v) => setFormData(d => ({ ...d, email: v }))}
-                />
-            </Stack>
+          <Stack spacing="lg">
+            <TextField
+              label="Username"
+              placeholder="e.g. janesmith"
+              value={formData.username}
+              onChangeText={(v) => setFormData((d) => ({ ...d, username: v }))}
+            />
+            <TextField
+              label="Email Address"
+              placeholder="email@example.com"
+              keyboardType="email-address"
+              value={formData.email}
+              onChangeText={(v) => setFormData((d) => ({ ...d, email: v }))}
+            />
+          </Stack>
         </Card>
       </DemoSection>
 
-      <DemoSection title="Preferences">
+      <DemoSection title="Preferences" bare>
         <Card>
-            <Stack spacing="md">
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <View style={{ flex: 1 }}>
-                        <Typography variant="body1">Email Subscription</Typography>
-                        <Typography variant="caption" color="secondary">Receive weekly product updates</Typography>
-                    </View>
-                    <Switch 
-                        checked={formData.subscribe}
-                        onChange={(v) => setFormData(d => ({ ...d, subscribe: v }))}
-                    />
-                </View>
-                
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <View style={{ flex: 1 }}>
-                        <Typography variant="body1">Push Notifications</Typography>
-                        <Typography variant="caption" color="secondary">Real-time alerts for system events</Typography>
-                    </View>
-                    <Switch 
-                        checked={formData.notifications}
-                        onChange={(v) => setFormData(d => ({ ...d, notifications: v }))}
-                    />
-                </View>
-
-                <View style={{ height: 1, backgroundColor: tokens.color.border.subtle, marginVertical: tokens.spacing[2] }} />
-
-                <Checkbox 
-                    label="I agree to the Terms of Service"
-                    checked={formData.username.length > 0}
-                />
-            </Stack>
+          <Stack spacing="md">
+            <Switch
+              label="Email Subscription"
+              description="Receive weekly product updates"
+              on={formData.subscribe}
+              onChange={(v) => setFormData((d) => ({ ...d, subscribe: v }))}
+            />
+            <Switch
+              label="Push Notifications"
+              description="Real-time alerts for system events"
+              on={formData.notifications}
+              onChange={(v) => setFormData((d) => ({ ...d, notifications: v }))}
+            />
+            <Divider spacing="sm" />
+            <Checkbox
+              label="I agree to the Terms of Service"
+              checked={formData.termsAccepted}
+              onChange={(accepted) =>
+                setFormData((d) => ({ ...d, termsAccepted: accepted }))
+              }
+            />
+          </Stack>
         </Card>
       </DemoSection>
 
-      <View style={{ padding: tokens.spacing[4], marginTop: tokens.spacing[2] }}>
-        <Button 
-            label="Save Changes" 
-            fullWidth 
-            onPress={handleSubmit} 
-        />
-      </View>
+      <DemoSection title="Submit" bare>
+        <Button label="Save Changes" fullWidth onPress={handleSubmit} />
+      </DemoSection>
     </DemoPage>
   );
 }
-

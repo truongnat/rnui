@@ -10,7 +10,16 @@ export const LARGE_COUNTRIES = Array.from({ length: 50 }, (_, i) => ({
   value: `c${i}`,
 }));
 
-export const CONTACTS = [
+export type Contact = {
+  id: string;
+  name: string;
+  role: string;
+  initials: string;
+  time: string;
+  unread: number;
+};
+
+export const CONTACTS: Contact[] = [
   {
     id: '1',
     name: 'An Nguyen',
@@ -163,8 +172,4 @@ export const CONTACTS = [
     time: '22/02',
     unread: 0,
   },
-] as any;
-
-export type Contact = (typeof CONTACTS)[number];
-
-export type MainTab = 'components' | 'data' | 'feedback' | 'settings';
+];

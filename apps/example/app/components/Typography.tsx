@@ -1,8 +1,7 @@
-import React from 'react';
 import { View } from 'react-native';
 import { Typography, Divider } from '@truongdq01/ui';
 import { useTheme } from '@truongdq01/headless';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 export default function TypographyScreen() {
   const { tokens } = useTheme();
@@ -10,10 +9,10 @@ export default function TypographyScreen() {
   return (
     <DemoPage
       title="Typography"
-      description="The typography system helps create a hierarchy and organize content using a curated scale of fonts, weights, and sizes."
+      description="Type scale for hierarchy — headings, body, captions, and semantic colors."
     >
       <DemoSection title="Headings">
-        <View style={{ gap: 8 }}>
+        <View style={{ gap: tokens.spacing[2] }}>
           <Typography variant="h1">Heading 1</Typography>
           <Typography variant="h2">Heading 2</Typography>
           <Typography variant="h3">Heading 3</Typography>
@@ -23,28 +22,22 @@ export default function TypographyScreen() {
         </View>
       </DemoSection>
 
-      <DemoSection title="Body Texts">
+      <DemoSection title="Body">
         <Typography variant="body1">
-          Body 1 — The standard body text size for general reading.
+          Body 1 — standard reading size for general content.
         </Typography>
         <Divider spacing="md" />
         <Typography variant="body2">
-          Body 2 — Slightly smaller text for denser content or secondary descriptions.
+          Body 2 — denser secondary descriptions and metadata.
         </Typography>
       </DemoSection>
 
-      <DemoSection title="Specialized Variants">
-        <Typography variant="caption">
-          Caption — Used for secondary information or metadata.
-        </Typography>
+      <DemoSection title="Specialized">
+        <Typography variant="caption">Caption — metadata and fine print.</Typography>
         <Divider spacing="sm" />
-        <Typography variant="overline">
-          OVERLINE — ALL CAPS SMALL TEXT
-        </Typography>
+        <Typography variant="overline">OVERLINE — SECTION LABELS</Typography>
         <Divider spacing="sm" />
-        <Typography variant="code">
-          {`const theme = useTheme();`}
-        </Typography>
+        <Typography variant="code">{`const theme = useTheme();`}</Typography>
       </DemoSection>
 
       <DemoSection title="Semantic Colors">
@@ -63,16 +56,16 @@ export default function TypographyScreen() {
         <Typography variant="body1" color="error">
           Error Message
         </Typography>
-        <View 
-          style={{ 
-            backgroundColor: tokens.color.brand.default, 
-            padding: tokens.spacing.md, 
+        <View
+          style={{
+            backgroundColor: tokens.color.brand.default,
+            padding: tokens.spacing[4],
             borderRadius: tokens.radius.md,
-            marginTop: 8
+            marginTop: tokens.spacing[2],
           }}
         >
           <Typography variant="body1" color="inverse">
-            Inverse Color (On Dark Brand)
+            Inverse on brand background
           </Typography>
         </View>
       </DemoSection>
@@ -83,24 +76,21 @@ export default function TypographyScreen() {
         <Typography align="right">Right Aligned</Typography>
       </DemoSection>
 
-      <DemoSection title="Layout Helpers">
-        <Typography variant="h6" gutterBottom>
-          With Gutter Bottom
-        </Typography>
-        <Typography variant="body2">
-          This text is placed after a heading with gutterBottom.
-        </Typography>
-        
-        <Divider spacing="lg" />
-
-        <Typography variant="body1" paragraph>
-          Paragraph: This has a margin bottom to separate it from the next block of text automatically.
-        </Typography>
-        <Typography variant="body1">
-          Notice the spacing above this line.
-        </Typography>
+      <DemoSection title="Layout Helpers" description="gutterBottom and paragraph spacing.">
+        <DemoPreview>
+          <Typography variant="h6" gutterBottom>
+            With Gutter Bottom
+          </Typography>
+          <Typography variant="body2">
+            Text after a heading with gutterBottom.
+          </Typography>
+          <Divider spacing="lg" />
+          <Typography variant="body1" paragraph>
+            Paragraph adds margin below automatically.
+          </Typography>
+          <Typography variant="body1">Notice the spacing above.</Typography>
+        </DemoPreview>
       </DemoSection>
     </DemoPage>
   );
 }
-

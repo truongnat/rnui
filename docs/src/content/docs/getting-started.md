@@ -61,6 +61,7 @@ If you want full control over styling, import from `@truongdq01/headless`:
 import { usePressable, useTheme } from '@truongdq01/headless';
 import Animated from 'react-native-reanimated';
 import { GestureDetector } from 'react-native-gesture-handler';
+import { Text } from 'react-native';
 
 function MyButton({ label, onPress }) {
   const { tokens } = useTheme();
@@ -83,7 +84,7 @@ function MyButton({ label, onPress }) {
         ]}
         {...accessibilityProps}
       >
-        <Text style={{ color: '#fff' }}>{label}</Text>
+        <Text style={{ color: tokens.color.text.inverse }}>{label}</Text>
       </Animated.View>
     </GestureDetector>
   );
@@ -125,3 +126,8 @@ function MyButton({ label, onPress }) {
   <App />
 </ThemeProvider>
 ```
+
+## Example app & visual QA
+
+- **[Example app](/guides/example/)** — run `apps/example` on iOS/Android for native overlay and status-surface checks
+- **[Visual Baseline](/components/visual-baseline/)** — token-aligned CSS reference (not a substitute for device QA)

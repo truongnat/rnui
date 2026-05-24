@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
-import { Input, Typography } from '@truongdq01/ui';
+import { useState } from 'react';
+import { KeyboardAvoidingView, Platform } from 'react-native';
+import { Input, Stack } from '@truongdq01/ui';
 import { Mail, Search, User } from 'lucide-react-native';
 import { useTheme } from '@truongdq01/headless';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function InputScreen() {
   const { tokens } = useTheme();
@@ -15,32 +15,23 @@ export default function InputScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
     >
-      <DemoPage 
-        title="Input" 
-        description="Text fields allow users to enter and edit text with support for icons, helper text, and validation states."
+      <DemoPage
+        title="Input"
+        description="Text fields for entering and editing text — icons, helper text, and validation states."
       >
-        <DemoSection title="Sizes">
-          <View style={{ gap: tokens.spacing[4] }}>
-            <Input
-              size="sm"
-              label="Small Input"
-              placeholder="Compact size"
-            />
-            <Input
-              size="md"
-              label="Medium Input (Default)"
-              placeholder="Standard size"
-            />
-            <Input
-              size="lg"
-              label="Large Input"
-              placeholder="Large size"
-            />
-          </View>
+        <DemoSection title="Sizes" description="Compact, default, and large density.">
+          <Stack spacing="md">
+            <Input size="sm" label="Small" placeholder="Compact size" />
+            <Input size="md" label="Medium (Default)" placeholder="Standard size" />
+            <Input size="lg" label="Large" placeholder="Large size" />
+          </Stack>
         </DemoSection>
 
-        <DemoSection title="Variants">
-          <View style={{ gap: tokens.spacing[4] }}>
+        <DemoSection
+          title="Variants"
+          description="Floating labels, helper text, errors, and disabled state."
+        >
+          <Stack spacing="md">
             <Input
               label="Floating Label"
               floatingLabel
@@ -56,33 +47,37 @@ export default function InputScreen() {
               error="This email is already registered"
               value="existing@user.com"
             />
-            <Input
-              label="Disabled State"
-              disabled
-              value="Cannot edit this"
-            />
-          </View>
+            <Input label="Disabled State" disabled value="Cannot edit this" />
+          </Stack>
         </DemoSection>
 
-        <DemoSection title="Icons & Slots">
-          <View style={{ gap: tokens.spacing[4] }}>
+        <DemoSection title="Icons & Slots" description="Leading and trailing adornments.">
+          <Stack spacing="md">
             <Input
               label="Leading Icon"
-              leadingElement={<Search size={20} color={tokens.color.text.secondary} />}
-              placeholder="Search..."
+              leadingElement={
+                <Search size={20} color={tokens.color.text.secondary} />
+              }
+              placeholder="Search…"
             />
             <Input
               label="Trailing Icon"
-              trailingElement={<Mail size={20} color={tokens.color.text.secondary} />}
+              trailingElement={
+                <Mail size={20} color={tokens.color.text.secondary} />
+              }
               placeholder="Email address"
             />
             <Input
               label="Both Icons"
-              leadingElement={<User size={20} color={tokens.color.text.secondary} />}
-              trailingElement={<Search size={20} color={tokens.color.text.secondary} />}
+              leadingElement={
+                <User size={20} color={tokens.color.text.secondary} />
+              }
+              trailingElement={
+                <Search size={20} color={tokens.color.text.secondary} />
+              }
               placeholder="Username"
             />
-          </View>
+          </Stack>
         </DemoSection>
 
         <DemoSection title="Secure Text">
@@ -93,18 +88,16 @@ export default function InputScreen() {
           />
         </DemoSection>
 
-        <DemoSection title="Controlled Input">
+        <DemoSection title="Controlled Input" description="Sync value with React state.">
           <Input
             label="Sync with State"
             value={value}
             onChangeText={setValue}
-            helperText={`Current value: ${value}`}
-            placeholder="Type something..."
+            helperText={`Current value: ${value || '(empty)'}`}
+            placeholder="Type something…"
           />
         </DemoSection>
       </DemoPage>
     </KeyboardAvoidingView>
   );
 }
-
-

@@ -24,7 +24,7 @@ Repository: [github.com/truongnat/rnui](https://github.com/truongnat/rnui)
 
 CI on `develop` runs build, lint, typecheck (library packages + example app shell), and tests. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
-Example `typecheck` covers routing and kitchen-sink entry points; per-component showcase screens are checked separately via `bun run typecheck:showcases` in `apps/example` (known API drift — see checklist).
+Example `typecheck` covers the example app shell (index + shared helpers); per-component showcase screens are checked separately via `bun run typecheck:showcases` in `apps/example` (known API drift — see checklist).
 
 ## Target environment
 
@@ -157,9 +157,9 @@ bun run docs
 ### Example app
 
 ```bash
+bun run demo          # Expo dev client (from repo root)
+bun run demo:go       # Expo Go
 cd apps/example
-bun run start
-# or
 bun run ios
 bun run android
 ```
@@ -222,6 +222,8 @@ Docs: [AI usage guide](docs/src/content/docs/guides/ai-usage.md) (also on the do
 | `bun run test` | Unit tests |
 | `bun run docs` | Start docs dev server |
 | `bun run docs:build` | Build docs site |
+| `bun run demo` | Start Expo example app (dev client) |
+| `bun run demo:go` | Start example app in Expo Go |
 | `bun run ai:check` | Verify AI metadata files exist |
 | `bun run changeset` | Create a changeset for release |
 | `bun run release` | Build and publish (maintainers) |

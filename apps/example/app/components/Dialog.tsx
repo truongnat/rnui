@@ -1,118 +1,153 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { Button, Dialog, Typography } from '@truongdq01/ui';
-import { useTheme } from '@truongdq01/headless';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { useState } from 'react';
+import { Button, Dialog, Input, Stack, Typography } from '@truongdq01/ui';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function DialogScreen() {
   const [basicOpen, setBasicOpen] = useState(false);
-  const [actionOpen, setActionOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
   const [scrollOpen, setScrollOpen] = useState(false);
+  const [projectName, setProjectName] = useState('');
 
-  const { tokens } = useTheme();
+  const closeForm = () => {
+    setFormOpen(false);
+    setProjectName('');
+  };
 
   return (
     <DemoPage
       title="Dialog"
-      description="Dialogs inform users about a task and can contain critical information, require decisions, or involve multiple steps."
+      description="Decision and confirmation surfaces with consistent screen-edge inset."
     >
-      <DemoSection title="Basic Examples">
-        <Typography variant="body2" gutterBottom>
-            Simple dialogs provide information and a single dismissal action.
-        </Typography>
-        <Button 
-          label="Open Basic Dialog" 
-          onPress={() => setBasicOpen(true)} 
-        />
-        
+      <DemoSection
+        title="Basic"
+        description="Simple information with a single dismissal action."
+      >
+        <Button label="Open Basic Dialog" onPress={() => setBasicOpen(true)} />
+
         <Dialog
           open={basicOpen}
           onClose={() => setBasicOpen(false)}
           title="Update Available"
         >
           <Typography variant="body1" color="secondary">
-            A new version of the application is ready to install. This update includes performance improvements and bug fixes.
+            A new version is ready to install with performance improvements and
+            bug fixes.
           </Typography>
-          <Button 
-            label="Understand" 
-            style={{ marginTop: 24 }} 
-            onPress={() => setBasicOpen(false)} 
+          <Button
+            label="Understand"
+            style={{ marginTop: 16 }}
+            onPress={() => setBasicOpen(false)}
             fullWidth
           />
         </Dialog>
       </DemoSection>
 
-      <DemoSection title="With Actions">
-        <Typography variant="body2" gutterBottom>
-            The actions prop allows you to provide a consistent set of buttons at the base of the dialog.
-        </Typography>
-        <Button 
-          label="Open Action Dialog" 
+      <DemoSection
+        title="Confirmation"
+        description="Use the actions slot for cancel and confirm decisions."
+      >
+        <Button
+          label="Open Confirmation"
           variant="outline"
-          onPress={() => setActionOpen(true)} 
+          onPress={() => setConfirmOpen(true)}
         />
-        
+
         <Dialog
-          open={actionOpen}
-          onClose={() => setActionOpen(false)}
-          title="Notification Settings"
+          open={confirmOpen}
+          onClose={() => setConfirmOpen(false)}
+          title="Discard changes?"
           actions={
-            <View style={{ flexDirection: 'row', gap: 12 }}>
-              <Button 
-                label="Cancel" 
-                variant="ghost" 
-                onPress={() => setActionOpen(false)} 
+            <Stack direction="row" spacing="md">
+              <Button
+                label="Keep Editing"
+                variant="ghost"
+                onPress={() => setConfirmOpen(false)}
               />
-              <Button 
-                label="Save" 
-                onPress={() => setActionOpen(false)} 
+              <Button
+                label="Discard"
+                variant="destructive"
+                onPress={() => setConfirmOpen(false)}
               />
-            </View>
+            </Stack>
           }
         >
           <Typography variant="body1" color="secondary">
-            Configure how you would like to receive messages from our platform.
+            Unsaved changes will be lost if you leave this screen.
           </Typography>
         </Dialog>
       </DemoSection>
 
-      <DemoSection title="Long Content">
-        <Typography variant="body2" gutterBottom>
-          Dialogs handle long content gracefully with internal scrolling.
-        </Typography>
-        <Button 
-          label="Open Terms Dialog" 
-          variant="ghost" 
-          onPress={() => setScrollOpen(true)} 
+      <DemoSection
+        title="Form in Dialog"
+        description="Short input flows with keyboard-aware host layout."
+      >
+        <Button
+          label="Rename Project"
+          variant="outline"
+          onPress={() => setFormOpen(true)}
         />
-        
+
+        <Dialog
+          open={formOpen}
+          onClose={closeForm}
+          title="Rename Project"
+          actions={
+            <Stack direction="row" spacing="md">
+              <Button label="Cancel" variant="outline" onPress={closeForm} />
+              <Button label="Save" onPress={closeForm} />
+            </Stack>
+          }
+        >
+          <Typography variant="body2" color="secondary">
+            Choose a name your team will recognize.
+          </Typography>
+          <Input
+            label="Project name"
+            value={projectName}
+            onChangeText={setProjectName}
+            style={{ marginTop: 16 }}
+          />
+        </Dialog>
+      </DemoSection>
+
+      <DemoSection
+        title="Long Content"
+        description="Lengthy copy stays within the inset surface; scroll inside if needed."
+      >
+        <Button
+          label="Open Terms Dialog"
+          variant="ghost"
+          onPress={() => setScrollOpen(true)}
+        />
+
         <Dialog
           open={scrollOpen}
           onClose={() => setScrollOpen(false)}
           title="Terms of Service"
+          actions={
+            <Button label="I Agree" onPress={() => setScrollOpen(false)} fullWidth />
+          }
         >
-          <View style={{ gap: tokens.spacing[4] }}>
+          <Stack spacing="md">
             <Typography variant="h4">1. Introduction</Typography>
             <Typography variant="body2" color="secondary">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Typography>
             <Typography variant="h4">2. Usage Rules</Typography>
             <Typography variant="body2" color="secondary">
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
             </Typography>
             <Typography variant="h4">3. Terminations</Typography>
             <Typography variant="body2" color="secondary">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur.
             </Typography>
-            <Typography variant="h4">4. Limitations</Typography>
-            <Typography variant="body2" color="secondary">
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </Typography>
-            <Button label="I Agree" style={{ marginTop: 12 }} onPress={() => setScrollOpen(false)} />
-          </View>
+          </Stack>
         </Dialog>
       </DemoSection>
     </DemoPage>
   );
 }
-

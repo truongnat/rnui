@@ -1,88 +1,100 @@
 import { useTokens } from '@truongdq01/headless';
-import { Stack, ToggleButton, ToggleButtonGroup, Typography } from '@truongdq01/ui';
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Italic, Underline } from 'lucide-react-native';
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { Stack, ToggleButton, ToggleButtonGroup } from '@truongdq01/ui';
+import {
+  AlignCenter,
+  AlignJustify,
+  AlignLeft,
+  AlignRight,
+  Bold,
+  Italic,
+  Underline,
+} from 'lucide-react-native';
+import { useState } from 'react';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function ToggleButtonScreen() {
   const t = useTokens();
   const [alignment, setAlignment] = useState<string | undefined>('left');
-  const [formatting, setFormatting] = useState<string | string[] | undefined>(['bold']);
-  const [size, setSize] = useState<string | undefined>('md');
+  const [formatting, setFormatting] = useState<string | string[] | undefined>([
+    'bold',
+  ]);
 
   const ICON_SIZE = 18;
+
+  const iconColor = (active: boolean) =>
+    active ? t.color.brand.default : t.color.text.secondary;
 
   return (
     <DemoPage
       title="ToggleButton"
-      description="Toggle buttons can be used to group related options. To emphasize groups of related toggle buttons, a group should share a common container."
+      description="Grouped toggles for related options — exclusive or multi-select."
     >
       <DemoSection
-        title="Exclusive Selection"
-        description="Only one button can be active at a time. Ideal for text alignment or view modes."
+        title="Exclusive"
+        description={`Selected alignment: ${alignment ?? 'none'}`}
       >
-        <Stack gap={12}>
-          <Typography variant="body2" color="secondary">Selected Alignment: {alignment}</Typography>
-          <ToggleButtonGroup
-            value={alignment}
-            onChange={(v) => setAlignment(v as string)}
-            exclusive
-          >
-            <ToggleButton value="left">
-               <AlignLeft size={ICON_SIZE} color={alignment === 'left' ? t.color.brand.default : t.color.text.secondary} />
-            </ToggleButton>
-            <ToggleButton value="center">
-               <AlignCenter size={ICON_SIZE} color={alignment === 'center' ? t.color.brand.default : t.color.text.secondary} />
-            </ToggleButton>
-            <ToggleButton value="right">
-               <AlignRight size={ICON_SIZE} color={alignment === 'right' ? t.color.brand.default : t.color.text.secondary} />
-            </ToggleButton>
-            <ToggleButton value="justify">
-               <AlignJustify size={ICON_SIZE} color={alignment === 'justify' ? t.color.brand.default : t.color.text.secondary} />
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Stack>
+        <ToggleButtonGroup
+          value={alignment}
+          onChange={(v) => setAlignment(v as string)}
+          exclusive
+        >
+          <ToggleButton value="left">
+            <AlignLeft size={ICON_SIZE} color={iconColor(alignment === 'left')} />
+          </ToggleButton>
+          <ToggleButton value="center">
+            <AlignCenter size={ICON_SIZE} color={iconColor(alignment === 'center')} />
+          </ToggleButton>
+          <ToggleButton value="right">
+            <AlignRight size={ICON_SIZE} color={iconColor(alignment === 'right')} />
+          </ToggleButton>
+          <ToggleButton value="justify">
+            <AlignJustify size={ICON_SIZE} color={iconColor(alignment === 'justify')} />
+          </ToggleButton>
+        </ToggleButtonGroup>
       </DemoSection>
 
       <DemoSection
-        title="Multiple Selection"
-        description="Users can select multiple options simultaneously. Ideal for text formatting."
+        title="Multiple"
+        description={`Selected styles: ${Array.isArray(formatting) ? formatting.join(', ') : formatting}`}
       >
-        <Stack gap={12}>
-          <Typography variant="body2" color="secondary">Selected Styles: {Array.isArray(formatting) ? formatting.join(', ') : formatting}</Typography>
-          <ToggleButtonGroup
-            value={formatting}
-            onChange={(v) => setFormatting(v)}
-          >
-            <ToggleButton value="bold">
-               <Bold size={ICON_SIZE} color={Array.isArray(formatting) && formatting.includes('bold') ? t.color.brand.default : t.color.text.secondary} />
-            </ToggleButton>
-            <ToggleButton value="italic">
-               <Italic size={ICON_SIZE} color={Array.isArray(formatting) && formatting.includes('italic') ? t.color.brand.default : t.color.text.secondary} />
-            </ToggleButton>
-            <ToggleButton value="underline">
-               <Underline size={ICON_SIZE} color={Array.isArray(formatting) && formatting.includes('underline') ? t.color.brand.default : t.color.text.secondary} />
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Stack>
+        <ToggleButtonGroup value={formatting} onChange={(v) => setFormatting(v)}>
+          <ToggleButton value="bold">
+            <Bold
+              size={ICON_SIZE}
+              color={iconColor(
+                Array.isArray(formatting) && formatting.includes('bold'),
+              )}
+            />
+          </ToggleButton>
+          <ToggleButton value="italic">
+            <Italic
+              size={ICON_SIZE}
+              color={iconColor(
+                Array.isArray(formatting) && formatting.includes('italic'),
+              )}
+            />
+          </ToggleButton>
+          <ToggleButton value="underline">
+            <Underline
+              size={ICON_SIZE}
+              color={iconColor(
+                Array.isArray(formatting) && formatting.includes('underline'),
+              )}
+            />
+          </ToggleButton>
+        </ToggleButtonGroup>
       </DemoSection>
 
-      <DemoSection
-        title="Sizes"
-        description="Available in small, medium, and large sizes."
-      >
-        <Stack gap={16}>
+      <DemoSection title="Sizes" description="sm, md, and lg densities.">
+        <Stack spacing="lg">
           <ToggleButtonGroup size="sm" value="sm">
             <ToggleButton value="sm">Small</ToggleButton>
             <ToggleButton value="md">Medium</ToggleButton>
           </ToggleButtonGroup>
-          
           <ToggleButtonGroup size="md" value="md">
             <ToggleButton value="sm">Small</ToggleButton>
             <ToggleButton value="md">Medium</ToggleButton>
           </ToggleButtonGroup>
-
           <ToggleButtonGroup size="lg" value="lg">
             <ToggleButton value="sm">Small</ToggleButton>
             <ToggleButton value="md">Medium</ToggleButton>
@@ -90,10 +102,7 @@ export default function ToggleButtonScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection
-        title="Vertical Orientation"
-        description="Buttons can be stacked vertically."
-      >
+      <DemoSection title="Vertical" description="Stacked button orientation.">
         <ToggleButtonGroup
           orientation="vertical"
           value={alignment}

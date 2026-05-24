@@ -1,8 +1,6 @@
-import React from 'react';
-import { ChatListItem, Typography, Divider, Icon } from '@truongdq01/ui';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { ChatListItem, Divider, Icon } from '@truongdq01/ui';
 import { useTokens } from '@truongdq01/headless';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function ChatListItemScreen() {
   const t = useTokens();
@@ -10,9 +8,9 @@ export default function ChatListItemScreen() {
   return (
     <DemoPage
       title="ChatListItem"
-      description="A specialized list item for chat applications, including avatar, status, and message previews."
+      description="Chat rows with avatar, preview, badges, and status."
     >
-      <DemoSection title="Standard Examples">
+      <DemoSection title="Standard" description="Unread count and online status." flush>
         <ChatListItem
           name="Truong Dang"
           preview="Hey! How is the component migration going?"
@@ -37,13 +35,13 @@ export default function ChatListItemScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="States & Badges">
+      <DemoSection title="States" description="Read receipts, muted, and pinned." flush>
         <ChatListItem
           name="James Wilson"
           preview="The PR was approved! 🚀"
           time="Wed"
-          read={true}
-          outgoing={true}
+          read
+          outgoing
           avatar={{
             src: 'https://picsum.photos/100/100?random=2',
             status: 'away',
@@ -55,8 +53,8 @@ export default function ChatListItemScreen() {
           name="Company Announcements"
           preview="All hands meeting at 2 PM today."
           time="Mon"
-          muted={true}
-          pinned={true}
+          muted
+          pinned
           avatar={{
             initials: 'CA',
             status: 'busy',
@@ -65,7 +63,7 @@ export default function ChatListItemScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Custom Trailing Element">
+      <DemoSection title="Custom Trailing" description="Replace default chevron or badge." flush>
         <ChatListItem
           name="Payment Alert"
           preview="Your subscription will be renewed tomorrow."
@@ -84,5 +82,3 @@ export default function ChatListItemScreen() {
     </DemoPage>
   );
 }
-
-const styles = StyleSheet.create({});

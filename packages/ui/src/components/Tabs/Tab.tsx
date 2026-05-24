@@ -36,10 +36,12 @@ export function Tab<T = string>({
     () => ({
       paddingVertical: tokens.spacing[3],
       paddingHorizontal: tokens.spacing[4],
+      minHeight: 44,
       borderBottomWidth: orientation === 'horizontal' ? indicatorHeight : 0,
       borderLeftWidth: orientation === 'vertical' ? indicatorHeight : 0,
       borderColor: selected ? indicatorColor : 'transparent',
       alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       flexDirection: 'row' as const,
       gap: tokens.spacing[2],
     }),

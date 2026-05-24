@@ -1,14 +1,13 @@
-import { spring } from '@truongdq01/tokens';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { Gesture } from 'react-native-gesture-handler';
 import {
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
+import { resolveTimingPreset } from '../motion';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -106,7 +105,8 @@ export function useBottomSheet({
   const backdropOpacity = useSharedValue(0);
   const dragStartY = useSharedValue(0);
 
-  const gentleSpring = spring.gentle;
+  const sheetEnterTiming = useMemo(() => resolveTimingPreset('slideIn'), []);
+  const sheetExitTiming = useMemo(() => resolveTimingPreset('slideOut'), []);
 
   // ── JS-thread open/close/snap ────────────────────────────────
   const open = useCallback(
@@ -127,10 +127,10 @@ export function useBottomSheet({
         }
         return;
       }
-      translateY.value = withSpring(targetY, gentleSpring);
+      translateY.value = withTiming(targetY, sheetEnterTiming);
       backdropOpacity.value = withTiming(
         enableBackdrop ? (targetHeight / maxHeight) * 0.6 : 0,
-        { duration: 250 }
+        resolveTimingPreset('fadeIn')
       );
       onSnapChange?.(idx);
     },
@@ -144,6 +144,7 @@ export function useBottomSheet({
       enableBackdrop,
       onSnapChange,
       SCREEN_HEIGHT,
+      sheetEnterTiming,
     ]
   );
 
@@ -153,13 +154,23 @@ export function useBottomSheet({
   }, [onClose, updateState]);
 
   const close = useCallback(() => {
-    translateY.value = withSpring(SCREEN_HEIGHT, gentleSpring, (finished) => {
-      if (finished) {
-        scheduleOnRN(handleCloseEnd);
+    translateY.value = withTiming(
+      SCREEN_HEIGHT,
+      sheetExitTiming,
+      (finished) => {
+        if (finished) {
+          scheduleOnRN(handleCloseEnd);
+        }
       }
-    });
-    backdropOpacity.value = withTiming(0, { duration: 200 });
-  }, [translateY, backdropOpacity, handleCloseEnd, SCREEN_HEIGHT]);
+    );
+    backdropOpacity.value = withTiming(0, resolveTimingPreset('fadeOut'));
+  }, [
+    translateY,
+    backdropOpacity,
+    handleCloseEnd,
+    SCREEN_HEIGHT,
+    sheetExitTiming,
+  ]);
 
   const snapTo = useCallback(
     (index: number) => {
@@ -173,10 +184,10 @@ export function useBottomSheet({
         }
         return;
       }
-      translateY.value = withSpring(targetY, gentleSpring);
+      translateY.value = withTiming(targetY, sheetEnterTiming);
       backdropOpacity.value = withTiming(
         enableBackdrop ? (targetHeight / maxHeight) * 0.6 : 0,
-        { duration: 200 }
+        resolveTimingPreset('fadeIn')
       );
       onSnapChange?.(index);
     },
@@ -189,6 +200,7 @@ export function useBottomSheet({
       enableBackdrop,
       onSnapChange,
       SCREEN_HEIGHT,
+      sheetEnterTiming,
     ]
   );
 

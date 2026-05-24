@@ -1,49 +1,40 @@
-import React from 'react';
-import { 
-  FormField, 
-  FormGroup, 
-  Input, 
-  PasswordInput,
-  Typography, 
+import {
   Divider,
-  Icon,
-  Link
+  FormField,
+  FormGroup,
+  Input,
+  Link,
+  PasswordInput,
 } from '@truongdq01/ui';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
-import { useTokens } from '@truongdq01/headless';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function FormFieldScreen() {
-  const t = useTokens();
-
   return (
     <DemoPage
       title="FormField"
-      description="A higher-level component that wraps inputs with consistent label row, requirement indicators, and validation messages."
+      description="Wrap inputs with labels, requirements, and validation messages."
     >
-      <DemoSection title="Standard Form Fields">
-        <FormField 
-          label="Display Name" 
+      <DemoSection title="Standard" description="Helper text, errors, and trailing links.">
+        <FormField
+          label="Display Name"
           helperText="Visible to anyone on the platform"
           required
         >
           <Input placeholder="e.g. John Doe" />
         </FormField>
-        
+
         <Divider spacing="md" />
 
-        <FormField 
-          label="Password" 
+        <FormField
+          label="Password"
           error="Password is too weak"
-          labelTrailing={
-            <Link size="sm" onPress={() => {}}>Forgot?</Link>
-          }
+          labelTrailing={<Link onPress={() => {}}>Forgot?</Link>}
         >
           <PasswordInput />
         </FormField>
       </DemoSection>
 
-      <DemoSection title="Standard Form Group">
+      <DemoSection title="Form Group" description="Stack related fields with consistent gap.">
         <FormGroup gap="md">
           <FormField label="First Name">
             <Input />
@@ -54,11 +45,14 @@ export default function FormFieldScreen() {
         </FormGroup>
       </DemoSection>
 
-      <DemoSection title="Grouped Variant (iOS Style)">
-        <Typography variant="caption" style={{ marginBottom: 8, color: t.color.text.secondary }}>
-          Useful for settings or profile sections
-        </Typography>
-        <FormGroup variant="grouped" footer="These details are only visible to you.">
+      <DemoSection
+        title="Grouped (iOS)"
+        description="Rounded container for settings-style sections."
+      >
+        <FormGroup
+          variant="grouped"
+          footer="These details are only visible to you."
+        >
           <FormField label="Phone Number">
             <Input placeholder="+1 (555) 000-0000" />
           </FormField>
@@ -71,7 +65,7 @@ export default function FormFieldScreen() {
         </FormGroup>
       </DemoSection>
 
-      <DemoSection title="Grouped with Validation">
+      <DemoSection title="Grouped Validation" description="Group-level error message.">
         <FormGroup variant="grouped" error="Some fields have invalid information">
           <FormField label="Credit Card" error="Invalid number">
             <Input placeholder="XXXX XXXX XXXX XXXX" />
@@ -84,5 +78,3 @@ export default function FormFieldScreen() {
     </DemoPage>
   );
 }
-
-const styles = StyleSheet.create({});

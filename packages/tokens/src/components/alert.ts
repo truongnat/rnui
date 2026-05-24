@@ -4,7 +4,7 @@ export function alertTokens(t: SemanticTokens) {
   return {
     container: {
       padding: t.spacing[4],
-      borderRadius: t.radius.md,
+      borderRadius: t.radius.lg,
       borderWidth: 1,
       flexDirection: 'row' as const,
       gap: t.spacing[3],

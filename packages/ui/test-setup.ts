@@ -31,6 +31,7 @@ mock.module('react-native', () => {
     TouchableWithoutFeedback: createMockComponent('TouchableWithoutFeedback'),
     Pressable: createMockComponent('Pressable'),
     Modal: createMockComponent('Modal'),
+    KeyboardAvoidingView: createMockComponent('KeyboardAvoidingView'),
     ActivityIndicator: createMockComponent('ActivityIndicator'),
     Switch: createMockComponent('Switch'),
 

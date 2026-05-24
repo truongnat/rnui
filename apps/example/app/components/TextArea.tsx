@@ -1,7 +1,8 @@
 import { useTokens } from '@truongdq01/headless';
-import { TextArea, Typography } from '@truongdq01/ui';
-import React, { useState } from 'react';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { TextArea } from '@truongdq01/ui';
+import { useState } from 'react';
+import { View } from 'react-native';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function TextAreaScreen() {
   const t = useTokens();
@@ -13,32 +14,26 @@ export default function TextAreaScreen() {
   return (
     <DemoPage
       title="TextArea"
-      description="A multi-line text input component for long-form content."
+      description="Multi-line text input for long-form content."
     >
-      <DemoSection
-        title="Standard TextArea"
-        description="Default multi-line input with label and placeholder."
-      >
+      <DemoSection title="Standard" description="Label, placeholder, and helper text.">
         <TextArea
           label="Notes"
-          placeholder="Enter your notes here..."
+          placeholder="Enter your notes here…"
           value={value1}
           onChangeText={setValue1}
-          helperText="Maximum allowed characters is not set."
+          helperText="No character limit set."
         />
       </DemoSection>
 
-      <DemoSection
-        title="Character Counter"
-        description="Show a counter inside, above, or below the text field."
-      >
+      <DemoSection title="Character Counter" description="Inside or above the field.">
         <TextArea
           label="Description (Inside Counter)"
-          placeholder="Tell us about yourself..."
+          placeholder="Tell us about yourself…"
           value={value2}
           onChangeText={setValue2}
           maxLength={100}
-          showCounter={true}
+          showCounter
           counterPosition="inside"
         />
         <View style={{ height: t.spacing[4] }} />
@@ -48,15 +43,12 @@ export default function TextAreaScreen() {
           value={value3}
           onChangeText={setValue3}
           maxLength={50}
-          showCounter={true}
+          showCounter
           counterPosition="above"
         />
       </DemoSection>
 
-      <DemoSection
-        title="States"
-        description="Visual feedback for error, disabled, and focus states."
-      >
+      <DemoSection title="States" description="Error and disabled variants.">
         <TextArea
           label="Error State"
           value={value4}
@@ -72,20 +64,17 @@ export default function TextAreaScreen() {
         />
       </DemoSection>
 
-      <DemoSection
-        title="Height Options"
-        description="Control the minimum and maximum lines of the text area."
-      >
+      <DemoSection title="Height" description="Control min and max lines.">
         <TextArea
-          label="Compact (Rows: 2-4)"
-          placeholder="Short bio..."
+          label="Compact (Rows: 2–4)"
+          placeholder="Short bio…"
           minLines={2}
           maxLines={4}
         />
         <View style={{ height: t.spacing[4] }} />
         <TextArea
           label="Tall (Rows: 8+)"
-          placeholder="Long essay..."
+          placeholder="Long essay…"
           minLines={8}
           maxLines={12}
         />
@@ -93,5 +82,3 @@ export default function TextAreaScreen() {
     </DemoPage>
   );
 }
-
-import { View } from 'react-native';

@@ -28,9 +28,9 @@ export function chipTokens(t: SemanticTokens) {
     },
     variant: {
       solid: {
-        bg: t.color.bg.emphasis,
-        text: t.color.text.inverse,
-        border: 'transparent',
+        bg: t.color.surface.raised,
+        text: t.color.text.primary,
+        border: t.color.border.subtle,
       },
       outlined: {
         bg: 'transparent',
@@ -40,12 +40,12 @@ export function chipTokens(t: SemanticTokens) {
       subtle: {
         bg: t.color.brand.subtle,
         text: t.color.brand.text,
-        border: 'transparent',
+        border: t.color.brand.muted,
       },
       accent: {
         bg: t.color.accent.subtle,
         text: t.color.accent.text,
-        border: 'transparent',
+        border: t.color.accent.muted,
       },
     },
     deleteIcon: { color: t.color.text.tertiary, size: 16 },

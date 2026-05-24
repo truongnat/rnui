@@ -15,3 +15,21 @@ test('List renders items and text', () => {
   expect(getByText('Item Primary')).toBeTruthy();
   expect(getByText('Secondary')).toBeTruthy();
 });
+
+test('List ignores JSX whitespace between items', () => {
+  const { getByText } = render(
+    <ThemeProvider>
+      <List>
+        <ListItem>
+          <ListItemText primary="First" />
+        </ListItem>
+
+        <ListItem>
+          <ListItemText primary="Second" />
+        </ListItem>
+      </List>
+    </ThemeProvider>
+  );
+  expect(getByText('First')).toBeTruthy();
+  expect(getByText('Second')).toBeTruthy();
+});

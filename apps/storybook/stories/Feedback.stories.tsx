@@ -1,12 +1,14 @@
 import type { StoryObj } from '@storybook/react-native';
 import {
   Alert,
+  AlertTitle,
   Button,
   CircularProgress,
   Dialog,
   LinearProgress,
   Snackbar,
   ThemeProvider,
+  Typography,
 } from '@truongdq01/ui';
 import type React from 'react';
 import { useState } from 'react';
@@ -44,7 +46,10 @@ export const AlertStory: StoryObj = {
   name: 'Alert',
   render: () => (
     <View style={{ gap: 12 }}>
-      <Alert severity="success">Saved successfully</Alert>
+      <Alert severity="success">
+        <AlertTitle>Saved</AlertTitle>
+        <Typography variant="body2">Your changes were saved successfully.</Typography>
+      </Alert>
       <Alert severity="warning">Warning message</Alert>
       <Alert severity="error">Error occurred</Alert>
       <Alert severity="info">Information message</Alert>

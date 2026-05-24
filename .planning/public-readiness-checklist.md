@@ -42,7 +42,7 @@ Use this before opening the repo publicly or cutting a major release.
 ## Example app verification
 
 - [x] Example app runs via Expo (`apps/example`)
-- [x] Kitchen sink + per-component screens
+- [x] Component catalog + per-component showcase screens
 - [ ] Detox E2E run in CI (scripts exist, not in default CI job)
 - [ ] Example pins workspace packages consistently
 

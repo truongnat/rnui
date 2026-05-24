@@ -1,68 +1,93 @@
-import { useTokens } from '@truongdq01/headless';
-import { Stack, Typography, Paper, Divider, Box } from '@truongdq01/ui';
-import React from 'react';
+import { Stack, Typography, Paper, Divider } from '@truongdq01/ui';
 import { View } from 'react-native';
-import { DemoPage, DemoSection } from './_shared/DemoPage';
+import { useTokens } from '@truongdq01/headless';
+import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
-const Item = ({ children }: { children: string }) => (
-    <Paper elevation="sm" style={{ padding: 12, minWidth: 60, alignItems: 'center' }}>
-        <Typography variant="button">{children}</Typography>
-    </Paper>
+const Item = ({ children, padding }: { children: string; padding: number }) => (
+  <Paper elevation="sm" style={{ padding, minWidth: 60, alignItems: 'center' }}>
+    <Typography variant="button">{children}</Typography>
+  </Paper>
 );
 
 export default function StackScreen() {
   const t = useTokens();
-  
+
   return (
     <DemoPage
       title="Stack"
-      description="Stack manages layout of immediate children along the vertical or horizontal axis with optional spacing and/or dividers between each child."
+      description="Layout children vertically or horizontally with spacing and dividers."
     >
-      <DemoSection title="Direction & Spacing">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          The Stack component defaults to a vertical (column) axis with 'sm' spacing.
-        </Typography>
-        <Stack spacing="md">
-            <Item>Item 1</Item>
-            <Item>Item 2</Item>
-            <Item>Item 3</Item>
-        </Stack>
+      <DemoSection
+        title="Direction & Spacing"
+        description="Defaults to vertical column with sm spacing."
+      >
+        <DemoPreview>
+          <Stack spacing="md">
+            <Item padding={t.spacing[3]}>Item 1</Item>
+            <Item padding={t.spacing[3]}>Item 2</Item>
+            <Item padding={t.spacing[3]}>Item 3</Item>
+          </Stack>
+        </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Horizontal Stack">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Items arranged horizontally with 'lg' spacing.
-        </Typography>
-        <Stack direction="row" spacing="lg">
-            <Item>1</Item>
-            <Item>2</Item>
-            <Item>3</Item>
-        </Stack>
+      <DemoSection
+        title="Horizontal"
+        description="Row layout with lg spacing between items."
+      >
+        <DemoPreview>
+          <Stack direction="row" spacing="lg">
+            <Item padding={t.spacing[3]}>1</Item>
+            <Item padding={t.spacing[3]}>2</Item>
+            <Item padding={t.spacing[3]}>3</Item>
+          </Stack>
+        </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Dividers">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Easily insert dividers between items.
-        </Typography>
-        <Stack spacing="md" divider={<Divider />}>
-            <Item>Top</Item>
-            <Item>Middle</Item>
-            <Item>Bottom</Item>
-        </Stack>
+      <DemoSection title="Dividers" description="Insert dividers between each child.">
+        <DemoPreview>
+          <Stack spacing="md" divider={<Divider />}>
+            <Item padding={t.spacing[3]}>Top</Item>
+            <Item padding={t.spacing[3]}>Middle</Item>
+            <Item padding={t.spacing[3]}>Bottom</Item>
+          </Stack>
+        </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Nesting & Alignment">
-        <Typography variant="body2" color="secondary" style={{ marginBottom: t.spacing[4] }}>
-          Stack components can be nested to create complex layouts.
-        </Typography>
-        <Stack spacing="xl" alignItems="center">
+      <DemoSection
+        title="Nesting & Alignment"
+        description="Nested stacks with centered alignment."
+      >
+        <DemoPreview>
+          <Stack spacing="xl" alignItems="center">
             <Stack direction="row" spacing="xs">
-                <Box sx={{ width: 40, height: 40, backgroundColor: 'brand.default', borderRadius: 'full' }} />
-                <Box sx={{ width: 40, height: 40, backgroundColor: 'accent.default', borderRadius: 'full' }} />
-                <Box sx={{ width: 40, height: 40, backgroundColor: 'success.default', borderRadius: 'full' }} />
+              <View
+                style={{
+                  width: t.spacing[10],
+                  height: t.spacing[10],
+                  backgroundColor: t.color.brand.default,
+                  borderRadius: t.radius.full,
+                }}
+              />
+              <View
+                style={{
+                  width: t.spacing[10],
+                  height: t.spacing[10],
+                  backgroundColor: t.color.warning.border,
+                  borderRadius: t.radius.full,
+                }}
+              />
+              <View
+                style={{
+                  width: t.spacing[10],
+                  height: t.spacing[10],
+                  backgroundColor: t.color.success.border,
+                  borderRadius: t.radius.full,
+                }}
+              />
             </Stack>
             <Typography variant="h6">Centered Stack</Typography>
-        </Stack>
+          </Stack>
+        </DemoPreview>
       </DemoSection>
     </DemoPage>
   );
