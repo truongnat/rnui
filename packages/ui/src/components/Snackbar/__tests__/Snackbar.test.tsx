@@ -6,7 +6,12 @@ import { Snackbar } from '../Snackbar';
 describe('Snackbar tokens regression', () => {
   it('uses elevated surface and primary text', () => {
     const { snackbar } = resolveComponentTokens(semanticTokens.light);
-    expect(snackbar.container.backgroundColor).toBe('#FDFCFF');
+    expect(snackbar.container.backgroundColor).toBe(
+      semanticTokens.light.color.surface.raised
+    );
+    expect(snackbar.container.borderColor).toBe(
+      semanticTokens.light.color.border.default
+    );
     expect(snackbar.container.borderWidth).toBe(1);
     expect(snackbar.text.color).toBe(semanticTokens.light.color.text.primary);
     expect(snackbar.action.color).toBe(semanticTokens.light.color.brand.text);

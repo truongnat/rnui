@@ -68,7 +68,13 @@ describe('component tokens', () => {
   test('button sizes have correct heights', () => {
     expect(ct.button.size.sm.container.height).toBe(36);
     expect(ct.button.size.md.container.height).toBe(44);
-    expect(ct.button.size.lg.container.height).toBe(54);
+    expect(ct.button.size.lg.container.height).toBe(52);
+  });
+
+  test('input sizes align with button heights', () => {
+    expect(ct.input.size.sm.height).toBe(36);
+    expect(ct.input.size.md.height).toBe(44);
+    expect(ct.input.size.lg.height).toBe(52);
   });
 
   test('button disabled reduces opacity', () => {
@@ -103,5 +109,41 @@ describe('component tokens', () => {
   test('toast container has zIndex-appropriate structure', () => {
     expect(ct.toast.container).toHaveProperty('borderRadius');
     expect(ct.toast.container).toHaveProperty('paddingHorizontal');
+  });
+
+  test('card default has visible surface without relying on shadow', () => {
+    expect(ct.card.container.backgroundColor).toBe(
+      lightTokens.color.surface.default
+    );
+    expect(ct.card.container.borderWidth).toBeGreaterThanOrEqual(1);
+    expect(ct.card.container.borderColor).toBe(
+      lightTokens.color.border.default
+    );
+  });
+
+  test('paper default has visible border and background', () => {
+    expect(ct.paper.container.backgroundColor).toBeDefined();
+    expect(ct.paper.container.borderWidth).toBeGreaterThanOrEqual(1);
+    expect(ct.paper.variant.flat.borderWidth).toBeGreaterThanOrEqual(1);
+    expect(ct.paper.variant.flat.backgroundColor).toBe(
+      lightTokens.color.surface.sunken
+    );
+  });
+
+  test('input has background and input border token', () => {
+    expect(ct.input.container.backgroundColor).toBe(
+      lightTokens.color.surface.default
+    );
+    expect(ct.input.container.borderColor).toBe(lightTokens.color.border.input);
+  });
+
+  test('chip outlined default uses sunken fill for dark-surface visibility', () => {
+    expect(ct.chip.variant.outlined.bg).toBe(lightTokens.color.surface.sunken);
+    expect(ct.chip.variant.outlined.bg).not.toBe('transparent');
+  });
+
+  test('semantic borders are stronger than previous subtle-only hierarchy', () => {
+    expect(lightTokens.color.border.default).not.toBe('#E4E0EC');
+    expect(lightTokens.color.border.subtle).not.toBe('#EEEAF4');
   });
 });

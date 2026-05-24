@@ -18,6 +18,12 @@
   ],
   "packageMapPath": ".ai/package-map.json",
   "componentRegistryPath": ".ai/component-registry.json",
+  "componentSchemaPath": ".ai/generated/component-schema.json",
+  "webPreviewComponentsPath": ".ai/generated/web-preview-components.json",
+  "nativeOnlyComponentsPath": ".ai/generated/native-only-components.json",
+  "componentSchemaGuidePath": ".ai/component-schema-guide.md",
+  "screenSchemaGuidePath": ".ai/screen-schema-guide.md",
+  "rendererPackage": "@truongdq01/renderer",
   "designRulesPath": ".ai/design-rules.md",
   "screenGenerationGuidePath": ".ai/screen-generation.md",
   "agentInstructionsPath": "AGENTS.md",
@@ -35,6 +41,13 @@
     "dashboard": ".ai/examples/dashboard-screen.tsx",
     "listDetail": ".ai/examples/list-detail-screen.tsx",
     "form": ".ai/examples/form-screen.tsx"
+  },
+  "schemaExamples": {
+    "login": ".ai/examples/schemas/login.schema.json",
+    "settings": ".ai/examples/schemas/settings.schema.json",
+    "profileCard": ".ai/examples/schemas/profile-card.schema.json",
+    "dashboard": ".ai/examples/schemas/dashboard.schema.json",
+    "form": ".ai/examples/schemas/form.schema.json"
   },
   "forbiddenPatterns": [
     "Custom Button, Card, Input, or Typography when RNUI exports them",

@@ -120,6 +120,19 @@ Do not let an agent “fix while here” unless the user explicitly requests an 
 
 ---
 
+## Surface Contrast Fix (2026-05-24) — completed
+
+See [surface-contrast-fix-summary.md](./surface-contrast-fix-summary.md).
+
+### Remaining followups
+
+| Item | Notes |
+| ---- | ----- |
+| Modal/Dialog shared surface tokens | Only if overlay surfaces still collapse after semantic fix |
+| Brand theme spot-check (forest/love/ocean) | `buildSemanticTokens` may need per-brand border tuning |
+| Chip `accent` variant public API | Token exists; expose in `ChipProps` if product wants parity with Badge |
+| CSS docs demos vs native | Docs approximate tokens; native QA via `SurfaceVisibility` screen |
+
 ## Related planning files
 
 | File | Purpose |
@@ -127,5 +140,7 @@ Do not let an agent “fix while here” unless the user explicitly requests an 
 | [phase-1-critical-ui-fixes-summary.md](./phase-1-critical-ui-fixes-summary.md) | What Phase 1 shipped |
 | [ui-ux-investigation-report.md](./ui-ux-investigation-report.md) | Pre–Phase 1 findings |
 | [visible-surface-audit.md](./visible-surface-audit.md) | Badge/Chip/Alert surface rule |
+| [surface-contrast-investigation.md](./surface-contrast-investigation.md) | Surface Contrast & Layering Fix (2026-05-24) |
+| [surface-layering-rules.md](./surface-layering-rules.md) | No-shadow visibility hard rules |
 | [visual-quality-checklist.md](./visual-quality-checklist.md) | Ongoing QA checklist |
 | [engineering-debt.md](./engineering-debt.md) | Typecheck, lint, stale tests — separate track |

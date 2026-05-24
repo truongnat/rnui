@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform } from 'react-native';
-import { Input, Stack } from '@truongdq01/ui';
-import { Mail, Search, User } from 'lucide-react-native';
+import { Button, Card, Input, Stack, Typography } from '@truongdq01/ui';
+import { Mail, Lock } from 'lucide-react-native';
 import { useTheme } from '@truongdq01/headless';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function InputScreen() {
   const { tokens } = useTheme();
-  const [value, setValue] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <KeyboardAvoidingView
@@ -17,84 +18,69 @@ export default function InputScreen() {
     >
       <DemoPage
         title="Input"
-        description="Text fields for entering and editing text — icons, helper text, and validation states."
+        description="Form fields aligned with Button at 44dp — soft borders and clear focus."
       >
-        <DemoSection title="Sizes" description="Compact, default, and large density.">
-          <Stack spacing="md">
-            <Input size="sm" label="Small" placeholder="Compact size" />
-            <Input size="md" label="Medium (Default)" placeholder="Standard size" />
-            <Input size="lg" label="Large" placeholder="Large size" />
-          </Stack>
-        </DemoSection>
-
         <DemoSection
-          title="Variants"
-          description="Floating labels, helper text, errors, and disabled state."
+          title="Sign in"
+          description="Login form — label, helper, error, and secure entry."
         >
+          <Card>
+            <Stack spacing="md">
+              <Typography variant="h4">Welcome back</Typography>
+              <Typography variant="body2" color="secondary">
+                Use your work email to access orders and billing.
+              </Typography>
+              <Input
+                label="Email"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                leadingElement={
+                  <Mail size={20} color={tokens.color.text.secondary} />
+                }
+                placeholder="you@company.com"
+                helperText="We will never share your email."
+              />
+              <Input
+                label="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                leadingElement={
+                  <Lock size={20} color={tokens.color.text.secondary} />
+                }
+                placeholder="Enter password"
+              />
+              <Button label="Sign in" fullWidth onPress={() => {}} />
+            </Stack>
+          </Card>
+        </DemoSection>
+
+        <DemoSection title="Validation">
           <Stack spacing="md">
             <Input
-              label="Floating Label"
-              floatingLabel
-              placeholder="Label floats on focus"
+              label="Work email"
+              error="This domain is not allowed for your organization"
+              value="user@blocked.com"
             />
-            <Input
-              label="With Helper Text"
-              helperText="Enter your professional email address"
-              placeholder="you@example.com"
-            />
-            <Input
-              label="With Error State"
-              error="This email is already registered"
-              value="existing@user.com"
-            />
-            <Input label="Disabled State" disabled value="Cannot edit this" />
+            <Input label="Account locked" disabled value="Contact support to restore access" />
           </Stack>
         </DemoSection>
 
-        <DemoSection title="Icons & Slots" description="Leading and trailing adornments.">
+        <DemoSection title="Sizes" description="sm 36 · md 44 · lg 52 — matches Button scale.">
           <Stack spacing="md">
-            <Input
-              label="Leading Icon"
-              leadingElement={
-                <Search size={20} color={tokens.color.text.secondary} />
-              }
-              placeholder="Search…"
-            />
-            <Input
-              label="Trailing Icon"
-              trailingElement={
-                <Mail size={20} color={tokens.color.text.secondary} />
-              }
-              placeholder="Email address"
-            />
-            <Input
-              label="Both Icons"
-              leadingElement={
-                <User size={20} color={tokens.color.text.secondary} />
-              }
-              trailingElement={
-                <Search size={20} color={tokens.color.text.secondary} />
-              }
-              placeholder="Username"
-            />
+            <Input size="sm" label="Promo code" placeholder="SAVE10" />
+            <Input size="md" label="Full name" placeholder="Alex Nguyen" />
+            <Input size="lg" label="Company" placeholder="Acme Inc." />
           </Stack>
         </DemoSection>
 
-        <DemoSection title="Secure Text">
+        <DemoSection title="Floating label">
           <Input
-            label="Password"
-            secureTextEntry
-            placeholder="Enter your password"
-          />
-        </DemoSection>
-
-        <DemoSection title="Controlled Input" description="Sync value with React state.">
-          <Input
-            label="Sync with State"
-            value={value}
-            onChangeText={setValue}
-            helperText={`Current value: ${value || '(empty)'}`}
-            placeholder="Type something…"
+            label="Cardholder name"
+            floatingLabel
+            placeholder="Name on card"
           />
         </DemoSection>
       </DemoPage>

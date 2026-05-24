@@ -1,0 +1,40 @@
+{
+  "name": "@truongdq01/component-schema",
+  "version": "0.1.0",
+  "description": "Machine-readable component contracts and ScreenSchema validation for RNUI AI builder",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/truongnat/rnui.git",
+    "directory": "packages/component-schema"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.mjs",
+    "dist/**/*.d.ts",
+    "!dist/**/*.map"
+  ],
+  "scripts": {
+    "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check ./src",
+    "format": "biome format --write ./src",
+    "test": "bun test",
+    "clean": "rm -rf dist dist-types"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  }
+}

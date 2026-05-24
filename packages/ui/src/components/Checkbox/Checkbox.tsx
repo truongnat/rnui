@@ -88,47 +88,56 @@ export function Checkbox({
         alignItems: 'flex-start',
         gap: tokens.spacing[2.5],
         opacity: isDisabled ? checkbox.state.disabled.opacity : 1,
+        minHeight: checkbox.container.minHeight,
       }}
       {...accessibilityProps}
     >
-      <Animated.View
-        style={[
-          {
-            width: sizeConfig.width,
-            height: sizeConfig.height,
-            borderRadius: sizeConfig.borderRadius,
-            borderWidth: sizeConfig.borderWidth,
-            alignItems: checkbox.container.alignItems,
-            justifyContent: checkbox.container.justifyContent,
-            marginTop: 1,
-          },
-          boxStyle,
-        ]}
+      <View
+        style={{
+          width: checkbox.container.minWidth,
+          height: checkbox.container.minHeight,
+          alignItems: checkbox.container.alignItems,
+          justifyContent: checkbox.container.justifyContent,
+        }}
       >
-        <Animated.View style={checkStyle}>
-          {isIndeterminate ? (
-            <View
-              style={{
-                width: sizeConfig.iconSize,
-                height: 2,
-                backgroundColor: tokens.color.text.inverse,
-                borderRadius: 1,
-              }}
-            />
-          ) : (
-            <Text
-              style={{
-                color: tokens.color.text.inverse,
-                fontSize: sizeConfig.iconSize,
-                fontWeight: '700',
-                lineHeight: sizeConfig.iconSize + 2,
-              }}
-            >
-              ✓
-            </Text>
-          )}
+        <Animated.View
+          style={[
+            {
+              width: sizeConfig.width,
+              height: sizeConfig.height,
+              borderRadius: sizeConfig.borderRadius,
+              borderWidth: sizeConfig.borderWidth,
+              alignItems: checkbox.container.alignItems,
+              justifyContent: checkbox.container.justifyContent,
+            },
+            boxStyle,
+          ]}
+        >
+          <Animated.View style={checkStyle}>
+            {isIndeterminate ? (
+              <View
+                style={{
+                  width: sizeConfig.iconSize,
+                  height: 2,
+                  backgroundColor: tokens.color.text.inverse,
+                  borderRadius: 1,
+                }}
+              />
+            ) : (
+              <Text
+                style={{
+                  color: tokens.color.text.inverse,
+                  fontSize: sizeConfig.iconSize,
+                  fontWeight: tokens.fontWeight.bold,
+                  lineHeight: sizeConfig.iconSize + 2,
+                }}
+              >
+                ✓
+              </Text>
+            )}
+          </Animated.View>
         </Animated.View>
-      </Animated.View>
+      </View>
 
       {(label || description) && (
         <View style={{ flex: 1, paddingTop: 1 }}>

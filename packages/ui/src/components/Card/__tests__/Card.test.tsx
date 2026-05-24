@@ -11,6 +11,11 @@ const renderWithTheme = (component: React.ReactElement) => {
 
 describe('Card', () => {
   describe('Rendering', () => {
+    it('wraps string children in Text', () => {
+      const { getByText } = renderWithTheme(<Card>Plain string content</Card>);
+      expect(getByText('Plain string content')).toBeTruthy();
+    });
+
     it('renders children correctly', () => {
       const { getByText } = renderWithTheme(
         <Card>

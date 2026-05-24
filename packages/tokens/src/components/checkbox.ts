@@ -4,30 +4,32 @@ export function checkboxTokens(t: SemanticTokens) {
   return {
     size: {
       sm: {
-        width: 16,
-        height: 16,
-        borderRadius: t.radius.xs,
-        borderWidth: 1.5,
-        iconSize: 10,
-      },
-      md: {
         width: 20,
         height: 20,
-        borderRadius: t.radius.xs,
-        borderWidth: 2,
+        borderRadius: t.radius.sm,
+        borderWidth: 1.5,
         iconSize: 12,
       },
-      lg: {
+      md: {
         width: 24,
         height: 24,
         borderRadius: t.radius.sm,
         borderWidth: 2,
         iconSize: 14,
       },
+      lg: {
+        width: 28,
+        height: 28,
+        borderRadius: t.radius.sm,
+        borderWidth: 2,
+        iconSize: 16,
+      },
     },
     container: {
       alignItems: 'center' as const,
       justifyContent: 'center' as const,
+      minWidth: 44,
+      minHeight: 44,
     },
     focusRing: {
       borderColor: t.color.border.focus,

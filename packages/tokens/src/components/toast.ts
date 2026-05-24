@@ -10,7 +10,7 @@ export function toastTokens(t: SemanticTokens) {
       alignItems: 'center' as const,
       gap: t.spacing[3],
       borderWidth: 1,
-      borderColor: t.color.border.subtle,
+      borderColor: t.color.border.default,
       ...t.shadow.md,
     },
     variant: {

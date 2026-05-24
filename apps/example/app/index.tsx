@@ -83,6 +83,7 @@ const COMPONENTS = [
   'SpeedDial',
   'Stack',
   'Stepper',
+  'SurfaceVisibility',
   'Switch',
   'TabBar',
   'Table',

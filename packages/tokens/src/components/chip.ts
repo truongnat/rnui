@@ -28,12 +28,12 @@ export function chipTokens(t: SemanticTokens) {
     },
     variant: {
       solid: {
-        bg: t.color.surface.raised,
+        bg: t.color.surface.default,
         text: t.color.text.primary,
-        border: t.color.border.subtle,
+        border: t.color.border.default,
       },
       outlined: {
-        bg: 'transparent',
+        bg: t.color.surface.sunken,
         text: t.color.text.primary,
         border: t.color.border.default,
       },

@@ -11,6 +11,7 @@ import CardDemo from '../../../components/demos/CardDemo';
 import BadgeDemo from '../../../components/demos/BadgeDemo';
 import StatusComponentsDemo from '../../../components/demos/StatusComponentsDemo';
 import VisibleSurfaceDemo from '../../../components/demos/VisibleSurfaceDemo';
+import NoShadowSurfaceDemo from '../../../components/demos/NoShadowSurfaceDemo';
 
 # Visual Baseline
 
@@ -40,7 +41,7 @@ Default radius is rounded-lg (not pill). Solid actions stay premium with soft el
 
 ## Input
 
-Native-friendly 48px height, soft borders, and readable placeholder text.
+Native-friendly **44px** height (aligned with Button md), soft borders, and readable placeholder text.
 
 <ComponentPreview
   title="Profile form"
@@ -138,6 +139,39 @@ Run: `cd apps/example && bun run ios` (or `android`). Full checklist: [Example a
 6. Backdrop tap and hardware back dismiss where `onClose` is set
 
 Repo copy: `.planning/device-qa-checklist.md`
+
+## No-shadow surface visibility test
+
+Components must remain visible when shadow/elevation is disabled. Shadow may add depth but must never be required for recognition.
+
+<ComponentPreview
+  title="No-shadow matrix"
+  description="Card, Paper, Badge, Chip, Alert, Input, and outline/ghost/disabled buttons — shadow stripped"
+  mobile={false}
+>
+  <NoShadowSurfaceDemo client:visible />
+</ComponentPreview>
+
+### What to verify
+
+| Component | No-shadow check |
+| --------- | ---------------- |
+| Card | White fill + `border.default` on `bg.default` |
+| Paper | Border + fill at elevation `none` |
+| Badge / Chip | Fill + border on app, card, and glass panels |
+| Alert | Severity bg + 1px border |
+| Input | `surface.default` fill + `border.input` |
+| Button outline/ghost | Border or brand text — not shadow-dependent |
+| Disabled | Reduced opacity but still readable |
+
+### Test backgrounds
+
+- App background (`color.bg.default`)
+- White / card surface (`color.surface.default` / `raised`)
+- Glass-like panel (`color.surface.glass`)
+- Dark panel (`color.bg.inverse` or dark `surface.default`)
+
+Native QA: example app screen **`SurfaceVisibility`** — same matrix with real RNUI components.
 
 ## Related
 

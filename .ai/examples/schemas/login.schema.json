@@ -1,0 +1,70 @@
+{
+  "id": "login",
+  "name": "Login",
+  "version": "1",
+  "description": "Email and password login screen",
+  "actions": [
+    {
+      "id": "signIn",
+      "description": "Submit credentials"
+    }
+  ],
+  "root": {
+    "type": "Screen",
+    "props": {
+      "padding": "md",
+      "spacing": "md"
+    },
+    "children": [
+      {
+        "type": "Typography",
+        "props": {
+          "variant": "h4",
+          "children": "Welcome back"
+        }
+      },
+      {
+        "type": "Typography",
+        "props": {
+          "variant": "body2",
+          "color": "secondary",
+          "children": "Sign in to continue"
+        }
+      },
+      {
+        "type": "Stack",
+        "props": {
+          "spacing": "md"
+        },
+        "children": [
+          {
+            "type": "Input",
+            "props": {
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "value": ""
+            }
+          },
+          {
+            "type": "Input",
+            "props": {
+              "label": "Password",
+              "placeholder": "••••••••",
+              "secureTextEntry": true,
+              "value": ""
+            }
+          },
+          {
+            "type": "Button",
+            "props": {
+              "label": "Sign in",
+              "variant": "solid",
+              "fullWidth": true,
+              "action": "signIn"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

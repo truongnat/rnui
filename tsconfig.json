@@ -27,7 +27,15 @@
         "./packages/themes/src",
         "./packages/themes/src/*"
       ],
-      "@truongdq01/ui": ["./packages/ui/src", "./packages/ui/src/*"]
+      "@truongdq01/ui": ["./packages/ui/src", "./packages/ui/src/*"],
+      "@truongdq01/component-schema": [
+        "./packages/component-schema/src",
+        "./packages/component-schema/src/*"
+      ],
+      "@truongdq01/renderer": [
+        "./packages/renderer/src",
+        "./packages/renderer/src/*"
+      ]
     }
   },
   "files": [],
@@ -43,6 +51,12 @@
     },
     {
       "path": "packages/themes"
+    },
+    {
+      "path": "packages/component-schema"
+    },
+    {
+      "path": "packages/renderer"
     }
   ]
 }

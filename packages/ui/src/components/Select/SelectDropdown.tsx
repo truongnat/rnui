@@ -25,7 +25,7 @@ export function SelectDropdown<T = string>({
   searchable,
   options,
   isOpen,
-  loading,
+  loading: _loading,
   loadingMore,
   filtered,
   query,

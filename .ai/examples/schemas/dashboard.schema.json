@@ -1,0 +1,84 @@
+{
+  "id": "dashboard",
+  "name": "Dashboard",
+  "version": "1",
+  "root": {
+    "type": "Screen",
+    "props": {
+      "padding": "md",
+      "spacing": "md"
+    },
+    "children": [
+      {
+        "type": "Typography",
+        "props": {
+          "variant": "h4",
+          "children": "Dashboard"
+        }
+      },
+      {
+        "type": "Alert",
+        "props": {
+          "severity": "info",
+          "children": "You have 3 tasks due today."
+        }
+      },
+      {
+        "type": "Stack",
+        "props": {
+          "direction": "row",
+          "spacing": "md",
+          "wrap": true
+        },
+        "children": [
+          {
+            "type": "Chip",
+            "props": {
+              "label": "All",
+              "variant": "solid",
+              "color": "primary"
+            }
+          },
+          {
+            "type": "Chip",
+            "props": {
+              "label": "Design",
+              "variant": "subtle"
+            }
+          },
+          {
+            "type": "Chip",
+            "props": {
+              "label": "Engineering",
+              "variant": "subtle"
+            }
+          }
+        ]
+      },
+      {
+        "type": "Paper",
+        "props": {
+          "variant": "outlined",
+          "elevation": "none"
+        },
+        "children": [
+          {
+            "type": "Typography",
+            "props": {
+              "variant": "subtitle1",
+              "children": "Recent activity"
+            }
+          },
+          {
+            "type": "Typography",
+            "props": {
+              "variant": "body2",
+              "color": "secondary",
+              "children": "No new updates in the last hour."
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

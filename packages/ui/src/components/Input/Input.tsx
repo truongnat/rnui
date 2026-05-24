@@ -17,6 +17,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useFormGroupVariant } from '../FormField/FormGroupContext';
 import { AnimatedHelperText } from './AnimatedHelperText';
+import { getFloatingLabelLayout } from './floatingLabelLayout';
 
 const FOCUS_MS = 150;
 
@@ -138,6 +139,18 @@ export const Input = forwardRef<RNTextInput, InputProps>(function Input(
   const disabledBorder = tokens.color.border.default;
 
   const fl = input.floatingLabel;
+  const sizeStyle = input.size[size];
+
+  const floatingLayout = useMemo(() => {
+    if (!floatingLabel || !label || !fl) {
+      return null;
+    }
+    return getFloatingLabelLayout(sizeStyle, fl, input.container.borderWidth);
+  }, [floatingLabel, label, fl, sizeStyle, input.container.borderWidth]);
+
+  const labelBg = isGrouped
+    ? tokens.color.surface.default
+    : input.container.backgroundColor;
 
   const animatedContainerStyle = useAnimatedStyle(() => {
     if (groupedSv.value === 1) {
@@ -159,23 +172,23 @@ export const Input = forwardRef<RNTextInput, InputProps>(function Input(
   }, [defaultBorder, disabledBorder, errorBorder, focusBorder]);
 
   const floatingLabelStyle = useAnimatedStyle(() => {
-    if (!floatingLabel || !label || !fl) {
+    if (!floatingLabel || !label || !fl || !floatingLayout) {
       return {};
     }
-    const inactiveFs = fl.fontSize.inactive;
+    const inactiveFs = sizeStyle.fontSize;
     const activeFs = fl.fontSize.active;
     const inactiveC = fl.color.inactive;
     const activeC = fl.color.active;
-    const ty0 = fl.translateY.inactive;
-    const ty1 = fl.translateY.active;
     return {
       position: 'absolute' as const,
       left: 0,
-      right: 0,
-      top: interpolate(floatProgress.value, [0, 1], [16, 6]),
-      transform: [
-        { translateY: interpolate(floatProgress.value, [0, 1], [ty0, ty1]) },
-      ],
+      alignSelf: 'flex-start' as const,
+      zIndex: 1,
+      top: interpolate(
+        floatProgress.value,
+        [0, 1],
+        [floatingLayout.restTop, floatingLayout.activeTop]
+      ),
       fontSize: interpolate(
         floatProgress.value,
         [0, 1],
@@ -186,18 +199,19 @@ export const Input = forwardRef<RNTextInput, InputProps>(function Input(
         [0, 1],
         [inactiveC, activeC]
       ),
+      paddingHorizontal: interpolate(
+        floatProgress.value,
+        [0, 1],
+        [0, floatingLayout.labelPadX]
+      ),
+      backgroundColor: interpolateColor(
+        floatProgress.value,
+        [0, 1],
+        ['transparent', labelBg]
+      ),
       pointerEvents: 'none' as const,
     };
-  }, [floatingLabel, label, fl]);
-
-  const animatedInputPadStyle = useAnimatedStyle(() => {
-    if (!floatingLabel || !label) {
-      return {};
-    }
-    return {
-      paddingTop: interpolate(floatProgress.value, [0, 1], [0, 12]),
-    };
-  }, [floatingLabel, label]);
+  }, [floatingLabel, label, fl, floatingLayout, sizeStyle.fontSize, labelBg]);
 
   const staticContainerStyle = useMemo(() => {
     const groupedChrome = isGrouped
@@ -214,8 +228,9 @@ export const Input = forwardRef<RNTextInput, InputProps>(function Input(
       !isGrouped && error && input.state.error,
       !isGrouped && disabled && input.state.disabled,
       groupedChrome,
+      floatingLabel && label ? { overflow: 'visible' as const } : null,
     ];
-  }, [input, size, error, disabled, isGrouped]);
+  }, [input, size, error, disabled, isGrouped, floatingLabel, label]);
 
   const handleChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
     const text = e.nativeEvent.text;
@@ -272,7 +287,6 @@ export const Input = forwardRef<RNTextInput, InputProps>(function Input(
               color: input.text.color,
               fontSize: input.size[size].fontSize,
             },
-            animatedInputPadStyle,
           ]}
           placeholderTextColor={input.text.placeholderColor}
           editable={!disabled}
@@ -298,7 +312,14 @@ export const Input = forwardRef<RNTextInput, InputProps>(function Input(
   );
 
   return (
-    <View nativeID={id}>
+    <View
+      nativeID={id}
+      style={
+        floatingLabel && floatingLayout
+          ? { paddingTop: floatingLayout.clipReserveTop }
+          : undefined
+      }
+    >
       {label && !floatingLabel ? (
         <Text style={input.label}>{label}</Text>
       ) : null}

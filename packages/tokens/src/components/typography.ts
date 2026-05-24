@@ -29,8 +29,7 @@ export function typographyTokens(t: SemanticTokens) {
       },
       button: {
         fontSize: t.fontSize.sm,
-        fontWeight: t.fontWeight.semibold,
-        textTransform: 'uppercase' as const,
+        fontWeight: t.fontWeight.medium,
       },
     },
     colors: {

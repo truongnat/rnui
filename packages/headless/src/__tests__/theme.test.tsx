@@ -68,7 +68,7 @@ describe('component tokens', () => {
   test('button sizes have correct heights', () => {
     expect(ct.button.size.sm.container.height).toBe(36);
     expect(ct.button.size.md.container.height).toBe(44);
-    expect(ct.button.size.lg.container.height).toBe(54);
+    expect(ct.button.size.lg.container.height).toBe(52);
   });
 
   test('button disabled reduces opacity', () => {

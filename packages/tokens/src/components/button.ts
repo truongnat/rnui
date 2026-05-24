@@ -20,7 +20,7 @@ export function buttonTokens(t: SemanticTokens) {
         },
         text: {
           color: t.color.text.onBrand,
-          fontWeight: t.fontWeight.semibold,
+          fontWeight: t.fontWeight.medium,
         },
         pressed: { backgroundColor: t.color.brand.active, ...t.shadow.none },
       },
@@ -29,7 +29,7 @@ export function buttonTokens(t: SemanticTokens) {
           ...base,
           backgroundColor: t.color.surface.default,
           borderWidth: 1,
-          borderColor: t.color.border.subtle,
+          borderColor: t.color.border.default,
         },
         text: {
           color: t.color.text.primary,
@@ -53,7 +53,7 @@ export function buttonTokens(t: SemanticTokens) {
           borderColor: t.color.error.border,
         },
         text: { color: t.color.error.text, fontWeight: t.fontWeight.medium },
-        pressed: { backgroundColor: t.color.error.bg },
+        pressed: { backgroundColor: t.color.error.emphasis },
       },
       // Accent/CTA — Amber, stands out from brand violet
       accent: {
@@ -80,12 +80,12 @@ export function buttonTokens(t: SemanticTokens) {
         text: { fontSize: t.fontSize.md },
       },
       lg: {
-        container: { height: 54, paddingHorizontal: t.spacing[8] },
+        container: { height: 52, paddingHorizontal: t.spacing[8] },
         text: { fontSize: t.fontSize.lg },
       },
     },
     disabled: {
-      container: { opacity: t.opacity[40], ...t.shadow.none },
+      container: { opacity: t.opacity[50], ...t.shadow.none },
     },
   };
 }

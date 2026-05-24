@@ -28,7 +28,7 @@ export function badgeTokens(t: SemanticTokens) {
     },
     variant: {
       default: {
-        bg: c.surface.raised,
+        bg: c.surface.default,
         text: c.text.secondary,
         border: c.border.default,
       },

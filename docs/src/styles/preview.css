@@ -3,13 +3,15 @@
 :root {
   --rnui-bg: #f3f1f8;
   --rnui-bg-subtle: #ece8f4;
-  --rnui-surface: #fdfcff;
+  --rnui-surface: #ffffff;
   --rnui-surface-raised: #ffffff;
+  --rnui-surface-sunken: #e8e4f0;
   --rnui-text: #0f172a;
   --rnui-text-secondary: #475569;
   --rnui-text-tertiary: #64748b;
-  --rnui-border: #e4e0ec;
-  --rnui-border-subtle: #eeeaf4;
+  --rnui-border: #cdc4de;
+  --rnui-border-subtle: #ddd6e8;
+  --rnui-border-input: #c2b8d0;
   --rnui-brand: #7c3aed;
   --rnui-brand-hover: #6d28d9;
   --rnui-brand-subtle: #ede9fe;
@@ -43,12 +45,14 @@
   --rnui-bg: #12121c;
   --rnui-bg-subtle: #181824;
   --rnui-surface: #1a1a28;
-  --rnui-surface-raised: #222233;
+  --rnui-surface-raised: #26263c;
+  --rnui-surface-sunken: #0e0e16;
   --rnui-text: #f8fafc;
   --rnui-text-secondary: #94a3b8;
   --rnui-text-tertiary: #64748b;
-  --rnui-border: #34344a;
-  --rnui-border-subtle: #2a2a3d;
+  --rnui-border: #454560;
+  --rnui-border-subtle: #383852;
+  --rnui-border-input: #505070;
   --rnui-brand: #a78bfa;
   --rnui-brand-hover: #c4b5fd;
   --rnui-brand-subtle: rgba(124, 58, 237, 0.22);
@@ -170,7 +174,7 @@
 .rnui-btn--outline {
   background: var(--rnui-surface-raised);
   color: var(--rnui-text);
-  border: 1px solid var(--rnui-border-subtle);
+  border: 1px solid var(--rnui-border);
 }
 
 .rnui-btn--ghost {
@@ -192,10 +196,24 @@
 
 .rnui-card {
   background: var(--rnui-surface-raised);
-  border: 1px solid var(--rnui-border-subtle);
+  border: 1px solid var(--rnui-border);
   border-radius: var(--rnui-radius-xl);
   box-shadow: var(--rnui-shadow-sm);
   padding: 1.25rem;
+}
+
+.rnui-noshadow-card,
+.rnui-noshadow-paper {
+  background: var(--rnui-surface-raised);
+  border: 1px solid var(--rnui-border);
+  border-radius: var(--rnui-radius-xl);
+  box-shadow: none;
+  padding: 0.75rem 1rem;
+}
+
+.rnui-noshadow-paper {
+  background: var(--rnui-surface-sunken);
+  border-color: var(--rnui-border-subtle);
 }
 
 .rnui-card__title {
@@ -228,7 +246,7 @@
   height: 48px;
   padding: 0 0.875rem;
   border-radius: var(--rnui-radius-xl);
-  border: 1px solid var(--rnui-border-subtle);
+  border: 1px solid var(--rnui-border-input);
   background: var(--rnui-surface-raised);
   font-size: 0.9375rem;
   color: var(--rnui-text);
@@ -264,7 +282,7 @@
 }
 
 .rnui-badge--default {
-  background: #e2e8f0;
+  background: var(--rnui-surface-raised);
   color: var(--rnui-text-secondary);
   border-color: var(--rnui-border);
 }
@@ -419,9 +437,15 @@
 }
 
 .rnui-chip--solid {
-  background: var(--rnui-brand-subtle);
-  color: var(--rnui-brand-text);
-  border-color: var(--rnui-brand-border);
+  background: var(--rnui-surface-raised);
+  color: var(--rnui-text);
+  border-color: var(--rnui-border);
+}
+
+.rnui-chip--outlined {
+  background: var(--rnui-surface-sunken);
+  color: var(--rnui-text);
+  border-color: var(--rnui-border);
 }
 
 .rnui-chip--subtle {

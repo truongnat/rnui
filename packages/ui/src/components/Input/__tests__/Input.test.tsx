@@ -443,5 +443,15 @@ describe('Input', () => {
       expect(getByPlaceholderText('Enter username')).toBeTruthy();
       expect(getByTestId('icon')).toBeTruthy();
     });
+
+    it('renders floating label mode with input accessibility label', () => {
+      const { getByLabelText, queryByText } = render(
+        <ThemeProvider>
+          <Input floatingLabel label="Cardholder name" />
+        </ThemeProvider>
+      );
+      expect(getByLabelText('Cardholder name')).toBeTruthy();
+      expect(queryByText('Cardholder name')).toBeNull();
+    });
   });
 });

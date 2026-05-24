@@ -33,43 +33,40 @@ export default function CardScreen() {
   return (
     <DemoPage
       title="Card"
-      description="Flexible containers used to group related content and actions with support for shadows, glassmorphism, and interactivity."
+      description="Payment, profile, and content blocks — raised surface with soft border and shadow."
     >
-      <DemoSection title="Paddings" bare>
-        <Stack spacing="md">
-          <Card padding="sm">
-            <Typography variant="subtitle2">Small Padding</Typography>
-            <Typography variant="body2" color="secondary">
-              Compact layout for dense information.
+      <DemoSection
+        title="Payment method"
+        description="Hero card — billing summary with primary action."
+      >
+        <Card>
+          <Stack spacing="md">
+            <Typography variant="overline" color="brand">
+              Primary card
             </Typography>
-          </Card>
-          <Card padding="md">
-            <Typography variant="subtitle2">Medium (Default)</Typography>
+            <Typography variant="h4">Visa ending in 4242</Typography>
             <Typography variant="body2" color="secondary">
-              Standard spacing for most card contents.
+              Expires 08/27 · Used for subscription and one-click checkout.
             </Typography>
-          </Card>
-          <Card padding="lg">
-            <Typography variant="subtitle2">Large Padding</Typography>
-            <Typography variant="body2" color="secondary">
-              Generous spacing for atmospheric layouts.
-            </Typography>
-          </Card>
-        </Stack>
+            <Button
+              label="Update billing"
+              variant="outline"
+              size="sm"
+              style={{ alignSelf: 'flex-start' }}
+              onPress={() => toast.info('Opening billing')}
+            />
+          </Stack>
+        </Card>
       </DemoSection>
 
-      <DemoSection
-        title="Interactive"
-        description="Built-in scale feedback on touch — ideal for tappable rows or navigation blocks."
-        bare
-      >
+      <DemoSection title="Interactive" bare>
         <Card
-          onPress={() => toast.success('Card pressed!')}
-          accessibilityLabel="Pressable card"
+          onPress={() => toast.success('Opening order details')}
+          accessibilityLabel="View order details"
         >
-          <Typography variant="subtitle2">Pressable Card</Typography>
+          <Typography variant="subtitle2">Order #4821</Typography>
           <Typography variant="body2" color="secondary">
-            Touch me to see the press animation.
+            Shipped · Tap for tracking and invoice.
           </Typography>
         </Card>
       </DemoSection>

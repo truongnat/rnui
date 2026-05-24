@@ -1,7 +1,12 @@
-import { useId, usePressable, useTheme } from '@truongdq01/headless';
+import {
+  useId,
+  usePressable,
+  useTheme,
+  type ViewAnimatedStyle,
+} from '@truongdq01/headless';
 import type React from 'react';
 import { useMemo } from 'react';
-import { type StyleProp, View, type ViewStyle } from 'react-native';
+import { Text, type StyleProp, View, type ViewStyle } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
@@ -35,7 +40,25 @@ export function Card({
   const id = useId(idProp, 'card');
   const {
     components: { card },
+    tokens,
   } = useTheme();
+
+  const content = useMemo(() => {
+    if (typeof children === 'string' || typeof children === 'number') {
+      return (
+        <Text
+          style={{
+            color: tokens.color.text.primary,
+            fontSize: tokens.fontSize.md,
+            lineHeight: tokens.fontSize.md * 1.5,
+          }}
+        >
+          {children}
+        </Text>
+      );
+    }
+    return children;
+  }, [children, tokens]);
 
   const containerStyle = useMemo(
     () => [
@@ -60,10 +83,12 @@ export function Card({
     return (
       <GestureDetector gesture={gesture}>
         <Animated.View
-          style={[containerStyle, animatedStyle] as StyleProp<ViewStyle>}
+          style={
+            [containerStyle, animatedStyle] as StyleProp<ViewAnimatedStyle>
+          }
           {...accessibilityProps}
         >
-          {children}
+          {content}
         </Animated.View>
       </GestureDetector>
     );
@@ -71,7 +96,7 @@ export function Card({
 
   return (
     <View nativeID={id} style={containerStyle}>
-      {children}
+      {content}
     </View>
   );
 }

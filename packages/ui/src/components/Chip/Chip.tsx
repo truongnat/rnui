@@ -76,7 +76,9 @@ export function Chip({
   const sizeStyle = chip.size[size] || chip.size.md;
 
   const customBg =
-    variant === 'solid' && color !== 'default' ? colors.bg : vStyle.bg;
+    color !== 'default' && (variant === 'solid' || variant === 'outlined')
+      ? colors.bg
+      : vStyle.bg;
   const customBorder =
     variant === 'outlined' && color !== 'default'
       ? colors.border

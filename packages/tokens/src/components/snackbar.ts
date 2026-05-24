@@ -6,7 +6,7 @@ export function snackbarTokens(t: SemanticTokens) {
       backgroundColor: t.color.surface.raised,
       borderRadius: t.radius.md,
       borderWidth: 1,
-      borderColor: t.color.border.subtle,
+      borderColor: t.color.border.default,
       paddingHorizontal: t.spacing[4],
       paddingVertical: t.spacing[3],
       flexDirection: 'row' as const,

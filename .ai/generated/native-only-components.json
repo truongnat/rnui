@@ -1,0 +1,102 @@
+{
+  "version": "1",
+  "generatedAt": "2026-05-24T03:46:53.286Z",
+  "components": [
+    {
+      "name": "Modal",
+      "status": "stable",
+      "reason": "Depends on native Modal, AnimatedOverlay, and safe-area behavior",
+      "docsPath": "components/modal"
+    },
+    {
+      "name": "Dialog",
+      "status": "stable",
+      "reason": "Portal/overlay behavior and native presentation",
+      "docsPath": "components/dialog"
+    },
+    {
+      "name": "AlertDialog",
+      "status": "stable",
+      "reason": "Built on Dialog native overlay stack",
+      "docsPath": "components/alert-dialog"
+    },
+    {
+      "name": "BottomSheet",
+      "status": "beta",
+      "reason": "Requires Reanimated gestures and native sheet physics",
+      "docsPath": "components/bottom-sheet"
+    },
+    {
+      "name": "DatePicker",
+      "status": "beta",
+      "reason": "Uses @react-native-community/datetimepicker native module",
+      "docsPath": "components/date-picker"
+    },
+    {
+      "name": "Drawer",
+      "status": "beta",
+      "reason": "Gesture + Reanimated panel animation",
+      "docsPath": "components/drawer"
+    },
+    {
+      "name": "Popover",
+      "status": "beta",
+      "reason": "Measure/layout anchoring differs on web vs native",
+      "docsPath": "components/popover"
+    },
+    {
+      "name": "Popper",
+      "status": "experimental",
+      "reason": "Native measure and portal positioning",
+      "docsPath": "components/popper"
+    },
+    {
+      "name": "ContextMenu",
+      "status": "beta",
+      "reason": "Native context menu / gesture coordination",
+      "docsPath": "components/context-menu"
+    },
+    {
+      "name": "Carousel",
+      "status": "beta",
+      "reason": "Gesture handler and Reanimated paging",
+      "docsPath": "components/carousel"
+    },
+    {
+      "name": "AnimatedOverlay",
+      "status": "beta",
+      "reason": "Reanimated enter/exit and native modal host",
+      "docsPath": "components/animated-overlay"
+    },
+    {
+      "name": "AnimatedList",
+      "status": "experimental",
+      "reason": "Reanimated layout animations and list virtualization",
+      "docsPath": "components/animated-list"
+    },
+    {
+      "name": "Toast",
+      "status": "stable",
+      "reason": "Portal positioning and native toast host",
+      "docsPath": "components/toast"
+    },
+    {
+      "name": "Snackbar",
+      "status": "stable",
+      "reason": "Native positioning and safe-area insets",
+      "docsPath": "components/snackbar"
+    },
+    {
+      "name": "Tabs",
+      "status": "beta",
+      "reason": "Reanimated indicator and gesture-heavy tab bar",
+      "docsPath": "components/tabs"
+    },
+    {
+      "name": "Select",
+      "status": "beta",
+      "reason": "Native sheet/modal picker and gesture interactions",
+      "docsPath": "components/select"
+    }
+  ]
+}

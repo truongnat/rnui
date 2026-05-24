@@ -47,11 +47,21 @@ import { Mail } from 'lucide-react-native';
 
 ## Sizes
 
-Inputs come in three standardized heights:
+Heights align with **Button** for form rows:
 
-- **Small**: 32px
-- **Medium**: 40px
-- **Large**: 48px
+| Size | Height | Use case |
+| ---- | ------ | -------- |
+| `sm` | 36dp   | Compact filters, inline fields |
+| `md` | 44dp   | Default — matches Button md |
+| `lg` | 52dp   | Prominent checkout or auth fields |
+
+Corner radius uses `radius.lg` (same family as Button). Focus uses border color only — no layout shift.
+
+## Accessibility
+
+- Pair every field with a visible `label` (or `floatingLabel` + placeholder).
+- Use `error` for validation messages; `helperText` for non-error hints.
+- `disabled` reduces opacity and blocks editing — do not rely on color alone.
 
 ## Standard Icons
 

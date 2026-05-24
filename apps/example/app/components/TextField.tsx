@@ -20,34 +20,31 @@ export default function TextFieldScreen() {
       description="High-level wrapper around Input, Select, and TextArea with unified validation API."
     >
       <DemoSection
-        title="Standard Layouts"
-        description="Labels, requirements, and leading adornments."
+        title="Profile setup"
+        description="Unified validation API over Input, Select, and TextArea."
       >
         <Stack spacing="md">
           <TextField
-            label="Full Name"
-            placeholder="John Doe"
+            label="Display name"
+            placeholder="Alex Nguyen"
             value={form.name}
             onChangeText={(name) => setForm((f) => ({ ...f, name }))}
             leadingElement={<User size={18} color={t.color.text.tertiary} />}
+            required
           />
           <TextField
-            label="Email Address"
+            label="Work email"
             type="email"
-            required
-            placeholder="john@example.com"
+            placeholder="alex@company.com"
             value={form.email}
             onChangeText={(email) => setForm((f) => ({ ...f, email }))}
             error={showError && !form.email ? 'Email is required' : undefined}
-            helperText="We'll never share your email."
+            helperText="Used for receipts and security alerts."
           />
         </Stack>
       </DemoSection>
 
-      <DemoSection
-        title="Types & Security"
-        description="Password type includes a built-in visibility toggle."
-      >
+      <DemoSection title="Security">
         <TextField
           label="Secure Password"
           type="password"

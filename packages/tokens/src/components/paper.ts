@@ -4,9 +4,10 @@ export function paperTokens(t: SemanticTokens) {
   return {
     container: {
       backgroundColor: t.color.surface.default,
-      borderRadius: t.radius.lg,
-      borderWidth: 0,
-      borderColor: t.color.border.subtle,
+      borderRadius: t.radius.xl,
+      borderWidth: 1,
+      borderColor: t.color.border.default,
+      ...t.shadow.sm,
     },
     elevation: {
       none: { ...t.shadow.none },
@@ -15,8 +16,16 @@ export function paperTokens(t: SemanticTokens) {
       lg: { ...t.shadow.lg },
     },
     variant: {
-      outlined: { borderWidth: 1 },
-      flat: { borderWidth: 0, ...t.shadow.none },
+      outlined: {
+        borderWidth: 1,
+        borderColor: t.color.border.default,
+      },
+      flat: {
+        borderWidth: 1,
+        borderColor: t.color.border.subtle,
+        backgroundColor: t.color.surface.sunken,
+        ...t.shadow.none,
+      },
     },
   } as const;
 }

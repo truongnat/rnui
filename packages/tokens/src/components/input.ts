@@ -1,11 +1,17 @@
 import type { SemanticTokens } from '../semantic';
 
 export function inputTokens(t: SemanticTokens) {
+  const disabledState = {
+    backgroundColor: t.color.surface.sunken,
+    borderColor: t.color.border.subtle,
+    opacity: t.opacity[60],
+  };
+
   return {
     container: {
       borderWidth: 1,
-      borderColor: t.color.border.subtle,
-      borderRadius: t.radius.xl,
+      borderColor: t.color.border.input,
+      borderRadius: t.radius.lg,
       backgroundColor: t.color.surface.default,
       flexDirection: 'row' as const,
       alignItems: 'center' as const,
@@ -15,45 +21,38 @@ export function inputTokens(t: SemanticTokens) {
     hover: {
       borderColor: t.color.border.strong,
     },
-    disabled: {
-      backgroundColor: t.color.bg.disabled,
-      borderColor: t.color.border.default,
-      opacity: t.opacity[50],
-    },
+    disabled: disabledState,
     size: {
       sm: {
-        height: 32,
+        height: 36,
         fontSize: t.fontSize.sm,
         paddingVertical: t.spacing[1.5],
       },
-      /** Issue #1: spacing[3] vertical padding inside ~48dp target */
       md: {
-        height: 48,
+        height: 44,
         fontSize: t.fontSize.md,
-        paddingVertical: t.spacing[3],
+        paddingVertical: t.spacing[2],
       },
       lg: {
-        height: 56,
+        height: 52,
         fontSize: t.fontSize.lg,
-        paddingVertical: t.spacing[3],
+        paddingVertical: t.spacing[2.5],
       },
     },
     focusRing: {
       borderColor: t.color.border.focus,
-      borderWidth: 2,
+      borderWidth: 1,
       outlineOffset: t.focusRing.offset,
     },
     state: {
-      default: { borderColor: t.color.border.default },
-      /** Match default borderWidth — avoids layout shift on focus */
+      default: { borderColor: t.color.border.input },
       focused: { borderColor: t.color.border.focus, borderWidth: 1 },
       error: { borderColor: t.color.border.error },
-      disabled: { backgroundColor: t.color.bg.muted, opacity: t.opacity[60] },
+      disabled: disabledState,
     },
     floatingLabel: {
       fontSize: { active: t.fontSize.xs, inactive: t.fontSize.md },
       color: { active: t.color.border.focus, inactive: t.color.text.tertiary },
-      translateY: { active: -14, inactive: 0 },
     },
     text: {
       color: t.color.text.primary,
@@ -61,19 +60,19 @@ export function inputTokens(t: SemanticTokens) {
     },
     label: {
       fontSize: t.fontSize.sm,
-      fontWeight: t.fontWeight.semibold,
+      fontWeight: t.fontWeight.medium,
       color: t.color.text.primary,
-      marginBottom: t.spacing[1.5],
+      marginBottom: t.spacing[2],
     },
     helperText: {
       fontSize: t.fontSize.xs,
-      color: t.color.text.tertiary,
-      marginTop: t.spacing[1],
+      color: t.color.text.secondary,
+      marginTop: t.spacing[2],
     },
     errorText: {
       fontSize: t.fontSize.xs,
       color: t.color.error.text,
-      marginTop: t.spacing[1],
+      marginTop: t.spacing[2],
     },
   };
 }

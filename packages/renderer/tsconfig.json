@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "composite": true,
+    "incremental": true,
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "baseUrl": ".",
+    "paths": {
+      "@truongdq01/component-schema": ["../component-schema/dist"],
+      "@truongdq01/ui": ["../ui/dist"],
+      "@truongdq01/headless": ["../headless/dist"],
+      "@truongdq01/tokens": ["../tokens/dist"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "**/__tests__/**/*", "**/*.test.ts", "**/*.test.tsx"],
+  "references": [{ "path": "../component-schema" }]
+}

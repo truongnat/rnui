@@ -1,0 +1,70 @@
+{
+  "id": "profile-card",
+  "name": "Profile Card",
+  "version": "1",
+  "root": {
+    "type": "Screen",
+    "props": {
+      "padding": "md"
+    },
+    "children": [
+      {
+        "type": "Card",
+        "props": {
+          "padding": "lg"
+        },
+        "children": [
+          {
+            "type": "Stack",
+            "props": {
+              "direction": "row",
+              "spacing": "md",
+              "alignItems": "center"
+            },
+            "children": [
+              {
+                "type": "Avatar",
+                "props": {
+                  "initials": "TD",
+                  "size": "lg",
+                  "status": "online"
+                }
+              },
+              {
+                "type": "Stack",
+                "props": {
+                  "spacing": "xs"
+                },
+                "children": [
+                  {
+                    "type": "Typography",
+                    "props": {
+                      "variant": "h6",
+                      "children": "Truong Dev"
+                    }
+                  },
+                  {
+                    "type": "Typography",
+                    "props": {
+                      "variant": "body2",
+                      "color": "secondary",
+                      "children": "Product designer"
+                    }
+                  },
+                  {
+                    "type": "Badge",
+                    "props": {
+                      "label": "Pro",
+                      "variant": "brand",
+                      "size": "sm"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

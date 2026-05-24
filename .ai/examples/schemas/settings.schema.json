@@ -1,0 +1,64 @@
+{
+  "id": "settings",
+  "name": "Settings",
+  "version": "1",
+  "root": {
+    "type": "Screen",
+    "props": {
+      "padding": "md",
+      "spacing": "lg"
+    },
+    "children": [
+      {
+        "type": "Typography",
+        "props": {
+          "variant": "h4",
+          "children": "Settings"
+        }
+      },
+      {
+        "type": "Card",
+        "props": {
+          "padding": "md"
+        },
+        "children": [
+          {
+            "type": "Stack",
+            "props": {
+              "spacing": "md"
+            },
+            "children": [
+              {
+                "type": "Switch",
+                "props": {
+                  "label": "Push notifications",
+                  "on": true
+                }
+              },
+              {
+                "type": "Switch",
+                "props": {
+                  "label": "Dark mode",
+                  "on": false
+                }
+              },
+              {
+                "type": "Divider",
+                "props": {
+                  "spacing": "sm"
+                }
+              },
+              {
+                "type": "Checkbox",
+                "props": {
+                  "label": "Share analytics",
+                  "checked": true
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

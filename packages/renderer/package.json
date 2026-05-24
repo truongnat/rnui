@@ -1,0 +1,61 @@
+{
+  "name": "@truongdq01/renderer",
+  "version": "0.1.0",
+  "description": "ScreenSchema renderer — validate, lazy-load RNUI components, preview, and export TSX",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/truongnat/rnui.git",
+    "directory": "packages/renderer"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.mjs",
+    "dist/**/*.d.ts",
+    "!dist/**/*.map"
+  ],
+  "scripts": {
+    "build": "tsup && bun tsc -p tsconfig.types.json && cp -r dist-types/. dist/ && rm -rf dist-types",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check ./src",
+    "format": "biome format --write ./src",
+    "test": "bun test",
+    "clean": "rm -rf dist dist-types"
+  },
+  "dependencies": {
+    "@truongdq01/component-schema": "workspace:*"
+  },
+  "peerDependencies": {
+    "@truongdq01/headless": "^1.0.3",
+    "@truongdq01/ui": "^1.0.3",
+    "react": "^19.2.0",
+    "react-native": "^0.83.2",
+    "react-native-web": ">=0.19.0"
+  },
+  "peerDependenciesMeta": {
+    "react-native-web": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@truongdq01/headless": "workspace:*",
+    "@truongdq01/themes": "workspace:*",
+    "@truongdq01/ui": "workspace:*",
+    "@types/react": "^19.2.14",
+    "react": "19.2.0",
+    "react-native": "0.83.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  }
+}
