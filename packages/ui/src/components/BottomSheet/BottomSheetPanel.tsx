@@ -1,7 +1,10 @@
-import type { UseBottomSheetReturn } from '@truongdq01/headless';
+import type {
+  UseBottomSheetReturn,
+  ViewAnimatedStyle,
+} from '@truongdq01/headless';
 import type React from 'react';
 import { memo, useMemo } from 'react';
-import type { ViewStyle } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { GestureType } from 'react-native-gesture-handler';
 import { GestureDetector } from 'react-native-gesture-handler';
@@ -33,7 +36,7 @@ function BottomSheetPanelInner({
   children,
 }: BottomSheetPanelProps) {
   const sheetStyle = useMemo(
-    (): (ViewStyle | UseBottomSheetReturn['sheetAnimatedStyle'])[] => [
+    (): StyleProp<ViewAnimatedStyle> => [
       styles.sheet,
       containerStyle,
       {

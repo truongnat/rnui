@@ -1,4 +1,4 @@
-import { useIconStyle, useId, useTheme } from '@truongdq01/headless';
+import { useId, useTheme } from '@truongdq01/headless';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { ChipAvatar } from './ChipAvatar';
@@ -30,8 +30,6 @@ export function Chip({
     components: { chip },
     tokens,
   } = useTheme();
-  const { color: iconColor } = useIconStyle('list');
-
   const palette: Record<string, ChipColorTokens> = useMemo(
     () => ({
       default: {
@@ -105,15 +103,7 @@ export function Chip({
         opacity: disabled ? tokens.opacity[60] : 1,
       },
     ],
-    [
-      tokens,
-      sizeStyle,
-      chip,
-      customBg,
-      customBorder,
-      borderWidth,
-      disabled,
-    ]
+    [tokens, sizeStyle, chip, customBg, customBorder, borderWidth, disabled]
   );
 
   const pressHitSlop = useMemo(() => {
@@ -134,7 +124,7 @@ export function Chip({
           {avatar}
         </ChipAvatar>
       )}
-      <ChipIcon iconSize={iconSize} iconColor={iconColor}>
+      <ChipIcon iconSize={iconSize} iconColor={customText}>
         {icon}
       </ChipIcon>
       <ChipLabel

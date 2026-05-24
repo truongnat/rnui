@@ -1,11 +1,16 @@
-import { usePressable, useTheme, useToggleGroup } from '@truongdq01/headless';
+import {
+  usePressable,
+  useTheme,
+  useToggleGroup,
+  type ViewAnimatedStyle,
+} from '@truongdq01/headless';
 import React, {
   createContext,
   isValidElement,
   useContext,
   useMemo,
 } from 'react';
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import type { StyleProp, TextStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
@@ -118,7 +123,7 @@ export function ToggleButton<T = string>({
     [labelColor, s.fontSize, tokens.fontWeight.medium]
   );
 
-  const containerStyle = useMemo((): StyleProp<ViewStyle> => {
+  const containerStyle = useMemo((): StyleProp<ViewAnimatedStyle> => {
     return [
       toggleButton.container,
       selected && toggleButton.container.selected,

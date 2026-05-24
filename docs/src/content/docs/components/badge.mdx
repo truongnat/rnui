@@ -31,7 +31,7 @@ import { Check } from "lucide-react-native";
 | Prop      | Type        | Default | Description                |
 | --------- | ----------- | ------- | -------------------------- | --------- | ------- | ------- | ----------- | ------------ |
 | `label`   | `string`    | --      | Badge text                 |
-| `variant` | `"default"  | "brand" | "success"                  | "warning" | "error" | "info"` | `"default"` | Visual style |
+| `variant` | `"default"  | "brand" | "accent" | "success" | "warning" | "error" | "info"` | `"default"` | Visual style |
 | `icon`    | `ReactNode` | --      | Optional icon before label |
 
 ## Variants
@@ -40,7 +40,20 @@ Use the `variant` prop to match semantic intent:
 
 - `default`
 - `brand`
+- `accent`
 - `success`
 - `warning`
 - `error`
 - `info`
+
+## Visible surfaces
+
+Every variant uses **background + border + text** so badges read on normal app backgrounds without blur or overlay blending.
+
+See [Visual Baseline — visible surface matrix](/components/visual-baseline/#visible-surface-rule) for white, app, card, glass, and dark test panels.
+
+```tsx
+<Badge label="Delivered" variant="success" />
+<Badge label="Premium" variant="accent" />
+<Badge label="Draft" variant="default" />
+```

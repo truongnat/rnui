@@ -64,9 +64,20 @@ Aligns with Toast elevated-surface pattern from visible-surface audit.
 - `badge.ts` — default variant surface
 - `chip.ts` — solid variant surface
 
+### Docs / examples (follow-up)
+- `docs/.../badge.mdx` — `accent` variant + visible surfaces section
+- `docs/.../chip.md` — visible surfaces section
+- `apps/example/demo/DemoSurfacePanel.tsx` — native multi-background panels
+- `apps/example/.../Badge.tsx`, `Chip.tsx`, `Alert.tsx` — realistic copy + surface QA
+
+### Chip polish
+- Icon color aligns with chip text (`customText`) instead of generic list icon style
+
 ### Planning
 - `phase-2b-status-surfaces-investigation.md`
+- `phase-2b-status-surface-investigation.md` (spec alias)
 - `phase-2b-status-surfaces-summary.md`
+- `visible-surface-audit.md` — Phase 2B rule + status variant matrix
 
 ---
 

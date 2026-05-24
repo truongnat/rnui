@@ -12,35 +12,35 @@ export default function AlertScreen() {
       description="Contextual feedback for user actions — info, success, warning, and error."
     >
       <DemoSection
-        title="Standard"
-        description="Subtle colors for status updates without interrupting flow."
+        title="Order & account status"
+        description="Severity colors apply to title and body automatically."
       >
         <Stack spacing="md">
-          <Alert severity="info" onClose={() => {}}>
-            <AlertTitle>Information</AlertTitle>
+          <Alert severity="success" onClose={() => {}}>
+            <AlertTitle>Payment received</AlertTitle>
             <Typography variant="body2">
-              Informational alert for slight feedback.
-            </Typography>
-          </Alert>
-
-          <Alert severity="success">
-            <AlertTitle>Success</AlertTitle>
-            <Typography variant="body2">
-              Your changes have been saved successfully.
+              Order #4821 is confirmed. You will get a receipt by email.
             </Typography>
           </Alert>
 
           <Alert severity="warning">
-            <AlertTitle>Warning</AlertTitle>
+            <AlertTitle>Card expiring soon</AlertTitle>
             <Typography variant="body2">
-              Check your connection before proceeding.
+              Your Visa ending in 4242 expires in 12 days. Update billing to avoid interruption.
             </Typography>
           </Alert>
 
           <Alert severity="error">
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>Could not charge subscription</AlertTitle>
             <Typography variant="body2">
-              Failed to upload images. Please try again later.
+              We could not process your renewal. Check your payment method and try again.
+            </Typography>
+          </Alert>
+
+          <Alert severity="info">
+            <AlertTitle>Delivery update</AlertTitle>
+            <Typography variant="body2">
+              Your package is out for delivery and should arrive today before 6 PM.
             </Typography>
           </Alert>
         </Stack>

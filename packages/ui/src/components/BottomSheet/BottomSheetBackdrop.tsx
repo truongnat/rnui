@@ -1,13 +1,9 @@
-import { useTheme } from '@truongdq01/headless';
+import { useTheme, type ViewAnimatedStyle } from '@truongdq01/headless';
 import { memo, useMemo } from 'react';
-import type { ViewStyle } from 'react-native';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, type StyleProp } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
-import type { AnimatedStyle } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
 import type { BottomSheetBackdropProps } from './types';
-
-type BackdropLayerStyle = ViewStyle | AnimatedStyle;
 
 /**
  * Semi-transparent animated overlay behind the sheet.
@@ -23,7 +19,7 @@ function BottomSheetBackdropInner({
   } = useTheme();
 
   const backdropLayerStyle = useMemo(
-    (): BackdropLayerStyle[] => [
+    (): StyleProp<ViewAnimatedStyle> => [
       StyleSheet.absoluteFill,
       bottomSheet.backdrop,
       animatedStyle,

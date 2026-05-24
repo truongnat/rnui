@@ -31,6 +31,18 @@ import { Chip } from '@truongdq01/ui';
 | `disabled`   | `boolean`                                                                              | `false`     | Disable interactions            |
 | `clickable`  | `boolean`                                                                              | `false`     | Enable click behavior           |
 
+## Visible surfaces
+
+Solid chips use a **raised surface + subtle border** instead of a flat gray fill. Status colors (`success`, `warning`, `error`, etc.) use semantic bg/text/border tokens.
+
+Verify on multiple backgrounds in the [Visual Baseline](/components/visual-baseline/#visible-surface-rule) or the example app Chip screen.
+
+```tsx
+<Chip label="Paid" color="success" />
+<Chip label="Pending" color="warning" variant="outlined" />
+<Chip label="All orders" variant="solid" />
+```
+
 ## Variants
 
 ```tsx

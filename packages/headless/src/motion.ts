@@ -9,11 +9,16 @@ import {
   type TimingPresetKey,
   timingPreset,
 } from '@truongdq01/tokens';
+import type { ViewStyle } from 'react-native';
 import {
   Easing,
+  type AnimatedStyle,
   type EasingFunction,
   type EasingFunctionFactory,
 } from 'react-native-reanimated';
+
+/** Animated styles safe for `Animated.View` (view-only, not `DefaultStyle`). */
+export type ViewAnimatedStyle = AnimatedStyle<ViewStyle>;
 
 /** Alias for {@link import('@truongdq01/tokens').motionPreset} — layout animation name metadata from tokens. */
 export { motionPreset as motionPresets } from '@truongdq01/tokens';

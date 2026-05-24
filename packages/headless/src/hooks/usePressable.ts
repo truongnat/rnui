@@ -1,6 +1,6 @@
 import { pressFeedback, spring } from '@truongdq01/tokens';
 import { useCallback, useState } from 'react';
-import type { AccessibilityRole } from 'react-native';
+import type { AccessibilityRole, ViewStyle } from 'react-native';
 import { Gesture } from 'react-native-gesture-handler';
 import {
   useAnimatedStyle,
@@ -8,6 +8,7 @@ import {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import type { ViewAnimatedStyle } from '../motion';
 import { scheduleOnRN } from 'react-native-worklets';
 import { triggerHaptic } from './useHaptics';
 import { useId } from './useId';
@@ -53,7 +54,7 @@ export interface UsePressableOptions {
 
 export interface UsePressableReturn {
   /** Attach to Reanimated.View as animatedStyle */
-  animatedStyle: ReturnType<typeof useAnimatedStyle>;
+  animatedStyle: ViewAnimatedStyle;
   /** Pass to GestureDetector gesture prop */
   gesture: ReturnType<typeof Gesture.Simultaneous>;
   /** Spread onto View for accessibility and identification */
@@ -117,7 +118,7 @@ export function usePressable({
   }, []);
 
   // ── Animated style (UI thread) ────────────────────────────────
-  const animatedStyle = useAnimatedStyle(() => {
+  const animatedStyle = useAnimatedStyle<ViewStyle>(() => {
     if (effectiveFeedbackMode === 'opacity') {
       return { opacity: opacity.value };
     }

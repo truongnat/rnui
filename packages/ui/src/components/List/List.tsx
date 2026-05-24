@@ -6,7 +6,9 @@ import { ListSubheader } from './ListSubheader';
 import type { ListProps } from './types';
 
 /** JSX whitespace between items becomes text nodes and crashes RN if rendered in a View. */
-function filterWhitespaceChildren(children: React.ReactNode): React.ReactNode[] {
+function filterWhitespaceChildren(
+  children: React.ReactNode
+): React.ReactNode[] {
   return React.Children.toArray(children).filter((child) => {
     if (typeof child === 'string') {
       return child.trim().length > 0;

@@ -26,12 +26,12 @@ describe('primitive tokens', () => {
 });
 
 describe('semantic tokens — light mode', () => {
-  test('bg.default is light gray (Telegram-style)', () => {
-    expect(lightTokens.color.bg.default).toBe('#F8FAFC');
+  test('bg.default is soft premium canvas', () => {
+    expect(lightTokens.color.bg.default).toBe('#F3F1F8');
   });
 
-  test('text.primary is near-black', () => {
-    expect(lightTokens.color.text.primary).toBe('#020617');
+  test('text.primary is readable slate', () => {
+    expect(lightTokens.color.text.primary).toBe(primitive.color.gray[900]);
   });
 
   test('has shadow definitions', () => {
@@ -41,8 +41,8 @@ describe('semantic tokens — light mode', () => {
 });
 
 describe('semantic tokens — dark mode', () => {
-  test('bg.default is near-black', () => {
-    expect(darkTokens.color.bg.default).toBe('#0D0D14');
+  test('bg.default is deep slate (not pure black)', () => {
+    expect(darkTokens.color.bg.default).toBe('#12121C');
   });
 
   test('text.primary is near-white', () => {

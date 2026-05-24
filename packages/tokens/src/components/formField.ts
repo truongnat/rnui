@@ -1,6 +1,6 @@
 import type { SemanticTokens } from '../semantic';
 
-export function formFieldTokens(t: SemanticTokens) {
+export function formFieldTokens(_t: SemanticTokens) {
   return {
     // Spacing between fields is owned by FormGroup `gap`, not this wrapper
     container: {},

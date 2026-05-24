@@ -99,15 +99,16 @@ export default function DialogScreen() {
             </Stack>
           }
         >
-          <Typography variant="body2" color="secondary">
-            Choose a name your team will recognize.
-          </Typography>
-          <Input
-            label="Project name"
-            value={projectName}
-            onChangeText={setProjectName}
-            style={{ marginTop: 16 }}
-          />
+          <Stack spacing={16}>
+            <Typography variant="body2" color="secondary">
+              Choose a name your team will recognize.
+            </Typography>
+            <Input
+              label="Project name"
+              value={projectName}
+              onChangeText={setProjectName}
+            />
+          </Stack>
         </Dialog>
       </DemoSection>
 

@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { useTokens } from '@truongdq01/headless';
-import { Chip } from '@truongdq01/ui';
+import { Chip, Stack } from '@truongdq01/ui';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
-import { User, Tag, Settings, Heart } from 'lucide-react-native';
+import { DemoSurfacePanel } from '@/demo/DemoSurfacePanel';
+import { CreditCard, Filter, Tag } from 'lucide-react-native';
 
 export default function ChipScreen() {
   const t = useTokens();
-  const [selected, setSelected] = useState(['react']);
+  const [selected, setSelected] = useState(['paid']);
 
   const toggleSelection = (key: string) => {
     setSelected((prev) =>
@@ -18,45 +19,72 @@ export default function ChipScreen() {
   return (
     <DemoPage
       title="Chip"
-      description="Compact elements for attributes, filters, or actions."
+      description="Filters, payment status, and tags — visible raised surfaces on any canvas."
     >
+      <DemoSection title="Payment & order filters" description="Product copy for status chips.">
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
+          <Chip label="Paid" color="success" icon={<CreditCard size={12} />} />
+          <Chip label="Pending" color="warning" />
+          <Chip label="Declined" color="error" />
+          <Chip label="Subscription" color="primary" icon={<Tag size={12} />} />
+        </View>
+      </DemoSection>
+
       <DemoSection title="Variants" description="Solid, outlined, and subtle styles.">
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
-          <Chip label="Solid Chip" variant="solid" />
-          <Chip label="Outlined Chip" variant="outlined" />
-          <Chip label="Ghost Chip" variant="subtle" />
-          <Chip label="Default Shape" />
+          <Chip label="All orders" variant="solid" />
+          <Chip label="In transit" variant="outlined" />
+          <Chip label="Saved filter" variant="subtle" color="primary" />
         </View>
       </DemoSection>
 
-      <DemoSection title="Colors & Icons" description="Status themes and leading icons.">
-        <View style={{ gap: t.spacing[3] }}>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
-            <Chip label="Primary" color="primary" icon={<Tag size={12} />} />
-            <Chip label="Success" color="success" icon={<Settings size={12} />} />
-            <Chip label="Error" color="error" icon={<Heart size={12} />} />
-            <Chip label="Warning" color="warning" />
-            <Chip label="Info" color="info" />
-          </View>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
-            <Chip label="Lead Icon" icon={<User size={12} />} />
-            <Chip label="With Action" onDelete={() => {}} />
-            <Chip label="Full Combo" icon={<User size={12} />} onDelete={() => {}} />
-          </View>
-        </View>
+      <DemoSection
+        title="Visible surfaces"
+        description="Solid default uses raised surface + border — not a flat gray slab."
+      >
+        <Stack spacing="md">
+          {(
+            [
+              ['White surface', 'white'],
+              ['App background', 'app'],
+              ['Card surface', 'card'],
+              ['Glass surface', 'glass'],
+              ['Dark surface', 'dark'],
+            ] as const
+          ).map(([label, surface]) => (
+            <DemoSurfacePanel key={surface} label={label} surface={surface}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
+                <Chip label="Paid" color="success" />
+                <Chip label="Filter" variant="outlined" icon={<Filter size={12} />} />
+                <Chip label="Draft" variant="solid" />
+              </View>
+            </DemoSurfacePanel>
+          ))}
+        </Stack>
       </DemoSection>
 
-      <DemoSection title="Selection" description="Single or multiple filter patterns.">
+      <DemoSection title="Selection" description="Filter chips for order status.">
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
-          {['react', 'react-native', 'typescript', 'reanimated'].map((tech) => (
+          {[
+            { key: 'paid', label: 'Paid' },
+            { key: 'pending', label: 'Pending' },
+            { key: 'refunded', label: 'Refunded' },
+          ].map(({ key, label }) => (
             <Chip
-              key={tech}
-              label={tech.charAt(0).toUpperCase() + tech.slice(1)}
-              variant={selected.includes(tech) ? 'solid' : 'outlined'}
-              color={selected.includes(tech) ? 'primary' : 'default'}
-              onClick={() => toggleSelection(tech)}
+              key={key}
+              label={label}
+              variant={selected.includes(key) ? 'solid' : 'outlined'}
+              color={selected.includes(key) ? 'primary' : 'default'}
+              onClick={() => toggleSelection(key)}
             />
           ))}
+        </View>
+      </DemoSection>
+
+      <DemoSection title="Disabled & deletable">
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
+          <Chip label="Archived" disabled />
+          <Chip label="Remove tag" onDelete={() => {}} />
         </View>
       </DemoSection>
 

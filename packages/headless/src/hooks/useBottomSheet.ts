@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { useWindowDimensions } from 'react-native';
+import { useWindowDimensions, type ViewStyle } from 'react-native';
 import { Gesture } from 'react-native-gesture-handler';
 import {
   useAnimatedStyle,
@@ -7,7 +7,7 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
-import { resolveTimingPreset } from '../motion';
+import { resolveTimingPreset, type ViewAnimatedStyle } from '../motion';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -40,9 +40,9 @@ export interface UseBottomSheetReturn {
   /** Current snap index */
   currentSnapIndex: number;
   /** Animated translateY for the sheet container */
-  sheetAnimatedStyle: ReturnType<typeof useAnimatedStyle>;
+  sheetAnimatedStyle: ViewAnimatedStyle;
   /** Animated opacity for the backdrop */
-  backdropAnimatedStyle: ReturnType<typeof useAnimatedStyle>;
+  backdropAnimatedStyle: ViewAnimatedStyle;
   /** Pan gesture — attach to the drag handle */
   panGesture: ReturnType<typeof Gesture.Pan>;
   /** Tap gesture — attach to backdrop to close on tap */
@@ -257,11 +257,11 @@ export function useBottomSheet({
   });
 
   // ── Animated styles ──────────────────────────────────────────
-  const sheetAnimatedStyle = useAnimatedStyle(() => ({
+  const sheetAnimatedStyle = useAnimatedStyle<ViewStyle>(() => ({
     transform: [{ translateY: translateY.value }],
   }));
 
-  const backdropAnimatedStyle = useAnimatedStyle(() => ({
+  const backdropAnimatedStyle = useAnimatedStyle<ViewStyle>(() => ({
     opacity: backdropOpacity.value,
     pointerEvents: backdropOpacity.value > 0 ? 'auto' : 'none',
   }));

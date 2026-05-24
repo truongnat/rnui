@@ -188,7 +188,7 @@ export type {
   UseToggleGroupReturn,
 } from './hooks/useToggleGroup';
 export { useToggleGroup } from './hooks/useToggleGroup';
-export type { TimingPresetKey } from './motion';
+export type { TimingPresetKey, ViewAnimatedStyle } from './motion';
 // Motion
 export {
   focusRingAnimation,

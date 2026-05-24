@@ -23,6 +23,11 @@ jest.mock('react-native-reanimated', () => ({
   }),
   interpolate: jest.fn(),
   Extrapolation: { CLAMP: 'clamp' },
+  Easing: {
+    bezier: jest.fn(() => ({})),
+    linear: {},
+    ease: {},
+  },
 }));
 
 jest.mock('react-native-worklets', () => ({
@@ -94,11 +99,19 @@ jest.mock('react-native-gesture-handler', () => {
   };
 });
 
-jest.mock('@truongdq01/tokens', () => ({
-  spring: {
-    gentle: { damping: 50, stiffness: 200 },
-  },
-}));
+jest.mock('@truongdq01/tokens', () => {
+  const actual =
+    jest.requireActual<typeof import('@truongdq01/tokens')>(
+      '@truongdq01/tokens'
+    );
+  return {
+    ...actual,
+    spring: {
+      ...actual.spring,
+      gentle: { damping: 50, stiffness: 200 },
+    },
+  };
+});
 
 describe('useBottomSheet', () => {
   beforeEach(() => {
