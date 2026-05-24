@@ -2,66 +2,140 @@
   "id": "login",
   "name": "Login",
   "version": "1",
-  "description": "Email and password login screen",
+  "description": "Centered auth screen with avatar, card form, and secondary action",
   "actions": [
     {
       "id": "signIn",
       "description": "Submit credentials"
+    },
+    {
+      "id": "forgotPassword",
+      "description": "Open password recovery"
     }
   ],
   "root": {
     "type": "Screen",
     "props": {
-      "padding": "md",
-      "spacing": "md"
+      "padding": "lg",
+      "spacing": "xs"
     },
     "children": [
       {
-        "type": "Typography",
+        "type": "Box",
         "props": {
-          "variant": "h4",
-          "children": "Welcome back"
-        }
-      },
-      {
-        "type": "Typography",
-        "props": {
-          "variant": "body2",
-          "color": "secondary",
-          "children": "Sign in to continue"
-        }
-      },
-      {
-        "type": "Stack",
-        "props": {
-          "spacing": "md"
+          "flex": 1
         },
         "children": [
           {
-            "type": "Input",
+            "type": "Stack",
             "props": {
-              "label": "Email",
-              "placeholder": "you@example.com",
-              "value": ""
-            }
-          },
-          {
-            "type": "Input",
-            "props": {
-              "label": "Password",
-              "placeholder": "••••••••",
-              "secureTextEntry": true,
-              "value": ""
-            }
-          },
-          {
-            "type": "Button",
-            "props": {
-              "label": "Sign in",
-              "variant": "solid",
-              "fullWidth": true,
-              "action": "signIn"
-            }
+              "spacing": "lg",
+              "justifyContent": "center",
+              "alignItems": "stretch"
+            },
+            "children": [
+              {
+                "type": "Stack",
+                "props": {
+                  "spacing": "sm",
+                  "alignItems": "center"
+                },
+                "children": [
+                  {
+                    "type": "Avatar",
+                    "props": {
+                      "initials": "RN",
+                      "size": "xl",
+                      "accessibilityLabel": "RNUI"
+                    }
+                  },
+                  {
+                    "type": "Typography",
+                    "props": {
+                      "variant": "h3",
+                      "children": "Welcome back"
+                    }
+                  },
+                  {
+                    "type": "Typography",
+                    "props": {
+                      "variant": "body2",
+                      "color": "secondary",
+                      "children": "Sign in to your account to continue"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "Card",
+                "props": {
+                  "padding": "lg"
+                },
+                "children": [
+                  {
+                    "type": "Stack",
+                    "props": {
+                      "spacing": "md"
+                    },
+                    "children": [
+                      {
+                        "type": "Input",
+                        "props": {
+                          "label": "Email",
+                          "placeholder": "you@example.com",
+                          "value": ""
+                        }
+                      },
+                      {
+                        "type": "Input",
+                        "props": {
+                          "label": "Password",
+                          "placeholder": "Enter your password",
+                          "secureTextEntry": true,
+                          "value": ""
+                        }
+                      },
+                      {
+                        "type": "Button",
+                        "props": {
+                          "label": "Sign in",
+                          "variant": "solid",
+                          "color": "primary",
+                          "fullWidth": true,
+                          "action": "signIn"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "Stack",
+                "props": {
+                  "spacing": "xs",
+                  "alignItems": "center"
+                },
+                "children": [
+                  {
+                    "type": "Button",
+                    "props": {
+                      "label": "Forgot password?",
+                      "variant": "ghost",
+                      "color": "primary",
+                      "action": "forgotPassword"
+                    }
+                  },
+                  {
+                    "type": "Typography",
+                    "props": {
+                      "variant": "caption",
+                      "color": "secondary",
+                      "children": "By signing in you agree to the Terms of Service."
+                    }
+                  }
+                ]
+              }
+            ]
           }
         ]
       }

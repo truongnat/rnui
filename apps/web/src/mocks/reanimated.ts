@@ -32,11 +32,15 @@ export function interpolate(
 }
 
 export function interpolateColor(
-  _value: number,
-  _input: number[],
+  value: number,
+  input: number[],
   output: string[]
 ): string {
-  return output[0] ?? '#000';
+  if (output.length === 0) return '#000';
+  if (output.length === 1 || input.length < 2) return output[0];
+  if (value <= input[0]) return output[0];
+  if (value >= input[input.length - 1]) return output[output.length - 1];
+  return output[0];
 }
 
 export function scheduleOnRN<T extends (...args: never[]) => unknown>(

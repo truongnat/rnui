@@ -2,10 +2,22 @@
   "id": "profile-card",
   "name": "Profile Card",
   "version": "1",
+  "description": "Profile hero with stats and actions",
+  "actions": [
+    {
+      "id": "editProfile",
+      "description": "Edit profile details"
+    },
+    {
+      "id": "shareProfile",
+      "description": "Share profile link"
+    }
+  ],
   "root": {
     "type": "Screen",
     "props": {
-      "padding": "md"
+      "padding": "md",
+      "spacing": "lg"
     },
     "children": [
       {
@@ -17,7 +29,6 @@
           {
             "type": "Stack",
             "props": {
-              "direction": "row",
               "spacing": "md",
               "alignItems": "center"
             },
@@ -26,20 +37,21 @@
                 "type": "Avatar",
                 "props": {
                   "initials": "TD",
-                  "size": "lg",
+                  "size": "xl",
                   "status": "online"
                 }
               },
               {
                 "type": "Stack",
                 "props": {
-                  "spacing": "xs"
+                  "spacing": "xs",
+                  "alignItems": "center"
                 },
                 "children": [
                   {
                     "type": "Typography",
                     "props": {
-                      "variant": "h6",
+                      "variant": "h5",
                       "children": "Truong Dev"
                     }
                   },
@@ -48,13 +60,13 @@
                     "props": {
                       "variant": "body2",
                       "color": "secondary",
-                      "children": "Product designer"
+                      "children": "Product designer · San Francisco"
                     }
                   },
                   {
                     "type": "Badge",
                     "props": {
-                      "label": "Pro",
+                      "label": "Pro member",
                       "variant": "brand",
                       "size": "sm"
                     }
@@ -62,6 +74,162 @@
                 ]
               }
             ]
+          }
+        ]
+      },
+      {
+        "type": "Stack",
+        "props": {
+          "direction": "row",
+          "spacing": "md"
+        },
+        "children": [
+          {
+            "type": "Box",
+            "props": {
+              "flex": 1
+            },
+            "children": [
+              {
+                "type": "Card",
+                "props": {
+                  "padding": "sm"
+                },
+                "children": [
+                  {
+                    "type": "Stack",
+                    "props": {
+                      "spacing": "xs",
+                      "alignItems": "center"
+                    },
+                    "children": [
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "h6",
+                          "children": "128"
+                        }
+                      },
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "caption",
+                          "color": "secondary",
+                          "children": "Projects"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "Box",
+            "props": {
+              "flex": 1
+            },
+            "children": [
+              {
+                "type": "Card",
+                "props": {
+                  "padding": "sm"
+                },
+                "children": [
+                  {
+                    "type": "Stack",
+                    "props": {
+                      "spacing": "xs",
+                      "alignItems": "center"
+                    },
+                    "children": [
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "h6",
+                          "children": "2.4k"
+                        }
+                      },
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "caption",
+                          "color": "secondary",
+                          "children": "Followers"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "Box",
+            "props": {
+              "flex": 1
+            },
+            "children": [
+              {
+                "type": "Card",
+                "props": {
+                  "padding": "sm"
+                },
+                "children": [
+                  {
+                    "type": "Stack",
+                    "props": {
+                      "spacing": "xs",
+                      "alignItems": "center"
+                    },
+                    "children": [
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "h6",
+                          "children": "98%"
+                        }
+                      },
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "caption",
+                          "color": "secondary",
+                          "children": "Rating"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Stack",
+        "props": {
+          "direction": "row",
+          "spacing": "md"
+        },
+        "children": [
+          {
+            "type": "Button",
+            "props": {
+              "label": "Edit profile",
+              "variant": "solid",
+              "fullWidth": true,
+              "action": "editProfile"
+            }
+          },
+          {
+            "type": "Button",
+            "props": {
+              "label": "Share",
+              "variant": "outline",
+              "fullWidth": true,
+              "action": "shareProfile"
+            }
           }
         ]
       }

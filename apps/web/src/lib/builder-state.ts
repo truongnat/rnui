@@ -7,7 +7,7 @@ import {
 } from '@truongdq01/component-schema';
 import { exportSchemaToTsx } from '../../../../packages/renderer/src/export-tsx';
 import type { ChatMessage } from './ai/types';
-import { exampleSchemas } from './example-schemas';
+import { exampleSchemas, type ExampleSchemaKey } from './example-schemas';
 
 export type BuilderTab = 'schema' | 'validation' | 'tsx' | 'lazy';
 
@@ -47,14 +47,25 @@ function analyzeSchema(schema: unknown): {
   return { validation, lazyPlan };
 }
 
+export function tsxExportFilename(schema: ScreenSchema): string {
+  const base = schema.name.replace(/\s+/g, '');
+  return `${base}Screen.tsx`;
+}
+
 export function createInitialState(): BuilderState {
-  const schema = exampleSchemas.login;
+  return loadExampleState('login');
+}
+
+export function loadExampleState(key: ExampleSchemaKey): BuilderState {
+  const schema = exampleSchemas[key];
   const { validation, lazyPlan } = analyzeSchema(schema);
 
   return {
     schema,
     schemaText: schemaToText(schema),
-    tsx: exportSchemaToTsx(schema, { componentName: 'LoginScreen' }),
+    tsx: exportSchemaToTsx(schema, {
+      componentName: `${schema.name.replace(/\s+/g, '')}Screen`,
+    }),
     validation,
     lazyPlan,
     messages: [
@@ -62,7 +73,7 @@ export function createInitialState(): BuilderState {
         id: 'welcome',
         role: 'assistant',
         content:
-          'RNUI Web Builder MVP — describe a screen (login, settings, profile, dashboard, form) or type "invalid" to test repair. Mock AI only; no external API.',
+          'RNUI Screen Builder — pick a template chip or describe a screen. Mock AI only; no external API.',
         timestamp: Date.now(),
       },
     ],
@@ -70,6 +81,28 @@ export function createInitialState(): BuilderState {
     isGenerating: false,
     copyNotice: null,
   };
+}
+
+export function applyExampleTemplate(
+  state: BuilderState,
+  key: ExampleSchemaKey
+): BuilderState {
+  const schema = exampleSchemas[key];
+  return applySchemaUpdate(
+    {
+      ...state,
+      messages: [
+        ...state.messages,
+        {
+          id: `template-${key}-${Date.now()}`,
+          role: 'assistant',
+          content: `Loaded ${schema.name} template.`,
+          timestamp: Date.now(),
+        },
+      ],
+    },
+    schema
+  );
 }
 
 export function applySchemaUpdate(

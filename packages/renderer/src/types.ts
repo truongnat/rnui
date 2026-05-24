@@ -84,6 +84,8 @@ export type ScreenSchemaRendererProps = {
 export type WebPreviewHostProps = RNUISchemaRendererProps & {
   minHeight?: number;
   withGestureRoot?: boolean;
+  /** Preview color scheme — default `light` for consistent web builder output. */
+  colorScheme?: 'light' | 'dark' | 'system';
 };
 
 export type RenderSchemaNodeProps = {

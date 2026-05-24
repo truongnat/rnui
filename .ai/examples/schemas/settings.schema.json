@@ -2,6 +2,13 @@
   "id": "settings",
   "name": "Settings",
   "version": "1",
+  "description": "Profile header and preference toggles",
+  "actions": [
+    {
+      "id": "signOut",
+      "description": "Sign out of the account"
+    }
+  ],
   "root": {
     "type": "Screen",
     "props": {
@@ -25,9 +32,73 @@
           {
             "type": "Stack",
             "props": {
+              "direction": "row",
+              "spacing": "md",
+              "alignItems": "center"
+            },
+            "children": [
+              {
+                "type": "Avatar",
+                "props": {
+                  "initials": "TD",
+                  "size": "md",
+                  "status": "online"
+                }
+              },
+              {
+                "type": "Box",
+                "props": {
+                  "flex": 1
+                },
+                "children": [
+                  {
+                    "type": "Stack",
+                    "props": {
+                      "spacing": "xs"
+                    },
+                    "children": [
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "subtitle1",
+                          "children": "Truong Dev"
+                        }
+                      },
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "body2",
+                          "color": "secondary",
+                          "children": "truong@example.com"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Card",
+        "props": {
+          "padding": "md"
+        },
+        "children": [
+          {
+            "type": "Stack",
+            "props": {
               "spacing": "md"
             },
             "children": [
+              {
+                "type": "Typography",
+                "props": {
+                  "variant": "overline",
+                  "children": "Preferences"
+                }
+              },
               {
                 "type": "Switch",
                 "props": {
@@ -38,26 +109,33 @@
               {
                 "type": "Switch",
                 "props": {
-                  "label": "Dark mode",
+                  "label": "Email updates",
                   "on": false
                 }
               },
               {
                 "type": "Divider",
-                "props": {
-                  "spacing": "sm"
-                }
+                "props": {}
               },
               {
                 "type": "Checkbox",
                 "props": {
-                  "label": "Share analytics",
+                  "label": "Share anonymous analytics",
                   "checked": true
                 }
               }
             ]
           }
         ]
+      },
+      {
+        "type": "Button",
+        "props": {
+          "label": "Sign out",
+          "variant": "destructive",
+          "fullWidth": true,
+          "action": "signOut"
+        }
       }
     ]
   }

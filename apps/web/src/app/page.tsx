@@ -6,8 +6,8 @@ export default function HomePage() {
       <p className="eyebrow">RNUI</p>
       <h1>Design system + AI screen builder</h1>
       <p className="landing-copy">
-        Phase 3C MVP — generate ScreenSchema with mock AI, preview RNUI on the
-        web, validate, and export TSX. No live AI API yet.
+        Phase 3E — polished builder UI, light/dark preview, production screen
+        templates. Mock AI only; no live API yet.
       </p>
       <Link href="/builder" className="landing-cta">
         Open builder

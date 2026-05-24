@@ -17,27 +17,31 @@ const PROMPT_MAP: Array<{
     match: /login|sign[\s-]?in|auth/i,
     key: 'login',
     summary:
-      'Generated a login screen with email, password, and sign-in action.',
+      'Generated a login screen using Card, Typography, Input, and Button with primary and secondary actions.',
   },
   {
     match: /setting|preference|toggle|notification/i,
     key: 'settings',
-    summary: 'Generated a settings screen with switches and a checkbox.',
+    summary:
+      'Generated a settings screen with profile card, preference switches, checkbox, and sign-out action.',
   },
   {
-    match: /profile|avatar|card/i,
+    match: /profile|avatar|member/i,
     key: 'profile-card',
-    summary: 'Generated a profile card with avatar, badge, and metadata.',
+    summary:
+      'Generated a profile card with Avatar, stats row, Badge, and edit/share actions.',
   },
   {
-    match: /dashboard|overview|stats|metric/i,
+    match: /dashboard|overview|stats|metric|home/i,
     key: 'dashboard',
-    summary: 'Generated a dashboard layout with alerts, chips, and activity.',
+    summary:
+      'Generated a dashboard home with greeting, summary cards, filter chips, activity list, and CTA.',
   },
   {
-    match: /form|input|field|submit|contact/i,
+    match: /form|input|field|submit|contact|payment|checkout|ecommerce/i,
     key: 'form',
-    summary: 'Generated a form screen with text fields and submit action.',
+    summary:
+      'Generated a contact form using Card, labeled Inputs, helper Alert, and submit action.',
   },
 ];
 
@@ -83,7 +87,7 @@ export class MockAIProvider implements AIProvider {
       schema: cloneSchema(exampleSchemas[key]),
       reasoningSummary:
         matched?.summary ??
-        'No exact template matched — using dashboard as the default MVP schema.',
+        'No exact template matched — using dashboard as the default polished home screen.',
     };
   }
 

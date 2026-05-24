@@ -74,10 +74,32 @@ TSX export generates `handleSignIn` stubs with TODO comments.
 - Alias `react-native` → `react-native-web`
 - Include `@truongdq01/ui` and `@truongdq01/headless` peer deps
 
+### Preview environment (Phase 3D)
+
+`WebPreviewHost` defaults to **`colorScheme="light"`** so web previews stay readable regardless of OS dark mode. It wraps content in a flex container with `tokens.color.bg.default` as the canvas background.
+
+```tsx
+<WebPreviewHost
+  schema={loginScreenSchemaExample}
+  colorScheme="light"
+  withGestureRoot={false}
+/>
+```
+
+Pass `colorScheme="dark"` or `"system"` when you intentionally want to preview dark tokens.
+
 Native-only components render a dashed placeholder — not a crash.
 
-## Next: Phase 3C
+## Schema quality matters
 
-`apps/web/builder` — chat panel, preview panel, schema/code panel — builds on this package.
+Polished previews depend on **good ScreenSchema templates**, not just the renderer:
+
+- Use Card/Paper groups, Typography hierarchy, and spacing on `Screen`.
+- Avoid sparse single-column dumps of inputs without structure.
+- See `.ai/examples/schemas/` and [Web builder](/guides/web-builder/) template guidance.
+
+## Next: Web builder
+
+`apps/web` at `/builder` — template chips, chat panel, preview panel, schema/code panel — builds on this package.
 
 See also: [Component schema](/guides/component-schema/), `.ai/screen-schema-guide.md`.

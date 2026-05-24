@@ -2,32 +2,168 @@
   "id": "dashboard",
   "name": "Dashboard",
   "version": "1",
+  "description": "App home with greeting, stats, filters, and activity",
+  "actions": [
+    {
+      "id": "createTask",
+      "description": "Create a new task"
+    }
+  ],
   "root": {
     "type": "Screen",
     "props": {
       "padding": "md",
-      "spacing": "md"
+      "spacing": "lg"
     },
     "children": [
       {
-        "type": "Typography",
+        "type": "Stack",
         "props": {
-          "variant": "h4",
-          "children": "Dashboard"
-        }
+          "direction": "row",
+          "spacing": "md",
+          "alignItems": "center"
+        },
+        "children": [
+          {
+            "type": "Box",
+            "props": {
+              "flex": 1
+            },
+            "children": [
+              {
+                "type": "Stack",
+                "props": {
+                  "spacing": "xs"
+                },
+                "children": [
+                  {
+                    "type": "Typography",
+                    "props": {
+                      "variant": "h4",
+                      "children": "Good morning, Truong"
+                    }
+                  },
+                  {
+                    "type": "Typography",
+                    "props": {
+                      "variant": "body2",
+                      "color": "secondary",
+                      "children": "Sunday · 3 tasks due today"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "Badge",
+            "props": {
+              "label": "Pro",
+              "variant": "brand",
+              "size": "sm"
+            }
+          }
+        ]
       },
       {
         "type": "Alert",
         "props": {
           "severity": "info",
-          "children": "You have 3 tasks due today."
+          "children": "You have 3 tasks due today. Review your priorities."
         }
       },
       {
         "type": "Stack",
         "props": {
           "direction": "row",
-          "spacing": "md",
+          "spacing": "md"
+        },
+        "children": [
+          {
+            "type": "Box",
+            "props": {
+              "flex": 1
+            },
+            "children": [
+              {
+                "type": "Card",
+                "props": {
+                  "padding": "sm"
+                },
+                "children": [
+                  {
+                    "type": "Stack",
+                    "props": {
+                      "spacing": "xs"
+                    },
+                    "children": [
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "caption",
+                          "color": "secondary",
+                          "children": "Open tasks"
+                        }
+                      },
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "h5",
+                          "children": "12"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "Box",
+            "props": {
+              "flex": 1
+            },
+            "children": [
+              {
+                "type": "Card",
+                "props": {
+                  "padding": "sm"
+                },
+                "children": [
+                  {
+                    "type": "Stack",
+                    "props": {
+                      "spacing": "xs"
+                    },
+                    "children": [
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "caption",
+                          "color": "secondary",
+                          "children": "Completed"
+                        }
+                      },
+                      {
+                        "type": "Typography",
+                        "props": {
+                          "variant": "h5",
+                          "children": "48"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Stack",
+        "props": {
+          "direction": "row",
+          "spacing": "sm",
           "wrap": true
         },
         "children": [
@@ -56,28 +192,52 @@
         ]
       },
       {
-        "type": "Paper",
+        "type": "Card",
         "props": {
-          "variant": "outlined",
-          "elevation": "none"
+          "padding": "md"
         },
         "children": [
           {
-            "type": "Typography",
+            "type": "Stack",
             "props": {
-              "variant": "subtitle1",
-              "children": "Recent activity"
-            }
-          },
-          {
-            "type": "Typography",
-            "props": {
-              "variant": "body2",
-              "color": "secondary",
-              "children": "No new updates in the last hour."
-            }
+              "spacing": "sm"
+            },
+            "children": [
+              {
+                "type": "Typography",
+                "props": {
+                  "variant": "subtitle1",
+                  "children": "Recent activity"
+                }
+              },
+              {
+                "type": "Typography",
+                "props": {
+                  "variant": "body2",
+                  "color": "secondary",
+                  "children": "Shipped login screen polish · 2h ago"
+                }
+              },
+              {
+                "type": "Typography",
+                "props": {
+                  "variant": "body2",
+                  "color": "secondary",
+                  "children": "Updated dashboard schema · 5h ago"
+                }
+              }
+            ]
           }
         ]
+      },
+      {
+        "type": "Button",
+        "props": {
+          "label": "Create task",
+          "variant": "solid",
+          "fullWidth": true,
+          "action": "createTask"
+        }
       }
     ]
   }

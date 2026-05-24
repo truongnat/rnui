@@ -30,6 +30,7 @@
     "component-schema:check": "node scripts/check-component-schema.mjs",
     "surface:audit": "node scripts/audit-surface-contrast.mjs",
     "web:dev": "cd apps/web && bun run dev",
+    "web:dev:clean": "cd apps/web && bun run dev:clean",
     "web:build": "cd apps/web && bun run build",
     "builder:dev": "cd apps/web && bun run dev",
     "builder:build": "cd apps/web && bun run build"

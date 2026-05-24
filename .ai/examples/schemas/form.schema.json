@@ -2,60 +2,98 @@
   "id": "form",
   "name": "Contact Form",
   "version": "1",
+  "description": "Card-wrapped contact form with labeled fields",
   "actions": [
     {
       "id": "submit",
-      "description": "Submit form"
+      "description": "Submit the contact form"
     }
   ],
   "root": {
     "type": "Screen",
     "props": {
       "padding": "md",
-      "spacing": "md"
+      "spacing": "lg"
     },
     "children": [
       {
-        "type": "Typography",
+        "type": "Stack",
         "props": {
-          "variant": "h5",
-          "children": "Contact us"
-        }
+          "spacing": "xs"
+        },
+        "children": [
+          {
+            "type": "Typography",
+            "props": {
+              "variant": "h4",
+              "children": "Contact us"
+            }
+          },
+          {
+            "type": "Typography",
+            "props": {
+              "variant": "body2",
+              "color": "secondary",
+              "children": "We typically respond within one business day."
+            }
+          }
+        ]
       },
       {
-        "type": "TextField",
+        "type": "Card",
         "props": {
-          "label": "Name",
-          "variant": "outlined",
-          "required": true
-        }
-      },
-      {
-        "type": "TextField",
-        "props": {
-          "label": "Email",
-          "variant": "outlined",
-          "type": "email",
-          "required": true
-        }
-      },
-      {
-        "type": "TextField",
-        "props": {
-          "label": "Message",
-          "variant": "outlined",
-          "multiline": true,
-          "rows": 4
-        }
-      },
-      {
-        "type": "Button",
-        "props": {
-          "label": "Send message",
-          "variant": "solid",
-          "fullWidth": true,
-          "action": "submit"
-        }
+          "padding": "lg"
+        },
+        "children": [
+          {
+            "type": "Stack",
+            "props": {
+              "spacing": "md"
+            },
+            "children": [
+              {
+                "type": "Input",
+                "props": {
+                  "label": "Full name",
+                  "placeholder": "Jane Doe",
+                  "value": ""
+                }
+              },
+              {
+                "type": "Input",
+                "props": {
+                  "label": "Email",
+                  "placeholder": "jane@company.com",
+                  "value": ""
+                }
+              },
+              {
+                "type": "Input",
+                "props": {
+                  "label": "Message",
+                  "placeholder": "How can we help?",
+                  "value": ""
+                }
+              },
+              {
+                "type": "Alert",
+                "props": {
+                  "severity": "warning",
+                  "children": "Demo: include a phone number for urgent requests."
+                }
+              },
+              {
+                "type": "Button",
+                "props": {
+                  "label": "Send message",
+                  "variant": "solid",
+                  "fullWidth": true,
+                  "action": "submit"
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
   }

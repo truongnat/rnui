@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
       ),
       'react-native-gesture-handler': path.resolve(
         rootDir,
-        'src/mocks/gesture-handler.ts'
+        'src/mocks/gesture-handler.tsx'
       ),
       'react-native-worklets': path.resolve(
         rootDir,

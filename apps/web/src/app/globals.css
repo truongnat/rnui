@@ -34,12 +34,12 @@ body {
   margin-top: 8px;
   padding: 12px 20px;
   border-radius: 12px;
-  background: #5b21b6;
+  background: #7c3aed;
   color: #fff;
   text-decoration: none;
   font-weight: 600;
 }
 
 .landing-cta:hover {
-  background: #4c1d95;
+  background: #6d28d9;
 }

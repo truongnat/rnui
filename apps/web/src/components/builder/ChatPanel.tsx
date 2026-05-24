@@ -4,7 +4,11 @@ import { useState } from 'react';
 import { createMessage } from '@/lib/ai/types';
 import { useAIProvider } from '@/lib/ai/context';
 import { exampleSchemaList } from '@/lib/example-schemas';
-import { applySchemaUpdate, type BuilderState } from '@/lib/builder-state';
+import {
+  applyExampleTemplate,
+  applySchemaUpdate,
+  type BuilderState,
+} from '@/lib/builder-state';
 
 type ChatPanelProps = {
   state: BuilderState;
@@ -89,9 +93,10 @@ export function ChatPanel({ state, onStateChange }: ChatPanelProps) {
             type="button"
             className="chip-button"
             onClick={() =>
-              void runPrompt(`Create a ${example.label.toLowerCase()} screen`)
+              onStateChange(applyExampleTemplate(state, example.key))
             }
             disabled={state.isGenerating}
+            title={example.description}
           >
             {example.label}
           </button>

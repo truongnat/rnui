@@ -6,6 +6,7 @@ import {
   applySchemaUpdate,
   exportTsxFromState,
   parseSchemaText,
+  tsxExportFilename,
   type BuilderState,
   type BuilderTab,
 } from '@/lib/builder-state';
@@ -165,11 +166,15 @@ export function SchemaPanel({ state, onStateChange }: SchemaPanelProps) {
 
       {state.activeTab === 'tsx' ? (
         <>
+          <p className="tsx-filename-hint">
+            Suggested file: <code>{tsxExportFilename(state.schema)}</code>
+          </p>
           <textarea
-            className="code-editor"
+            className="code-editor code-editor--tsx"
             value={state.tsx}
             readOnly
             spellCheck={false}
+            aria-label="Exported TSX source"
           />
           <div className="panel-footer-actions">
             <button

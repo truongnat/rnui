@@ -20,7 +20,7 @@ export function BuilderApp() {
           </div>
           <div className="topbar-actions">
             <p className="topbar-note">
-              Phase 3C — mock AI, RN Web preview, TSX export
+              Phase 3E — builder polish, theme preview, screen patterns
             </p>
             <button
               type="button"

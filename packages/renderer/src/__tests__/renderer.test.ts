@@ -170,14 +170,13 @@ describe('exportScreenSchemaToTsx / exportSchemaToTsx', () => {
       "import { ThemeProvider } from '@truongdq01/headless'"
     );
     expect(tsx).toContain(
-      "import { Button, Input, Stack, Typography } from '@truongdq01/ui'"
+      "import { Avatar, Box, Button, Card, Input, Stack, Typography } from '@truongdq01/ui'"
     );
     expect(tsx).toContain('export function LoginScreen');
-    expect(tsx).toContain(
-      '<Stack spacing="md" style={{ flex: 1, padding: 16 }}>'
-    );
+    expect(tsx).toContain('<Avatar initials');
     expect(tsx).toContain('onPress={handleSignIn}');
     expect(tsx).toContain('const handleSignIn');
+    expect(tsx).toContain('const handleForgotPassword');
   });
 
   test('exportSchemaToTsx alias produces identical output', () => {
