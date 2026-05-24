@@ -9,7 +9,7 @@ export function menuTokens(t: SemanticTokens) {
       minWidth: 160,
       ...t.shadow.lg,
       borderWidth: 1,
-      borderColor: t.color.border.subtle,
+      borderColor: t.color.border.default,
     },
     item: {
       paddingHorizontal: t.spacing[3],

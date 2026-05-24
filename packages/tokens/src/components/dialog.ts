@@ -14,6 +14,8 @@ export function dialogTokens(t: SemanticTokens) {
       width: '100%' as const,
       maxWidth: 400,
       flexShrink: 1,
+      borderWidth: 1,
+      borderColor: t.color.border.default,
       ...t.shadow.lg,
     },
     title: {

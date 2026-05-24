@@ -21,6 +21,8 @@ export function modalTokens(t: SemanticTokens) {
       width: '100%',
       maxWidth: 400,
       padding: t.spacing[6],
+      borderWidth: 1,
+      borderColor: t.color.border.default,
       ...t.shadow.lg,
     },
   } as const;

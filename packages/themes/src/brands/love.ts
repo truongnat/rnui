@@ -17,7 +17,7 @@ export const loveBrand = defineBrand({
   },
   light: {
     bg: {
-      default: '#FFFFFF',
+      default: '#FFF1F2',
       subtle: '#FFF1F2',
       muted: '#FFE4E6',
       emphasis: '#FDA4AF',
@@ -28,7 +28,7 @@ export const loveBrand = defineBrand({
     },
     surface: {
       default: '#FFFFFF',
-      raised: '#FFFFFF',
+      raised: '#FFFBFC',
       overlay: '#FFFFFF',
       sunken: '#FFF1F2',
       hover: '#FFF5F6',
@@ -47,8 +47,8 @@ export const loveBrand = defineBrand({
       onAccent: '#FFFFFF',
     },
     border: {
-      default: '#FECDD3',
-      subtle: '#FFE4E6',
+      default: '#FDA4AF',
+      subtle: '#FECDD3',
       strong: '#FDA4AF',
       input: '#FECDD3',
       focus: '#F43F5E',

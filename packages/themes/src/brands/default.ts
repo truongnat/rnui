@@ -17,7 +17,7 @@ export const defaultBrand = defineBrand({
   },
   light: {
     bg: {
-      default: '#FFFFFF',
+      default: '#F8FAFC',
       subtle: '#F8FAFC',
       muted: '#F1F5F9',
       emphasis: '#E2E8F0',
@@ -28,7 +28,7 @@ export const defaultBrand = defineBrand({
     },
     surface: {
       default: '#FFFFFF',
-      raised: '#FFFFFF',
+      raised: '#FCFCFD',
       overlay: '#FFFFFF',
       sunken: '#F8FAFC',
       hover: '#F1F5F9',

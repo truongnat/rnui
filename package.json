@@ -28,6 +28,7 @@
     "ai:check:files": "node scripts/check-ai-files.mjs",
     "component-schema:generate": "node scripts/generate-component-schema-json.mjs",
     "component-schema:check": "node scripts/check-component-schema.mjs",
+    "surface:audit": "node scripts/audit-surface-contrast.mjs",
     "builder:dev": "cd apps/web/builder && bun run dev",
     "builder:build": "cd apps/web/builder && bun run build"
   },

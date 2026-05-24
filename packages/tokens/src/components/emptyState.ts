@@ -19,7 +19,9 @@ export function emptyStateTokens(t: SemanticTokens) {
       borderRadius: t.radius.full,
       alignItems: 'center' as const,
       justifyContent: 'center' as const,
-      backgroundColor: t.color.brand.subtle,
+      backgroundColor: t.color.surface.sunken,
+      borderWidth: 1,
+      borderColor: t.color.border.default,
     },
     icon: {
       size: 64,

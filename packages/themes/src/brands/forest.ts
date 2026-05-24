@@ -17,7 +17,7 @@ export const forestBrand = defineBrand({
   },
   light: {
     bg: {
-      default: '#FFFFFF',
+      default: '#F0FDF4',
       subtle: '#F0FDF4',
       muted: '#DCFCE7',
       emphasis: '#A7F3D0',
@@ -28,7 +28,7 @@ export const forestBrand = defineBrand({
     },
     surface: {
       default: '#FFFFFF',
-      raised: '#FFFFFF',
+      raised: '#FAFDFB',
       overlay: '#FFFFFF',
       sunken: '#F0FDF4',
       hover: '#F0FDF4',
@@ -46,8 +46,8 @@ export const forestBrand = defineBrand({
       onAccent: '#FFFFFF',
     },
     border: {
-      default: '#D1FAE5',
-      subtle: '#F0FDF4',
+      default: '#A7F3D0',
+      subtle: '#D1FAE5',
       strong: '#6EE7B7',
       input: '#D1FAE5',
       focus: '#059669',

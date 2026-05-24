@@ -31,7 +31,7 @@ describe('semantic tokens — light mode', () => {
   });
 
   test('text.primary is readable slate', () => {
-    expect(lightTokens.color.text.primary).toBe(primitive.color.gray[900]);
+    expect(lightTokens.color.text.primary).toBe(primitive.color.gray[800]);
   });
 
   test('has shadow definitions', () => {

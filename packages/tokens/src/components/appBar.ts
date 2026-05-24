@@ -9,7 +9,9 @@ export function appBarTokens(t: SemanticTokens) {
       flexDirection: 'row' as const,
       alignItems: 'center' as const,
       justifyContent: 'space-between' as const,
-      ...t.shadow.md,
+      borderBottomWidth: 1,
+      borderBottomColor: t.color.border.default,
+      ...t.shadow.sm,
       zIndex: t.zIndex.sticky,
     },
     title: {

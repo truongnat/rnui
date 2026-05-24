@@ -17,7 +17,7 @@ export function tableTokens(t: SemanticTokens) {
     row: {
       flexDirection: 'row' as const,
       borderBottomWidth: 1,
-      borderBottomColor: t.color.border.subtle,
+      borderBottomColor: t.color.border.default,
       hover: { backgroundColor: t.color.bg.hover },
     },
     cell: {

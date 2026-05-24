@@ -28,7 +28,7 @@ export function chipTokens(t: SemanticTokens) {
     },
     variant: {
       solid: {
-        bg: t.color.surface.default,
+        bg: t.color.surface.sunken,
         text: t.color.text.primary,
         border: t.color.border.default,
       },

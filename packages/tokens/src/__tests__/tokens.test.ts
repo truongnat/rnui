@@ -30,8 +30,8 @@ describe('semantic tokens — light mode', () => {
     expect(lightTokens.color.bg.default).toBe('#F3F1F8');
   });
 
-  test('text.primary is readable slate', () => {
-    expect(lightTokens.color.text.primary).toBe(primitive.color.gray[900]);
+  test('text.primary is readable slate (not harsh black)', () => {
+    expect(lightTokens.color.text.primary).toBe(primitive.color.gray[800]);
   });
 
   test('has shadow definitions', () => {
@@ -145,6 +145,103 @@ describe('component tokens', () => {
   test('semantic borders are stronger than previous subtle-only hierarchy', () => {
     expect(lightTokens.color.border.default).not.toBe('#E4E0EC');
     expect(lightTokens.color.border.subtle).not.toBe('#EEEAF4');
+  });
+
+  test('surface hierarchy separates canvas, default, and raised fills', () => {
+    expect(lightTokens.color.bg.default).not.toBe(
+      lightTokens.color.surface.default
+    );
+    expect(lightTokens.color.surface.raised).not.toBe(
+      lightTokens.color.surface.default
+    );
+    expect(lightTokens.color.surface.sunken).not.toBe(
+      lightTokens.color.surface.default
+    );
+  });
+
+  test('dark mode bg and surface default differ', () => {
+    expect(darkTokens.color.bg.default).not.toBe(
+      darkTokens.color.surface.default
+    );
+    expect(darkTokens.color.surface.raised).not.toBe(
+      darkTokens.color.surface.default
+    );
+  });
+
+  test('list inset container has visible border', () => {
+    expect(ct.list.inset.borderWidth).toBeGreaterThanOrEqual(1);
+    expect(ct.list.inset.borderColor).toBe(lightTokens.color.border.default);
+  });
+
+  test('segmentedControl active item has border without shadow dependency', () => {
+    expect(ct.segmentedControl.item.active.borderWidth).toBeGreaterThanOrEqual(
+      1
+    );
+    expect(ct.segmentedControl.item.active.borderColor).toBe(
+      lightTokens.color.border.default
+    );
+  });
+
+  test('paper flat variant uses default border for no-shadow visibility', () => {
+    expect(ct.paper.variant.flat.borderColor).toBe(
+      lightTokens.color.border.default
+    );
+  });
+
+  test('badge default uses sunken fill for card/white visibility', () => {
+    expect(ct.badge.variant.default.bg).toBe(lightTokens.color.surface.sunken);
+    expect(ct.badge.variant.default.border).toBe(
+      lightTokens.color.border.default
+    );
+  });
+
+  test('chip solid uses sunken fill for neutral visibility', () => {
+    expect(ct.chip.variant.solid.bg).toBe(lightTokens.color.surface.sunken);
+  });
+
+  test('modal and dialog containers have visible borders', () => {
+    expect(ct.modal.container.borderWidth).toBeGreaterThanOrEqual(1);
+    expect(ct.modal.container.borderColor).toBe(
+      lightTokens.color.border.default
+    );
+    expect(ct.dialog.container.borderWidth).toBeGreaterThanOrEqual(1);
+    expect(ct.dialog.container.borderColor).toBe(
+      lightTokens.color.border.default
+    );
+  });
+
+  test('toast and snackbar have border tokens for no-shadow visibility', () => {
+    expect(ct.toast.container.borderWidth).toBeGreaterThanOrEqual(1);
+    expect(ct.snackbar.container.borderWidth).toBeGreaterThanOrEqual(1);
+    expect(ct.snackbar.container.borderColor).toBe(
+      lightTokens.color.border.default
+    );
+  });
+
+  test('alert variants include bg text and border', () => {
+    for (const key of ['info', 'success', 'warning', 'error'] as const) {
+      expect(ct.alert.variant[key].bg).toBeDefined();
+      expect(ct.alert.variant[key].text).toBeDefined();
+      expect(ct.alert.variant[key].border).toBeDefined();
+    }
+  });
+
+  test('status semantic colors include full token sets', () => {
+    for (const key of ['success', 'warning', 'error', 'info'] as const) {
+      const group = lightTokens.color[key];
+      expect(group.bg).toBeDefined();
+      expect(group.text).toBeDefined();
+      expect(group.border).toBeDefined();
+      expect(group.icon).toBeDefined();
+      expect(group.emphasis).toBeDefined();
+    }
+  });
+
+  test('emptyState icon wrap has border for visibility', () => {
+    expect(ct.emptyState.iconWrap.borderWidth).toBeGreaterThanOrEqual(1);
+    expect(ct.emptyState.iconWrap.borderColor).toBe(
+      lightTokens.color.border.default
+    );
   });
 
   test('formGroup grouped card has visible border on white/card surfaces', () => {

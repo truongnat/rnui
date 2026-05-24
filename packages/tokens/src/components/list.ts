@@ -13,6 +13,8 @@ export function listTokens(t: SemanticTokens) {
       borderRadius: t.radius.lg,
       overflow: 'hidden' as const,
       backgroundColor: t.color.surface.raised,
+      borderWidth: 1,
+      borderColor: t.color.border.default,
     },
     item: {
       padding: t.spacing[4],

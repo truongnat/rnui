@@ -9,9 +9,10 @@ export function paginationTokens(t: SemanticTokens) {
         borderColor: t.color.brand.default,
       },
       default: {
-        bg: 'transparent',
+        bg: t.color.surface.default,
         color: t.color.text.primary,
         borderColor: t.color.border.default,
+        borderWidth: 1,
       },
       hover: { bg: t.color.bg.hover },
       disabled: {

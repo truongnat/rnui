@@ -9,13 +9,15 @@ iOS/Android simulator and physical device QA were not run during Phase 4B implem
 
 ## Summary
 
-| Category | Pass | Fail | Not run |
-|----------|------|------|---------|
-| Overlays | 0 | 0 | 11 |
-| Toast/Snackbar | 0 | 0 | 8 |
-| Status surfaces | 0 | 0 | 5 |
-| Surface matrix | 0 | 0 | 7 |
-| Cross-cutting | 0 | 0 | 4 |
+
+| Category        | Pass | Fail | Not run |
+| --------------- | ---- | ---- | ------- |
+| Overlays        | 0    | 0    | 11      |
+| Toast/Snackbar  | 0    | 0    | 8       |
+| Status surfaces | 0    | 0    | 5       |
+| Surface matrix  | 0    | 0    | 7       |
+| Cross-cutting   | 0    | 0    | 4       |
+
 
 **Overall:** Manual device QA deferred to human reviewer with `.planning/device-qa-checklist.md`.
 
@@ -37,7 +39,7 @@ iOS/Android simulator and physical device QA were not run during Phase 4B implem
 
 ## Code changes ready for device verification
 
-- **SurfaceVisibility** — expanded matrix + Toast/Snackbar triggers + full dark panel
+-  **SurfaceVisibility** — expanded matrix + Toast/Snackbar triggers + full dark panel
 - **Alert** — 5-panel surface visibility section
 - **FormField grouped** — outer border token on grouped card
 - **Dialog** — token spacing cleanup (no API change)

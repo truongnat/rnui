@@ -6,6 +6,8 @@ export function bottomSheetTokens(t: SemanticTokens) {
       backgroundColor: t.color.surface.overlay,
       borderTopLeftRadius: t.radius.xl,
       borderTopRightRadius: t.radius.xl,
+      borderTopWidth: 1,
+      borderColor: t.color.border.default,
       ...t.shadow.xl,
     },
     handle: {

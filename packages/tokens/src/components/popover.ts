@@ -8,7 +8,7 @@ export function popoverTokens(t: SemanticTokens) {
       padding: t.spacing[4],
       ...t.shadow.lg,
       borderWidth: 1,
-      borderColor: t.color.border.subtle,
+      borderColor: t.color.border.default,
     },
     arrow: {
       backgroundColor: t.color.surface.overlay,

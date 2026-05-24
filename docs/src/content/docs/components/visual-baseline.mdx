@@ -17,6 +17,34 @@ import NoShadowSurfaceDemo from '../../../components/demos/NoShadowSurfaceDemo';
 
 Review the default RNUI visual language in one place — typography, controls, elevated surfaces, and status treatments. Use this page after token or component changes to confirm nothing regressed.
 
+## RNUI Design Foundation Contract
+
+Source of truth: `.planning/rnui-design-foundation-contract.md`
+
+| Layer | Rule |
+| ----- | ---- |
+| Surfaces | Fill + border required; shadow optional depth only |
+| Borders | `default` for shells, `input` for fields, `subtle` for dividers — all perceptible |
+| Radius | `lg` buttons/inputs, `xl` cards/modals — not pill-by-default |
+| Shadow | Soft mobile-native elevation; no Bootstrap black slabs |
+| Status | bg + border + text on every severity |
+| States | Focus, disabled, pressed, selected use semantic tokens |
+
+**Native example app is the source of truth** — CSS previews below approximate tokens. Run the **`SurfaceVisibility`** screen in `apps/example` after token changes.
+
+Automated guardrail: `bun run build && bun run surface:audit`
+
+### Component family checklist
+
+| Family | Pass criteria |
+| ------ | ------------- |
+| Layout (Card, Paper, Divider) | Visible with `shadow.none` |
+| Actions (Button, Toggle) | Outline/ghost/disabled readable |
+| Forms (Input, FormGroup) | Visible inside Card |
+| Status (Badge, Alert, Toast) | bg + border + text |
+| Overlay (Modal, Menu, Select) | Panel border + fill |
+| Data (List, Table, Tabs) | Row/tab separation without shadow-only |
+
 ## Typography
 
 Hierarchy should feel mobile-native: clear steps without overpowering body copy.
@@ -52,7 +80,7 @@ Native-friendly **44px** height (aligned with Button md), soft borders, and read
 
 ## Card & Paper
 
-Elevated surfaces use subtle border + soft shadow — not competing heavy treatments.
+Elevated surfaces use subtle border + soft shadow — border and fill must remain visible with shadow disabled (see No-shadow section below).
 
 <ComponentPreview
   title="Settings card"
@@ -171,7 +199,23 @@ Components must remain visible when shadow/elevation is disabled. Shadow may add
 - Glass-like panel (`color.surface.glass`)
 - Dark panel (`color.bg.inverse` or dark `surface.default`)
 
-Native QA: example app screen **`SurfaceVisibility`** — same matrix with real RNUI components.
+Native QA: example app screen **`SurfaceVisibility`** — full A–G matrix (neutral, form, status, action, data, overlay notes, dark panel) with real RNUI components.
+
+## Surface Visibility Contract
+
+Hard rules enforced by tokens, component recipes, and `bun run surface:audit`:
+
+1. **Fill first** — component background must differ from the parent canvas (`bg.default`, `surface.default`, or `surface.raised`) without relying on shadow.
+2. **Border required** — 1px semantic border (`border.default`, `border.input`, or status border) must remain perceivable on light and dark surfaces.
+3. **Shadow is optional depth** — `shadow.sm` and up may enhance elevation; removing shadow must not hide the component.
+4. **Status triple** — Badge, Chip, Alert, Toast variants need **background + border + text** on app, white, card, glass, and dark panels.
+5. **Nested surfaces** — Card-on-Card uses `surface.raised` inner fill; FormGroup grouped uses outer border; Input keeps `border.input` inside Card.
+6. **Glass fallback** — translucent fills (`surface.glass`) pair with visible `surface.glassBorder`.
+7. **Brand themes** — `bg.default` and `surface.default` must not collapse; borders strengthened per brand tint.
+
+Reference docs: `.planning/surface-visibility-contract.md` · audit: `scripts/audit-surface-contrast.mjs`
+
+**Final truth is the native example app** — CSS demos approximate tokens; run `SurfaceVisibility` on iOS/Android simulators after token changes.
 
 ## Related
 

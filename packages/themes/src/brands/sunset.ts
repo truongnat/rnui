@@ -17,7 +17,7 @@ export const sunsetBrand = defineBrand({
   },
   light: {
     bg: {
-      default: '#FFFFFF',
+      default: '#FFF7ED',
       subtle: '#FFF7ED',
       muted: '#FFEDD5',
       emphasis: '#FED7AA',
@@ -28,7 +28,7 @@ export const sunsetBrand = defineBrand({
     },
     surface: {
       default: '#FFFFFF',
-      raised: '#FFFFFF',
+      raised: '#FFFCF8',
       overlay: '#FFFFFF',
       sunken: '#FFF7ED',
       hover: '#FFF7ED',
@@ -46,8 +46,8 @@ export const sunsetBrand = defineBrand({
       onAccent: '#FFFFFF',
     },
     border: {
-      default: '#FFEDD5',
-      subtle: '#FFF7ED',
+      default: '#FED7AA',
+      subtle: '#FFEDD5',
       strong: '#FDBA74',
       input: '#FFEDD5',
       focus: '#F97316',

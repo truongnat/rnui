@@ -17,7 +17,7 @@ export const oceanBrand = defineBrand({
   },
   light: {
     bg: {
-      default: '#FFFFFF',
+      default: '#F0FDFA',
       subtle: '#F0FDFA',
       muted: '#CCFBF1',
       emphasis: '#99F6E4',
@@ -28,7 +28,7 @@ export const oceanBrand = defineBrand({
     },
     surface: {
       default: '#FFFFFF',
-      raised: '#FFFFFF',
+      raised: '#F8FEFC',
       overlay: '#FFFFFF',
       sunken: '#F0FDFA',
       hover: '#F0FDFA',
@@ -46,8 +46,8 @@ export const oceanBrand = defineBrand({
       onAccent: '#FFFFFF',
     },
     border: {
-      default: '#CCFBF1',
-      subtle: '#F0FDFA',
+      default: '#99F6E4',
+      subtle: '#CCFBF1',
       strong: '#5EEAD4',
       input: '#CCFBF1',
       focus: '#0D9488',

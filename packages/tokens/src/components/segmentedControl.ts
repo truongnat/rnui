@@ -14,7 +14,12 @@ export function segmentedControlTokens(t: SemanticTokens) {
       alignItems: 'center' as const,
       justifyContent: 'center' as const,
       borderRadius: t.radius.md,
-      active: { backgroundColor: t.color.surface.default, ...t.shadow.sm },
+      active: {
+        backgroundColor: t.color.surface.default,
+        borderWidth: 1,
+        borderColor: t.color.border.default,
+        ...t.shadow.sm,
+      },
       text: {
         fontSize: t.fontSize.sm,
         fontWeight: t.fontWeight.medium,

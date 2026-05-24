@@ -12,6 +12,7 @@ export function selectTokens(t: SemanticTokens) {
     menu: {
       bg: t.color.surface.default,
       borderColor: t.color.border.default,
+      borderWidth: 1,
       borderRadius: t.radius.md,
       shadow: t.shadow.md,
     },

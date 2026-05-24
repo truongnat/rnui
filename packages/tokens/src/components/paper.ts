@@ -22,7 +22,7 @@ export function paperTokens(t: SemanticTokens) {
       },
       flat: {
         borderWidth: 1,
-        borderColor: t.color.border.subtle,
+        borderColor: t.color.border.default,
         backgroundColor: t.color.surface.sunken,
         ...t.shadow.none,
       },
