@@ -1,9 +1,9 @@
 import type { ScreenSchema } from '@truongdq01/component-schema';
-import dashboardSchema from '../../../../../.ai/examples/schemas/dashboard.schema.json';
-import formSchema from '../../../../../.ai/examples/schemas/form.schema.json';
-import loginSchema from '../../../../../.ai/examples/schemas/login.schema.json';
-import profileCardSchema from '../../../../../.ai/examples/schemas/profile-card.schema.json';
-import settingsSchema from '../../../../../.ai/examples/schemas/settings.schema.json';
+import dashboardSchema from '../../../../.ai/examples/schemas/dashboard.schema.json';
+import formSchema from '../../../../.ai/examples/schemas/form.schema.json';
+import loginSchema from '../../../../.ai/examples/schemas/login.schema.json';
+import profileCardSchema from '../../../../.ai/examples/schemas/profile-card.schema.json';
+import settingsSchema from '../../../../.ai/examples/schemas/settings.schema.json';
 
 export type ExampleSchemaKey =
   | 'login'

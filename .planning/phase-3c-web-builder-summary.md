@@ -1,75 +1,97 @@
-# Phase 3C — Web Builder MVP
+# Phase 3C — Web Builder MVP Summary
 
 **Status:** Complete  
 **Branch:** `develop`  
 **Date:** 2026-05-24
 
-## Goal
+## App path
 
-Ship `apps/web/builder` — three-panel UI for ScreenSchema iteration: mock chat, live preview, schema/code + repair loop. **No real AI API** in this phase.
-
-## App location
-
-`apps/web/builder` (`@truongdq01/builder`, private)
+`apps/web` — package `@truongdq01/web` (Next.js 15)
 
 ```bash
-bun run builder:dev
-bun run builder:build
+bun run web:dev      # http://localhost:3000/builder
+bun run web:build
 ```
 
-## Panels
+Legacy Vite app `apps/web/builder` removed; root `builder:dev` aliases to `web:dev`.
 
-| Panel | Implementation |
-| ----- | -------------- |
-| Chat | `generateMockSchema()` — keyword → example schema |
-| Preview | `ThemeProvider` + `RenderSchemaNode` + slim component map |
-| Schema & Code | JSON editor, validation tab, read-only TSX export |
+## Routes
 
-## Stack
+| Route | Description |
+| ----- | ----------- |
+| `/` | Placeholder landing with link to builder |
+| `/builder` | Three-panel MVP |
 
-- Vite 6 + React 19 + TypeScript
-- react-native-web (RNUI preview)
-- Workspace deps: `@truongdq01/component-schema`, `@truongdq01/renderer`, `@truongdq01/ui`, `@truongdq01/headless`, `@truongdq01/tokens`
-- Native module mocks (Reanimated, Gesture Handler, Worklets, DateTimePicker, FlashList, expo-blur)
-- `lucide-react` aliased as `lucide-react-native` for Icon web support
-- Slim component imports + TextField web stub
+## Builder flow
 
-## Renderer tweak
+1. User enters prompt → **Generate**
+2. `MockAIProvider.generateSchema()` returns example ScreenSchema
+3. `validateScreenSchema` + `getLazyLoadPlan` update state
+4. **WebPreviewHost** renders RNUI preview in phone frame
+5. User can **Validate**, **Export TSX**, **Repair schema**, **Reset**
+6. Manual JSON edits in Schema tab → Validate
 
-- `WebPreviewHost` accepts `withGestureRoot?: boolean` (default `false` for web)
+## Mock AI behavior
 
-## Repair loop UX
+- Keyword routing: login, settings, profile, dashboard, form
+- Default: **dashboard**
+- `invalid` / `repair` → broken schema for repair-loop demo
+- `repairSchema()` → login template replacement
+- `AIProvider` interface ready for real API swap
 
-1. Chat generates schema (or user edits JSON)
-2. Validate → errors in Validation tab
-3. Invalid schema blocks preview
-4. "Invalid demo" preset injects broken schema for testing
+## React Native Web config
 
-## Docs
+- Next.js webpack: `react-native` → `react-native-web`
+- Native mocks (reanimated, gesture-handler, worklets, etc.)
+- `transpilePackages` for workspace packages
+- Slim `previewComponentMap` (16 MVP components)
+- `__DEV__` defined for RN branches
 
-- `docs/src/content/docs/guides/web-builder.md`
-- Root scripts: `builder:dev`, `builder:build`
-- Workspaces: `apps/web/*`
+## Preview behavior
 
-## Verification
+- Phone shell (~390px wide, 680–760px min height)
+- `WebPreviewHost` always mounted — invalid schema shows renderer validation panel
+- Action log for button `onAction` / legacy action map
+- Disclaimer about RN Web approximation
+
+## Schema editor
+
+- Textarea JSON (pretty-printed)
+- Validate parses JSON safely (no crash on invalid)
+- Tabs: Schema JSON, Validation, Export TSX, Lazy-load plan
+- Copy schema / Copy TSX (clipboard with graceful fallback)
+
+## TSX export
+
+- `exportSchemaToTsx` from `@truongdq01/renderer`
+- Read-only TSX tab + Export TSX button
+- TODO handler stubs in output
+
+## Tests
+
+`apps/web/src/__tests__/builder.test.ts` — mock provider routing, invalid JSON handling, TSX export guard.
+
+## Commands run
 
 ```bash
 bun install
 bun run build
-cd apps/web/builder && bun run build   # OK
+bun run typecheck
+bun run lint
+bun run test
+cd apps/web && bun run build
+bun run docs:build
+bun run component-schema:check
+bun run ai:check
 ```
 
 ## Known limitations
 
-- Mock AI only — no OpenAI/Anthropic integration
-- Preview uses web stubs for TextField (no Select mode)
-- Reanimated/gesture mocks — press animations simplified on web
-- Builder not in turbo `typecheck` yet (standalone `tsc`)
-- No auth, persistence, or deploy config
+- Mock AI only
+- No Monaco, drag-and-drop, auth, or code execution
+- Native-only components show renderer fallbacks
+- Webpack mode required (`next dev --webpack`)
 
-## Next phase ideas
+## Next phase
 
-- Real AI API + schema repair prompt
-- Save/load projects
-- Deploy builder to static hosting
-- E2E tests with Playwright
+Real `AIProvider` implementation + optional streaming — see `.planning/phase-3c-web-builder-followups.md`.

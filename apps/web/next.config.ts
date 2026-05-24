@@ -1,23 +1,29 @@
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import type { NextConfig } from 'next';
+import webpack from 'webpack';
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
 const reactNativeWebRoot = path.dirname(
   require.resolve('react-native-web/package.json')
 );
-const lucideReactRoot = path.dirname(
-  require.resolve('lucide-react/package.json')
-);
 
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      'react-native': reactNativeWebRoot,
+const nextConfig: NextConfig = {
+  reactStrictMode: true,
+  transpilePackages: [
+    '@truongdq01/ui',
+    '@truongdq01/headless',
+    '@truongdq01/tokens',
+    '@truongdq01/renderer',
+    '@truongdq01/component-schema',
+    'react-native-web',
+  ],
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'react-native$': reactNativeWebRoot,
       'react-native-web': reactNativeWebRoot,
       'react-native-reanimated': path.resolve(
         rootDir,
@@ -36,42 +42,37 @@ export default defineConfig({
         'src/mocks/safe-area-context.tsx'
       ),
       'react-native-svg': path.resolve(rootDir, 'src/mocks/svg.tsx'),
-      'lucide-react-native': lucideReactRoot,
+      'lucide-react-native': require.resolve('lucide-react'),
       '@react-native-community/datetimepicker': path.resolve(
         rootDir,
         'src/mocks/datetimepicker.tsx'
       ),
-      '@shopify/flash-list': path.resolve(rootDir, 'src/mocks/flash-list.tsx'),
+      '@shopify/flash-list': path.resolve(
+        rootDir,
+        'src/mocks/flash-list.tsx'
+      ),
       'expo-blur': path.resolve(rootDir, 'src/mocks/expo-blur.tsx'),
       'expo-linear-gradient': path.resolve(rootDir, 'src/mocks/expo-blur.tsx'),
-      '@truongdq01/component-schema': path.resolve(
-        rootDir,
-        '../../../packages/component-schema/src/index.ts'
-      ),
-      '@truongdq01/headless': path.resolve(
-        rootDir,
-        '../../../packages/headless/dist/index.mjs'
-      ),
-      '@truongdq01/tokens': path.resolve(
-        rootDir,
-        '../../../packages/tokens/dist/index.mjs'
-      ),
-    },
-    extensions: [
+    };
+
+    config.resolve.extensions = [
       '.web.tsx',
       '.web.ts',
+      '.web.js',
       '.tsx',
       '.ts',
-      '.web.jsx',
-      '.jsx',
       '.js',
-    ],
+      ...(config.resolve.extensions ?? []),
+    ];
+
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production'),
+      })
+    );
+
+    return config;
   },
-  define: {
-    global: 'window',
-    __DEV__: JSON.stringify(true),
-  },
-  optimizeDeps: {
-    include: ['react-native-web'],
-  },
-});
+};
+
+export default nextConfig;

@@ -1,13 +1,14 @@
 {
-  "name": "@truongdq01/builder",
+  "name": "@truongdq01/web",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
     "typecheck": "tsc --noEmit",
-    "preview": "vite preview"
+    "lint": "biome check ./src",
+    "test": "bun test"
   },
   "dependencies": {
     "@truongdq01/component-schema": "workspace:*",
@@ -15,6 +16,7 @@
     "@truongdq01/renderer": "workspace:*",
     "@truongdq01/tokens": "workspace:*",
     "@truongdq01/ui": "workspace:*",
+    "next": "^15.5.6",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-native": "0.83.2",
@@ -22,10 +24,9 @@
     "lucide-react": "^0.577.0"
   },
   "devDependencies": {
+    "@types/node": "^22.15.29",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^4.7.0",
-    "typescript": "^5.9.3",
-    "vite": "^6.4.1"
+    "typescript": "^5.9.3"
   }
 }

@@ -1,10 +1,4 @@
-import {
-  Image,
-  ScrollView,
-  Text,
-  View,
-  type ViewStyle,
-} from 'react-native';
+import { Image, ScrollView, Text, View, type ViewStyle } from 'react-native';
 import type { ComponentType } from 'react';
 
 type SharedValue<T> = { value: T };
@@ -13,9 +7,7 @@ export function useSharedValue<T>(initial: T): SharedValue<T> {
   return { value: initial };
 }
 
-export function useAnimatedStyle<T extends ViewStyle>(
-  updater: () => T
-): T {
+export function useAnimatedStyle<T extends ViewStyle>(updater: () => T): T {
   return updater();
 }
 
@@ -72,6 +64,26 @@ export function useAnimatedScrollHandler(
 
 export const FadeIn = { duration: () => ({}) };
 export const FadeOut = { duration: () => ({}) };
+export const FadeInDown = { duration: () => ({}) };
+export const LinearTransition = { duration: () => ({}) };
+
+export function useAnimatedProps<T extends object>(updater: () => T): T {
+  return updater();
+}
+
+export function withRepeat<T>(value: T): T {
+  return value;
+}
+
+export function withSequence<T>(...values: T[]): T {
+  return values[0] ?? (0 as T);
+}
+
+export function cancelAnimation(_sharedValue: SharedValue<unknown>): void {}
+
+export type BaseAnimationBuilder = {
+  duration: (ms: number) => BaseAnimationBuilder;
+};
 
 const Animated = {
   View,

@@ -1,63 +1,100 @@
 ---
 title: Web builder (Phase 3C)
-description: RNUI ScreenSchema builder — mock chat, live preview, schema repair loop
+description: Next.js ScreenSchema builder — mock chat, RN Web preview, validation, TSX export
 ---
 
-Phase 3C adds **`apps/web/builder`** — a Vite + react-native-web app for iterating on `ScreenSchema` JSON before wiring a real AI API.
+Phase 3C ships **`apps/web`** (`@truongdq01/web`) — a Next.js app with a `/builder` route for iterating on `ScreenSchema` JSON before wiring a real AI API.
 
 ## Run locally
 
 ```bash
 bun install
-bun run build          # build packages first
-bun run builder:dev    # http://localhost:5173
+bun run build          # build workspace packages first
+bun run web:dev        # http://localhost:3000/builder
+```
+
+From the app directory:
+
+```bash
+cd apps/web
+bun run dev
 ```
 
 Production build:
 
 ```bash
-bun run builder:build
+bun run web:build
+# or: cd apps/web && bun run build
 ```
+
+Routes:
+
+| Route | Purpose |
+| ----- | ------- |
+| `/` | Minimal placeholder landing |
+| `/builder` | Main MVP — chat, preview, schema/code panels |
 
 ## Layout
 
 | Panel | Purpose |
 | ----- | ------- |
 | **Chat** | Mock AI prompts → generates ScreenSchema from templates |
-| **Preview** | Live RNUI render via `RenderSchemaNode` + react-native-web |
-| **Schema & Code** | Edit JSON, validate, view TSX export |
+| **Preview** | Phone frame + `WebPreviewHost` (react-native-web) |
+| **Schema & Code** | JSON editor, validation, TSX export, lazy-load plan |
 
-## Mock AI (MVP)
+## Flow
 
-No external AI API in this phase. Prompt keywords map to example schemas:
+```text
+prompt → MockAIProvider.generateSchema()
+      → validateScreenSchema()
+      → WebPreviewHost / RNUISchemaRenderer
+      → exportSchemaToTsx()
+```
 
-- login / sign-in
-- settings / notifications
-- profile / avatar
-- dashboard / stats
-- form / submit
-- **invalid** — intentional broken schema for repair-loop testing
+Repair loop: **Repair schema** (chat) or edit JSON → **Validate** → preview updates.
 
-## Repair loop
+## Mock AI (MVP only)
 
-1. Generate or edit schema JSON
-2. Click **Validate** (or generate from chat)
-3. Fix errors listed in **Validation** tab
-4. Preview unlocks when schema is valid
+No external AI API. Keyword routing:
 
-## Web stack notes
+| Prompt keywords | Schema |
+| --------------- | ------ |
+| login / sign-in | Login |
+| settings / notifications | Settings |
+| profile / avatar | Profile card |
+| dashboard / stats | Dashboard |
+| form / submit | Contact form |
+| *(default)* | Dashboard |
+| invalid / repair | Broken schema for repair testing |
 
-The builder uses:
+`repairSchema()` replaces invalid schemas with the login template for MVP repair-loop demos.
 
-- `react-native` → `react-native-web` alias
-- Mocks for Reanimated, Gesture Handler, Worklets, native-only modules
-- Slim UI imports (16 web-preview components) — avoids full `@truongdq01/ui` barrel
-- `TextField` web stub wrapping `Input` (skips Select/BottomSheet native deps)
+## React Native Web notes
+
+The builder configures Next.js webpack aliases:
+
+- `react-native` → `react-native-web`
+- Mocks for Reanimated, Gesture Handler, Worklets, FlashList, expo-blur, etc.
+- Slim RNUI component map (16 web-preview MVP components)
+- `TextField` web stub wrapping `Input`
+
+**Disclaimer shown in preview:** Web preview approximates React Native rendering. Verify final UI in the iOS/Android example app.
+
+Native-only components (Modal, BottomSheet, etc.) render fallback placeholders — they are not polyfilled in this phase.
+
+## MVP limitations
+
+- Mock AI only — no OpenAI/Anthropic/Gemini
+- Textarea JSON editor (no Monaco)
+- No auth, persistence, drag-and-drop, or props inspector
+- Does not execute generated TSX at runtime
+- No streaming chat
+
+## Related
+
+- [AI Render Core](/guides/ai-renderer/)
+- [Component schema](/guides/component-schema/)
 
 ## Next steps
 
-- Wire real AI API (schema-only generation + repair)
-- Persist projects / export to repo
-- Share preview URL / embed
-
-See also: [Component schema](/guides/component-schema/), [Screen renderer](/guides/screen-renderer/).
+See `.planning/phase-3c-web-builder-followups.md` — real AI provider, project persistence, Playwright E2E, Vite lazy imports via `loadComponentsForPlan`.
