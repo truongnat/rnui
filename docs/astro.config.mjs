@@ -30,6 +30,7 @@ export default defineConfig({
             { label: 'Component Status', slug: 'components/status' },
             { label: 'AI usage', slug: 'guides/ai-usage' },
             { label: 'Component schema', slug: 'guides/component-schema' },
+            { label: 'AI Render Core', slug: 'guides/ai-renderer' },
             { label: 'Screen renderer', slug: 'guides/screen-renderer' },
             { label: 'Web builder', slug: 'guides/web-builder' },
             { label: 'Example app', slug: 'guides/example' },

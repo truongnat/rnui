@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@truongdq01/component-schema": "workspace:*",
     "@truongdq01/headless": "workspace:*",
+    "@truongdq01/renderer": "workspace:*",
     "@truongdq01/tokens": "workspace:*",
     "@truongdq01/ui": "^1.0.3",
     "babel-preset-expo": "^55.0.11",

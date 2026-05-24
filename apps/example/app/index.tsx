@@ -17,6 +17,7 @@ import {
 } from '@/demo/ExampleChrome';
 
 const COMPONENTS = [
+  'AIRenderer',
   'Accordion',
   'Alert',
   'AlertDialog',

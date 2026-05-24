@@ -4,7 +4,12 @@ import {
   type ComponentNode,
   type ScreenSchema,
 } from '@truongdq01/component-schema';
-import { resolveNodeRender } from './resolve-props';
+import { resolveActionName } from './propGuards';
+import {
+  isNativeOnlyType,
+  getUnsupportedReason,
+  resolveNodeRender,
+} from './resolve-props';
 import { resolveScreenPadding } from './token-map';
 import type { ExportScreenTsxOptions } from './types';
 
@@ -43,9 +48,9 @@ function formatJsxProp(key: string, value: unknown): string | null {
 }
 
 function collectActionIds(node: ComponentNode, ids: Set<string>): void {
-  const action = node.props?.action;
-  if (typeof action === 'string' && action.length > 0) {
-    ids.add(action);
+  const actionName = resolveActionName(node.props?.action);
+  if (actionName) {
+    ids.add(actionName);
   }
   if (Array.isArray(node.children)) {
     for (const child of node.children) {
@@ -56,6 +61,13 @@ function collectActionIds(node: ComponentNode, ids: Set<string>): void {
 
 function renderNodeTsx(node: ComponentNode, indent: number): string {
   const pad = '  '.repeat(indent);
+
+  if (isNativeOnlyType(node.type)) {
+    const reason = getUnsupportedReason(node.type);
+    const detail = reason ? ` — ${reason}` : '';
+    return `${pad}{/* Unsupported in web preview: ${node.type}${detail} */}`;
+  }
+
   const resolved = resolveNodeRender(node);
 
   if (node.type === 'Screen') {
@@ -78,8 +90,9 @@ function renderNodeTsx(node: ComponentNode, indent: number): string {
   const props = { ...resolved.props };
 
   const propParts: string[] = [];
-  if (node.type === 'Button' && typeof node.props?.action === 'string') {
-    propParts.push(`onPress={handle${toPascalCase(node.props.action)}}`);
+  const buttonAction = resolveActionName(node.props?.action);
+  if (node.type === 'Button' && buttonAction) {
+    propParts.push(`onPress={handle${toPascalCase(buttonAction)}}`);
     delete props.action;
   }
 
@@ -89,9 +102,15 @@ function renderNodeTsx(node: ComponentNode, indent: number): string {
   }
 
   const propString = propParts.length > 0 ? ` ${propParts.join(' ')}` : '';
+  const textChild =
+    typeof node.children === 'string'
+      ? node.children
+      : typeof resolved.children === 'string'
+        ? resolved.children
+        : undefined;
 
-  if (typeof node.children === 'string') {
-    return `${pad}<${tag}${propString}>${node.children}</${tag}>`;
+  if (textChild !== undefined) {
+    return `${pad}<${tag}${propString}>${textChild}</${tag}>`;
   }
 
   if (Array.isArray(node.children) && node.children.length > 0) {
@@ -103,6 +122,10 @@ function renderNodeTsx(node: ComponentNode, indent: number): string {
 
   if (typeof props.children === 'string') {
     return `${pad}<${tag}${propString}>${props.children}</${tag}>`;
+  }
+
+  if (node.type === 'Button' && typeof props.label === 'string') {
+    return `${pad}<${tag}${propString} />`;
   }
 
   const selfClosing = propParts.length > 0 ? ` ${propParts.join(' ')}` : '';
@@ -190,3 +213,6 @@ export function exportScreenSchemaToTsxFile(
     content: exportScreenSchemaToTsx(schema, options),
   };
 }
+
+/** Alias for exportScreenSchemaToTsx */
+export const exportSchemaToTsx = exportScreenSchemaToTsx;

@@ -1,12 +1,14 @@
 import { getComponentSchema } from '@truongdq01/component-schema';
 import type { ComponentNode } from '@truongdq01/component-schema';
+import { guardNodeProps, resolveActionName } from './propGuards';
 import { resolveScreenPadding } from './token-map';
-import type { SchemaActionHandlers } from './types';
+import type { RendererActionContext, SchemaActionHandlers } from './types';
 
 export type ResolvedNodeRender = {
   componentType: string;
   props: Record<string, unknown>;
   children: ComponentNode[] | string | undefined;
+  propWarnings: string[];
 };
 
 function stripRendererOnlyProps(
@@ -23,44 +25,64 @@ function stripRendererOnlyProps(
 function applyActionProps(
   type: string,
   props: Record<string, unknown>,
-  actions: SchemaActionHandlers | undefined
+  context: RendererActionContext | undefined
 ): Record<string, unknown> {
   if (type !== 'Button') return props;
-  const actionId = props.action;
-  if (typeof actionId !== 'string' || actionId.length === 0) return props;
+
+  const actionName = resolveActionName(props.action);
+  if (!actionName) return props;
 
   const { action: _action, ...rest } = props;
-  if (actions?.[actionId]) {
-    return { ...rest, onPress: actions[actionId] };
-  }
-  return rest;
+
+  const onPress = () => {
+    context?.onAction?.({
+      name: actionName,
+      sourceNodeId: context.nodeId,
+    });
+    context?.actions?.[actionName]?.();
+  };
+
+  return { ...rest, onPress };
 }
 
 function extractChildrenFromProps(props: Record<string, unknown>): {
   props: Record<string, unknown>;
-  textChild?: string;
+  textChild: string | undefined;
 } {
   if (typeof props.children === 'string') {
     const { children, ...rest } = props;
     return { props: rest, textChild: children };
   }
-  return { props };
+  return { props, textChild: undefined };
 }
 
 export function resolveNodeRender(
   node: ComponentNode,
-  actions?: SchemaActionHandlers
+  context?: RendererActionContext
 ): ResolvedNodeRender {
   const schemaType = node.type;
-  const rawProps = { ...(node.props ?? {}) };
+  const guarded = guardNodeProps(schemaType, node.props);
+  const rawProps = guarded.safeProps;
   let children = node.children;
 
-  const withActions = applyActionProps(schemaType, rawProps, actions);
+  const withActions = applyActionProps(schemaType, rawProps, {
+    ...context,
+    nodeId: node.id,
+  });
   const { props: propsWithoutTextChild, textChild } =
     extractChildrenFromProps(withActions);
 
   if (textChild !== undefined && children === undefined) {
     children = textChild;
+  }
+
+  if (
+    schemaType === 'Button' &&
+    typeof propsWithoutTextChild.label !== 'string' &&
+    typeof children === 'string'
+  ) {
+    propsWithoutTextChild.label = children;
+    children = undefined;
   }
 
   if (schemaType === 'Screen') {
@@ -76,6 +98,7 @@ export function resolveNodeRender(
         style: { flex: 1, padding },
       },
       children,
+      propWarnings: guarded.warnings,
     };
   }
 
@@ -86,6 +109,7 @@ export function resolveNodeRender(
     componentType: resolvedType,
     props: stripRendererOnlyProps(schemaType, propsWithoutTextChild),
     children,
+    propWarnings: guarded.warnings,
   };
 }
 
@@ -93,3 +117,24 @@ export function isNativeOnlyType(type: string): boolean {
   const schema = getComponentSchema(type);
   return schema !== undefined && !schema.support.webPreview;
 }
+
+export function getUnsupportedReason(type: string): string | undefined {
+  return getComponentSchema(type)?.support.reason;
+}
+
+export function isUnknownComponentType(type: string): boolean {
+  return getComponentSchema(type) === undefined;
+}
+
+/** Layout nodes must not render raw strings — wrap in Typography instead. */
+export function shouldWrapStringChild(type: string): boolean {
+  const schema = getComponentSchema(type);
+  if (!schema) return true;
+  if (type === 'Typography' || type === 'Button') return false;
+  if (schema.children?.stringChildAllowed === true) return false;
+  if (schema.children?.textAllowed === true) return false;
+  return true;
+}
+
+/** @deprecated Use RendererActionContext */
+export type LegacyActionHandlers = SchemaActionHandlers;

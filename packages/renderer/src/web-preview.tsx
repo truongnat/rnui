@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@truongdq01/headless';
 import React from 'react';
 import { View } from 'react-native';
-import { ScreenSchemaRenderer } from './screen-renderer';
+import { RNUISchemaRenderer } from './RNUISchemaRenderer';
 import type { WebPreviewHostProps } from './types';
 
 /**
@@ -12,22 +12,28 @@ export function WebPreviewHost({
   schema,
   componentMap,
   actions,
+  onAction,
   requireWebPreview = true,
   onValidationError,
   minHeight,
   withGestureRoot = false,
+  fallbackComponent,
+  renderUnsupported,
 }: WebPreviewHostProps): React.ReactElement {
   return (
     <ThemeProvider withGestureRoot={withGestureRoot}>
       <View
         style={{ flex: 1, ...(minHeight !== undefined ? { minHeight } : null) }}
       >
-        <ScreenSchemaRenderer
+        <RNUISchemaRenderer
           schema={schema}
           componentMap={componentMap}
           actions={actions}
+          onAction={onAction}
           requireWebPreview={requireWebPreview}
           onValidationError={onValidationError}
+          fallbackComponent={fallbackComponent}
+          renderUnsupported={renderUnsupported}
         />
       </View>
     </ThemeProvider>

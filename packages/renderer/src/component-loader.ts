@@ -4,87 +4,20 @@ import {
   validateScreenSchema,
 } from '@truongdq01/component-schema';
 import type { ScreenSchema } from '@truongdq01/component-schema';
-import type { ElementType } from 'react';
+import { createDefaultComponentMap } from './componentMap';
+import { createLazyComponentMap } from './lazyComponentMap';
 import type {
-  LazyComponentLoader,
   LazyComponentMap,
   PrepareScreenRenderOptions,
   PreparedScreenRender,
   RendererComponentMap,
 } from './types';
 
-/** Synchronous map of web-preview-safe RNUI components keyed by schema lazyKey. */
-export function createDefaultComponentMap(
-  ui: typeof import('@truongdq01/ui')
-): RendererComponentMap {
-  const {
-    Alert,
-    Avatar,
-    Badge,
-    Box,
-    Button,
-    Card,
-    Checkbox,
-    Chip,
-    Divider,
-    Input,
-    Paper,
-    Stack,
-    Switch,
-    TextField,
-    Typography,
-  } = ui;
-
-  return {
-    Screen: Stack,
-    Stack,
-    Box,
-    Card,
-    Paper,
-    Divider,
-    Typography,
-    Button,
-    Input,
-    TextField,
-    Checkbox,
-    Switch,
-    Badge,
-    Chip,
-    Alert,
-    Avatar,
-  };
-}
-
-/** Dynamic import map for code-splitting in web builder. */
-export function createLazyComponentMap(): LazyComponentMap {
-  const load = (
-    named: keyof typeof import('@truongdq01/ui')
-  ): LazyComponentLoader => {
-    return () =>
-      import('@truongdq01/ui').then((module) => ({
-        default: module[named] as ElementType,
-      }));
-  };
-
-  return {
-    Screen: load('Stack'),
-    Stack: load('Stack'),
-    Box: load('Box'),
-    Card: load('Card'),
-    Paper: load('Paper'),
-    Divider: load('Divider'),
-    Typography: load('Typography'),
-    Button: load('Button'),
-    Input: load('Input'),
-    TextField: load('TextField'),
-    Checkbox: load('Checkbox'),
-    Switch: load('Switch'),
-    Badge: load('Badge'),
-    Chip: load('Chip'),
-    Alert: load('Alert'),
-    Avatar: load('Avatar'),
-  };
-}
+export {
+  createDefaultComponentMap,
+  getMvpComponentTypes,
+} from './componentMap';
+export { createLazyComponentMap } from './lazyComponentMap';
 
 export async function loadComponentsForPlan(
   plan: ReturnType<typeof getLazyLoadPlan>,
@@ -138,4 +71,12 @@ export function prepareScreenRender(
     errors: [],
     warnings: validation.warnings.map((w) => `${w.path}: ${w.message}`),
   };
+}
+
+/** Alias for prepareScreenRender — validate before mounting the preview tree. */
+export function validateBeforeRender(
+  schema: unknown,
+  options: PrepareScreenRenderOptions = {}
+): PreparedScreenRender {
+  return prepareScreenRender(schema, options);
 }

@@ -94,12 +94,12 @@ Not allowed:
 
 ## Related guides
 
+- [AI Render Core](/guides/ai-renderer/) — validate, preview, export TSX
 - [AI usage](/guides/ai-usage/)
 - `.ai/component-schema-guide.md` (agent reference)
 - `.ai/screen-schema-guide.md` (ScreenSchema + repair loop)
 
 ## Next phases
 
-- **Phase 3B:** `@truongdq01/renderer` — validate schema, lazy-load, react-native-web preview, TSX export ([guide](/guides/screen-renderer/))
+- **AI Render Core:** `@truongdq01/renderer` — [guide](/guides/ai-renderer/)
 - **Phase 3C:** `apps/web/builder` — chat + preview + schema/code panels
-- **Phase 3C:** `apps/web/builder` — chat + preview + code panels
