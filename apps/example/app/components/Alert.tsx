@@ -2,6 +2,38 @@ import { useTokens } from '@truongdq01/headless';
 import { Alert, AlertTitle, Button, Stack, Typography } from '@truongdq01/ui';
 import { Info } from 'lucide-react-native';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
+import { DemoSurfacePanel } from '@/demo/DemoSurfacePanel';
+
+function AlertSeverityRow() {
+  return (
+    <Stack spacing="sm">
+      <Alert severity="info">
+        <AlertTitle>Delivery update</AlertTitle>
+        <Typography variant="body2">
+          Package out for delivery today before 6 PM.
+        </Typography>
+      </Alert>
+      <Alert severity="success">
+        <AlertTitle>Payment received</AlertTitle>
+        <Typography variant="body2">
+          Order #4821 confirmed — receipt sent by email.
+        </Typography>
+      </Alert>
+      <Alert severity="warning">
+        <AlertTitle>Card expiring soon</AlertTitle>
+        <Typography variant="body2">
+          Visa ending in 4242 expires in 12 days.
+        </Typography>
+      </Alert>
+      <Alert severity="error">
+        <AlertTitle>Charge failed</AlertTitle>
+        <Typography variant="body2">
+          Could not process renewal — update payment method.
+        </Typography>
+      </Alert>
+    </Stack>
+  );
+}
 
 export default function AlertScreen() {
   const t = useTokens();
@@ -11,6 +43,29 @@ export default function AlertScreen() {
       title="Alert"
       description="Contextual feedback for user actions — info, success, warning, and error."
     >
+      <DemoSection
+        title="Surface visibility"
+        description="Standard alerts on common backgrounds — readable without shadow."
+      >
+        <Stack spacing="md">
+          <DemoSurfacePanel label="App background" surface="app">
+            <AlertSeverityRow />
+          </DemoSurfacePanel>
+          <DemoSurfacePanel label="White surface" surface="white">
+            <AlertSeverityRow />
+          </DemoSurfacePanel>
+          <DemoSurfacePanel label="Card surface" surface="card">
+            <AlertSeverityRow />
+          </DemoSurfacePanel>
+          <DemoSurfacePanel label="Glass surface" surface="glass">
+            <AlertSeverityRow />
+          </DemoSurfacePanel>
+          <DemoSurfacePanel label="Dark surface" surface="dark">
+            <AlertSeverityRow />
+          </DemoSurfacePanel>
+        </Stack>
+      </DemoSection>
+
       <DemoSection
         title="Order & account status"
         description="Severity colors apply to title and body automatically."

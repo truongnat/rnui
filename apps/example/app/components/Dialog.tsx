@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useTokens } from '@truongdq01/headless';
 import { Button, Dialog, Input, Stack, Typography } from '@truongdq01/ui';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function DialogScreen() {
+  const t = useTokens();
   const [basicOpen, setBasicOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
@@ -36,7 +38,7 @@ export default function DialogScreen() {
           </Typography>
           <Button
             label="Understand"
-            style={{ marginTop: 16 }}
+            style={{ marginTop: t.spacing[4] }}
             onPress={() => setBasicOpen(false)}
             fullWidth
           />
@@ -99,7 +101,7 @@ export default function DialogScreen() {
             </Stack>
           }
         >
-          <Stack spacing={16}>
+          <Stack spacing="md">
             <Typography variant="body2" color="secondary">
               Choose a name your team will recognize.
             </Typography>

@@ -146,4 +146,11 @@ describe('component tokens', () => {
     expect(lightTokens.color.border.default).not.toBe('#E4E0EC');
     expect(lightTokens.color.border.subtle).not.toBe('#EEEAF4');
   });
+
+  test('formGroup grouped card has visible border on white/card surfaces', () => {
+    expect(ct.formGroup.grouped.card.borderWidth).toBeGreaterThanOrEqual(1);
+    expect(ct.formGroup.grouped.card.borderColor).toBe(
+      lightTokens.color.border.default
+    );
+  });
 });

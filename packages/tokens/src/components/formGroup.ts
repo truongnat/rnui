@@ -5,6 +5,8 @@ export function formGroupTokens(t: SemanticTokens) {
     grouped: {
       card: {
         backgroundColor: t.color.surface.default,
+        borderWidth: 1,
+        borderColor: t.color.border.default,
         borderRadius: t.radius.xl,
         overflow: 'hidden' as const,
       },
