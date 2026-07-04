@@ -1,0 +1,90 @@
+---
+title: Icon Button
+---
+
+# Icon Button
+
+`IconButton` is the compact, icon-only form of `Button`. It is intended for dense toolbars, list rows, and secondary actions where the icon is already well understood.
+
+## Usage
+
+```tsx
+import { Icon, IconButton } from '@truongdq01/ui';
+
+<IconButton
+  icon={<Icon name="search" />}
+  label="Search"
+  onPress={handleSearch}
+/>;
+```
+
+## Props
+
+| Prop                 | Type                                               | Default     | Description                                                     |
+| -------------------- | -------------------------------------------------- | ----------- | --------------------------------------------------------------- |
+| `icon`               | `ReactNode`                                        | —           | **Required.** The only visible content inside the button        |
+| `label`              | `string`                                           | —           | **Required.** Accessible name used for screen readers           |
+| `variant`            | `"solid" \| "outline" \| "ghost" \| "destructive"` | `"ghost"`   | Visual treatment. Ghost is preferred in dense UI                |
+| `size`               | `"sm" \| "md" \| "lg"`                             | `"md"`      | Size preset inherited from `Button`                            |
+| `loading`            | `boolean`                                          | `false`     | Shows loading feedback and disables presses                     |
+| `disabled`           | `boolean`                                          | `false`     | Disables interaction                                            |
+| `accessibilityLabel` | `string`                                           | `label`     | Optional override for the accessible name                       |
+| `accessibilityHint`  | `string`                                           | —           | Extra context for screen readers                                |
+| `feedbackMode`       | `"scale" \| "scaleSubtle" \| "opacity" \| "none"`  | `"opacity"` | Press feedback, tuned for compact icon actions by default       |
+
+## Best Practices
+
+### Do
+
+- Make the label specific, such as `"Delete conversation"` instead of `"Delete"`.
+- Prefer `variant="ghost"` in toolbars and table rows to reduce visual clutter.
+- Use `Button` with visible text when the action is not obvious from the icon alone.
+
+### Don't
+
+- Don't omit the label on icon-only actions.
+- Don't use `IconButton` for primary or destructive actions that need explicit text.
+
+## Examples
+
+### Action toolbar
+
+```tsx
+<Stack direction="horizontal" gap={8}>
+  <IconButton icon={<Icon name="search" />} label="Search" />
+  <IconButton icon={<Icon name="share" />} label="Share item" />
+  <IconButton icon={<Icon name="moreVertical" />} label="More actions" />
+</Stack>
+```
+
+### Loading state
+
+```tsx
+<IconButton
+  icon={<Icon name="refresh" />}
+  label="Refresh feed"
+  loading={isRefreshing}
+  onPress={refreshFeed}
+/>
+```
+
+### Destructive action
+
+```tsx
+<IconButton
+  icon={<Icon name="trash" />}
+  label="Delete draft"
+  variant="destructive"
+  onPress={deleteDraft}
+/>
+```
+
+## Accessibility
+
+`IconButton` has no visible text, so the `label` prop is required. RNUI forwards that value to the underlying accessibility label unless you explicitly override `accessibilityLabel`.
+
+## Related Components
+
+- [`Button`](./button.mdx)
+- [`Icon`](./icon.md)
+- [`Tooltip`](./tooltip.md)

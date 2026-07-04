@@ -52,6 +52,7 @@ export * from './components/GlassCard';
 export * from './components/Gradient';
 export * from './components/Grid';
 export * from './components/Icon';
+export * from './components/IconButton';
 export * from './components/Image';
 export * from './components/ImageList';
 export * from './components/Input';

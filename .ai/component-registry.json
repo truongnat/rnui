@@ -702,6 +702,37 @@
       "avoid": []
     },
     {
+      "name": "IconButton",
+      "category": "actions",
+      "package": "@truongdq01/ui",
+      "import": "import { IconButton } from '@truongdq01/ui';",
+      "status": "stable",
+      "description": "Compact icon-only action button with required accessible label.",
+      "commonProps": [
+        "icon",
+        "label",
+        "variant",
+        "size",
+        "loading",
+        "disabled",
+        "accessibilityHint"
+      ],
+      "relatedComponents": [
+        "Button",
+        "Icon",
+        "Tooltip"
+      ],
+      "usageHints": [
+        "Prefer for compact toolbar or row actions where the icon meaning is obvious",
+        "Keep label specific because it becomes the accessibility label",
+        "Ghost is the default to reduce visual clutter in dense UIs"
+      ],
+      "avoid": [
+        "Ambiguous actions that need visible text",
+        "Missing label on icon-only actions"
+      ]
+    },
+    {
       "name": "Image",
       "category": "media",
       "package": "@truongdq01/ui",

@@ -3,12 +3,7 @@ import { Typography } from '@truongdq01/ui';
 import { useRouter, type Href } from 'expo-router';
 import { ChevronRight } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
-import {
-  Pressable,
-  SectionList,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { Pressable, SectionList, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ListSectionHeader,
@@ -57,6 +52,7 @@ const COMPONENTS = [
   'Gradient',
   'Grid',
   'Icon',
+  'IconButton',
   'Image',
   'ImageList',
   'Input',
@@ -128,19 +124,16 @@ export default function ComponentsListScreen() {
   const filtered = useMemo(
     () =>
       COMPONENTS.filter((c) =>
-        c.toLowerCase().includes(search.trim().toLowerCase()),
+        c.toLowerCase().includes(search.trim().toLowerCase())
       ),
-    [search],
+    [search]
   );
 
   const sections = useMemo(() => groupComponents(filtered), [filtered]);
 
   return (
     <View style={{ flex: 1, backgroundColor: t.color.bg.subtle }}>
-      <ScreenHeader
-        title="RNUI"
-        subtitle={`${COMPONENTS.length} components`}
-      />
+      <ScreenHeader title="RNUI" subtitle={`${COMPONENTS.length} components`} />
       <View
         style={{
           paddingHorizontal: t.spacing[4],
