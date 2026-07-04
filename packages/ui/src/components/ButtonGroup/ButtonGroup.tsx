@@ -24,11 +24,7 @@ export interface ButtonGroupProps {
    * Default variant applied to child buttons without their own `variant`.
    * Prefer setting the same variant on each child (Astryx guidance).
    */
-  variant?:
-    | ButtonVariant
-    | 'contained'
-    | 'outlined'
-    | 'text';
+  variant?: ButtonVariant | 'contained' | 'outlined' | 'text';
   style?: StyleProp<ViewStyle>;
   testID?: string;
 }
@@ -58,7 +54,8 @@ function resolveChildVariant(
   groupVariant: ButtonGroupProps['variant']
 ): 'solid' | 'outline' | 'ghost' | 'destructive' {
   if (childVariant === 'contained') return 'solid';
-  if (childVariant === 'outlined' || childVariant === 'outline') return 'outline';
+  if (childVariant === 'outlined' || childVariant === 'outline')
+    return 'outline';
   if (childVariant === 'text') return 'ghost';
   if (childVariant === 'destructive') return 'destructive';
   if (childVariant === 'ghost') return 'ghost';
@@ -101,7 +98,9 @@ export function ButtonGroup({
           buttonGroup.container,
           {
             flexDirection: isRow ? 'row' : 'column',
-            alignSelf: fullWidth ? ('stretch' as const) : buttonGroup.container.alignSelf,
+            alignSelf: fullWidth
+              ? ('stretch' as const)
+              : buttonGroup.container.alignSelf,
             width: fullWidth ? ('100%' as const) : undefined,
           },
           style,
@@ -113,7 +112,10 @@ export function ButtonGroup({
           }
 
           const position = resolveButtonGroupPosition(index, items.length);
-          const childVariant = resolveChildVariant(child.props.variant, variant);
+          const childVariant = resolveChildVariant(
+            child.props.variant,
+            variant
+          );
           const groupStyle = getButtonGroupStyle({
             position,
             orientation,

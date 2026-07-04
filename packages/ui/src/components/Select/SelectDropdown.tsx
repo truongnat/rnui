@@ -1,7 +1,7 @@
 import type { SelectOption, SnapPoint } from '@truongdq01/headless';
 import { useTheme } from '@truongdq01/headless';
 import type React from 'react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -98,6 +98,11 @@ export function SelectDropdown<T = string>({
     [tokens.color.border.subtle, tokens.spacing]
   );
 
+  const ItemSeparator = useCallback(
+    () => <View style={separatorStyle} />,
+    [separatorStyle]
+  );
+
   const footerStyle = useMemo(
     () => ({
       paddingVertical: tokens.spacing[3],
@@ -166,7 +171,7 @@ export function SelectDropdown<T = string>({
             keyExtractor={(item) => String(item.value)}
             onEndReached={onEndReached}
             onEndReachedThreshold={0.35}
-            ItemSeparatorComponent={() => <View style={separatorStyle} />}
+            ItemSeparatorComponent={ItemSeparator}
             ListFooterComponent={
               loadingMore ? (
                 <View style={footerStyle}>

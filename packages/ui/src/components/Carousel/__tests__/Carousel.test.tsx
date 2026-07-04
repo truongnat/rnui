@@ -12,15 +12,17 @@ const Wrap = ({ children }: { children: React.ReactNode }) => (
 
 test('Carousel renders current item', () => {
   const data = ['Slide 1', 'Slide 2'];
-  const { getByText } = render(
+  const { getByLabelText, getByText } = render(
     <Wrap>
       <Carousel
         data={data}
         itemWidth={375}
+        accessibilityLabel="Featured slides"
         renderItem={(item) => <Text>{item}</Text>}
       />
     </Wrap>
   );
+  expect(getByLabelText('Featured slides')).toBeTruthy();
   expect(getByText('Slide 1')).toBeTruthy();
 });
 
@@ -30,6 +32,7 @@ test('Carousel renders nothing when data is empty', () => {
       <Carousel<string>
         data={[]}
         itemWidth={375}
+        accessibilityLabel="Empty carousel"
         renderItem={() => <Text>should-not-show</Text>}
       />
     </Wrap>
@@ -48,10 +51,30 @@ test('Carousel uses keyExtractor for stable keys', () => {
       <Carousel<Row>
         data={rows}
         itemWidth={300}
+        accessibilityLabel="Stable slides"
         keyExtractor={(item) => item.id}
         renderItem={(item) => <Text>{item.label}</Text>}
       />
     </Wrap>
   );
   expect(getByText('A1')).toBeTruthy();
+});
+
+test('Carousel disables previous control on first slide', () => {
+  const data = ['Slide 1', 'Slide 2'];
+  const { getByLabelText } = render(
+    <Wrap>
+      <Carousel
+        data={data}
+        itemWidth={375}
+        accessibilityLabel="Gallery slides"
+        renderItem={(item) => <Text>{item}</Text>}
+      />
+    </Wrap>
+  );
+
+  expect(getByLabelText('Next slide')).toBeTruthy();
+  expect(
+    getByLabelText('Previous slide').props.accessibilityState?.disabled
+  ).toBe(true);
 });

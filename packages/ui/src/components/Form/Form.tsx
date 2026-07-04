@@ -1,17 +1,25 @@
-import React, { createContext, useCallback, useContext } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import React, { createContext, useCallback, useContext, useMemo } from 'react';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
+
+type FormValues = Record<string, unknown>;
 
 export interface FormContextValue {
-  values: Record<string, any>;
+  values: FormValues;
   errors: Record<string, string>;
   touched: Record<string, boolean>;
   isSubmitting: boolean;
   isValid: boolean;
-  setValue: (name: string, value: any) => void;
+  setValue: (name: string, value: unknown) => void;
   setError: (name: string, error: string) => void;
   setTouched: (name: string, touched: boolean) => void;
   handleSubmit: (
-    callback: (values: Record<string, any>) => void | Promise<void>
+    callback?: (values: FormValues) => void | Promise<void>
   ) => () => void;
   resetForm: () => void;
 }
@@ -28,11 +36,11 @@ export function useForm() {
 
 export interface FormProps {
   /** Initial form values */
-  initialValues?: Record<string, any>;
+  initialValues?: FormValues;
   /** Validation function */
-  validate?: (values: Record<string, any>) => Record<string, string>;
+  validate?: (values: FormValues) => Record<string, string>;
   /** Submit handler */
-  onSubmit?: (values: Record<string, any>) => void | Promise<void>;
+  onSubmit?: (values: FormValues) => void | Promise<void>;
   /** Children components */
   children: React.ReactNode;
   /** Whether to show validation on change */
@@ -49,10 +57,6 @@ export interface FormProps {
   testID?: string;
 }
 
-/**
- * Form component that provides form state management and validation.
- * Supports controlled inputs, validation, and submission handling.
- */
 export function Form({
   initialValues = {},
   validate,
@@ -65,14 +69,13 @@ export function Form({
   style,
   testID = 'form',
 }: FormProps) {
-  const [values, setValues] =
-    React.useState<Record<string, any>>(initialValues);
+  const [values, setValues] = React.useState<FormValues>(initialValues);
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [touched, setTouched] = React.useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const runValidation = useCallback(
-    (currentValues: Record<string, any>) => {
+    (currentValues: FormValues) => {
       if (!validate) return {};
 
       try {
@@ -85,14 +88,11 @@ export function Form({
     [validate]
   );
 
-  const isValid = React.useMemo(() => {
-    return Object.keys(errors).length === 0;
-  }, [errors]);
+  const isValid = useMemo(() => Object.keys(errors).length === 0, [errors]);
 
   const setValue = useCallback(
-    (name: string, value: any) => {
+    (name: string, value: unknown) => {
       setValues((prev) => ({ ...prev, [name]: value }));
-
       if (validateOnChange) {
         setValues((current) => {
           const newErrors = runValidation({ ...current, [name]: value });
@@ -121,11 +121,10 @@ export function Form({
   );
 
   const handleSubmit = useCallback(
-    (callback: (values: Record<string, any>) => void | Promise<void>) => {
+    (callback?: (values: FormValues) => void | Promise<void>) => {
       return async () => {
         if (isSubmitting) return;
 
-        // Mark all fields as touched
         const allTouched = Object.keys(values).reduce(
           (acc, key) => {
             acc[key] = true;
@@ -135,17 +134,19 @@ export function Form({
         );
         setTouched(allTouched);
 
-        // Run final validation
         const finalErrors = runValidation(values);
         setErrors(finalErrors);
 
         if (Object.keys(finalErrors).length > 0) {
-          return; // Don't submit if there are errors
+          return;
         }
+
+        const submitFn = callback ?? onSubmit;
+        if (!submitFn) return;
 
         setIsSubmitting(true);
         try {
-          await callback(values);
+          await submitFn(values);
         } catch (error) {
           console.error('Form submission error:', error);
         } finally {
@@ -153,7 +154,7 @@ export function Form({
         }
       };
     },
-    [values, runValidation, isSubmitting]
+    [values, runValidation, isSubmitting, onSubmit]
   );
 
   const resetForm = useCallback(() => {
@@ -163,18 +164,32 @@ export function Form({
     setIsSubmitting(false);
   }, [initialValues]);
 
-  const contextValue: FormContextValue = {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    isValid,
-    setValue,
-    setError,
-    setTouched: setTouchedField,
-    handleSubmit,
-    resetForm,
-  };
+  const contextValue = useMemo<FormContextValue>(
+    () => ({
+      values,
+      errors,
+      touched,
+      isSubmitting,
+      isValid,
+      setValue,
+      setError,
+      setTouched: setTouchedField,
+      handleSubmit,
+      resetForm,
+    }),
+    [
+      values,
+      errors,
+      touched,
+      isSubmitting,
+      isValid,
+      setValue,
+      setError,
+      setTouchedField,
+      handleSubmit,
+      resetForm,
+    ]
+  );
 
   const formContent = (
     <View style={[styles.container, style]} testID={testID}>
@@ -184,6 +199,18 @@ export function Form({
     </View>
   );
 
+  const wrapped = enableKeyboardAvoidingView ? (
+    <KeyboardAvoidingView
+      style={styles.flex}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : undefined}
+    >
+      {formContent}
+    </KeyboardAvoidingView>
+  ) : (
+    formContent
+  );
+
   if (scrollable) {
     return (
       <ScrollView
@@ -191,12 +218,12 @@ export function Form({
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        {formContent}
+        {wrapped}
       </ScrollView>
     );
   }
 
-  return formContent;
+  return wrapped;
 }
 
 const styles = StyleSheet.create({
@@ -206,5 +233,8 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     paddingVertical: 16,
+  },
+  flex: {
+    flex: 1,
   },
 });

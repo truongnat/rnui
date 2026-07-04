@@ -1,6 +1,6 @@
 import { useDisclosure, useId, useTheme } from '@truongdq01/headless';
 import { useContext, useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { AccordionContext, AccordionGroupContext } from './context';
 import type { AccordionProps } from './types';
 
@@ -68,9 +68,8 @@ export function Accordion({
     // 2. Group Mode logic
     const gStyle = groupCtx?.groupStyle;
     const flatGStyle = gStyle ? StyleSheet.flatten(gStyle) : {};
-    const hasGap =
-      typeof (flatGStyle as any).gap === 'number' &&
-      (flatGStyle as any).gap > 0;
+    const gapVal = (flatGStyle as ViewStyle).gap;
+    const hasGap = typeof gapVal === 'number' && gapVal > 0;
 
     // If it's a bordered group OR list mode (shared logic for rounding items at boundary)
     if (isBorderedGroup || !hasGap) {

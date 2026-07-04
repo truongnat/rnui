@@ -52,7 +52,7 @@ export function SliderTrack({
         ? {
             top: 0,
             bottom: 0,
-            left: '50%' as unknown as number,
+            left: '50%' as const,
             marginLeft: -trackThickness / 2,
             width: trackThickness,
           }

@@ -24,7 +24,7 @@ export function SliderMark({
   const dotStyle = useMemo(
     () => ({
       position: 'absolute' as const,
-      left: `${markPct * 100}%` as unknown as number,
+      left: `${markPct * 100}%` as const,
       width: 4,
       height: 4,
       borderRadius: 2,

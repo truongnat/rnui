@@ -4,7 +4,7 @@ import {
   useTheme,
 } from '@truongdq01/headless';
 import { useContext, useEffect } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { type StyleProp, StyleSheet, Text, type ViewStyle } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolation,
@@ -62,10 +62,10 @@ export function AccordionSummary({
   if (!ctx) return null;
 
   const containerStyle = [
-    accordion.summary as any,
+    accordion.summary,
     animatedStyle,
     styles.container,
-  ] as any;
+  ] as StyleProp<ViewStyle>;
 
   return (
     <GestureDetector gesture={gesture}>

@@ -1,6 +1,6 @@
 # @truongdq01/ui
 
-The main UI component library for RNUI — 62+ batteries-included, fully themeable components.
+The main UI component library for RNUI — 80+ batteries-included, fully themeable components.
 
 ## Overview
 
@@ -8,7 +8,7 @@ This package provides high-performance, styled UI components for React Native. I
 
 ## Key Features
 
-- **62+ Components:** From basic buttons to complex carousels and date pickers.
+- **80+ Components:** From basic buttons to complex carousels and date pickers.
 - **120+ Icons:** Integrated Lucide icon set.
 - **Dark Mode:** Built-in support for system and manual theme switching.
 - **High Performance:** Powered by Reanimated 4 and Gesture Handler.

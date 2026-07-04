@@ -11,11 +11,11 @@ import {
 } from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   Keyboard,
   Modal,
   Platform,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -136,7 +136,7 @@ export interface AutocompleteProps<T = string> {
  * children (fixes misalignment where `onLayout` alone disagrees with window placement in `ScrollView`).
  * Vertical side (above/below) uses the same window measurement + safe area.
  *
- * Parent `ScrollView` should use `keyboardShouldPersistTaps="handled"`. Inner list is `ScrollView` (not `FlatList`)
+ * Parent `ScrollView` should use `keyboardShouldPersistTaps="handled"`. Inner list uses `FlatList` for virtualization
  * to avoid nesting VirtualizedList warnings.
  */
 
@@ -662,61 +662,57 @@ export function Autocomplete<T = string>({
           borderRadius: autocomplete.menu.borderRadius,
         }}
       >
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          nestedScrollEnabled
-          style={{ maxHeight: DROPDOWN_MAX_HEIGHT }}
-          showsVerticalScrollIndicator
-        >
-          {loading ? (
-            <View
+        {loading ? (
+          <View
+            style={{
+              padding: autocomplete.item.padding,
+              minHeight: 52,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: tokens.spacing[2],
+            }}
+            accessibilityRole="progressbar"
+            accessibilityLabel={loadingText}
+          >
+            <ActivityIndicator
+              size="small"
+              color={tokens.color.brand.default}
+            />
+            <Text
               style={{
-                padding: autocomplete.item.padding,
-                minHeight: 52,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: tokens.spacing[2],
-              }}
-              accessibilityRole="progressbar"
-              accessibilityLabel={loadingText}
-            >
-              <ActivityIndicator
-                size="small"
-                color={tokens.color.brand.default}
-              />
-              <Text
-                style={{
-                  color: tokens.color.text.secondary,
-                  fontSize: tokens.typography.body2.fontSize,
-                }}
-              >
-                {loadingText}
-              </Text>
-            </View>
-          ) : showEmptyHint ? (
-            <View
-              style={{
-                padding: autocomplete.item.padding,
-                minHeight: 44,
-                justifyContent: 'center',
+                color: tokens.color.text.secondary,
+                fontSize: tokens.typography.body2.fontSize,
               }}
             >
-              <Text
-                accessibilityRole="text"
-                style={{
-                  color: tokens.color.text.secondary,
-                  fontSize: tokens.typography.body2.fontSize,
-                }}
-              >
-                {noResultsText}
-              </Text>
-            </View>
-          ) : (
-            displayOptions.map((option, idx) => {
+              {loadingText}
+            </Text>
+          </View>
+        ) : showEmptyHint ? (
+          <View
+            style={{
+              padding: autocomplete.item.padding,
+              minHeight: 44,
+              justifyContent: 'center',
+            }}
+          >
+            <Text
+              accessibilityRole="text"
+              style={{
+                color: tokens.color.text.secondary,
+                fontSize: tokens.typography.body2.fontSize,
+              }}
+            >
+              {noResultsText}
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={displayOptions}
+            keyExtractor={(option, idx) => `${labelOf(option)}-${String(idx)}`}
+            renderItem={({ item: option }) => {
               const selected = isSelected(option);
               return (
                 <Pressable
-                  key={`${labelOf(option)}-${String(idx)}`}
                   onPress={() => {
                     if (selected && !multiple) {
                       selectOption(undefined);
@@ -749,9 +745,13 @@ export function Autocomplete<T = string>({
                   )}
                 </Pressable>
               );
-            })
-          )}
-        </ScrollView>
+            }}
+            keyboardShouldPersistTaps="handled"
+            nestedScrollEnabled
+            style={{ maxHeight: DROPDOWN_MAX_HEIGHT }}
+            showsVerticalScrollIndicator
+          />
+        )}
       </View>
     ),
     [

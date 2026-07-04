@@ -13,6 +13,13 @@ import {
 import { resolveScreenPadding } from './token-map';
 import type { ExportScreenTsxOptions } from './types';
 
+function escapeJsxTextContent(text: string): string {
+  if (/[<>&{}]/.test(text)) {
+    return `{${JSON.stringify(text)}}`;
+  }
+  return text;
+}
+
 function escapeJsxString(value: string): string {
   return value
     .replace(/\\/g, '\\\\')
@@ -110,7 +117,7 @@ function renderNodeTsx(node: ComponentNode, indent: number): string {
         : undefined;
 
   if (textChild !== undefined) {
-    return `${pad}<${tag}${propString}>${textChild}</${tag}>`;
+    return `${pad}<${tag}${propString}>${escapeJsxTextContent(textChild)}</${tag}>`;
   }
 
   if (Array.isArray(node.children) && node.children.length > 0) {
@@ -121,7 +128,7 @@ function renderNodeTsx(node: ComponentNode, indent: number): string {
   }
 
   if (typeof props.children === 'string') {
-    return `${pad}<${tag}${propString}>${props.children}</${tag}>`;
+    return `${pad}<${tag}${propString}>${escapeJsxTextContent(props.children)}</${tag}>`;
   }
 
   if (node.type === 'Button' && typeof props.label === 'string') {

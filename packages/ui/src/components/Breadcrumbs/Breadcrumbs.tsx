@@ -24,8 +24,7 @@ function breadcrumbRowKey(child: ReactNode, idx: number): string {
 
 function hasExplicitCurrentItem(items: ReactNode[]): boolean {
   return items.some(
-    (child) =>
-      isBreadcrumbItemElement(child) && child.props.isCurrent === true
+    (child) => isBreadcrumbItemElement(child) && child.props.isCurrent === true
   );
 }
 

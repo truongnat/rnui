@@ -41,9 +41,28 @@ export const createReanimatedMock = () => {
     build: () => ({}),
   };
 
+  const createSharedValue = <T,>(initial: T) => {
+    let current = initial;
+    return {
+      get value() {
+        return current;
+      },
+      set value(next: T) {
+        current = next;
+      },
+      get: () => current,
+      set: (next: T) => {
+        current = next;
+      },
+      addListener: () => 0,
+      removeListener: () => {},
+      modify: () => {},
+    };
+  };
+
   const mockApi = {
     // Hooks
-    useSharedValue: (v: any) => ({ value: v }),
+    useSharedValue: createSharedValue,
     useDerivedValue: (fn: any) => ({ value: fn() }),
     useAnimatedStyle: (fn: any) => ({}) as any,
     useAnimatedProps: (fn: any) => ({}) as any,

@@ -19,9 +19,7 @@ function BreadcrumbSeparatorInner({ separator }: BreadcrumbSeparatorProps) {
     );
   }
 
-  return (
-    <View style={breadcrumbs.separator.container}>{separator}</View>
-  );
+  return <View style={breadcrumbs.separator.container}>{separator}</View>;
 }
 
 export const BreadcrumbSeparator = memo(BreadcrumbSeparatorInner);

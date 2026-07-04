@@ -4,12 +4,17 @@ export function createTheme(override: ThemeOverride): ThemeOverride {
   return override;
 }
 
+function isSafeKey(key: string): boolean {
+  return key !== '__proto__' && key !== 'constructor' && key !== 'prototype';
+}
+
 export function deepMerge<T extends object>(
   base: T,
   override: DeepPartial<T>
 ): T {
   const result = { ...base };
   for (const key in override) {
+    if (!isSafeKey(key)) continue;
     const overrideVal = override[key as keyof typeof override];
     const baseVal = base[key as unknown as keyof T];
     if (

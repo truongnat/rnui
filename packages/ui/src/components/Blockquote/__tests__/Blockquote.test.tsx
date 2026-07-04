@@ -34,9 +34,7 @@ describe('Blockquote', () => {
   });
 
   it('applies left border from tokens', () => {
-    const { toJSON } = renderWithTheme(
-      <Blockquote>Border check</Blockquote>
-    );
+    const { toJSON } = renderWithTheme(<Blockquote>Border check</Blockquote>);
     const tree = JSON.stringify(toJSON());
     expect(tree).toContain('"borderLeftWidth":2');
   });

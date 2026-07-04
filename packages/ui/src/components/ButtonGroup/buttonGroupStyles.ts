@@ -139,7 +139,13 @@ export function getButtonGroupStyle({
   applyCornerRadii(style, position, orientation, radius);
 
   if (variant === 'outline') {
-    applySegmentedShell(style, position, orientation, dividerWidth, dividerColor);
+    applySegmentedShell(
+      style,
+      position,
+      orientation,
+      dividerWidth,
+      dividerColor
+    );
     return style;
   }
 

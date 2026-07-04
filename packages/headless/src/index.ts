@@ -194,6 +194,8 @@ export type {
   TimingPresetKey,
   ViewAnimatedStyle,
 } from './motion';
+export { openSafeUrl, parseUrl } from './linking';
+
 // Motion
 export {
   durationScale,

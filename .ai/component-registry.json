@@ -351,11 +351,29 @@
       "package": "@truongdq01/ui",
       "import": "import { Carousel } from '@truongdq01/ui';",
       "status": "beta",
-      "description": "Swipeable carousel of items.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "description": "Swipeable content strip with snap paging, pagination, and optional navigation controls.",
+      "commonProps": [
+        "data",
+        "renderItem",
+        "accessibilityLabel",
+        "showPagination",
+        "showNavigation",
+        "fadeEdges",
+        "snap",
+        "loop",
+        "onIndexChange"
+      ],
+      "relatedComponents": ["Card", "Image", "ScrollArea"],
+      "usageHints": [
+        "Use for hero stories, featured products, and editorial cards",
+        "Keep snap enabled when one slide should be read at a time",
+        "Provide accessibilityLabel describing what the strip contains"
+      ],
+      "avoid": [
+        "Auto-advancing marketing carousels by default",
+        "Hiding critical actions only inside one slide",
+        "Using carousel when a simple horizontal list would be clearer"
+      ]
     },
     {
       "name": "ChatListItem",

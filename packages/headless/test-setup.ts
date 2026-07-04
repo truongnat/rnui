@@ -19,8 +19,27 @@ const createReanimatedMock = () => {
     return Component;
   };
 
+  const createSharedValue = <T,>(initial: T) => {
+    let current = initial;
+    return {
+      get value() {
+        return current;
+      },
+      set value(next: T) {
+        current = next;
+      },
+      get: () => current,
+      set: (next: T) => {
+        current = next;
+      },
+      addListener: () => 0,
+      removeListener: () => {},
+      modify: () => {},
+    };
+  };
+
   const mockApi = {
-    useSharedValue: <T>(v: T) => ({ value: v }),
+    useSharedValue: createSharedValue,
     useDerivedValue: (fn: () => unknown) => ({ value: fn() }),
     useAnimatedStyle: <S>(fn: () => S) => fn(),
     useAnimatedProps: <P>(fn: () => P) => fn(),
@@ -269,7 +288,7 @@ mock.module('react-native-worklets', () => ({
     createRunOnUI: <F extends (...args: never[]) => unknown>(fn: F) => fn,
     createContext: () => ({}),
   },
-  useSharedValue: <T>(v: T) => ({ value: v }),
+  useSharedValue: createSharedValue,
   useDerivedValue: (fn: () => unknown) => ({ value: fn() }),
   useWorkletCallback: <F extends (...args: never[]) => unknown>(fn: F) => fn,
   createSerializable: <T>(v: T) => v,

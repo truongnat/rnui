@@ -112,12 +112,15 @@ function AnimatedListInner<T>(
   );
 }
 
-// eslint-disable-next-line react/display-name
-export const AnimatedList = forwardRef(
+const _AnimatedList = forwardRef(
   AnimatedListInner as React.ForwardRefRenderFunction<
     unknown,
     Omit<AnimatedListProps<unknown>, 'ref'>
   >
-) as <T>(
+);
+
+(_AnimatedList as unknown as Record<string, unknown>).displayName = 'AnimatedList';
+
+export const AnimatedList = _AnimatedList as <T>(
   props: AnimatedListProps<T> & { ref?: React.Ref<unknown> }
 ) => React.ReactElement;

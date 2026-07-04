@@ -1,6 +1,6 @@
-import { usePressable, useTheme } from '@truongdq01/headless';
+import { openSafeUrl, usePressable, useTheme } from '@truongdq01/headless';
 import { memo, useCallback, useMemo } from 'react';
-import { Linking, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { useBreadcrumbContext } from './BreadcrumbContext';
@@ -25,7 +25,7 @@ function BreadcrumbItemInner({
   const handlePress = useCallback(() => {
     onPress?.();
     if (href != null) {
-      void Linking.openURL(href).catch(() => undefined);
+      void openSafeUrl(href);
     }
   }, [href, onPress]);
 

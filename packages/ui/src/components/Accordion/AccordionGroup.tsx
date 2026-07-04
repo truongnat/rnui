@@ -53,10 +53,10 @@ export function AccordionGroup({
    */
   const renderedChildren = useMemo(() => {
     const childrenArray = React.Children.toArray(children);
-    const flatGStyle = style ? StyleSheet.flatten(style) : {};
+    const flatGStyle = style ? StyleSheet.flatten(style) : ({} as ViewStyle);
     const hasGap =
-      typeof (flatGStyle as any).gap === 'number' &&
-      (flatGStyle as any).gap > 0;
+      typeof flatGStyle.gap === 'number' &&
+      flatGStyle.gap > 0;
 
     return childrenArray.map((child, index) => {
       const isFirst = index === 0;

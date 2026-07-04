@@ -26,7 +26,18 @@ describe('useCarousel', () => {
     const { result } = renderHook(() =>
       useCarousel({ data, itemWidth: 300, gap: 10 })
     );
-    // Step is 310. Offsets: [0, 310, 620]
+    expect(result.current.snapToOffsets).toEqual([0, 310, 620]);
+  });
+
+  it('ignores content padding in snap offsets', () => {
+    const { result } = renderHook(() =>
+      useCarousel({
+        data,
+        itemWidth: 300,
+        gap: 10,
+        contentPaddingStart: 40,
+      })
+    );
     expect(result.current.snapToOffsets).toEqual([0, 310, 620]);
   });
 

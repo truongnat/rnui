@@ -1,6 +1,6 @@
-import { useTheme } from '@truongdq01/headless';
+import { openSafeUrl, useTheme } from '@truongdq01/headless';
 import type React from 'react';
-import { Linking, Text, type TextStyle } from 'react-native';
+import { Text, type TextStyle } from 'react-native';
 
 export interface LinkProps {
   children?: React.ReactNode;
@@ -26,14 +26,10 @@ export function Link({
 
   return (
     <Text
-      onPress={async () => {
-        if (onPress) onPress();
+      onPress={() => {
+        onPress?.();
         if (href) {
-          try {
-            await Linking.openURL(href);
-          } catch {
-            // ignore
-          }
+          void openSafeUrl(href);
         }
       }}
       style={[

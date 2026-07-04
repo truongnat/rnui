@@ -1,8 +1,12 @@
-import { useIconStyle, usePressable, useTheme } from '@truongdq01/headless';
+import {
+  openSafeUrl,
+  useIconStyle,
+  usePressable,
+  useTheme,
+} from '@truongdq01/headless';
 import React, { useCallback, useMemo } from 'react';
 import {
   ActivityIndicator,
-  Linking,
   type StyleProp,
   StyleSheet,
   Text,
@@ -69,9 +73,7 @@ function ButtonInner({
       return;
     }
     onPress?.();
-    void Linking.openURL(href).catch((err) => {
-      console.warn(`Failed to open URL ${href}:`, err);
-    });
+    void openSafeUrl(href);
   }, [href, onPress]);
 
   const hitSlop = useMemo(() => {
@@ -101,7 +103,8 @@ function ButtonInner({
       buttonGroupPosition != null && tokens.shadow.none,
       disableElevation && tokens.shadow.none,
       buttonGroupPosition != null &&
-        (resolvedVariant === 'outline' || resolvedVariant === 'destructive') && {
+        (resolvedVariant === 'outline' ||
+          resolvedVariant === 'destructive') && {
           borderWidth: 0,
         },
       resolvedVariant === 'solid' && { backgroundColor: resolvedColor.main },

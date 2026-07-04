@@ -32,11 +32,12 @@ export { motionPreset as motionPresets } from '@truongdq01/tokens';
  * Previous implementation used FadeIn/FadeOut/ZoomIn/ZoomOut/SlideIn/SlideOut presets.
  */
 /**
- * Stub: Reanimated v4 removed preset layout enter/exit helpers from v3.
- * `enter`/`exit` are empty until reimplemented with animation builders — đừng rely vào transition thật từ export này.
+ * @deprecated Reanimated v4 removed preset layout enter/exit helpers from v3.
+ * `enter`/`exit` are empty stubs and have no visual effect.
+ * Will be reimplemented with react-native-reanimated v4 animation builders in a future release.
+ * Do not rely on this export for actual transition animations.
  */
 export const sharedTransition = {
-  // TODO: Reimplement with react-native-reanimated v4 animation builders
   enter: {},
   exit: {},
 } as const;
@@ -86,8 +87,12 @@ export function resolveTimingPreset(key: TimingPresetKey): {
  * Hero transitions now use the new Shared Element API.
  * Previous implementation attempted custom shared transition with spring animations.
  */
-/** Intentionally `null` until Shared Element API được dùng lại — consumer phải null-check. */
-export const heroTransition = null; // TODO: Reimplement with react-native-reanimated v4 Shared Element API
+/**
+ * @deprecated Reanimated v4 removed SharedTransition from v3.
+ * Currently `null` — will be reimplemented with the new Shared Element API.
+ * Consumers must null-check before using.
+ */
+export const heroTransition = null;
 
 export {
   durationScale,

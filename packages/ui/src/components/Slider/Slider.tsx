@@ -1,6 +1,7 @@
+import type { UseSliderOptionsRange, UseSliderOptionsSingle } from '@truongdq01/headless';
 import { useId, useSlider, useTheme } from '@truongdq01/headless';
 import { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { Text, type TextStyle, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import { SliderContext } from './context';
 import { SliderMark } from './SliderMark';
@@ -35,14 +36,11 @@ export function Slider({
   } = useTheme();
   const isVertical = orientation === 'vertical';
 
-  const sliderState = useSlider({
-    min,
-    max,
-    step,
-    orientation,
-    range: range as any,
-    ...rest,
-  } as any);
+  const sliderState = useSlider(
+    range
+      ? ({ ...rest, min, max, step, orientation, range: true } as UseSliderOptionsRange)
+      : ({ ...rest, min, max, step, orientation, range: false } as UseSliderOptionsSingle)
+  );
 
   const marks =
     showMarks && step > 0
@@ -55,7 +53,7 @@ export function Slider({
   const liveValueStyle = useMemo(
     (): LiveValueStyle => ({
       fontSize: tokens.fontSize.sm,
-      fontWeight: tokens.fontWeight.semibold as any,
+      fontWeight: tokens.fontWeight.semibold as TextStyle['fontWeight'],
       color: tokens.color.brand.default,
     }),
     [tokens.color.brand.default, tokens.fontSize.sm, tokens.fontWeight.semibold]
@@ -99,7 +97,7 @@ export function Slider({
       ...chrome,
       ...(isVertical
         ? {
-            left: '50%' as unknown as number,
+            left: '50%' as const,
             marginLeft: -thumbW / 2,
             top: (-thumbH / 2) as number,
           }
@@ -119,7 +117,7 @@ export function Slider({
   const labelTextStyle = useMemo(
     () => ({
       fontSize: tokens.fontSize.sm,
-      fontWeight: tokens.fontWeight.medium as any,
+      fontWeight: tokens.fontWeight.medium as TextStyle['fontWeight'],
       color: tokens.color.text.secondary,
     }),
     [tokens.fontSize.sm, tokens.fontWeight.medium, tokens.color.text.secondary]
