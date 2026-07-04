@@ -1,4 +1,9 @@
-import { useId, useIsDark, useTheme } from '@truongdq01/headless';
+import {
+  useId,
+  useIsDark,
+  useReducedMotion,
+  useTheme,
+} from '@truongdq01/headless';
 import React, {
   Children,
   cloneElement,
@@ -59,10 +64,16 @@ export function ShimmerProvider({
   duration = 1200,
 }: ShimmerProviderProps) {
   const shimmer = useSharedValue(0);
+  const reduceMotion = useReducedMotion();
   useEffect(() => {
+    if (reduceMotion) {
+      cancelAnimation(shimmer);
+      shimmer.value = 0;
+      return;
+    }
     shimmer.value = withRepeat(withTiming(1, { duration }), -1, true);
     return () => cancelAnimation(shimmer);
-  }, [duration, shimmer]);
+  }, [duration, shimmer, reduceMotion]);
   return <ShimmerCtx.Provider value={shimmer}>{children}</ShimmerCtx.Provider>;
 }
 
@@ -125,7 +136,10 @@ export function Skeleton({
     components: { skeleton },
   } = useTheme();
   const isDark = useIsDark();
-  const shimmer = useShimmerValue(animate, delayMs);
+  // Respect the OS "reduce motion" setting (WCAG 2.3.3) — render a static placeholder.
+  const reduceMotion = useReducedMotion();
+  const shouldAnimate = animate && !reduceMotion;
+  const shimmer = useShimmerValue(shouldAnimate, delayMs);
   const [layoutW, setLayoutW] = useState(0);
 
   const sweepHighlight = isDark
@@ -166,11 +180,11 @@ export function Skeleton({
           backgroundColor: skeleton.backgroundColor,
           overflow: 'hidden',
         },
-        animate && !isSweep ? pulseStyle : null,
+        shouldAnimate && !isSweep ? pulseStyle : null,
       ]}
       onLayout={(e) => setLayoutW(e.nativeEvent.layout.width)}
     >
-      {animate && isSweep && (
+      {shouldAnimate && isSweep && (
         <Animated.View
           style={[
             {

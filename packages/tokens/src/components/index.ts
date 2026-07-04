@@ -5,6 +5,7 @@ export * from './appBar';
 export * from './autocomplete';
 export * from './avatar';
 export * from './badge';
+export * from './blockquote';
 export * from './bottomNavigation';
 export * from './bottomSheet';
 export * from './box';

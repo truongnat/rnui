@@ -14,8 +14,27 @@
     "Use theme tokens — never random hex colors or magic spacing",
     "Mobile-first, accessible, production-like screens",
     "Respect package boundaries: tokens → headless → ui → app",
-    "TypeScript-safe generated code for Expo / React Native"
+    "TypeScript-safe generated code for Expo / React Native",
+    "Honor reduced motion for non-essential animations (useReducedMotion)"
   ],
+  "designSystemBaseline": {
+    "name": "Astryx Design System",
+    "docs": "https://astryx.atmeta.com/docs/getting-started",
+    "note": "RNUI aligns color, shape, spacing, typography, and motion with Astryx (adapted for React Native). RNUI keeps its own token names/architecture; the alignment is additive."
+  },
+  "themeBrands": {
+    "package": "@truongdq01/themes",
+    "note": "Built-in default tokens use the Astryx 'neutral' palette. These presets are the Astryx theme gallery.",
+    "available": [
+      "neutralBrand",
+      "stoneBrand",
+      "butterBrand",
+      "chocolateBrand",
+      "matchaBrand",
+      "gothicBrand",
+      "y2kBrand"
+    ]
+  },
   "packageMapPath": ".ai/package-map.json",
   "componentRegistryPath": ".ai/component-registry.json",
   "componentSchemaPath": ".ai/generated/component-schema.json",

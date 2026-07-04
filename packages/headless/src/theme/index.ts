@@ -1,3 +1,4 @@
+export { concentricRadius } from './concentricRadius';
 export { ThemeContext } from './context';
 export * from './hooks';
 export * from './provider';

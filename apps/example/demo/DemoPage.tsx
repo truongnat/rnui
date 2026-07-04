@@ -6,6 +6,7 @@ import { Typography } from '@truongdq01/ui';
 import { useTheme } from '@truongdq01/headless';
 import { ChevronLeft } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
+import { DemoThemeControls } from '@/demo/DemoThemeControls';
 
 interface DemoPageProps {
   title: string;
@@ -13,6 +14,8 @@ interface DemoPageProps {
   children: React.ReactNode;
   scrollable?: boolean;
   floatingContent?: React.ReactNode;
+  /** Show global theme preview FAB (light/dark + brand). Default true. */
+  showThemeControls?: boolean;
 }
 
 export const DemoPage: React.FC<DemoPageProps> = ({
@@ -21,6 +24,7 @@ export const DemoPage: React.FC<DemoPageProps> = ({
   children,
   scrollable = true,
   floatingContent,
+  showThemeControls = true,
 }) => {
   const { tokens } = useTheme();
   const insets = useSafeAreaInsets();
@@ -134,8 +138,9 @@ export const DemoPage: React.FC<DemoPageProps> = ({
         </View>
       )}
 
-      {floatingContent ? (
+      {(showThemeControls || floatingContent) ? (
         <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+          {showThemeControls ? <DemoThemeControls /> : null}
           {floatingContent}
         </View>
       ) : null}

@@ -40,6 +40,8 @@ function ButtonInner({
   accessibilityLabel,
   accessibilityHint,
   testID,
+  buttonGroupPosition,
+  buttonGroupOrientation: _buttonGroupOrientation,
 }: ButtonProps) {
   const {
     components: { button },
@@ -96,16 +98,27 @@ function ButtonInner({
           paddingHorizontal: button.size[size].container.paddingHorizontal / 2,
           width: button.size[size].container.height,
         },
+      buttonGroupPosition != null && tokens.shadow.none,
       disableElevation && tokens.shadow.none,
+      buttonGroupPosition != null &&
+        (resolvedVariant === 'outline' || resolvedVariant === 'destructive') && {
+          borderWidth: 0,
+        },
       resolvedVariant === 'solid' && { backgroundColor: resolvedColor.main },
-      resolvedVariant === 'outline' && { borderColor: resolvedColor.main },
+      buttonGroupPosition == null &&
+        resolvedVariant === 'outline' && { borderColor: resolvedColor.main },
       resolvedVariant === 'ghost' && {
         backgroundColor: resolvedColor.subtle,
       },
-      resolvedVariant === 'destructive' && {
-        backgroundColor: tokens.color.error.bg,
-        borderColor: tokens.color.error.border,
-      },
+      buttonGroupPosition == null &&
+        resolvedVariant === 'destructive' && {
+          backgroundColor: tokens.color.error.bg,
+          borderColor: tokens.color.error.border,
+        },
+      buttonGroupPosition != null &&
+        resolvedVariant === 'destructive' && {
+          backgroundColor: tokens.color.error.bg,
+        },
       style,
     ],
     [
@@ -120,14 +133,20 @@ function ButtonInner({
       tokens,
       resolvedColor,
       style,
+      buttonGroupPosition,
     ]
   );
+
+  const effectiveFeedbackMode =
+    buttonGroupPosition != null && feedbackMode === 'scale'
+      ? 'opacity'
+      : feedbackMode;
 
   const { animatedStyle, gesture, accessibilityProps } = usePressable({
     onPress: handlePress,
     onLongPress,
     disabled: isDisabled,
-    feedbackMode,
+    feedbackMode: effectiveFeedbackMode,
     accessibilityLabel:
       accessibilityLabel ?? (typeof children === 'string' ? children : label),
     accessibilityHint,

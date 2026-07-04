@@ -25,13 +25,13 @@ describe('primitive tokens', () => {
   });
 });
 
-describe('semantic tokens — light mode', () => {
-  test('bg.default is soft premium canvas', () => {
-    expect(lightTokens.color.bg.default).toBe('#F3F1F8');
+describe('semantic tokens — light mode (Astryx neutral)', () => {
+  test('bg.default is the Astryx body surface', () => {
+    expect(lightTokens.color.bg.default).toBe('#FFFFFF');
   });
 
-  test('text.primary is readable slate', () => {
-    expect(lightTokens.color.text.primary).toBe(primitive.color.gray[800]);
+  test('text.primary is Astryx ink', () => {
+    expect(lightTokens.color.text.primary).toBe('#15110C');
   });
 
   test('has shadow definitions', () => {
@@ -40,19 +40,19 @@ describe('semantic tokens — light mode', () => {
   });
 });
 
-describe('semantic tokens — dark mode', () => {
-  test('bg.default is deep slate (not pure black)', () => {
-    expect(darkTokens.color.bg.default).toBe('#12121C');
+describe('semantic tokens — dark mode (Astryx neutral)', () => {
+  test('bg.default is deep neutral (not pure black)', () => {
+    expect(darkTokens.color.bg.default).toBe('#111112');
   });
 
   test('text.primary is near-white', () => {
-    expect(darkTokens.color.text.primary).toBe(primitive.color.gray[50]);
+    expect(darkTokens.color.text.primary).toBe('#DFE2E5');
   });
 
-  test('brand colors are lighter in dark mode', () => {
-    // In dark mode, brand.default should be a lighter stop than light mode
-    expect(darkTokens.color.brand.default).toBe('#A78BFA');
-    expect(lightTokens.color.brand.default).toBe(primitive.color.brand[600]);
+  test('brand accent is lighter in dark mode', () => {
+    // Astryx blue accent: brighter in dark mode than light.
+    expect(darkTokens.color.brand.default).toBe('#2694FE');
+    expect(lightTokens.color.brand.default).toBe('#0064E0');
   });
 });
 

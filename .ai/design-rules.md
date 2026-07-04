@@ -2,6 +2,8 @@
 
 How to design mobile screens with RNUI. Read alongside `.ai/component-registry.json` and `.ai/rnui.manifest.json`.
 
+> Token baseline: RNUI aligns with the [Astryx Design System](https://astryx.atmeta.com/docs/getting-started) (color, shape, spacing, typography, motion), adapted for React Native. RNUI keeps its own token names/architecture — the alignment is additive.
+
 ## Layout first
 
 1. Define screen regions: header, body, footer/actions.
@@ -34,6 +36,29 @@ How to design mobile screens with RNUI. Read alongside `.ai/component-registry.j
 - Prefer semantic colors: `Typography color="secondary"`, `Button color="primary"`, Alert `severity`.
 - Use component token-driven props (`Stack spacing="md"`, `Card padding="lg"`) over raw numbers when available.
 - Avoid `StyleSheet` with hardcoded values unless no token exists — then use token values from `useTokens()`.
+
+### Surface hierarchy (Astryx)
+
+- Layer surfaces in order: `bg` (body/canvas) → `surface` → `surface.card` → `surface.popover`. Each level sits visually above the previous. `Card` already renders on `surface.card`.
+
+### Semantic radius (Astryx)
+
+- `tokens.radius` exposes semantic aliases alongside the t-shirt scale: `inner` (8, nested elements), `element` (12, buttons/inputs/selectors), `container` (16, cards/panels/dialogs), `page` (32, page-level), `chat` (28, chat bubbles).
+- For media/elements nested inside a padded rounded container, use the concentric radius: `concentricRadius(outerRadius, padding)` from `@truongdq01/headless`, or read the surrounding card's `useCardSurface()`.
+
+### Typography scale (Astryx)
+
+- Standard ramp: `display`, `h1`–`h6`, `body1/2`, `caption`, `overline`, `label`, `code`.
+- Geometric display variants for hero/marketing/data callouts: `Typography variant="display1" | "display2" | "display3"`. Do not use display variants for body content or in-page section headers.
+
+### Data & syntax colors
+
+- For charts/visualizations use `tokens.color.data` (categorical set + `blue/green/orange/pink/purple/red/teal/yellow/gray` 1–5 ramps, `neutral`). For code surfaces use `tokens.color.syntax`.
+
+### Motion (Astryx)
+
+- Duration tiers via `durationScale`: `fast` (small frequent interactions), `medium` (layout-rearranging transitions), `slow` (large spatial moves), each with `*Min`/`*Max` variants. Default curve: `motionEasing.standard`.
+- Always honor reduced motion: gate non-essential animations on `useReducedMotion()` (alias of `useReduceMotionEnabled`). `usePressable`, `Skeleton`, overlays, and `Accordion` already do this.
 
 ## Visual style
 

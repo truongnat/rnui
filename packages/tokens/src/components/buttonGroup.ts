@@ -3,15 +3,15 @@ import type { SemanticTokens } from '../semantic';
 export function buttonGroupTokens(t: SemanticTokens) {
   return {
     container: {
-      flexDirection: 'row' as const,
-      borderRadius: t.radius.md,
-      overflow: 'hidden' as const,
-      borderWidth: 1,
-      borderColor: t.color.border.default,
+      alignSelf: 'flex-start' as const,
+      alignItems: 'stretch' as const,
     },
+    radius: t.radius.element,
     divider: {
       width: 1,
-      backgroundColor: t.color.border.default,
+      color: t.color.border.default,
+      solidColor: t.color.text.onBrand,
+      destructiveColor: t.color.text.inverse,
     },
   } as const;
 }

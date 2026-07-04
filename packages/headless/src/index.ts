@@ -88,6 +88,7 @@ export { useModal } from './hooks/useModal';
 export {
   useReduceMotionEnabled,
   useReduceMotionEnabled as useMotionPreference,
+  useReduceMotionEnabled as useReducedMotion,
 } from './hooks/useMotionPreference';
 export type {
   OtpHiddenInputProps,
@@ -188,13 +189,19 @@ export type {
   UseToggleGroupReturn,
 } from './hooks/useToggleGroup';
 export { useToggleGroup } from './hooks/useToggleGroup';
-export type { TimingPresetKey, ViewAnimatedStyle } from './motion';
+export type {
+  DurationScaleKey,
+  TimingPresetKey,
+  ViewAnimatedStyle,
+} from './motion';
 // Motion
 export {
+  durationScale,
   focusRingAnimation,
   heroTransition,
   motionEasing,
   motionPresets,
+  resolveDuration,
   resolveTimingPreset,
   timingPreset,
 } from './motion';

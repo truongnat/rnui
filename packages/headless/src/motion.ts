@@ -4,6 +4,8 @@
 // Previous imports: FadeInUp, FadeInDown, FadeIn, ZoomIn, SlideInDown, SlideInUp,
 // SlideInRight, FadeOutDown, FadeOutUp, FadeOut, ZoomOut, SlideOutDown, SlideOutUp, SlideOutRight
 import {
+  durationScale,
+  type DurationScaleKey,
   easing as easingTokens,
   focusRingAnimation,
   type TimingPresetKey,
@@ -48,7 +50,17 @@ export const motionEasing = {
   easeOut: Easing.bezier(0, 0, 0.2, 1),
   easeInOut: Easing.bezier(0.4, 0, 0.2, 1),
   linear: Easing.linear,
+  /** Astryx `--ease-standard` — default expressive curve. */
+  standard: Easing.bezier(0.24, 1, 0.4, 1),
 } as const;
+
+/**
+ * Resolve an Astryx duration-tier key (`fast`, `medium`, `slow`, plus min/max
+ * variants) to milliseconds for `withTiming`.
+ */
+export function resolveDuration(tier: DurationScaleKey): number {
+  return durationScale[tier];
+}
 
 /**
  * Maps a {@link timingPreset} entry to arguments safe for `withTiming`.
@@ -77,4 +89,10 @@ export function resolveTimingPreset(key: TimingPresetKey): {
 /** Intentionally `null` until Shared Element API được dùng lại — consumer phải null-check. */
 export const heroTransition = null; // TODO: Reimplement with react-native-reanimated v4 Shared Element API
 
-export { focusRingAnimation, type TimingPresetKey, timingPreset };
+export {
+  durationScale,
+  type DurationScaleKey,
+  focusRingAnimation,
+  type TimingPresetKey,
+  timingPreset,
+};

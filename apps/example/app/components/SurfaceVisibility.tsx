@@ -452,7 +452,8 @@ export default function SurfaceVisibilityScreen() {
             Overlays: Modal, Dialog, AlertDialog, Menu, Select — iOS + Android.
           </Typography>
           <Typography variant="body2" color="secondary">
-            Brand themes: default, forest, love, ocean, sunset, midnight.
+            Brand themes: neutral, stone, butter, chocolate, matcha, gothic,
+            y2k.
           </Typography>
         </Stack>
       </DemoSection>

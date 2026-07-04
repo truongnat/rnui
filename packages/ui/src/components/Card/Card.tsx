@@ -1,18 +1,41 @@
 import {
+  concentricRadius,
   useId,
   usePressable,
   useTheme,
   type ViewAnimatedStyle,
 } from '@truongdq01/headless';
 import type React from 'react';
-import { useMemo } from 'react';
-import { Text, type StyleProp, View, type ViewStyle } from 'react-native';
+import { createContext, useContext, useMemo } from 'react';
+import {
+  StyleSheet,
+  Text,
+  type StyleProp,
+  View,
+  type ViewStyle,
+} from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
 // ─── Types ────────────────────────────────────────────────────────
 
 export type CardPadding = 'sm' | 'md' | 'lg' | 'none';
+
+// ─── Concentric radius context ─────────────────────────────────────
+// Exposes the card's outer radius, applied padding, and the concentric inner
+// radius so nested media/elements can round consistently (Astryx shape).
+export interface CardSurface {
+  radius: number;
+  padding: number;
+  innerRadius: number;
+}
+
+const CardSurfaceContext = createContext<CardSurface | null>(null);
+
+/** Read the surrounding Card's concentric radius info (if any). */
+export function useCardSurface(): CardSurface | null {
+  return useContext(CardSurfaceContext);
+}
 
 export interface CardProps {
   id?: string;
@@ -60,6 +83,8 @@ export function Card({
     return children;
   }, [children, tokens]);
 
+  const activePadding = padding === 'none' ? 0 : card.padding[padding];
+
   const containerStyle = useMemo(
     () => [
       card.container,
@@ -68,6 +93,19 @@ export function Card({
     ],
     [card, padding, style]
   );
+
+  const surface = useMemo<CardSurface>(() => {
+    const flat = StyleSheet.flatten(containerStyle) as ViewStyle;
+    const radius =
+      typeof flat.borderRadius === 'number'
+        ? flat.borderRadius
+        : card.container.borderRadius;
+    return {
+      radius,
+      padding: activePadding,
+      innerRadius: concentricRadius(radius, activePadding),
+    };
+  }, [containerStyle, card.container.borderRadius, activePadding]);
 
   const isPressable = onPress != null;
   const { animatedStyle, gesture, accessibilityProps } = usePressable({
@@ -81,22 +119,26 @@ export function Card({
 
   if (isPressable) {
     return (
-      <GestureDetector gesture={gesture}>
-        <Animated.View
-          style={
-            [containerStyle, animatedStyle] as StyleProp<ViewAnimatedStyle>
-          }
-          {...accessibilityProps}
-        >
-          {content}
-        </Animated.View>
-      </GestureDetector>
+      <CardSurfaceContext.Provider value={surface}>
+        <GestureDetector gesture={gesture}>
+          <Animated.View
+            style={
+              [containerStyle, animatedStyle] as StyleProp<ViewAnimatedStyle>
+            }
+            {...accessibilityProps}
+          >
+            {content}
+          </Animated.View>
+        </GestureDetector>
+      </CardSurfaceContext.Provider>
     );
   }
 
   return (
-    <View nativeID={id} style={containerStyle}>
-      {content}
-    </View>
+    <CardSurfaceContext.Provider value={surface}>
+      <View nativeID={id} style={containerStyle}>
+        {content}
+      </View>
+    </CardSurfaceContext.Provider>
   );
 }

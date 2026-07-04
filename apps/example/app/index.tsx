@@ -15,11 +15,13 @@ import {
   PillSearchBar,
   ScreenHeader,
 } from '@/demo/ExampleChrome';
+import { DemoThemeControls } from '@/demo/DemoThemeControls';
 
 const COMPONENTS = [
   'AIRenderer',
   'Accordion',
   'Alert',
+  'AstryxTokens',
   'AlertDialog',
   'AnimatedList',
   'AnimatedOverlay',
@@ -28,6 +30,7 @@ const COMPONENTS = [
   'Autocomplete',
   'Avatar',
   'Badge',
+  'Blockquote',
   'BottomNavigation',
   'BottomSheet',
   'Box',
@@ -209,6 +212,9 @@ export default function ComponentsListScreen() {
           </Pressable>
         )}
       />
+      <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+        <DemoThemeControls />
+      </View>
     </View>
   );
 }

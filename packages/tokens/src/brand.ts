@@ -14,6 +14,54 @@
 
 import type { ColorScheme } from './semantic';
 
+/**
+ * Categorical + sequential data colors for charts/visualizations.
+ * Astryx-aligned: https://astryx.atmeta.com/docs/color
+ */
+export interface DataColors {
+  categorical: {
+    blue: string;
+    orange: string;
+    purple: string;
+    green: string;
+    pink: string;
+    cyan: string;
+    red: string;
+    teal: string;
+    brown: string;
+    indigo: string;
+  };
+  neutral: string;
+  /** Sequential ramps (1 = lightest → 5 = darkest). */
+  blue: [string, string, string, string, string];
+  green: [string, string, string, string, string];
+  orange: [string, string, string, string, string];
+  pink: [string, string, string, string, string];
+  purple: [string, string, string, string, string];
+  red: [string, string, string, string, string];
+  teal: [string, string, string, string, string];
+  yellow: [string, string, string, string, string];
+  gray: [string, string, string, string, string];
+}
+
+/** Syntax-highlighting colors for code surfaces. */
+export interface SyntaxColors {
+  keyword: string;
+  string: string;
+  comment: string;
+  number: string;
+  function: string;
+  type: string;
+  variable: string;
+  operator: string;
+  constant: string;
+  tag: string;
+  attribute: string;
+  property: string;
+  punctuation: string;
+  background: string;
+}
+
 // ─── Color Group — the "color" section of SemanticTokens ─────────
 // A Brand must supply a full ColorGroup for each mode.
 export interface BrandColorGroup {
@@ -26,6 +74,9 @@ export interface BrandColorGroup {
     overlay: string;
     hover: string;
     disabled: string;
+    /** Astryx overlay interaction states (optional; defaulted). */
+    overlayHover?: string;
+    overlayPressed?: string;
   };
   surface: {
     default: string;
@@ -36,6 +87,12 @@ export interface BrandColorGroup {
     disabled: string;
     glass?: string;
     glassBorder?: string;
+    /**
+     * Astryx surface hierarchy: body → surface → card → popover.
+     * Optional; `fillColorDefaults` derives sensible values when omitted.
+     */
+    card?: string;
+    popover?: string;
   };
   text: {
     primary: string;
@@ -121,6 +178,16 @@ export interface BrandColorGroup {
     icon: string;
     emphasis?: string;
   };
+  /** Loading placeholder fill (optional; defaulted). */
+  skeleton?: string;
+  /** Track color for sliders/progress rails (optional; defaulted). */
+  track?: string;
+  /** Subtle tint applied on hover (optional; defaulted). */
+  tintHover?: string;
+  /** Categorical + sequential data colors for charts (optional; defaulted). */
+  data?: DataColors;
+  /** Syntax highlighting colors for code surfaces (optional; defaulted). */
+  syntax?: SyntaxColors;
 }
 
 // ─── Brand — the root plugin unit ────────────────────────────────

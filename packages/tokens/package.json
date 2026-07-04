@@ -46,6 +46,11 @@
       "types": "./dist/motion.d.ts",
       "import": "./dist/motion.mjs",
       "require": "./dist/motion.js"
+    },
+    "./typescale": {
+      "types": "./dist/typescale.d.ts",
+      "import": "./dist/typescale.mjs",
+      "require": "./dist/typescale.js"
     }
   },
   "files": [

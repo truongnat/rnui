@@ -1,23 +1,25 @@
 import type { Brand } from '@truongdq01/tokens';
 import {
   allBrands,
-  defaultBrand,
-  forestBrand,
+  butterBrand,
+  chocolateBrand,
   getBrandById,
-  loveBrand,
-  midnightBrand,
-  oceanBrand,
-  sunsetBrand,
+  gothicBrand,
+  matchaBrand,
+  neutralBrand,
+  stoneBrand,
+  y2kBrand,
 } from '../index';
 
 describe('Brands', () => {
   const brands = [
-    { name: 'default', brand: defaultBrand },
-    { name: 'forest', brand: forestBrand },
-    { name: 'love', brand: loveBrand },
-    { name: 'midnight', brand: midnightBrand },
-    { name: 'ocean', brand: oceanBrand },
-    { name: 'sunset', brand: sunsetBrand },
+    { name: 'neutral', brand: neutralBrand },
+    { name: 'stone', brand: stoneBrand },
+    { name: 'butter', brand: butterBrand },
+    { name: 'chocolate', brand: chocolateBrand },
+    { name: 'matcha', brand: matchaBrand },
+    { name: 'gothic', brand: gothicBrand },
+    { name: 'y2k', brand: y2kBrand },
   ];
 
   it.each(brands)('$name should have valid brand structure', ({ brand }) => {
@@ -39,14 +41,14 @@ describe('Brands', () => {
   });
 
   it('should have valid type exports', () => {
-    const brand: Brand = defaultBrand;
+    const brand: Brand = neutralBrand;
     expect(brand).toBeDefined();
   });
 
   it('all brands should be in allBrands registry', () => {
-    expect(allBrands.length).toBe(6);
-    expect(allBrands.includes(defaultBrand)).toBe(true);
-    expect(allBrands.includes(loveBrand)).toBe(true);
+    expect(allBrands.length).toBe(7);
+    expect(allBrands.includes(neutralBrand)).toBe(true);
+    expect(allBrands.includes(y2kBrand)).toBe(true);
   });
 
   it('all brands should have unique ids', () => {
@@ -56,11 +58,13 @@ describe('Brands', () => {
   });
 
   it('getBrandById should return correct brand', () => {
-    expect(getBrandById('default')).toBe(defaultBrand);
-    expect(getBrandById('love')).toBe(loveBrand);
+    expect(getBrandById('neutral')).toBe(neutralBrand);
+    expect(getBrandById('butter')).toBe(butterBrand);
   });
 
   it('getBrandById should throw for unknown id', () => {
-    expect(() => getBrandById('unknown' as any)).toThrow();
+    // Widen the param type to exercise the runtime guard without a type escape.
+    const lookup = getBrandById as (id: string) => Brand;
+    expect(() => lookup('unknown')).toThrow();
   });
 });

@@ -174,7 +174,7 @@ export const primitive = {
 
   // ─── Gradient presets ────────────────────────────────────────
   gradient: {
-    brand: ['#8B5CF6', '#6D28D9'] as readonly [string, string],
+    brand: ['#2694FE', '#0064E0'] as readonly [string, string],
     accent: ['#F59E0B', '#D97706'] as readonly [string, string],
     success: ['#34D399', '#059669'] as readonly [string, string],
     sunrise: ['#F59E0B', '#EF4444'] as readonly [string, string],
@@ -199,6 +199,7 @@ export const primitive = {
     8: 32,
     9: 36,
     10: 40,
+    11: 44,
     12: 48,
     14: 56,
     16: 64,
@@ -209,6 +210,7 @@ export const primitive = {
   },
 
   // ─── Border radius ───────────────────────────────────────────
+  // T-shirt scale + Astryx semantic aliases (inner → element → container → page).
   radius: {
     none: 0,
     xs: 2,
@@ -218,6 +220,17 @@ export const primitive = {
     xl: 16,
     '2xl': 24,
     full: 9999,
+    // Astryx semantic radius — describes context, not size.
+    /** Inner elements nested inside a padded container. */
+    inner: 8,
+    /** Interactive controls: buttons, inputs, selectors. */
+    element: 12,
+    /** Content containers: cards, panels, dialogs. */
+    container: 16,
+    /** Page-level containers. */
+    page: 32,
+    /** Chat bubbles / conversational surfaces. */
+    chat: 28,
   },
 
   // ─── Typography ──────────────────────────────────────────────

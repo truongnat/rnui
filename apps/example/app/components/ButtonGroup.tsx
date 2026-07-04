@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, Stack, ToggleButton, ToggleButtonGroup } from '@truongdq01/ui';
-import { AlignCenter, AlignLeft, AlignRight, Bold, Italic, Underline } from 'lucide-react-native';
+import { AlignCenter, AlignLeft, AlignRight, Bold, Italic, Scissors, Copy, ClipboardPaste, Underline } from 'lucide-react-native';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
@@ -11,26 +11,45 @@ export default function ButtonGroupScreen() {
   return (
     <DemoPage
       title="Button Group"
-      description="Group related buttons or selection toggles."
+      description="Join related actions into one connected control — shared borders and outer-corner radius only."
     >
-      <DemoSection title="Basic" description="Stack related buttons with consistent styling.">
-        <ButtonGroup>
-          <Button label="One" variant="outline" onPress={() => {}} />
-          <Button label="Two" variant="outline" onPress={() => {}} />
-          <Button label="Three" variant="outline" onPress={() => {}} />
+      <DemoSection
+        title="Basic"
+        description="Related edit actions with the same variant, like Astryx copy / cut / paste."
+      >
+        <ButtonGroup label="Text editing actions">
+          <Button label="Copy" variant="outline" startIcon={<Copy size={16} />} onPress={() => {}} />
+          <Button label="Cut" variant="outline" startIcon={<Scissors size={16} />} onPress={() => {}} />
+          <Button label="Paste" variant="outline" startIcon={<ClipboardPaste size={16} />} onPress={() => {}} />
         </ButtonGroup>
       </DemoSection>
 
-      <DemoSection title="Full Width">
-        <ButtonGroup fullWidth>
-          <Button label="LEFT" variant="outline" onPress={() => {}} />
-          <Button label="CENTER" variant="outline" onPress={() => {}} />
-          <Button label="RIGHT" variant="outline" onPress={() => {}} />
+      <DemoSection title="Solid">
+        <ButtonGroup label="Alignment actions">
+          <Button label="Left" variant="solid" onPress={() => {}} />
+          <Button label="Center" variant="solid" onPress={() => {}} />
+          <Button label="Right" variant="solid" onPress={() => {}} />
+        </ButtonGroup>
+      </DemoSection>
+
+      <DemoSection title="Full width">
+        <ButtonGroup label="Full width group" fullWidth>
+          <Button label="Left" variant="outline" onPress={() => {}} />
+          <Button label="Center" variant="outline" onPress={() => {}} />
+          <Button label="Right" variant="outline" onPress={() => {}} />
+        </ButtonGroup>
+      </DemoSection>
+
+      <DemoSection title="Vertical">
+        <ButtonGroup label="Vertical actions" orientation="vertical">
+          <Button label="Undo" variant="outline" onPress={() => {}} />
+          <Button label="Redo" variant="outline" onPress={() => {}} />
+          <Button label="Reset" variant="outline" onPress={() => {}} />
         </ButtonGroup>
       </DemoSection>
 
       <DemoSection
-        title="Single Selection"
+        title="Single selection"
         description={`Current alignment: ${alignment.toUpperCase()}`}
       >
         <ToggleButtonGroup
@@ -45,7 +64,7 @@ export default function ButtonGroupScreen() {
       </DemoSection>
 
       <DemoSection
-        title="Multiple Selection"
+        title="Multiple selection"
         description={`Active formats: ${formats.join(', ') || 'NONE'}`}
       >
         <ToggleButtonGroup
@@ -62,17 +81,16 @@ export default function ButtonGroupScreen() {
       <DemoSection title="Sizes">
         <Stack spacing="md">
           <View>
-            <ButtonGroup size="sm">
+            <ButtonGroup label="Small group" size="sm">
               <Button label="S" variant="outline" onPress={() => {}} />
               <Button label="M" variant="outline" onPress={() => {}} />
               <Button label="L" variant="outline" onPress={() => {}} />
-              <Button label="XL" variant="outline" onPress={() => {}} />
             </ButtonGroup>
           </View>
           <View>
-            <ButtonGroup size="lg">
-              <Button label="START" onPress={() => {}} />
-              <Button label="END" onPress={() => {}} />
+            <ButtonGroup label="Large group" size="lg">
+              <Button label="Start" variant="solid" onPress={() => {}} />
+              <Button label="End" variant="solid" onPress={() => {}} />
             </ButtonGroup>
           </View>
         </Stack>

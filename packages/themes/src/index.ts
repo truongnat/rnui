@@ -1,5 +1,5 @@
 /**
- * @truongdq01/themes — Multi-brand plugin system for RNUI
+ * @truongdq01/themes — Astryx theme gallery for RNUI
  *
  * Architecture:
  *   Branch (primitive scale: spacing, radius, typography...)
@@ -7,51 +7,59 @@
  *         ├── light → full BrandColorGroup
  *         └── dark  → full BrandColorGroup
  *
+ * The built-in default tokens (`ThemeProvider` with no `brand`) already use the
+ * Astryx **neutral** palette. These presets port the rest of the Astryx theme
+ * gallery. Reference: https://astryx.atmeta.com/themes
+ *
  * Usage:
- *   import { loveBrand } from "@truongdq01/themes"
- *   <ThemeProvider brand={loveBrand}>...</ThemeProvider>
+ *   import { butterBrand } from "@truongdq01/themes"
+ *   <ThemeProvider brand={butterBrand}>...</ThemeProvider>
  *
  *   // Swap at runtime:
  *   const switchBrand = useBrandSwitch()
- *   switchBrand(oceanBrand)
+ *   switchBrand(matchaBrand)
  */
 
 // ── Types (re-exported for convenience) ───────────────────────────
 export type { Brand, BrandColorGroup } from '@truongdq01/tokens';
 export { defineBrand, defineBrand as createBrand } from '@truongdq01/tokens';
-// ── Brand presets ──────────────────────────────────────────────────
-export { defaultBrand } from './brands/default';
-export { forestBrand } from './brands/forest';
-export { loveBrand } from './brands/love';
-export { midnightBrand } from './brands/midnight';
-export { oceanBrand } from './brands/ocean';
-export { sunsetBrand } from './brands/sunset';
+// ── Brand presets (Astryx gallery) ────────────────────────────────
+export { butterBrand } from './brands/butter';
+export { chocolateBrand } from './brands/chocolate';
+export { gothicBrand } from './brands/gothic';
+export { matchaBrand } from './brands/matcha';
+export { neutralBrand } from './brands/neutral';
+export { stoneBrand } from './brands/stone';
+export { y2kBrand } from './brands/y2k';
 
 import type { Brand } from '@truongdq01/tokens';
 // ── All brands registry (for brand pickers, docs, etc.) ───────────
-import { defaultBrand } from './brands/default';
-import { forestBrand } from './brands/forest';
-import { loveBrand } from './brands/love';
-import { midnightBrand } from './brands/midnight';
-import { oceanBrand } from './brands/ocean';
-import { sunsetBrand } from './brands/sunset';
+import { butterBrand } from './brands/butter';
+import { chocolateBrand } from './brands/chocolate';
+import { gothicBrand } from './brands/gothic';
+import { matchaBrand } from './brands/matcha';
+import { neutralBrand } from './brands/neutral';
+import { stoneBrand } from './brands/stone';
+import { y2kBrand } from './brands/y2k';
 
 export const allBrands: Brand[] = [
-  defaultBrand,
-  loveBrand,
-  oceanBrand,
-  forestBrand,
-  sunsetBrand,
-  midnightBrand,
+  neutralBrand,
+  stoneBrand,
+  butterBrand,
+  chocolateBrand,
+  matchaBrand,
+  gothicBrand,
+  y2kBrand,
 ];
 
 export type BrandId =
-  | 'default'
-  | 'love'
-  | 'ocean'
-  | 'forest'
-  | 'sunset'
-  | 'midnight';
+  | 'neutral'
+  | 'stone'
+  | 'butter'
+  | 'chocolate'
+  | 'matcha'
+  | 'gothic'
+  | 'y2k';
 
 /** Look up a brand by its id */
 export function getBrandById(id: BrandId): Brand {

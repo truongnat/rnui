@@ -24,40 +24,40 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./default": {
-      "types": "./dist/brands/default.d.ts",
-      "import": "./dist/brands/default.mjs",
-      "require": "./dist/brands/default.js"
+    "./neutral": {
+      "types": "./dist/brands/neutral.d.ts",
+      "import": "./dist/brands/neutral.mjs",
+      "require": "./dist/brands/neutral.js"
     },
-    "./love": {
-      "types": "./dist/brands/love.d.ts",
-      "import": "./dist/brands/love.mjs",
-      "require": "./dist/brands/love.js"
+    "./stone": {
+      "types": "./dist/brands/stone.d.ts",
+      "import": "./dist/brands/stone.mjs",
+      "require": "./dist/brands/stone.js"
     },
-    "./forest": {
-      "types": "./dist/brands/forest.d.ts",
-      "import": "./dist/brands/forest.mjs",
-      "require": "./dist/brands/forest.js"
+    "./butter": {
+      "types": "./dist/brands/butter.d.ts",
+      "import": "./dist/brands/butter.mjs",
+      "require": "./dist/brands/butter.js"
     },
-    "./midnight": {
-      "types": "./dist/brands/midnight.d.ts",
-      "import": "./dist/brands/midnight.mjs",
-      "require": "./dist/brands/midnight.js"
+    "./chocolate": {
+      "types": "./dist/brands/chocolate.d.ts",
+      "import": "./dist/brands/chocolate.mjs",
+      "require": "./dist/brands/chocolate.js"
     },
-    "./ocean": {
-      "types": "./dist/brands/ocean.d.ts",
-      "import": "./dist/brands/ocean.mjs",
-      "require": "./dist/brands/ocean.js"
+    "./matcha": {
+      "types": "./dist/brands/matcha.d.ts",
+      "import": "./dist/brands/matcha.mjs",
+      "require": "./dist/brands/matcha.js"
     },
-    "./sunset": {
-      "types": "./dist/brands/sunset.d.ts",
-      "import": "./dist/brands/sunset.mjs",
-      "require": "./dist/brands/sunset.js"
+    "./gothic": {
+      "types": "./dist/brands/gothic.d.ts",
+      "import": "./dist/brands/gothic.mjs",
+      "require": "./dist/brands/gothic.js"
     },
-    "./telegram": {
-      "types": "./dist/brands/telegram.d.ts",
-      "import": "./dist/brands/telegram.mjs",
-      "require": "./dist/brands/telegram.js"
+    "./y2k": {
+      "types": "./dist/brands/y2k.d.ts",
+      "import": "./dist/brands/y2k.mjs",
+      "require": "./dist/brands/y2k.js"
     }
   },
   "files": [

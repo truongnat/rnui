@@ -4,6 +4,9 @@ import { type AccessibilityRole, Text } from 'react-native';
 
 export type TypographyVariant =
   | 'display'
+  | 'display1'
+  | 'display2'
+  | 'display3'
   | 'h1'
   | 'h2'
   | 'h3'

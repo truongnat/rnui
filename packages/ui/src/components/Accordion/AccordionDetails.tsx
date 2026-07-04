@@ -1,4 +1,9 @@
-import { useReduceMotionEnabled, useTheme } from '@truongdq01/headless';
+import {
+  durationScale,
+  motionEasing,
+  useReduceMotionEnabled,
+  useTheme,
+} from '@truongdq01/headless';
 import { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
@@ -31,7 +36,11 @@ export function AccordionDetails({ children }: AccordionDetailsProps) {
     const target = ctx.expanded ? contentHeight : 0;
     animHeight.value = reduceMotion
       ? target
-      : withTiming(target, { duration: 300 });
+      : withTiming(target, {
+          // Astryx: layout-rearranging transition → medium tier + ease-standard.
+          duration: durationScale.medium,
+          easing: motionEasing.standard,
+        });
   }, [ctx?.expanded, contentHeight, reduceMotion, animHeight, ctx]);
 
   // Height and opacity animation logic

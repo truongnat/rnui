@@ -1,2 +1,3 @@
+export { BreadcrumbItem } from './BreadcrumbItem';
 export { Breadcrumbs } from './Breadcrumbs';
-export type { BreadcrumbsProps } from './types';
+export type { BreadcrumbItemProps, BreadcrumbsProps } from './types';

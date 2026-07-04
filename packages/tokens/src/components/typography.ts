@@ -5,6 +5,9 @@ export function typographyTokens(t: SemanticTokens) {
   return {
     variants: {
       display: ramp.display,
+      display1: ramp.display1,
+      display2: ramp.display2,
+      display3: ramp.display3,
       h1: ramp.h1,
       h2: ramp.h2,
       h3: ramp.h3,

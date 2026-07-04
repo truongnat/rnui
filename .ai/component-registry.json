@@ -180,6 +180,31 @@
       ]
     },
     {
+      "name": "Blockquote",
+      "category": "data-display",
+      "package": "@truongdq01/ui",
+      "import": "import { Blockquote } from '@truongdq01/ui';",
+      "status": "stable",
+      "description": "Styled quotation block with emphasized left border and secondary text.",
+      "commonProps": [
+        "children",
+        "cite"
+      ],
+      "relatedComponents": [
+        "Typography",
+        "Card",
+        "Alert"
+      ],
+      "usageHints": [
+        "Use for quoted text, testimonials, or excerpts",
+        "Provide cite when the source is known",
+        "Combine with Card and Grid for testimonial sections"
+      ],
+      "avoid": [
+        "Callout boxes or informational notes — use Alert instead"
+      ]
+    },
+    {
       "name": "BottomNavigation",
       "category": "navigation",
       "package": "@truongdq01/ui",
@@ -242,16 +267,57 @@
       ]
     },
     {
+      "name": "BreadcrumbItem",
+      "category": "navigation",
+      "package": "@truongdq01/ui",
+      "import": "import { BreadcrumbItem } from '@truongdq01/ui';",
+      "status": "beta",
+      "description": "Individual breadcrumb link or current-page label inside Breadcrumbs.",
+      "commonProps": [
+        "children",
+        "href",
+        "onPress",
+        "isCurrent",
+        "startIcon"
+      ],
+      "relatedComponents": [
+        "Breadcrumbs",
+        "Link"
+      ],
+      "usageHints": [
+        "Use href or onPress for ancestor pages",
+        "Set isCurrent on the last item, or let Breadcrumbs auto-detect the last item",
+        "Pass startIcon for item-level icons"
+      ],
+      "avoid": [
+        "Wrapping items in manual View rows — use startIcon instead"
+      ]
+    },
+    {
       "name": "Breadcrumbs",
       "category": "navigation",
       "package": "@truongdq01/ui",
-      "import": "import { Breadcrumbs } from '@truongdq01/ui';",
+      "import": "import { Breadcrumbs, BreadcrumbItem } from '@truongdq01/ui';",
       "status": "beta",
-      "description": "Hierarchical navigation trail.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "description": "Hierarchical navigation trail composed of BreadcrumbItem children.",
+      "commonProps": [
+        "separator",
+        "maxItems",
+        "itemsBeforeCollapse",
+        "itemsAfterCollapse"
+      ],
+      "relatedComponents": [
+        "BreadcrumbItem",
+        "Link"
+      ],
+      "usageHints": [
+        "Compose trails with BreadcrumbItem children",
+        "Customize separator with string or icon node",
+        "Use maxItems to collapse long paths"
+      ],
+      "avoid": [
+        "Manual separator Text nodes between children"
+      ]
     },
     {
       "name": "Button",
@@ -294,13 +360,30 @@
       "name": "ButtonGroup",
       "category": "actions",
       "package": "@truongdq01/ui",
-      "import": "import { ButtonGroup } from '@truongdq01/ui';",
+      "import": "import { ButtonGroup, Button } from '@truongdq01/ui';",
       "status": "stable",
-      "description": "Grouped button row with shared styling.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "description": "Joins related buttons into one connected control with shared borders and outer-corner radius.",
+      "commonProps": [
+        "label",
+        "orientation",
+        "size",
+        "isDisabled"
+      ],
+      "relatedComponents": [
+        "Button",
+        "ToggleButtonGroup",
+        "SegmentedControl"
+      ],
+      "usageHints": [
+        "Group related actions on the same object (copy, cut, paste)",
+        "Use the same variant on every child button",
+        "Provide label for toolbar accessibility"
+      ],
+      "avoid": [
+        "Mixing unrelated actions in one group",
+        "Using ButtonGroup for view switching — prefer SegmentedControl or Tabs",
+        "Nesting ButtonGroups"
+      ]
     },
     {
       "name": "Card",
@@ -1262,11 +1345,13 @@
       "usageHints": [
         "Use variant h1-h6 for headings",
         "color=secondary for subtitles",
-        "as prop for accessibility heading roles"
+        "as prop for accessibility heading roles",
+        "Use variant display1/display2/display3 for hero/marketing/data callouts (not body copy)"
       ],
       "avoid": [
         "Raw Text with fontSize 14/16/18 scattered",
-        "Hardcoded text colors"
+        "Hardcoded text colors",
+        "display1-3 for in-page section headers or body content"
       ]
     }
   ]

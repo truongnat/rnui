@@ -46,6 +46,22 @@ export const duration = {
   slower: 500,
 } as const;
 
+// ─── Duration tiers (Astryx-aligned) ─────────────────────────────
+// Three tiers (fast / medium / slow), each with min · base · max. Use `fast`
+// for small frequent interactions, `medium` for layout-rearranging transitions,
+// `slow` for large spatial moves. Reference: https://astryx.atmeta.com/docs/motion
+export const durationScale = {
+  fastMin: 130,
+  fast: 175,
+  fastMax: 230,
+  mediumMin: 310,
+  medium: 410,
+  mediumMax: 550,
+  slowMin: 730,
+  slow: 975,
+  slowMax: 1300,
+} as const;
+
 // ─── Easing curves ────────────────────────────────────────────────
 // CSS cubic-bezier strings (design metadata). For `withTiming`, use `motionEasing` or
 // `resolveTimingPreset` from `@truongdq01/headless` — Reanimated expects `Easing.*` functions.
@@ -54,6 +70,8 @@ export const easing = {
   easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
   easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
   linear: 'linear',
+  /** Astryx `--ease-standard` — the default expressive curve. */
+  standard: 'cubic-bezier(0.24, 1, 0.4, 1)',
 } as const;
 
 // ─── Press feedback ───────────────────────────────────────────────
@@ -119,6 +137,7 @@ export type MotionPresetKey = keyof typeof motionPreset.enter;
 export type MotionExitKey = keyof typeof motionPreset.exit;
 export type TimingPresetKey = keyof typeof timingPreset;
 export type DurationKey = keyof typeof duration;
+export type DurationScaleKey = keyof typeof durationScale;
 export type EasingKey = keyof typeof easing;
 
 export type SpringConfig = (typeof spring)[keyof typeof spring];

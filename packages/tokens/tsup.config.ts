@@ -8,6 +8,7 @@ export default defineConfig({
     component: 'src/component.ts',
     brand: 'src/brand.ts',
     motion: 'src/motion.ts',
+    typescale: 'src/typescale.ts',
   },
   format: ['esm', 'cjs'],
   dts: false, // Disable tsup's dts generation

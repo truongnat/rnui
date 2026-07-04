@@ -1,5 +1,4 @@
-import { View } from 'react-native';
-import { Breadcrumbs, Typography, Link } from '@truongdq01/ui';
+import { BreadcrumbItem, Breadcrumbs } from '@truongdq01/ui';
 import { Home, Slash } from 'lucide-react-native';
 import { useTheme } from '@truongdq01/headless';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
@@ -14,29 +13,33 @@ export default function BreadcrumbsScreen() {
     >
       <DemoSection title="Basic">
         <Breadcrumbs>
-          <Link onPress={() => {}}>Home</Link>
-          <Link onPress={() => {}}>Components</Link>
-          <Typography color="secondary">Breadcrumbs</Typography>
+          <BreadcrumbItem onPress={() => {}}>Home</BreadcrumbItem>
+          <BreadcrumbItem onPress={() => {}}>Components</BreadcrumbItem>
+          <BreadcrumbItem isCurrent>Breadcrumbs</BreadcrumbItem>
         </Breadcrumbs>
       </DemoSection>
 
       <DemoSection title="Custom Separator">
-        <Breadcrumbs separator={<Slash size={14} color={tokens.color.text.tertiary} />}>
-          <Link onPress={() => {}}>Home</Link>
-          <Link onPress={() => {}}>Store</Link>
-          <Link onPress={() => {}}>Electronics</Link>
-          <Typography color="secondary">Phones</Typography>
+        <Breadcrumbs
+          separator={<Slash size={14} color={tokens.color.text.secondary} />}
+        >
+          <BreadcrumbItem onPress={() => {}}>Home</BreadcrumbItem>
+          <BreadcrumbItem onPress={() => {}}>Store</BreadcrumbItem>
+          <BreadcrumbItem onPress={() => {}}>Electronics</BreadcrumbItem>
+          <BreadcrumbItem isCurrent>Phones</BreadcrumbItem>
         </Breadcrumbs>
       </DemoSection>
 
       <DemoSection title="With Icons">
         <Breadcrumbs>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing[1] }}>
-            <Home size={16} color={tokens.color.brand.default} />
-            <Link onPress={() => {}}>Home</Link>
-          </View>
-          <Link onPress={() => {}}>Settings</Link>
-          <Typography color="secondary">Security</Typography>
+          <BreadcrumbItem
+            onPress={() => {}}
+            startIcon={<Home size={16} color={tokens.color.brand.default} />}
+          >
+            Home
+          </BreadcrumbItem>
+          <BreadcrumbItem onPress={() => {}}>Settings</BreadcrumbItem>
+          <BreadcrumbItem isCurrent>Security</BreadcrumbItem>
         </Breadcrumbs>
       </DemoSection>
 
@@ -45,11 +48,11 @@ export default function BreadcrumbsScreen() {
         description="Automatically collapse when exceeding maxItems."
       >
         <Breadcrumbs maxItems={3}>
-          <Link onPress={() => {}}>Home</Link>
-          <Link onPress={() => {}}>Catalog</Link>
-          <Link onPress={() => {}}>Winter</Link>
-          <Link onPress={() => {}}>Sale</Link>
-          <Typography color="secondary">Clothing</Typography>
+          <BreadcrumbItem onPress={() => {}}>Home</BreadcrumbItem>
+          <BreadcrumbItem onPress={() => {}}>Catalog</BreadcrumbItem>
+          <BreadcrumbItem onPress={() => {}}>Winter</BreadcrumbItem>
+          <BreadcrumbItem onPress={() => {}}>Sale</BreadcrumbItem>
+          <BreadcrumbItem isCurrent>Clothing</BreadcrumbItem>
         </Breadcrumbs>
       </DemoSection>
     </DemoPage>

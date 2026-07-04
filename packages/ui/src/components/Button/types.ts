@@ -52,4 +52,8 @@ export interface ButtonProps {
   accessibilityLabel?: string;
   accessibilityHint?: string;
   testID?: string;
+  /** @internal Injected by ButtonGroup for connected styling. */
+  buttonGroupPosition?: 'only' | 'first' | 'middle' | 'last';
+  /** @internal Injected by ButtonGroup for connected styling. */
+  buttonGroupOrientation?: 'horizontal' | 'vertical';
 }

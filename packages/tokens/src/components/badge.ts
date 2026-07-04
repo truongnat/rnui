@@ -7,7 +7,7 @@ export function badgeTokens(t: SemanticTokens) {
     base: {
       borderRadius: t.radius.full,
       alignSelf: 'flex-start' as const,
-      borderWidth: 1,
+      borderWidth: 0,
     },
     size: {
       sm: {

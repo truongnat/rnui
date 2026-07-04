@@ -25,6 +25,7 @@ export * from './components/AspectRatio';
 export * from './components/Autocomplete';
 export * from './components/Avatar';
 export * from './components/Badge';
+export * from './components/Blockquote';
 export * from './components/BottomNavigation';
 export * from './components/BottomSheet';
 export * from './components/Box';

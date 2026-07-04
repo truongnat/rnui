@@ -3,7 +3,8 @@ import type { SemanticTokens } from '../semantic';
 export function cardTokens(t: SemanticTokens) {
   return {
     container: {
-      backgroundColor: t.color.surface.default,
+      // Astryx surface hierarchy: cards sit on the `card` surface (above `surface`).
+      backgroundColor: t.color.surface.card ?? t.color.surface.default,
       borderRadius: t.radius.xl,
       borderWidth: 1,
       borderColor: t.color.border.default,

@@ -7,6 +7,7 @@ export function resolveComponentTokens(t: SemanticTokens) {
     input: components.inputTokens(t),
     card: components.cardTokens(t),
     badge: components.badgeTokens(t),
+    blockquote: components.blockquoteTokens(t),
     toast: components.toastTokens(t),
     avatar: components.avatarTokens(t),
     checkbox: components.checkboxTokens(t),
