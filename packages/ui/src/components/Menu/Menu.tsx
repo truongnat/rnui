@@ -94,7 +94,7 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
           animStyle,
         ]}
       >
-        <MenuContext.Provider value={{ getItemProps }}>
+        <MenuContext.Provider value={React.useMemo(() => ({ getItemProps }), [getItemProps])}>
           {children}
         </MenuContext.Provider>
       </Animated.View>

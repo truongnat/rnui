@@ -1,4 +1,5 @@
 import { useTheme } from '@truongdq01/headless';
+import type { StyleProp, ViewStyle } from 'react-native';
 import {
   AlertCircle,
   AlertTriangle,
@@ -155,7 +156,7 @@ export interface IconProps {
     | 'large';
   /** Color of the icon. Can be a raw hex or a theme preset. */
   color?: string;
-  style?: any;
+  style?: StyleProp<ViewStyle>;
 }
 
 /**

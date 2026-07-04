@@ -1,6 +1,6 @@
 import { useTheme } from '@truongdq01/headless';
 import { useMemo } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text, type TextStyle } from 'react-native';
 import { Icon } from '../Icon';
 import type { SelectOptionProps } from './types';
 
@@ -23,7 +23,7 @@ export function SelectOption<T = string>({
         : select.option.default.color,
       fontWeight: (selected
         ? tokens.fontWeight.medium
-        : tokens.fontWeight.regular) as any,
+        : tokens.fontWeight.regular) as TextStyle['fontWeight'],
     }),
     [
       selected,

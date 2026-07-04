@@ -1,5 +1,5 @@
 import { useTheme } from '@truongdq01/headless';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, type ViewStyle, View } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 export type LinearProgressVariant =
@@ -25,7 +25,7 @@ export interface LinearProgressProps {
   color?: LinearProgressColor;
   trackColor?: string;
   thickness?: number;
-  style?: any;
+  style?: ViewStyle | ViewStyle[];
 }
 
 function clamp(value: number, min = 0, max = 100) {

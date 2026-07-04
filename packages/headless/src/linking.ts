@@ -1,4 +1,4 @@
-import { Linking, Platform } from 'react-native';
+import { Linking } from 'react-native';
 
 const ALLOWED_SCHEMES = ['http:', 'https:', 'mailto:', 'tel:', 'sms:'];
 
@@ -17,18 +17,19 @@ export function parseUrl(url: string): { scheme: string; safe: boolean } | null 
 export async function openSafeUrl(url: string): Promise<void> {
   const parsed = parseUrl(url);
   if (!parsed) {
-    console.warn(`[openSafeUrl] Invalid URL: ${url}`);
+    if (__DEV__) console.warn(`[openSafeUrl] Invalid URL: ${url}`);
     return;
   }
   if (!parsed.safe) {
-    console.warn(
-      `[openSafeUrl] Blocked URL with scheme "${parsed.scheme}": ${url}`
-    );
+    if (__DEV__)
+      console.warn(
+        `[openSafeUrl] Blocked URL with scheme "${parsed.scheme}": ${url}`
+      );
     return;
   }
   const canOpen = await Linking.canOpenURL(url);
   if (!canOpen) {
-    console.warn(`[openSafeUrl] Cannot open URL: ${url}`);
+    if (__DEV__) console.warn(`[openSafeUrl] Cannot open URL: ${url}`);
     return;
   }
   await Linking.openURL(url);

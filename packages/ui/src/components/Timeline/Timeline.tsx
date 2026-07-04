@@ -1,5 +1,5 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import { Text, View } from 'react-native';
 
 export type TimelinePosition =
@@ -33,8 +33,12 @@ export function Timeline({
   const {
     components: { timeline },
   } = useTheme();
+  const contextValue = useMemo(
+    () => ({ position, itemVariant }),
+    [position, itemVariant]
+  );
   return (
-    <TimelineContext.Provider value={{ position, itemVariant }}>
+    <TimelineContext.Provider value={contextValue}>
       <View style={timeline.content}>
         {React.Children.map(children, (child, index) => {
           if (
@@ -105,11 +109,11 @@ export function TimelineItem({
   );
 }
 
-function extractChildrenByType(children: React.ReactNode, type: any) {
+function extractChildrenByType(children: React.ReactNode, type: React.ElementType) {
   const items: React.ReactNode[] = [];
   React.Children.forEach(children, (child) => {
     if (React.isValidElement(child) && child.type === type) {
-      const element = child as React.ReactElement<any>;
+      const element = child as React.ReactElement<{ children?: React.ReactNode }>;
       items.push(element.props.children);
     }
   });
@@ -204,8 +208,8 @@ export function TimelineDot({
         : color === 'primary'
           ? 'active'
           : 'pending');
-  const dotConfig = timeline.dot as Record<string, any>;
-  const statusTokens = dotConfig[resolvedStatus] || timeline.dot.pending;
+  const dotConfig = timeline.dot as Record<string, unknown>;
+  const statusTokens = dotConfig[resolvedStatus] as { bg: string; borderColor: string } | undefined ?? timeline.dot.pending;
 
   const dotSize = size || timeline.dot.size || 16;
 

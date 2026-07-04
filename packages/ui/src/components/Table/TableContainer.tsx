@@ -20,6 +20,6 @@ export function TableContainer({ children, style }: TableContainerProps) {
 
 const styles = StyleSheet.create({
   inner: {
-    minWidth: '100%' as any,
+    minWidth: '100%' as const,
   },
 });

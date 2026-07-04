@@ -1,6 +1,6 @@
 import { usePressable, useTheme } from '@truongdq01/headless';
 import React, { useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, type ViewStyle } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
@@ -119,7 +119,7 @@ export function Fab({
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={containerStyle as never} {...accessibilityProps}>
+      <Animated.View style={containerStyle as ViewStyle[]} {...accessibilityProps}>
         <View style={styles.content}>
           {icon ? renderFabIcon(icon, s.iconSize, iconColor) : null}
           {isExtended ? (

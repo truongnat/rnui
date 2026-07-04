@@ -36,9 +36,13 @@ export function List({
   } = useTheme();
 
   const items = filterWhitespaceChildren(children);
+  const contextValue = React.useMemo(
+    () => ({ dense, disablePadding }),
+    [dense, disablePadding]
+  );
 
   return (
-    <ListContext.Provider value={{ dense, disablePadding }}>
+    <ListContext.Provider value={contextValue}>
       <View
         nativeID={id}
         style={[list.container, variant === 'inset' && list.inset, style]}

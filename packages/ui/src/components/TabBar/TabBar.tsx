@@ -1,5 +1,5 @@
 import { useTheme } from '@truongdq01/headless';
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useCallback, useContext, useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, {
   interpolate,
@@ -56,19 +56,30 @@ export function TabBar<T = string>({
   );
   const value = controlledValue !== undefined ? controlledValue : internalValue;
 
-  const isSelected = (itemValue: T) => value === itemValue;
+  const isSelected = useCallback(
+    (itemValue: T) => value === itemValue,
+    [value]
+  );
 
-  const getItemProps = (itemValue: T, disabled?: boolean) => ({
-    onPress: disabled
-      ? undefined
-      : () => {
-          if (controlledValue === undefined) setInternalValue(itemValue);
-          onChange?.(itemValue);
-        },
-  });
+  const getItemProps = useCallback(
+    (itemValue: T, disabled?: boolean) => ({
+      onPress: disabled
+        ? undefined
+        : () => {
+            if (controlledValue === undefined) setInternalValue(itemValue);
+            onChange?.(itemValue);
+          },
+    }),
+    [controlledValue, onChange]
+  );
+
+  const contextValue = useMemo(
+    () => ({ value, isSelected, getItemProps }),
+    [value, isSelected, getItemProps]
+  );
 
   return (
-    <TabBarContext.Provider value={{ value, isSelected, getItemProps }}>
+    <TabBarContext.Provider value={contextValue}>
       <View
         style={[
           styles.container,

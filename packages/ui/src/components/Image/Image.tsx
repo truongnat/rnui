@@ -2,7 +2,9 @@ import { useTheme } from '@truongdq01/headless';
 import { useState } from 'react';
 import {
   Image as RNImage,
+  type ImageLoadEventData,
   type ImageProps as RNImageProps,
+  type NativeSyntheticEvent,
   StyleSheet,
   View,
 } from 'react-native';
@@ -34,7 +36,7 @@ export function RnImage({
   const [isLoaded, setIsLoaded] = useState(false);
   const opacity = useSharedValue(0);
 
-  const handleLoad = (e: any) => {
+  const handleLoad = (e: NativeSyntheticEvent<ImageLoadEventData>) => {
     setIsLoaded(true);
     opacity.value = withTiming(1, { duration: 300 });
     onLoad?.(e);

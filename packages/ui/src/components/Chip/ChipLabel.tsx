@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, type TextStyle } from 'react-native';
 import type { ChipLabelProps } from './types';
 
 /**
@@ -14,7 +14,7 @@ export function ChipLabel({
     <Text
       numberOfLines={1}
       ellipsizeMode="tail"
-      style={[styles.label, { color, fontSize, fontWeight: fontWeight as any }]}
+      style={[styles.label, { color, fontSize, fontWeight: fontWeight as TextStyle['fontWeight'] }]}
     >
       {children}
     </Text>
