@@ -111,7 +111,7 @@ export const DatePickerCalendarSheet = memo(function DatePickerCalendarSheet({
   return (
     <Modal
       transparent
-      animationType="slide"
+      animationType="none"
       visible={visible}
       onRequestClose={onDismiss}
     >

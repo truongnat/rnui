@@ -1,12 +1,18 @@
-import { useDisclosure, useId, useTheme } from '@truongdq01/headless';
+import { useCollapsible, useId, useTheme } from '@truongdq01/headless';
 import { useContext, useMemo } from 'react';
-import { StyleSheet, View, type ViewStyle } from 'react-native';
+import { View, type ViewStyle } from 'react-native';
 import { AccordionContext, AccordionGroupContext } from './context';
 import type { AccordionProps } from './types';
 
 /**
  * Accordion component for collapsible content.
- * It can be used alone or inside an AccordionGroup.
+ * It can be used standalone or inside an AccordionGroup.
+ *
+ * Border & radius ownership is deterministic to avoid square/rounded-corner
+ * conflicts:
+ * - **Standalone / gapped group** — the item is a self-contained rounded card.
+ * - **Attached group** — the item is flat; the group renders the single rounded,
+ *   clipped envelope so top/bottom corners are handled once, not per item.
  */
 export function Accordion({
   id: idProp,
@@ -18,8 +24,6 @@ export function Accordion({
   radius,
   bordered: controlledBordered,
   style,
-  isFirst,
-  isLast,
 }: AccordionProps) {
   const groupCtx = useContext(AccordionGroupContext);
   const {
@@ -28,103 +32,59 @@ export function Accordion({
   } = useTheme();
   const id = useId(idProp, 'accordion');
 
-  // Determine if state is managed by a parent AccordionGroup
-  const isGroupManaged = !!(groupCtx && idProp !== undefined);
-  const isInGroup = groupCtx?.inGroup ?? false;
-  const isBorderedGroup = groupCtx?.bordered ?? false;
+  const isGroupManaged = groupCtx != null && idProp !== undefined;
+  const isAttached = groupCtx?.attached ?? false;
 
-  // Uncontrolled state handler (only used when not managed by a group)
-  const disclosure = useDisclosure({
+  const { isOpen, toggle } = useCollapsible({
+    value: idProp,
+    group: isGroupManaged ? groupCtx : null,
     isOpen: controlledExpanded,
     defaultOpen: defaultExpanded,
-    onOpen: () => onChange?.(true),
-    onClose: () => onChange?.(false),
+    onOpenChange: onChange,
+    disabled,
   });
 
-  const isExpanded = isGroupManaged
-    ? groupCtx.isExpanded(idProp!)
-    : disclosure.isOpen;
-  const isBordered = controlledBordered ?? true;
+  const containerStyle = useMemo<ViewStyle>(() => {
+    const backgroundColor = accordion.container.backgroundColor;
 
-  /**
-   * Determine the effective container styles based on:
-   * 1. Standalone vs Grouped state
-   * 2. Position (First/Last) for corner rounding
-   * 3. Group bordered/gap configuration
-   */
-  const extraContainerStyle = useMemo(() => {
-    const effectiveRadius = radius ?? groupCtx?.radius ?? tokens.radius.md;
-
-    // 1. Single Mode (Not in a group)
-    if (!isInGroup) {
+    // Attached group: item is flat, the group owns the rounded/clipped envelope.
+    if (isGroupManaged && isAttached) {
       return {
-        borderRadius: effectiveRadius,
-        overflow: 'hidden' as const,
-        borderWidth: isBordered ? 1 : 0,
-        borderColor: tokens.color.border.default,
-      };
-    }
-
-    // 2. Group Mode logic
-    const gStyle = groupCtx?.groupStyle;
-    const flatGStyle = gStyle ? StyleSheet.flatten(gStyle) : {};
-    const gapVal = (flatGStyle as ViewStyle).gap;
-    const hasGap = typeof gapVal === 'number' && gapVal > 0;
-
-    // If it's a bordered group OR list mode (shared logic for rounding items at boundary)
-    if (isBorderedGroup || !hasGap) {
-      return {
-        borderTopLeftRadius: isFirst ? effectiveRadius : 0,
-        borderTopRightRadius: isFirst ? effectiveRadius : 0,
-        borderBottomLeftRadius: isLast ? effectiveRadius : 0,
-        borderBottomRightRadius: isLast ? effectiveRadius : 0,
+        backgroundColor,
+        borderRadius: 0,
         borderWidth: 0,
-        overflow: 'hidden' as const,
+        overflow: 'hidden',
       };
     }
 
-    // Default: Group with gap -> items behave like separate rounded cards.
+    // Standalone or gapped group: self-contained rounded card.
+    const effectiveRadius = radius ?? groupCtx?.radius ?? tokens.radius.xl;
+    const isBordered = controlledBordered ?? true;
     return {
+      backgroundColor,
       borderRadius: effectiveRadius,
-      overflow: 'hidden' as const,
       borderWidth: isBordered ? 1 : 0,
       borderColor: tokens.color.border.default,
+      overflow: 'hidden',
     };
   }, [
-    isBorderedGroup,
-    isInGroup,
-    isFirst,
-    isLast,
-    groupCtx?.radius,
-    groupCtx?.groupStyle,
-    tokens,
+    accordion.container.backgroundColor,
+    isGroupManaged,
+    isAttached,
     radius,
-    isBordered,
+    groupCtx?.radius,
+    tokens,
+    controlledBordered,
   ]);
 
-  const handleToggle = () => {
-    if (disabled) return;
-    if (isGroupManaged) {
-      groupCtx.toggleId(idProp!);
-    } else {
-      disclosure.toggle();
-    }
-  };
+  const contextValue = useMemo(
+    () => ({ expanded: isOpen, toggle, disabled }),
+    [isOpen, toggle, disabled]
+  );
 
   return (
-    <AccordionContext.Provider
-      value={{
-        expanded: isExpanded,
-        toggle: handleToggle,
-        disabled,
-        isFirst: isFirst ?? false,
-        isLast: isLast ?? false,
-      }}
-    >
-      <View
-        nativeID={id}
-        style={[accordion.container, extraContainerStyle, style]}
-      >
+    <AccordionContext.Provider value={contextValue}>
+      <View nativeID={id} style={[containerStyle, style]}>
         {children}
       </View>
     </AccordionContext.Provider>

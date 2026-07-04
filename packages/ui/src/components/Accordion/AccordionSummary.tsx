@@ -1,4 +1,6 @@
 import {
+  durationScale,
+  motionEasing,
   usePressable,
   useReduceMotionEnabled,
   useTheme,
@@ -46,7 +48,11 @@ export function AccordionSummary({
     const target = ctx.expanded ? 1 : 0;
     rotation.value = reduceMotion
       ? target
-      : withTiming(target, { duration: 300 });
+      : withTiming(target, {
+          // Match AccordionDetails so the chevron and content move in sync.
+          duration: durationScale.medium,
+          easing: motionEasing.standard,
+        });
   }, [ctx?.expanded, reduceMotion, rotation, ctx]);
 
   // Animated style for consistent chevron rotation

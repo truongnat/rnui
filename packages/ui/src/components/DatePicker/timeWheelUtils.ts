@@ -18,15 +18,6 @@ export function nearestMinuteInList(minute: number, items: number[]): number {
   );
 }
 
-export function alignMinuteToInterval(
-  minute: number,
-  interval: number
-): number {
-  if (interval <= 1) return Math.min(59, Math.max(0, minute));
-  const rounded = Math.round(minute / interval) * interval;
-  return Math.min(59, Math.max(0, rounded));
-}
-
 /** 24h → 12h display + period */
 export function to12hParts(hour24: number): { hour12: number; isPm: boolean } {
   if (hour24 === 0) return { hour12: 12, isPm: false };

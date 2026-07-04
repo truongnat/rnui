@@ -49,7 +49,10 @@ RNUI ships **65+ components** across three packages. All styled components re-ex
 | **RadioGroup**       | `direction`: horizontal / vertical · `RadioItem` composable                                           |
 | **Slider**           | Horizontal · animated thumb · marks · range display                                                   |
 | **OTPInput**         | Configurable length · auto-focus management                                                           |
-| **DatePicker**       | iOS spinner + Android native · time / date / datetime modes                                           |
+| **DateInput**        | Single-date form field · calendar sheet · min/max · clearable                                         |
+| **DateRangeInput**   | Start/end range field · dual-month calendar · quick presets                                           |
+| **DateTimeInput**    | Combined date + time field · minute interval · 12h / 24h support                                      |
+| **DatePicker**       | Lower-level calendar / spinner picker · time / date / datetime modes                                  |
 | **Autocomplete**     | Filtered suggestions with keyboard navigation                                                         |
 | **SegmentedControl** | Animated indicator · scrollable · multi-option                                                        |
 | **ToggleButton**     | Exclusive or multi-select button group                                                                |

@@ -5,7 +5,7 @@ sidebar_position: 62
 
 # DatePicker
 
-A fully customizable date picker with calendar view, range selection, and theme support.
+Cross-platform date picker with calendar, spinner/native styles, date, time, and datetime modes.
 
 ## Import
 
@@ -25,29 +25,26 @@ export function MyDatePicker() {
   const [date, setDate] = useState<Date | null>(null);
 
   return (
-    <DatePicker value={date} onChange={setDate} placeholder="Select a date" />
+    <DatePicker date={date} onChange={setDate} placeholder="Select a date" />
   );
 }
 ```
 
-### Date range
+### Date time
 
 ```tsx
 import { DatePicker } from '@truongdq01/ui';
 import { useState } from 'react';
 
-export function MyRangePicker() {
-  const [range, setRange] = useState<{ start: Date | null; end: Date | null }>({
-    start: null,
-    end: null,
-  });
+export function MyDateTimePicker() {
+  const [date, setDate] = useState<Date | null>(null);
 
   return (
     <DatePicker
-      mode="range"
-      startDate={range.start}
-      endDate={range.end}
-      onRangeChange={setRange}
+      date={date}
+      onChange={setDate}
+      mode="datetime"
+      minuteInterval={15}
     />
   );
 }
@@ -57,12 +54,15 @@ export function MyRangePicker() {
 
 | Prop          | Type                                | Default         | Description                  |
 | ------------- | ----------------------------------- | --------------- | ---------------------------- |
-| `value`       | `Date \| null`                      | —               | Selected date (single mode)  |
-| `onChange`    | `(date: Date) => void`              | —               | Called when date is selected |
-| `mode`        | `"single" \| "range" \| "multiple"` | `"single"`      | Selection mode               |
-| `minDate`     | `Date`                              | —               | Minimum selectable date      |
-| `maxDate`     | `Date`                              | —               | Maximum selectable date      |
-| `placeholder` | `string`                            | `"Select date"` | Input placeholder text       |
-| `format`      | `string`                            | `"MM/DD/YYYY"`  | Date display format          |
-| `disabled`    | `boolean`                           | `false`         | Disable the picker           |
-| `locale`      | `string`                            | `"en-US"`       | Locale for month/day names   |
+| Prop          | Type                                | Default         | Description                    |
+| ------------- | ----------------------------------- | --------------- | ------------------------------ |
+| `date`        | `Date \| null`                      | —               | Selected date                  |
+| `onChange`    | `(date: Date \| null) => void`      | —               | Called when selection changes  |
+| `mode`        | `"date" \| "time" \| "datetime"`    | `"date"`        | Picker mode                    |
+| `minimumDate` | `Date`                              | —               | Minimum selectable date        |
+| `maximumDate` | `Date`                              | —               | Maximum selectable date        |
+| `placeholder` | `string`                            | `"Select date"` | Input placeholder text         |
+| `pickerStyle` | `"calendar" \| "spinner" \| "native"` | `"calendar"`    | Calendar sheet or native style |
+| `locale`      | `string`                            | —               | Locale for month/day names     |
+
+For form-style wrappers, prefer [`DateInput`](./date-input.md), [`DateRangeInput`](./date-range-input.md), or [`DateTimeInput`](./date-time-input.md).

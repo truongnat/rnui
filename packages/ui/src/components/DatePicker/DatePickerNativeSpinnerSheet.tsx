@@ -24,7 +24,7 @@ export const DatePickerNativeSpinnerSheet = memo(
     const { tokens } = useTheme();
 
     return (
-      <Modal transparent animationType="slide" visible={visible}>
+      <Modal transparent animationType="none" visible={visible}>
         <View
           style={{
             flex: 1,
@@ -43,14 +43,14 @@ export const DatePickerNativeSpinnerSheet = memo(
               style={{
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
-                paddingHorizontal: 16,
+                paddingHorizontal: tokens.spacing[4],
                 paddingTop: 12,
               }}
             >
               <Pressable onPress={onDone} hitSlop={12}>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: tokens.fontSize.md,
                     color: tokens.color.brand.default,
                     fontWeight: tokens.fontWeight.semibold,
                   }}

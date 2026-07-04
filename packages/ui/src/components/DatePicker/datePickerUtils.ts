@@ -1,9 +1,24 @@
 import { DATE_PICKER_YEAR_SPAN } from './datePickerConstants';
 import type {
+  DateFieldStatus,
   DatePickerPreset,
   DatePickerStrings,
   PickerSurface,
 } from './datePickerTypes';
+
+/**
+ * Resolve the effective validation status and message for a date field.
+ * `error` (string) is a shorthand for `status="error"` and takes priority.
+ */
+export function resolveFieldStatus(
+  error?: string,
+  status?: DateFieldStatus,
+  statusMessage?: string
+): { status?: DateFieldStatus; message?: string } {
+  if (error) return { status: 'error', message: error };
+  if (status) return { status, message: statusMessage };
+  return {};
+}
 
 export function defaultStrings(): Required<DatePickerStrings> {
   return {

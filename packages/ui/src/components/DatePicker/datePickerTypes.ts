@@ -6,7 +6,19 @@ export type DatePickerPreset =
   | 'last90'
   | null;
 
+export type DateRangeInputPreset =
+  | 'today'
+  | 'yesterday'
+  | 'last7'
+  | 'last30'
+  | 'last90'
+  | 'thisMonth'
+  | 'lastMonth';
+
 export type DatePickerStyle = 'calendar' | 'spinner' | 'native';
+
+/** Validation status for a date field, affecting the border and message color. */
+export type DateFieldStatus = 'error' | 'warning' | 'success';
 
 /** Custom copy for the calendar modal and actions. Unspecified keys use English defaults. */
 export interface DatePickerStrings {
@@ -38,7 +50,12 @@ export interface DatePickerProps {
   onChange: (date: Date | null) => void;
   placeholder?: string;
   disabled?: boolean;
+  /** Error message shown under the field. Shorthand for `status="error"`. */
   error?: string;
+  /** Validation status affecting the field border and message color. */
+  status?: DateFieldStatus;
+  /** Message shown under the field, colored to match `status`. Ignored when `error` is set. */
+  statusMessage?: string;
   icon?: import('react').ReactNode;
   minimumDate?: Date;
   maximumDate?: Date;
@@ -60,6 +77,60 @@ export interface DatePickerProps {
   formatDate?: (date: Date) => string;
   formatOptions?: Intl.DateTimeFormatOptions;
   strings?: DatePickerStrings;
+}
+
+export interface DateInputProps
+  extends Omit<DatePickerProps, 'date' | 'mode' | 'onChange'> {
+  value?: Date | null;
+  date?: Date | null;
+  onChange: (date: Date | null) => void;
+  helperText?: string;
+}
+
+export interface DateTimeInputProps
+  extends Omit<DatePickerProps, 'date' | 'mode' | 'onChange'> {
+  value?: Date | null;
+  date?: Date | null;
+  onChange: (date: Date | null) => void;
+  helperText?: string;
+}
+
+export interface DateRangeInputValue {
+  start: Date | null;
+  end: Date | null;
+}
+
+export interface DateRangeInputStrings extends DatePickerStrings {
+  titleRange?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface DateRangeInputProps {
+  label?: string;
+  value?: DateRangeInputValue;
+  range?: DateRangeInputValue;
+  onChange: (range: DateRangeInputValue) => void;
+  placeholder?: string;
+  helperText?: string;
+  disabled?: boolean;
+  /** Error message shown under the field. Shorthand for `status="error"`. */
+  error?: string;
+  /** Validation status affecting the field border and message color. */
+  status?: DateFieldStatus;
+  /** Message shown under the field, colored to match `status`. Ignored when `error` is set. */
+  statusMessage?: string;
+  icon?: import('react').ReactNode;
+  minimumDate?: Date;
+  maximumDate?: Date;
+  presets?: DateRangeInputPreset[];
+  onPresetChange?: (preset: DateRangeInputPreset | null) => void;
+  clearable?: boolean;
+  locale?: string;
+  numberOfMonths?: 1 | 2;
+  formatDate?: (date: Date) => string;
+  formatOptions?: Intl.DateTimeFormatOptions;
+  strings?: DateRangeInputStrings;
 }
 
 export type PickerSurface = 'day' | 'month' | 'year';

@@ -1,0 +1,46 @@
+---
+title: DateInput
+sidebar_position: 62
+---
+
+import ComponentPreview from '../../../components/preview/ComponentPreview';
+import DateInputsDemo from '../../../components/demos/DateInputsDemo';
+
+# DateInput
+
+Single-date input that lets users pick a calendar date from the RNUI date sheet. Use it for deadlines, booking dates, and optional form dates.
+
+<ComponentPreview title="Live preview" description="Date, range, and datetime field shapes.">
+  <DateInputsDemo client:visible />
+</ComponentPreview>
+
+## Import
+
+```tsx
+import { DateInput } from '@truongdq01/ui';
+```
+
+## Usage
+
+```tsx
+import { DateInput } from '@truongdq01/ui';
+import { useState } from 'react';
+
+export function DueDateField() {
+  const [date, setDate] = useState<Date | null>(null);
+
+  return (
+    <DateInput
+      label="Due date"
+      value={date}
+      onChange={setDate}
+      placeholder="Select a date"
+      helperText="Used to schedule the next review."
+      minimumDate={new Date()}
+      clearable
+    />
+  );
+}
+```
+
+Native demos: **`apps/example` → DateInput screen**.

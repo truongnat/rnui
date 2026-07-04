@@ -4,7 +4,7 @@ import {
   useReduceMotionEnabled,
   useTheme,
 } from '@truongdq01/headless';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
   Extrapolation,
@@ -18,7 +18,8 @@ import type { AccordionDetailsProps } from './types';
 
 /**
  * AccordionDetails provides an animated, collapsible container for the accordion content.
- * It uses layout measurements to smoothly animate height changes.
+ * The content is measured off-layout (absolutely positioned) so height animations are
+ * smooth and jump-free — including the first render when `defaultExpanded` is set.
  */
 export function AccordionDetails({ children }: AccordionDetailsProps) {
   const {
@@ -29,11 +30,20 @@ export function AccordionDetails({ children }: AccordionDetailsProps) {
 
   const [contentHeight, setContentHeight] = useState(0);
   const animHeight = useSharedValue(0);
+  // Skip the enter animation on the very first measured pass to avoid a flash.
+  const settledRef = useRef(false);
 
-  // Synchronize height animation with expansion state
+  const expanded = ctx?.expanded ?? false;
+
   useEffect(() => {
-    if (!ctx) return;
-    const target = ctx.expanded ? contentHeight : 0;
+    const target = expanded ? contentHeight : 0;
+
+    if (!settledRef.current) {
+      animHeight.value = target;
+      if (contentHeight > 0) settledRef.current = true;
+      return;
+    }
+
     animHeight.value = reduceMotion
       ? target
       : withTiming(target, {
@@ -41,9 +51,8 @@ export function AccordionDetails({ children }: AccordionDetailsProps) {
           duration: durationScale.medium,
           easing: motionEasing.standard,
         });
-  }, [ctx?.expanded, contentHeight, reduceMotion, animHeight, ctx]);
+  }, [expanded, contentHeight, reduceMotion, animHeight]);
 
-  // Height and opacity animation logic
   const animStyle = useAnimatedStyle(() => ({
     height: animHeight.value,
     overflow: 'hidden',
@@ -59,14 +68,11 @@ export function AccordionDetails({ children }: AccordionDetailsProps) {
   if (!ctx) return null;
 
   return (
-    <Animated.View style={animStyle}>
+    <Animated.View style={animStyle} pointerEvents={expanded ? 'auto' : 'none'}>
       <View
         onLayout={(e) => {
           const h = e.nativeEvent.layout.height;
-          // Only update if height is valid and has changed to prevent infinite loops
-          if (h > 0 && h !== contentHeight) {
-            setContentHeight(h);
-          }
+          setContentHeight((prev) => (h > 0 && h !== prev ? h : prev));
         }}
         style={[accordion.details, styles.contentWrapper]}
       >

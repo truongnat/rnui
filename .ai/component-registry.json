@@ -321,6 +321,32 @@
       ]
     },
     {
+      "name": "CodeBlock",
+      "category": "data-display",
+      "package": "@truongdq01/ui",
+      "import": "import { CodeBlock } from '@truongdq01/ui';",
+      "status": "experimental",
+      "description": "Syntax-highlighted code display with copy, line numbers, and language badge.",
+      "commonProps": [
+        "code",
+        "language",
+        "title",
+        "highlightedLines",
+        "showLineNumbers"
+      ],
+      "relatedComponents": ["Blockquote", "Paper"],
+      "usageHints": [
+        "Use language prop for syntax highlighting (jsx, typescript, css, etc.)",
+        "Line numbers auto-hide for fewer than 5 lines",
+        "Copy button appears on hover in the header area",
+        "Use highlightedLines to call out specific lines (1-indexed)"
+      ],
+      "avoid": [
+        "Text component with monospace font for large code snippets",
+        "ScrollView containing other interactive elements inside CodeBlock"
+      ]
+    },
+    {
       "name": "Card",
       "category": "layout",
       "package": "@truongdq01/ui",
@@ -445,6 +471,37 @@
       "avoid": []
     },
     {
+      "name": "DateInput",
+      "category": "forms",
+      "package": "@truongdq01/ui",
+      "import": "import { DateInput } from '@truongdq01/ui';",
+      "status": "beta",
+      "description": "Single-date form input with calendar sheet selection.",
+      "commonProps": [
+        "label",
+        "value",
+        "onChange",
+        "placeholder",
+        "helperText",
+        "error",
+        "status",
+        "statusMessage",
+        "minimumDate",
+        "maximumDate",
+        "clearable"
+      ],
+      "relatedComponents": ["DatePicker", "DateRangeInput", "DateTimeInput"],
+      "usageHints": [
+        "Use for one specific calendar date",
+        "Prefer helperText for non-obvious date purpose",
+        "Use minimumDate and maximumDate for valid windows"
+      ],
+      "avoid": [
+        "Use DateRangeInput when selecting a start/end date",
+        "Use DateTimeInput when time is required"
+      ]
+    },
+    {
       "name": "DatePicker",
       "category": "forms",
       "package": "@truongdq01/ui",
@@ -452,9 +509,71 @@
       "status": "beta",
       "description": "Date and time selection UI.",
       "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
+      "relatedComponents": ["DateInput", "DateRangeInput", "DateTimeInput"],
+      "usageHints": [
+        "Use directly when you need lower-level date/time picker control",
+        "Prefer DateInput, DateRangeInput, or DateTimeInput for form fields"
+      ],
       "avoid": []
+    },
+    {
+      "name": "DateRangeInput",
+      "category": "forms",
+      "package": "@truongdq01/ui",
+      "import": "import { DateRangeInput } from '@truongdq01/ui';",
+      "status": "beta",
+      "description": "Start/end date input with range calendar sheet and quick presets.",
+      "commonProps": [
+        "label",
+        "value",
+        "onChange",
+        "placeholder",
+        "helperText",
+        "error",
+        "status",
+        "statusMessage",
+        "presets",
+        "minimumDate",
+        "maximumDate",
+        "clearable"
+      ],
+      "relatedComponents": ["DateInput", "DatePicker", "Calendar"],
+      "usageHints": [
+        "Use for analytics periods, bookings, and report filters",
+        "Keep presets for common ranges like last7 and last30",
+        "Set numberOfMonths to 1 for narrow mobile-only contexts"
+      ],
+      "avoid": ["Use DateInput when only one date is needed"]
+    },
+    {
+      "name": "DateTimeInput",
+      "category": "forms",
+      "package": "@truongdq01/ui",
+      "import": "import { DateTimeInput } from '@truongdq01/ui';",
+      "status": "beta",
+      "description": "Combined date and time form input for scheduling workflows.",
+      "commonProps": [
+        "label",
+        "value",
+        "onChange",
+        "placeholder",
+        "helperText",
+        "error",
+        "status",
+        "statusMessage",
+        "minuteInterval",
+        "is24Hour",
+        "minimumDate",
+        "maximumDate",
+        "clearable"
+      ],
+      "relatedComponents": ["DateInput", "DatePicker"],
+      "usageHints": [
+        "Use for scheduling, event creation, and deadline datetime values",
+        "Set minuteInterval for slot-based scheduling",
+        "Use is24Hour or locale to match regional expectations"
+      ],
+      "avoid": ["Use DateInput when time is not required"]
     },
     {
       "name": "Dialog",

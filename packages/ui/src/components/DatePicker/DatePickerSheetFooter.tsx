@@ -27,7 +27,7 @@ export const DatePickerSheetFooter = memo(function DatePickerSheetFooter({
         justifyContent: 'space-between',
         alignItems: 'center',
         minHeight: DATE_PICKER_SHEET_ROW_MIN_HEIGHT,
-        paddingHorizontal: 16,
+        paddingHorizontal: tokens.spacing[4],
         paddingTop: tokens.spacing[3],
         marginTop: tokens.spacing[2],
         borderTopWidth: StyleSheet.hairlineWidth,
@@ -56,6 +56,7 @@ export const DatePickerSheetFooter = memo(function DatePickerSheetFooter({
         hitSlop={12}
         accessibilityRole="button"
         accessibilityLabel={confirmLabel}
+        accessibilityHint="Confirm selection and dismiss picker"
       >
         <Text
           style={{

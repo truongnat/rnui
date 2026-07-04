@@ -47,7 +47,7 @@ export const DatePickerSheetHeader = memo(function DatePickerSheetHeader({
           flexDirection: 'row',
           alignItems: 'center',
           minHeight: DATE_PICKER_SHEET_ROW_MIN_HEIGHT,
-          paddingHorizontal: 16,
+          paddingHorizontal: tokens.spacing[4],
           marginBottom: 8,
         }}
       >

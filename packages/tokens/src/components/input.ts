@@ -48,6 +48,8 @@ export function inputTokens(t: SemanticTokens) {
       default: { borderColor: t.color.border.input },
       focused: { borderColor: t.color.border.focus, borderWidth: 1 },
       error: { borderColor: t.color.border.error },
+      warning: { borderColor: t.color.border.warning },
+      success: { borderColor: t.color.border.success },
       disabled: disabledState,
     },
     floatingLabel: {
@@ -72,6 +74,16 @@ export function inputTokens(t: SemanticTokens) {
     errorText: {
       fontSize: t.fontSize.xs,
       color: t.color.error.text,
+      marginTop: t.spacing[2],
+    },
+    warningText: {
+      fontSize: t.fontSize.xs,
+      color: t.color.warning.text,
+      marginTop: t.spacing[2],
+    },
+    successText: {
+      fontSize: t.fontSize.xs,
+      color: t.color.success.text,
       marginTop: t.spacing[2],
     },
   };

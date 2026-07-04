@@ -25,6 +25,7 @@ export function resolveComponentTokens(t: SemanticTokens) {
     accordion: components.accordionTokens(t),
     alert: components.alertTokens(t),
     carousel: components.carouselTokens(t),
+    codeBlock: components.codeBlockTokens(t),
     animatedList: components.animatedListTokens(t),
     appBar: components.appBarTokens(t),
     autocomplete: components.autocompleteTokens(t),

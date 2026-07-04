@@ -9,12 +9,14 @@ import {
 import { Pressable, Text, View } from 'react-native';
 import { Icon } from '../Icon';
 import { DATE_PICKER_FIELD_HEIGHT } from './datePickerConstants';
+import type { DateFieldStatus } from './datePickerTypes';
 
 export interface DatePickerFieldProps {
   displayValue: string;
   hasValue: boolean;
   disabled: boolean;
-  error: boolean;
+  /** Validation status applied to the field border. */
+  status?: DateFieldStatus;
   clearable: boolean;
   showClear: boolean;
   icon?: ReactNode;
@@ -41,7 +43,7 @@ export const DatePickerField = memo(function DatePickerField({
   displayValue,
   hasValue,
   disabled,
-  error,
+  status,
   clearable,
   showClear,
   icon,
@@ -59,6 +61,8 @@ export const DatePickerField = memo(function DatePickerField({
     [iconSize, iconColor]
   );
 
+  const statusStyle = status ? input.state[status] : null;
+
   return (
     <View
       style={[
@@ -68,7 +72,7 @@ export const DatePickerField = memo(function DatePickerField({
           flexDirection: 'row',
           alignItems: 'center',
         },
-        error && input.state.error,
+        statusStyle,
         { opacity: disabled ? 0.6 : 1 },
       ]}
     >
@@ -84,6 +88,7 @@ export const DatePickerField = memo(function DatePickerField({
         }}
         accessibilityRole="button"
         accessibilityLabel={displayValue}
+        accessibilityHint="Opens date picker"
       >
         {icon ? renderIcon(icon) : null}
         <Text

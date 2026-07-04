@@ -1,0 +1,47 @@
+---
+title: DateRangeInput
+sidebar_position: 63
+---
+
+import ComponentPreview from '../../../components/preview/ComponentPreview';
+import DateInputsDemo from '../../../components/demos/DateInputsDemo';
+
+# DateRangeInput
+
+Range input for selecting a start and end date from a dual-month calendar sheet. Use it for analytics periods, report filters, bookings, and campaign windows.
+
+<ComponentPreview title="Live preview" description="Date, range, and datetime field shapes.">
+  <DateInputsDemo client:visible />
+</ComponentPreview>
+
+## Import
+
+```tsx
+import { DateRangeInput } from '@truongdq01/ui';
+```
+
+## Usage
+
+```tsx
+import { DateRangeInput } from '@truongdq01/ui';
+import { useState } from 'react';
+
+export function ReportingPeriodField() {
+  const [range, setRange] = useState({
+    start: null as Date | null,
+    end: null as Date | null,
+  });
+
+  return (
+    <DateRangeInput
+      label="Reporting period"
+      value={range}
+      onChange={setRange}
+      presets={['last7', 'last30', 'thisMonth']}
+      helperText="Choose the period used for summary metrics."
+    />
+  );
+}
+```
+
+Native demos: **`apps/example` → DateRangeInput screen**.

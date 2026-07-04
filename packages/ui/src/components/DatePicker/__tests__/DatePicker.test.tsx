@@ -1,7 +1,10 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import { DateInput } from '../DateInput';
 import { DatePicker } from '../DatePicker';
+import { DateRangeInput } from '../DateRangeInput';
+import { DateTimeInput } from '../DateTimeInput';
 
 jest.mock('@react-native-community/datetimepicker', () => ({
   __esModule: true,
@@ -62,5 +65,60 @@ describe('DatePicker', () => {
     );
     fireEvent.press(getByLabelText('Clear date'));
     expect(onChange).toHaveBeenCalledWith(null);
+  });
+
+  test('DateInput renders helper text and clears value', () => {
+    const onChange = jest.fn();
+    const { getByLabelText, getByText } = render(
+      <ThemeProvider>
+        <DateInput
+          label="Due Date"
+          value={new Date(2024, 5, 15)}
+          onChange={onChange}
+          helperText="Used for planning"
+        />
+      </ThemeProvider>
+    );
+
+    expect(getByText('Used for planning')).toBeTruthy();
+    fireEvent.press(getByLabelText('Clear date'));
+    expect(onChange).toHaveBeenCalledWith(null);
+  });
+
+  test('DateTimeInput uses datetime formatting', () => {
+    const { getByText } = render(
+      <ThemeProvider>
+        <DateTimeInput
+          value={new Date(2024, 5, 15, 9, 30)}
+          onChange={() => {}}
+          locale="en-US"
+        />
+      </ThemeProvider>
+    );
+
+    expect(getByText(/9:30/)).toBeTruthy();
+  });
+
+  test('DateRangeInput presets and clear call onChange', () => {
+    const onChange = jest.fn();
+    const { getByLabelText, getByText } = render(
+      <ThemeProvider>
+        <DateRangeInput
+          label="Report Range"
+          value={{ start: new Date(2024, 5, 1), end: new Date(2024, 5, 15) }}
+          onChange={onChange}
+          presets={['last7']}
+        />
+      </ThemeProvider>
+    );
+
+    fireEvent.press(getByText('Last 7 days'));
+    expect(onChange).toHaveBeenCalledWith({
+      start: expect.any(Date),
+      end: expect.any(Date),
+    });
+
+    fireEvent.press(getByLabelText('Clear date'));
+    expect(onChange).toHaveBeenLastCalledWith({ start: null, end: null });
   });
 });

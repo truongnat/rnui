@@ -1,7 +1,7 @@
 import { useTheme } from '@truongdq01/headless';
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
-import { CalendarGrid } from '../DatePicker';
+import { CalendarGrid } from '../DatePicker/CalendarGrid';
 import {
   addMonths,
   compareDay,

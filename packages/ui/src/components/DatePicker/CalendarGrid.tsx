@@ -1,4 +1,4 @@
-import { useTokens } from '@truongdq01/headless';
+import { useTheme } from '@truongdq01/headless';
 import { useCallback, useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import type {
@@ -63,7 +63,7 @@ export function CalendarGrid({
   disablePreviousNavigation = false,
   disableNextNavigation = false,
 }: CalendarGridProps) {
-  const t = useTokens();
+  const { tokens: t } = useTheme();
 
   const weekdayLabels = useMemo(() => {
     const formatter = new Intl.DateTimeFormat(locale, { weekday: 'short' });
@@ -173,7 +173,7 @@ export function CalendarGrid({
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          paddingHorizontal: 4,
+          paddingHorizontal: t.spacing[1],
           marginBottom: t.spacing[3],
         }}
       >
@@ -339,8 +339,8 @@ export function CalendarGrid({
                       position: 'absolute',
                       left: 0,
                       right: 0,
-                      top: 4,
-                      bottom: 4,
+                      top: t.spacing[1],
+                      bottom: t.spacing[1],
                       backgroundColor:
                         cell.inMonth && inRange
                           ? t.color.brand.subtle

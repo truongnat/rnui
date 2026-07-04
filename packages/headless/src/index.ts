@@ -37,6 +37,17 @@ export type {
 } from './hooks/useCheckbox';
 export { useCheckbox } from './hooks/useCheckbox';
 export type {
+  UseCodeBlockOptions,
+  UseCodeBlockReturn,
+} from './hooks/useCodeBlock';
+export { useCodeBlock } from './hooks/useCodeBlock';
+export type {
+  CollapsibleGroupControl,
+  UseCollapsibleOptions,
+  UseCollapsibleReturn,
+} from './hooks/useCollapsible';
+export { useCollapsible } from './hooks/useCollapsible';
+export type {
   DatePickerPreset,
   UseDatePickerOptions,
   UseDatePickerReturn,

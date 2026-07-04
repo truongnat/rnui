@@ -17,6 +17,7 @@ export * from './carousel';
 export * from './checkbox';
 export * from './chip';
 export * from './circularProgress';
+export * from './codeBlock';
 export * from './datePicker';
 export * from './dialog';
 export * from './divider';

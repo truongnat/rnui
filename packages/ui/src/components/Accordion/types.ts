@@ -23,10 +23,6 @@ export interface AccordionProps {
   radius?: number;
   /** Style for the accordion container */
   style?: StyleProp<ViewStyle>;
-  /** @internal Indicates if the item is first in its group */
-  isFirst?: boolean;
-  /** @internal Indicates if the item is last in its group */
-  isLast?: boolean;
 }
 
 /**

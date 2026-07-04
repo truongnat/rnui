@@ -1,10 +1,13 @@
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker, {
+  type DateTimePickerEvent,
+} from '@react-native-community/datetimepicker';
 import { useTheme } from '@truongdq01/headless';
 import { useCallback, useMemo, useState } from 'react';
 import { Platform, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DatePickerCalendarSheet } from './DatePickerCalendarSheet';
 import { DatePickerField } from './DatePickerField';
+import { DatePickerFieldMessage } from './DatePickerFieldMessage';
 import { DatePickerNativeSpinnerSheet } from './DatePickerNativeSpinnerSheet';
 import { DatePickerPresetChips } from './DatePickerPresetChips';
 import type {
@@ -19,11 +22,13 @@ import {
   defaultFormatOptions,
   getPresetDate,
   mergeStrings,
+  resolveFieldStatus,
   resolveIs24HourClock,
 } from './datePickerUtils';
 import { buildMinuteItems, nearestMinuteInList } from './timeWheelUtils';
 
 export type {
+  DateFieldStatus,
   DatePickerPreset,
   DatePickerProps,
   DatePickerStrings,
@@ -37,6 +42,8 @@ export function DatePicker({
   placeholder = 'Select date',
   disabled = false,
   error,
+  status,
+  statusMessage,
   icon,
   minimumDate,
   maximumDate,
@@ -88,7 +95,7 @@ export function DatePicker({
   }, [date, formatDateProp, formatOptions, mode, locale]);
 
   const displayValue = date ? formattedDisplay : placeholder;
-  const hasError = Boolean(error);
+  const field = resolveFieldStatus(error, status, statusMessage);
 
   const handleCalMonthYearChange = useCallback((m: number, y: number) => {
     setCalMonth(m);
@@ -127,7 +134,7 @@ export function DatePicker({
   }, [date, disabled, mode, minuteInterval]);
 
   const handleNativeChange = useCallback(
-    (_event: unknown, selectedDate?: Date) => {
+    (_event: DateTimePickerEvent, selectedDate?: Date) => {
       if (Platform.OS === 'android') {
         setShowPicker(false);
       }
@@ -190,7 +197,7 @@ export function DatePicker({
         displayValue={displayValue}
         hasValue={date != null}
         disabled={disabled}
-        error={hasError}
+        status={field.status}
         clearable={clearable}
         showClear={date != null}
         icon={icon}
@@ -198,7 +205,7 @@ export function DatePicker({
         onClear={handleClear}
       />
 
-      {error ? <Text style={input.errorText}>{error}</Text> : null}
+      <DatePickerFieldMessage status={field.status} message={field.message} />
 
       {effectivePickerStyle === 'calendar' && (
         <DatePickerCalendarSheet

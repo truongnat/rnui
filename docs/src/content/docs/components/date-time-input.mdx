@@ -1,0 +1,45 @@
+---
+title: DateTimeInput
+sidebar_position: 64
+---
+
+import ComponentPreview from '../../../components/preview/ComponentPreview';
+import DateInputsDemo from '../../../components/demos/DateInputsDemo';
+
+# DateTimeInput
+
+Date and time input for scheduling workflows that need one combined datetime value. It reuses the RNUI calendar sheet and time wheels.
+
+<ComponentPreview title="Live preview" description="Date, range, and datetime field shapes.">
+  <DateInputsDemo client:visible />
+</ComponentPreview>
+
+## Import
+
+```tsx
+import { DateTimeInput } from '@truongdq01/ui';
+```
+
+## Usage
+
+```tsx
+import { DateTimeInput } from '@truongdq01/ui';
+import { useState } from 'react';
+
+export function StartsAtField() {
+  const [startsAt, setStartsAt] = useState<Date | null>(null);
+
+  return (
+    <DateTimeInput
+      label="Starts at"
+      value={startsAt}
+      onChange={setStartsAt}
+      placeholder="Pick date and time"
+      minuteInterval={15}
+      is24Hour
+    />
+  );
+}
+```
+
+Native demos: **`apps/example` → DateTimeInput screen**.

@@ -5,7 +5,8 @@ export function accordionTokens(t: SemanticTokens) {
     container: {
       borderWidth: 1,
       borderColor: t.color.border.default,
-      borderRadius: t.radius.md,
+      // Content-container radius — aligned with Card/Paper/Dialog (radius.xl).
+      borderRadius: t.radius.xl,
       backgroundColor: t.color.surface.default,
     },
     summary: {

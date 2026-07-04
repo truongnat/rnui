@@ -5,6 +5,8 @@ export * from './useBottomNavigation';
 export * from './useBottomSheet';
 export * from './useCarousel';
 export * from './useCheckbox';
+export * from './useCodeBlock';
+export * from './useCollapsible';
 export * from './useDatePicker';
 export * from './useDebouncedValue';
 export * from './useDisclosure';
