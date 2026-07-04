@@ -40,6 +40,7 @@ RNUI ships **65+ components** across three packages. All styled components re-ex
 | -------------------- | ----------------------------------------------------------------------------------------------------- |
 | **Button**           | `variant`: solid / outline / ghost / destructive / accent · `size`: sm / md / lg · loading / disabled |
 | **ButtonGroup**      | Group of related buttons                                                                              |
+| **Calendar**         | Month grid · single / range selection · min/max + custom constraints                                  |
 | **Input**            | `leadingElement` · `trailingElement` · focus animation                                                |
 | **TextArea**         | `minLines` · `maxLength` · character counter                                                          |
 | **Select**           | Searchable bottom-sheet picker · single / multi-select                                                |

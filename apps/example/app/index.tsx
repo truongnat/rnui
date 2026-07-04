@@ -32,6 +32,7 @@ const COMPONENTS = [
   'Breadcrumbs',
   'Button',
   'ButtonGroup',
+  'Calendar',
   'Card',
   'Carousel',
   'ChatListItem',

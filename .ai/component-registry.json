@@ -30,11 +30,7 @@
         "action",
         "icon"
       ],
-      "relatedComponents": [
-        "AlertDialog",
-        "Snackbar",
-        "EmptyState"
-      ],
+      "relatedComponents": ["AlertDialog", "Snackbar", "EmptyState"],
       "usageHints": [
         "Use severity error/warning/info/success",
         "Dismissible with onClose for non-critical info"
@@ -87,23 +83,13 @@
       "import": "import { AppBar } from '@truongdq01/ui';",
       "status": "stable",
       "description": "Top app bar with title and leading/trailing slots.",
-      "commonProps": [
-        "title",
-        "children",
-        "elevation"
-      ],
-      "relatedComponents": [
-        "AppBarTitle",
-        "AppBarLeading",
-        "AppBarTrailing"
-      ],
+      "commonProps": ["title", "children", "elevation"],
+      "relatedComponents": ["AppBarTitle", "AppBarLeading", "AppBarTrailing"],
       "usageHints": [
         "One AppBar per screen top",
         "Put back navigation in leading slot"
       ],
-      "avoid": [
-        "Custom header View with fixed height 56"
-      ]
+      "avoid": ["Custom header View with fixed height 56"]
     },
     {
       "name": "AspectRatio",
@@ -136,23 +122,13 @@
       "import": "import { Avatar } from '@truongdq01/ui';",
       "status": "stable",
       "description": "User avatar with image, initials, or fallback.",
-      "commonProps": [
-        "src",
-        "initials",
-        "size",
-        "status"
-      ],
-      "relatedComponents": [
-        "Badge",
-        "List"
-      ],
+      "commonProps": ["src", "initials", "size", "status"],
+      "relatedComponents": ["Badge", "List"],
       "usageHints": [
         "Use initials when no image URL",
         "Pair with List leading slot"
       ],
-      "avoid": [
-        "Circular Image with manual borderRadius 9999 everywhere"
-      ]
+      "avoid": ["Circular Image with manual borderRadius 9999 everywhere"]
     },
     {
       "name": "Badge",
@@ -161,23 +137,13 @@
       "import": "import { Badge } from '@truongdq01/ui';",
       "status": "stable",
       "description": "Small status indicator or count label.",
-      "commonProps": [
-        "label",
-        "variant",
-        "color",
-        "dot"
-      ],
-      "relatedComponents": [
-        "Chip",
-        "Typography"
-      ],
+      "commonProps": ["label", "variant", "color", "dot"],
+      "relatedComponents": ["Chip", "Typography"],
       "usageHints": [
         "Use dot variant for unread indicators",
         "Keep labels short"
       ],
-      "avoid": [
-        "Custom absolute-positioned circles for notification dots"
-      ]
+      "avoid": ["Custom absolute-positioned circles for notification dots"]
     },
     {
       "name": "Blockquote",
@@ -186,23 +152,14 @@
       "import": "import { Blockquote } from '@truongdq01/ui';",
       "status": "stable",
       "description": "Styled quotation block with emphasized left border and secondary text.",
-      "commonProps": [
-        "children",
-        "cite"
-      ],
-      "relatedComponents": [
-        "Typography",
-        "Card",
-        "Alert"
-      ],
+      "commonProps": ["children", "cite"],
+      "relatedComponents": ["Typography", "Card", "Alert"],
       "usageHints": [
         "Use for quoted text, testimonials, or excerpts",
         "Provide cite when the source is known",
         "Combine with Card and Grid for testimonial sections"
       ],
-      "avoid": [
-        "Callout boxes or informational notes — use Alert instead"
-      ]
+      "avoid": ["Callout boxes or informational notes — use Alert instead"]
     },
     {
       "name": "BottomNavigation",
@@ -223,23 +180,13 @@
       "import": "import { BottomSheet } from '@truongdq01/ui';",
       "status": "beta",
       "description": "Gesture-driven sheet with snap points.",
-      "commonProps": [
-        "open",
-        "onClose",
-        "snapPoints",
-        "children"
-      ],
-      "relatedComponents": [
-        "Modal",
-        "Drawer"
-      ],
+      "commonProps": ["open", "onClose", "snapPoints", "children"],
+      "relatedComponents": ["Modal", "Drawer"],
       "usageHints": [
         "Use for filters and short forms",
         "Prefer Modal for full-screen flows"
       ],
-      "avoid": [
-        "Third-party bottom sheet libraries without approval"
-      ]
+      "avoid": ["Third-party bottom sheet libraries without approval"]
     },
     {
       "name": "Box",
@@ -248,23 +195,13 @@
       "import": "import { Box } from '@truongdq01/ui';",
       "status": "stable",
       "description": "Layout primitive with flex and sx token-aware styling.",
-      "commonProps": [
-        "flex",
-        "sx",
-        "style",
-        "children"
-      ],
-      "relatedComponents": [
-        "Stack",
-        "Grid"
-      ],
+      "commonProps": ["flex", "sx", "style", "children"],
+      "relatedComponents": ["Stack", "Grid"],
       "usageHints": [
         "flex=1 for scroll body regions",
         "Use sx for token-based layout tweaks"
       ],
-      "avoid": [
-        "Replacing Stack when spacing between children is needed"
-      ]
+      "avoid": ["Replacing Stack when spacing between children is needed"]
     },
     {
       "name": "BreadcrumbItem",
@@ -273,25 +210,14 @@
       "import": "import { BreadcrumbItem } from '@truongdq01/ui';",
       "status": "beta",
       "description": "Individual breadcrumb link or current-page label inside Breadcrumbs.",
-      "commonProps": [
-        "children",
-        "href",
-        "onPress",
-        "isCurrent",
-        "startIcon"
-      ],
-      "relatedComponents": [
-        "Breadcrumbs",
-        "Link"
-      ],
+      "commonProps": ["children", "href", "onPress", "isCurrent", "startIcon"],
+      "relatedComponents": ["Breadcrumbs", "Link"],
       "usageHints": [
         "Use href or onPress for ancestor pages",
         "Set isCurrent on the last item, or let Breadcrumbs auto-detect the last item",
         "Pass startIcon for item-level icons"
       ],
-      "avoid": [
-        "Wrapping items in manual View rows — use startIcon instead"
-      ]
+      "avoid": ["Wrapping items in manual View rows — use startIcon instead"]
     },
     {
       "name": "Breadcrumbs",
@@ -306,18 +232,13 @@
         "itemsBeforeCollapse",
         "itemsAfterCollapse"
       ],
-      "relatedComponents": [
-        "BreadcrumbItem",
-        "Link"
-      ],
+      "relatedComponents": ["BreadcrumbItem", "Link"],
       "usageHints": [
         "Compose trails with BreadcrumbItem children",
         "Customize separator with string or icon node",
         "Use maxItems to collapse long paths"
       ],
-      "avoid": [
-        "Manual separator Text nodes between children"
-      ]
+      "avoid": ["Manual separator Text nodes between children"]
     },
     {
       "name": "Button",
@@ -338,12 +259,7 @@
         "leadingIcon",
         "accessibilityLabel"
       ],
-      "relatedComponents": [
-        "ButtonGroup",
-        "Fab",
-        "Link",
-        "ToggleButton"
-      ],
+      "relatedComponents": ["ButtonGroup", "Fab", "Link", "ToggleButton"],
       "usageHints": [
         "Use variant=solid for primary CTA",
         "Use outline/ghost for secondary actions",
@@ -363,17 +279,8 @@
       "import": "import { ButtonGroup, Button } from '@truongdq01/ui';",
       "status": "stable",
       "description": "Joins related buttons into one connected control with shared borders and outer-corner radius.",
-      "commonProps": [
-        "label",
-        "orientation",
-        "size",
-        "isDisabled"
-      ],
-      "relatedComponents": [
-        "Button",
-        "ToggleButtonGroup",
-        "SegmentedControl"
-      ],
+      "commonProps": ["label", "orientation", "size", "isDisabled"],
+      "relatedComponents": ["Button", "ToggleButtonGroup", "SegmentedControl"],
       "usageHints": [
         "Group related actions on the same object (copy, cut, paste)",
         "Use the same variant on every child button",
@@ -383,6 +290,34 @@
         "Mixing unrelated actions in one group",
         "Using ButtonGroup for view switching — prefer SegmentedControl or Tabs",
         "Nesting ButtonGroups"
+      ]
+    },
+    {
+      "name": "Calendar",
+      "category": "forms",
+      "package": "@truongdq01/ui",
+      "import": "import { Calendar } from '@truongdq01/ui';",
+      "status": "beta",
+      "description": "Month-grid date selection for single dates or ranges.",
+      "commonProps": [
+        "selectionMode",
+        "value",
+        "range",
+        "minimumDate",
+        "maximumDate",
+        "dateConstraints",
+        "numberOfMonths",
+        "locale"
+      ],
+      "relatedComponents": ["DatePicker", "IconButton", "Tooltip"],
+      "usageHints": [
+        "Use single mode for appointment or due dates",
+        "Use range mode for booking, leave requests, or report filters",
+        "Add minimumDate, maximumDate, or dateConstraints to keep selection valid"
+      ],
+      "avoid": [
+        "Birth dates or far-past dates where text entry is faster",
+        "Large disabled date blocks without context"
       ]
     },
     {
@@ -399,11 +334,7 @@
         "accessibilityLabel",
         "style"
       ],
-      "relatedComponents": [
-        "GlassCard",
-        "Paper",
-        "Box"
-      ],
+      "relatedComponents": ["GlassCard", "Paper", "Box"],
       "usageHints": [
         "Group related content in Card sections",
         "Use padding=lg for spacious layouts",
@@ -452,18 +383,12 @@
         "disabled",
         "indeterminate"
       ],
-      "relatedComponents": [
-        "Switch",
-        "Radio",
-        "FormControl"
-      ],
+      "relatedComponents": ["Switch", "Radio", "FormControl"],
       "usageHints": [
         "Use for multi-select options",
         "Group related checkboxes in Stack"
       ],
-      "avoid": [
-        "Custom checkbox with borderWidth hacks"
-      ]
+      "avoid": ["Custom checkbox with borderWidth hacks"]
     },
     {
       "name": "Chip",
@@ -564,11 +489,7 @@
         "icon",
         "size"
       ],
-      "relatedComponents": [
-        "Button",
-        "Typography",
-        "Alert"
-      ],
+      "relatedComponents": ["Button", "Typography", "Alert"],
       "usageHints": [
         "Always offer action when user can recover",
         "Use variant=search|error|offline appropriately"
@@ -633,15 +554,8 @@
       "import": "import { GlassCard } from '@truongdq01/ui';",
       "status": "beta",
       "description": "Frosted glass surface; uses expo-blur when installed, translucent fallback otherwise.",
-      "commonProps": [
-        "children",
-        "intensity",
-        "style"
-      ],
-      "relatedComponents": [
-        "Card",
-        "Gradient"
-      ],
+      "commonProps": ["children", "intensity", "style"],
+      "relatedComponents": ["Card", "Gradient"],
       "usageHints": [
         "Install expo-blur in app for native blur",
         "Works without blur as translucent card"
@@ -658,16 +572,8 @@
       "import": "import { Gradient } from '@truongdq01/ui';",
       "status": "beta",
       "description": "Gradient background; uses expo-linear-gradient when available.",
-      "commonProps": [
-        "colors",
-        "start",
-        "end",
-        "children"
-      ],
-      "relatedComponents": [
-        "Box",
-        "GlassCard"
-      ],
+      "commonProps": ["colors", "start", "end", "children"],
+      "relatedComponents": ["Box", "GlassCard"],
       "usageHints": [
         "Install expo-linear-gradient in Expo apps",
         "Use sparingly for hero sections"
@@ -717,11 +623,7 @@
         "disabled",
         "accessibilityHint"
       ],
-      "relatedComponents": [
-        "Button",
-        "Icon",
-        "Tooltip"
-      ],
+      "relatedComponents": ["Button", "Icon", "Tooltip"],
       "usageHints": [
         "Prefer for compact toolbar or row actions where the icon meaning is obvious",
         "Keep label specific because it becomes the accessibility label",
@@ -834,17 +736,8 @@
       "import": "import { List } from '@truongdq01/ui';",
       "status": "beta",
       "description": "Compound list container with subheaders and item primitives.",
-      "commonProps": [
-        "subheader",
-        "dense",
-        "disablePadding",
-        "children"
-      ],
-      "relatedComponents": [
-        "SettingsMenu",
-        "ChatListItem",
-        "Divider"
-      ],
+      "commonProps": ["subheader", "dense", "disablePadding", "children"],
+      "relatedComponents": ["SettingsMenu", "ChatListItem", "Divider"],
       "usageHints": [
         "Use subheader for grouped settings",
         "Combine with Switch in trailing slot patterns"
@@ -896,24 +789,13 @@
       "import": "import { Modal } from '@truongdq01/ui';",
       "status": "stable",
       "description": "Native modal wrapper for dialogs and full-screen overlays.",
-      "commonProps": [
-        "open",
-        "onClose",
-        "children",
-        "title"
-      ],
-      "relatedComponents": [
-        "Dialog",
-        "AlertDialog",
-        "BottomSheet"
-      ],
+      "commonProps": ["open", "onClose", "children", "title"],
+      "relatedComponents": ["Dialog", "AlertDialog", "BottomSheet"],
       "usageHints": [
         "Use for confirmations and focused tasks",
         "Always provide onClose"
       ],
-      "avoid": [
-        "JS-only modal libraries when native Modal suffices"
-      ]
+      "avoid": ["JS-only modal libraries when native Modal suffices"]
     },
     {
       "name": "OTPInput",
@@ -1018,24 +900,13 @@
       "import": "import { Rating } from '@truongdq01/ui';",
       "status": "stable",
       "description": "Star rating input and display with accessibility.",
-      "commonProps": [
-        "value",
-        "onChange",
-        "max",
-        "readOnly",
-        "size"
-      ],
-      "relatedComponents": [
-        "Typography",
-        "Button"
-      ],
+      "commonProps": ["value", "onChange", "max", "readOnly", "size"],
+      "relatedComponents": ["Typography", "Button"],
       "usageHints": [
         "Use readOnly for display-only ratings",
         "Provide accessible labels"
       ],
-      "avoid": [
-        "Row of Text stars with manual touch handlers"
-      ]
+      "avoid": ["Row of Text stars with manual touch handlers"]
     },
     {
       "name": "ScrollArea",
@@ -1076,11 +947,7 @@
         "disabled",
         "label"
       ],
-      "relatedComponents": [
-        "Autocomplete",
-        "Menu",
-        "FormField"
-      ],
+      "relatedComponents": ["Autocomplete", "Menu", "FormField"],
       "usageHints": [
         "Optional FlashList for large option sets",
         "Use placeholder for unset state"
@@ -1166,10 +1033,7 @@
         "divider",
         "children"
       ],
-      "relatedComponents": [
-        "Box",
-        "Grid"
-      ],
+      "relatedComponents": ["Box", "Grid"],
       "usageHints": [
         "Default vertical stack for forms",
         "direction=row for button groups",
@@ -1199,23 +1063,10 @@
       "import": "import { Switch } from '@truongdq01/ui';",
       "status": "stable",
       "description": "Toggle for settings and binary preferences.",
-      "commonProps": [
-        "value",
-        "onValueChange",
-        "disabled",
-        "label"
-      ],
-      "relatedComponents": [
-        "Checkbox",
-        "List"
-      ],
-      "usageHints": [
-        "Use in settings rows",
-        "Pair label with List item text"
-      ],
-      "avoid": [
-        "Custom animated toggle when Switch exists"
-      ]
+      "commonProps": ["value", "onValueChange", "disabled", "label"],
+      "relatedComponents": ["Checkbox", "List"],
+      "usageHints": ["Use in settings rows", "Pair label with List item text"],
+      "avoid": ["Custom animated toggle when Switch exists"]
     },
     {
       "name": "TabBar",
@@ -1248,24 +1099,13 @@
       "import": "import { Tabs } from '@truongdq01/ui';",
       "status": "stable",
       "description": "Compound tabs for section switching within a screen.",
-      "commonProps": [
-        "value",
-        "onChange",
-        "children"
-      ],
-      "relatedComponents": [
-        "TabBar",
-        "Tab",
-        "TabPanel",
-        "TabList"
-      ],
+      "commonProps": ["value", "onChange", "children"],
+      "relatedComponents": ["TabBar", "Tab", "TabPanel", "TabList"],
       "usageHints": [
         "Use for 2-5 related sections on one screen",
         "Keep tab labels short"
       ],
-      "avoid": [
-        "Custom tab bar with underline hacks"
-      ]
+      "avoid": ["Custom tab bar with underline hacks"]
     },
     {
       "name": "TextArea",
@@ -1310,17 +1150,8 @@
       "import": "import { Toast } from '@truongdq01/ui';",
       "status": "beta",
       "description": "Transient feedback messages via toast host pattern.",
-      "commonProps": [
-        "message",
-        "variant",
-        "duration",
-        "action"
-      ],
-      "relatedComponents": [
-        "Snackbar",
-        "Alert",
-        "useToast"
-      ],
+      "commonProps": ["message", "variant", "duration", "action"],
+      "relatedComponents": ["Snackbar", "Alert", "useToast"],
       "usageHints": [
         "Mount ToastContainer once at app root",
         "Use useToast from headless for imperative API"
@@ -1369,10 +1200,7 @@
         "numberOfLines",
         "align"
       ],
-      "relatedComponents": [
-        "Label",
-        "Link"
-      ],
+      "relatedComponents": ["Label", "Link"],
       "usageHints": [
         "Use variant h1-h6 for headings",
         "color=secondary for subtitles",

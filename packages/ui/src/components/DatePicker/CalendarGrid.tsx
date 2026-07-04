@@ -1,7 +1,17 @@
 import { useTokens } from '@truongdq01/headless';
 import { useCallback, useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import type {
+  CalendarDateConstraint,
+  CalendarSelectionMode,
+} from '../Calendar/types';
 import { Icon } from '../Icon';
+import {
+  getCalendarConstraintInfo,
+  isDateInRange,
+  isSameDay,
+  isToday,
+} from './calendarUtils';
 
 export interface CalendarGridProps {
   month: number;
@@ -11,36 +21,23 @@ export interface CalendarGridProps {
   onMonthChange: (month: number, year: number) => void;
   minimumDate?: Date;
   maximumDate?: Date;
+  selectionMode?: CalendarSelectionMode;
+  selectedRangeStart?: Date | null;
+  selectedRangeEnd?: Date | null;
+  dateConstraints?: CalendarDateConstraint;
+  onUnavailableDatePress?: (date: Date, reason?: string) => void;
   /** BCP 47 locale for month title and weekday labels (default `undefined` = runtime default). */
   locale?: string;
   /** Tap the month name in the header (e.g. open month picker). */
   onMonthTitlePress?: () => void;
   /** Tap the year number in the header (e.g. open year picker). */
   onYearTitlePress?: () => void;
-}
-
-function isSameDay(a: Date, b: Date): boolean {
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  );
-}
-
-function isToday(d: Date): boolean {
-  return isSameDay(d, new Date());
-}
-
-function isDateDisabled(d: Date, min?: Date, max?: Date): boolean {
-  if (min) {
-    const minDay = new Date(min.getFullYear(), min.getMonth(), min.getDate());
-    if (d < minDay) return true;
-  }
-  if (max) {
-    const maxDay = new Date(max.getFullYear(), max.getMonth(), max.getDate());
-    if (d > maxDay) return true;
-  }
-  return false;
+  onPreviousMonth?: () => void;
+  onNextMonth?: () => void;
+  hidePreviousNavigation?: boolean;
+  hideNextNavigation?: boolean;
+  disablePreviousNavigation?: boolean;
+  disableNextNavigation?: boolean;
 }
 
 export function CalendarGrid({
@@ -51,9 +48,20 @@ export function CalendarGrid({
   onMonthChange,
   minimumDate,
   maximumDate,
+  selectionMode = 'single',
+  selectedRangeStart,
+  selectedRangeEnd,
+  dateConstraints,
+  onUnavailableDatePress,
   locale,
   onMonthTitlePress,
   onYearTitlePress,
+  onPreviousMonth,
+  onNextMonth,
+  hidePreviousNavigation = false,
+  hideNextNavigation = false,
+  disablePreviousNavigation = false,
+  disableNextNavigation = false,
 }: CalendarGridProps) {
   const t = useTokens();
 
@@ -76,20 +84,36 @@ export function CalendarGrid({
       new Intl.DateTimeFormat(locale, { month: 'long' }).format(
         new Date(year, month, 1)
       ),
-    [locale, year, month]
+    [locale, month, year]
   );
 
   const yearLabelOnly = useMemo(() => String(year), [year]);
 
   const goPrev = useCallback(() => {
-    if (month === 0) onMonthChange(11, year - 1);
-    else onMonthChange(month - 1, year);
-  }, [month, year, onMonthChange]);
+    if (disablePreviousNavigation) return;
+    if (onPreviousMonth) {
+      onPreviousMonth();
+      return;
+    }
+    if (month === 0) {
+      onMonthChange(11, year - 1);
+      return;
+    }
+    onMonthChange(month - 1, year);
+  }, [disablePreviousNavigation, month, onMonthChange, onPreviousMonth, year]);
 
   const goNext = useCallback(() => {
-    if (month === 11) onMonthChange(0, year + 1);
-    else onMonthChange(month + 1, year);
-  }, [month, year, onMonthChange]);
+    if (disableNextNavigation) return;
+    if (onNextMonth) {
+      onNextMonth();
+      return;
+    }
+    if (month === 11) {
+      onMonthChange(0, year + 1);
+      return;
+    }
+    onMonthChange(month + 1, year);
+  }, [disableNextNavigation, month, onMonthChange, onNextMonth, year]);
 
   const cells = useMemo(() => {
     const firstDay = new Date(year, month, 1);
@@ -109,8 +133,8 @@ export function CalendarGrid({
       row.push({ date: new Date(prevYear, prevMonth, day), inMonth: false });
     }
 
-    for (let d = 1; d <= daysInMonth; d++) {
-      row.push({ date: new Date(year, month, d), inMonth: true });
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      row.push({ date: new Date(year, month, day), inMonth: true });
       if (row.length === 7) {
         rows.push(row);
         row = [];
@@ -123,9 +147,10 @@ export function CalendarGrid({
       const nextYear = month === 11 ? year + 1 : year;
       while (row.length < 7) {
         row.push({
-          date: new Date(nextYear, nextMonth, nextDay++),
+          date: new Date(nextYear, nextMonth, nextDay),
           inMonth: false,
         });
+        nextDay += 1;
       }
       rows.push(row);
     }
@@ -139,11 +164,10 @@ export function CalendarGrid({
     fontSize: t.fontSize.lg,
     fontWeight: t.fontWeight.semibold,
     color: t.color.text.primary,
-  };
+  } as const;
 
   return (
     <View>
-      {/* Month navigation */}
       <View
         style={{
           flexDirection: 'row',
@@ -155,12 +179,18 @@ export function CalendarGrid({
       >
         <Pressable
           onPress={goPrev}
+          disabled={hidePreviousNavigation || disablePreviousNavigation}
           hitSlop={12}
           accessibilityLabel="Previous month"
           accessibilityRole="button"
+          accessibilityState={{
+            disabled: hidePreviousNavigation || disablePreviousNavigation,
+          }}
+          style={{ opacity: hidePreviousNavigation ? 0 : 1 }}
         >
           <Icon name="chevronLeft" size={22} color={t.color.text.secondary} />
         </Pressable>
+
         <View
           style={{
             flexDirection: 'row',
@@ -181,6 +211,7 @@ export function CalendarGrid({
           ) : (
             <Text style={monthTitleStyle}>{monthLabelOnly}</Text>
           )}
+
           {onYearTitlePress ? (
             <Pressable
               onPress={onYearTitlePress}
@@ -194,21 +225,26 @@ export function CalendarGrid({
             <Text style={monthTitleStyle}>{yearLabelOnly}</Text>
           )}
         </View>
+
         <Pressable
           onPress={goNext}
+          disabled={hideNextNavigation || disableNextNavigation}
           hitSlop={12}
           accessibilityLabel="Next month"
           accessibilityRole="button"
+          accessibilityState={{
+            disabled: hideNextNavigation || disableNextNavigation,
+          }}
+          style={{ opacity: hideNextNavigation ? 0 : 1 }}
         >
           <Icon name="chevronRight" size={22} color={t.color.text.secondary} />
         </Pressable>
       </View>
 
-      {/* Weekday headers */}
       <View style={{ flexDirection: 'row' }}>
-        {weekdayLabels.map((wd) => (
+        {weekdayLabels.map((weekday) => (
           <View
-            key={wd}
+            key={weekday}
             style={{
               flex: 1,
               alignItems: 'center',
@@ -222,34 +258,66 @@ export function CalendarGrid({
                 color: t.color.text.tertiary,
               }}
             >
-              {wd}
+              {weekday}
             </Text>
           </View>
         ))}
       </View>
 
-      {/* Day grid */}
       {cells.map((row) => (
         <View key={row[0].date.toISOString()} style={{ flexDirection: 'row' }}>
           {row.map((cell) => {
-            const selected = selectedDate
-              ? isSameDay(cell.date, selectedDate)
-              : false;
+            const constraint = getCalendarConstraintInfo(
+              cell.date,
+              minimumDate,
+              maximumDate,
+              dateConstraints
+            );
+            const selected =
+              selectionMode === 'single' && selectedDate != null
+                ? isSameDay(cell.date, selectedDate)
+                : false;
+            const rangeStart =
+              selectedRangeStart != null &&
+              isSameDay(cell.date, selectedRangeStart);
+            const rangeEnd =
+              selectedRangeEnd != null &&
+              isSameDay(cell.date, selectedRangeEnd);
+            const inRange =
+              selectionMode === 'range' &&
+              isDateInRange(
+                cell.date,
+                selectedRangeStart ?? null,
+                selectedRangeEnd ?? null
+              );
+            const activeSelection = selected || rangeStart || rangeEnd;
             const today = isToday(cell.date);
-            const disabled =
-              !cell.inMonth ||
-              isDateDisabled(cell.date, minimumDate, maximumDate);
+            const disabled = !cell.inMonth || constraint.disabled;
+            const dayTextColor = activeSelection
+              ? t.color.text.inverse
+              : disabled
+                ? t.color.text.disabled
+                : cell.inMonth
+                  ? t.color.text.primary
+                  : t.color.text.tertiary;
 
             return (
               <Pressable
                 key={cell.date.toISOString()}
                 onPress={() => {
-                  if (!disabled) onSelectDate(cell.date);
+                  if (disabled) {
+                    onUnavailableDatePress?.(cell.date, constraint.reason);
+                    return;
+                  }
+                  onSelectDate(cell.date);
                 }}
-                disabled={disabled}
                 accessibilityRole="button"
                 accessibilityLabel={cell.date.toDateString()}
-                accessibilityState={{ selected, disabled }}
+                accessibilityHint={constraint.reason}
+                accessibilityState={{
+                  selected: activeSelection,
+                  disabled,
+                }}
                 style={{
                   flex: 1,
                   alignItems: 'center',
@@ -259,37 +327,61 @@ export function CalendarGrid({
               >
                 <View
                   style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 18,
+                    width: '100%',
+                    height: cellSize,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: selected
-                      ? t.color.brand.default
-                      : 'transparent',
-                    borderWidth: today && !selected ? 1.5 : 0,
-                    borderColor:
-                      today && !selected
-                        ? t.color.brand.default
-                        : 'transparent',
+                    overflow: 'hidden',
                   }}
                 >
-                  <Text
+                  <View
                     style={{
-                      fontSize: t.fontSize.sm,
-                      fontWeight:
-                        selected || today
-                          ? t.fontWeight.semibold
-                          : t.fontWeight.regular,
-                      color: selected
-                        ? t.color.text.onBrand
-                        : disabled
-                          ? t.color.text.disabled
-                          : t.color.text.primary,
+                      position: 'absolute',
+                      left: 0,
+                      right: 0,
+                      top: 4,
+                      bottom: 4,
+                      backgroundColor:
+                        cell.inMonth && inRange
+                          ? t.color.brand.subtle
+                          : 'transparent',
+                      borderTopLeftRadius: rangeStart ? 18 : 0,
+                      borderBottomLeftRadius: rangeStart ? 18 : 0,
+                      borderTopRightRadius: rangeEnd ? 18 : 0,
+                      borderBottomRightRadius: rangeEnd ? 18 : 0,
+                    }}
+                  />
+
+                  <View
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 18,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: activeSelection
+                        ? t.color.brand.default
+                        : 'transparent',
+                      borderWidth: today && !activeSelection ? 1.5 : 0,
+                      borderColor:
+                        today && !activeSelection
+                          ? t.color.brand.default
+                          : 'transparent',
                     }}
                   >
-                    {cell.date.getDate()}
-                  </Text>
+                    <Text
+                      style={{
+                        fontSize: t.fontSize.sm,
+                        fontWeight:
+                          activeSelection || today
+                            ? t.fontWeight.semibold
+                            : t.fontWeight.regular,
+                        color: dayTextColor,
+                      }}
+                    >
+                      {cell.date.getDate()}
+                    </Text>
+                  </View>
                 </View>
               </Pressable>
             );

@@ -32,6 +32,7 @@ export * from './components/Box';
 export * from './components/Breadcrumbs';
 export * from './components/Button';
 export * from './components/ButtonGroup';
+export * from './components/Calendar';
 export * from './components/Card';
 export * from './components/Carousel';
 export * from './components/ChatListItem';
