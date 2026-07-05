@@ -24,6 +24,7 @@ export function Alert({
   const {
     components: { alert },
     tokens,
+    colorScheme,
   } = useTheme();
 
   const severityTokens = alert.variant[severity];
@@ -50,13 +51,15 @@ export function Alert({
       });
     } else {
       base.push({
-        backgroundColor: severityTokens.bg,
+        backgroundColor:
+          colorScheme === 'dark'
+            ? tokens.color.surface.sunken
+            : severityTokens.bg,
         borderColor: severityTokens.border,
-        borderWidth: 1,
       });
     }
     return base;
-  }, [alert.container, severityTokens, variant]);
+  }, [alert.container, severityTokens, variant, tokens.color.surface.sunken, colorScheme]);
 
   if (!isOpen) return null;
 
