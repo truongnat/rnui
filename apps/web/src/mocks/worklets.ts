@@ -7,9 +7,10 @@ export function runOnJS<T extends (...args: never[]) => void>(fn: T): T {
 }
 
 export function scheduleOnRN<T extends (...args: never[]) => unknown>(
-  fn: T
-): T {
-  return fn;
+  fn: T,
+  ...args: Parameters<T>
+): void {
+  fn(...args);
 }
 
 export function scheduleOnUI<T extends (...args: never[]) => unknown>(

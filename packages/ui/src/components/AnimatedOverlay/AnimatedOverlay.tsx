@@ -2,12 +2,12 @@ import { useReduceMotionEnabled } from '@truongdq01/headless';
 import { useCallback, useEffect } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import Animated, {
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   type WithTimingConfig,
   withTiming,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import {
   overlayFadeIn,
   overlayFadeOut,
@@ -115,7 +115,7 @@ export function AnimatedOverlay({
       const onFinished = (finished?: boolean) => {
         'worklet';
         if (finished && onAnimationEnd) {
-          runOnJS(onAnimationEnd)(entering);
+          scheduleOnRN(onAnimationEnd, entering);
         }
       };
 

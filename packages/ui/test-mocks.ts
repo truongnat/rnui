@@ -103,6 +103,8 @@ export const createReanimatedMock = () => {
     cancelAnimation: () => {},
 
     // Worklets
+    scheduleOnRN: (fn: (...args: unknown[]) => unknown, ...args: unknown[]) =>
+      fn(...args),
     runOnJS: (fn: any) => fn,
     runOnUI: (fn: any) => fn,
     makeMutable: (v: any) => ({ value: v }),

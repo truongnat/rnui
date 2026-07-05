@@ -176,7 +176,8 @@ mock.module('react-native-worklets', () => ({
   useDerivedValue: (fn: any) => ({ value: fn() }),
   useWorkletCallback: (fn: any) => fn,
   createSerializable: (v: any) => v,
-  scheduleOnRN: (fn: any) => fn(),
+  scheduleOnRN: (fn: (...args: unknown[]) => unknown, ...args: unknown[]) =>
+    fn(...args),
   scheduleOnUI: (fn: any) => fn(),
   runOnJS: (fn: any) => fn,
   runOnUI: (fn: any) => fn,

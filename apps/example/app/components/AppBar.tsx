@@ -42,42 +42,36 @@ export default function AppBarScreen() {
       description="Top bar with navigation, title, and screen actions."
     >
       <DemoSection title="Basic" description="Leading navigation and trailing actions.">
-        <DemoPreview>
-          <PreviewCard>
-            <AppBar style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}>
-              <Toolbar style={{ paddingVertical: t.spacing[2] }}>
-                <AppBarLeading>
-                  <Button
-                    variant="ghost"
-                    style={styles.iconButton}
-                    leadingIcon={<Menu size={22} />}
-                    accessibilityLabel="Open menu"
-                  />
-                </AppBarLeading>
-                <AppBarTitle>Page Title</AppBarTitle>
-                <AppBarTrailing>
-                  <Button
-                    variant="ghost"
-                    style={styles.iconButton}
-                    leadingIcon={<Search size={22} />}
-                    accessibilityLabel="Search"
-                  />
-                  <Button
-                    variant="ghost"
-                    style={styles.iconButton}
-                    leadingIcon={<MoreVertical size={22} />}
-                    accessibilityLabel="More actions"
-                  />
-                </AppBarTrailing>
-              </Toolbar>
-            </AppBar>
-          </PreviewCard>
-        </DemoPreview>
+        <AppBar style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}>
+          <Toolbar style={{ paddingVertical: t.spacing[2] }}>
+            <AppBarLeading>
+              <Button
+                variant="ghost"
+                style={styles.iconButton}
+                leadingIcon={<Menu size={22} />}
+                accessibilityLabel="Open menu"
+              />
+            </AppBarLeading>
+            <AppBarTitle>Page Title</AppBarTitle>
+            <AppBarTrailing>
+              <Button
+                variant="ghost"
+                style={styles.iconButton}
+                leadingIcon={<Search size={22} />}
+                accessibilityLabel="Search"
+              />
+              <Button
+                variant="ghost"
+                style={styles.iconButton}
+                leadingIcon={<MoreVertical size={22} />}
+                accessibilityLabel="More actions"
+              />
+            </AppBarTrailing>
+          </Toolbar>
+        </AppBar>
       </DemoSection>
 
       <DemoSection title="With Subtitle">
-        <DemoPreview>
-          <PreviewCard>
             <AppBar style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}>
               <Toolbar style={{ paddingVertical: t.spacing[2] }}>
                 <AppBarLeading>
@@ -93,13 +87,9 @@ export default function AppBarScreen() {
                 </AppBarTitle>
               </Toolbar>
             </AppBar>
-          </PreviewCard>
-        </DemoPreview>
       </DemoSection>
 
       <DemoSection title="Brand" description="Inverse text on brand backgrounds.">
-        <DemoPreview>
-          <PreviewCard>
             <AppBar
               color="primary"
               style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}
@@ -128,13 +118,10 @@ export default function AppBarScreen() {
                 </AppBarTrailing>
               </Toolbar>
             </AppBar>
-          </PreviewCard>
-        </DemoPreview>
       </DemoSection>
 
       <DemoSection title="Variants">
         <Stack spacing="lg">
-          <PreviewCard>
             <AppBar
               color="default"
               variant="outlined"
@@ -144,9 +131,6 @@ export default function AppBarScreen() {
                 <AppBarTitle>Bordered App Bar</AppBarTitle>
               </Toolbar>
             </AppBar>
-          </PreviewCard>
-
-          <PreviewCard>
             <AppBar
               color="transparent"
               style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}
@@ -163,7 +147,6 @@ export default function AppBarScreen() {
                 </AppBarTrailing>
               </Toolbar>
             </AppBar>
-          </PreviewCard>
         </Stack>
       </DemoSection>
     </DemoPage>

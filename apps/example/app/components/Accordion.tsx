@@ -45,7 +45,7 @@ export default function AccordionScreen() {
       </DemoSection>
 
       <DemoSection title="Multiple Mode" description="Several items open simultaneously." flush>
-        <Stack direction="row" spacing="sm" style={{ marginBottom: t.spacing[4] }}>
+        <Stack direction="row" spacing="sm" style={{ padding: t.spacing[4] }}>
           <Button
             label="Expand All"
             size="sm"

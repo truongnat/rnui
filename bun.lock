@@ -29,12 +29,13 @@
       "version": "0.0.2",
       "dependencies": {
         "@react-native-async-storage/async-storage": "2.2.0",
+        "@shopify/flash-list": "^2.0.2",
         "@truongdq01/component-schema": "workspace:*",
         "@truongdq01/headless": "workspace:*",
         "@truongdq01/renderer": "workspace:*",
         "@truongdq01/themes": "workspace:*",
         "@truongdq01/tokens": "workspace:*",
-        "@truongdq01/ui": "^1.0.3",
+        "@truongdq01/ui": "workspace:*",
         "babel-preset-expo": "^55.0.11",
         "expo": "~55.0.0",
         "expo-blur": "^55.0.12",
@@ -1073,6 +1074,8 @@
     "@shikijs/types": ["@shikijs/types@4.0.2", "", { "dependencies": { "@shikijs/vscode-textmate": "^10.0.2", "@types/hast": "^3.0.4" } }, "sha512-qzbeRooUTPnLE+sHD/Z8DStmaDgnbbc/pMrU203950aRqjX/6AFHeDYT+j00y2lPdz0ywJKx7o/7qnqTivtlXg=="],
 
     "@shikijs/vscode-textmate": ["@shikijs/vscode-textmate@10.0.2", "", {}, "sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg=="],
+
+    "@shopify/flash-list": ["@shopify/flash-list@2.3.2", "", { "peerDependencies": { "@babel/runtime": "*", "react": "*", "react-native": "*" } }, "sha512-vQnd0y0Ag11yzS30llaeCrtIU3xYTMe7KEOP3dveLImnVjQEUw6BEg1+Ztja6aODlVNz1BpvxtlQ5eZGxiLwKw=="],
 
     "@sinclair/typebox": ["@sinclair/typebox@0.27.10", "", {}, "sha512-MTBk/3jGLNB2tVxv6uLlFh1iu64iYOQ2PbdOSK3NW8JZsmlaOh2q6sdtKowBhfw8QFLmYNzTW4/oK4uATIi6ZA=="],
 

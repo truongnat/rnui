@@ -10,11 +10,11 @@ import {
   View,
 } from 'react-native';
 import Animated, {
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -123,7 +123,7 @@ export function ContextMenu({
     opacity.value = withTiming(0, { duration: DURATION_OUT }, (finished) => {
       'worklet';
       if (finished) {
-        runOnJS(setMounted)(false);
+        scheduleOnRN(setMounted, false);
       }
     });
   }, [open, mounted]);

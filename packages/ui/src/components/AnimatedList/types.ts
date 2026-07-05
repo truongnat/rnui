@@ -26,6 +26,20 @@ export type LayoutProp =
   | LayoutAnimationFunction
   | typeof BaseAnimationBuilder;
 
+export interface AnimatedListRef {
+  /**
+   * FlashList only — call immediately before mutating `data` when using
+   * enter, exit, or layout animations so recycled cells animate correctly.
+   */
+  prepareForLayoutAnimationRender?: () => void;
+  scrollToOffset?: (params: { offset: number; animated?: boolean }) => void;
+  scrollToIndex?: (params: {
+    index: number;
+    animated?: boolean;
+    viewOffset?: number;
+  }) => void;
+}
+
 export interface AnimatedListProps<T>
   extends Omit<FlashListProps<T>, 'renderItem' | 'contentContainerStyle'> {
   /** Optional ID for testing or automation */
@@ -35,15 +49,18 @@ export interface AnimatedListProps<T>
   /** Function to render each item. Use `index` to stagger entering animations if desired. */
   renderItem: (info: ListRenderItemInfo<T>) => React.ReactElement | null;
   /**
-   * Average main-axis size of one item (usually **height** in a vertical list), in dp.
-   * FlashList uses this to size the scroll window and recycle views.
+   * @deprecated FlashList v2 auto-measures item sizes; this prop is ignored and
+   * no longer forwarded. Kept optional for backward compatibility only.
    */
-  estimatedItemSize: number;
+  estimatedItemSize?: number;
   /** Apply entering animation to items as they appear. Recommended: FadeInDown */
   itemEntering?: AnimationProp;
   /** Apply exiting animation to items as they disappear */
   itemExiting?: AnimationProp;
-  /** Apply layout animation when items are reordered. Default: smooth linear timing (no spring bounce). */
+  /**
+   * Layout animation when items move (reorder / insert). Expensive on long lists —
+   * prefer enter/exit only for prepend/remove. Omit for best scroll FPS.
+   */
   itemLayout?: LayoutProp;
   /**
    * Automatically stagger item entry animations.
@@ -54,6 +71,8 @@ export interface AnimatedListProps<T>
   staggerDelay?: number;
   /** Container style for the wrapper Animated.View */
   itemContainerStyle?: StyleProp<ViewStyle>;
+  /** Style for the scroll viewport (list shell). */
+  style?: StyleProp<ViewStyle>;
   /** Style for the content container */
   contentContainerStyle?: StyleProp<ViewStyle>;
 }

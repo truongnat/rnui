@@ -64,6 +64,10 @@ const createReanimatedMock = () => {
     withSequence: (...v: unknown[]) => v[v.length - 1],
     cancelAnimation: () => {},
 
+    scheduleOnRN: <Args extends unknown[], ReturnValue>(
+      fn: (...args: Args) => ReturnValue,
+      ...args: Args
+    ) => fn(...args),
     runOnJS: <F extends (...args: never[]) => unknown>(fn: F) => fn,
     runOnUI: <F extends (...args: never[]) => unknown>(fn: F) => fn,
     makeMutable: <T>(v: T) => ({ value: v }),
@@ -292,7 +296,10 @@ mock.module('react-native-worklets', () => ({
   useDerivedValue: (fn: () => unknown) => ({ value: fn() }),
   useWorkletCallback: <F extends (...args: never[]) => unknown>(fn: F) => fn,
   createSerializable: <T>(v: T) => v,
-  scheduleOnRN: <T>(fn: () => T) => fn(),
+  scheduleOnRN: <Args extends unknown[], ReturnValue>(
+    fn: (...args: Args) => ReturnValue,
+    ...args: Args
+  ) => fn(...args),
   scheduleOnUI: <T>(fn: () => T) => fn(),
   runOnJS: <F extends (...args: never[]) => unknown>(fn: F) => fn,
   runOnUI: <F extends (...args: never[]) => unknown>(fn: F) => fn,

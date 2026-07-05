@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, { type BaseAnimationBuilder } from 'react-native-reanimated';
 import type { AnimatedCellProps } from './types';
 
-export function AnimatedCell<T>({
+function AnimatedCellInner<T>({
   info,
   renderItem,
   effectiveEntering,
@@ -37,6 +37,10 @@ export function AnimatedCell<T>({
   }, [effectiveEntering, staggerEntering, staggerDelay, index]);
 
   return (
+    // No explicit key here: FlashList's ViewHolder already keys each cell.
+    // Adding a second key would remount this view on every recycle, firing
+    // spurious entering animations while scrolling and preventing Reanimated
+    // from playing exiting animations on removal.
     <Animated.View
       entering={enteringAnim}
       exiting={effectiveExiting}
@@ -47,6 +51,8 @@ export function AnimatedCell<T>({
     </Animated.View>
   );
 }
+
+export const AnimatedCell = memo(AnimatedCellInner) as typeof AnimatedCellInner;
 
 const styles = StyleSheet.create({
   itemWrapper: {

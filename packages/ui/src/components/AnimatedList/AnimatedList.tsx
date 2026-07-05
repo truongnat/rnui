@@ -1,25 +1,34 @@
 import { useId, useReduceMotionEnabled, useTheme } from '@truongdq01/headless';
 import type React from 'react';
 import { forwardRef, useCallback, useMemo } from 'react';
-import {
-  FlatList,
-  type ListRenderItem,
-  type ListRenderItemInfo,
-} from 'react-native';
-import Animated, {
-  FadeInDown,
-  LinearTransition,
-} from 'react-native-reanimated';
+import type { ListRenderItem, ListRenderItemInfo } from 'react-native';
+import { FadeInDown } from 'react-native-reanimated';
 import { AnimatedCell } from './AnimatedCell';
-import type { AnimatedListProps } from './types';
+import { getAnimatedListImpl } from './listImpl';
+import type { AnimatedListProps, AnimatedListRef } from './types';
 
-const ReanimatedListImpl = Animated.createAnimatedComponent(FlatList);
+const ListImpl = getAnimatedListImpl();
+
+/**
+ * Sensible defaults for animated feeds.
+ *
+ * FlashList v2 auto-measures and manages its own recycle window, so legacy
+ * FlatList tuning props (removeClippedSubviews, windowSize, maxToRenderPerBatch,
+ * initialNumToRender, updateCellsBatchingPeriod) are intentionally omitted —
+ * they are ignored by FlashList v2 and only add noise.
+ */
+const LIST_PERFORMANCE_DEFAULTS = {
+  scrollEventThrottle: 16,
+} as const;
 
 /**
  * AnimatedList wraps @shopify/flash-list with Reanimated to provide
  * ultra-fast performance combined with smooth layout and entry animations.
  *
  * Prefer a **stable** `renderItem` (`useCallback`) and `keyExtractor` so FlashList does not recycle unnecessarily.
+ *
+ * When FlashList is available, call `ref.prepareForLayoutAnimationRender()` on the list ref
+ * immediately before mutating `data` (add/remove/reorder) for reliable enter/exit/layout animations.
  */
 function AnimatedListInner<T>(
   {
@@ -28,14 +37,28 @@ function AnimatedListInner<T>(
     renderItem,
     itemEntering = FadeInDown.duration(300),
     itemExiting,
-    itemLayout = LinearTransition.duration(250),
+    itemLayout,
     staggerEntering = false,
     staggerDelay = 50,
     itemContainerStyle,
+    style,
+    contentContainerStyle: contentContainerStyleProp,
     ...flashListProps
   }: AnimatedListProps<T>,
-  ref: React.ForwardedRef<unknown>
+  ref: React.ForwardedRef<AnimatedListRef>
 ) {
+  const {
+    keyExtractor: keyExtractorProp,
+    // Dropped: FlashList v2 auto-measures and rejects these v1-era props.
+    estimatedItemSize: _estimatedItemSize,
+    getEstimatedItemSize: _getEstimatedItemSize,
+    ...restFlashListProps
+  } = flashListProps as {
+    keyExtractor?: (item: T, index: number) => string;
+    estimatedItemSize?: number;
+    getEstimatedItemSize?: unknown;
+  };
+
   const id = useId(idProp, 'animated-list');
   const {
     components: { animatedList },
@@ -54,20 +77,6 @@ function AnimatedListInner<T>(
     () => (reduceMotion ? undefined : itemLayout),
     [reduceMotion, itemLayout]
   );
-
-  const ListImpl = useMemo(() => {
-    try {
-      // Use require for optional peer dependency
-      // Cast to unknown first then Record to avoid direct 'any' from require
-      const mod = require('@shopify/flash-list') as Record<string, unknown>;
-      const Impl =
-        (mod?.FlashList as React.ComponentType<Record<string, unknown>>) ??
-        FlatList;
-      return Animated.createAnimatedComponent(Impl);
-    } catch {
-      return ReanimatedListImpl;
-    }
-  }, []);
 
   const internalRenderItem = useCallback(
     (info: ListRenderItemInfo<T>) => (
@@ -95,26 +104,29 @@ function AnimatedListInner<T>(
     ]
   );
 
-  const contentContainerStyle = useMemo(
-    () => [animatedList.container, flashListProps.contentContainerStyle],
-    [animatedList.container, flashListProps.contentContainerStyle]
+  const listStyle = useMemo(
+    () => [animatedList.container, style],
+    [animatedList.container, style]
   );
 
   return (
     <ListImpl
-      ref={ref as React.Ref<FlatList>}
+      ref={ref}
       nativeID={id}
       data={data as unknown as unknown[] | null | undefined}
       renderItem={internalRenderItem as unknown as ListRenderItem<unknown>}
-      {...(flashListProps as Record<string, unknown>)}
-      contentContainerStyle={contentContainerStyle}
+      {...LIST_PERFORMANCE_DEFAULTS}
+      {...(restFlashListProps as Record<string, unknown>)}
+      keyExtractor={keyExtractorProp}
+      style={listStyle}
+      contentContainerStyle={contentContainerStyleProp}
     />
   );
 }
 
 const _AnimatedList = forwardRef(
   AnimatedListInner as React.ForwardRefRenderFunction<
-    unknown,
+    AnimatedListRef,
     Omit<AnimatedListProps<unknown>, 'ref'>
   >
 );
@@ -122,5 +134,5 @@ const _AnimatedList = forwardRef(
 (_AnimatedList as unknown as Record<string, unknown>).displayName = 'AnimatedList';
 
 export const AnimatedList = _AnimatedList as <T>(
-  props: AnimatedListProps<T> & { ref?: React.Ref<unknown> }
+  props: AnimatedListProps<T> & { ref?: React.Ref<AnimatedListRef> }
 ) => React.ReactElement;
