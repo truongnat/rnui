@@ -6,13 +6,7 @@ import {
   type SemanticTokens,
   semanticTokens,
 } from '@truongdq01/tokens';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, {

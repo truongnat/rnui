@@ -1,5 +1,5 @@
 import { ThemeProvider, useTheme } from '@truongdq01/headless';
-import React from 'react';
+import type React from 'react';
 import { View } from 'react-native';
 import { RNUISchemaRenderer } from './RNUISchemaRenderer';
 import type { WebPreviewHostProps } from './types';

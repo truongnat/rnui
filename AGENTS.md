@@ -1,119 +1,69 @@
-# RNUI — AI agent instructions
+# Agent Rules
 
-RNUI is a **React Native design system and UI kit**. When working in this repository or generating app code that consumes RNUI, follow these rules.
+This is the **short entrypoint**. Prefer layered reading — do not load every doc.
 
-## Start here
+## Must-read order (every task)
 
-1. Read [`.ai/rnui.manifest.json`](.ai/rnui.manifest.json) — top-level AI entrypoint.
-2. Pick components from [`.ai/component-registry.json`](.ai/component-registry.json).
-3. Follow layout and styling rules in [`.ai/design-rules.md`](.ai/design-rules.md).
-4. Use screen patterns from [`.ai/screen-generation.md`](.ai/screen-generation.md) and [`.ai/examples/`](.ai/examples/).
-5. Copy/adapt prompts from [`.ai/prompts/`](.ai/prompts/) when the user asks for generation workflows.
+1. `.agents/START_HERE.md` (**2 minutes**) — path Quick/Lite/Full + commands
+2. `.agents/settings.yaml` and `.agents/PRJ_REFERENCE.md` (after `init`)
+3. `.agents/SKILL_PREAMBLE.md` when invoking a first-party skill
+4. The skill’s `SKILL.md` Contract (+ steps when present)
+5. `.agents/WHAT_NEXT.md` when unsure which skill to run
+6. `.agents/AGENT_POLICY.md` / `AGENT_WORK.md` / `MIGRATION.md` **only when needed**
 
-## Core principles
+Re-read settings at the start of every task and every skill invocation. Never
+cache `language` across turns. Default language: `en`. Prose follows `language`;
+**headings and template keys stay English** (shared form). Do not mix VI/EN in
+one artifact body. Blocking unknowns → **Confirm-first** + **Ask method** in
+`SKILL_PREAMBLE.md` (STOP, then ask — never quiz-as-document).
 
-- **Prefer existing RNUI components** before creating custom UI.
-- **Never inline random colors, spacing, radius, or shadows.** Use theme tokens via `useTheme()` / `useTokens()` from `@truongdq01/headless`, or component props that map to tokens.
-- **Use `ThemeProvider`** from `@truongdq01/headless` or `@truongdq01/ui` at the app root (once). Pass `withGestureRoot={false}` only if the app already wraps `GestureHandlerRootView`.
-- **Import styled components from `@truongdq01/ui`.**
-- Keep screens **clean, mobile-first, accessible, and production-like**.
-- **Do not add new dependencies** unless truly necessary and approved.
-- **Do not duplicate components** if RNUI already exports one (Button, Card, Input, Typography, Stack, etc.).
-- **Do not modify package public APIs** unless explicitly requested.
-- Generated code **must pass TypeScript** and run in **Expo / React Native ≥ 0.83** with **React ≥ 19**.
+## Architecture (map)
 
-## Preferred import style
+| Path | Role |
+| --- | --- |
+| `AGENTS.md` | This short entrypoint |
+| `.agents/START_HERE.md` | 2-minute start |
+| `.agents/WHAT_NEXT.md` | Situation → skill map |
+| `.agents/` | **Kit** — skills, tools, settings, policy |
+| `.agents/AGENT_POLICY.md` | Detailed policy (reference) |
+| `.agents/settings.yaml` | Lean knobs |
+| `.agents/PRJ_REFERENCE.md` | Generated project facts |
+| `.agents/SKILL_PREAMBLE.md` | Shared skill rules |
+| `.agents/skills/` | Invokable skills |
+| `.agents/tools/` | session, lint, build_context, detect_agents, delegate_worker, … |
+| `.agent-work/` | **Work** — sessions + memory (nested git; `session.sh commit` / `archive`) |
+| `.agents/examples/` | Good/bad session shapes |
+| `.agents/MIGRATION.md` | Host upgrade notes |
 
-```tsx
-import {
-  ThemeProvider,
-  Button,
-  Card,
-  Input,
-  Stack,
-  Box,
-  Typography,
-} from '@truongdq01/ui';
-```
+### Skill architecture
 
-Hooks and theme utilities may also come from `@truongdq01/headless`:
+- `SKILL.md` is authoritative. First-party skills have **Contract** + `agents/openai.yaml`.
+- Tiny clear fix → **`quick-fix`** (Path=Quick). Unclear → Lite/Full lifecycle.
+- Inventory: `docs/first-party-skills.json`. Profiles: `core` default.
+- Validate: `validate_artifacts.py` + `lint_artifacts.py`. Handoff pack: `build_context.py`.
+- Kit vs Work: [AGENT_WORK.md](./AGENT_WORK.md).
 
-```tsx
-import { useTheme, useTokens, useToast } from '@truongdq01/headless';
-```
+## Skill compliance
 
-Brand presets (optional):
+1. START_HERE → preamble (when pointed) → `SKILL.md` → Contract.
+2. Produce required artifacts; stop on safety / Spec quality / Quick violations.
+3. Before `review` Ready / `done`: `validate_artifacts.py` **and** `lint_artifacts.py` OK.
+4. Prefer `session.sh help` / `doctor` over inventing paths.
 
-```tsx
-import { defaultTheme } from '@truongdq01/themes';
-```
+## Hard stops (summary)
 
-## Package boundaries
+Full text in `AGENT_POLICY.md`. Never: leak secrets; irreversible destructive
+commands without confirmation; weaken auth/TLS; hide security findings.
 
-| Package | Responsibility | Use for |
-| ------- | -------------- | ------- |
-| `@truongdq01/tokens` | Design values only (primitive, semantic, component, motion) | Token definitions, low-level design math |
-| `@truongdq01/headless` | Logic, state, accessibility, theme, motion hooks | `ThemeProvider`, `useTheme`, behavior hooks |
-| `@truongdq01/ui` | Styled React Native components | All UI in app screens |
-| `@truongdq01/themes` | Brand theme presets | Pre-built brand color sets |
-| `apps/example` | Showcase and usage demos | Reference implementations |
-| `docs` | Human + AI documentation | Starlight docs site |
+## Workflow (summary)
 
-**Do not:**
+- `session.sh help|doctor|current|status`
+- **Quick:** `quick-fix` → sync (`PASS`) → execution → review → done
+- **Full:** brainstorming → business-analysis → design → planning → sync → …
+- Step ledger + Spec quality on Full/Lite step skills; Quick forbids BA/design
+- TASK Dev context + `[Source:]`; Readable writing mandatory
 
-- Put styled UI in `tokens` or `headless`.
-- Import app code into library packages.
-- Bundle native modules into `@truongdq01/ui` (they are peers).
+## Detailed policy
 
-## Component selection
-
-1. Check `.ai/component-registry.json` for name, status, and `usageHints`.
-2. Prefer **stable** components for production screens.
-3. Use **beta** / **experimental** only when needed; read `avoid` and optional peer notes.
-4. See [component status](docs/src/content/docs/components/status.md) for maturity notes.
-
-## Code quality
-
-- TypeScript strict — no `any`, no `@ts-ignore`, no eslint-disable.
-- Icon-only controls need `accessibilityLabel`.
-- Touch targets ≥ 44px (use Button sizes or padding via tokens).
-- Support dark mode through theme — no hardcoded light-only hex colors.
-- Separate screen composition from business logic (hooks/services for data).
-
-## When generating screens
-
-Follow `.ai/screen-generation.md`:
-
-1. Understand purpose.
-2. Pick layout primitives (`Stack`, `Box`, `Grid`).
-3. Pick RNUI components from the registry.
-4. Handle loading, empty, error, and success states.
-5. Compose, then add accessibility and spacing.
-6. Use mock data in examples; wire real APIs in app code.
-
-## Prompt templates
-
-| File | Use when |
-| ---- | -------- |
-| `.ai/prompts/build-screen.md` | Single screen |
-| `.ai/prompts/build-app-flow.md` | Multi-screen flow |
-| `.ai/prompts/add-component-doc.md` | Document a component |
-| `.ai/prompts/review-rnui-usage.md` | Audit RNUI usage |
-| `.ai/prompts/refactor-to-rnui.md` | Migrate custom UI to RNUI |
-
-## Validation
-
-```bash
-bun run ai:check      # verify AI metadata files exist
-bun run typecheck
-bun run lint
-bun run build
-```
-
-## Forbidden patterns
-
-- Random hex colors (`#3B82F6`) instead of theme semantic colors.
-- Custom `Button` / `Card` / `Input` when RNUI exports them.
-- Giant single-file screens with all styles inline.
-- New UI libraries (NativeBase, Paper, Tamagui, etc.) without explicit approval.
-- Breaking changes to exported component props without a changeset and docs update.
+Reference only: `.agents/AGENT_POLICY.md`. If conflict, policy wins on substance;
+this file wins on reading order.

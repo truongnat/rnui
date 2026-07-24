@@ -4,7 +4,6 @@ import {
   validateScreenSchema,
 } from '@truongdq01/component-schema';
 import type { ScreenSchema } from '@truongdq01/component-schema';
-import { createDefaultComponentMap } from './componentMap';
 import { createLazyComponentMap } from './lazyComponentMap';
 import type {
   LazyComponentMap,

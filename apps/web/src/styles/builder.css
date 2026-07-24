@@ -21,23 +21,10 @@
   --rnui-radius-panel: 16px;
   --rnui-radius-control: 10px;
   --rnui-font:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --rnui-font-mono:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Monaco,
-    Consolas,
-    monospace;
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-family: var(--rnui-font);
   line-height: 1.5;
   font-weight: 400;
@@ -292,7 +279,7 @@ textarea {
 }
 
 .primary-button,
-.chat-form button[type='submit'] {
+.chat-form button[type="submit"] {
   border: none;
   border-radius: var(--rnui-radius-control);
   padding: 9px 14px;
@@ -305,7 +292,7 @@ textarea {
 }
 
 .primary-button:hover,
-.chat-form button[type='submit']:hover:not(:disabled) {
+.chat-form button[type="submit"]:hover:not(:disabled) {
   background: var(--rnui-brand-hover);
 }
 
@@ -369,11 +356,7 @@ textarea {
   align-items: flex-start;
   padding: 4px 12px 16px;
   background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(124, 58, 237, 0.04),
-      transparent 55%
-    ),
+    radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.04), transparent 55%),
     #f8f6fc;
 }
 
@@ -401,7 +384,7 @@ textarea {
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.phone-shell[data-preview-theme='dark'] {
+.phone-shell[data-preview-theme="dark"] {
   border-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -423,7 +406,7 @@ textarea {
   border: 1px solid rgba(30, 27, 75, 0.06);
 }
 
-.phone-screen[data-preview-theme='dark'] {
+.phone-screen[data-preview-theme="dark"] {
   background: #0f0e14;
   border-color: rgba(255, 255, 255, 0.06);
 }
@@ -433,14 +416,8 @@ textarea {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    'SF Pro Text',
-    'Segoe UI',
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
 }
 
 .action-log {
@@ -608,7 +585,7 @@ textarea {
   font-size: 16px;
 }
 
-.phone-screen-inner [role='button'],
+.phone-screen-inner [role="button"],
 .phone-screen-inner button {
   cursor: pointer;
 }

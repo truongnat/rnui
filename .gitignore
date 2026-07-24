@@ -63,3 +63,6 @@ tsconfig.*.tsbuildinfo
 .gitnexus
 packages/*/dist/
 .vercel
+.understand-anything
+# Simple Skills — Work layer (sessions + memory; nested git)
+.agent-work/

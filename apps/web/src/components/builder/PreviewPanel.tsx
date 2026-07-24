@@ -64,11 +64,7 @@ export function PreviewPanel({ state }: PreviewPanelProps) {
           <p className="panel-subtitle">React Native Web · RNUI components</p>
         </div>
         <div className="preview-header-actions">
-          <div
-            className="theme-toggle"
-            role="group"
-            aria-label="Preview color scheme"
-          >
+          <fieldset className="theme-toggle" aria-label="Preview color scheme">
             <button
               type="button"
               className={
@@ -93,7 +89,7 @@ export function PreviewPanel({ state }: PreviewPanelProps) {
             >
               Dark
             </button>
-          </div>
+          </fieldset>
           <span
             className={`status-pill ${state.validation.valid ? 'ok' : 'error'}`}
           >
@@ -118,8 +114,8 @@ export function PreviewPanel({ state }: PreviewPanelProps) {
         </ol>
         <p>
           Đây là <strong>xấp xỉ web</strong>, không phải simulator iOS/Android.
-          Font, shadow, gesture khác native. UI thật:{' '}
-          <code>bun run demo</code> (Expo example app).
+          Font, shadow, gesture khác native. UI thật: <code>bun run demo</code>{' '}
+          (Expo example app).
         </p>
         <p className="preview-how-note">
           Buttons &amp; toggles dùng mock gesture — đủ để demo; input gõ được

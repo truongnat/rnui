@@ -32,6 +32,8 @@
     "web:dev": "cd apps/web && bun run dev",
     "web:dev:clean": "cd apps/web && bun run dev:clean",
     "web:build": "cd apps/web && bun run build",
+    "docs-new:dev": "cd apps/docs-new && bun run dev",
+    "docs-new:build": "cd apps/docs-new && bun run build",
     "builder:dev": "cd apps/web && bun run dev",
     "builder:build": "cd apps/web && bun run build"
   },

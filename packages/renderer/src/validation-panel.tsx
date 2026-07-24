@@ -1,5 +1,4 @@
 import { Alert, AlertTitle, Card, Stack, Typography } from '@truongdq01/ui';
-import React from 'react';
 
 export function SchemaValidationPanel({
   title,
