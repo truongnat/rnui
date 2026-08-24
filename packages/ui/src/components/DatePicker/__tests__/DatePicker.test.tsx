@@ -1,17 +1,17 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
+import { describe, expect, jest, test, beforeEach, mock } from 'bun:test';
 import { DateInput } from '../DateInput';
 import { DatePicker } from '../DatePicker';
 import { DateRangeInput } from '../DateRangeInput';
 import { DateTimeInput } from '../DateTimeInput';
 
-jest.mock('@react-native-community/datetimepicker', () => ({
-  __esModule: true,
-  default: jest.fn(() => null),
+mock.module('@react-native-community/datetimepicker', () => ({
+  default: mock(() => null),
 }));
 
-const DateTimePickerMock = DateTimePicker as unknown as jest.Mock;
+const DateTimePickerMock = DateTimePicker as unknown as ReturnType<typeof mock>;
 
 describe('DatePicker', () => {
   beforeEach(() => {

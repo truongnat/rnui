@@ -1,0 +1,19 @@
+--- a/packages/ui/src/components/Menu/Menu.tsx
++++ b/packages/ui/src/components/Menu/Menu.tsx
+@@ -73,6 +73,8 @@
+   }));
+
++  const contextValue = React.useMemo(() => ({ getItemProps }), [getItemProps]);
++
+   if (!mounted) return null;
+
+   return (
+@@ -93,9 +95,7 @@
+           animStyle,
+         ]}
+       >
+-        <MenuContext.Provider value={React.useMemo(() => ({ getItemProps }), [getItemProps])}>
++        <MenuContext.Provider value={contextValue}>
+           {children}
+         </MenuContext.Provider>
+       </Animated.View>
