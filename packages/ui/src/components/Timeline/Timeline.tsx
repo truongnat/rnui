@@ -109,11 +109,16 @@ export function TimelineItem({
   );
 }
 
-function extractChildrenByType(children: React.ReactNode, type: React.ElementType) {
+function extractChildrenByType(
+  children: React.ReactNode,
+  type: React.ElementType
+) {
   const items: React.ReactNode[] = [];
   React.Children.forEach(children, (child) => {
     if (React.isValidElement(child) && child.type === type) {
-      const element = child as React.ReactElement<{ children?: React.ReactNode }>;
+      const element = child as React.ReactElement<{
+        children?: React.ReactNode;
+      }>;
       items.push(element.props.children);
     }
   });
@@ -209,7 +214,10 @@ export function TimelineDot({
           ? 'active'
           : 'pending');
   const dotConfig = timeline.dot as Record<string, unknown>;
-  const statusTokens = dotConfig[resolvedStatus] as { bg: string; borderColor: string } | undefined ?? timeline.dot.pending;
+  const statusTokens =
+    (dotConfig[resolvedStatus] as
+      | { bg: string; borderColor: string }
+      | undefined) ?? timeline.dot.pending;
 
   const dotSize = size || timeline.dot.size || 16;
 
