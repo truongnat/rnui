@@ -114,10 +114,9 @@ export function TabBarItem<T = string>({
   const ctx = useContext(
     TabBarContext as React.Context<TabBarContextValue<T> | null>
   );
-  if (!ctx) return null;
 
   const { tokens } = useTheme();
-  const selected = ctx.isSelected(value);
+  const selected = ctx ? ctx.isSelected(value) : false;
   const progress = useSharedValue(selected ? 1 : 0);
 
   React.useEffect(() => {
@@ -146,6 +145,8 @@ export function TabBarItem<T = string>({
     opacity: interpolate(progress.value, [0, 1], [0, 1]),
     transform: [{ scale: interpolate(progress.value, [0, 1], [0, 1]) }],
   }));
+
+  if (!ctx) return null;
 
   const itemProps = ctx.getItemProps(value, disabled);
 
