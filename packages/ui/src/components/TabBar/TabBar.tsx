@@ -35,7 +35,7 @@ interface TabBarContextValue<T = string> {
   getItemProps: (value: T, disabled?: boolean) => { onPress?: () => void };
 }
 
-const TabBarContext = createContext<TabBarContextValue<unknown> | null>(null);
+const TabBarContext = createContext<TabBarContextValue<any> | null>(null);
 
 // ─── Tab Bar ──────────────────────────────────────────────────────
 
