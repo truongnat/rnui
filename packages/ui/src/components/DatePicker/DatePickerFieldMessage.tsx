@@ -29,7 +29,10 @@ export function DatePickerFieldMessage({
           ? input.warningText
           : input.successText;
     return (
-      <Text style={style} accessibilityRole={status === 'error' ? 'alert' : undefined}>
+      <Text
+        style={style}
+        accessibilityRole={status === 'error' ? 'alert' : undefined}
+      >
         {message}
       </Text>
     );
