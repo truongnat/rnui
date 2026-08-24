@@ -72,6 +72,11 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
     transform: [{ scale: scale.value }],
   }));
 
+  const menuContextValue = React.useMemo(
+    () => ({ getItemProps }),
+    [getItemProps]
+  );
+
   if (!mounted) return null;
 
   return (
@@ -94,7 +99,7 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
           animStyle,
         ]}
       >
-        <MenuContext.Provider value={React.useMemo(() => ({ getItemProps }), [getItemProps])}>
+        <MenuContext.Provider value={menuContextValue}>
           {children}
         </MenuContext.Provider>
       </Animated.View>
