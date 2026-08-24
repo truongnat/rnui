@@ -197,19 +197,6 @@ function ButtonInner({
   const leading = startIcon ?? leadingIcon;
   const trailing = endIcon ?? trailingIcon;
 
-  if (
-    typeof __DEV__ !== 'undefined' &&
-    __DEV__ &&
-    !accessibilityLabel &&
-    !label &&
-    !children &&
-    (leading || trailing)
-  ) {
-    console.warn(
-      '[Button] Icon-only buttons should include accessibilityLabel for screen readers.'
-    );
-  }
-
   const renderIcon = (icon: React.ReactNode) => {
     if (!icon) return null;
     if (
