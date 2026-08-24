@@ -56,7 +56,7 @@ describe('usePagination', () => {
   it('should operate in controlled mode', () => {
     const onChange = jest.fn();
     const { result, rerender } = renderHook(
-      (props) => usePagination(props),
+      (props: { count: number; page: number; onChange: jest.Mock }) => usePagination(props),
       { initialProps: { count: 10, page: 5, onChange } }
     );
 
