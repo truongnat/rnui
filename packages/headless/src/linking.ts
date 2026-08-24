@@ -29,7 +29,6 @@ export async function openSafeUrl(url: string): Promise<void> {
   }
   const canOpen = await Linking.canOpenURL(url);
   if (!canOpen) {
-    if (__DEV__) console.warn(`[openSafeUrl] Cannot open URL: ${url}`);
     return;
   }
   await Linking.openURL(url);
