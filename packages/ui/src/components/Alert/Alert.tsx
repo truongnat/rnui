@@ -59,7 +59,13 @@ export function Alert({
       });
     }
     return base;
-  }, [alert.container, severityTokens, variant, tokens.color.surface.sunken, colorScheme]);
+  }, [
+    alert.container,
+    severityTokens,
+    variant,
+    tokens.color.surface.sunken,
+    colorScheme,
+  ]);
 
   if (!isOpen) return null;
 

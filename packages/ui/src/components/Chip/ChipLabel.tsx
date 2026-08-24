@@ -14,7 +14,10 @@ export function ChipLabel({
     <Text
       numberOfLines={1}
       ellipsizeMode="tail"
-      style={[styles.label, { color, fontSize, fontWeight: fontWeight as TextStyle['fontWeight'] }]}
+      style={[
+        styles.label,
+        { color, fontSize, fontWeight: fontWeight as TextStyle['fontWeight'] },
+      ]}
     >
       {children}
     </Text>
