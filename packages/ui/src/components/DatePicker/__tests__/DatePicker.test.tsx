@@ -5,13 +5,13 @@ import { DateInput } from '../DateInput';
 import { DatePicker } from '../DatePicker';
 import { DateRangeInput } from '../DateRangeInput';
 import { DateTimeInput } from '../DateTimeInput';
+import { describe, expect, test, mock, beforeEach, jest } from 'bun:test';
 
-jest.mock('@react-native-community/datetimepicker', () => ({
-  __esModule: true,
-  default: jest.fn(() => null),
+mock.module('@react-native-community/datetimepicker', () => ({
+  default: mock(() => null),
 }));
 
-const DateTimePickerMock = DateTimePicker as unknown as jest.Mock;
+const DateTimePickerMock = DateTimePicker as unknown as ReturnType<typeof mock>;
 
 describe('DatePicker', () => {
   beforeEach(() => {

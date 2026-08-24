@@ -73,7 +73,10 @@ function getPresetRange(preset: DateRangeInputPreset): DateRangeInputValue {
       return { start: startOfMonth(now), end: endOfDay(now) };
     case 'lastMonth': {
       const previousMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      return { start: startOfMonth(previousMonth), end: endOfDay(rawEndOfMonth(previousMonth)) };
+      return {
+        start: startOfMonth(previousMonth),
+        end: endOfDay(rawEndOfMonth(previousMonth)),
+      };
     }
     default:
       return assertNever(preset);
@@ -172,7 +175,13 @@ export function DateRangeInput({
     if (start) return `${formatter(start)} -`;
     if (end) return `- ${formatter(end)}`;
     return placeholder;
-  }, [formatter, placeholder, selectedRange.end, selectedRange.start]);
+  }, [
+    formatter,
+    placeholder,
+    selectedRange.end,
+    selectedRange.start,
+    selectedRange,
+  ]);
 
   const openPicker = useCallback(() => {
     if (disabled) return;
