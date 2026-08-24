@@ -119,7 +119,10 @@ export function Fab({
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={containerStyle as ViewStyle[]} {...accessibilityProps}>
+      <Animated.View
+        style={containerStyle as ViewStyle[]}
+        {...accessibilityProps}
+      >
         <View style={styles.content}>
           {icon ? renderFabIcon(icon, s.iconSize, iconColor) : null}
           {isExtended ? (
