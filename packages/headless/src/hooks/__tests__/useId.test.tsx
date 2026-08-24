@@ -12,7 +12,7 @@ describe('useId', () => {
 
     // React's useId starts with :r and ends with : usually, e.g., :r0:
     // Our hook strips out the colons, so it should be r0 or similar
-    expect((result.current as string)).not.toContain(':');
+    expect(result.current as string).not.toContain(':');
     expect(typeof result.current).toBe('string');
     expect((result.current as string).length).toBeGreaterThan(0);
   });
@@ -20,9 +20,11 @@ describe('useId', () => {
   it('should generate a unique clean ID with a prefix', () => {
     const { result } = renderHook(() => useId(undefined, 'my-prefix'));
 
-    expect((result.current as string)).not.toContain(':');
+    expect(result.current as string).not.toContain(':');
     expect((result.current as string).startsWith('my-prefix-')).toBe(true);
-    expect((result.current as string).length).toBeGreaterThan('my-prefix-'.length);
+    expect((result.current as string).length).toBeGreaterThan(
+      'my-prefix-'.length
+    );
   });
 
   it('should generate consistent IDs across re-renders for the same hook call', () => {
@@ -34,9 +36,12 @@ describe('useId', () => {
   });
 
   it('should generate consistent IDs across re-renders for the same hook call with prefix', () => {
-    const { result, rerender } = renderHook((props: { prefix: string }) => useId(undefined, props.prefix), {
-      initialProps: { prefix: 'prefix1' }
-    });
+    const { result, rerender } = renderHook(
+      (props: { prefix: string }) => useId(undefined, props.prefix),
+      {
+        initialProps: { prefix: 'prefix1' },
+      }
+    );
 
     const initialId = result.current;
 
@@ -45,9 +50,12 @@ describe('useId', () => {
   });
 
   it('should update the ID if prefix prop changes', () => {
-    const { result, rerender } = renderHook((props: { prefix: string }) => useId(undefined, props.prefix), {
-      initialProps: { prefix: 'prefix1' }
-    });
+    const { result, rerender } = renderHook(
+      (props: { prefix: string }) => useId(undefined, props.prefix),
+      {
+        initialProps: { prefix: 'prefix1' },
+      }
+    );
 
     const initialId = result.current;
 
