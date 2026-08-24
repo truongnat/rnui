@@ -96,9 +96,7 @@ export function Menu({ open, onClose, anchorEl, children }: MenuProps) {
           animStyle,
         ]}
       >
-        <MenuContext.Provider
-          value={contextValue}
-        >
+        <MenuContext.Provider value={contextValue}>
           {children}
         </MenuContext.Provider>
       </Animated.View>
