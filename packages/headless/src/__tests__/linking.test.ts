@@ -19,15 +19,24 @@ beforeEach(() => {
 
 describe('parseUrl', () => {
   it('allows http:', () => {
-    expect(parseUrl('http://example.com')).toEqual({ scheme: 'http:', safe: true });
+    expect(parseUrl('http://example.com')).toEqual({
+      scheme: 'http:',
+      safe: true,
+    });
   });
 
   it('allows https:', () => {
-    expect(parseUrl('https://example.com')).toEqual({ scheme: 'https:', safe: true });
+    expect(parseUrl('https://example.com')).toEqual({
+      scheme: 'https:',
+      safe: true,
+    });
   });
 
   it('allows mailto:', () => {
-    expect(parseUrl('mailto:test@example.com')).toEqual({ scheme: 'mailto:', safe: true });
+    expect(parseUrl('mailto:test@example.com')).toEqual({
+      scheme: 'mailto:',
+      safe: true,
+    });
   });
 
   it('allows tel:', () => {
@@ -39,15 +48,24 @@ describe('parseUrl', () => {
   });
 
   it('blocks javascript:', () => {
-    expect(parseUrl('javascript:alert(1)')).toEqual({ scheme: 'javascript:', safe: false });
+    expect(parseUrl('javascript:alert(1)')).toEqual({
+      scheme: 'javascript:',
+      safe: false,
+    });
   });
 
   it('blocks file:', () => {
-    expect(parseUrl('file:///etc/passwd')).toEqual({ scheme: 'file:', safe: false });
+    expect(parseUrl('file:///etc/passwd')).toEqual({
+      scheme: 'file:',
+      safe: false,
+    });
   });
 
   it('blocks data:', () => {
-    expect(parseUrl('data:text/html,<script>')).toEqual({ scheme: 'data:', safe: false });
+    expect(parseUrl('data:text/html,<script>')).toEqual({
+      scheme: 'data:',
+      safe: false,
+    });
   });
 
   it('returns null for empty URL', () => {
