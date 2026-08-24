@@ -46,10 +46,7 @@ export function TabBar<T = string>({
   children,
   glassEffect = true,
 }: TabBarProps<T>) {
-  const {
-    components: { bottomNavigation },
-    tokens,
-  } = useTheme();
+  const { tokens } = useTheme();
 
   const [internalValue, setInternalValue] = React.useState<T | undefined>(
     defaultValue
@@ -114,10 +111,10 @@ export function TabBarItem<T = string>({
   const ctx = useContext(
     TabBarContext as React.Context<TabBarContextValue<T> | null>
   );
-  if (!ctx) return null;
 
   const { tokens } = useTheme();
-  const selected = ctx.isSelected(value);
+  // If ctx is null, we safely default to unselected to keep hooks identical.
+  const selected = ctx ? ctx.isSelected(value) : false;
   const progress = useSharedValue(selected ? 1 : 0);
 
   React.useEffect(() => {
@@ -146,6 +143,8 @@ export function TabBarItem<T = string>({
     opacity: interpolate(progress.value, [0, 1], [0, 1]),
     transform: [{ scale: interpolate(progress.value, [0, 1], [0, 1]) }],
   }));
+
+  if (!ctx) return null;
 
   const itemProps = ctx.getItemProps(value, disabled);
 
