@@ -76,7 +76,7 @@ export function TabBar<T = string>({
   );
 
   return (
-    <TabBarContext.Provider value={contextValue}>
+    <TabBarContext.Provider value={contextValue as any}>
       <View
         style={[
           styles.container,
