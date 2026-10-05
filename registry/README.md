@@ -28,7 +28,7 @@ registry/
   templates/
     components.json          # consumer-side shadcn config template
     setup.md                 # manual setup steps (what `rnui init` will automate)
-scripts/build-registry.mjs   # catalog -> docs/public/r/<variant>/<item>.json
+scripts/build-registry.mjs   # catalog -> registry/dist/<variant>/<item>.json
 ```
 
 ## Resolution rules (builder)
@@ -44,13 +44,14 @@ scripts/build-registry.mjs   # catalog -> docs/public/r/<variant>/<item>.json
 ## Commands
 
 ```bash
-bun run registry:build                              # emit docs/public/r/{nativewind,uniwind}/*.json
+bun run registry:build                              # emit registry/dist/{nativewind,uniwind}/*.json
 RNUI_REGISTRY_BASE_URL=http://localhost:4999/r \
   node scripts/build-registry.mjs                    # rebuild with resolvable dep URLs
-python3 -m http.server 4999 -d docs/public           # serve locally for e2e
+python3 -m http.server 4999 -d registry/dist          # serve locally for e2e
 ```
 
-`docs:build` runs the builder automatically so the Vercel docs deploy serves `/r/`.
+`registry/dist/` is committed and served via GitHub raw on `master` —
+`https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/...`.
 
 ## Authoring rules
 
@@ -114,7 +115,7 @@ over the default `theme` dependency every UI item carries.
    `variants/<variant>/ui/<name>.tsx` (same relative path under `variants/`).
 4. `bun run registry:build` and verify the JSON contains the override content
    for that variant only.
-5. e2e: serve `docs/public` and `npx shadcn add <url>` in a test app.
+5. e2e: serve `registry/dist` and `npx shadcn add <url>` in a test app.
 
 ## Consumer flow
 

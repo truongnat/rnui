@@ -9,7 +9,7 @@
  * - A file entry with `variants: [...]` is only emitted for those variants.
  * - For a `shared/...` src, if `variants/<variant>/...` exists it overrides.
  * - `registryDependencies` bare names are rewritten to absolute URLs when
- *   RNUI_REGISTRY_BASE_URL is set (e.g. https://rnui.vercel.app/r -> .../nativewind/utils.json).
+ *   RNUI_REGISTRY_BASE_URL is set (e.g. https://raw.githubusercontent.com/.../dist -> .../nativewind/utils.json).
  */
 import {
   existsSync,
@@ -24,10 +24,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY_DIR = join(ROOT, 'registry');
-const OUT_DIR = join(ROOT, 'docs', 'public', 'r');
+const OUT_DIR = join(ROOT, 'registry', 'dist');
 const VARIANTS = ['nativewind', 'uniwind'];
 const BASE_URL = (
-  process.env.RNUI_REGISTRY_BASE_URL ?? 'https://rnui.vercel.app/r'
+  process.env.RNUI_REGISTRY_BASE_URL ??
+    'https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist'
 ).replace(/\/$/, '');
 
 const catalog = JSON.parse(

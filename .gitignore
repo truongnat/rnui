@@ -2,13 +2,11 @@
 node_modules
 packages/*/node_modules
 apps/*/node_modules
-docs/node_modules
 
 # Build outputs
 dist/
 dist-types/
 build/
-docs/public/r/
 packages/*/dist/
 packages/*/dist-types/
 packages/*/build/

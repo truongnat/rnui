@@ -155,13 +155,14 @@ npx github:truongnat/rnui#cli add theme-matcha  # switch brand theme
 Or with the shadcn CLI directly:
 
 ```bash
-npx shadcn add <registry-base>/r/nativewind/button.json
-npx shadcn add <registry-base>/r/uniwind/button.json
+npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/button.json
+npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/button.json
 ```
 
 Two styling-engine variants are served: `nativewind` (Tailwind v3) and
 `uniwind` (Tailwind v4). Sources live in [`registry/`](registry/), build with
-`bun run registry:build` → `docs/public/r/`, and are documented in
+`bun run registry:build` → `registry/dist/` (committed, served via
+GitHub raw on `master`), documented in
 [`registry/README.md`](registry/README.md). Consumer setup:
 [`registry/templates/setup.md`](registry/templates/setup.md). Brand themes are
 generated from `packages/themes` via `bun run registry:themes` →
@@ -179,7 +180,6 @@ bun run build
 bun run typecheck
 bun run lint
 bun run test
-bun run docs
 ```
 
 ### Example app
@@ -191,15 +191,6 @@ cd apps/example
 bun run ios
 bun run android
 ```
-
-### Documentation site
-
-```bash
-bun run docs          # dev server at http://localhost:4321
-bun run docs:build    # production build
-```
-
-See [`docs/README.md`](docs/README.md) for docs site structure.
 
 ## Architecture
 
@@ -213,7 +204,7 @@ See [`docs/README.md`](docs/README.md) for docs site structure.
 @truongdq01/themes     optional brand presets
 ```
 
-Component inventory and maturity notes: [Component status](docs/src/content/docs/components/status.md) (also on the docs site when built).
+Component inventory: `registry/registry.json` catalog (64 UI components + 4 blocks + 7 brand themes).
 
 ## AI-native usage
 
@@ -237,7 +228,7 @@ Validate AI files: `bun run ai:check`
 Build a clean mobile settings screen using only RNUI components. Read .ai/rnui.manifest.json first, follow .ai/design-rules.md, and use components from .ai/component-registry.json. Do not create custom Button, Card, Input, Typography, or layout primitives.
 ```
 
-Docs: [AI usage guide](docs/src/content/docs/guides/ai-usage.md) (also on the docs site under Introduction → AI usage).
+
 
 ## Scripts
 
@@ -248,8 +239,6 @@ Docs: [AI usage guide](docs/src/content/docs/guides/ai-usage.md) (also on the do
 | `bun run typecheck` | TypeScript check (all packages with a `typecheck` script) |
 | `bun run lint` | Biome lint + format check |
 | `bun run test` | Unit tests |
-| `bun run docs` | Start docs dev server |
-| `bun run docs:build` | Build docs site |
 | `bun run demo` | Start Expo example app (dev client) |
 | `bun run demo:go` | Start example app in Expo Go |
 | `bun run ai:check` | Verify AI metadata files exist |

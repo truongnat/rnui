@@ -5,8 +5,7 @@
   "workspaces": [
     "packages/*",
     "apps/*",
-    "apps/web",
-    "docs"
+    "apps/web"
   ],
   "scripts": {
     "build": "turbo build",
@@ -20,11 +19,8 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "turbo build && changeset publish",
-    "docs": "cd docs && bun start",
-    "docs:build": "node scripts/build-registry.mjs && cd docs && bun run build",
     "registry:build": "node scripts/build-registry.mjs",
     "registry:themes": "bun scripts/gen-themes.mts",
-    "registry:docs": "node scripts/gen-component-docs.mjs",
     "demo": "cd apps/example && bun run start",
     "demo:go": "cd apps/example && bun run start:go",
     "ai:check": "bun run ai:check:files",
@@ -35,8 +31,6 @@
     "web:dev": "cd apps/web && bun run dev",
     "web:dev:clean": "cd apps/web && bun run dev:clean",
     "web:build": "cd apps/web && bun run build",
-    "docs-new:dev": "cd apps/docs-new && bun run dev",
-    "docs-new:build": "cd apps/docs-new && bun run build",
     "builder:dev": "cd apps/web && bun run dev",
     "builder:build": "cd apps/web && bun run build"
   },

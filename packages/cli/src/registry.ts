@@ -3,7 +3,7 @@ export type Variant = 'nativewind' | 'uniwind';
 export const VARIANTS: Variant[] = ['nativewind', 'uniwind'];
 
 // TODO: replace with the real docs domain before publishing the CLI.
-export const DEFAULT_REGISTRY_BASE = 'https://rnui.vercel.app/r';
+export const DEFAULT_REGISTRY_BASE = 'https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist';
 
 export interface RegistryOptions {
   registry?: string;
