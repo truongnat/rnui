@@ -118,13 +118,25 @@ over the default `theme` dependency every UI item carries.
 
 ## Consumer flow
 
-With the CLI (`packages/cli`, not yet published):
+With the CLI — served straight from git, no npm publish needed (the `cli`
+branch contains only the bundled `cli.js`, rebuilt from `packages/cli`):
 
 ```bash
-npx @rnui/cli init        # picks variant, installs engine deps, writes configs
-npx @rnui/cli add button  # wraps `npx shadcn add <base>/r/<variant>/button.json`
-npx @rnui/cli list        # shows catalog index
+npx github:truongnat/rnui#cli init        # picks variant, installs engine deps, writes configs
+npx github:truongnat/rnui#cli add button  # wraps `npx shadcn add <base>/r/<variant>/button.json`
+npx github:truongnat/rnui#cli list        # shows catalog index
 ```
 
 Or manually, equivalent steps: [`templates/setup.md`](templates/setup.md) +
 `npx shadcn add <registry-base>/r/<variant>/<item>.json`.
+
+### Updating the `cli` branch
+
+The `cli` branch is a dist-only mirror consumed via `npx github:...#cli`:
+
+```bash
+bun --cwd packages/cli run build                    # -> packages/cli/dist/cli.js
+git worktree add /tmp/rnui-cli-dist cli
+cp packages/cli/dist/cli.js /tmp/rnui-cli-dist/cli.js
+cd /tmp/rnui-cli-dist && git commit -am "cli: rebuild" && git push origin cli
+```

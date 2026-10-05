@@ -408,3 +408,8 @@ nhóm cần lib riêng (`chart`, `data-table`, `sonner`).
 
 - `DEFAULT_REGISTRY_BASE` → `https://rnui.vercel.app/r`; builder mặc định cùng base (env `RNUI_REGISTRY_BASE_URL` override cho local).
 - Dist rebuilt. `@rnui/cli` chưa publish — cần npm org `rnui` hoặc đổi tên `@truongdq01/cli`.
+- **CLI distribution đổi sang `npx github:`** — không publish npm. Orphan-style
+  branch `cli` chỉ chứa `package.json` + `cli.js` (tsup bundle 56KB,
+  `noExternal: ['@clack/prompts']`). Dùng: `npx github:truongnat/rnui#cli`.
+  Đã e2e `list` thành công từ git remote. Rebuild workflow ghi trong
+  `registry/README.md` § Updating the cli branch.

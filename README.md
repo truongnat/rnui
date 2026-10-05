@@ -142,13 +142,14 @@ function PressableSurface({ onPress, children }) {
 ## Registry (new — experimental)
 
 RNUI is also available as a **shadcn-compatible copy-paste registry** — install
-component source directly into your app. The easiest path is the RNUI CLI
-(`packages/cli`, not yet published):
+component source directly into your app. The easiest path is the RNUI CLI,
+which runs straight from git (no npm publish — the `cli` branch ships the
+bundled CLI):
 
 ```bash
-npx @rnui/cli init            # one-time: engine deps + metro/babel + theme
-npx @rnui/cli add button      # install components
-npx @rnui/cli add theme-matcha  # switch brand theme
+npx github:truongnat/rnui#cli init            # one-time: engine deps + metro/babel + theme
+npx github:truongnat/rnui#cli add button      # install components
+npx github:truongnat/rnui#cli add theme-matcha  # switch brand theme
 ```
 
 Or with the shadcn CLI directly:
