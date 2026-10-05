@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "avatar",
+  "type": "registry:ui",
+  "title": "Avatar",
+  "description": "Avatar + image + fallback with load-state handling.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/avatar.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/avatar.tsx",
+      "content": "import { createContext, useContext, useState } from 'react';\nimport { Image, type ImageProps, View, type ViewProps } from 'react-native';\nimport { Text } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\ntype LoadState = 'loading' | 'loaded' | 'error';\n\nconst AvatarContext = createContext<{ setLoad: (v: LoadState) => void }>({\n  setLoad: () => {},\n});\n\nexport interface AvatarProps extends ViewProps {\n  className?: string;\n}\n\nexport function Avatar({ className, children, ...props }: AvatarProps) {\n  const [_load, setLoad] = useState<LoadState>('loading');\n\n  return (\n    <AvatarContext.Provider value={{ setLoad }}>\n      <View\n        className={cn(\n          'relative h-10 w-10 overflow-hidden rounded-full',\n          className\n        )}\n        {...props}\n      >\n        {children}\n      </View>\n    </AvatarContext.Provider>\n  );\n}\n\nexport interface AvatarImageProps extends ImageProps {\n  className?: string;\n}\n\nexport function AvatarImage({\n  className,\n  style,\n  onLoad,\n  onError,\n  ...props\n}: AvatarImageProps) {\n  const { setLoad } = useContext(AvatarContext);\n  const [failed, setFailed] = useState(false);\n  if (failed) return null;\n\n  return (\n    <Image\n      className={cn('absolute inset-0 h-full w-full', className)}\n      style={[{ zIndex: 1 }, style]}\n      onLoad={(e) => {\n        setLoad('loaded');\n        onLoad?.(e);\n      }}\n      onError={(e) => {\n        setLoad('error');\n        setFailed(true);\n        onError?.(e);\n      }}\n      {...props}\n    />\n  );\n}\n\nexport interface AvatarFallbackProps extends ViewProps {\n  className?: string;\n}\n\nexport function AvatarFallback({\n  className,\n  children,\n  ...props\n}: AvatarFallbackProps) {\n  return (\n    <View\n      className={cn(\n        'absolute inset-0 items-center justify-center bg-muted',\n        className\n      )}\n      {...props}\n    >\n      {typeof children === 'string' ? (\n        <Text className=\"text-sm font-medium text-muted-foreground\">\n          {children}\n        </Text>\n      ) : (\n        children\n      )}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

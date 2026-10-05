@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dialog",
+  "type": "registry:ui",
+  "title": "Dialog",
+  "description": "Modal dialog with title/description/footer slots.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/dialog.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/dialog.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { Modal, Pressable, View, type ViewProps } from 'react-native';\nimport { Text, type TextProps } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface DialogProps {\n  open: boolean;\n  onOpenChange?: (open: boolean) => void;\n  children?: ReactNode;\n}\n\nexport function Dialog({ open, onOpenChange, children }: DialogProps) {\n  return (\n    <Modal\n      visible={open}\n      transparent\n      animationType=\"fade\"\n      onRequestClose={() => onOpenChange?.(false)}\n    >\n      <Pressable\n        className=\"flex-1 items-center justify-center bg-black/50 p-6\"\n        onPress={() => onOpenChange?.(false)}\n      >\n        <Pressable\n          className=\"w-full max-w-sm rounded-2xl border border-border bg-background p-6\"\n          onPress={(e) => e.stopPropagation()}\n        >\n          {children}\n        </Pressable>\n      </Pressable>\n    </Modal>\n  );\n}\n\nexport function DialogTitle({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('text-lg font-semibold text-foreground', className)}\n      {...props}\n    />\n  );\n}\n\nexport function DialogDescription({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('mt-1.5 text-sm text-muted-foreground', className)}\n      {...props}\n    />\n  );\n}\n\nexport function DialogFooter({\n  className,\n  ...props\n}: ViewProps & { className?: string }) {\n  return (\n    <View\n      className={cn('mt-6 flex-row justify-end gap-2', className)}\n      {...props}\n    />\n  );\n}\n"
+    }
+  ]
+}

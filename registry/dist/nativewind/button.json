@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button",
+  "type": "registry:ui",
+  "title": "Button",
+  "description": "Pressable button with variant + size styles via tailwind-variants slots.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "dependencies": [
+    "tailwind-variants"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/button.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/button.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { Pressable, Text, type PressableProps } from 'react-native';\nimport { tv } from 'tailwind-variants';\nimport { cn } from '@/lib/utils';\n\nconst buttonVariants = tv({\n  slots: {\n    base: 'flex-row items-center justify-center gap-2 rounded-md disabled:opacity-50',\n    label: 'font-medium',\n  },\n  variants: {\n    variant: {\n      default: {\n        base: 'bg-primary active:opacity-90',\n        label: 'text-primary-foreground',\n      },\n      destructive: {\n        base: 'bg-destructive active:opacity-90',\n        label: 'text-destructive-foreground',\n      },\n      outline: {\n        base: 'border border-border bg-background active:bg-accent',\n        label: 'text-foreground',\n      },\n      secondary: {\n        base: 'bg-secondary active:opacity-80',\n        label: 'text-secondary-foreground',\n      },\n      ghost: {\n        base: 'active:bg-accent',\n        label: 'text-foreground',\n      },\n      link: {\n        label: 'text-primary underline',\n      },\n    },\n    size: {\n      default: { base: 'h-10 px-4', label: 'text-sm' },\n      sm: { base: 'h-9 px-3', label: 'text-sm' },\n      lg: { base: 'h-11 px-8', label: 'text-base' },\n      icon: { base: 'h-10 w-10' },\n    },\n  },\n  defaultVariants: {\n    variant: 'default',\n    size: 'default',\n  },\n});\n\nexport type ButtonVariant =\n  | 'default'\n  | 'destructive'\n  | 'outline'\n  | 'secondary'\n  | 'ghost'\n  | 'link';\nexport type ButtonSize = 'default' | 'sm' | 'lg' | 'icon';\n\nexport interface ButtonProps\n  extends Omit<PressableProps, 'children' | 'style'> {\n  variant?: ButtonVariant;\n  size?: ButtonSize;\n  className?: string;\n  labelClassName?: string;\n  children?: ReactNode;\n}\n\nexport function Button({\n  variant = 'default',\n  size = 'default',\n  className,\n  labelClassName,\n  children,\n  ...props\n}: ButtonProps) {\n  const { base, label } = buttonVariants({ variant, size });\n\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      className={cn(base(), className)}\n      {...props}\n    >\n      {typeof children === 'string' || typeof children === 'number' ? (\n        <Text className={cn(label(), labelClassName)}>{children}</Text>\n      ) : (\n        children\n      )}\n    </Pressable>\n  );\n}\n"
+    }
+  ]
+}

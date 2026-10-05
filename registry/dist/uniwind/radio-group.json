@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radio-group",
+  "type": "registry:ui",
+  "title": "Radio Group",
+  "description": "Context-based radio group + item.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/radio-group.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/radio-group.tsx",
+      "content": "import { createContext, useContext } from 'react';\nimport {\n  Pressable,\n  View,\n  type PressableProps,\n  type ViewProps,\n} from 'react-native';\nimport { cn } from '@/lib/utils';\n\ninterface RadioGroupContextValue {\n  value: string;\n  onValueChange?: (value: string) => void;\n}\n\nconst RadioGroupContext = createContext<RadioGroupContextValue>({\n  value: '',\n});\n\nexport interface RadioGroupProps extends ViewProps {\n  value?: string;\n  onValueChange?: (value: string) => void;\n  className?: string;\n}\n\nexport function RadioGroup({\n  value = '',\n  onValueChange,\n  className,\n  ...props\n}: RadioGroupProps) {\n  return (\n    <RadioGroupContext.Provider value={{ value, onValueChange }}>\n      <View\n        accessibilityRole=\"radiogroup\"\n        className={cn('gap-3', className)}\n        {...props}\n      />\n    </RadioGroupContext.Provider>\n  );\n}\n\nexport interface RadioGroupItemProps extends Omit<PressableProps, 'children'> {\n  value: string;\n  className?: string;\n}\n\nexport function RadioGroupItem({\n  value,\n  className,\n  disabled,\n  ...props\n}: RadioGroupItemProps) {\n  const group = useContext(RadioGroupContext);\n  const checked = group.value === value;\n\n  return (\n    <Pressable\n      accessibilityRole=\"radio\"\n      accessibilityState={{ checked, disabled: !!disabled }}\n      disabled={disabled}\n      onPress={() => group.onValueChange?.(value)}\n      className={cn(\n        'h-5 w-5 items-center justify-center rounded-full border border-primary',\n        disabled && 'opacity-50',\n        className\n      )}\n      {...props}\n    >\n      {checked && <View className=\"h-2.5 w-2.5 rounded-full bg-primary\" />}\n    </Pressable>\n  );\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox",
+  "type": "registry:ui",
+  "title": "Checkbox",
+  "description": "Pressable checkbox with lucide check icon.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "dependencies": [
+    "lucide-react-native"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/checkbox.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/checkbox.tsx",
+      "content": "import { Check } from 'lucide-react-native';\nimport { Pressable, type PressableProps } from 'react-native';\nimport { useColorScheme } from 'react-native';\nimport { cn } from '@/lib/utils';\n\nexport interface CheckboxProps extends Omit<PressableProps, 'children'> {\n  checked?: boolean;\n  onCheckedChange?: (checked: boolean) => void;\n  className?: string;\n}\n\nexport function Checkbox({\n  checked = false,\n  onCheckedChange,\n  className,\n  disabled,\n  ...props\n}: CheckboxProps) {\n  const scheme = useColorScheme();\n  const iconColor = scheme === 'dark' ? '#1c1917' : '#fafaf9';\n\n  return (\n    <Pressable\n      accessibilityRole=\"checkbox\"\n      accessibilityState={{ checked, disabled: !!disabled }}\n      disabled={disabled}\n      onPress={() => onCheckedChange?.(!checked)}\n      className={cn(\n        'h-5 w-5 items-center justify-center rounded border border-primary',\n        checked && 'bg-primary',\n        disabled && 'opacity-50',\n        className\n      )}\n      {...props}\n    >\n      {checked && <Check size={14} color={iconColor} strokeWidth={3} />}\n    </Pressable>\n  );\n}\n"
+    }
+  ]
+}

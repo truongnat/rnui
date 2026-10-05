@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "app-bar",
+  "type": "registry:ui",
+  "title": "App Bar",
+  "description": "Top navigation bar with leading/back, title, and trailing actions.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "dependencies": [
+    "lucide-react-native"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/app-bar.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/app-bar.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { Pressable, useColorScheme, View, type ViewProps } from 'react-native';\nimport { ChevronLeft } from 'lucide-react-native';\nimport { Text, type TextProps } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface AppBarProps extends ViewProps {\n  /** Rendered on the leading edge (overrides `onBack`). */\n  leading?: ReactNode;\n  /** Shows a back chevron when provided. */\n  onBack?: () => void;\n  trailing?: ReactNode;\n  className?: string;\n  children?: ReactNode;\n}\n\nexport function AppBar({\n  leading,\n  onBack,\n  trailing,\n  className,\n  children,\n  ...props\n}: AppBarProps) {\n  const iconColor = useColorScheme() === 'dark' ? '#fafafa' : '#18181b';\n  return (\n    <View\n      className={cn(\n        'min-h-14 flex-row items-center border-b border-border bg-background px-2 py-2',\n        className\n      )}\n      {...props}\n    >\n      <View className=\"min-w-10 flex-row items-center\">\n        {leading ??\n          (onBack && (\n            <Pressable\n              accessibilityRole=\"button\"\n              accessibilityLabel=\"Back\"\n              onPress={onBack}\n              className=\"rounded-full p-2 active:bg-accent\"\n            >\n              <ChevronLeft size={22} color={iconColor} />\n            </Pressable>\n          ))}\n      </View>\n      <View className=\"flex-1 flex-row items-center\">{children}</View>\n      <View className=\"min-w-10 flex-row items-center justify-end\">\n        {trailing}\n      </View>\n    </View>\n  );\n}\n\nexport function AppBarTitle({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('text-lg font-semibold text-foreground', className)}\n      {...props}\n    />\n  );\n}\n\nexport function AppBarSubtitle({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('text-xs text-muted-foreground', className)}\n      {...props}\n    />\n  );\n}\n\nexport function AppBarAction({\n  className,\n  children,\n  ...props\n}: {\n  className?: string;\n  children?: ReactNode;\n  onPress?: () => void;\n}) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      className={cn('rounded-full p-2 active:bg-accent', className)}\n      {...props}\n    >\n      {children}\n    </Pressable>\n  );\n}\n"
+    }
+  ]
+}

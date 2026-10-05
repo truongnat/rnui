@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bottom-navigation",
+  "type": "registry:ui",
+  "title": "Bottom Navigation",
+  "description": "Tab bar with icon+label items.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/bottom-navigation.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/bottom-navigation.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { Pressable, View, type ViewProps } from 'react-native';\nimport { Text } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface BottomNavigationItem {\n  key: string;\n  label: string;\n  /** Icon node — receives no props; tint it per state yourself or use `renderIcon`. */\n  icon?: ReactNode;\n  /** Custom per-state icon renderer. */\n  renderIcon?: (active: boolean) => ReactNode;\n}\n\nexport interface BottomNavigationProps extends ViewProps {\n  items: BottomNavigationItem[];\n  value: string;\n  onValueChange?: (key: string) => void;\n  className?: string;\n}\n\nexport function BottomNavigation({\n  items,\n  value,\n  onValueChange,\n  className,\n  ...props\n}: BottomNavigationProps) {\n  return (\n    <View\n      accessibilityRole=\"tablist\"\n      className={cn(\n        'flex-row border-t border-border bg-background pb-1 pt-1',\n        className\n      )}\n      {...props}\n    >\n      {items.map((item) => {\n        const active = item.key === value;\n        return (\n          <Pressable\n            key={item.key}\n            accessibilityRole=\"tab\"\n            accessibilityState={{ selected: active }}\n            onPress={() => onValueChange?.(item.key)}\n            className=\"flex-1 items-center gap-0.5 py-1.5\"\n          >\n            {item.renderIcon ? item.renderIcon(active) : item.icon}\n            <Text\n              className={cn(\n                'text-xs',\n                active ? 'font-medium text-foreground' : 'text-muted-foreground'\n              )}\n            >\n              {item.label}\n            </Text>\n          </Pressable>\n        );\n      })}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

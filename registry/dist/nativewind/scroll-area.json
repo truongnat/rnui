@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroll-area",
+  "type": "registry:ui",
+  "title": "Scroll Area",
+  "description": "ScrollView wrapper with themed defaults.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/scroll-area.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/scroll-area.tsx",
+      "content": "import { ScrollView, type ScrollViewProps } from 'react-native';\nimport { cn } from '@/lib/utils';\n\nexport interface ScrollAreaProps extends ScrollViewProps {\n  className?: string;\n}\n\nexport function ScrollArea({\n  className,\n  children,\n  showsVerticalScrollIndicator = true,\n  ...props\n}: ScrollAreaProps) {\n  return (\n    <ScrollView\n      className={cn('flex-1', className)}\n      showsVerticalScrollIndicator={showsVerticalScrollIndicator}\n      {...props}\n    >\n      {children}\n    </ScrollView>\n  );\n}\n"
+    }
+  ]
+}

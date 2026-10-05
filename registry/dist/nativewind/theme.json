@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme",
+  "type": "registry:item",
+  "title": "Theme",
+  "description": "Semantic color contract + styling setup files for the selected engine variant.",
+  "files": [
+    {
+      "path": "registry/variants/nativewind/global.css",
+      "type": "registry:file",
+      "target": "global.css",
+      "content": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n:root {\n  --background: 0 0% 100%;\n  --foreground: 240 10% 3.9%;\n  --card: 0 0% 100%;\n  --card-foreground: 240 10% 3.9%;\n  --popover: 0 0% 100%;\n  --popover-foreground: 240 10% 3.9%;\n  --primary: 240 5.9% 10%;\n  --primary-foreground: 0 0% 98%;\n  --secondary: 240 4.8% 95.9%;\n  --secondary-foreground: 240 5.9% 10%;\n  --muted: 240 4.8% 95.9%;\n  --muted-foreground: 240 3.8% 46.1%;\n  --accent: 240 4.8% 95.9%;\n  --accent-foreground: 240 5.9% 10%;\n  --destructive: 0 84.2% 60.2%;\n  --destructive-foreground: 0 0% 98%;\n  --border: 240 5.9% 90%;\n  --input: 240 5.9% 90%;\n  --ring: 240 10% 3.9%;\n  --radius: 0.5rem;\n}\n\n.dark:root {\n  --background: 240 10% 3.9%;\n  --foreground: 0 0% 98%;\n  --card: 240 10% 3.9%;\n  --card-foreground: 0 0% 98%;\n  --popover: 240 10% 3.9%;\n  --popover-foreground: 0 0% 98%;\n  --primary: 0 0% 98%;\n  --primary-foreground: 240 5.9% 10%;\n  --secondary: 240 3.7% 15.9%;\n  --secondary-foreground: 0 0% 98%;\n  --muted: 240 3.7% 15.9%;\n  --muted-foreground: 240 5% 64.9%;\n  --accent: 240 3.7% 15.9%;\n  --accent-foreground: 0 0% 98%;\n  --destructive: 0 62.8% 30.6%;\n  --destructive-foreground: 0 0% 98%;\n  --border: 240 3.7% 15.9%;\n  --input: 240 3.7% 15.9%;\n  --ring: 240 4.9% 83.9%;\n}\n"
+    },
+    {
+      "path": "registry/variants/nativewind/tailwind.config.ts",
+      "type": "registry:file",
+      "target": "tailwind.config.ts",
+      "content": "import type { Config } from 'tailwindcss';\n\nconst config: Config = {\n  darkMode: 'class',\n  content: [\n    './app/**/*.{ts,tsx}',\n    './components/**/*.{ts,tsx}',\n    './lib/**/*.{ts,tsx}',\n    './src/**/*.{ts,tsx}',\n  ],\n  presets: [require('nativewind/preset')],\n  theme: {\n    extend: {\n      colors: {\n        border: 'hsl(var(--border))',\n        input: 'hsl(var(--input))',\n        ring: 'hsl(var(--ring))',\n        background: 'hsl(var(--background))',\n        foreground: 'hsl(var(--foreground))',\n        primary: {\n          DEFAULT: 'hsl(var(--primary))',\n          foreground: 'hsl(var(--primary-foreground))',\n        },\n        secondary: {\n          DEFAULT: 'hsl(var(--secondary))',\n          foreground: 'hsl(var(--secondary-foreground))',\n        },\n        destructive: {\n          DEFAULT: 'hsl(var(--destructive))',\n          foreground: 'hsl(var(--destructive-foreground))',\n        },\n        muted: {\n          DEFAULT: 'hsl(var(--muted))',\n          foreground: 'hsl(var(--muted-foreground))',\n        },\n        accent: {\n          DEFAULT: 'hsl(var(--accent))',\n          foreground: 'hsl(var(--accent-foreground))',\n        },\n        popover: {\n          DEFAULT: 'hsl(var(--popover))',\n          foreground: 'hsl(var(--popover-foreground))',\n        },\n        card: {\n          DEFAULT: 'hsl(var(--card))',\n          foreground: 'hsl(var(--card-foreground))',\n        },\n      },\n      borderRadius: {\n        lg: 'var(--radius)',\n        md: 'calc(var(--radius) - 2px)',\n        sm: 'calc(var(--radius) - 4px)',\n      },\n    },\n  },\n  plugins: [],\n};\n\nexport default config;\n"
+    },
+    {
+      "path": "registry/variants/nativewind/nativewind-env.d.ts",
+      "type": "registry:file",
+      "target": "nativewind-env.d.ts",
+      "content": "/// <reference types=\"nativewind/types\" />\n\ndeclare module '*.css';\n"
+    }
+  ]
+}

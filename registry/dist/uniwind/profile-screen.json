@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "profile-screen",
+  "type": "registry:block",
+  "title": "Profile Screen",
+  "description": "Avatar, stats card, bio and actions.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/avatar.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/badge.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/button.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/card.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/separator.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json"
+  ],
+  "files": [
+    {
+      "path": "registry/blocks/profile-screen.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/profile-screen.tsx",
+      "content": "import { ScrollView, View } from 'react-native';\nimport { Avatar, AvatarFallback } from '@/components/ui/avatar';\nimport { Badge } from '@/components/ui/badge';\nimport { Button } from '@/components/ui/button';\nimport { Card, CardContent } from '@/components/ui/card';\nimport { Separator } from '@/components/ui/separator';\nimport { Text } from '@/components/ui/text';\n\nconst STATS = [\n  { label: 'Posts', value: '128' },\n  { label: 'Followers', value: '4.2k' },\n  { label: 'Following', value: '312' },\n];\n\nexport function ProfileScreen() {\n  return (\n    <ScrollView className=\"flex-1 bg-background\">\n      <View className=\"items-center gap-2 px-6 pb-6 pt-10\">\n        <Avatar className=\"h-20 w-20\">\n          <AvatarFallback className=\"text-2xl\">TQ</AvatarFallback>\n        </Avatar>\n        <Text className=\"text-xl font-semibold text-foreground\">Truong DQ</Text>\n        <Text className=\"text-sm text-muted-foreground\">@truongdq</Text>\n        <View className=\"mt-1 flex-row gap-2\">\n          <Badge variant=\"secondary\">Developer</Badge>\n          <Badge variant=\"outline\">Hanoi</Badge>\n        </View>\n        <View className=\"mt-3 flex-row gap-2\">\n          <Button size=\"sm\">Follow</Button>\n          <Button size=\"sm\" variant=\"outline\">\n            Message\n          </Button>\n        </View>\n      </View>\n      <Card className=\"mx-4 mb-6\">\n        <CardContent className=\"flex-row justify-around py-4\">\n          {STATS.map((s, i) => (\n            <View key={s.label} className=\"flex-1 flex-row items-center\">\n              {i > 0 && <Separator />}\n              <View className=\"flex-1 items-center\">\n                <Text className=\"text-lg font-semibold text-foreground\">\n                  {s.value}\n                </Text>\n                <Text className=\"text-xs text-muted-foreground\">{s.label}</Text>\n              </View>\n            </View>\n          ))}\n        </CardContent>\n      </Card>\n      <View className=\"px-4 pb-10\">\n        <Text className=\"mb-2 text-sm font-semibold text-foreground\">\n          About\n        </Text>\n        <Text className=\"text-sm leading-5 text-muted-foreground\">\n          Building RNUI — a shadcn-style component registry for React Native.\n        </Text>\n      </View>\n    </ScrollView>\n  );\n}\n"
+    }
+  ]
+}

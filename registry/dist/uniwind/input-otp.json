@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input-otp",
+  "type": "registry:ui",
+  "title": "Input OTP",
+  "description": "Segmented one-time-code input over a hidden TextInput.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/input-otp.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/input-otp.tsx",
+      "content": "import { useRef, useState } from 'react';\nimport { Pressable, TextInput, View, type ViewProps } from 'react-native';\nimport { Text } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface InputOTPProps extends ViewProps {\n  length?: number;\n  value?: string;\n  onChange?: (value: string) => void;\n  /** Fired once all slots are filled. */\n  onComplete?: (value: string) => void;\n  secure?: boolean;\n  className?: string;\n  slotClassName?: string;\n}\n\nexport function InputOTP({\n  length = 6,\n  value = '',\n  onChange,\n  onComplete,\n  secure = false,\n  className,\n  slotClassName,\n  ...props\n}: InputOTPProps) {\n  const input = useRef<TextInput>(null);\n  const [focused, setFocused] = useState(false);\n\n  const handleChange = (text: string) => {\n    const next = text.replace(/[^0-9a-zA-Z]/g, '').slice(0, length);\n    onChange?.(next);\n    if (next.length === length) onComplete?.(next);\n  };\n\n  return (\n    <Pressable onPress={() => input.current?.focus()}>\n      <View className={cn('flex-row items-center gap-2', className)} {...props}>\n        {Array.from({ length }).map((_, i) => {\n          const char = value[i] ?? '';\n          const isActive = focused && i === Math.min(value.length, length - 1);\n          return (\n            <View\n              // biome-ignore lint/suspicious/noArrayIndexKey: slots are positional by design\n              key={i}\n              className={cn(\n                'h-12 w-10 items-center justify-center rounded-md border border-input bg-background',\n                isActive && 'border-ring',\n                slotClassName\n              )}\n            >\n              <Text className=\"text-lg font-medium text-foreground\">\n                {secure && char ? '•' : char}\n              </Text>\n            </View>\n          );\n        })}\n        <TextInput\n          ref={input}\n          value={value}\n          onChangeText={handleChange}\n          onFocus={() => setFocused(true)}\n          onBlur={() => setFocused(false)}\n          keyboardType=\"number-pad\"\n          autoComplete=\"one-time-code\"\n          textContentType=\"oneTimeCode\"\n          style={{\n            position: 'absolute',\n            opacity: 0,\n            width: 1,\n            height: 1,\n          }}\n        />\n      </View>\n    </Pressable>\n  );\n}\n"
+    }
+  ]
+}

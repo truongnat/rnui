@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon-button",
+  "type": "registry:ui",
+  "title": "Icon Button",
+  "description": "Square icon-only button with variants.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "dependencies": [
+    "tailwind-variants"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/icon-button.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/icon-button.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { Pressable, type PressableProps } from 'react-native';\nimport { cn } from '@/lib/utils';\nimport { tv } from 'tailwind-variants';\n\nconst iconButton = tv({\n  base: 'items-center justify-center rounded-md active:opacity-80',\n  variants: {\n    variant: {\n      default: 'bg-primary',\n      secondary: 'bg-secondary',\n      outline: 'border border-border bg-background',\n      ghost: 'bg-transparent',\n    },\n    size: {\n      sm: 'h-8 w-8',\n      md: 'h-10 w-10',\n      lg: 'h-12 w-12',\n    },\n  },\n  defaultVariants: { variant: 'default', size: 'md' },\n});\n\nexport interface IconButtonProps extends Omit<PressableProps, 'children'> {\n  icon: ReactNode;\n  accessibilityLabel: string;\n  variant?: 'default' | 'secondary' | 'outline' | 'ghost';\n  size?: 'sm' | 'md' | 'lg';\n  className?: string;\n}\n\nexport function IconButton({\n  icon,\n  accessibilityLabel,\n  variant,\n  size,\n  className,\n  disabled,\n  ...props\n}: IconButtonProps) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel={accessibilityLabel}\n      accessibilityState={{ disabled: !!disabled }}\n      disabled={disabled}\n      className={cn(\n        iconButton({ variant, size }),\n        disabled && 'opacity-50',\n        className\n      )}\n      {...props}\n    >\n      {icon}\n    </Pressable>\n  );\n}\n"
+    }
+  ]
+}

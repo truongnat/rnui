@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popover",
+  "type": "registry:ui",
+  "title": "Popover",
+  "description": "Anchored overlay via measureInWindow + Modal.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/popover.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/popover.tsx",
+      "content": "import { createContext, useContext, useRef, useState } from 'react';\nimport {\n  Modal,\n  Pressable,\n  View,\n  type PressableProps,\n  type ViewProps,\n} from 'react-native';\nimport { cn } from '@/lib/utils';\n\ninterface Anchor {\n  x: number;\n  y: number;\n  width: number;\n  height: number;\n}\n\nconst PopoverContext = createContext<{\n  open: boolean;\n  setOpen: (v: boolean) => void;\n  anchor: Anchor | null;\n  setAnchor: (a: Anchor | null) => void;\n}>({ open: false, setOpen: () => {}, anchor: null, setAnchor: () => {} });\n\nexport function Popover({ children }: { children: React.ReactNode }) {\n  const [open, setOpen] = useState(false);\n  const [anchor, setAnchor] = useState<Anchor | null>(null);\n  return (\n    <PopoverContext.Provider value={{ open, setOpen, anchor, setAnchor }}>\n      {children}\n    </PopoverContext.Provider>\n  );\n}\n\nexport function PopoverTrigger({\n  className,\n  ...props\n}: Omit<PressableProps, 'children'> & {\n  className?: string;\n  children?: React.ReactNode;\n}) {\n  const { setOpen, setAnchor } = useContext(PopoverContext);\n  const ref = useRef<View>(null);\n  return (\n    <Pressable\n      ref={ref}\n      accessibilityRole=\"button\"\n      onPress={() =>\n        ref.current?.measureInWindow((x, y, width, height) => {\n          setAnchor({ x, y, width, height });\n          setOpen(true);\n        })\n      }\n      className={className}\n      {...props}\n    />\n  );\n}\n\nexport interface PopoverContentProps extends ViewProps {\n  className?: string;\n  /** Offset below the trigger in px. */\n  sideOffset?: number;\n}\n\nexport function PopoverContent({\n  className,\n  sideOffset = 8,\n  children,\n  style,\n  ...props\n}: PopoverContentProps) {\n  const { open, setOpen, anchor } = useContext(PopoverContext);\n  return (\n    <Modal visible={open} transparent animationType=\"fade\">\n      <Pressable className=\"flex-1\" onPress={() => setOpen(false)}>\n        {anchor && (\n          <Pressable\n            onPress={(e) => e.stopPropagation()}\n            style={{\n              position: 'absolute',\n              left: anchor.x,\n              top: anchor.y + anchor.height + sideOffset,\n            }}\n          >\n            <View\n              className={cn(\n                'w-64 rounded-md border border-border bg-popover p-4 shadow-md',\n                className\n              )}\n              style={style}\n              {...props}\n            >\n              {children}\n            </View>\n          </Pressable>\n        )}\n      </Pressable>\n    </Modal>\n  );\n}\n"
+    }
+  ]
+}

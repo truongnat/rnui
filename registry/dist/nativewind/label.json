@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "label",
+  "type": "registry:ui",
+  "title": "Label",
+  "description": "Form label text.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/label.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/label.tsx",
+      "content": "import { Pressable } from 'react-native';\nimport { Text, type TextProps } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface LabelProps extends TextProps {\n  className?: string;\n  /** Wrap in Pressable that focuses the sibling input via nativeID / onPress */\n  onPress?: () => void;\n}\n\nexport function Label({ className, onPress, ...props }: LabelProps) {\n  const label = (\n    <Text\n      className={cn(\n        'text-sm font-medium leading-none text-foreground',\n        className\n      )}\n      {...props}\n    />\n  );\n\n  if (onPress) {\n    return (\n      <Pressable onPress={onPress} accessibilityRole=\"none\">\n        {label}\n      </Pressable>\n    );\n  }\n  return label;\n}\n"
+    }
+  ]
+}

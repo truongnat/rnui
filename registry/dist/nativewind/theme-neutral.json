@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-neutral",
+  "type": "registry:item",
+  "title": "Theme: Neutral",
+  "description": "Muted, minimal slate with a restrained blue accent",
+  "files": [
+    {
+      "path": "registry/themes/neutral.json",
+      "type": "registry:theme",
+      "target": "global.css",
+      "content": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n:root {\n  --background: 0 0% 100.0%;\n  --foreground: 33.3 27.3% 6.5%;\n  --card: 0 0% 100.0%;\n  --card-foreground: 33.3 27.3% 6.5%;\n  --popover: 0 0% 100.0%;\n  --popover-foreground: 33.3 27.3% 6.5%;\n  --primary: 213.2 100.0% 43.9%;\n  --primary-foreground: 0 0% 100.0%;\n  --secondary: 210.0 27.3% 95.7%;\n  --secondary-foreground: 33.3 27.3% 6.5%;\n  --muted: 210.0 27.3% 95.7%;\n  --muted-foreground: 210.0 15.2% 69.0%;\n  --accent: 210.0 27.3% 95.7%;\n  --accent-foreground: 200.8 26.0% 19.6%;\n  --destructive: 349.9 80.2% 49.4%;\n  --destructive-foreground: 0 0% 100.0%;\n  --border: 210.0 13.0% 91.0%;\n  --input: 212.0 17.2% 82.9%;\n  --ring: 213.2 100.0% 43.9%;\n  --radius: 0.5rem;\n}\n\n.dark:root {\n  --background: 240.0 2.9% 6.9%;\n  --foreground: 210.0 10.3% 88.6%;\n  --card: 225.0 4.8% 16.5%;\n  --card-foreground: 210.0 10.3% 88.6%;\n  --popover: 240.0 4.6% 12.7%;\n  --popover-foreground: 210.0 10.3% 88.6%;\n  --primary: 209.4 99.1% 57.3%;\n  --primary-foreground: 0 0% 100.0%;\n  --secondary: 240.0 4.6% 12.7%;\n  --secondary-foreground: 210.0 10.3% 88.6%;\n  --muted: 240.0 4.6% 12.7%;\n  --muted-foreground: 216.9 5.5% 46.1%;\n  --accent: 225.0 4.8% 16.5%;\n  --accent-foreground: 210.0 10.3% 88.6%;\n  --destructive: 353.0 90.4% 59.2%;\n  --destructive-foreground: 0 0% 100.0%;\n  --border: 240.0 4.7% 21.0%;\n  --input: 216.0 6.4% 30.6%;\n  --ring: 209.4 99.1% 57.3%;\n}\n"
+    }
+  ]
+}

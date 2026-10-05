@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "list-item",
+  "type": "registry:ui",
+  "title": "List Item",
+  "description": "Row primitive: title, subtitle, leading, trailing, chevron.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "dependencies": [
+    "lucide-react-native"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/list-item.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/list-item.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { Pressable, useColorScheme, View, type ViewProps } from 'react-native';\nimport { ChevronRight } from 'lucide-react-native';\nimport { Text } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface ListItemProps extends ViewProps {\n  title: string;\n  subtitle?: string;\n  /** Leading node — avatar, icon, etc. */\n  leading?: ReactNode;\n  /** Trailing node — overrides the default chevron when `onPress` is set. */\n  trailing?: ReactNode;\n  onPress?: () => void;\n  /** Show the chevron affordance for pressable rows. */\n  chevron?: boolean;\n  className?: string;\n}\n\nexport function ListItem({\n  title,\n  subtitle,\n  leading,\n  trailing,\n  onPress,\n  chevron = true,\n  className,\n  ...props\n}: ListItemProps) {\n  const iconColor = useColorScheme() === 'dark' ? '#a8a29e' : '#78716c';\n  const content = (\n    <View\n      className={cn(\n        'min-h-14 flex-row items-center gap-3 px-4 py-2',\n        className\n      )}\n      {...props}\n    >\n      {leading}\n      <View className=\"flex-1\">\n        <Text className=\"text-base text-foreground\" numberOfLines={1}>\n          {title}\n        </Text>\n        {subtitle && (\n          <Text className=\"text-sm text-muted-foreground\" numberOfLines={1}>\n            {subtitle}\n          </Text>\n        )}\n      </View>\n      {trailing ??\n        (onPress && chevron && <ChevronRight size={18} color={iconColor} />)}\n    </View>\n  );\n\n  if (!onPress) return content;\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      onPress={onPress}\n      className=\"active:bg-accent\"\n    >\n      {content}\n    </Pressable>\n  );\n}\n\nexport function ListSeparator({\n  className,\n  ...props\n}: ViewProps & { className?: string }) {\n  return <View className={cn('ml-4 h-px bg-border', className)} {...props} />;\n}\n\nexport function ListSectionTitle({\n  className,\n  children,\n  ...props\n}: ViewProps & { className?: string; children?: ReactNode }) {\n  return (\n    <View className={cn('px-4 pb-1 pt-4', className)} {...props}>\n      {typeof children === 'string' ? (\n        <Text className=\"text-xs font-medium uppercase text-muted-foreground\">\n          {children}\n        </Text>\n      ) : (\n        children\n      )}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

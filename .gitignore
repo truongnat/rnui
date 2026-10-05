@@ -5,6 +5,7 @@ apps/*/node_modules
 
 # Build outputs
 dist/
+!registry/dist/
 dist-types/
 build/
 packages/*/dist/

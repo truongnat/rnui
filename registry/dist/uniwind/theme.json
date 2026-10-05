@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme",
+  "type": "registry:item",
+  "title": "Theme",
+  "description": "Semantic color contract + styling setup files for the selected engine variant.",
+  "files": [
+    {
+      "path": "registry/variants/uniwind/global.css",
+      "type": "registry:file",
+      "target": "global.css",
+      "content": "@import \"tailwindcss\";\n@import \"uniwind\";\n\n@theme {\n  --color-background: hsl(0 0% 100%);\n  --color-foreground: hsl(240 10% 3.9%);\n  --color-card: hsl(0 0% 100%);\n  --color-card-foreground: hsl(240 10% 3.9%);\n  --color-popover: hsl(0 0% 100%);\n  --color-popover-foreground: hsl(240 10% 3.9%);\n  --color-primary: hsl(240 5.9% 10%);\n  --color-primary-foreground: hsl(0 0% 98%);\n  --color-secondary: hsl(240 4.8% 95.9%);\n  --color-secondary-foreground: hsl(240 5.9% 10%);\n  --color-muted: hsl(240 4.8% 95.9%);\n  --color-muted-foreground: hsl(240 3.8% 46.1%);\n  --color-accent: hsl(240 4.8% 95.9%);\n  --color-accent-foreground: hsl(240 5.9% 10%);\n  --color-destructive: hsl(0 84.2% 60.2%);\n  --color-destructive-foreground: hsl(0 0% 98%);\n  --color-border: hsl(240 5.9% 90%);\n  --color-input: hsl(240 5.9% 90%);\n  --color-ring: hsl(240 10% 3.9%);\n  --radius-lg: 0.5rem;\n  --radius-md: calc(0.5rem - 2px);\n  --radius-sm: calc(0.5rem - 4px);\n}\n\n@layer theme {\n  :root {\n    @variant light {\n      --color-background: hsl(0 0% 100%);\n      --color-foreground: hsl(240 10% 3.9%);\n      --color-card: hsl(0 0% 100%);\n      --color-card-foreground: hsl(240 10% 3.9%);\n      --color-popover: hsl(0 0% 100%);\n      --color-popover-foreground: hsl(240 10% 3.9%);\n      --color-primary: hsl(240 5.9% 10%);\n      --color-primary-foreground: hsl(0 0% 98%);\n      --color-secondary: hsl(240 4.8% 95.9%);\n      --color-secondary-foreground: hsl(240 5.9% 10%);\n      --color-muted: hsl(240 4.8% 95.9%);\n      --color-muted-foreground: hsl(240 3.8% 46.1%);\n      --color-accent: hsl(240 4.8% 95.9%);\n      --color-accent-foreground: hsl(240 5.9% 10%);\n      --color-destructive: hsl(0 84.2% 60.2%);\n      --color-destructive-foreground: hsl(0 0% 98%);\n      --color-border: hsl(240 5.9% 90%);\n      --color-input: hsl(240 5.9% 90%);\n      --color-ring: hsl(240 10% 3.9%);\n    }\n\n    @variant dark {\n      --color-background: hsl(240 10% 3.9%);\n      --color-foreground: hsl(0 0% 98%);\n      --color-card: hsl(240 10% 3.9%);\n      --color-card-foreground: hsl(0 0% 98%);\n      --color-popover: hsl(240 10% 3.9%);\n      --color-popover-foreground: hsl(0 0% 98%);\n      --color-primary: hsl(0 0% 98%);\n      --color-primary-foreground: hsl(240 5.9% 10%);\n      --color-secondary: hsl(240 3.7% 15.9%);\n      --color-secondary-foreground: hsl(0 0% 98%);\n      --color-muted: hsl(240 3.7% 15.9%);\n      --color-muted-foreground: hsl(240 5% 64.9%);\n      --color-accent: hsl(240 3.7% 15.9%);\n      --color-accent-foreground: hsl(0 0% 98%);\n      --color-destructive: hsl(0 62.8% 30.6%);\n      --color-destructive-foreground: hsl(0 0% 98%);\n      --color-border: hsl(240 3.7% 15.9%);\n      --color-input: hsl(240 3.7% 15.9%);\n      --color-ring: hsl(240 4.9% 83.9%);\n    }\n  }\n}\n"
+    },
+    {
+      "path": "registry/variants/uniwind/uniwind-env.d.ts",
+      "type": "registry:file",
+      "target": "uniwind-env.d.ts",
+      "content": "/// <reference types=\"uniwind/types\" />\n\ndeclare module '*.css';\n"
+    }
+  ]
+}

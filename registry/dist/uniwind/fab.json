@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fab",
+  "type": "registry:ui",
+  "title": "FAB",
+  "description": "Floating action button — sm/md/extended.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "dependencies": [
+    "tailwind-variants"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/fab.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/fab.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { Pressable, type PressableProps, View } from 'react-native';\nimport { Text } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\nimport { tv } from 'tailwind-variants';\n\nconst fab = tv({\n  base: 'items-center justify-center self-end rounded-full bg-primary shadow-lg active:opacity-90',\n  variants: {\n    size: {\n      sm: 'h-10 w-10',\n      md: 'h-14 w-14',\n      extended: 'h-14 flex-row gap-2 px-5',\n    },\n  },\n  defaultVariants: { size: 'md' },\n});\n\nexport interface FabProps extends Omit<PressableProps, 'children'> {\n  /** Icon node (e.g. a lucide icon). */\n  icon?: ReactNode;\n  /** Extended FAB label. */\n  label?: string;\n  size?: 'sm' | 'md' | 'extended';\n  className?: string;\n}\n\nexport function Fab({\n  icon,\n  label,\n  size = 'md',\n  className,\n  disabled,\n  ...props\n}: FabProps) {\n  const resolved = label ? 'extended' : size;\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityState={{ disabled: !!disabled }}\n      disabled={disabled}\n      className={cn(\n        fab({ size: resolved }),\n        disabled && 'opacity-50',\n        className\n      )}\n      {...props}\n    >\n      {icon}\n      {label && (\n        <Text className=\"text-sm font-medium text-primary-foreground\">\n          {label}\n        </Text>\n      )}\n      {resolved === 'extended' && !label && !icon && <View />}\n    </Pressable>\n  );\n}\n"
+    }
+  ]
+}

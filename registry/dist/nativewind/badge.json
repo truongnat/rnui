@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge",
+  "type": "registry:ui",
+  "title": "Badge",
+  "description": "Small status pill with tv() variants.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "dependencies": [
+    "tailwind-variants"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/badge.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/badge.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { Text, View, type ViewProps } from 'react-native';\nimport { tv } from 'tailwind-variants';\nimport { cn } from '@/lib/utils';\n\nconst badgeVariants = tv({\n  slots: {\n    base: 'flex-row items-center self-start rounded-full border px-2.5 py-0.5',\n    label: 'text-xs font-semibold',\n  },\n  variants: {\n    variant: {\n      default: {\n        base: 'border-transparent bg-primary',\n        label: 'text-primary-foreground',\n      },\n      secondary: {\n        base: 'border-transparent bg-secondary',\n        label: 'text-secondary-foreground',\n      },\n      destructive: {\n        base: 'border-transparent bg-destructive',\n        label: 'text-destructive-foreground',\n      },\n      outline: {\n        base: 'border-border',\n        label: 'text-foreground',\n      },\n    },\n  },\n  defaultVariants: { variant: 'default' },\n});\n\nexport type BadgeVariant = 'default' | 'secondary' | 'destructive' | 'outline';\n\nexport interface BadgeProps extends Omit<ViewProps, 'children'> {\n  variant?: BadgeVariant;\n  className?: string;\n  labelClassName?: string;\n  children?: ReactNode;\n}\n\nexport function Badge({\n  variant = 'default',\n  className,\n  labelClassName,\n  children,\n  ...props\n}: BadgeProps) {\n  const { base, label } = badgeVariants({ variant });\n\n  return (\n    <View className={cn(base(), className)} {...props}>\n      {typeof children === 'string' || typeof children === 'number' ? (\n        <Text className={cn(label(), labelClassName)}>{children}</Text>\n      ) : (\n        children\n      )}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "type": "registry:ui",
+  "title": "Skeleton",
+  "description": "Pulsing placeholder via RN Animated.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/skeleton.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/skeleton.tsx",
+      "content": "import { useEffect, useRef } from 'react';\nimport { Animated, type ViewProps } from 'react-native';\nimport { cn } from '@/lib/utils';\n\nexport interface SkeletonProps extends ViewProps {\n  className?: string;\n}\n\nexport function Skeleton({ className, ...props }: SkeletonProps) {\n  const opacity = useRef(new Animated.Value(1)).current;\n\n  useEffect(() => {\n    const loop = Animated.loop(\n      Animated.sequence([\n        Animated.timing(opacity, {\n          toValue: 0.5,\n          duration: 700,\n          useNativeDriver: true,\n        }),\n        Animated.timing(opacity, {\n          toValue: 1,\n          duration: 700,\n          useNativeDriver: true,\n        }),\n      ])\n    );\n    loop.start();\n    return () => loop.stop();\n  }, [opacity]);\n\n  return (\n    <Animated.View\n      className={cn('rounded-md bg-muted', className)}\n      style={{ opacity }}\n      {...props}\n    />\n  );\n}\n"
+    }
+  ]
+}

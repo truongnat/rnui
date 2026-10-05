@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text",
+  "type": "registry:ui",
+  "title": "Text",
+  "description": "Typography primitives with shadcn-style variants (h1-h4, p, lead, muted, blockquote, code).",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "dependencies": [
+    "tailwind-variants"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/text.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/text.tsx",
+      "content": "import { Text as RNText, type TextProps as RNTextProps } from 'react-native';\nimport { tv } from 'tailwind-variants';\nimport { cn } from '@/lib/utils';\n\nconst textVariants = tv({\n  variants: {\n    variant: {\n      default: 'text-base text-foreground',\n      h1: 'text-4xl font-extrabold tracking-tight text-foreground',\n      h2: 'text-3xl font-semibold tracking-tight text-foreground',\n      h3: 'text-2xl font-semibold tracking-tight text-foreground',\n      h4: 'text-xl font-semibold tracking-tight text-foreground',\n      p: 'text-base leading-7 text-foreground',\n      lead: 'text-xl text-muted-foreground',\n      large: 'text-lg font-semibold text-foreground',\n      small: 'text-sm font-medium leading-none text-foreground',\n      muted: 'text-sm text-muted-foreground',\n      blockquote: 'border-l-4 border-border pl-4 italic text-foreground',\n      code: 'rounded-md bg-muted px-1.5 py-0.5 font-mono text-sm text-foreground',\n    },\n  },\n  defaultVariants: {\n    variant: 'default',\n  },\n});\n\nexport type TextVariant =\n  | 'default'\n  | 'h1'\n  | 'h2'\n  | 'h3'\n  | 'h4'\n  | 'p'\n  | 'lead'\n  | 'large'\n  | 'small'\n  | 'muted'\n  | 'blockquote'\n  | 'code';\n\nexport interface TextProps extends RNTextProps {\n  variant?: TextVariant;\n  className?: string;\n}\n\nexport function Text({ variant = 'default', className, ...props }: TextProps) {\n  return (\n    <RNText className={cn(textVariants({ variant }), className)} {...props} />\n  );\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aspect-ratio",
+  "type": "registry:ui",
+  "title": "Aspect Ratio",
+  "description": "Constrains children to a fixed width/height ratio.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/aspect-ratio.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/aspect-ratio.tsx",
+      "content": "import { View, type ViewProps } from 'react-native';\nimport { cn } from '@/lib/utils';\n\nexport interface AspectRatioProps extends ViewProps {\n  ratio?: number;\n  className?: string;\n}\n\nexport function AspectRatio({\n  ratio = 1,\n  className,\n  style,\n  children,\n  ...props\n}: AspectRatioProps) {\n  return (\n    <View\n      className={cn('w-full overflow-hidden', className)}\n      style={[{ aspectRatio: ratio }, style]}\n      {...props}\n    >\n      {children}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

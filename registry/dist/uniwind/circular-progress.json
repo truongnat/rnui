@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "circular-progress",
+  "type": "registry:ui",
+  "title": "Circular Progress",
+  "description": "SVG ring progress with optional percent label.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "dependencies": [
+    "react-native-svg"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/circular-progress.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/circular-progress.tsx",
+      "content": "import { useColorScheme, View, type ViewProps } from 'react-native';\nimport Svg, { Circle } from 'react-native-svg';\nimport { Text } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface CircularProgressProps extends ViewProps {\n  /** 0–100. Omit for an indeterminate 25% arc. */\n  value?: number;\n  size?: number;\n  strokeWidth?: number;\n  showLabel?: boolean;\n  className?: string;\n}\n\nexport function CircularProgress({\n  value,\n  size = 48,\n  strokeWidth = 5,\n  showLabel = false,\n  className,\n  ...props\n}: CircularProgressProps) {\n  const dark = useColorScheme() === 'dark';\n  const trackColor = dark ? '#292524' : '#e7e5e4';\n  const fillColor = dark ? '#fafafa' : '#18181b';\n\n  const r = (size - strokeWidth) / 2;\n  const c = 2 * Math.PI * r;\n  const pct = value == null ? 25 : Math.max(0, Math.min(100, value));\n\n  return (\n    <View\n      className={cn('items-center justify-center self-start', className)}\n      style={{ width: size, height: size }}\n      {...props}\n    >\n      <Svg width={size} height={size}>\n        <Circle\n          cx={size / 2}\n          cy={size / 2}\n          r={r}\n          stroke={trackColor}\n          strokeWidth={strokeWidth}\n          fill=\"none\"\n        />\n        <Circle\n          cx={size / 2}\n          cy={size / 2}\n          r={r}\n          stroke={fillColor}\n          strokeWidth={strokeWidth}\n          fill=\"none\"\n          strokeLinecap=\"round\"\n          strokeDasharray={`${(pct / 100) * c} ${c}`}\n          transform={`rotate(-90 ${size / 2} ${size / 2})`}\n        />\n      </Svg>\n      {showLabel && value != null && (\n        <Text className=\"absolute text-xs font-medium text-foreground\">\n          {Math.round(pct)}%\n        </Text>\n      )}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

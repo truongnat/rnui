@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toast",
+  "type": "registry:ui",
+  "title": "Toast",
+  "description": "Provider + hook based transient notifications.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/toast.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/toast.tsx",
+      "content": "import {\n  createContext,\n  useCallback,\n  useContext,\n  useEffect,\n  useRef,\n  useState,\n} from 'react';\nimport { Animated, Pressable, View } from 'react-native';\nimport { Text } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface ToastData {\n  id: number;\n  title: string;\n  description?: string;\n  variant?: 'default' | 'destructive';\n  duration?: number;\n}\n\nconst ToastContext = createContext<{\n  toast: (t: Omit<ToastData, 'id'>) => void;\n}>({\n  toast: () => {},\n});\n\nexport const useToast = () => useContext(ToastContext);\n\nlet nextId = 0;\n\nexport function ToastProvider({ children }: { children: React.ReactNode }) {\n  const [toasts, setToasts] = useState<ToastData[]>([]);\n  const toast = useCallback((t: Omit<ToastData, 'id'>) => {\n    const id = ++nextId;\n    setToasts((prev) => [...prev, { ...t, id }]);\n    setTimeout(\n      () => setToasts((prev) => prev.filter((x) => x.id !== id)),\n      t.duration ?? 4000\n    );\n  }, []);\n\n  return (\n    <ToastContext.Provider value={{ toast }}>\n      <View className=\"flex-1\">{children}</View>\n      <View\n        pointerEvents=\"box-none\"\n        className=\"absolute bottom-10 left-4 right-4 gap-2\"\n      >\n        {toasts.map((t) => (\n          <Toast\n            key={t.id}\n            data={t}\n            onDismiss={() => setToasts((p) => p.filter((x) => x.id !== t.id))}\n          />\n        ))}\n      </View>\n    </ToastContext.Provider>\n  );\n}\n\nfunction Toast({\n  data,\n  onDismiss,\n}: {\n  data: ToastData;\n  onDismiss: () => void;\n}) {\n  const opacity = useRef(new Animated.Value(0)).current;\n  useEffect(() => {\n    Animated.timing(opacity, {\n      toValue: 1,\n      duration: 150,\n      useNativeDriver: true,\n    }).start();\n  }, [opacity]);\n  const dismiss = () => {\n    Animated.timing(opacity, {\n      toValue: 0,\n      duration: 120,\n      useNativeDriver: true,\n    }).start(onDismiss);\n  };\n\n  return (\n    <Animated.View style={{ opacity }}>\n      <Pressable\n        accessibilityRole=\"alert\"\n        onPress={dismiss}\n        className={cn(\n          'rounded-md border p-4 shadow-md',\n          data.variant === 'destructive'\n            ? 'border-destructive bg-destructive'\n            : 'border-border bg-background'\n        )}\n      >\n        <Text\n          className={cn(\n            'text-sm font-semibold',\n            data.variant === 'destructive'\n              ? 'text-destructive-foreground'\n              : 'text-foreground'\n          )}\n        >\n          {data.title}\n        </Text>\n        {!!data.description && (\n          <Text\n            className={cn(\n              'mt-1 text-sm',\n              data.variant === 'destructive'\n                ? 'text-destructive-foreground'\n                : 'text-muted-foreground'\n            )}\n          >\n            {data.description}\n          </Text>\n        )}\n      </Pressable>\n    </Animated.View>\n  );\n}\n"
+    }
+  ]
+}

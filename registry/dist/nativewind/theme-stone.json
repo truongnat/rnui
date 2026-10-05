@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-stone",
+  "type": "registry:item",
+  "title": "Theme: Stone",
+  "description": "Warm stone and slate tones",
+  "files": [
+    {
+      "path": "registry/themes/stone.json",
+      "type": "registry:theme",
+      "target": "global.css",
+      "content": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n:root {\n  --background: 45.0 16.7% 95.3%;\n  --foreground: 40.0 12.3% 14.3%;\n  --card: 0 0% 100.0%;\n  --card-foreground: 40.0 12.3% 14.3%;\n  --popover: 0 0% 100.0%;\n  --popover-foreground: 40.0 12.3% 14.3%;\n  --primary: 213.6 12.8% 38.2%;\n  --primary-foreground: 0 0% 100.0%;\n  --secondary: 43.6 14.3% 84.9%;\n  --secondary-foreground: 40.0 12.3% 14.3%;\n  --muted: 43.6 14.3% 84.9%;\n  --muted-foreground: 42.0 8.4% 53.3%;\n  --accent: 41.5 28.9% 91.2%;\n  --accent-foreground: 36.4 21.6% 30.0%;\n  --destructive: 5.6 63.4% 46.1%;\n  --destructive-foreground: 0 0% 100.0%;\n  --border: 42.9 18.9% 85.5%;\n  --input: 43.3 15.8% 77.6%;\n  --ring: 213.6 12.8% 38.2%;\n  --radius: 0.5rem;\n}\n\n.dark:root {\n  --background: 45.0 10.0% 7.8%;\n  --foreground: 41.5 21.3% 88.0%;\n  --card: 40.0 10.8% 16.3%;\n  --card-foreground: 41.5 21.3% 88.0%;\n  --popover: 40.0 12.0% 9.8%;\n  --popover-foreground: 41.5 21.3% 88.0%;\n  --primary: 214.6 12.7% 60.0%;\n  --primary-foreground: 0 0% 100.0%;\n  --secondary: 42.9 10.1% 13.5%;\n  --secondary-foreground: 41.5 21.3% 88.0%;\n  --muted: 42.9 10.1% 13.5%;\n  --muted-foreground: 41.7 9.6% 46.9%;\n  --accent: 42.0 12.5% 15.7%;\n  --accent-foreground: 41.3 32.4% 72.7%;\n  --destructive: 4.6 65.6% 64.7%;\n  --destructive-foreground: 0 0% 100.0%;\n  --border: 40.0 10.8% 16.3%;\n  --input: 41.5 11.3% 22.5%;\n  --ring: 214.0 31.0% 66.5%;\n}\n"
+    }
+  ]
+}

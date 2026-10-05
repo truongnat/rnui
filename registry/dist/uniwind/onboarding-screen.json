@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "onboarding-screen",
+  "type": "registry:block",
+  "title": "Onboarding Screen",
+  "description": "Carousel slides with progress dots and skip.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/carousel.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/button.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json"
+  ],
+  "files": [
+    {
+      "path": "registry/blocks/onboarding-screen.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/onboarding-screen.tsx",
+      "content": "import { useState } from 'react';\nimport { Pressable, useColorScheme, View } from 'react-native';\nimport { Button } from '@/components/ui/button';\nimport { Carousel } from '@/components/ui/carousel';\nimport { Text } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nconst SLIDES = [\n  {\n    key: 'one',\n    title: 'Copy-paste components',\n    body: 'Own the code. Every component lands in your project as source.',\n  },\n  {\n    key: 'two',\n    title: 'Two styling engines',\n    body: 'NativeWind or Uniwind — pick once, everything adapts.',\n  },\n  {\n    key: 'three',\n    title: 'Multi-brand themes',\n    body: 'Seven brand presets out of the box, switchable at any time.',\n  },\n];\n\nexport function OnboardingScreen({ onDone }: { onDone?: () => void }) {\n  const [index, setIndex] = useState(0);\n  const mutedColor = useColorScheme() === 'dark' ? '#a8a29e' : '#78716c';\n  const last = index === SLIDES.length - 1;\n\n  return (\n    <View className=\"flex-1 bg-background\">\n      <View className=\"items-end px-4 pt-4\">\n        <Pressable accessibilityRole=\"button\" onPress={onDone}>\n          <Text style={{ color: mutedColor }} className=\"text-sm\">\n            Skip\n          </Text>\n        </Pressable>\n      </View>\n      <Carousel\n        data={SLIDES}\n        onIndexChange={setIndex}\n        renderItem={(s) => (\n          <View className=\"flex-1 items-center justify-center gap-3 px-10\">\n            <Text className=\"text-center text-2xl font-bold text-foreground\">\n              {s.title}\n            </Text>\n            <Text className=\"text-center text-base text-muted-foreground\">\n              {s.body}\n            </Text>\n          </View>\n        )}\n        className=\"flex-1\"\n      />\n      <View className=\"items-center gap-4 pb-10\">\n        <View className=\"flex-row gap-1.5\">\n          {SLIDES.map((s, i) => (\n            <View\n              key={s.key}\n              className={cn(\n                'h-1.5 rounded-full',\n                i === index ? 'w-6 bg-primary' : 'w-1.5 bg-border'\n              )}\n            />\n          ))}\n        </View>\n        <Button className=\"w-4/5\" onPress={last ? onDone : undefined}>\n          {last ? 'Get started' : 'Swipe to continue'}\n        </Button>\n      </View>\n    </View>\n  );\n}\n"
+    }
+  ]
+}

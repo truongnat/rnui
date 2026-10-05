@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "settings-menu",
+  "type": "registry:ui",
+  "title": "Settings Menu",
+  "description": "Grouped settings list built on list-item.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/list-item.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/settings-menu.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/settings-menu.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { View, type ViewProps } from 'react-native';\nimport {\n  ListItem,\n  ListSectionTitle,\n  ListSeparator,\n} from '@/components/ui/list-item';\nimport { cn } from '@/lib/utils';\n\nexport interface SettingsMenuItem {\n  key: string;\n  title: string;\n  subtitle?: string;\n  leading?: ReactNode;\n  /** Trailing node — value text, switch, badge… Overrides chevron. */\n  trailing?: ReactNode;\n  onPress?: () => void;\n}\n\nexport interface SettingsMenuSection {\n  title?: string;\n  items: SettingsMenuItem[];\n}\n\nexport interface SettingsMenuProps extends ViewProps {\n  sections: SettingsMenuSection[];\n  className?: string;\n}\n\nexport function SettingsMenu({\n  sections,\n  className,\n  ...props\n}: SettingsMenuProps) {\n  return (\n    <View className={cn('w-full', className)} {...props}>\n      {sections.map((section, si) => (\n        <View key={section.title ?? si}>\n          {section.title && (\n            <ListSectionTitle>{section.title}</ListSectionTitle>\n          )}\n          <View className=\"bg-background\">\n            {section.items.map((item, ii) => (\n              <View key={item.key}>\n                <ListItem\n                  title={item.title}\n                  subtitle={item.subtitle}\n                  leading={item.leading}\n                  trailing={item.trailing}\n                  onPress={item.onPress}\n                />\n                {ii < section.items.length - 1 && <ListSeparator />}\n              </View>\n            ))}\n          </View>\n        </View>\n      ))}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

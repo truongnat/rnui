@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collapsible",
+  "type": "registry:ui",
+  "title": "Collapsible",
+  "description": "Trigger + expandable content.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/collapsible.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/collapsible.tsx",
+      "content": "import { createContext, useContext, useState } from 'react';\nimport {\n  Pressable,\n  View,\n  type PressableProps,\n  type ViewProps,\n} from 'react-native';\nimport { cn } from '@/lib/utils';\n\nconst CollapsibleContext = createContext<{\n  open: boolean;\n  setOpen: (v: boolean) => void;\n}>({ open: false, setOpen: () => {} });\n\nexport interface CollapsibleProps extends ViewProps {\n  open?: boolean;\n  defaultOpen?: boolean;\n  onOpenChange?: (open: boolean) => void;\n  className?: string;\n}\n\nexport function Collapsible({\n  open: controlled,\n  defaultOpen = false,\n  onOpenChange,\n  className,\n  ...props\n}: CollapsibleProps) {\n  const [uncontrolled, setUncontrolled] = useState(defaultOpen);\n  const open = controlled ?? uncontrolled;\n  const setOpen = (v: boolean) => {\n    setUncontrolled(v);\n    onOpenChange?.(v);\n  };\n  return (\n    <CollapsibleContext.Provider value={{ open, setOpen }}>\n      <View className={className} {...props} />\n    </CollapsibleContext.Provider>\n  );\n}\n\nexport function CollapsibleTrigger({\n  className,\n  ...props\n}: Omit<PressableProps, 'children'> & {\n  className?: string;\n  children?: React.ReactNode;\n}) {\n  const { open, setOpen } = useContext(CollapsibleContext);\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityState={{ expanded: open }}\n      onPress={() => setOpen(!open)}\n      className={className}\n      {...props}\n    />\n  );\n}\n\nexport function CollapsibleContent({\n  className,\n  ...props\n}: ViewProps & { className?: string }) {\n  const { open } = useContext(CollapsibleContext);\n  if (!open) return null;\n  return <View className={cn('overflow-hidden', className)} {...props} />;\n}\n"
+    }
+  ]
+}

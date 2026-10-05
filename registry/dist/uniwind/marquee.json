@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "marquee",
+  "type": "registry:ui",
+  "title": "Marquee",
+  "description": "Infinite horizontal scrolling content via RN Animated.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/marquee.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/marquee.tsx",
+      "content": "import { useEffect, useRef, type ReactNode } from 'react';\nimport { Animated, Easing, View, type ViewProps } from 'react-native';\nimport { cn } from '@/lib/utils';\n\nexport interface MarqueeProps extends ViewProps {\n  /** Pixels per second. */\n  speed?: number;\n  /** Content width in px — measure it once and pass it for a seamless loop. */\n  contentWidth?: number;\n  className?: string;\n  children?: ReactNode;\n}\n\nexport function Marquee({\n  speed = 40,\n  contentWidth = 600,\n  className,\n  children,\n  ...props\n}: MarqueeProps) {\n  const x = useRef(new Animated.Value(0)).current;\n\n  useEffect(() => {\n    const duration = (contentWidth / speed) * 1000;\n    const loop = Animated.loop(\n      Animated.timing(x, {\n        toValue: -contentWidth,\n        duration,\n        easing: Easing.linear,\n        useNativeDriver: true,\n      })\n    );\n    loop.start();\n    return () => loop.stop();\n  }, [contentWidth, speed, x]);\n\n  return (\n    <View className={cn('w-full overflow-hidden', className)} {...props}>\n      <Animated.View\n        style={{ flexDirection: 'row', transform: [{ translateX: x }] }}\n      >\n        <View style={{ width: contentWidth }}>{children}</View>\n        <View style={{ width: contentWidth }}>{children}</View>\n      </Animated.View>\n    </View>\n  );\n}\n"
+    }
+  ]
+}

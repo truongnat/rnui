@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-chocolate",
+  "type": "registry:item",
+  "title": "Theme: Chocolate",
+  "description": "Warm brown tones and cozy beige",
+  "files": [
+    {
+      "path": "registry/themes/chocolate.json",
+      "type": "registry:theme",
+      "target": "global.css",
+      "content": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n:root {\n  --background: 32.7 57.9% 96.3%;\n  --foreground: 24.8 32.6% 17.5%;\n  --card: 33.3 100.0% 98.2%;\n  --card-foreground: 24.8 32.6% 17.5%;\n  --popover: 33.3 100.0% 98.2%;\n  --popover-foreground: 24.8 32.6% 17.5%;\n  --primary: 23.3 59.5% 33.9%;\n  --primary-foreground: 0 0% 100.0%;\n  --secondary: 30.0 40.5% 85.5%;\n  --secondary-foreground: 24.8 32.6% 17.5%;\n  --muted: 30.0 40.5% 85.5%;\n  --muted-foreground: 25.5 19.8% 53.5%;\n  --accent: 30.9 67.3% 90.4%;\n  --accent-foreground: 25.6 64.9% 29.0%;\n  --destructive: 5.6 63.4% 46.1%;\n  --destructive-foreground: 0 0% 100.0%;\n  --border: 31.0 40.8% 86.1%;\n  --input: 29.3 38.7% 78.2%;\n  --ring: 23.3 59.5% 33.9%;\n  --radius: 0.5rem;\n}\n\n.dark:root {\n  --background: 25.7 36.8% 7.5%;\n  --foreground: 29.2 50.7% 85.7%;\n  --card: 24.0 32.5% 15.1%;\n  --card-foreground: 29.2 50.7% 85.7%;\n  --popover: 24.7 34.7% 9.6%;\n  --popover-foreground: 29.2 50.7% 85.7%;\n  --primary: 27.7 58.0% 56.1%;\n  --primary-foreground: 0 0% 100.0%;\n  --secondary: 24.5 34.4% 12.5%;\n  --secondary-foreground: 29.2 50.7% 85.7%;\n  --muted: 24.5 34.4% 12.5%;\n  --muted-foreground: 29.4 22.3% 44.9%;\n  --accent: 27.1 40.3% 15.1%;\n  --accent-foreground: 29.0 79.7% 71.0%;\n  --destructive: 4.6 65.6% 64.7%;\n  --destructive-foreground: 0 0% 100.0%;\n  --border: 24.0 32.5% 15.1%;\n  --input: 26.2 35.8% 21.4%;\n  --ring: 27.7 58.0% 56.1%;\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "table",
+  "type": "registry:ui",
+  "title": "Table",
+  "description": "Flex-based table primitives.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/table.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/table.tsx",
+      "content": "import {\n  Pressable,\n  ScrollView,\n  View,\n  type ScrollViewProps,\n  type ViewProps,\n} from 'react-native';\nimport { Text, type TextProps } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport function Table({\n  className,\n  ...props\n}: ViewProps & { className?: string }) {\n  return <View className={cn('w-full', className)} {...props} />;\n}\n\nexport function TableScroll({\n  className,\n  ...props\n}: ScrollViewProps & { className?: string }) {\n  return <ScrollView horizontal className={className} {...props} />;\n}\n\nexport function TableHeader({\n  className,\n  ...props\n}: ViewProps & { className?: string }) {\n  return (\n    <View\n      className={cn('flex-row border-b border-border', className)}\n      {...props}\n    />\n  );\n}\n\nexport function TableBody({\n  className,\n  ...props\n}: ViewProps & { className?: string }) {\n  return <View className={className} {...props} />;\n}\n\nexport interface TableRowProps extends ViewProps {\n  className?: string;\n  onPress?: () => void;\n}\n\nexport function TableRow({ className, onPress, ...props }: TableRowProps) {\n  const row = (\n    <View\n      className={cn('flex-row border-b border-border', className)}\n      {...props}\n    />\n  );\n  if (!onPress) return row;\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      onPress={onPress}\n      className=\"active:bg-accent\"\n    >\n      {row}\n    </Pressable>\n  );\n}\n\nexport interface TableCellProps extends ViewProps {\n  className?: string;\n  /** Flex grow factor for the column. */\n  flex?: number;\n}\n\nexport function TableHead({\n  className,\n  flex = 1,\n  children,\n  ...props\n}: TableCellProps) {\n  return (\n    <View\n      className={cn('justify-center px-2 py-3', className)}\n      style={{ flex }}\n      {...props}\n    >\n      {typeof children === 'string' ? (\n        <Text className=\"text-sm font-medium text-muted-foreground\">\n          {children}\n        </Text>\n      ) : (\n        children\n      )}\n    </View>\n  );\n}\n\nexport function TableCell({\n  className,\n  flex = 1,\n  children,\n  ...props\n}: TableCellProps) {\n  return (\n    <View\n      className={cn('justify-center px-2 py-3', className)}\n      style={{ flex }}\n      {...props}\n    >\n      {typeof children === 'string' ? (\n        <Text className=\"text-sm text-foreground\">{children}</Text>\n      ) : (\n        children\n      )}\n    </View>\n  );\n}\n\nexport function TableCaption({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('mt-4 text-sm text-muted-foreground', className)}\n      {...props}\n    />\n  );\n}\n"
+    }
+  ]
+}

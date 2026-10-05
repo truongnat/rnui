@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "alert",
+  "type": "registry:ui",
+  "title": "Alert",
+  "description": "Inline alert with icon, title, description.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "dependencies": [
+    "lucide-react-native"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/alert.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/alert.tsx",
+      "content": "import { AlertCircle, Info } from 'lucide-react-native';\nimport { View, type ViewProps } from 'react-native';\nimport { useColorScheme } from 'react-native';\nimport { Text, type TextProps } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface AlertProps extends ViewProps {\n  variant?: 'default' | 'destructive';\n  className?: string;\n}\n\nexport function Alert({\n  variant = 'default',\n  className,\n  children,\n  ...props\n}: AlertProps) {\n  const scheme = useColorScheme();\n  const iconColor =\n    variant === 'destructive'\n      ? '#ef4444'\n      : scheme === 'dark'\n        ? '#fafaf9'\n        : '#1c1917';\n  const Icon = variant === 'destructive' ? AlertCircle : Info;\n\n  return (\n    <View\n      accessibilityRole=\"alert\"\n      className={cn(\n        'flex-row gap-3 rounded-lg border p-4',\n        variant === 'destructive' ? 'border-destructive/50' : 'border-border',\n        className\n      )}\n      {...props}\n    >\n      <Icon size={16} color={iconColor} style={{ marginTop: 2 }} />\n      <View className=\"flex-1 gap-1\">{children}</View>\n    </View>\n  );\n}\n\nexport function AlertTitle({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('font-medium leading-none tracking-tight', className)}\n      {...props}\n    />\n  );\n}\n\nexport function AlertDescription({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('text-sm leading-relaxed text-muted-foreground', className)}\n      {...props}\n    />\n  );\n}\n"
+    }
+  ]
+}

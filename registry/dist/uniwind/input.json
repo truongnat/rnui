@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input",
+  "type": "registry:ui",
+  "title": "Input",
+  "description": "Styled TextInput with shadcn defaults.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/input.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/input.tsx",
+      "content": "import { forwardRef } from 'react';\nimport { TextInput, type TextInputProps } from 'react-native';\nimport { cn } from '@/lib/utils';\n\nexport interface InputProps extends TextInputProps {\n  className?: string;\n  placeholderClassName?: string;\n}\n\nexport const Input = forwardRef<TextInput, InputProps>(\n  ({ className, placeholderClassName, ...props }, ref) => {\n    const placeholder = cn('text-muted-foreground', placeholderClassName);\n    // Engines disagree on the prop name: nativewind uses placeholderClassName,\n    // uniwind uses placeholderTextColorClassName. Pass both; each ignores the other.\n    const placeholderProps = {\n      placeholderClassName: placeholder,\n      placeholderTextColorClassName: placeholder,\n    };\n    return (\n      <TextInput\n        ref={ref}\n        className={cn(\n          'h-10 w-full rounded-md border border-input bg-background px-3 text-base text-foreground',\n          'disabled:opacity-50',\n          className\n        )}\n        {...(placeholderProps as Partial<TextInputProps>)}\n        {...props}\n      />\n    );\n  }\n);\nInput.displayName = 'Input';\n"
+    }
+  ]
+}

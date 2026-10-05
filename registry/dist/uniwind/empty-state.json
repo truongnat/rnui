@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty-state",
+  "type": "registry:ui",
+  "title": "Empty State",
+  "description": "Placeholder for empty screens — icon, title, description, action.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/empty-state.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/empty-state.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { View, type ViewProps } from 'react-native';\nimport { Text, type TextProps } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface EmptyStateProps extends ViewProps {\n  /** Icon or illustration node. */\n  icon?: ReactNode;\n  className?: string;\n  children?: ReactNode;\n}\n\nexport function EmptyState({\n  icon,\n  className,\n  children,\n  ...props\n}: EmptyStateProps) {\n  return (\n    <View className={cn('items-center gap-2 px-6 py-10', className)} {...props}>\n      {icon}\n      {children}\n    </View>\n  );\n}\n\nexport function EmptyStateTitle({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('text-base font-semibold text-foreground', className)}\n      {...props}\n    />\n  );\n}\n\nexport function EmptyStateDescription({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('text-center text-sm text-muted-foreground', className)}\n      {...props}\n    />\n  );\n}\n\nexport function EmptyStateAction({\n  className,\n  children,\n  ...props\n}: ViewProps & { className?: string; children?: ReactNode }) {\n  return (\n    <View className={cn('mt-3', className)} {...props}>\n      {children}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

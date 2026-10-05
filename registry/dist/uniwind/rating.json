@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "rating",
+  "type": "registry:ui",
+  "title": "Rating",
+  "description": "Star rating input/display.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "dependencies": [
+    "lucide-react-native"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/rating.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/rating.tsx",
+      "content": "import { Pressable, View, type ViewProps } from 'react-native';\nimport { Star } from 'lucide-react-native';\nimport { cn } from '@/lib/utils';\n\nexport interface RatingProps extends ViewProps {\n  value?: number;\n  onChange?: (value: number) => void;\n  max?: number;\n  size?: number;\n  /** Read-only display mode. */\n  readonly?: boolean;\n  className?: string;\n}\n\nconst STAR_COLOR = '#f59e0b';\nconst STAR_EMPTY = '#d6d3d1';\n\nexport function Rating({\n  value = 0,\n  onChange,\n  max = 5,\n  size = 24,\n  readonly = false,\n  className,\n  ...props\n}: RatingProps) {\n  return (\n    <View\n      accessibilityRole={readonly ? undefined : 'adjustable'}\n      className={cn('flex-row gap-1 self-start', className)}\n      {...props}\n    >\n      {Array.from({ length: max }).map((_, i) => {\n        const filled = i < Math.round(value);\n        const star = (\n          <Star\n            size={size}\n            color={filled ? STAR_COLOR : STAR_EMPTY}\n            fill={filled ? STAR_COLOR : 'transparent'}\n          />\n        );\n        return readonly ? (\n          // biome-ignore lint/suspicious/noArrayIndexKey: star positions are stable\n          <View key={i}>{star}</View>\n        ) : (\n          <Pressable\n            // biome-ignore lint/suspicious/noArrayIndexKey: star positions are stable\n            key={i}\n            accessibilityRole=\"button\"\n            accessibilityLabel={`Rate ${i + 1} of ${max}`}\n            onPress={() => onChange?.(i + 1)}\n          >\n            {star}\n          </Pressable>\n        );\n      })}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

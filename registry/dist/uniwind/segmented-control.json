@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "segmented-control",
+  "type": "registry:ui",
+  "title": "Segmented Control",
+  "description": "iOS-style segmented option switcher.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/segmented-control.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/segmented-control.tsx",
+      "content": "import { Pressable, View, type ViewProps } from 'react-native';\nimport { Text } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface SegmentedControlProps<T extends string> extends ViewProps {\n  options: readonly T[];\n  value: T;\n  onValueChange?: (value: T) => void;\n  className?: string;\n}\n\nexport function SegmentedControl<T extends string>({\n  options,\n  value,\n  onValueChange,\n  className,\n  ...props\n}: SegmentedControlProps<T>) {\n  return (\n    <View\n      className={cn('flex-row self-start rounded-lg bg-muted p-1', className)}\n      {...props}\n    >\n      {options.map((opt) => {\n        const active = opt === value;\n        return (\n          <Pressable\n            key={opt}\n            accessibilityRole=\"button\"\n            accessibilityState={{ selected: active }}\n            onPress={() => onValueChange?.(opt)}\n            className={cn(\n              'rounded-md px-3 py-1.5',\n              active && 'bg-background shadow-sm'\n            )}\n          >\n            <Text\n              className={cn(\n                'text-sm font-medium',\n                active ? 'text-foreground' : 'text-muted-foreground'\n              )}\n            >\n              {opt}\n            </Text>\n          </Pressable>\n        );\n      })}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

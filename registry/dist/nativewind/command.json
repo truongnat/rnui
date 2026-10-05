@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "command",
+  "type": "registry:ui",
+  "title": "Command",
+  "description": "Searchable command palette modal.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "dependencies": [
+    "lucide-react-native"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/command.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/command.tsx",
+      "content": "import { Search } from 'lucide-react-native';\nimport { useState } from 'react';\nimport {\n  Modal,\n  Pressable,\n  ScrollView,\n  TextInput,\n  useColorScheme,\n  View,\n} from 'react-native';\nimport { Text } from '@/components/ui/text';\n\nexport interface CommandItemData {\n  label: string;\n  value: string;\n  group?: string;\n}\n\nexport interface CommandProps {\n  open: boolean;\n  onOpenChange?: (open: boolean) => void;\n  items: CommandItemData[];\n  onSelect?: (item: CommandItemData) => void;\n  placeholder?: string;\n  emptyText?: string;\n  className?: string;\n}\n\nexport function Command({\n  open,\n  onOpenChange,\n  items,\n  onSelect,\n  placeholder = 'Search…',\n  emptyText = 'No results.',\n  className,\n}: CommandProps) {\n  const [query, setQuery] = useState('');\n  const scheme = useColorScheme();\n  const muted = scheme === 'dark' ? '#a8a29e' : '#78716c';\n  const filtered = query\n    ? items.filter((i) => i.label.toLowerCase().includes(query.toLowerCase()))\n    : items;\n\n  return (\n    <Modal\n      visible={open}\n      transparent\n      animationType=\"fade\"\n      onRequestClose={() => onOpenChange?.(false)}\n    >\n      <Pressable\n        className=\"flex-1 items-center bg-black/50 pt-24\"\n        onPress={() => onOpenChange?.(false)}\n      >\n        <Pressable\n          className={`w-11/12 max-w-md rounded-xl border border-border bg-popover ${className ?? ''}`}\n          onPress={(e) => e.stopPropagation()}\n        >\n          <View className=\"flex-row items-center gap-2 border-b border-border px-3\">\n            <Search size={16} color={muted} />\n            <TextInput\n              value={query}\n              onChangeText={setQuery}\n              placeholder={placeholder}\n              autoFocus\n              className=\"h-11 flex-1 text-sm text-foreground\"\n            />\n          </View>\n          <ScrollView style={{ maxHeight: 300 }}>\n            {filtered.length === 0 ? (\n              <Text className=\"py-6 text-center text-sm text-muted-foreground\">\n                {emptyText}\n              </Text>\n            ) : (\n              filtered.map((item) => (\n                <Pressable\n                  key={item.value}\n                  onPress={() => {\n                    onSelect?.(item);\n                    onOpenChange?.(false);\n                    setQuery('');\n                  }}\n                  className=\"rounded-md px-3 py-2.5 active:bg-accent\"\n                >\n                  <Text className=\"text-sm text-foreground\">{item.label}</Text>\n                </Pressable>\n              ))\n            )}\n          </ScrollView>\n        </Pressable>\n      </Pressable>\n    </Modal>\n  );\n}\n"
+    }
+  ]
+}

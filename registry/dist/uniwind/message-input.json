@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "message-input",
+  "type": "registry:ui",
+  "title": "Message Input",
+  "description": "Multiline input row with send button.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/input.json"
+  ],
+  "dependencies": [
+    "lucide-react-native"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/message-input.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/message-input.tsx",
+      "content": "import { useState } from 'react';\nimport { Pressable, useColorScheme, View, type ViewProps } from 'react-native';\nimport { SendHorizontal } from 'lucide-react-native';\nimport { Input } from '@/components/ui/input';\nimport { cn } from '@/lib/utils';\n\nexport interface MessageInputProps extends ViewProps {\n  value?: string;\n  onChange?: (text: string) => void;\n  /** Called with the current text; clears the input when uncontrolled. */\n  onSend?: (text: string) => void;\n  placeholder?: string;\n  className?: string;\n}\n\nexport function MessageInput({\n  value,\n  onChange,\n  onSend,\n  placeholder = 'Message…',\n  className,\n  ...props\n}: MessageInputProps) {\n  const [inner, setInner] = useState('');\n  const text = value ?? inner;\n  const setText = (t: string) => {\n    if (value === undefined) setInner(t);\n    onChange?.(t);\n  };\n  const send = () => {\n    const t = text.trim();\n    if (!t) return;\n    onSend?.(t);\n    if (value === undefined) setInner('');\n  };\n  const iconColor = useColorScheme() === 'dark' ? '#09090b' : '#fafafa';\n\n  return (\n    <View\n      className={cn(\n        'flex-row items-end gap-2 border-t border-border bg-background px-3 py-2',\n        className\n      )}\n      {...props}\n    >\n      <Input\n        value={text}\n        onChangeText={setText}\n        placeholder={placeholder}\n        multiline\n        className=\"max-h-32 flex-1\"\n        onSubmitEditing={send}\n        returnKeyType=\"send\"\n        blurOnSubmit={false}\n      />\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Send\"\n        onPress={send}\n        className={cn(\n          'mb-0.5 h-10 w-10 items-center justify-center rounded-full bg-primary active:opacity-80',\n          !text.trim() && 'opacity-50'\n        )}\n      >\n        <SendHorizontal size={18} color={iconColor} />\n      </Pressable>\n    </View>\n  );\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-y2k",
+  "type": "registry:item",
+  "title": "Theme: Y2K",
+  "description": "Periwinkle body with holographic pink accents",
+  "files": [
+    {
+      "path": "registry/themes/y2k.json",
+      "type": "registry:theme",
+      "target": "global.css",
+      "content": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n:root {\n  --background: 244.3 100.0% 97.3%;\n  --foreground: 245.2 45.1% 20.0%;\n  --card: 0 0% 100.0%;\n  --card-foreground: 245.2 45.1% 20.0%;\n  --popover: 0 0% 100.0%;\n  --popover-foreground: 245.2 45.1% 20.0%;\n  --primary: 245.9 100.0% 67.8%;\n  --primary-foreground: 0 0% 100.0%;\n  --secondary: 241.7 81.4% 91.6%;\n  --secondary-foreground: 245.2 45.1% 20.0%;\n  --muted: 241.7 81.4% 91.6%;\n  --muted-foreground: 246.8 27.2% 61.8%;\n  --accent: 323.6 100.0% 94.5%;\n  --accent-foreground: 321.2 69.4% 38.4%;\n  --destructive: 349.9 80.2% 49.4%;\n  --destructive-foreground: 0 0% 100.0%;\n  --border: 243.8 69.6% 91.0%;\n  --input: 244.3 58.3% 85.9%;\n  --ring: 245.9 100.0% 67.8%;\n  --radius: 0.5rem;\n}\n\n.dark:root {\n  --background: 244.8 53.2% 9.2%;\n  --foreground: 244.0 100.0% 94.1%;\n  --card: 244.8 52.1% 23.7%;\n  --card-foreground: 244.0 100.0% 94.1%;\n  --popover: 244.5 55.6% 14.1%;\n  --popover-foreground: 244.0 100.0% 94.1%;\n  --primary: 246.6 100.0% 75.1%;\n  --primary-foreground: 0 0% 100.0%;\n  --secondary: 244.9 51.6% 18.6%;\n  --secondary-foreground: 244.0 100.0% 94.1%;\n  --muted: 244.9 51.6% 18.6%;\n  --muted-foreground: 246.2 32.4% 58.8%;\n  --accent: 278.2 34.7% 18.6%;\n  --accent-foreground: 320.5 100.0% 83.3%;\n  --destructive: 353.0 90.4% 59.2%;\n  --destructive-foreground: 0 0% 100.0%;\n  --border: 244.8 52.1% 23.7%;\n  --input: 246.2 43.6% 30.6%;\n  --ring: 246.3 100.0% 81.2%;\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-butter",
+  "type": "registry:item",
+  "title": "Theme: Butter",
+  "description": "Golden buttery surfaces with a blue accent",
+  "files": [
+    {
+      "path": "registry/themes/butter.json",
+      "type": "registry:theme",
+      "target": "global.css",
+      "content": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n:root {\n  --background: 46.7 100.0% 98.2%;\n  --foreground: 47.1 56.8% 14.5%;\n  --card: 45.0 100.0% 99.2%;\n  --card-foreground: 47.1 56.8% 14.5%;\n  --popover: 45.0 100.0% 99.2%;\n  --popover-foreground: 47.1 56.8% 14.5%;\n  --primary: 213.2 100.0% 43.9%;\n  --primary-foreground: 0 0% 100.0%;\n  --secondary: 42.2 62.7% 88.4%;\n  --secondary-foreground: 47.1 56.8% 14.5%;\n  --muted: 42.2 62.7% 88.4%;\n  --muted-foreground: 44.6 31.5% 48.6%;\n  --accent: 46.8 88.1% 86.9%;\n  --accent-foreground: 45.2 100.0% 23.9%;\n  --destructive: 349.9 80.2% 49.4%;\n  --destructive-foreground: 0 0% 100.0%;\n  --border: 45.0 57.1% 86.3%;\n  --input: 43.8 56.8% 78.2%;\n  --ring: 213.2 100.0% 43.9%;\n  --radius: 0.5rem;\n}\n\n.dark:root {\n  --background: 48.0 58.8% 6.7%;\n  --foreground: 46.0 64.2% 86.9%;\n  --card: 46.5 44.9% 13.5%;\n  --card-foreground: 46.0 64.2% 86.9%;\n  --popover: 47.0 51.1% 8.8%;\n  --popover-foreground: 46.0 64.2% 86.9%;\n  --primary: 209.4 99.1% 57.3%;\n  --primary-foreground: 0 0% 100.0%;\n  --secondary: 47.1 46.7% 11.8%;\n  --secondary-foreground: 46.0 64.2% 86.9%;\n  --muted: 47.1 46.7% 11.8%;\n  --muted-foreground: 43.0 22.7% 45.7%;\n  --accent: 48.5 79.7% 11.6%;\n  --accent-foreground: 47.9 100.0% 60.0%;\n  --destructive: 353.0 90.4% 59.2%;\n  --destructive-foreground: 0 0% 100.0%;\n  --border: 46.5 44.9% 13.5%;\n  --input: 45.0 42.3% 20.4%;\n  --ring: 209.4 99.1% 57.3%;\n}\n"
+    }
+  ]
+}

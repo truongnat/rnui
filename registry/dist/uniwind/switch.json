@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch",
+  "type": "registry:ui",
+  "title": "Switch",
+  "description": "Animated toggle built on RN Animated (no reanimated dep).",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/switch.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/switch.tsx",
+      "content": "import { useEffect, useRef } from 'react';\nimport { Animated, Pressable, type PressableProps } from 'react-native';\nimport { cn } from '@/lib/utils';\n\nconst THUMB = 20;\nconst TRACK_W = 44;\nconst PAD = 3;\n\nexport interface SwitchProps extends Omit<PressableProps, 'children'> {\n  checked?: boolean;\n  onCheckedChange?: (checked: boolean) => void;\n  className?: string;\n  thumbClassName?: string;\n}\n\nexport function Switch({\n  checked = false,\n  onCheckedChange,\n  className,\n  thumbClassName,\n  disabled,\n  ...props\n}: SwitchProps) {\n  const translate = useRef(\n    new Animated.Value(checked ? TRACK_W - THUMB - PAD * 2 : 0)\n  ).current;\n\n  useEffect(() => {\n    Animated.timing(translate, {\n      toValue: checked ? TRACK_W - THUMB - PAD * 2 : 0,\n      duration: 150,\n      useNativeDriver: true,\n    }).start();\n  }, [checked, translate]);\n\n  return (\n    <Pressable\n      accessibilityRole=\"switch\"\n      accessibilityState={{ checked, disabled: !!disabled }}\n      disabled={disabled}\n      onPress={() => onCheckedChange?.(!checked)}\n      className={cn(\n        'justify-center rounded-full',\n        checked ? 'bg-primary' : 'bg-input',\n        disabled && 'opacity-50',\n        className\n      )}\n      style={{ width: TRACK_W, height: THUMB + PAD * 2, padding: PAD }}\n      {...props}\n    >\n      <Animated.View\n        className={cn('rounded-full bg-background shadow-sm', thumbClassName)}\n        style={{\n          width: THUMB,\n          height: THUMB,\n          transform: [{ translateX: translate }],\n        }}\n      />\n    </Pressable>\n  );\n}\n"
+    }
+  ]
+}

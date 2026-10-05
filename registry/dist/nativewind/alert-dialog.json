@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "alert-dialog",
+  "type": "registry:ui",
+  "title": "Alert Dialog",
+  "description": "Confirm/cancel modal dialog (non-dismissable on backdrop).",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/alert-dialog.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/alert-dialog.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { Modal, Pressable, View, type ViewProps } from 'react-native';\nimport { Text, type TextProps } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface AlertDialogProps {\n  open: boolean;\n  onOpenChange?: (open: boolean) => void;\n  children?: ReactNode;\n}\n\nexport function AlertDialog({\n  open,\n  onOpenChange,\n  children,\n}: AlertDialogProps) {\n  return (\n    <Modal\n      visible={open}\n      transparent\n      animationType=\"fade\"\n      onRequestClose={() => onOpenChange?.(false)}\n    >\n      <View className=\"flex-1 items-center justify-center bg-black/50 p-6\">\n        <View className=\"w-full max-w-sm rounded-2xl border border-border bg-background p-6\">\n          {children}\n        </View>\n      </View>\n    </Modal>\n  );\n}\n\nexport function AlertDialogTitle({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('text-lg font-semibold text-foreground', className)}\n      {...props}\n    />\n  );\n}\n\nexport function AlertDialogDescription({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('mt-1.5 text-sm text-muted-foreground', className)}\n      {...props}\n    />\n  );\n}\n\nexport function AlertDialogFooter({\n  className,\n  ...props\n}: ViewProps & { className?: string }) {\n  return (\n    <View\n      className={cn('mt-6 flex-row justify-end gap-2', className)}\n      {...props}\n    />\n  );\n}\n\nexport interface AlertDialogActionProps {\n  onPress?: () => void;\n  children?: ReactNode;\n  className?: string;\n}\n\nexport function AlertDialogAction({\n  onPress,\n  children,\n  className,\n}: AlertDialogActionProps) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      onPress={onPress}\n      className={cn(\n        'rounded-md bg-primary px-4 py-2 active:opacity-80',\n        className\n      )}\n    >\n      <Text className=\"text-sm font-medium text-primary-foreground\">\n        {children}\n      </Text>\n    </Pressable>\n  );\n}\n\nexport function AlertDialogCancel({\n  onPress,\n  children,\n  className,\n}: AlertDialogActionProps) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      onPress={onPress}\n      className={cn(\n        'rounded-md border border-border bg-background px-4 py-2 active:opacity-80',\n        className\n      )}\n    >\n      <Text className=\"text-sm font-medium text-foreground\">{children}</Text>\n    </Pressable>\n  );\n}\n"
+    }
+  ]
+}

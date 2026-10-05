@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "separator",
+  "type": "registry:ui",
+  "title": "Separator",
+  "description": "Horizontal/vertical divider line.",
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/separator.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/separator.tsx",
+      "content": "import { View, type ViewProps } from 'react-native';\nimport { cn } from '@/lib/utils';\n\nexport interface SeparatorProps extends ViewProps {\n  orientation?: 'horizontal' | 'vertical';\n  className?: string;\n}\n\nexport function Separator({\n  orientation = 'horizontal',\n  className,\n  ...props\n}: SeparatorProps) {\n  return (\n    <View\n      className={cn(\n        'shrink-0 bg-border',\n        orientation === 'horizontal' ? 'h-px w-full' : 'h-full w-px',\n        className\n      )}\n      {...props}\n    />\n  );\n}\n"
+    }
+  ]
+}
