@@ -1242,7 +1242,7 @@ function detectProject(cwd = process.cwd()) {
 
 // src/registry.ts
 var VARIANTS = ["nativewind", "uniwind"];
-var DEFAULT_REGISTRY_BASE = "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist";
+var DEFAULT_REGISTRY_BASE = "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist";
 function getRegistryBase(opts = {}) {
   const base = opts.registry ?? process.env.RNUI_REGISTRY_BASE_URL ?? DEFAULT_REGISTRY_BASE;
   return base.replace(/\/+$/, "");
