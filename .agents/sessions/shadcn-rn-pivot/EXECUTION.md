@@ -413,3 +413,8 @@ nhóm cần lib riêng (`chart`, `data-table`, `sonner`).
   `noExternal: ['@clack/prompts']`). Dùng: `npx github:truongnat/rnui#cli`.
   Đã e2e `list` thành công từ git remote. Rebuild workflow ghi trong
   `registry/README.md` § Updating the cli branch.
+- **Docs site removed entirely** — registry JSON committed to `registry/dist/`
+  (`.gitignore` exception `!registry/dist/`), served via
+  `raw.githubusercontent.com/truongnat/rnui/master/...`. No deploy needed.
+  Both develop + master updated; e2e `npx github:truongnat/rnui#cli add button`
+  works against production raw URL.
