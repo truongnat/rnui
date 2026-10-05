@@ -5,9 +5,9 @@
   "title": "Toggle Group",
   "description": "Single/multiple toggle group.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/toggle.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/toggle.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
   ],
   "files": [
     {

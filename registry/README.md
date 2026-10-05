@@ -51,7 +51,7 @@ python3 -m http.server 4999 -d registry/dist          # serve locally for e2e
 ```
 
 `registry/dist/` is committed and served via GitHub raw on `master` —
-`https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/...`.
+`https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/...`.
 
 ## Authoring rules
 

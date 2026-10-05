@@ -5,9 +5,9 @@
   "title": "Drawer",
   "description": "Edge slide-in panel with animated translate.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/text.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
   ],
   "files": [
     {

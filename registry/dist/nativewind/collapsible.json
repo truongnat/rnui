@@ -5,8 +5,8 @@
   "title": "Collapsible",
   "description": "Trigger + expandable content.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
   ],
   "files": [
     {

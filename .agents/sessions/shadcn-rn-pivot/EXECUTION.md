@@ -415,6 +415,6 @@ nhóm cần lib riêng (`chart`, `data-table`, `sonner`).
   `registry/README.md` § Updating the cli branch.
 - **Docs site removed entirely** — registry JSON committed to `registry/dist/`
   (`.gitignore` exception `!registry/dist/`), served via
-  `raw.githubusercontent.com/truongnat/rnui/master/...`. No deploy needed.
+  `raw.githubusercontent.com/truongnat/rnui/main/...`. No deploy needed.
   Both develop + master updated; e2e `npx github:truongnat/rnui#cli add button`
   works against production raw URL.

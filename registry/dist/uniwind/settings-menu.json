@@ -5,10 +5,10 @@
   "title": "Settings Menu",
   "description": "Grouped settings list built on list-item.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/list-item.json"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/list-item.json"
   ],
   "files": [
     {

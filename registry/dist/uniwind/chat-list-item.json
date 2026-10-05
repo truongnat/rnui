@@ -5,11 +5,11 @@
   "title": "Chat List Item",
   "description": "Conversation row: avatar, name, preview, time, unread badge.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/text.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/avatar.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/badge.json"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/avatar.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/badge.json"
   ],
   "files": [
     {

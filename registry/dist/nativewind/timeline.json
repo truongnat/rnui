@@ -5,9 +5,9 @@
   "title": "Timeline",
   "description": "Vertical timeline with dots, connectors and per-item content.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/text.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/theme.json"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
   ],
   "files": [
     {

@@ -5,9 +5,9 @@
   "title": "Message Input",
   "description": "Multiline input row with send button.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/theme.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/input.json"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/input.json"
   ],
   "dependencies": [
     "lucide-react-native"

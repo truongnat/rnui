@@ -155,8 +155,8 @@ npx github:truongnat/rnui#cli add theme-matcha  # switch brand theme
 Or with the shadcn CLI directly:
 
 ```bash
-npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/nativewind/button.json
-npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/master/registry/dist/uniwind/button.json
+npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/button.json
+npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/button.json
 ```
 
 Two styling-engine variants are served: `nativewind` (Tailwind v3) and
