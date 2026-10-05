@@ -32,6 +32,11 @@
       }
     }
   },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
@@ -39,6 +44,17 @@
     }
   },
   "overrides": [
+    {
+      "includes": ["registry/**/*.css"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noUnknownAtRules": "off",
+            "noDuplicateCustomProperties": "off"
+          }
+        }
+      }
+    },
     {
       "includes": ["**/AnimatedList/AnimatedList.tsx"],
       "linter": {

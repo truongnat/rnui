@@ -5,7 +5,6 @@
     "composite": true,
     "incremental": true,
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
-    "baseUrl": ".",
     "paths": {
       "@truongdq01/component-schema": ["../component-schema/dist"],
       "@truongdq01/ui": ["../ui/dist"],

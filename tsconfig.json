@@ -13,7 +13,6 @@
     "sourceMap": true,
     "composite": true,
     "incremental": true,
-    "baseUrl": ".",
     "paths": {
       "@truongdq01/tokens": [
         "./packages/tokens/src",

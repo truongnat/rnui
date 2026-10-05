@@ -13,7 +13,6 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
     "paths": {
       "@truongdq01/ui": ["../../packages/ui/src"],
       "@truongdq01/headless": ["../../packages/headless/src"],

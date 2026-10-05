@@ -139,6 +139,33 @@ function PressableSurface({ onPress, children }) {
 }
 ```
 
+## Registry (new — experimental)
+
+RNUI is also available as a **shadcn-compatible copy-paste registry** — install
+component source directly into your app. The easiest path is the RNUI CLI
+(`packages/cli`, not yet published):
+
+```bash
+npx @rnui/cli init            # one-time: engine deps + metro/babel + theme
+npx @rnui/cli add button      # install components
+npx @rnui/cli add theme-matcha  # switch brand theme
+```
+
+Or with the shadcn CLI directly:
+
+```bash
+npx shadcn add <registry-base>/r/nativewind/button.json
+npx shadcn add <registry-base>/r/uniwind/button.json
+```
+
+Two styling-engine variants are served: `nativewind` (Tailwind v3) and
+`uniwind` (Tailwind v4). Sources live in [`registry/`](registry/), build with
+`bun run registry:build` → `docs/public/r/`, and are documented in
+[`registry/README.md`](registry/README.md). Consumer setup:
+[`registry/templates/setup.md`](registry/templates/setup.md). Brand themes are
+generated from `packages/themes` via `bun run registry:themes` →
+`registry/themes/*.json` → emitted as `theme-<brand>` items.
+
 ## Development
 
 Requires [Bun](https://bun.sh).

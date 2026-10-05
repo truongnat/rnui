@@ -37,6 +37,10 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Registry (copy-paste)',
+          autogenerate: { directory: 'registry' },
+        },
+        {
           label: 'Components',
           autogenerate: { directory: 'components' },
         },

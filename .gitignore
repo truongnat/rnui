@@ -8,6 +8,7 @@ docs/node_modules
 dist/
 dist-types/
 build/
+docs/public/r/
 packages/*/dist/
 packages/*/dist-types/
 packages/*/build/

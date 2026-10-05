@@ -1,0 +1,1036 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "rnui",
+  "homepage": "https://github.com/truongnat/rnui",
+  "items": [
+    {
+      "name": "theme",
+      "type": "registry:item",
+      "title": "Theme",
+      "description": "Semantic color contract + styling setup files for the selected engine variant.",
+      "files": [
+        {
+          "src": "variants/nativewind/global.css",
+          "target": "global.css",
+          "type": "registry:file",
+          "variants": ["nativewind"]
+        },
+        {
+          "src": "variants/nativewind/tailwind.config.ts",
+          "target": "tailwind.config.ts",
+          "type": "registry:file",
+          "variants": ["nativewind"]
+        },
+        {
+          "src": "variants/nativewind/nativewind-env.d.ts",
+          "target": "nativewind-env.d.ts",
+          "type": "registry:file",
+          "variants": ["nativewind"]
+        },
+        {
+          "src": "variants/uniwind/global.css",
+          "target": "global.css",
+          "type": "registry:file",
+          "variants": ["uniwind"]
+        },
+        {
+          "src": "variants/uniwind/uniwind-env.d.ts",
+          "target": "uniwind-env.d.ts",
+          "type": "registry:file",
+          "variants": ["uniwind"]
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "Shared helpers. Currently cn() = clsx + tailwind-merge.",
+      "files": [
+        {
+          "src": "shared/lib/utils.ts",
+          "target": "lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "dependencies": ["clsx", "tailwind-merge"]
+    },
+    {
+      "name": "text",
+      "type": "registry:ui",
+      "title": "Text",
+      "description": "Typography primitives with shadcn-style variants (h1-h4, p, lead, muted, blockquote, code).",
+      "files": [
+        {
+          "src": "shared/ui/text.tsx",
+          "target": "components/ui/text.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["tailwind-variants"]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Pressable button with variant + size styles via tailwind-variants slots.",
+      "files": [
+        {
+          "src": "shared/ui/button.tsx",
+          "target": "components/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["tailwind-variants"]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Card container with header/title/description/content/footer slots.",
+      "files": [
+        {
+          "src": "shared/ui/card.tsx",
+          "target": "components/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Styled TextInput with shadcn defaults.",
+      "files": [
+        {
+          "src": "shared/ui/input.tsx",
+          "target": "components/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Form label text.",
+      "files": [
+        {
+          "src": "shared/ui/label.tsx",
+          "target": "components/ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Multiline TextInput.",
+      "files": [
+        {
+          "src": "shared/ui/textarea.tsx",
+          "target": "components/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Pressable checkbox with lucide check icon.",
+      "files": [
+        {
+          "src": "shared/ui/checkbox.tsx",
+          "target": "components/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Animated toggle built on RN Animated (no reanimated dep).",
+      "files": [
+        {
+          "src": "shared/ui/switch.tsx",
+          "target": "components/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Context-based radio group + item.",
+      "files": [
+        {
+          "src": "shared/ui/radio-group.tsx",
+          "target": "components/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Modal-based option picker (wave 1; anchor popover later).",
+      "files": [
+        {
+          "src": "shared/ui/select.tsx",
+          "target": "components/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Horizontal/vertical divider line.",
+      "files": [
+        {
+          "src": "shared/ui/separator.tsx",
+          "target": "components/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Pulsing placeholder via RN Animated.",
+      "files": [
+        {
+          "src": "shared/ui/skeleton.tsx",
+          "target": "components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Small status pill with tv() variants.",
+      "files": [
+        {
+          "src": "shared/ui/badge.tsx",
+          "target": "components/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["tailwind-variants"]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Avatar + image + fallback with load-state handling.",
+      "files": [
+        {
+          "src": "shared/ui/avatar.tsx",
+          "target": "components/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Inline alert with icon, title, description.",
+      "files": [
+        {
+          "src": "shared/ui/alert.tsx",
+          "target": "components/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Modal dialog with title/description/footer slots.",
+      "files": [
+        {
+          "src": "shared/ui/dialog.tsx",
+          "target": "components/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Determinate progress bar.",
+      "files": [
+        {
+          "src": "shared/ui/progress.tsx",
+          "target": "components/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Vertically collapsing sections.",
+      "files": [
+        {
+          "src": "shared/ui/accordion.tsx",
+          "target": "components/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Tab list/trigger/content with context.",
+      "files": [
+        {
+          "src": "shared/ui/tabs.tsx",
+          "target": "components/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Two-state pressable.",
+      "files": [
+        {
+          "src": "shared/ui/toggle.tsx",
+          "target": "components/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["tailwind-variants"]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "Single/multiple toggle group.",
+      "files": [
+        {
+          "src": "shared/ui/toggle-group.tsx",
+          "target": "components/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "toggle", "theme"]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "Trigger + expandable content.",
+      "files": [
+        {
+          "src": "shared/ui/collapsible.tsx",
+          "target": "components/ui/collapsible.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Bottom sheet via RN Modal slide.",
+      "files": [
+        {
+          "src": "shared/ui/sheet.tsx",
+          "target": "components/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Anchored overlay via measureInWindow + Modal.",
+      "files": [
+        {
+          "src": "shared/ui/popover.tsx",
+          "target": "components/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Anchored menu with items/labels/separators.",
+      "files": [
+        {
+          "src": "shared/ui/dropdown-menu.tsx",
+          "target": "components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Provider + hook based transient notifications.",
+      "files": [
+        {
+          "src": "shared/ui/toast.tsx",
+          "target": "components/ui/toast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "PanResponder slider \u2014 no gesture-handler dep.",
+      "files": [
+        {
+          "src": "shared/ui/slider.tsx",
+          "target": "components/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Flex-based table primitives.",
+      "files": [
+        {
+          "src": "shared/ui/table.tsx",
+          "target": "components/ui/table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Navigation breadcrumb row.",
+      "files": [
+        {
+          "src": "shared/ui/breadcrumb.tsx",
+          "target": "components/ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Page navigation with siblings + ellipsis.",
+      "files": [
+        {
+          "src": "shared/ui/pagination.tsx",
+          "target": "components/ui/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Searchable command palette modal.",
+      "files": [
+        {
+          "src": "shared/ui/command.tsx",
+          "target": "components/ui/command.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "login-screen",
+      "type": "registry:block",
+      "title": "Login Screen",
+      "description": "Sign-in card block composed from registry components.",
+      "files": [
+        {
+          "src": "blocks/login-screen.tsx",
+          "target": "components/blocks/login-screen.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "card",
+        "input",
+        "label",
+        "button",
+        "checkbox",
+        "text"
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Confirm/cancel modal dialog (non-dismissable on backdrop).",
+      "files": [
+        {
+          "src": "shared/ui/alert-dialog.tsx",
+          "target": "components/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Constrains children to a fixed width/height ratio.",
+      "files": [
+        {
+          "src": "shared/ui/aspect-ratio.tsx",
+          "target": "components/ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "ScrollView wrapper with themed defaults.",
+      "files": [
+        {
+          "src": "shared/ui/scroll-area.tsx",
+          "target": "components/ui/scroll-area.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Press/long-press anchored hint bubble.",
+      "files": [
+        {
+          "src": "shared/ui/tooltip.tsx",
+          "target": "components/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Long-press anchored menu (items, labels, separators).",
+      "files": [
+        {
+          "src": "shared/ui/context-menu.tsx",
+          "target": "components/ui/context-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Edge slide-in panel with animated translate.",
+      "files": [
+        {
+          "src": "shared/ui/drawer.tsx",
+          "target": "components/ui/drawer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Snap-scrolling horizontal pager with optional arrows.",
+      "files": [
+        {
+          "src": "shared/ui/carousel.tsx",
+          "target": "components/ui/carousel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Month grid date picker.",
+      "files": [
+        {
+          "src": "shared/ui/calendar.tsx",
+          "target": "components/ui/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Segmented one-time-code input over a hidden TextInput.",
+      "files": [
+        {
+          "src": "shared/ui/input-otp.tsx",
+          "target": "components/ui/input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "title": "Form",
+      "description": "Field wrapper: label, description and error message context.",
+      "files": [
+        {
+          "src": "shared/ui/form.tsx",
+          "target": "components/ui/form.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "app-bar",
+      "type": "registry:ui",
+      "title": "App Bar",
+      "description": "Top navigation bar with leading/back, title, and trailing actions.",
+      "files": [
+        {
+          "src": "shared/ui/app-bar.tsx",
+          "target": "components/ui/app-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "chip",
+      "type": "registry:ui",
+      "title": "Chip",
+      "description": "Compact tag/filter element with selected and removable states.",
+      "files": [
+        {
+          "src": "shared/ui/chip.tsx",
+          "target": "components/ui/chip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["tailwind-variants", "lucide-react-native"]
+    },
+    {
+      "name": "fab",
+      "type": "registry:ui",
+      "title": "FAB",
+      "description": "Floating action button \u2014 sm/md/extended.",
+      "files": [
+        {
+          "src": "shared/ui/fab.tsx",
+          "target": "components/ui/fab.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["tailwind-variants"]
+    },
+    {
+      "name": "segmented-control",
+      "type": "registry:ui",
+      "title": "Segmented Control",
+      "description": "iOS-style segmented option switcher.",
+      "files": [
+        {
+          "src": "shared/ui/segmented-control.tsx",
+          "target": "components/ui/segmented-control.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "stepper",
+      "type": "registry:ui",
+      "title": "Stepper",
+      "description": "Horizontal step progress indicator with check states.",
+      "files": [
+        {
+          "src": "shared/ui/stepper.tsx",
+          "target": "components/ui/stepper.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "rating",
+      "type": "registry:ui",
+      "title": "Rating",
+      "description": "Star rating input/display.",
+      "files": [
+        {
+          "src": "shared/ui/rating.tsx",
+          "target": "components/ui/rating.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "timeline",
+      "type": "registry:ui",
+      "title": "Timeline",
+      "description": "Vertical timeline with dots, connectors and per-item content.",
+      "files": [
+        {
+          "src": "shared/ui/timeline.tsx",
+          "target": "components/ui/timeline.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "marquee",
+      "type": "registry:ui",
+      "title": "Marquee",
+      "description": "Infinite horizontal scrolling content via RN Animated.",
+      "files": [
+        {
+          "src": "shared/ui/marquee.tsx",
+          "target": "components/ui/marquee.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"]
+    },
+    {
+      "name": "empty-state",
+      "type": "registry:ui",
+      "title": "Empty State",
+      "description": "Placeholder for empty screens \u2014 icon, title, description, action.",
+      "files": [
+        {
+          "src": "shared/ui/empty-state.tsx",
+          "target": "components/ui/empty-state.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "circular-progress",
+      "type": "registry:ui",
+      "title": "Circular Progress",
+      "description": "SVG ring progress with optional percent label.",
+      "files": [
+        {
+          "src": "shared/ui/circular-progress.tsx",
+          "target": "components/ui/circular-progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["react-native-svg"]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "Input trigger opening a calendar modal.",
+      "files": [
+        {
+          "src": "shared/ui/date-picker.tsx",
+          "target": "components/ui/date-picker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme", "calendar"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "snackbar",
+      "type": "registry:ui",
+      "title": "Snackbar",
+      "description": "Transient bottom bar with optional action.",
+      "files": [
+        {
+          "src": "shared/ui/snackbar.tsx",
+          "target": "components/ui/snackbar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "autocomplete",
+      "type": "registry:ui",
+      "title": "Autocomplete",
+      "description": "Input with filtered dropdown suggestions.",
+      "files": [
+        {
+          "src": "shared/ui/autocomplete.tsx",
+          "target": "components/ui/autocomplete.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme", "input"]
+    },
+    {
+      "name": "bottom-navigation",
+      "type": "registry:ui",
+      "title": "Bottom Navigation",
+      "description": "Tab bar with icon+label items.",
+      "files": [
+        {
+          "src": "shared/ui/bottom-navigation.tsx",
+          "target": "components/ui/bottom-navigation.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "icon-button",
+      "type": "registry:ui",
+      "title": "Icon Button",
+      "description": "Square icon-only button with variants.",
+      "files": [
+        {
+          "src": "shared/ui/icon-button.tsx",
+          "target": "components/ui/icon-button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["tailwind-variants"]
+    },
+    {
+      "name": "speed-dial",
+      "type": "registry:ui",
+      "title": "Speed Dial",
+      "description": "FAB expanding into labeled mini actions.",
+      "files": [
+        {
+          "src": "shared/ui/speed-dial.tsx",
+          "target": "components/ui/speed-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"]
+    },
+    {
+      "name": "list-item",
+      "type": "registry:ui",
+      "title": "List Item",
+      "description": "Row primitive: title, subtitle, leading, trailing, chevron.",
+      "files": [
+        {
+          "src": "shared/ui/list-item.tsx",
+          "target": "components/ui/list-item.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "settings-menu",
+      "type": "registry:ui",
+      "title": "Settings Menu",
+      "description": "Grouped settings list built on list-item.",
+      "files": [
+        {
+          "src": "shared/ui/settings-menu.tsx",
+          "target": "components/ui/settings-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme", "list-item"]
+    },
+    {
+      "name": "chat-list-item",
+      "type": "registry:ui",
+      "title": "Chat List Item",
+      "description": "Conversation row: avatar, name, preview, time, unread badge.",
+      "files": [
+        {
+          "src": "shared/ui/chat-list-item.tsx",
+          "target": "components/ui/chat-list-item.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme", "avatar", "badge"]
+    },
+    {
+      "name": "message-input",
+      "type": "registry:ui",
+      "title": "Message Input",
+      "description": "Multiline input row with send button.",
+      "files": [
+        {
+          "src": "shared/ui/message-input.tsx",
+          "target": "components/ui/message-input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "theme", "input"],
+      "dependencies": ["lucide-react-native"]
+    },
+    {
+      "name": "settings-screen",
+      "type": "registry:block",
+      "title": "Settings Screen",
+      "description": "Grouped settings with profile header and toggles.",
+      "files": [
+        {
+          "src": "blocks/settings-screen.tsx",
+          "target": "components/blocks/settings-screen.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": ["settings-menu", "switch", "avatar", "text"]
+    },
+    {
+      "name": "profile-screen",
+      "type": "registry:block",
+      "title": "Profile Screen",
+      "description": "Avatar, stats card, bio and actions.",
+      "files": [
+        {
+          "src": "blocks/profile-screen.tsx",
+          "target": "components/blocks/profile-screen.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "avatar",
+        "badge",
+        "button",
+        "card",
+        "separator",
+        "text"
+      ]
+    },
+    {
+      "name": "onboarding-screen",
+      "type": "registry:block",
+      "title": "Onboarding Screen",
+      "description": "Carousel slides with progress dots and skip.",
+      "files": [
+        {
+          "src": "blocks/onboarding-screen.tsx",
+          "target": "components/blocks/onboarding-screen.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": ["carousel", "button", "text", "utils"]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Skia-rendered charts: BarChart, LineChart, DonutChart + ChartLegend.",
+      "files": [
+        {
+          "src": "shared/ui/chart.tsx",
+          "target": "components/ui/chart.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["@shopify/react-native-skia@2.6.2"]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "Sortable table built on table primitives (tap header to sort).",
+      "files": [
+        {
+          "src": "shared/ui/data-table.tsx",
+          "target": "components/ui/data-table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": ["utils", "text", "theme", "table"],
+      "dependencies": ["lucide-react-native"]
+    }
+  ]
+}
