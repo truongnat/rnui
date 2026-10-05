@@ -1,0 +1,47 @@
+---
+title: Installation
+description: Set up the RNUI registry in a React Native / Expo project.
+---
+
+The RNUI CLI runs straight from git — no npm publish required. It wraps
+`npx shadcn add` under the hood.
+
+## Requirements
+
+- Node.js ≥ 18 and git
+- An Expo or React Native project
+
+## One-time setup
+
+```bash
+npx github:truongnat/rnui#cli init
+```
+
+`init` asks which styling engine you want — **nativewind** or **uniwind** —
+then installs engine dependencies (`npx expo install`, SDK-matched versions),
+writes `babel.config.js` / `metro.config.js`, `components.json`,
+`tsconfig` path aliases, your theme `global.css`, and sets
+`userInterfaceStyle: "automatic"` in `app.json` so dark mode follows the
+system.
+
+## Add components
+
+```bash
+npx github:truongnat/rnui#cli add button card input
+npx github:truongnat/rnui#cli list          # browse everything
+npx github:truongnat/rnui#cli add theme-matcha   # switch brand theme
+```
+
+Components land in `components/ui/` — they're your source files now.
+
+## Without the CLI
+
+The registry is fully shadcn-compatible. Manual setup steps are in
+[`registry/templates/setup.md`](https://github.com/truongnat/rnui/blob/develop/registry/templates/setup.md),
+then install items directly:
+
+```bash
+npx shadcn add https://rnui.vercel.app/r/nativewind/button.json
+# or
+npx shadcn add https://rnui.vercel.app/r/uniwind/button.json
+```

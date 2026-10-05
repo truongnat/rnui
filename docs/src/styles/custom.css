@@ -1,6 +1,5 @@
-/* Clone of tamagui.dev layout and style */
+/* Landing — nextjs.org style: monochrome, dot grid, tight display type */
 
-/* CSS Custom Properties */
 :root {
   --space-xs: 4px;
   --space-sm: 8px;
@@ -13,127 +12,173 @@
   --space-5xl: 96px;
   --space-6xl: 128px;
   --space-7xl: 160px;
-  
-  --color-primary: #7c3aed;
-  --color-secondary: #6d28d9;
-  --color-accent: #f59e0b;
-  --color-dark: #0f0f0f;
-  --color-light: #fafafa;
-  --color-gray-100: #f4f4f5;
-  --color-gray-200: #e4e4e7;
-  --color-gray-300: #d4d4d8;
-  --color-gray-400: #a1a1aa;
-  --color-gray-500: #71717a;
-  --color-gray-600: #52525b;
-  --color-gray-700: #3f3f46;
-  --color-gray-800: #27272a;
-  --color-gray-900: #18181b;
+
+  --nx-bg: #000;
+  --nx-fg: #fafafa;
+  --nx-muted: #888;
+  --nx-faint: #666;
+  --nx-border: #333;
+  --nx-surface: #111;
 }
 
-/* Global styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hero section - tamagui style */
-.starlight-splash {
+/* ---------- Hero ---------- */
+
+.hero {
   position: relative;
-  min-height: 80vh;
+  min-height: 82vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: var(--space-6xl) var(--space-4xl);
-  background: linear-gradient(180deg, var(--color-dark) 0%, var(--color-gray-900) 100%);
+  padding: var(--space-6xl) var(--space-4xl) var(--space-5xl);
+  background: var(--nx-bg);
+  overflow: hidden;
 }
 
-.starlight-splash::before {
+/* dot grid, like nextjs.org */
+.hero::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 50%, rgba(109, 40, 217, 0.1) 0%, transparent 50%);
+  inset: 0;
+  background-image: radial-gradient(circle, #2a2a2a 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 75%);
   pointer-events: none;
 }
 
-.starlight-splash h1 {
-  font-size: clamp(3rem, 8vw, 6rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  line-height: 1.1;
-  margin-bottom: var(--space-2xl);
-  background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  max-width: 900px;
+/* faint top glow */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 35% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-.starlight-splash p {
-  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-  color: var(--color-gray-400);
-  line-height: 1.6;
-  max-width: 700px;
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+  margin-bottom: var(--space-2xl);
+  color: var(--nx-fg);
+  max-width: 900px;
+  position: relative;
+}
+
+.hero .tagline {
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  color: var(--nx-muted);
+  line-height: 1.5;
+  max-width: 640px;
   margin: 0 auto var(--space-4xl);
   font-weight: 400;
 }
 
-.starlight-splash .actions {
+.hero .actions {
   display: flex;
   gap: var(--space-lg);
   justify-content: center;
   flex-wrap: wrap;
+  position: relative;
 }
 
-.starlight-splash button {
-  padding: var(--space-lg) var(--space-3xl);
-  font-size: 1rem;
-  font-weight: 600;
+.hero .actions a.sl-link-button {
+  padding: 12px 28px;
+  font-size: 0.95rem;
+  font-weight: 500;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   border: none;
+  font-family: inherit;
 }
 
-.starlight-splash button.primary {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  color: white;
+/* white pill — Next.js primary CTA */
+.hero .actions a.sl-link-button.primary {
+  background: var(--nx-fg);
+  color: var(--nx-bg);
 }
 
-.starlight-splash button.primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.45);
+.hero .actions a.sl-link-button.primary:hover {
+  background: #d4d4d4;
 }
 
-.starlight-splash button.secondary {
+.hero .actions a.sl-link-button.secondary,
+.hero .actions a.sl-link-button.minimal {
   background: transparent;
-  color: white;
-  border: 1px solid var(--color-gray-700);
+  color: var(--nx-fg);
+  border: 1px solid var(--nx-border);
 }
 
-.starlight-splash button.secondary:hover {
-  border-color: var(--color-gray-500);
-  background: rgba(255, 255, 255, 0.05);
+.hero .actions a.sl-link-button.secondary:hover,
+.hero .actions a.sl-link-button.minimal:hover {
+  border-color: var(--nx-faint);
+  background: rgba(255, 255, 255, 0.04);
 }
 
-/* Stats section - tamagui style */
+/* ---------- Announcement pill ---------- */
+
+.announcement {
+  text-align: center;
+  margin-top: calc(var(--space-4xl) * -1);
+  margin-bottom: var(--space-4xl);
+}
+
+.announcement a {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--nx-muted);
+  text-decoration: none;
+  padding: 6px 16px;
+  border: 1px solid var(--nx-border);
+  border-radius: 9999px;
+  background: var(--nx-surface);
+  transition: all 0.15s ease;
+}
+
+.announcement a:hover {
+  color: var(--nx-fg);
+  border-color: var(--nx-faint);
+}
+
+/* ---------- Install command ---------- */
+
+.install-cmd {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-6xl);
+}
+
+.install-cmd code {
+  font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  color: var(--nx-fg);
+  background: var(--nx-surface);
+  border: 1px solid var(--nx-border);
+  border-radius: 8px;
+  padding: 12px 20px;
+}
+
+/* ---------- Stats ---------- */
+
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: var(--space-4xl);
-  margin: var(--space-7xl) auto;
-  padding: var(--space-4xl);
-  max-width: 1200px;
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(109, 40, 217, 0.08) 100%);
-  border-radius: 24px;
-  border: 1px solid rgba(124, 58, 237, 0.2);
+  margin: 0 auto var(--space-7xl);
+  padding: var(--space-4xl) 0;
+  max-width: 900px;
+  border-top: 1px solid var(--nx-border);
+  border-bottom: 1px solid var(--nx-border);
 }
 
 .stat-item {
@@ -144,172 +189,121 @@ body {
 }
 
 .stat-number {
-  font-size: clamp(4rem, 8vw, 5rem);
-  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.04em;
-  margin-bottom: var(--space-md);
-  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 55%, #f59e0b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin-bottom: var(--space-sm);
+  color: var(--nx-fg);
 }
 
 .stat-label {
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.5;
-  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-gray-400);
+  color: var(--nx-faint);
 }
 
-/* Content sections */
+/* ---------- Content sections ---------- */
+
 .section {
-  max-width: 1200px;
-  margin: var(--space-7xl) auto;
+  max-width: 720px;
+  margin: var(--space-6xl) auto;
   padding: 0 var(--space-4xl);
 }
 
 .section h2 {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
   font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.2;
-  margin-bottom: var(--space-3xl);
-  color: white;
-}
-
-.section h3 {
-  font-size: clamp(1.5rem, 3vw, 1.875rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-  margin-bottom: var(--space-lg);
-  margin-top: var(--space-3xl);
-  color: white;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  margin-bottom: var(--space-xl);
+  color: var(--nx-fg);
 }
 
 .section p {
-  font-size: 1.125rem;
+  font-size: 1.05rem;
   line-height: 1.7;
-  color: var(--color-gray-400);
+  color: var(--nx-muted);
   margin-bottom: var(--space-xl);
 }
 
-/* Feature pills - tamagui style */
-.feature-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--space-md) var(--space-xl);
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(109, 40, 217, 0.15) 100%);
-  border: 1px solid rgba(124, 58, 237, 0.3);
-  border-radius: 9999px;
-  margin-right: var(--space-md);
-  margin-bottom: var(--space-md);
-  transition: all 0.2s ease;
-  color: var(--color-gray-300);
+.section code,
+.section p code {
+  background: var(--nx-surface);
+  border: 1px solid var(--nx-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.9em;
+  color: var(--nx-fg);
 }
 
-.feature-pill:hover {
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.25) 0%, rgba(109, 40, 217, 0.25) 100%);
-  border-color: rgba(124, 58, 237, 0.5);
-  transform: translateY(-1px);
-  color: white;
+.section pre {
+  border: 1px solid var(--nx-border);
+  border-radius: 8px;
 }
 
-/* Card grid - tamagui style */
-.CardGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: var(--space-3xl);
-  margin-top: var(--space-4xl);
+/* ---------- Cards ---------- */
+
+.sl-markdown-content .card {
+  background: var(--nx-bg);
+  border: 1px solid var(--nx-border);
+  border-radius: 12px;
+  padding: var(--space-2xl);
+  transition: border-color 0.15s ease;
 }
 
-.starlight-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: var(--space-3xl);
-  transition: all 0.3s ease;
+.sl-markdown-content .card:hover {
+  border-color: var(--nx-faint);
 }
 
-.starlight-card:hover {
-  border-color: rgba(124, 58, 237, 0.4);
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(109, 40, 217, 0.1) 100%);
-  transform: translateY(-4px);
-  box-shadow: 0 25px 50px -12px rgba(124, 58, 237, 0.22);
-}
-
-.starlight-card h3 {
-  font-size: 1.25rem;
+.sl-markdown-content .card .title {
+  font-size: 1rem;
   font-weight: 600;
   margin-bottom: var(--space-md);
-  color: white;
+  color: var(--nx-fg);
   margin-top: 0;
 }
 
-.starlight-card p {
-  font-size: 1rem;
+.sl-markdown-content .card p {
+  font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--color-gray-400);
+  color: var(--nx-muted);
   margin-bottom: 0;
 }
 
-/* Section divider */
-.section-divider {
-  height: 1px;
-  border: none;
-  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.3), rgba(109, 40, 217, 0.3), transparent);
-  margin: var(--space-7xl) auto;
-  max-width: 1200px;
+/* ---------- Page chrome ---------- */
+
+/* black monochrome only on the splash landing — docs pages keep themes */
+body:has(.hero) {
+  background: var(--nx-bg);
 }
 
-/* Dark mode page background */
-body {
-  background: var(--color-dark);
-  color: white;
+body:has(.hero) main {
+  background: var(--nx-bg);
 }
 
-/* Main content area */
-main {
-  background: var(--color-dark);
+body:has(.hero) .content-panel {
+  border-color: var(--nx-border);
 }
 
-/* Focus styles */
 *:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--nx-fg);
   outline-offset: 2px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
-  .starlight-splash {
+  .hero {
     padding: var(--space-4xl) var(--space-2xl);
     min-height: 60vh;
   }
-  
-  .stats {
-    gap: var(--space-3xl);
-    padding: var(--space-3xl);
-    border-radius: 16px;
-  }
-  
+
   .section {
     padding: 0 var(--space-2xl);
-    margin: var(--space-5xl) auto;
   }
-  
-  .CardGrid {
-    grid-template-columns: 1fr;
-    gap: var(--space-2xl);
-  }
-  
-  .stat-number {
-    font-size: clamp(3rem, 6vw, 4rem);
+
+  .stats {
+    gap: var(--space-3xl);
   }
 }

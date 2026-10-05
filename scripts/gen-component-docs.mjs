@@ -204,7 +204,7 @@ ${item.description ?? ''}
 ## Install
 
 \`\`\`bash
-npx @rnui/cli add ${item.name}
+npx github:truongnat/rnui#cli add ${item.name}
 \`\`\`
 
 or directly via the shadcn CLI:
@@ -246,25 +246,25 @@ the same model as shadcn/ui. They work with both styling engines:
 ## Quick start
 
 \`\`\`bash
-npx @rnui/cli init            # one-time setup (engine deps, metro/babel, theme)
-npx @rnui/cli add button      # install a component
-npx @rnui/cli list            # show all items
+npx github:truongnat/rnui#cli init            # one-time setup (engine deps, metro/babel, theme)
+npx github:truongnat/rnui#cli add button      # install a component
+npx github:truongnat/rnui#cli list            # show all items
 \`\`\`
 
 ## Components
 
-${uiItems.map((i) => `- [${i.title ?? i.name}](/rnui-docs/registry/${i.name}/) — ${i.description ?? ''}`).join('\n')}
+${uiItems.map((i) => `- [${i.title ?? i.name}](/registry/${i.name}/) — ${i.description ?? ''}`).join('\n')}
 
 ## Blocks
 
-${blockItems.map((i) => `- [${i.title ?? i.name}](/rnui-docs/registry/${i.name}/) — ${i.description ?? ''}`).join('\n')}
+${blockItems.map((i) => `- [${i.title ?? i.name}](/registry/${i.name}/) — ${i.description ?? ''}`).join('\n')}
 
 ## Themes
 
 Brand themes swap the semantic CSS variables in \`global.css\`:
 
 \`\`\`bash
-npx @rnui/cli add theme-matcha
+npx github:truongnat/rnui#cli add theme-matcha
 \`\`\`
 
 ${brands.map((b) => `- **${b.title}** (\`theme-${b.name}\`) — ${b.description ?? ''}`).join('\n')}
