@@ -1,9 +1,8 @@
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
 import { Text } from 'react-native';
-import { test, expect, describe } from 'vitest';
+import { test, expect } from 'vitest';
 import { BreadcrumbItem, Breadcrumbs } from '..';
-import React from 'react';
 
 test('Breadcrumbs renders BreadcrumbItem trail with separators', () => {
   const { getByText } = render(

@@ -4,6 +4,7 @@ import type { TabsContextValue } from './types';
 /**
  * Shared context that flows from Tabs (root) down to Tab, TabList, and TabPanel.
  */
+// biome-ignore lint/suspicious/noExplicitAny: Required for generic context to avoid TS errors.
 export const TabsContext = createContext<TabsContextValue<any> | null>(null);
 
 /**

@@ -11,6 +11,7 @@ export function FlashList({
   return (
     <View>
       {data.map((item, index) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: Mock component, static list.
         <View key={index}>{renderItem({ item, index })}</View>
       ))}
     </View>

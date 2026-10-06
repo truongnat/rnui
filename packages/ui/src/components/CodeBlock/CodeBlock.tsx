@@ -63,7 +63,9 @@ function highlightSyntax(
       continue;
     }
 
-    const stringMatch = remaining.match(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`/);
+    const stringMatch = remaining.match(
+      /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`/
+    );
     if (stringMatch && stringMatch.index === 0) {
       addToken(stringMatch[0], syntax.string);
       remaining = remaining.slice(stringMatch[0].length);
@@ -77,7 +79,9 @@ function highlightSyntax(
       continue;
     }
 
-    const attrMatch = remaining.match(/(\b(class|id|style|href|src|alt|type|name|value|placeholder|onClick|onChange|disabled|checked|selected|key|ref)\s*[=])/);
+    const attrMatch = remaining.match(
+      /(\b(class|id|style|href|src|alt|type|name|value|placeholder|onClick|onChange|disabled|checked|selected|key|ref)\s*[=])/
+    );
     if (attrMatch && attrMatch.index === 0) {
       addToken(attrMatch[1], syntax.attr);
       remaining = remaining.slice(attrMatch[1].length);
@@ -163,7 +167,12 @@ function CodeBlockInner({
   );
 
   const lineCount = effectiveLines.length;
-  const lineNumWidth = lineCount >= 1000 ? tokens.spacing[12] : lineCount >= 100 ? tokens.spacing[10] : tokens.spacing[8];
+  const lineNumWidth =
+    lineCount >= 1000
+      ? tokens.spacing[12]
+      : lineCount >= 100
+        ? tokens.spacing[10]
+        : tokens.spacing[8];
 
   const handleCopy = useCallback(() => {
     copy(code);
@@ -178,8 +187,19 @@ function CodeBlockInner({
     if (!title && !language) return null;
     return (
       <View style={codeBlock.header}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing[2], flex: 1 }}>
-          {title ? <Text style={codeBlock.title} numberOfLines={1}>{title}</Text> : null}
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: tokens.spacing[2],
+            flex: 1,
+          }}
+        >
+          {title ? (
+            <Text style={codeBlock.title} numberOfLines={1}>
+              {title}
+            </Text>
+          ) : null}
           {language ? (
             <Text style={codeBlock.langBadge}>{language}</Text>
           ) : null}
@@ -201,7 +221,9 @@ function CodeBlockInner({
           <Icon
             name={copied ? 'check' : 'copy'}
             size={16}
-            color={copied ? tokens.color.success.text : tokens.color.text.secondary}
+            color={
+              copied ? tokens.color.success.text : tokens.color.text.secondary
+            }
           />
           {copied ? (
             <Text
@@ -216,7 +238,17 @@ function CodeBlockInner({
         </Pressable>
       </View>
     );
-  }, [title, language, codeBlock.header, codeBlock.title, codeBlock.langBadge, codeBlock.copyButton, copied, handleCopy, tokens]);
+  }, [
+    title,
+    language,
+    codeBlock.header,
+    codeBlock.title,
+    codeBlock.langBadge,
+    codeBlock.copyButton,
+    copied,
+    handleCopy,
+    tokens,
+  ]);
 
   const bodyStyle = useMemo(
     () => [
@@ -227,10 +259,7 @@ function CodeBlockInner({
   );
 
   const lineNumStyle = useMemo(
-    () => [
-      codeBlock.lineNumber,
-      { minWidth: lineNumWidth },
-    ],
+    () => [codeBlock.lineNumber, { minWidth: lineNumWidth }],
     [codeBlock.lineNumber, lineNumWidth]
   );
 
@@ -241,6 +270,7 @@ function CodeBlockInner({
       effectiveLines.map((line: string, idx: number) => {
         const highlighted = isHighlighted(idx);
         const highlightedTokens = highlightSyntax(line, syntaxTheme);
+        // biome-ignore lint/suspicious/noArrayIndexKey: Code lines are static and don't reorder.
         return (
           <View
             key={`line-${idx}`}
@@ -252,30 +282,31 @@ function CodeBlockInner({
             {showLineNumbers ? (
               <Text style={lineNumStyle}>{idx + 1}</Text>
             ) : null}
-            <Text style={codeBlock.code}>
-              {highlightedTokens}
-            </Text>
+            <Text style={codeBlock.code}>{highlightedTokens}</Text>
           </View>
         );
       }),
-    [lines, isHighlighted, syntaxTheme, showLineNumbers, lineNumStyle, codeBlock.code, codeBlock.highlightLine]
+    [
+      isHighlighted,
+      syntaxTheme,
+      showLineNumbers,
+      lineNumStyle,
+      codeBlock.code,
+      codeBlock.highlightLine,
+      effectiveLines.map,
+    ]
   );
 
   return (
     <View style={containerStyle}>
       {headerPart}
-      <ScrollView
-        style={bodyStyle}
-        showsVerticalScrollIndicator
-      >
+      <ScrollView style={bodyStyle} showsVerticalScrollIndicator>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator
           nestedScrollEnabled
         >
-          <View style={{ flexDirection: 'column' }}>
-            {codeLines}
-          </View>
+          <View style={{ flexDirection: 'column' }}>{codeLines}</View>
         </ScrollView>
       </ScrollView>
       {!title && !language ? (
@@ -303,7 +334,9 @@ function CodeBlockInner({
             <Icon
               name={copied ? 'check' : 'copy'}
               size={16}
-              color={copied ? tokens.color.success.text : tokens.color.text.secondary}
+              color={
+                copied ? tokens.color.success.text : tokens.color.text.secondary
+              }
             />
             {copied ? (
               <Text

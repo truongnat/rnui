@@ -131,7 +131,8 @@ const _AnimatedList = forwardRef(
   >
 );
 
-(_AnimatedList as unknown as Record<string, unknown>).displayName = 'AnimatedList';
+(_AnimatedList as unknown as Record<string, unknown>).displayName =
+  'AnimatedList';
 
 export const AnimatedList = _AnimatedList as <T>(
   props: AnimatedListProps<T> & { ref?: React.Ref<AnimatedListRef> }
