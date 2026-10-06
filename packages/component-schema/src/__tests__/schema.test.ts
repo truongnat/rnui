@@ -69,6 +69,79 @@ describe('validateScreenSchema', () => {
     expect(result.valid).toBe(true);
   });
 
+  test('rejects schema that is not a plain object', () => {
+    const result1 = validateScreenSchema(null);
+    expect(result1.valid).toBe(false);
+    expect(result1.errors.some((e) => e.code === 'invalid_schema')).toBe(true);
+
+    const result2 = validateScreenSchema('not an object');
+    expect(result2.valid).toBe(false);
+    expect(result2.errors.some((e) => e.code === 'invalid_schema')).toBe(true);
+
+    const result3 = validateScreenSchema([]);
+    expect(result3.valid).toBe(false);
+    expect(result3.errors.some((e) => e.code === 'invalid_schema')).toBe(true);
+  });
+
+  test('rejects missing or empty id', () => {
+    const result1 = validateScreenSchema({
+      name: 'Test',
+      version: '1',
+      root: { type: 'Screen', props: {} },
+    });
+    expect(result1.valid).toBe(false);
+    expect(result1.errors.some((e) => e.code === 'missing_id')).toBe(true);
+
+    const result2 = validateScreenSchema({
+      id: '',
+      name: 'Test',
+      version: '1',
+      root: { type: 'Screen', props: {} },
+    });
+    expect(result2.valid).toBe(false);
+    expect(result2.errors.some((e) => e.code === 'missing_id')).toBe(true);
+  });
+
+  test('rejects missing or empty name', () => {
+    const result1 = validateScreenSchema({
+      id: 'test',
+      version: '1',
+      root: { type: 'Screen', props: {} },
+    });
+    expect(result1.valid).toBe(false);
+    expect(result1.errors.some((e) => e.code === 'missing_name')).toBe(true);
+
+    const result2 = validateScreenSchema({
+      id: 'test',
+      name: '',
+      version: '1',
+      root: { type: 'Screen', props: {} },
+    });
+    expect(result2.valid).toBe(false);
+    expect(result2.errors.some((e) => e.code === 'missing_name')).toBe(true);
+  });
+
+  test('rejects invalid version', () => {
+    const result = validateScreenSchema({
+      id: 'test',
+      name: 'Test',
+      version: '2',
+      root: { type: 'Screen', props: {} },
+    });
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'invalid_version')).toBe(true);
+  });
+
+  test('rejects missing root', () => {
+    const result = validateScreenSchema({
+      id: 'test',
+      name: 'Test',
+      version: '1',
+    });
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'missing_root')).toBe(true);
+  });
+
   test('rejects unknown component', () => {
     const result = validateScreenSchema({
       id: 'bad',

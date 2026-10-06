@@ -1,4 +1,7 @@
-import type { UseSliderOptionsRange, UseSliderOptionsSingle } from '@truongdq01/headless';
+import type {
+  UseSliderOptionsRange,
+  UseSliderOptionsSingle,
+} from '@truongdq01/headless';
 import { useId, useSlider, useTheme } from '@truongdq01/headless';
 import { useMemo } from 'react';
 import { Text, type TextStyle, View } from 'react-native';
@@ -38,8 +41,22 @@ export function Slider({
 
   const sliderState = useSlider(
     range
-      ? ({ ...rest, min, max, step, orientation, range: true } as UseSliderOptionsRange)
-      : ({ ...rest, min, max, step, orientation, range: false } as UseSliderOptionsSingle)
+      ? ({
+          ...rest,
+          min,
+          max,
+          step,
+          orientation,
+          range: true,
+        } as UseSliderOptionsRange)
+      : ({
+          ...rest,
+          min,
+          max,
+          step,
+          orientation,
+          range: false,
+        } as UseSliderOptionsSingle)
   );
 
   const marks =
