@@ -207,17 +207,6 @@ export function Carousel<T>({
     if (contentHeight !== 0) setContentHeight(0);
   }
 
-  if (
-    typeof __DEV__ !== 'undefined' &&
-    __DEV__ &&
-    !accessibilityLabel &&
-    data.length > 0
-  ) {
-    console.warn(
-      '[Carousel] Provide accessibilityLabel describing the slide content, e.g. "Featured products".'
-    );
-  }
-
   const handleViewportLayout = useCallback((event: LayoutChangeEvent) => {
     const width = event.nativeEvent.layout.width;
     setViewportWidth((prev) => (prev === width ? prev : width));

@@ -22,10 +22,7 @@ export interface UseCarouselOptions<T> {
   autoPlayInterval?: number;
 }
 
-function getDisplayIndexFromOffset(
-  offsetX: number,
-  itemStep: number
-): number {
+function getDisplayIndexFromOffset(offsetX: number, itemStep: number): number {
   if (itemStep <= 0) return 0;
   return Math.round(offsetX / itemStep);
 }
@@ -221,7 +218,15 @@ export function useCarousel<T>({
         jumpTimers.current.push(id);
       }
     },
-    [loop, n, itemStep, displayData.length, scrollToDisplayIndex, autoPlay, startTimer]
+    [
+      loop,
+      n,
+      itemStep,
+      displayData.length,
+      scrollToDisplayIndex,
+      autoPlay,
+      startTimer,
+    ]
   );
 
   return {
