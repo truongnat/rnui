@@ -1,14 +1,7 @@
-import { createContext, useContext, useId, type ReactNode } from 'react';
+import { useContext, useId, type ReactNode } from 'react';
 import { View, type ViewProps } from 'react-native';
 import { Text, type TextProps } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
-
-interface FormFieldContextValue {
-  id: string;
-  error?: string;
-}
-
-const FormFieldContext = createContext<FormFieldContextValue | null>(null);
+import { cn, FormFieldContext } from '@/lib/utils';
 
 export interface FormFieldProps extends ViewProps {
   error?: string;

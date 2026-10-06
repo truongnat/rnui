@@ -1,12 +1,6 @@
 import { useState } from 'react';
-import {
-  Pressable,
-  ScrollView,
-  View,
-  type TextInputProps,
-  type ViewProps,
-} from 'react-native';
-import { Input } from '@/components/ui/input';
+import { Pressable, ScrollView, View, type ViewProps } from 'react-native';
+import { Input, type InputProps } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
@@ -19,7 +13,9 @@ export interface AutocompleteProps extends ViewProps {
   /** Custom filter — defaults to case-insensitive substring. */
   filter?: (option: string, query: string) => boolean;
   emptyText?: string;
-  inputProps?: Omit<TextInputProps, 'value' | 'onChangeText' | 'placeholder'>;
+  inputProps?: Partial<
+    Omit<InputProps, 'value' | 'onChangeText' | 'placeholder'>
+  >;
   className?: string;
 }
 

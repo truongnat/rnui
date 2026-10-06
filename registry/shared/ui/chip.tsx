@@ -1,7 +1,7 @@
 import { Pressable, type PressableProps } from 'react-native';
 import { X } from 'lucide-react-native';
 import { Text } from '@/components/ui/text';
-import { cn, useIconColor } from '@/lib/utils';
+import { cn, useIconColor, useThemeColor } from '@/lib/utils';
 import { tv } from 'tailwind-variants';
 
 const chip = tv({
@@ -11,16 +11,8 @@ const chip = tv({
       filled: 'border-transparent bg-secondary',
       outlined: 'border-border bg-transparent',
     },
-    selected: {
-      true: '',
-      false: '',
-    },
   },
-  compoundVariants: [
-    { variant: 'filled', selected: true, class: 'bg-primary' },
-    { variant: 'outlined', selected: true, class: 'border-primary' },
-  ],
-  defaultVariants: { variant: 'filled', selected: false },
+  defaultVariants: { variant: 'filled' },
 });
 
 export interface ChipProps extends Omit<PressableProps, 'children'> {
@@ -39,28 +31,37 @@ export function Chip({
   onRemove,
   className,
   disabled,
+  style,
   ...props
 }: ChipProps) {
   const iconColor = useIconColor();
+  const colors = useThemeColor();
+
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityState={{ selected, disabled: !!disabled }}
       disabled={disabled}
-      className={cn(
-        chip({ variant, selected }),
-        disabled && 'opacity-50',
-        className
-      )}
+      className={cn(chip({ variant }), disabled && 'opacity-50', className)}
+      style={(state) => [
+        { borderCurve: 'continuous' },
+        selected &&
+          variant === 'filled' && {
+            backgroundColor: colors.primary,
+            borderColor: colors.primary,
+          },
+        selected && variant === 'outlined' && { borderColor: colors.primary },
+        typeof style === 'function' ? style(state) : style,
+      ]}
       {...props}
     >
       <Text
-        className={cn(
-          'text-sm',
+        className="text-sm text-foreground"
+        style={
           selected && variant === 'filled'
-            ? 'text-primary-foreground'
-            : 'text-foreground'
-        )}
+            ? { color: colors.primaryForeground }
+            : undefined
+        }
       >
         {label}
       </Text>
@@ -71,7 +72,14 @@ export function Chip({
           onPress={onRemove}
           hitSlop={6}
         >
-          <X size={14} color={iconColor} />
+          <X
+            size={14}
+            color={
+              selected && variant === 'filled'
+                ? colors.primaryForeground
+                : iconColor
+            }
+          />
         </Pressable>
       )}
     </Pressable>

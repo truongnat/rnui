@@ -80,6 +80,35 @@ python3 -m http.server 4999 -d registry/dist          # serve locally for e2e
   Pass both via a `Partial<Props>` spread — each engine reads its own.
 - `accessibilityState` fields want `boolean | undefined`; Pressable `disabled`
   is `boolean | null | undefined` — coerce with `!!`.
+- **Never toggle var-classes dynamically.** Conditional `className` that
+  introduces or removes a CSS-variable-backed class (`bg-primary`, `shadow-*`,
+  `text-destructive`…) after mount triggers a react-native-css-interop
+  "variables upgrade" warning which stringifies props — huge element trees have
+  OOM-killed Hermes before. Instead:
+  - Put dynamic state colours in the `style` prop via `useThemeColor()`
+    (`registry/shared/lib/utils.ts`), e.g. `style={checked && { backgroundColor: colors.primary }}`.
+  - Or mount/unmount a separate `<View>` for state indicators
+    (segmented-control, tabs do this for the active pill).
+  - Literal conditional classes for non-var utilities (`opacity-50`,
+    `active:bg-accent` on press feedback) are fine — the trap is var-backed
+    classes toggling after mount.
+- **`asChild` triggers.** `PopoverTrigger`, `DropdownMenuTrigger`,
+  `ContextMenuTrigger`, `TooltipTrigger` accept `asChild` to clone the child
+  instead of wrapping it in a Pressable — a nested Pressable swallows the
+  press. The clone merges `ref` (via `composeRefs`), `onPress`/`onLongPress`,
+  `className` and sets `collapsable={false}` for `measureInWindow`.
+- **Anchored content flips.** Popover/dropdown/context-menu/tooltip content
+  measures itself via `onLayout` and flips above the trigger when it would
+  overflow the bottom edge; render at `opacity: 0` until measured.
+- **Form context.** `FormFieldContext` and `TextClassContext` live in
+  `lib/utils` (not `ui/form`) so controls consume them without a registry dep.
+  Inputs auto-wire `nativeID` + `invalid` from the enclosing `FormField`.
+- **Dialog/alert-dialog context.** `onOpenChange` is provided via context so
+  `DialogClose`, `AlertDialogAction`, `AlertDialogCancel` self-dismiss —
+  callers' `onPress` still runs first.
+- **Native-only differences.** `TextInput` has no `disabled` prop — map
+  `disabled` to `editable={false}` and apply opacity yourself (`disabled:`
+  class never fires). Keep `h-10` touch targets where web uses `h-9`.
 
 ## Items
 

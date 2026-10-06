@@ -2,7 +2,7 @@ import { Search } from 'lucide-react-native';
 import { useState } from 'react';
 import { Modal, Pressable, ScrollView, TextInput, View } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { useIconColor } from '@/lib/utils';
+import { useIconColor, useThemeColor } from '@/lib/utils';
 
 export interface CommandItemData {
   label: string;
@@ -31,6 +31,7 @@ export function Command({
 }: CommandProps) {
   const [query, setQuery] = useState('');
   const muted = useIconColor();
+  const colors = useThemeColor();
   const filtered = query
     ? items.filter((i) => i.label.toLowerCase().includes(query.toLowerCase()))
     : items;
@@ -56,7 +57,13 @@ export function Command({
               value={query}
               onChangeText={setQuery}
               placeholder={placeholder}
+              {...({
+                placeholderClassName: 'text-muted-foreground/60',
+                placeholderTextColorClassName: 'text-muted-foreground/60',
+              } as object)}
               autoFocus
+              selectionColor={colors.primary}
+              cursorColor={colors.primary}
               className="h-11 flex-1 text-sm text-foreground"
             />
           </View>

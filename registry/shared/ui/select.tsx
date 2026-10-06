@@ -1,5 +1,5 @@
 import { Check, ChevronDown } from 'lucide-react-native';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   Modal,
   Pressable,
@@ -8,7 +8,7 @@ import {
   type PressableProps,
 } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { cn, useIconColor } from '@/lib/utils';
+import { cn, FormFieldContext, useIconColor, useThemeColor } from '@/lib/utils';
 
 export interface SelectOption {
   label: string;
@@ -20,6 +20,8 @@ export interface SelectProps extends Omit<PressableProps, 'children'> {
   value?: string;
   onValueChange?: (value: string) => void;
   placeholder?: string;
+  /** Mirrors shadcn `aria-invalid` — destructive trigger border. Auto-detected from FormField error. */
+  invalid?: boolean;
   className?: string;
   triggerClassName?: string;
 }
@@ -30,26 +32,37 @@ export function Select({
   value,
   onValueChange,
   placeholder = 'Select…',
+  invalid,
   className,
   triggerClassName,
   disabled,
+  style,
   ...props
 }: SelectProps) {
   const [open, setOpen] = useState(false);
   const iconColor = useIconColor();
+  const colors = useThemeColor();
+  const field = useContext(FormFieldContext);
+  const isInvalid = invalid ?? !!field?.error;
   const selected = options.find((o) => o.value === value);
 
   return (
     <View className={className}>
       <Pressable
         accessibilityRole="button"
+        accessibilityState={{ disabled: !!disabled }}
         disabled={disabled}
         onPress={() => setOpen(true)}
         className={cn(
-          'h-10 flex-row items-center justify-between rounded-md border border-input bg-background px-3',
+          'h-10 flex-row items-center justify-between rounded-md border border-input bg-background px-3 dark:bg-input/30',
           disabled && 'opacity-50',
           triggerClassName
         )}
+        style={(state) => [
+          { borderCurve: 'continuous' },
+          isInvalid && { borderColor: colors.destructive },
+          typeof style === 'function' ? style(state) : style,
+        ]}
         {...props}
       >
         <Text

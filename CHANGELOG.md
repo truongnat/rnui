@@ -1,5 +1,48 @@
 # RNUI Changelog
 
+## [Unreleased] — registry
+
+### Added
+
+- **toast**: Sonner-style API — `toast.success/error/info/warning/loading/
+  message/promise/dismiss`, `action`/`cancel`/`icon`/`id`/`duration` options,
+  `ToastProvider` `position` + `richColors`.
+- **dropdown-menu / context-menu**: `*CheckboxItem`, `*RadioItem`,
+  `*Shortcut`, item `inset` + `destructive`; anchored content flips above the
+  trigger when it overflows the screen bottom.
+- **popover / dropdown-menu / context-menu / tooltip triggers**: `asChild`
+  prop (clone child, merged refs + handlers) — fixes nested-Pressable
+  triggers swallowing presses.
+- **dialog**: `DialogClose` primitive + built-in corner close button
+  (`showClose` prop).
+- **alert-dialog**: `AlertDialogAction`/`AlertDialogCancel` auto-close via
+  context (onPress runs first, then `onOpenChange(false)`).
+- **sheet**: `showOverlay` prop to hide the dimmed backdrop.
+- **inputs** (`input`, `textarea`, `input-otp`, `select`, `date-picker`):
+  `invalid` + `disabled` props, focus ring, auto FormField error/id wiring.
+- **button**: `TextClassContext` label inheritance for composite children,
+  `icon-sm`/`icon-lg` sizes, `invalid` prop.
+- **slider**: `defaultValue`, `onSlidingStart`/`onSlidingComplete`, `invalid`.
+- **switch**: `size` (`sm`/`default`) + `invalid`. **checkbox/radio-group/
+  chip/toggle/rating/label**: `invalid`/`disabled`/`color` props, FormField
+  error wiring.
+- **utils**: `useThemeColor()`, `TextClassContext`, `FormFieldContext`,
+  `composeRefs()` in `lib/utils`.
+
+### Fixed
+
+- **Hermes OOM on interaction**: var-backed classes toggled dynamically
+  (`shadow-sm`, `bg-primary`…) triggered a css-interop upgrade warning that
+  stringified props and killed the JS thread. Dynamic state colours now go
+  through the `style` prop (`useThemeColor`) or mount/unmount indicator views.
+- **TextInput `disabled`**: `disabled:` class never fired (RN uses
+  `editable`) — now mapped to `editable={false}` + opacity.
+- **checkbox/radio-group**: unchecked border was `border-primary` (looked
+  active) — now `border-input`.
+- **tooltip**: hardcoded `-40px` offset replaced by measured content height;
+  flips below the trigger near the top edge.
+- **input-otp**: dynamic `border-ring` class replaced by style-prop colour.
+
 ## [0.1.0] - 2026-03-20
 
 ### 🎉 Major Release - Production Ready

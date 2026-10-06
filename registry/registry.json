@@ -283,6 +283,7 @@
           "type": "registry:ui"
         }
       ],
+      "dependencies": ["lucide-react-native"],
       "registryDependencies": ["utils", "text", "theme"]
     },
     {
@@ -411,6 +412,7 @@
           "type": "registry:ui"
         }
       ],
+      "dependencies": ["lucide-react-native"],
       "registryDependencies": ["utils", "text", "theme"]
     },
     {
@@ -425,6 +427,7 @@
           "type": "registry:ui"
         }
       ],
+      "dependencies": ["lucide-react-native"],
       "registryDependencies": ["utils", "text", "theme"]
     },
     {
@@ -589,6 +592,7 @@
           "type": "registry:ui"
         }
       ],
+      "dependencies": ["lucide-react-native"],
       "registryDependencies": ["utils", "text", "theme"]
     },
     {

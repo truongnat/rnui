@@ -6,10 +6,17 @@ import { cn } from '@/lib/utils';
 export interface SheetProps {
   open: boolean;
   onOpenChange?: (open: boolean) => void;
+  /** Render the dimmed backdrop. Tapping outside still closes when hidden. */
+  showOverlay?: boolean;
   children?: ReactNode;
 }
 
-export function Sheet({ open, onOpenChange, children }: SheetProps) {
+export function Sheet({
+  open,
+  onOpenChange,
+  showOverlay = true,
+  children,
+}: SheetProps) {
   return (
     <Modal
       visible={open}
@@ -18,7 +25,7 @@ export function Sheet({ open, onOpenChange, children }: SheetProps) {
       onRequestClose={() => onOpenChange?.(false)}
     >
       <Pressable
-        className="flex-1 justify-end bg-black/50"
+        className={cn('flex-1 justify-end', showOverlay && 'bg-black/50')}
         onPress={() => onOpenChange?.(false)}
       >
         {children}

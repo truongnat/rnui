@@ -1,6 +1,7 @@
+import { useContext } from 'react';
 import { Text as RNText, type TextProps as RNTextProps } from 'react-native';
 import { tv } from 'tailwind-variants';
-import { cn } from '@/lib/utils';
+import { cn, TextClassContext } from '@/lib/utils';
 
 const textVariants = tv({
   variants: {
@@ -44,7 +45,11 @@ export interface TextProps extends RNTextProps {
 }
 
 export function Text({ variant = 'default', className, ...props }: TextProps) {
+  const textClass = useContext(TextClassContext);
   return (
-    <RNText className={cn(textVariants({ variant }), className)} {...props} />
+    <RNText
+      className={cn(textVariants({ variant }), textClass, className)}
+      {...props}
+    />
   );
 }

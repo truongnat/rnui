@@ -1,7 +1,7 @@
 import { Pressable, type PressableProps } from 'react-native';
 import { tv } from 'tailwind-variants';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useThemeColor } from '@/lib/utils';
 
 const toggleVariants = tv({
   base: 'flex-row items-center justify-center gap-2 rounded-md active:bg-accent',
@@ -14,9 +14,6 @@ const toggleVariants = tv({
       default: 'h-10 px-3',
       sm: 'h-9 px-2.5',
       lg: 'h-11 px-5',
-    },
-    pressed: {
-      true: 'bg-accent',
     },
   },
   defaultVariants: { variant: 'default', size: 'default' },
@@ -37,8 +34,10 @@ export function Toggle({
   size = 'default',
   className,
   disabled,
+  style,
   ...props
 }: ToggleProps) {
+  const colors = useThemeColor();
   return (
     <Pressable
       accessibilityRole="button"
@@ -46,10 +45,17 @@ export function Toggle({
       disabled={disabled}
       onPress={() => onPressedChange?.(!pressed)}
       className={cn(
-        toggleVariants({ variant, size, pressed }),
+        toggleVariants({ variant, size }),
         disabled && 'opacity-50',
         className
       )}
+      style={(state) => [
+        { borderCurve: 'continuous' },
+        // pressed bg via style prop — toggling var-classes dynamically
+        // triggers a css-interop upgrade warning (OOM risk).
+        pressed && { backgroundColor: colors.accent },
+        typeof style === 'function' ? style(state) : style,
+      ]}
       {...props}
     >
       {typeof props.children === 'string' ? (

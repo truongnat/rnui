@@ -1,5 +1,14 @@
-import { createContext, useContext, useRef, useState } from 'react';
 import {
+  cloneElement,
+  createContext,
+  isValidElement,
+  type ReactElement,
+  useContext,
+  useRef,
+  useState,
+} from 'react';
+import {
+  type GestureResponderEvent,
   Modal,
   Pressable,
   useWindowDimensions,
@@ -8,7 +17,7 @@ import {
   type ViewProps,
 } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, composeRefs } from '@/lib/utils';
 
 interface Anchor {
   x: number;
@@ -36,10 +45,16 @@ export function Tooltip({ children }: { children: React.ReactNode }) {
 
 export function TooltipTrigger({
   className,
+  asChild,
   children,
+  onPress,
+  onLongPress,
   ...props
 }: Omit<PressableProps, 'children'> & {
   className?: string;
+  /** Clone the child instead of wrapping it — avoids a nested Pressable
+   *  swallowing the press (shadcn/radix Slot pattern). */
+  asChild?: boolean;
   children?: React.ReactNode;
 }) {
   const { setOpen, setAnchor } = useContext(TooltipContext);
@@ -49,6 +64,31 @@ export function TooltipTrigger({
       setAnchor({ x, y, width, height });
       setOpen(true);
     });
+  if (asChild && isValidElement(children)) {
+    const child = children as ReactElement<Record<string, unknown>>;
+    const childProps = child.props as {
+      onPress?: (e: GestureResponderEvent) => void;
+      onLongPress?: (e: GestureResponderEvent) => void;
+      className?: string;
+      ref?: React.Ref<View>;
+    };
+    return cloneElement(child, {
+      ...props,
+      ref: composeRefs(ref, childProps.ref),
+      collapsable: false,
+      className: cn(className, childProps.className),
+      onPress: (e: GestureResponderEvent) => {
+        childProps.onPress?.(e);
+        onPress?.(e);
+        show();
+      },
+      onLongPress: (e: GestureResponderEvent) => {
+        childProps.onLongPress?.(e);
+        onLongPress?.(e);
+        show();
+      },
+    });
+  }
   return (
     <Pressable
       ref={ref}
@@ -56,6 +96,7 @@ export function TooltipTrigger({
       onLongPress={show}
       onPress={show}
       className={className}
+      collapsable={false}
       {...props}
     >
       {children}
@@ -77,10 +118,16 @@ export function TooltipContent({
 }: TooltipContentProps) {
   const { open, setOpen, anchor } = useContext(TooltipContext);
   const { width: screenW } = useWindowDimensions();
-  const [contentW, setContentW] = useState(0);
+  const [measured, setMeasured] = useState({ w: 0, h: 0 });
   const left = anchor
-    ? Math.max(8, Math.min(anchor.x, screenW - (contentW || 80) - 8))
+    ? Math.max(8, Math.min(anchor.x, screenW - (measured.w || 80) - 8))
     : 0;
+  // Above the trigger by default; flip below when it would clip the top edge.
+  const above = anchor ? anchor.y - measured.h - sideOffset : 0;
+  const top =
+    anchor && measured.h > 0 && above < 8
+      ? anchor.y + anchor.height + sideOffset
+      : Math.max(above, 8);
   return (
     <Modal visible={open} transparent animationType="fade">
       <Pressable className="flex-1" onPress={() => setOpen(false)}>
@@ -89,11 +136,17 @@ export function TooltipContent({
             style={{
               position: 'absolute',
               left,
-              top: Math.max(anchor.y - 40 - sideOffset, 0),
+              top,
+              opacity: measured.h ? 1 : 0,
             }}
           >
             <View
-              onLayout={(e) => setContentW(e.nativeEvent.layout.width)}
+              onLayout={(e) =>
+                setMeasured({
+                  w: e.nativeEvent.layout.width,
+                  h: e.nativeEvent.layout.height,
+                })
+              }
               className={cn(
                 'rounded-md bg-primary px-3 py-1.5 shadow-md',
                 className
