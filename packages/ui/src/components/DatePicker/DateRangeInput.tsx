@@ -73,7 +73,10 @@ function getPresetRange(preset: DateRangeInputPreset): DateRangeInputValue {
       return { start: startOfMonth(now), end: endOfDay(now) };
     case 'lastMonth': {
       const previousMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      return { start: startOfMonth(previousMonth), end: endOfDay(rawEndOfMonth(previousMonth)) };
+      return {
+        start: startOfMonth(previousMonth),
+        end: endOfDay(rawEndOfMonth(previousMonth)),
+      };
     }
     default:
       return assertNever(preset);
