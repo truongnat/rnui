@@ -1,13 +1,12 @@
 import { ChevronRight } from 'lucide-react-native';
 import {
   Pressable,
-  useColorScheme,
   View,
   type PressableProps,
   type ViewProps,
 } from 'react-native';
 import { Text, type TextProps } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export function Breadcrumb({
   className,
@@ -53,13 +52,9 @@ export function BreadcrumbPage({ className, ...props }: TextProps) {
 }
 
 export function BreadcrumbSeparator({ className }: { className?: string }) {
-  const scheme = useColorScheme();
   return (
     <View className={cn('mx-1.5', className)}>
-      <ChevronRight
-        size={14}
-        color={scheme === 'dark' ? '#a8a29e' : '#78716c'}
-      />
+      <ChevronRight size={14} color={useIconColor()} />
     </View>
   );
 }

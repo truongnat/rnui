@@ -596,6 +596,7 @@
       "type": "registry:ui",
       "title": "Drawer",
       "description": "Edge slide-in panel with animated translate.",
+      "dependencies": ["react-native-safe-area-context"],
       "files": [
         {
           "src": "shared/ui/drawer.tsx",

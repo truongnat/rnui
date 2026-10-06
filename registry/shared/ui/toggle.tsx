@@ -1,5 +1,6 @@
 import { Pressable, type PressableProps } from 'react-native';
 import { tv } from 'tailwind-variants';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
 const toggleVariants = tv({
@@ -50,6 +51,14 @@ export function Toggle({
         className
       )}
       {...props}
-    />
+    >
+      {typeof props.children === 'string' ? (
+        <Text className="text-sm font-medium text-foreground">
+          {props.children}
+        </Text>
+      ) : (
+        props.children
+      )}
+    </Pressable>
   );
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, useColorScheme, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Button } from '@/components/ui/button';
 import { Carousel } from '@/components/ui/carousel';
 import { Text } from '@/components/ui/text';
@@ -25,14 +25,13 @@ const SLIDES = [
 
 export function OnboardingScreen({ onDone }: { onDone?: () => void }) {
   const [index, setIndex] = useState(0);
-  const mutedColor = useColorScheme() === 'dark' ? '#a8a29e' : '#78716c';
   const last = index === SLIDES.length - 1;
 
   return (
     <View className="flex-1 bg-background">
       <View className="items-end px-4 pt-4">
         <Pressable accessibilityRole="button" onPress={onDone}>
-          <Text style={{ color: mutedColor }} className="text-sm">
+          <Text className="text-sm text-muted-foreground">
             Skip
           </Text>
         </Pressable>

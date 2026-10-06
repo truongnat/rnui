@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Pressable, useColorScheme, View, type ViewProps } from 'react-native';
+import { Pressable, View, type ViewProps } from 'react-native';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react-native';
 import {
   Table,
@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export interface DataTableColumn<T> {
   key: keyof T & string;
@@ -47,7 +47,7 @@ export function DataTable<T extends Record<string, unknown>>({
 }: DataTableProps<T>) {
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<SortDir>('asc');
-  const iconColor = useColorScheme() === 'dark' ? '#a8a29e' : '#78716c';
+  const iconColor = useIconColor();
 
   const sorted = useMemo(() => {
     if (!sortKey) return data;

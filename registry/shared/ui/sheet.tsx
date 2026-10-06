@@ -29,17 +29,21 @@ export function Sheet({ open, onOpenChange, children }: SheetProps) {
 
 export function SheetContent({
   className,
+  children,
   ...props
 }: ViewProps & { className?: string }) {
   return (
     <Pressable onPress={(e) => e.stopPropagation()}>
       <View
         className={cn(
-          'rounded-t-2xl border-t border-border bg-background p-6',
+          'rounded-t-2xl border-t border-border bg-background p-6 pt-3',
           className
         )}
         {...props}
-      />
+      >
+        <View className="mx-auto mb-4 h-1.5 w-9 rounded-full bg-muted" />
+        {children}
+      </View>
     </Pressable>
   );
 }

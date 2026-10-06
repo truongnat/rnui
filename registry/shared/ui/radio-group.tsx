@@ -55,6 +55,7 @@ export function RadioGroupItem({
 
   return (
     <Pressable
+      hitSlop={10}
       accessibilityRole="radio"
       accessibilityState={{ checked, disabled: !!disabled }}
       disabled={disabled}

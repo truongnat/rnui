@@ -2,6 +2,7 @@ import { createContext, useContext, useRef, useState } from 'react';
 import {
   Modal,
   Pressable,
+  useWindowDimensions,
   View,
   type PressableProps,
   type ViewProps,
@@ -75,6 +76,11 @@ export function TooltipContent({
   ...props
 }: TooltipContentProps) {
   const { open, setOpen, anchor } = useContext(TooltipContext);
+  const { width: screenW } = useWindowDimensions();
+  const [contentW, setContentW] = useState(0);
+  const left = anchor
+    ? Math.max(8, Math.min(anchor.x, screenW - (contentW || 80) - 8))
+    : 0;
   return (
     <Modal visible={open} transparent animationType="fade">
       <Pressable className="flex-1" onPress={() => setOpen(false)}>
@@ -82,16 +88,17 @@ export function TooltipContent({
           <View
             style={{
               position: 'absolute',
-              left: anchor.x,
+              left,
               top: Math.max(anchor.y - 40 - sideOffset, 0),
             }}
           >
             <View
+              onLayout={(e) => setContentW(e.nativeEvent.layout.width)}
               className={cn(
                 'rounded-md bg-primary px-3 py-1.5 shadow-md',
                 className
               )}
-              style={style}
+              style={[{ maxWidth: screenW - 16 }, style]}
               {...props}
             >
               {typeof children === 'string' ? (

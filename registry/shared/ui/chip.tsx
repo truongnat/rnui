@@ -1,8 +1,7 @@
 import { Pressable, type PressableProps } from 'react-native';
 import { X } from 'lucide-react-native';
-import { useColorScheme } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 import { tv } from 'tailwind-variants';
 
 const chip = tv({
@@ -42,7 +41,7 @@ export function Chip({
   disabled,
   ...props
 }: ChipProps) {
-  const dark = useColorScheme() === 'dark';
+  const iconColor = useIconColor();
   return (
     <Pressable
       accessibilityRole="button"
@@ -72,7 +71,7 @@ export function Chip({
           onPress={onRemove}
           hitSlop={6}
         >
-          <X size={14} color={dark ? '#a8a29e' : '#78716c'} />
+          <X size={14} color={iconColor} />
         </Pressable>
       )}
     </Pressable>

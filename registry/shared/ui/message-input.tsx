@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Pressable, useColorScheme, View, type ViewProps } from 'react-native';
+import { Pressable, View, type ViewProps } from 'react-native';
 import { SendHorizontal } from 'lucide-react-native';
 import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export interface MessageInputProps extends ViewProps {
   value?: string;
@@ -33,7 +33,7 @@ export function MessageInput({
     onSend?.(t);
     if (value === undefined) setInner('');
   };
-  const iconColor = useColorScheme() === 'dark' ? '#09090b' : '#fafafa';
+  const iconColor = useIconColor('onPrimary');
 
   return (
     <View

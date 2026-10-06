@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
-import { Pressable, useColorScheme, View, type ViewProps } from 'react-native';
+import { Pressable, View, type ViewProps } from 'react-native';
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export interface CalendarProps extends ViewProps {
   /** Currently selected day (1-31) of the visible month. */
@@ -35,7 +35,7 @@ export function Calendar({
   const today = useMemo(() => new Date(), []);
   const [innerMonth, setInnerMonth] = useState(month ?? selected ?? today);
   const visible = month ?? innerMonth;
-  const iconColor = useColorScheme() === 'dark' ? '#fafafa' : '#18181b';
+  const iconColor = useIconColor('foreground');
 
   const shiftMonth = (delta: number) => {
     const next = new Date(visible.getFullYear(), visible.getMonth() + delta, 1);
@@ -111,6 +111,7 @@ export function Calendar({
             <View key={date.getTime()} className="w-[14.285%] p-0.5">
               <Pressable
                 accessibilityRole="button"
+                accessibilityLabel={date.toDateString()}
                 accessibilityState={{ selected: !!isSelected }}
                 onPress={() => onSelect?.(date)}
                 className={cn(

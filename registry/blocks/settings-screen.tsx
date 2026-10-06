@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { ScrollView, useColorScheme, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { Bell, Lock, Moon, User } from 'lucide-react-native';
 import { SettingsMenu } from '@/components/ui/settings-menu';
 import { Switch } from '@/components/ui/switch';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Text } from '@/components/ui/text';
+import { useIconColor } from '@/lib/utils';
 
 export function SettingsScreen() {
   const [notifications, setNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-  const iconColor = useColorScheme() === 'dark' ? '#a8a29e' : '#78716c';
+  const iconColor = useIconColor();
 
   return (
     <ScrollView className="flex-1 bg-muted">

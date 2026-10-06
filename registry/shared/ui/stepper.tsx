@@ -1,8 +1,7 @@
 import { View, type ViewProps } from 'react-native';
 import { Check } from 'lucide-react-native';
-import { useColorScheme } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export interface StepperProps extends ViewProps {
   steps: string[];
@@ -12,8 +11,7 @@ export interface StepperProps extends ViewProps {
 }
 
 export function Stepper({ steps, current, className, ...props }: StepperProps) {
-  const dark = useColorScheme() === 'dark';
-  const checkColor = dark ? '#09090b' : '#fafafa';
+  const checkColor = useIconColor('onPrimary');
   return (
     <View className={cn('w-full flex-row', className)} {...props}>
       {steps.map((label, i) => {

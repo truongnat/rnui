@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import { Pressable, useColorScheme, View, type ViewProps } from 'react-native';
+import { Pressable, View, type ViewProps } from 'react-native';
 import { ChevronRight } from 'lucide-react-native';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export interface ListItemProps extends ViewProps {
   title: string;
@@ -27,7 +27,7 @@ export function ListItem({
   className,
   ...props
 }: ListItemProps) {
-  const iconColor = useColorScheme() === 'dark' ? '#a8a29e' : '#78716c';
+  const iconColor = useIconColor();
   const content = (
     <View
       className={cn(

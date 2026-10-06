@@ -1,14 +1,9 @@
 import { useState } from 'react';
-import {
-  Modal,
-  Pressable,
-  useColorScheme,
-  type PressableProps,
-} from 'react-native';
+import { Modal, Pressable, type PressableProps } from 'react-native';
 import { Calendar as CalendarIcon } from 'lucide-react-native';
 import { Calendar } from '@/components/ui/calendar';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export interface DatePickerProps
   extends Omit<PressableProps, 'children' | 'onChange'> {
@@ -36,7 +31,7 @@ export function DatePicker({
   ...props
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
-  const iconColor = useColorScheme() === 'dark' ? '#a8a29e' : '#78716c';
+  const iconColor = useIconColor();
 
   return (
     <>

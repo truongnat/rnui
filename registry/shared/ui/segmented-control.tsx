@@ -29,11 +29,11 @@ export function SegmentedControl<T extends string>({
             accessibilityRole="button"
             accessibilityState={{ selected: active }}
             onPress={() => onValueChange?.(opt)}
-            className={cn(
-              'rounded-md px-3 py-1.5',
-              active && 'bg-background shadow-sm'
-            )}
+            className="rounded-md px-3 py-1.5"
           >
+            {active && (
+              <View className="absolute inset-0 rounded-md bg-background shadow-sm" />
+            )}
             <Text
               className={cn(
                 'text-sm font-medium',

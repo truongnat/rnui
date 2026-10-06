@@ -78,12 +78,14 @@ export function TabsTrigger({
       onPress={() => onValueChange?.(value)}
       className={cn(
         'flex-1 items-center rounded-sm px-3 py-1.5',
-        isActive && 'bg-background shadow-sm',
         disabled && 'opacity-50',
         className
       )}
       {...props}
     >
+      {isActive && (
+        <View className="absolute inset-0 rounded-sm bg-background shadow-sm" />
+      )}
       <Text
         className={cn(
           'text-sm font-medium',

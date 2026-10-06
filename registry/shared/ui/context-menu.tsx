@@ -3,6 +3,7 @@ import {
   Modal,
   Pressable,
   ScrollView,
+  useWindowDimensions,
   View,
   type PressableProps,
   type ViewProps,
@@ -69,6 +70,8 @@ export function ContextMenuContent({
   ...props
 }: ViewProps & { className?: string; sideOffset?: number }) {
   const { open, setOpen, anchor } = useContext(ContextMenuContext);
+  const { width: screenW } = useWindowDimensions();
+  const left = anchor ? Math.max(8, Math.min(anchor.x, screenW - 224 - 8)) : 0;
   return (
     <Modal visible={open} transparent animationType="fade">
       <Pressable className="flex-1 bg-black/20" onPress={() => setOpen(false)}>
@@ -77,7 +80,7 @@ export function ContextMenuContent({
             onPress={(e) => e.stopPropagation()}
             style={{
               position: 'absolute',
-              left: anchor.x,
+              left,
               top: anchor.y + anchor.height + sideOffset,
             }}
           >

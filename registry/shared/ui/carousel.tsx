@@ -2,13 +2,12 @@ import { useRef, useState, type ReactNode } from 'react';
 import {
   FlatList,
   Pressable,
-  useColorScheme,
   useWindowDimensions,
   View,
   type ViewProps,
 } from 'react-native';
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export interface CarouselProps<T> extends Omit<ViewProps, 'children'> {
   data: T[];
@@ -18,6 +17,8 @@ export interface CarouselProps<T> extends Omit<ViewProps, 'children'> {
   className?: string;
   itemClassName?: string;
   showArrows?: boolean;
+  /** Pagination dots under the carousel. */
+  showDots?: boolean;
   onIndexChange?: (index: number) => void;
 }
 
@@ -28,6 +29,7 @@ export function Carousel<T>({
   className,
   itemClassName,
   showArrows = false,
+  showDots = true,
   onIndexChange,
   ...props
 }: CarouselProps<T>) {
@@ -35,7 +37,7 @@ export function Carousel<T>({
   const w = itemWidth ?? viewport;
   const list = useRef<FlatList<T>>(null);
   const [index, setIndex] = useState(0);
-  const iconColor = useColorScheme() === 'dark' ? '#fafafa' : '#18181b';
+  const iconColor = useIconColor('foreground');
 
   const scrollTo = (i: number) => {
     const next = Math.max(0, Math.min(data.length - 1, i));
@@ -86,6 +88,24 @@ export function Carousel<T>({
           >
             <ChevronRight size={18} color={iconColor} />
           </Pressable>
+        </View>
+      )}
+      {showDots && data.length > 1 && (
+        <View className="mt-3 flex-row items-center justify-center gap-1.5">
+          {data.map((_item, i) => (
+            <Pressable
+              // biome-ignore lint/suspicious/noArrayIndexKey: pagination dots have no stable id
+              key={i}
+              accessibilityRole="button"
+              accessibilityLabel={`Go to slide ${i + 1}`}
+              hitSlop={6}
+              onPress={() => scrollTo(i)}
+              className={cn(
+                'h-1.5 rounded-full',
+                i === index ? 'w-5 bg-foreground' : 'w-1.5 bg-border'
+              )}
+            />
+          ))}
         </View>
       )}
     </View>

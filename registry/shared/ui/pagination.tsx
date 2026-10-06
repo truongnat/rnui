@@ -1,13 +1,12 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 import {
   Pressable,
-  useColorScheme,
   View,
   type PressableProps,
   type ViewProps,
 } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export interface PaginationProps extends ViewProps {
   page: number;
@@ -45,8 +44,7 @@ export function Pagination({
   className,
   ...props
 }: PaginationProps) {
-  const scheme = useColorScheme();
-  const muted = scheme === 'dark' ? '#a8a29e' : '#78716c';
+  const muted = useIconColor();
   const items = range(page, totalPages, siblings);
 
   return (

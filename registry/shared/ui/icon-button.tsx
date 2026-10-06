@@ -18,7 +18,7 @@ const iconButton = tv({
       lg: 'h-12 w-12',
     },
   },
-  defaultVariants: { variant: 'default', size: 'md' },
+  defaultVariants: { variant: 'ghost', size: 'md' },
 });
 
 export interface IconButtonProps extends Omit<PressableProps, 'children'> {

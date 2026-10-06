@@ -1,14 +1,8 @@
 import { Search } from 'lucide-react-native';
 import { useState } from 'react';
-import {
-  Modal,
-  Pressable,
-  ScrollView,
-  TextInput,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { Modal, Pressable, ScrollView, TextInput, View } from 'react-native';
 import { Text } from '@/components/ui/text';
+import { useIconColor } from '@/lib/utils';
 
 export interface CommandItemData {
   label: string;
@@ -36,8 +30,7 @@ export function Command({
   className,
 }: CommandProps) {
   const [query, setQuery] = useState('');
-  const scheme = useColorScheme();
-  const muted = scheme === 'dark' ? '#a8a29e' : '#78716c';
+  const muted = useIconColor();
   const filtered = query
     ? items.filter((i) => i.label.toLowerCase().includes(query.toLowerCase()))
     : items;
@@ -73,18 +66,26 @@ export function Command({
                 {emptyText}
               </Text>
             ) : (
-              filtered.map((item) => (
-                <Pressable
-                  key={item.value}
-                  onPress={() => {
-                    onSelect?.(item);
-                    onOpenChange?.(false);
-                    setQuery('');
-                  }}
-                  className="rounded-md px-3 py-2.5 active:bg-accent"
-                >
-                  <Text className="text-sm text-foreground">{item.label}</Text>
-                </Pressable>
+              filtered.map((item, i) => (
+                <View key={item.value}>
+                  {item.group && item.group !== filtered[i - 1]?.group && (
+                    <Text className="px-3 pb-1 pt-2.5 text-xs font-medium text-muted-foreground">
+                      {item.group}
+                    </Text>
+                  )}
+                  <Pressable
+                    onPress={() => {
+                      onSelect?.(item);
+                      onOpenChange?.(false);
+                      setQuery('');
+                    }}
+                    className="rounded-md px-3 py-2.5 active:bg-accent"
+                  >
+                    <Text className="text-sm text-foreground">
+                      {item.label}
+                    </Text>
+                  </Pressable>
+                </View>
               ))
             )}
           </ScrollView>

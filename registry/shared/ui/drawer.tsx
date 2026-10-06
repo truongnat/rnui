@@ -7,6 +7,7 @@ import {
   View,
   type ViewProps,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, type TextProps } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
@@ -55,7 +56,7 @@ export function Drawer({
           }}
         >
           <View className="h-full border-l border-border bg-background">
-            {children}
+            <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
           </View>
         </Animated.View>
         {side === 'left' && (

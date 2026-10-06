@@ -72,10 +72,10 @@ export function BarChart({
         y: height - h,
         width: barWidth,
         height: h,
-        color: d.color ?? palette[i % palette.length],
+        color: d.color ?? (colors ? palette[i % palette.length] : palette[0]),
       };
     });
-  }, [width, data, height, max, palette]);
+  }, [width, data, height, max, palette, colors]);
 
   return (
     <View className={cn('w-full', className)} onLayout={onLayout} {...props}>

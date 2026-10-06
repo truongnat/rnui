@@ -7,9 +7,8 @@ import {
   View,
   type PressableProps,
 } from 'react-native';
-import { useColorScheme } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export interface SelectOption {
   label: string;
@@ -37,8 +36,7 @@ export function Select({
   ...props
 }: SelectProps) {
   const [open, setOpen] = useState(false);
-  const scheme = useColorScheme();
-  const iconColor = scheme === 'dark' ? '#a8a29e' : '#78716c';
+  const iconColor = useIconColor();
   const selected = options.find((o) => o.value === value);
 
   return (

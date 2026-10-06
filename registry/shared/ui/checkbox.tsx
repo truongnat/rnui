@@ -1,7 +1,6 @@
 import { Check } from 'lucide-react-native';
 import { Pressable, type PressableProps } from 'react-native';
-import { useColorScheme } from 'react-native';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export interface CheckboxProps extends Omit<PressableProps, 'children'> {
   checked?: boolean;
@@ -16,11 +15,11 @@ export function Checkbox({
   disabled,
   ...props
 }: CheckboxProps) {
-  const scheme = useColorScheme();
-  const iconColor = scheme === 'dark' ? '#1c1917' : '#fafaf9';
+  const iconColor = useIconColor('onPrimary');
 
   return (
     <Pressable
+      hitSlop={10}
       accessibilityRole="checkbox"
       accessibilityState={{ checked, disabled: !!disabled }}
       disabled={disabled}

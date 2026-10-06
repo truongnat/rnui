@@ -3,6 +3,7 @@ import {
   Modal,
   Pressable,
   ScrollView,
+  useWindowDimensions,
   View,
   type PressableProps,
   type ViewProps,
@@ -66,6 +67,8 @@ export function DropdownMenuContent({
   children?: React.ReactNode;
 }) {
   const { open, setOpen, anchor } = useContext(MenuContext);
+  const { width: screenW } = useWindowDimensions();
+  const left = anchor ? Math.max(8, Math.min(anchor.x, screenW - 192 - 8)) : 0;
   return (
     <Modal visible={open} transparent animationType="fade">
       <Pressable className="flex-1" onPress={() => setOpen(false)}>
@@ -74,7 +77,7 @@ export function DropdownMenuContent({
             onPress={(e) => e.stopPropagation()}
             style={{
               position: 'absolute',
-              left: anchor.x,
+              left,
               top: anchor.y + anchor.height + 4,
             }}
           >

@@ -3,13 +3,12 @@ import { createContext, useContext, useState } from 'react';
 import {
   Animated,
   Pressable,
-  useColorScheme,
   View,
   type PressableProps,
   type ViewProps,
 } from 'react-native';
 import { Text, type TextProps } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 interface AccordionContextValue {
   open: Set<string>;
@@ -101,7 +100,7 @@ export function AccordionTrigger({
 }: AccordionTriggerProps) {
   const { toggle } = useContext(AccordionContext);
   const { value, open } = useContext(ItemContext);
-  const scheme = useColorScheme();
+  const iconColor = useIconColor();
 
   return (
     <Pressable
@@ -115,10 +114,7 @@ export function AccordionTrigger({
       <Animated.View
         style={{ transform: [{ rotate: open ? '180deg' : '0deg' }] }}
       >
-        <ChevronDown
-          size={16}
-          color={scheme === 'dark' ? '#a8a29e' : '#78716c'}
-        />
+        <ChevronDown size={16} color={iconColor} />
       </Animated.View>
     </Pressable>
   );

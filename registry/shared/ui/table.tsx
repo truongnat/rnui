@@ -27,10 +27,7 @@ export function TableHeader({
   ...props
 }: ViewProps & { className?: string }) {
   return (
-    <View
-      className={cn('flex-row border-b border-border', className)}
-      {...props}
-    />
+    <View className={cn('border-b border-border', className)} {...props} />
   );
 }
 

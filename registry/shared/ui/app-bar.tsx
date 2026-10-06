@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import { Pressable, useColorScheme, View, type ViewProps } from 'react-native';
+import { Pressable, View, type ViewProps } from 'react-native';
 import { ChevronLeft } from 'lucide-react-native';
 import { Text, type TextProps } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
 export interface AppBarProps extends ViewProps {
   /** Rendered on the leading edge (overrides `onBack`). */
@@ -22,7 +22,7 @@ export function AppBar({
   children,
   ...props
 }: AppBarProps) {
-  const iconColor = useColorScheme() === 'dark' ? '#fafafa' : '#18181b';
+  const iconColor = useIconColor('foreground');
   return (
     <View
       className={cn(
@@ -44,7 +44,7 @@ export function AppBar({
             </Pressable>
           ))}
       </View>
-      <View className="flex-1 flex-row items-center">{children}</View>
+      <View className="flex-1 justify-center px-1">{children}</View>
       <View className="min-w-10 flex-row items-center justify-end">
         {trailing}
       </View>
