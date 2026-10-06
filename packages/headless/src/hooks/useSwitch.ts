@@ -1,17 +1,17 @@
 import { useCallback, useState } from 'react';
 import { useId } from './useId';
 
-export interface UseSwitchOptions {
-  defaultOn?: boolean;
-  on?: boolean;
-  onChange?: (on: boolean) => void;
+export interface UseSwitchProps {
+  checked?: boolean;
+  defaultChecked?: boolean;
+  onChange?: (checked: boolean) => void;
   disabled?: boolean;
   id?: string;
 }
 
 export interface UseSwitchReturn {
-  isOn: boolean;
-  isDisabled: boolean;
+  checked: boolean;
+  disabled: boolean;
   toggle: () => void;
   accessibilityProps: {
     accessible: boolean;
@@ -22,31 +22,31 @@ export interface UseSwitchReturn {
 }
 
 export function useSwitch({
-  defaultOn = false,
-  on: controlledOn,
+  defaultChecked = false,
+  checked: controlledChecked,
   onChange,
   disabled = false,
   id: idProp,
-}: UseSwitchOptions = {}): UseSwitchReturn {
+}: UseSwitchProps = {}): UseSwitchReturn {
   const id = useId(idProp, 'switch');
-  const [internalOn, setInternalOn] = useState(defaultOn);
-  const isOn = controlledOn !== undefined ? controlledOn : internalOn;
+  const [internalChecked, setInternalChecked] = useState(defaultChecked);
+  const checked = controlledChecked !== undefined ? controlledChecked : internalChecked;
 
   const toggle = useCallback(() => {
     if (disabled) return;
-    const next = !isOn;
-    if (controlledOn === undefined) setInternalOn(next);
+    const next = !checked;
+    if (controlledChecked === undefined) setInternalChecked(next);
     onChange?.(next);
-  }, [disabled, isOn, controlledOn, onChange]);
+  }, [disabled, checked, controlledChecked, onChange]);
 
   return {
-    isOn,
-    isDisabled: disabled,
+    checked,
+    disabled,
     toggle,
     accessibilityProps: {
       accessible: true,
       accessibilityRole: 'switch',
-      accessibilityState: { checked: isOn, disabled },
+      accessibilityState: { checked, disabled },
       nativeID: id,
     },
   };
