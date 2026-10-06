@@ -19,39 +19,61 @@ beforeEach(() => {
 
 describe('parseUrl', () => {
   it('allows http:', () => {
-    expect(parseUrl('https://example.com')?.safe).toBe(true);
+    expect(parseUrl('http://example.com')).toEqual({
+      scheme: 'http:',
+      safe: true,
+    });
   });
 
   it('allows https:', () => {
-    expect(parseUrl('https://example.com')?.safe).toBe(true);
+    expect(parseUrl('https://example.com')).toEqual({
+      scheme: 'https:',
+      safe: true,
+    });
   });
 
   it('allows mailto:', () => {
-    expect(parseUrl('mailto:test@example.com')?.safe).toBe(true);
+    expect(parseUrl('mailto:test@example.com')).toEqual({
+      scheme: 'mailto:',
+      safe: true,
+    });
   });
 
   it('allows tel:', () => {
-    expect(parseUrl('tel:+1234567890')?.safe).toBe(true);
+    expect(parseUrl('tel:+1234567890')).toEqual({ scheme: 'tel:', safe: true });
   });
 
   it('allows sms:', () => {
-    expect(parseUrl('sms:+1234567890')?.safe).toBe(true);
+    expect(parseUrl('sms:+1234567890')).toEqual({ scheme: 'sms:', safe: true });
   });
 
   it('blocks javascript:', () => {
-    expect(parseUrl('javascript:alert(1)')?.safe).toBe(false);
+    expect(parseUrl('javascript:alert(1)')).toEqual({
+      scheme: 'javascript:',
+      safe: false,
+    });
   });
 
   it('blocks file:', () => {
-    expect(parseUrl('file:///etc/passwd')?.safe).toBe(false);
+    expect(parseUrl('file:///etc/passwd')).toEqual({
+      scheme: 'file:',
+      safe: false,
+    });
   });
 
   it('blocks data:', () => {
-    expect(parseUrl('data:text/html,<script>')?.safe).toBe(false);
+    expect(parseUrl('data:text/html,<script>')).toEqual({
+      scheme: 'data:',
+      safe: false,
+    });
   });
 
-  it('returns null for invalid URL', () => {
+  it('returns null for empty URL', () => {
     expect(parseUrl('')).toBeNull();
+  });
+
+  it('returns null for malformed URL string', () => {
+    expect(parseUrl('not-a-url')).toBeNull();
   });
 });
 
