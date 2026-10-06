@@ -50,13 +50,30 @@ export function useSelect<T = string>({
   const selected =
     controlledValue !== undefined ? controlledValue : internalValue;
 
+  const optionsMap = useMemo(() => {
+    const map = new Map<T, string>();
+    for (let i = 0; i < options.length; i++) {
+      const option = options[i];
+      if (option) {
+        map.set(option.value, option.label);
+      }
+    }
+    return map;
+  }, [options]);
+
+  const selectedSet = useMemo(() => {
+    return new Set(Array.isArray(selected) ? selected : []);
+  }, [selected]);
+
   const selectOption = useCallback(
     (val: T) => {
       if (disabled) return;
       let next: T | T[];
       if (multiple) {
         const arr = Array.isArray(selected) ? selected : [];
-        next = arr.includes(val) ? arr.filter((v) => v !== val) : [...arr, val];
+        next = selectedSet.has(val)
+          ? arr.filter((v) => v !== val)
+          : [...arr, val];
       } else {
         next = val;
         disclosure.close();
@@ -64,7 +81,15 @@ export function useSelect<T = string>({
       if (controlledValue === undefined) setInternalValue(next);
       onChange?.(next);
     },
-    [disabled, multiple, selected, controlledValue, onChange, disclosure]
+    [
+      disabled,
+      multiple,
+      selected,
+      selectedSet,
+      controlledValue,
+      onChange,
+      disclosure,
+    ]
   );
 
   const clearSelection = useCallback(() => {
@@ -77,25 +102,21 @@ export function useSelect<T = string>({
   const isSelected = useCallback(
     (val: T) => {
       if (!selected) return false;
-      if (Array.isArray(selected)) return selected.includes(val);
+      if (Array.isArray(selected)) return selectedSet.has(val);
       return selected === val;
     },
-    [selected]
+    [selected, selectedSet]
   );
 
   const displayLabel = useMemo(() => {
     if (!selected || (Array.isArray(selected) && selected.length === 0))
       return placeholder;
     if (Array.isArray(selected)) {
-      const optionsMap = new Map();
-      for (let i = 0; i < options.length; i++) {
-        optionsMap.set(options[i].value, options[i].label);
-      }
       const labels = selected.map((v) => optionsMap.get(v)).filter(Boolean);
       return labels.join(', ');
     }
-    return options.find((o) => o.value === selected)?.label ?? placeholder;
-  }, [selected, options, placeholder]);
+    return optionsMap.get(selected as T) ?? placeholder;
+  }, [selected, optionsMap, placeholder]);
 
   return {
     selected,

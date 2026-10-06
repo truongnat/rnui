@@ -2,7 +2,9 @@ import { Linking } from 'react-native';
 
 const ALLOWED_SCHEMES = ['http:', 'https:', 'mailto:', 'tel:', 'sms:'];
 
-export function parseUrl(url: string): { scheme: string; safe: boolean } | null {
+export function parseUrl(
+  url: string
+): { scheme: string; safe: boolean } | null {
   try {
     const { protocol } = new URL(url);
     return {
