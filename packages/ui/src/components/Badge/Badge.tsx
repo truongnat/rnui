@@ -59,7 +59,7 @@ function BadgeInner({
       sizeBox,
       {
         backgroundColor: variantTokens.bg,
-        borderWidth: dot ? 0 : badge.base.borderWidth,
+        borderWidth: dot ? 0 : 1,
         borderColor: variantTokens.border,
         flexDirection: 'row' as const,
         alignItems: 'center' as const,

@@ -1,3 +1,9 @@
+import { mock, describe, beforeEach, it, expect, test } from 'bun:test';
+mock.module('@react-native-community/datetimepicker', () => ({
+  __esModule: true,
+  default: mock(() => null),
+}));
+
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeProvider } from '@truongdq01/headless';
@@ -6,12 +12,7 @@ import { DatePicker } from '../DatePicker';
 import { DateRangeInput } from '../DateRangeInput';
 import { DateTimeInput } from '../DateTimeInput';
 
-jest.mock('@react-native-community/datetimepicker', () => ({
-  __esModule: true,
-  default: jest.fn(() => null),
-}));
-
-const DateTimePickerMock = DateTimePicker as unknown as jest.Mock;
+const DateTimePickerMock = DateTimePicker as unknown as ReturnType<typeof mock>;
 
 describe('DatePicker', () => {
   beforeEach(() => {
@@ -28,7 +29,7 @@ describe('DatePicker', () => {
   });
 
   test('forwards locale and timezone props to DateTimePicker', () => {
-    const onChange = jest.fn();
+    const onChange = mock();
     const { getByText } = render(
       <ThemeProvider>
         <DatePicker
@@ -57,7 +58,7 @@ describe('DatePicker', () => {
   });
 
   test('clear button calls onChange with null', () => {
-    const onChange = jest.fn();
+    const onChange = mock();
     const { getByLabelText } = render(
       <ThemeProvider>
         <DatePicker date={new Date(2024, 5, 15)} onChange={onChange} />
@@ -68,7 +69,7 @@ describe('DatePicker', () => {
   });
 
   test('DateInput renders helper text and clears value', () => {
-    const onChange = jest.fn();
+    const onChange = mock();
     const { getByLabelText, getByText } = render(
       <ThemeProvider>
         <DateInput
@@ -100,7 +101,7 @@ describe('DatePicker', () => {
   });
 
   test('DateRangeInput presets and clear call onChange', () => {
-    const onChange = jest.fn();
+    const onChange = mock();
     const { getByLabelText, getByText } = render(
       <ThemeProvider>
         <DateRangeInput
