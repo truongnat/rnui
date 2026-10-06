@@ -10,9 +10,10 @@ export function FlashList({
 }) {
   return (
     <View>
-      {data.map((item, index) => (
-        <View key={index}>{renderItem({ item, index })}</View>
-      ))}
+      {data.map((item, index) => {
+        // biome-ignore lint/suspicious/noArrayIndexKey: This is a mock implementation for testing/web where items might not have keys
+        return <View key={index}>{renderItem({ item, index })}</View>;
+      })}
     </View>
   );
 }

@@ -76,6 +76,20 @@ function validatePropAgainstSchema(
   return null;
 }
 
+const propMapCache = new WeakMap<
+  ComponentSchema,
+  Map<string, ComponentPropSchema>
+>();
+
+function getPropMap(schema: ComponentSchema): Map<string, ComponentPropSchema> {
+  let propMap = propMapCache.get(schema);
+  if (!propMap) {
+    propMap = new Map(schema.props.map((prop) => [prop.name, prop]));
+    propMapCache.set(schema, propMap);
+  }
+  return propMap;
+}
+
 export function validateComponentProps(
   name: string,
   props: Record<string, unknown> | undefined
@@ -93,7 +107,7 @@ export function validateComponentProps(
   }
 
   const safeProps = props ?? {};
-  const propMap = new Map(schema.props.map((prop) => [prop.name, prop]));
+  const propMap = getPropMap(schema);
 
   for (const key of Object.keys(safeProps)) {
     if (isFunctionValue(safeProps[key])) {
