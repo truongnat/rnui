@@ -4,7 +4,9 @@ import type { TabsContextValue } from './types';
 /**
  * Shared context that flows from Tabs (root) down to Tab, TabList, and TabPanel.
  */
-export const TabsContext = createContext<TabsContextValue<any> | null>(null);
+export const TabsContext = createContext<TabsContextValue<unknown> | null>(
+  null
+);
 
 /**
  * Typed hook for consuming TabsContext.

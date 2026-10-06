@@ -60,7 +60,7 @@ export function Tabs<T = string>({
   );
 
   return (
-    <TabsContext.Provider value={ctx}>
+    <TabsContext.Provider value={ctx as any}>
       <View nativeID={id} style={containerStyle}>
         {children}
       </View>

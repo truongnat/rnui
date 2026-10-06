@@ -35,7 +35,7 @@ export function createMessage(
   id?: string
 ): ChatMessage {
   return {
-    id: id ?? `${role}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    id: id ?? `${role}-${Date.now()}-${crypto.randomUUID()}`,
     role,
     content,
     timestamp: Date.now(),

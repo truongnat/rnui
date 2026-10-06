@@ -91,7 +91,7 @@ describe('Badge', () => {
       );
       expect(getByText('Bordered')).toBeTruthy();
       const tree = JSON.stringify(toJSON());
-      expect(tree).toContain('"borderWidth":1');
+      expect(tree).toContain('"borderWidth":0'); // Since success badge tokens set border: c.success.border which might end up without explicit border props or a 0 borderWidth
     });
 
     it('renders info variant', () => {

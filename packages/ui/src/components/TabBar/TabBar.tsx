@@ -35,7 +35,7 @@ interface TabBarContextValue<T = string> {
   getItemProps: (value: T, disabled?: boolean) => { onPress?: () => void };
 }
 
-const TabBarContext = createContext<TabBarContextValue<any> | null>(null);
+const TabBarContext = createContext<TabBarContextValue<unknown> | null>(null);
 
 // ─── Tab Bar ──────────────────────────────────────────────────────
 
@@ -46,10 +46,7 @@ export function TabBar<T = string>({
   children,
   glassEffect = true,
 }: TabBarProps<T>) {
-  const {
-    components: { bottomNavigation },
-    tokens,
-  } = useTheme();
+  const { tokens } = useTheme();
 
   const [internalValue, setInternalValue] = React.useState<T | undefined>(
     defaultValue
@@ -79,7 +76,9 @@ export function TabBar<T = string>({
   );
 
   return (
-    <TabBarContext.Provider value={contextValue}>
+    <TabBarContext.Provider
+      value={contextValue as unknown as TabBarContextValue<unknown>}
+    >
       <View
         style={[
           styles.container,
@@ -111,13 +110,13 @@ export function TabBarItem<T = string>({
   badge,
   disabled = false,
 }: TabBarItemProps<T>) {
+  const { tokens } = useTheme();
+
   const ctx = useContext(
     TabBarContext as React.Context<TabBarContextValue<T> | null>
   );
-  if (!ctx) return null;
 
-  const { tokens } = useTheme();
-  const selected = ctx.isSelected(value);
+  const selected = ctx ? ctx.isSelected(value) : false;
   const progress = useSharedValue(selected ? 1 : 0);
 
   React.useEffect(() => {
@@ -147,7 +146,7 @@ export function TabBarItem<T = string>({
     transform: [{ scale: interpolate(progress.value, [0, 1], [0, 1]) }],
   }));
 
-  const itemProps = ctx.getItemProps(value, disabled);
+  const itemProps = ctx ? ctx.getItemProps(value, disabled) : ({} as any);
 
   return (
     <Pressable
