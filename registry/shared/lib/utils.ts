@@ -47,6 +47,8 @@ export function composeRefs<T>(...refs: (Ref<T> | undefined)[]) {
 }
 
 export type ThemeColorToken =
+  | 'background'
+  | 'foreground'
   | 'primary'
   | 'primaryForeground'
   | 'ring'
@@ -67,6 +69,8 @@ export type ThemeColorToken =
 export function useThemeColor(): Record<ThemeColorToken, string> {
   const dark = useColorScheme() === 'dark';
   return {
+    background: dark ? '#09090b' : '#ffffff',
+    foreground: dark ? '#fafafa' : '#09090b',
     primary: dark ? '#fafafa' : '#18181b',
     primaryForeground: dark ? '#18181b' : '#fafafa',
     ring: dark ? '#d4d4d8' : '#09090b',

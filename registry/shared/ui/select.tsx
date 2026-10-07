@@ -103,9 +103,11 @@ export function Select({
                       setOpen(false);
                     }}
                     className={cn(
-                      'flex-row items-center justify-between rounded-md px-3 py-3',
-                      active && 'bg-accent'
+                      'flex-row items-center justify-between rounded-md px-3 py-3'
                     )}
+                    style={
+                      active ? { backgroundColor: colors.accent } : undefined
+                    }
                   >
                     <Text
                       className={cn(

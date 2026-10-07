@@ -1,8 +1,7 @@
 import { AlertCircle, Info } from 'lucide-react-native';
 import { View, type ViewProps } from 'react-native';
-import { useColorScheme } from 'react-native';
 import { Text, type TextProps } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor, useThemeColor } from '@/lib/utils';
 
 export interface AlertProps extends ViewProps {
   variant?: 'default' | 'destructive';
@@ -15,13 +14,9 @@ export function Alert({
   children,
   ...props
 }: AlertProps) {
-  const scheme = useColorScheme();
-  const iconColor =
-    variant === 'destructive'
-      ? '#ef4444'
-      : scheme === 'dark'
-        ? '#fafaf9'
-        : '#1c1917';
+  const theme = useThemeColor();
+  const foreground = useIconColor('foreground');
+  const iconColor = variant === 'destructive' ? theme.destructive : foreground;
   const Icon = variant === 'destructive' ? AlertCircle : Info;
 
   return (

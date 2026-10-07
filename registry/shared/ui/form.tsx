@@ -1,7 +1,7 @@
 import { useContext, useId, type ReactNode } from 'react';
 import { View, type ViewProps } from 'react-native';
 import { Text, type TextProps } from '@/components/ui/text';
-import { cn, FormFieldContext } from '@/lib/utils';
+import { cn, FormFieldContext, useThemeColor } from '@/lib/utils';
 
 export interface FormFieldProps extends ViewProps {
   error?: string;
@@ -35,13 +35,11 @@ export function useFormField() {
 
 export function FormLabel({ className, ...props }: TextProps) {
   const { error } = useFormField();
+  const theme = useThemeColor();
   return (
     <Text
-      className={cn(
-        'text-sm font-medium text-foreground',
-        error && 'text-destructive',
-        className
-      )}
+      className={cn('text-sm font-medium text-foreground', className)}
+      style={error ? { color: theme.destructive } : undefined}
       {...props}
     />
   );

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Pressable, View, type ViewProps } from 'react-native';
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { Text } from '@/components/ui/text';
-import { cn, useIconColor } from '@/lib/utils';
+import { cn, useIconColor, useThemeColor } from '@/lib/utils';
 
 export interface CalendarProps extends ViewProps {
   /** Currently selected day (1-31) of the visible month. */
@@ -36,6 +36,7 @@ export function Calendar({
   const [innerMonth, setInnerMonth] = useState(month ?? selected ?? today);
   const visible = month ?? innerMonth;
   const iconColor = useIconColor('foreground');
+  const theme = useThemeColor();
 
   const shiftMonth = (delta: number) => {
     const next = new Date(visible.getFullYear(), visible.getMonth() + delta, 1);
@@ -116,10 +117,12 @@ export function Calendar({
                 onPress={() => onSelect?.(date)}
                 className={cn(
                   'aspect-square items-center justify-center rounded-md',
-                  isSelected && 'bg-primary',
                   !isSelected && isToday && 'border border-border',
                   !isSelected && 'active:bg-accent'
                 )}
+                style={
+                  isSelected ? { backgroundColor: theme.primary } : undefined
+                }
               >
                 <Text
                   className={cn(

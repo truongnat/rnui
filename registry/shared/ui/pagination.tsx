@@ -6,7 +6,7 @@ import {
   type ViewProps,
 } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { cn, useIconColor } from '@/lib/utils';
+import { cn, useIconColor, useThemeColor } from '@/lib/utils';
 
 export interface PaginationProps extends ViewProps {
   page: number;
@@ -45,6 +45,7 @@ export function Pagination({
   ...props
 }: PaginationProps) {
   const muted = useIconColor();
+  const theme = useThemeColor();
   const items = range(page, totalPages, siblings);
 
   return (
@@ -68,6 +69,10 @@ export function Pagination({
           <PaginationButton
             key={it}
             active={it === page}
+            activeStyle={{
+              borderColor: theme.border,
+              backgroundColor: theme.background,
+            }}
             onPress={() => onPageChange?.(it)}
             accessibilityLabel={`Page ${it}`}
           >
@@ -95,19 +100,26 @@ export function Pagination({
 
 function PaginationButton({
   active,
+  activeStyle,
   disabled,
   className,
   ...props
-}: PressableProps & { active?: boolean; className?: string }) {
+}: PressableProps & {
+  active?: boolean;
+  activeStyle?: PressableProps['style'];
+  className?: string;
+}) {
   return (
     <Pressable
       disabled={disabled}
       className={cn(
         'h-9 min-w-9 items-center justify-center rounded-md px-2',
-        active ? 'border border-border bg-background' : 'active:bg-accent',
+        active && 'border',
+        !active && 'active:bg-accent',
         disabled && 'opacity-40',
         className
       )}
+      style={active ? activeStyle : undefined}
       {...props}
     />
   );

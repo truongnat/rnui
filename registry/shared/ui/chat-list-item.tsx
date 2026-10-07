@@ -17,6 +17,8 @@ export interface ChatListItemProps extends ViewProps {
   fallback?: string;
   /** Online indicator dot. */
   online?: boolean;
+  /** Extra classes for the online dot (e.g. `bg-sky-500`). */
+  presenceClassName?: string;
   onPress?: () => void;
   className?: string;
 }
@@ -29,6 +31,7 @@ export function ChatListItem({
   avatarUrl,
   fallback,
   online,
+  presenceClassName,
   onPress,
   className,
   ...props
@@ -54,7 +57,12 @@ export function ChatListItem({
             </AvatarFallback>
           </Avatar>
           {online && (
-            <View className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-background bg-green-500" />
+            <View
+              className={cn(
+                'absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-background bg-green-500',
+                presenceClassName
+              )}
+            />
           )}
         </View>
         <View className="flex-1">

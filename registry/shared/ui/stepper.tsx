@@ -1,7 +1,7 @@
 import { View, type ViewProps } from 'react-native';
 import { Check } from 'lucide-react-native';
 import { Text } from '@/components/ui/text';
-import { cn, useIconColor } from '@/lib/utils';
+import { cn, useIconColor, useThemeColor } from '@/lib/utils';
 
 export interface StepperProps extends ViewProps {
   steps: string[];
@@ -12,6 +12,7 @@ export interface StepperProps extends ViewProps {
 
 export function Stepper({ steps, current, className, ...props }: StepperProps) {
   const checkColor = useIconColor('onPrimary');
+  const theme = useThemeColor();
   return (
     <View className={cn('w-full flex-row', className)} {...props}>
       {steps.map((label, i) => {
@@ -24,10 +25,18 @@ export function Stepper({ steps, current, className, ...props }: StepperProps) {
               <View
                 className={cn(
                   'h-7 w-7 items-center justify-center rounded-full border',
-                  done && 'border-primary bg-primary',
-                  active && 'border-primary',
                   !done && !active && 'border-border'
                 )}
+                style={
+                  done
+                    ? {
+                        backgroundColor: theme.primary,
+                        borderColor: theme.primary,
+                      }
+                    : active
+                      ? { borderColor: theme.primary }
+                      : undefined
+                }
               >
                 {done ? (
                   <Check size={14} color={checkColor} strokeWidth={3} />
@@ -44,10 +53,8 @@ export function Stepper({ steps, current, className, ...props }: StepperProps) {
               </View>
               {!last && (
                 <View
-                  className={cn(
-                    'h-px flex-1',
-                    done ? 'bg-primary' : 'bg-border'
-                  )}
+                  className={cn('h-px flex-1', !done && 'bg-border')}
+                  style={done ? { backgroundColor: theme.primary } : undefined}
                 />
               )}
             </View>
