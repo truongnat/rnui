@@ -59,8 +59,6 @@ coverage
 tsconfig.tsbuildinfo
 tsconfig.*.tsbuildinfo
 
-# GitNexus
-.gitnexus
 packages/*/dist/
 .vercel
 .understand-anything
