@@ -450,7 +450,7 @@ export default function SurfaceVisibilityScreen() {
 
       <DemoSection
         title="Manual device checklist"
-        description="Mark pass/fail in .planning/device-qa-results.md after simulator run."
+        description="Manual pass/fail checklist to run on a simulator or device."
         bare
       >
         <Stack spacing="xs">
