@@ -1,8 +1,0 @@
-{
-  "expo": {
-    "name": "RNUI Storybook",
-    "slug": "rnui-storybook",
-    "entryPoint": "./index.js",
-    "platforms": ["ios", "android", "web"]
-  }
-}

@@ -1,48 +1,50 @@
 {
   "libraryName": "RNUI",
-  "description": "AI-native React Native UI kit and design system with structured metadata for coding agents",
-  "packageScope": "@truongdq01",
-  "primaryPackage": "@truongdq01/ui",
+  "description": "AI-native React Native UI kit — shadcn-style registry: components are copied into the consumer's project (npx shadcn add) under components/ui/, styled with NativeWind/Uniwind classes.",
+  "distributionModel": {
+    "type": "registry",
+    "cli": "npx shadcn add <registry-url>/<variant>/<item>.json",
+    "variants": ["nativewind", "uniwind"],
+    "catalog": "registry/registry.json",
+    "consumerPath": "components/ui/<name>.tsx",
+    "importStyle": "import { Button } from '@/components/ui/button';",
+    "utils": "import { cn, useThemeColor } from '@/lib/utils';"
+  },
+  "internalPackages": {
+    "@rnui/component-schema": "Machine-readable component contracts + ScreenSchema validation",
+    "@rnui/renderer": "ScreenSchema renderer + TSX export",
+    "@rnui/cli": "init/add/list for registry (publish pending)"
+  },
   "supportedRuntime": {
     "react": "19.x",
     "reactNative": ">=0.83",
     "expo": "supported through example app",
-    "newArchitecture": "recommended"
+    "newArchitecture": "recommended",
+    "stylingEngine": ["nativewind v4 (tailwind v3)", "uniwind (tailwind v4, CSS-first)"]
   },
   "designPrinciples": [
-    "Prefer existing RNUI components over custom UI",
-    "Use theme tokens — never random hex colors or magic spacing",
+    "Prefer existing RNUI registry components over custom UI",
+    "Style with Tailwind classes via cn(); semantic color tokens only — never raw hex or magic spacing",
+    "Dynamic state colors go through the style prop (useThemeColor) — never toggle var-referencing classes at runtime (Hermes OOM)",
     "Mobile-first, accessible, production-like screens",
-    "Respect package boundaries: tokens → headless → ui → app",
     "TypeScript-safe generated code for Expo / React Native",
-    "Honor reduced motion for non-essential animations (useReducedMotion)"
+    "Honor reduced motion for non-essential animations"
   ],
   "designSystemBaseline": {
     "name": "Astryx Design System",
     "docs": "https://astryx.atmeta.com/docs/getting-started",
-    "note": "RNUI aligns color, shape, spacing, typography, and motion with Astryx (adapted for React Native). RNUI keeps its own token names/architecture; the alignment is additive."
+    "note": "RNUI aligns color, shape, spacing, typography, and motion with Astryx (adapted for React Native)."
   },
   "themeBrands": {
-    "package": "@truongdq01/themes",
-    "note": "Built-in default tokens use the Astryx 'neutral' palette. These presets are the Astryx theme gallery.",
-    "available": [
-      "neutralBrand",
-      "stoneBrand",
-      "butterBrand",
-      "chocolateBrand",
-      "matchaBrand",
-      "gothicBrand",
-      "y2kBrand"
-    ]
+    "note": "Registry 'theme' item + theme-<brand> items ship CSS var presets per variant (global.css / @theme).",
+    "available": ["neutral", "stone", "butter", "chocolate", "matcha", "gothic", "y2k"]
   },
-  "packageMapPath": ".ai/package-map.json",
   "componentRegistryPath": ".ai/component-registry.json",
   "componentSchemaPath": ".ai/generated/component-schema.json",
   "webPreviewComponentsPath": ".ai/generated/web-preview-components.json",
-  "nativeOnlyComponentsPath": ".ai/generated/native-only-components.json",
   "componentSchemaGuidePath": ".ai/component-schema-guide.md",
   "screenSchemaGuidePath": ".ai/screen-schema-guide.md",
-  "rendererPackage": "@truongdq01/renderer",
+  "rendererPackage": "@rnui/renderer",
   "designRulesPath": ".ai/design-rules.md",
   "screenGenerationGuidePath": ".ai/screen-generation.md",
   "agentInstructionsPath": "AGENTS.md",
@@ -69,24 +71,25 @@
     "form": ".ai/examples/schemas/form.schema.json"
   },
   "forbiddenPatterns": [
-    "Custom Button, Card, Input, or Typography when RNUI exports them",
-    "Hardcoded hex colors instead of theme semantic colors",
-    "Random spacing/radius/shadow numbers without tokens",
+    "Custom Button, Card, Input, or Text when the registry provides them",
+    "Hardcoded hex colors instead of semantic Tailwind tokens",
+    "Random spacing/radius/shadow numbers outside the scale",
     "New UI libraries without explicit approval",
-    "Breaking @truongdq01/* public APIs without request",
-    "Styled components inside @truongdq01/tokens",
-    "Business logic inside @truongdq01/ui components package",
+    "Toggling var-referencing classes dynamically (use style + useThemeColor)",
     "Falsy && render with empty string or zero in JSX"
   ],
   "recommendedImports": [
-    "import { ThemeProvider, Button, Card, Input, Stack, Box, Typography } from '@truongdq01/ui';",
-    "import { useTheme, useTokens, useToast } from '@truongdq01/headless';"
+    "import { Button } from '@/components/ui/button';",
+    "import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';",
+    "import { Text } from '@/components/ui/text';",
+    "import { cn } from '@/lib/utils';"
   ],
   "optionalNativePeers": {
-    "@shopify/flash-list": "Select list performance",
-    "expo-blur": "GlassCard native blur",
-    "expo-linear-gradient": "Gradient backgrounds",
-    "react-native-svg": "Icon, CircularProgress",
-    "lucide-react-native": "Icon"
+    "@shopify/flash-list": "animated-list/select list performance",
+    "expo-blur": "glass-card native blur",
+    "expo-linear-gradient": "gradient backgrounds",
+    "react-native-svg": "icon, circular-progress",
+    "lucide-react-native": "icon",
+    "react-native-safe-area-context": "sheet, modal, tab-bar"
   }
 }

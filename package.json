@@ -13,7 +13,6 @@
     "lint": "turbo lint",
     "format": "prettier --write .",
     "test": "turbo test",
-    "test:coverage": "turbo test -- --coverage --coverage-reporter=text --coverage-reporter=lcov",
     "typecheck": "turbo typecheck",
     "clean": "turbo clean && rm -rf node_modules",
     "changeset": "changeset",
