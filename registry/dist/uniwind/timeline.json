@@ -5,9 +5,9 @@
   "title": "Timeline",
   "description": "Vertical timeline with dots, connectors and per-item content.",
   "registryDependencies": [
-    "utils",
-    "text",
-    "theme"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
   ],
   "files": [
     {

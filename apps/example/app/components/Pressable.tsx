@@ -1,82 +1,70 @@
-import { useMemo } from 'react';
-import { View } from 'react-native';
-import { Pressable, Typography, Card } from '@truongdq01/ui';
-import { useTheme, useToast } from '@truongdq01/headless';
-import { DemoPage, DemoSection, DemoGroup, DemoPreview } from '@/demo/DemoPage';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Pressable } from '@/components/ui/pressable';
+import { Text } from '@/components/ui/text';
+import { useToast } from '@/components/ui/toast';
+import { DemoGroup, DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 export default function PressableScreen() {
-  const { tokens } = useTheme();
-  const toast = useToast();
+  const { toast } = useToast();
 
-  const boxStyle = useMemo(
-    () => ({
-      paddingVertical: tokens.spacing[4],
-      paddingHorizontal: tokens.spacing[6],
-      borderRadius: tokens.radius.lg,
-      alignItems: 'center' as const,
-      justifyContent: 'center' as const,
-      borderWidth: 1,
-      borderColor: 'transparent' as const,
-    }),
-    [tokens.spacing, tokens.radius.lg]
-  );
+  const boxClass =
+    'items-center justify-center rounded-lg border border-transparent px-6 py-4';
 
   return (
     <DemoPage
       title="Pressable"
-      description="Touch handling with scale, opacity feedback, and haptics."
+      description="Touch handling with opacity, highlight, and custom pressed-state feedback."
     >
       <DemoSection
         title="Feedback Modes"
-        description="Customize press animations."
+        description="Built-in variants plus render-prop children for scale."
       >
         <DemoPreview>
-          <DemoGroup>
+          <DemoGroup direction="row">
             <Pressable
               onPress={() => toast.info('Scale feedback')}
-              feedbackMode="scale"
-              style={[boxStyle, { backgroundColor: tokens.color.brand.subtle }]}
+              className="rounded-lg"
             >
-              <Typography
-                variant="button"
-                style={{ color: tokens.color.brand.text }}
-              >
-                SCALE
-              </Typography>
-            </Pressable>
-
-            <Pressable
-              onPress={() => toast.info('Scale Subtle feedback')}
-              feedbackMode="scaleSubtle"
-              style={[boxStyle, { backgroundColor: tokens.color.brand.subtle }]}
-            >
-              <Typography
-                variant="button"
-                style={{ color: tokens.color.brand.text }}
-              >
-                SCALE SUBTLE
-              </Typography>
+              {({ pressed }) => (
+                <Card
+                  className={`${boxClass} bg-accent`}
+                  style={{ transform: [{ scale: pressed ? 0.92 : 1 }] }}
+                >
+                  <Text variant="small" className="uppercase">
+                    Scale
+                  </Text>
+                </Card>
+              )}
             </Pressable>
 
             <Pressable
               onPress={() => toast.info('Opacity feedback')}
-              feedbackMode="opacity"
-              style={[boxStyle, { backgroundColor: tokens.color.brand.subtle }]}
+              variant="opacity"
+              className={`${boxClass} bg-accent`}
             >
-              <Typography
-                variant="button"
-                style={{ color: tokens.color.brand.text }}
-              >
-                OPACITY
-              </Typography>
+              <Text variant="small" className="uppercase">
+                Opacity
+              </Text>
             </Pressable>
 
             <Pressable
-              onPress={() => toast.info('None feedback')}
-              feedbackMode="none"
-              style={[boxStyle, { backgroundColor: tokens.color.bg.muted }]}
+              onPress={() => toast.info('Highlight feedback')}
+              variant="highlight"
+              className={`${boxClass} rounded-lg`}
             >
-              <Typography variant="button">NONE</Typography>
+              <Text variant="small" className="uppercase">
+                Highlight
+              </Text>
+            </Pressable>
+
+            <Pressable
+              onPress={() => toast.info('No feedback')}
+              variant="plain"
+              className={`${boxClass} bg-muted`}
+            >
+              <Text variant="small" className="uppercase">
+                Plain
+              </Text>
             </Pressable>
           </DemoGroup>
         </DemoPreview>
@@ -88,37 +76,26 @@ export default function PressableScreen() {
       >
         <Pressable
           onPress={() => toast.success('Card action triggered')}
-          feedbackMode="scaleSubtle"
+          variant="highlight"
+          className="rounded-lg"
         >
-          <Card
-            padding="md"
-            style={{
-              borderLeftWidth: 4,
-              borderLeftColor: tokens.color.brand.default,
-            }}
-          >
-            <View style={{ gap: tokens.spacing[1] }}>
-              <Typography variant="h4">Actionable Card</Typography>
-              <Typography variant="body2" color="secondary">
-                Tap for a subtle scale animation on the whole container.
-              </Typography>
-            </View>
+          <Card className="border-l-4 border-l-primary">
+            <CardContent className="gap-1 p-4">
+              <CardTitle className="text-xl">Actionable Card</CardTitle>
+              <Text variant="muted">
+                Tap for a highlight on the whole container.
+              </Text>
+            </CardContent>
           </Card>
         </Pressable>
       </DemoSection>
 
       <DemoSection title="Disabled">
         <DemoGroup direction="row">
-          <Pressable
-            disabled
-            style={[
-              boxStyle,
-              { backgroundColor: tokens.color.bg.disabled, opacity: 0.5 },
-            ]}
-          >
-            <Typography variant="button" color="disabled">
-              DISABLED
-            </Typography>
+          <Pressable disabled className={`${boxClass} bg-muted opacity-50`}>
+            <Text variant="small" className="uppercase text-muted-foreground">
+              Disabled
+            </Text>
           </Pressable>
         </DemoGroup>
       </DemoSection>

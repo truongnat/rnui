@@ -3,7 +3,6 @@ export type {
   ComponentChildrenSchema,
   ComponentExample,
   ComponentImportSchema,
-  ComponentPackage,
   ComponentPropSchema,
   ComponentPropType,
   ComponentSchema,

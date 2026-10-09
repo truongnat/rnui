@@ -1,5 +1,13 @@
 # RNUI Changelog
 
+## [Unreleased] — v2 registry-only model
+
+BREAKING: legacy npm packages `@truongdq01/ui|headless|tokens|themes` removed.
+RNUI is now a single shadcn-compatible registry (`registry/shared/ui`),
+served via `npx shadcn add` for `nativewind` + `uniwind` variants.
+Internal packages renamed: `@rnui/component-schema`, `@rnui/renderer`,
+`@rnui/cli`. 83 components; renderer emits `@/components/ui/*` imports.
+
 ## [Unreleased] — registry
 
 ### Added

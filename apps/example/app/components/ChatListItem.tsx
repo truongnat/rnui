@@ -1,10 +1,8 @@
-import { ChatListItem, Divider, Icon } from '@truongdq01/ui';
-import { useTokens } from '@truongdq01/headless';
+import { ChatListItem } from '@/components/ui/chat-list-item';
+import { Separator } from '@/components/ui/separator';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function ChatListItemScreen() {
-  const t = useTokens();
-
   return (
     <DemoPage
       title="ChatListItem"
@@ -17,81 +15,60 @@ export default function ChatListItemScreen() {
       >
         <ChatListItem
           name="Truong Dang"
-          preview="Hey! How is the component migration going?"
+          message="Hey! How is the component migration going?"
           time="10:45 AM"
-          unread={3}
-          avatar={{
-            initials: 'TD',
-            status: 'online',
-          }}
+          unreadCount={3}
+          fallback="TD"
+          online
           onPress={() => {}}
         />
-        <Divider />
+        <Separator />
         <ChatListItem
           name="Design Team"
-          preview="Sarah: Let's check the new glassmorphism effect."
+          message="Sarah: Let's check the new glassmorphism effect."
           time="Yesterday"
-          outgoing={false}
-          avatar={{
-            src: 'https://picsum.photos/100/100?random=1',
-          }}
+          avatarUrl="https://picsum.photos/100/100?random=1"
           onPress={() => {}}
         />
       </DemoSection>
 
       <DemoSection
-        title="States"
-        description="Read receipts, muted, and pinned."
+        title="Presence"
+        description="Presence dot and fallback initials."
         flush
       >
         <ChatListItem
           name="James Wilson"
-          preview="The PR was approved! 🚀"
+          message="The PR was approved! 🚀"
           time="Wed"
-          read
-          outgoing
-          avatar={{
-            src: 'https://picsum.photos/100/100?random=2',
-            status: 'away',
-          }}
+          avatarUrl="https://picsum.photos/100/100?random=2"
+          online
+          presenceClassName="bg-amber-500"
           onPress={() => {}}
         />
-        <Divider />
+        <Separator />
         <ChatListItem
           name="Company Announcements"
-          preview="All hands meeting at 2 PM today."
+          message="All hands meeting at 2 PM today."
           time="Mon"
-          muted
-          pinned
-          avatar={{
-            initials: 'CA',
-            status: 'busy',
-          }}
+          fallback="CA"
+          online
+          presenceClassName="bg-red-500"
           onPress={() => {}}
         />
       </DemoSection>
 
       <DemoSection
-        title="Custom Trailing"
-        description="Replace default chevron or badge."
+        title="Unread badge"
+        description="Counts clamp at 99+."
         flush
       >
         <ChatListItem
           name="Payment Alert"
-          preview="Your subscription will be renewed tomorrow."
+          message="Your subscription will be renewed tomorrow."
           time="Just now"
-          unread={1}
-          avatar={{
-            initials: 'PA',
-            status: 'online',
-          }}
-          trailingElement={
-            <Icon
-              name="chevron-right"
-              size={20}
-              color={t.color.text.tertiary}
-            />
-          }
+          unreadCount={142}
+          fallback="PA"
           onPress={() => {}}
         />
       </DemoSection>

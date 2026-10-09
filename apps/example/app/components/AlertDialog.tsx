@@ -1,5 +1,15 @@
-import { AlertDialog, Button, Stack } from '@truongdq01/ui';
 import { useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function AlertDialogScreen() {
@@ -7,13 +17,6 @@ export default function AlertDialogScreen() {
   const [destructiveOpen, setDestructiveOpen] = useState(false);
   const [longOpen, setLongOpen] = useState(false);
   const [customOpen, setCustomOpen] = useState(false);
-
-  const handleClose = () => {
-    setBasicOpen(false);
-    setDestructiveOpen(false);
-    setLongOpen(false);
-    setCustomOpen(false);
-  };
 
   return (
     <DemoPage
@@ -24,43 +27,45 @@ export default function AlertDialogScreen() {
         title="Standard"
         description="Simple confirmation with OK and Cancel."
       >
-        <Button
-          label="Show Standard Alert"
-          variant="outline"
-          onPress={() => setBasicOpen(true)}
-        />
+        <Button variant="outline" onPress={() => setBasicOpen(true)}>
+          Show Standard Alert
+        </Button>
 
-        <AlertDialog
-          open={basicOpen}
-          title="Confirm Action"
-          description="Are you sure you want to proceed with this task?"
-          confirmText="OK"
-          cancelText="Cancel"
-          onConfirm={handleClose}
-          onCancel={handleClose}
-        />
+        <AlertDialog open={basicOpen} onOpenChange={setBasicOpen}>
+          <AlertDialogTitle>Confirm Action</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to proceed with this task?
+          </AlertDialogDescription>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>OK</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialog>
       </DemoSection>
 
       <DemoSection
         title="Destructive"
         description="Highlight irreversible actions."
       >
-        <Button
-          label="Show Destructive Alert"
-          variant="destructive"
-          onPress={() => setDestructiveOpen(true)}
-        />
+        <Button variant="destructive" onPress={() => setDestructiveOpen(true)}>
+          Show Destructive Alert
+        </Button>
 
-        <AlertDialog
-          open={destructiveOpen}
-          title="Delete Item?"
-          description="This will permanently delete this item. This action cannot be undone."
-          confirmText="Delete"
-          cancelText="Cancel"
-          destructive
-          onConfirm={handleClose}
-          onCancel={handleClose}
-        />
+        <AlertDialog open={destructiveOpen} onOpenChange={setDestructiveOpen}>
+          <AlertDialogTitle>Delete Item?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This will permanently delete this item. This action cannot be
+            undone.
+          </AlertDialogDescription>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction className="bg-destructive">
+              <Text className="text-sm font-medium text-destructive-foreground">
+                Delete
+              </Text>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialog>
       </DemoSection>
 
       <DemoSection
@@ -68,39 +73,39 @@ export default function AlertDialogScreen() {
         description="Custom button labels and variants."
       >
         <Stack spacing="md">
-          <Button
-            label="Long Action Labels"
-            variant="outline"
-            onPress={() => setLongOpen(true)}
-          />
-          <Button
-            label="Custom Button Styling"
-            variant="solid"
-            onPress={() => setCustomOpen(true)}
-          />
+          <Button variant="outline" onPress={() => setLongOpen(true)}>
+            Long Action Labels
+          </Button>
+          <Button onPress={() => setCustomOpen(true)}>
+            Custom Button Styling
+          </Button>
         </Stack>
 
-        <AlertDialog
-          open={longOpen}
-          title="Subscription Upgrade"
-          description="Upgrade your plan to get unlimited projects and priority support."
-          confirmText="Yes, Upgrade My Plan Now"
-          cancelText="I'll Keep My Current Plan"
-          onConfirm={handleClose}
-          onCancel={handleClose}
-        />
+        <AlertDialog open={longOpen} onOpenChange={setLongOpen}>
+          <AlertDialogTitle>Subscription Upgrade</AlertDialogTitle>
+          <AlertDialogDescription>
+            Upgrade your plan to get unlimited projects and priority support.
+          </AlertDialogDescription>
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              I&apos;ll Keep My Current Plan
+            </AlertDialogCancel>
+            <AlertDialogAction>Yes, Upgrade My Plan Now</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialog>
 
-        <AlertDialog
-          open={customOpen}
-          title="Update Available"
-          description="A new version with critical security updates is available."
-          confirmText="Update Now"
-          cancelText="Later"
-          confirmVariant="solid"
-          cancelVariant="ghost"
-          onConfirm={handleClose}
-          onCancel={handleClose}
-        />
+        <AlertDialog open={customOpen} onOpenChange={setCustomOpen}>
+          <AlertDialogTitle>Update Available</AlertDialogTitle>
+          <AlertDialogDescription>
+            A new version with critical security updates is available.
+          </AlertDialogDescription>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="border-transparent">
+              Later
+            </AlertDialogCancel>
+            <AlertDialogAction>Update Now</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialog>
       </DemoSection>
     </DemoPage>
   );

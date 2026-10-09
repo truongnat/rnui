@@ -1,26 +1,67 @@
-import { useTheme, useTokens } from '@truongdq01/headless';
-import {
-  Button,
-  SegmentedControl,
-  SkeletonCard,
-  SkeletonForm,
-  SkeletonGrid,
-  SkeletonGroup,
-  SkeletonMedia,
-  SkeletonProfile,
-  SkeletonTable,
-  SkeletonText,
-} from '@truongdq01/ui';
 import { useState } from 'react';
 import { View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import { SegmentedControl } from '@/components/ui/segmented-control';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
+
+const PRESETS = ['Card', 'Profile', 'Media', 'Form'] as const;
+
+function SkeletonCard() {
+  return (
+    <View className="flex-row items-center gap-3 rounded-lg border border-border p-4">
+      <Skeleton className="h-10 w-10 rounded-full" />
+      <View className="flex-1 gap-2">
+        <Skeleton className="h-4 w-3/4" />
+        <Skeleton className="h-4 w-1/2" />
+      </View>
+    </View>
+  );
+}
+
+function SkeletonProfile() {
+  return (
+    <View className="items-center gap-3 py-4">
+      <Skeleton className="h-16 w-16 rounded-full" />
+      <Skeleton className="h-4 w-32" />
+      <Skeleton className="h-3 w-48" />
+    </View>
+  );
+}
+
+function SkeletonMedia() {
+  return (
+    <View className="gap-2">
+      <Skeleton className="h-32 w-full rounded-lg" />
+      <Skeleton className="h-4 w-2/3" />
+      <Skeleton className="h-3 w-1/3" />
+    </View>
+  );
+}
+
+function SkeletonForm() {
+  return (
+    <View className="gap-4">
+      <View className="gap-1.5">
+        <Skeleton className="h-3 w-20" />
+        <Skeleton className="h-10 w-full rounded-md" />
+      </View>
+      <View className="gap-1.5">
+        <Skeleton className="h-3 w-24" />
+        <Skeleton className="h-10 w-full rounded-md" />
+      </View>
+      <View className="gap-1.5">
+        <Skeleton className="h-3 w-16" />
+        <Skeleton className="h-10 w-full rounded-md" />
+      </View>
+    </View>
+  );
+}
 
 export default function SkeletonScreen() {
   const [showSkeleton, setShowSkeleton] = useState(true);
-  const [skelPreset, setSkelPreset] = useState(0);
-
-  const t = useTokens();
-  const { tokens } = useTheme();
+  const [preset, setPreset] = useState<(typeof PRESETS)[number]>('Card');
 
   return (
     <DemoPage
@@ -28,69 +69,40 @@ export default function SkeletonScreen() {
       description="Placeholder UI while content loads — smoother perceived performance."
     >
       <DemoSection
-        title="Presets"
-        description="Switch between card, profile, media, form, grid, table, and group layouts."
+        title="Composed Presets"
+        description="Card, profile, media, and form layouts built from Skeleton blocks."
       >
         <SegmentedControl
-          options={[
-            'Card',
-            'Profile',
-            'Media',
-            'Form',
-            'Grid',
-            'Table',
-            'Group',
-          ]}
-          selectedIndex={skelPreset}
-          onChange={setSkelPreset}
+          options={PRESETS}
+          value={preset}
+          onValueChange={(v) => setPreset(v)}
         />
 
         <Button
-          label={showSkeleton ? 'Hide Content' : 'Show Content'}
           variant="outline"
           size="sm"
+          className="mt-3 self-start"
           onPress={() => setShowSkeleton((p) => !p)}
-          style={{ alignSelf: 'flex-start', marginTop: tokens.spacing[3] }}
-        />
+        >
+          {showSkeleton ? 'Hide Content' : 'Show Content'}
+        </Button>
 
         <DemoPreview>
           {showSkeleton ? (
-            <View style={{ gap: t.spacing[3] }}>
-              {skelPreset === 0 ? (
+            <View className="gap-3">
+              {preset === 'Card' ? (
                 <>
                   <SkeletonCard />
-                  <View style={{ height: t.spacing[3] }} />
                   <SkeletonCard />
                 </>
               ) : null}
-              {skelPreset === 1 ? <SkeletonProfile /> : null}
-              {skelPreset === 2 ? <SkeletonMedia /> : null}
-              {skelPreset === 3 ? <SkeletonForm rows={3} /> : null}
-              {skelPreset === 4 ? (
-                <SkeletonGrid columns={4} rows={2} cell={40} />
-              ) : null}
-              {skelPreset === 5 ? (
-                <SkeletonTable columns={3} dataRows={2} />
-              ) : null}
-              {skelPreset === 6 ? (
-                <SkeletonGroup stagger={100}>
-                  <SkeletonText lines={1} />
-                  <View style={{ height: t.spacing[2] }} />
-                  <SkeletonText lines={1} />
-                  <View style={{ height: t.spacing[2] }} />
-                  <SkeletonText lines={1} />
-                </SkeletonGroup>
-              ) : null}
+              {preset === 'Profile' ? <SkeletonProfile /> : null}
+              {preset === 'Media' ? <SkeletonMedia /> : null}
+              {preset === 'Form' ? <SkeletonForm /> : null}
             </View>
           ) : (
-            <View
-              style={{
-                height: 200,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <SkeletonText lines={1} lastLineWidth="60%" />
+            <View className="h-40 items-center justify-center">
+              <Text variant="muted">Content loaded</Text>
             </View>
           )}
         </DemoPreview>
@@ -100,22 +112,24 @@ export default function SkeletonScreen() {
         title="Text Lines"
         description="Single and multi-line placeholders."
       >
-        <SkeletonText lines={1} lastLineWidth="40%" />
-        <View style={{ height: tokens.spacing[3] }} />
-        <SkeletonText lines={3} />
+        <Skeleton className="h-3 w-2/5" />
+        <View className="h-3" />
+        <View className="gap-2">
+          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-3 w-3/5" />
+        </View>
       </DemoSection>
 
       <DemoSection
-        title="Staggered Group"
-        description="Sequential reveal animation across children."
+        title="Stacked Cards"
+        description="Repeating placeholders for list content."
       >
-        <SkeletonGroup stagger={150}>
+        <View className="gap-3">
           <SkeletonCard />
-          <View style={{ height: t.spacing[3] }} />
           <SkeletonCard />
-          <View style={{ height: t.spacing[3] }} />
           <SkeletonCard />
-        </SkeletonGroup>
+        </View>
       </DemoSection>
     </DemoPage>
   );

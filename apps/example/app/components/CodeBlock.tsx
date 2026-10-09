@@ -1,16 +1,15 @@
-import { CodeBlock, Stack } from '@truongdq01/ui';
+import { CodeBlock } from '@/components/ui/code-block';
+import { Stack } from '@/components/ui/stack';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
-const TYPESCRIPT_CODE = `import { useTheme } from '@truongdq01/headless';
-import { Stack, Typography } from '@truongdq01/ui';
+const TYPESCRIPT_CODE = `import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 export function Welcome() {
-  const { tokens } = useTheme();
   return (
     <Stack spacing="md">
-      <Typography variant="h1">
-        Hello, RNUI!
-      </Typography>
+      <Text variant="h1">Hello, RNUI!</Text>
+      <Button>Say Hi</Button>
     </Stack>
   );
 }`;
@@ -36,11 +35,11 @@ export default function CodeBlockScreen() {
   return (
     <DemoPage
       title="CodeBlock"
-      description="Syntax-highlighted code display with copy, line numbers, and language badge."
+      description="Monospace code container with a copy button and optional title bar."
     >
       <DemoSection
         title="TypeScript"
-        description="Language badge and line numbers (auto-shown for 5+ lines)."
+        description="Header shows the title and a cosmetic language badge."
       >
         <CodeBlock
           code={TYPESCRIPT_CODE}
@@ -51,24 +50,40 @@ export default function CodeBlockScreen() {
 
       <DemoSection
         title="CSS"
-        description="CSS syntax highlighting with title."
+        description="Language badge with a file-name title."
       >
         <CodeBlock code={CSS_CODE} language="css" title="styles.css" />
       </DemoSection>
 
       <DemoSection
-        title="Short snippet"
-        description="Line numbers auto-hide for fewer than 5 lines. Use showLineNumbers to override."
+        title="Copy button"
+        description="showCopyButton hides the copy affordance."
       >
         <Stack spacing="md">
           <CodeBlock code={SHORT_CODE} language="javascript" />
-          <CodeBlock code={SHORT_CODE} language="javascript" showLineNumbers />
+          <CodeBlock
+            code={SHORT_CODE}
+            language="javascript"
+            showCopyButton={false}
+          />
         </Stack>
       </DemoSection>
 
       <DemoSection
+        title="Scrollable height"
+        description="maxHeight caps the code area for long sources."
+      >
+        <CodeBlock
+          code={CSS_CODE}
+          language="css"
+          title="styles.css"
+          maxHeight={160}
+        />
+      </DemoSection>
+
+      <DemoSection
         title="Without header"
-        description="CodeBlock renders without a header bar when both title and language are omitted."
+        description="CodeBlock renders no header bar when both title and language are omitted."
       >
         <CodeBlock code={TYPESCRIPT_CODE} />
       </DemoSection>

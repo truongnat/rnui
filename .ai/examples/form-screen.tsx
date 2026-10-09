@@ -1,19 +1,22 @@
 /**
  * RNUI reference: form screen with validation states
+ * Components are registry files copied into the app under components/ui/.
  */
 import { useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
+import { TextField } from '@/components/ui/text-field';
+import { Textarea } from '@/components/ui/textarea';
 import {
-  Alert,
-  Box,
-  Button,
-  Checkbox,
   FormField,
-  Input,
-  Stack,
-  TextArea,
-  Typography,
-} from '@truongdq01/ui';
+  FormDescription,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 type SubmitPhase = 'idle' | 'loading' | 'success' | 'error';
 
@@ -46,74 +49,79 @@ export default function FormScreenExample() {
   };
 
   return (
-    <Box flex={1}>
+    <View className="flex-1">
       <ScrollView keyboardShouldPersistTaps="handled">
-        <Stack spacing="lg" style={{ padding: 16 }}>
+        <Stack spacing="lg" className="p-4">
           <Stack spacing="xs">
-            <Typography variant="h5" as="h1">
+            <Text variant="h4" accessibilityRole="header">
               Contact us
-            </Typography>
-            <Typography variant="body2" color="secondary">
+            </Text>
+            <Text variant="muted">
               We typically respond within one business day.
-            </Typography>
+            </Text>
           </Stack>
 
           {phase === 'success' ? (
-            <Alert severity="success">
-              <Typography variant="body2">
+            <Alert>
+              <AlertDescription>
                 Thanks — your message was sent.
-              </Typography>
+              </AlertDescription>
             </Alert>
           ) : null}
 
           {phase === 'error' && fieldError ? (
-            <Alert severity="error">
-              <Typography variant="body2">{fieldError}</Typography>
+            <Alert variant="destructive">
+              <AlertDescription>{fieldError}</AlertDescription>
             </Alert>
           ) : null}
 
           <Stack spacing="md">
-            <FormField
+            <TextField
               label="Full name"
               required
               error={phase === 'error' && !name ? 'Required' : undefined}
-            >
-              <Input value={name} onChange={setName} placeholder="Jane Doe" />
-            </FormField>
+              value={name}
+              onChangeText={setName}
+              placeholder="Jane Doe"
+            />
 
-            <FormField label="Email">
-              <Input
-                value={email}
-                onChange={setEmail}
-                placeholder="jane@example.com"
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-            </FormField>
+            <TextField
+              label="Email"
+              value={email}
+              onChangeText={setEmail}
+              placeholder="jane@example.com"
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
 
-            <FormField label="Message" helperText="Max 500 characters">
-              <TextArea
+            <FormField>
+              <FormLabel>Message</FormLabel>
+              <Textarea
                 value={message}
                 onChangeText={setMessage}
                 placeholder="How can we help?"
               />
+              <FormDescription>Max 500 characters</FormDescription>
+              <FormMessage />
             </FormField>
 
-            <Checkbox
-              label="I agree to the privacy policy"
-              checked={consent}
-              onChange={setConsent}
-            />
+            <Stack direction="row" spacing="sm" alignItems="center">
+              <Checkbox checked={consent} onCheckedChange={setConsent} />
+              <Text variant="small" onPress={() => setConsent(!consent)}>
+                I agree to the privacy policy
+              </Text>
+            </Stack>
           </Stack>
 
           <Button
-            label="Send message"
-            fullWidth
-            loading={phase === 'loading'}
+            className="w-full"
+            disabled={phase === 'loading'}
             onPress={handleSubmit}
-          />
+          >
+            {phase === 'loading' ? 'Sending…' : 'Send message'}
+          </Button>
         </Stack>
       </ScrollView>
-    </Box>
+    </View>
   );
 }

@@ -1,49 +1,26 @@
-import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useTokens } from '@truongdq01/headless';
-import { Gradient, Typography } from '@truongdq01/ui';
+import { Gradient } from '@/components/ui/gradient';
+import { Text } from '@/components/ui/text';
+import { useThemeColor } from '@/lib/utils';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
+type Preset = 'brand' | 'ocean' | 'sunrise' | 'success';
+
 export default function GradientScreen() {
-  const t = useTokens();
+  const colors = useThemeColor();
 
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        grid: {
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: t.spacing[3],
-        },
-        item: {
-          width: '48%',
-          aspectRatio: 1,
-        },
-        gradientBox: {
-          flex: 1,
-          borderRadius: t.radius.lg,
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: t.spacing[3],
-        },
-        heroGradient: {
-          height: 120,
-          borderRadius: t.radius.lg,
-          padding: t.spacing[6],
-          justifyContent: 'center',
-        },
-      }),
-    [t]
-  );
+  const PRESETS: Record<Preset, string[]> = {
+    brand: [colors.primary, colors.ring],
+    ocean: ['#0ea5e9', '#6366f1'],
+    sunrise: ['#f59e0b', '#ef4444'],
+    success: ['#22c55e', '#84cc16'],
+  };
 
-  const labelShadow = useMemo(
-    () => ({
-      textShadowColor: t.color.bg.overlay,
-      textShadowOffset: { width: 0, height: 1 },
-      textShadowRadius: 2,
-    }),
-    [t.color.bg.overlay]
-  );
+  const labelShadow = {
+    textShadowColor: 'rgba(0,0,0,0.4)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+  };
 
   return (
     <DemoPage
@@ -56,22 +33,19 @@ export default function GradientScreen() {
       >
         <DemoPreview>
           <View style={styles.grid}>
-            {(['brand', 'ocean', 'sunrise', 'success'] as const).map(
-              (preset) => (
-                <View key={preset} style={styles.item}>
-                  <Gradient preset={preset} style={styles.gradientBox}>
-                    <Typography
-                      variant="subtitle2"
-                      color="inverse"
-                      align="center"
-                      style={labelShadow}
-                    >
-                      {preset.charAt(0).toUpperCase() + preset.slice(1)}
-                    </Typography>
-                  </Gradient>
-                </View>
-              )
-            )}
+            {(Object.keys(PRESETS) as Preset[]).map((preset) => (
+              <View key={preset} style={styles.item}>
+                <Gradient colors={PRESETS[preset]} style={styles.gradientBox}>
+                  <Text
+                    variant="large"
+                    className="text-white"
+                    style={[labelShadow, { textAlign: 'center' }]}
+                  >
+                    {preset.charAt(0).toUpperCase() + preset.slice(1)}
+                  </Text>
+                </Gradient>
+              </View>
+            ))}
           </View>
         </DemoPreview>
       </DemoSection>
@@ -81,31 +55,24 @@ export default function GradientScreen() {
         description="Three-stop diagonal gradient."
       >
         <Gradient
-          colors={[
-            t.color.brand.default,
-            t.color.warning.border,
-            t.color.info.icon,
-          ]}
+          colors={[colors.primary, '#f59e0b', '#0ea5e9']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.heroGradient}
         >
-          <Typography
-            variant="h6"
-            color="inverse"
-            align="center"
-            style={labelShadow}
+          <Text
+            variant="large"
+            className="text-white"
+            style={[labelShadow, { textAlign: 'center' }]}
           >
             Three Color Stop Gradient
-          </Typography>
-          <Typography
-            variant="body2"
-            color="inverse"
-            align="center"
-            style={[labelShadow, { opacity: 0.85 }]}
+          </Text>
+          <Text
+            className="text-white"
+            style={[labelShadow, { textAlign: 'center', opacity: 0.85 }]}
           >
             Custom angle and color palette
-          </Typography>
+          </Text>
         </Gradient>
       </DemoSection>
 
@@ -131,19 +98,18 @@ export default function GradientScreen() {
           ).map(({ label, start, end }) => (
             <View key={label} style={styles.item}>
               <Gradient
-                preset="brand"
+                colors={PRESETS.brand}
                 start={start}
                 end={end}
                 style={styles.gradientBox}
               >
-                <Typography
-                  variant="caption"
-                  color="inverse"
-                  align="center"
-                  style={labelShadow}
+                <Text
+                  variant="small"
+                  className="text-white"
+                  style={[labelShadow, { textAlign: 'center' }]}
                 >
                   {label}
-                </Typography>
+                </Text>
               </Gradient>
             </View>
           ))}
@@ -152,3 +118,28 @@ export default function GradientScreen() {
     </DemoPage>
   );
 }
+
+const styles = StyleSheet.create({
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  item: {
+    width: '48%',
+    aspectRatio: 1,
+  },
+  gradientBox: {
+    flex: 1,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+  },
+  heroGradient: {
+    height: 120,
+    borderRadius: 12,
+    padding: 24,
+    justifyContent: 'center',
+  },
+});

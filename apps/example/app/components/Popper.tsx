@@ -1,36 +1,29 @@
-import { useTokens } from '@truongdq01/headless';
+import { useState } from 'react';
+import { View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import { Paper } from '@/components/ui/paper';
 import {
-  Button,
-  Paper,
   Popper,
   type PopperPlacement,
-  Stack,
-  Typography,
-} from '@truongdq01/ui';
-import { useRef, useState } from 'react';
-import { View } from 'react-native';
+  usePopperAnchor,
+} from '@/components/ui/popper';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
-type AnchorEl = { x: number; y: number; width: number; height: number };
-
 export default function PopperScreen() {
-  const t = useTokens();
+  const { ref, anchor, measure } = usePopperAnchor();
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState<PopperPlacement>('bottom');
-  const [anchorEl, setAnchorEl] = useState<AnchorEl | null>(null);
-  const buttonRef = useRef<View>(null);
 
   const handleToggle = (newPlacement: PopperPlacement) => () => {
     if (open && placement === newPlacement) {
       setOpen(false);
       return;
     }
-
-    buttonRef.current?.measureInWindow((x, y, width, height) => {
-      setAnchorEl({ x, y, width, height });
-      setPlacement(newPlacement);
-      setOpen(true);
-    });
+    measure();
+    setPlacement(newPlacement);
+    setOpen(true);
   };
 
   const placements: PopperPlacement[] = [
@@ -57,69 +50,49 @@ export default function PopperScreen() {
         title="Placements"
         description="Tap a button to see each relative position."
       >
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 200,
-            padding: t.spacing[4],
-          }}
-        >
+        <View className="h-52 items-center justify-center p-4">
           <View
-            ref={buttonRef}
-            style={{
-              padding: t.spacing[4],
-              backgroundColor: t.color.bg.muted,
-              borderRadius: t.radius.md,
-            }}
+            ref={ref}
+            collapsable={false}
+            className="rounded-md bg-muted p-4"
           >
-            <Typography variant="h4">ANCHOR</Typography>
+            <Text variant="h4">ANCHOR</Text>
           </View>
         </View>
 
-        <Stack
-          direction="row"
-          spacing="sm"
-          style={{ flexWrap: 'wrap', justifyContent: 'center' }}
-        >
+        <Stack direction="row" spacing="sm" wrap justifyContent="center">
           {placements.map((p) => (
             <Button
               key={p}
-              label={p}
               size="sm"
-              variant={open && placement === p ? 'solid' : 'outline'}
+              variant={open && placement === p ? 'default' : 'outline'}
               onPress={handleToggle(p)}
-              style={{ marginBottom: t.spacing[2], minWidth: 100 }}
-            />
+              className="mb-2 min-w-24"
+            >
+              {p}
+            </Button>
           ))}
         </Stack>
 
         <Popper
           open={open}
-          anchorEl={anchorEl}
+          anchor={anchor}
           placement={placement}
+          showArrow
           onClose={() => setOpen(false)}
         >
-          <Paper
-            elevation="lg"
-            style={{
-              padding: t.spacing[3],
-              backgroundColor: t.color.bg.default,
-              minWidth: 120,
-              alignItems: 'center',
-            }}
-          >
-            <Typography variant="subtitle2">Popper Content</Typography>
-            <Typography variant="caption" color="secondary">
+          <Paper elevation="lg" className="min-w-32 items-center bg-background">
+            <Text variant="small">Popper Content</Text>
+            <Text variant="muted" className="text-xs">
               Placement: {placement}
-            </Typography>
+            </Text>
           </Paper>
         </Popper>
       </DemoSection>
 
       <DemoSection
         title="Usage"
-        description="Get anchorEl via ref.measureInWindow(). Popper handles screen boundaries."
+        description="usePopperAnchor measures the anchor via measureInWindow; Popper clamps to screen edges and flips on overflow."
       />
     </DemoPage>
   );

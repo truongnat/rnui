@@ -1,172 +1,80 @@
 # RNUI
 
-RNUI is a React Native UI kit built as a layered monorepo: design tokens, headless hooks, and styled components with multi-brand theming.
+RNUI is a **shadcn-compatible component registry for React Native**. Components are copied into your project — you own the code, styled with Tailwind classes via [NativeWind](https://nativewind.dev) or [Uniwind](https://uniwind.dev).
 
-- **Design tokens** — primitive → semantic → component recipes
-- **Headless hooks** — reusable logic, accessibility, and gesture state
-- **Styled components** — 70+ pre-built, themeable UI primitives
-- **Motion presets** — shared animation configuration
-- **Multi-brand support** — runtime brand and color-scheme switching
-
-Published packages: [`@truongdq01/tokens`](https://www.npmjs.com/package/@truongdq01/tokens), [`@truongdq01/headless`](https://www.npmjs.com/package/@truongdq01/headless), [`@truongdq01/ui`](https://www.npmjs.com/package/@truongdq01/ui), [`@truongdq01/themes`](https://www.npmjs.com/package/@truongdq01/themes).
+- **83 components** — inputs, navigation, feedback, data-display, overlays, layout
+- **2 engine variants** — `nativewind` (Tailwind v3) and `uniwind` (Tailwind v4, CSS-first)
+- **7 brand themes** — neutral, stone, butter, chocolate, matcha, gothic, y2k
+- **AI-native** — component schema + screen renderer for coding agents
 
 Repository: [github.com/truongnat/rnui](https://github.com/truongnat/rnui)
 
-## Package status
+## Quick start
 
-| Package | Version | Description |
-| ------- | ------- | ----------- |
-| `@truongdq01/tokens` | 1.0.3 | Design tokens (primitive, semantic, component, motion) |
-| `@truongdq01/headless` | 1.0.3 | `ThemeProvider`, theme hooks, and headless behavior hooks |
-| `@truongdq01/ui` | 1.0.3 | Styled React Native components |
-| `@truongdq01/themes` | 1.0.3 | Multi-brand color presets |
-| `@truongdq01/example` | 0.0.2 | Expo example app (not published) |
+Install components with the shadcn CLI:
 
-CI on `develop` runs build, lint, typecheck (library packages + example app shell), and tests. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+```bash
+npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json
+npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/button.json
+```
 
-Example `typecheck` covers the example app shell (index + shared helpers); per-component showcase screens are checked separately via `bun run typecheck:showcases` in `apps/example` (known API drift — see checklist).
+Swap `nativewind` → `uniwind` for the Tailwind v4 variant. One-time setup (deps, babel/metro, theme): [`registry/templates/setup.md`](registry/templates/setup.md). Brand themes are `theme-<brand>` items, e.g. `theme-matcha`.
 
-## Target environment
+Or use the RNUI CLI (runs from git, no npm publish):
 
-RNUI currently targets **modern React Native apps**:
+```bash
+npx github:truongnat/rnui#cli init
+npx github:truongnat/rnui#cli add button
+```
+
+Usage in your app:
+
+```tsx
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
+import { cn } from '@/lib/utils';
+```
+
+## Requirements
 
 | Requirement | Version |
 | ----------- | ------- |
 | React Native | ≥ 0.83 |
 | React | ≥ 19 |
-| New Architecture | Recommended (project development assumes New Architecture) |
+| Styling | NativeWind v4 **or** Uniwind |
 
-> RNUI currently targets modern React Native apps. If you need wider React Native version support, check compatibility before adopting.
+**Peer dependencies** (install in your app as needed by components you add):
 
-**Required peer dependencies** (install in your app):
+- `react-native-safe-area-context` — sheet, modal, tab-bar, select
+- `react-native-svg` + `lucide-react-native` — icon, circular-progress
+- `tailwind-variants` + `clsx` — variant styling, `cn()`
 
-- `react-native-reanimated` ≥ 4.2.0
-- `react-native-gesture-handler` ≥ 2.30.0
-- `react-native-worklets` ≥ 0.7.0
-- `react-native-safe-area-context` ≥ 5.6.0 (used by layout/navigation-related components)
-- `react-native-svg` (required when using `Icon` and SVG-based components such as `CircularProgress`)
-- `lucide-react-native` (required when using the `Icon` component)
+**Optional peers** (auto-fallback when absent): `@shopify/flash-list` (animated-list, select), `expo-blur` (glass-card), `expo-linear-gradient` (gradient), `expo-clipboard` (code-block).
 
-**Optional peer dependencies:**
+## Repo layout
 
-| Package | Used by |
-| ------- | ------- |
-| `@shopify/flash-list` | Virtualized lists in `Select` (falls back to `FlatList`) |
-| `expo-blur` | Native blur in `GlassCard` (falls back to translucent `View`) |
-| `expo-linear-gradient` | Native gradients in `Gradient` (falls back when absent) |
-
-## Installation
-
-### npm / bun (consumers)
-
-```bash
-npm install @truongdq01/ui @truongdq01/headless @truongdq01/tokens
-# optional brand presets
-npm install @truongdq01/themes
 ```
-
-Install peer dependencies in your **app** (not only in a shared library package):
-
-```bash
-npm install react-native-reanimated react-native-gesture-handler react-native-worklets react-native-safe-area-context react-native-svg lucide-react-native
+registry/
+  registry.json          # item catalog — the single source of truth
+  shared/                # code shared by all variants
+    ui/<name>.tsx        #   components (kebab-case files, PascalCase exports)
+    lib/utils.ts         #   cn(), contexts, useThemeColor, openSafeUrl
+  variants/
+    nativewind/          # global.css, tailwind.config.ts, env.d.ts
+    uniwind/             # global.css (@theme), env.d.ts
+  themes/<brand>.json    # brand presets → theme-<brand> items
+  blocks/                # full screen examples (login, onboarding…)
+  dist/                  # build output served via GitHub raw on main
+packages/
+  component-schema       # machine-readable component contracts + ScreenSchema
+  renderer               # ScreenSchema → React tree / TSX export
+  cli                    # rnui init/add/list
+apps/
+  example                # Expo showcase app (registry consumer)
+  web                    # Next.js screen builder (schema → preview → TSX)
 ```
-
-### Expo
-
-```bash
-npx expo install @truongdq01/ui @truongdq01/headless @truongdq01/tokens
-npx expo install react-native-reanimated react-native-gesture-handler react-native-worklets react-native-safe-area-context react-native-svg lucide-react-native
-npx expo install expo-blur expo-linear-gradient
-```
-
-Optional FlashList for better list performance in `Select`:
-
-```bash
-npx expo install @shopify/flash-list
-```
-
-## Usage
-
-Wrap your app with `ThemeProvider`. By default it includes `GestureHandlerRootView`; if your app already provides one at the root, pass `withGestureRoot={false}`.
-
-```tsx
-import { Button, Card, Input } from '@truongdq01/ui';
-import { ThemeProvider } from '@truongdq01/headless';
-
-export default function App() {
-  return (
-    <ThemeProvider colorScheme="system">
-      <Card padding="md">
-        <Input label="Email" placeholder="you@example.com" />
-        <Button label="Submit" variant="solid" onPress={() => {}} />
-      </Card>
-    </ThemeProvider>
-  );
-}
-```
-
-If you already wrap the app with `GestureHandlerRootView`:
-
-```tsx
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
-<GestureHandlerRootView style={{ flex: 1 }}>
-  <ThemeProvider withGestureRoot={false}>
-    <App />
-  </ThemeProvider>
-</GestureHandlerRootView>
-```
-
-### Headless hooks
-
-Use hooks directly for custom UI while keeping RNUI behavior and accessibility:
-
-```tsx
-import { usePressable } from '@truongdq01/headless';
-import { GestureDetector } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
-
-function PressableSurface({ onPress, children }) {
-  const { gesture, animatedStyle, accessibilityProps } = usePressable({ onPress });
-
-  return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View style={animatedStyle} {...accessibilityProps}>
-        {children}
-      </Animated.View>
-    </GestureDetector>
-  );
-}
-```
-
-## Registry (new — experimental)
-
-RNUI is also available as a **shadcn-compatible copy-paste registry** — install
-component source directly into your app. The easiest path is the RNUI CLI,
-which runs straight from git (no npm publish — the `cli` branch ships the
-bundled CLI):
-
-```bash
-npx github:truongnat/rnui#cli init            # one-time: engine deps + metro/babel + theme
-npx github:truongnat/rnui#cli add button      # install components
-npx github:truongnat/rnui#cli add theme-matcha  # switch brand theme
-```
-
-Or with the shadcn CLI directly:
-
-```bash
-npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/button.json
-npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/button.json
-```
-
-Two styling-engine variants are served: `nativewind` (Tailwind v3) and
-`uniwind` (Tailwind v4). Sources live in [`registry/`](registry/), build with
-`bun run registry:build` → `registry/dist/` (committed, served via
-GitHub raw on `master`), documented in
-[`registry/README.md`](registry/README.md). Consumer setup:
-[`registry/templates/setup.md`](registry/templates/setup.md). Brand themes are
-generated from `packages/themes` via `bun run registry:themes` →
-`registry/themes/*.json` → emitted as `theme-<brand>` items.
 
 ## Development
 
@@ -177,38 +85,20 @@ git clone https://github.com/truongnat/rnui.git
 cd rnui
 bun install
 bun run build
-bun run typecheck
-bun run lint
-bun run test
+bun run typecheck && bun run lint && bun run test
+bun run registry:build   # rebuild registry/dist
 ```
 
 ### Example app
 
 ```bash
-bun run demo          # Expo dev client (from repo root)
+bun run demo          # Expo dev client
 bun run demo:go       # Expo Go
-cd apps/example
-bun run ios
-bun run android
 ```
-
-## Architecture
-
-```
-@truongdq01/tokens     primitive → semantic → component tokens
-        ↓
-@truongdq01/headless   ThemeProvider, useTheme, behavior hooks
-        ↓
-@truongdq01/ui         styled components
-        ↓
-@truongdq01/themes     optional brand presets
-```
-
-Component inventory: `registry/registry.json` catalog (64 UI components + 4 blocks + 7 brand themes).
 
 ## AI-native usage
 
-RNUI ships **AI-readable metadata** so coding agents generate screens with the design system — not one-off custom UI.
+RNUI ships machine-readable metadata so coding agents generate screens with the design system — not one-off custom UI.
 
 | Resource | Purpose |
 | -------- | ------- |
@@ -216,34 +106,18 @@ RNUI ships **AI-readable metadata** so coding agents generate screens with the d
 | [`.ai/component-registry.json`](.ai/component-registry.json) | Machine-readable component catalog |
 | [`.ai/design-rules.md`](.ai/design-rules.md) | Layout, tokens, anti-patterns |
 | [`.ai/screen-generation.md`](.ai/screen-generation.md) | Screen workflow and templates |
-| [`.ai/prompts/`](.ai/prompts/) | Copyable agent prompts |
 | [`.ai/examples/`](.ai/examples/) | Reference screen implementations |
-| [`AGENTS.md`](AGENTS.md) | Full agent instructions |
 
 Validate AI files: `bun run ai:check`
-
-**Example prompt:**
-
-```text
-Build a clean mobile settings screen using only RNUI components. Read .ai/rnui.manifest.json first, follow .ai/design-rules.md, and use components from .ai/component-registry.json. Do not create custom Button, Card, Input, Typography, or layout primitives.
-```
-
-
 
 ## Scripts
 
 | Script | Description |
 | ------ | ----------- |
-| `bun run build` | Build all packages |
-| `bun run dev` | Watch mode (Turbo) |
-| `bun run typecheck` | TypeScript check (all packages with a `typecheck` script) |
-| `bun run lint` | Biome lint + format check |
-| `bun run test` | Unit tests |
-| `bun run demo` | Start Expo example app (dev client) |
-| `bun run demo:go` | Start example app in Expo Go |
-| `bun run ai:check` | Verify AI metadata files exist |
-| `bun run changeset` | Create a changeset for release |
-| `bun run release` | Build and publish (maintainers) |
+| `bun run registry:build` | Build `registry/dist` from catalog |
+| `bun run test` / `lint` / `typecheck` | Turbo pipeline |
+| `bun run web:dev` | Next.js builder dev server |
+| `bun run demo` | Expo example app |
 
 ## License
 

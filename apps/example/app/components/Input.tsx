@@ -1,12 +1,22 @@
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform } from 'react-native';
-import { Button, Card, Input, Stack, Typography } from '@truongdq01/ui';
-import { Mail, Lock } from 'lucide-react-native';
-import { useTheme } from '@truongdq01/headless';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import { Lock, Mail } from 'lucide-react-native';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import {
+  FormDescription,
+  FormField,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
+import { useThemeColor } from '@/lib/utils';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function InputScreen() {
-  const { tokens } = useTheme();
+  const colors = useThemeColor();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -24,71 +34,83 @@ export default function InputScreen() {
           title="Sign in"
           description="Login form — label, helper, error, and secure entry."
         >
-          <Card>
+          <Card className="p-4">
             <Stack spacing="md">
-              <Typography variant="h4">Welcome back</Typography>
-              <Typography variant="body2" color="secondary">
+              <Text variant="h4">Welcome back</Text>
+              <Text variant="muted">
                 Use your work email to access orders and billing.
-              </Typography>
-              <Input
-                label="Email"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                leadingElement={
-                  <Mail size={20} color={tokens.color.text.secondary} />
-                }
-                placeholder="you@company.com"
-                helperText="We will never share your email."
-              />
-              <Input
-                label="Password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                leadingElement={
-                  <Lock size={20} color={tokens.color.text.secondary} />
-                }
-                placeholder="Enter password"
-              />
-              <Button label="Sign in" fullWidth onPress={() => {}} />
+              </Text>
+              <FormField>
+                <FormLabel>Email</FormLabel>
+                <View className="relative justify-center">
+                  <View className="absolute left-3 z-10">
+                    <Mail size={20} color={colors.mutedForeground} />
+                  </View>
+                  <Input
+                    className="pl-10"
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    placeholder="you@company.com"
+                  />
+                </View>
+                <FormDescription>
+                  We will never share your email.
+                </FormDescription>
+              </FormField>
+              <FormField>
+                <FormLabel>Password</FormLabel>
+                <View className="relative justify-center">
+                  <View className="absolute left-3 z-10">
+                    <Lock size={20} color={colors.mutedForeground} />
+                  </View>
+                  <Input
+                    className="pl-10"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                    placeholder="Enter password"
+                  />
+                </View>
+              </FormField>
+              <Button className="w-full" onPress={() => {}}>
+                Sign in
+              </Button>
             </Stack>
           </Card>
         </DemoSection>
 
         <DemoSection title="Validation">
           <Stack spacing="md">
-            <Input
-              label="Work email"
-              error="This domain is not allowed for your organization"
-              value="user@blocked.com"
-            />
-            <Input
-              label="Account locked"
-              disabled
-              value="Contact support to restore access"
-            />
+            <FormField error="This domain is not allowed for your organization">
+              <FormLabel>Work email</FormLabel>
+              <Input defaultValue="user@blocked.com" />
+              <FormMessage />
+            </FormField>
+            <FormField>
+              <FormLabel>Invalid without FormField</FormLabel>
+              <Input invalid defaultValue="bad-input" />
+            </FormField>
+            <FormField>
+              <FormLabel>Account locked</FormLabel>
+              <Input
+                disabled
+                defaultValue="Contact support to restore access"
+              />
+            </FormField>
           </Stack>
         </DemoSection>
 
         <DemoSection
-          title="Sizes"
-          description="sm 36 · md 44 · lg 52 — matches Button scale."
+          title="Heights"
+          description="Compact 36 · default 40 · roomy 48 — matches Button scale."
         >
           <Stack spacing="md">
-            <Input size="sm" label="Promo code" placeholder="SAVE10" />
-            <Input size="md" label="Full name" placeholder="Alex Nguyen" />
-            <Input size="lg" label="Company" placeholder="Acme Inc." />
+            <Input className="h-9" placeholder="Promo code" />
+            <Input placeholder="Full name" />
+            <Input className="h-12" placeholder="Company" />
           </Stack>
-        </DemoSection>
-
-        <DemoSection title="Floating label">
-          <Input
-            label="Cardholder name"
-            floatingLabel
-            placeholder="Name on card"
-          />
         </DemoSection>
       </DemoPage>
     </KeyboardAvoidingView>

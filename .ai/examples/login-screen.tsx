@@ -1,10 +1,15 @@
 /**
  * RNUI reference: login screen
  * For AI agents — copy patterns, not necessarily file path.
+ * Components are registry files copied into the app under components/ui/.
  */
 import { useState } from 'react';
-import { ScrollView } from 'react-native';
-import { Alert, Box, Button, Input, Stack, Typography } from '@truongdq01/ui';
+import { ScrollView, View } from 'react-native';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
+import { TextField } from '@/components/ui/text-field';
 
 type AuthPhase = 'idle' | 'loading' | 'error';
 
@@ -36,44 +41,43 @@ export default function LoginScreenExample() {
   };
 
   return (
-    <Box flex={1}>
+    <View className="flex-1">
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
         <Stack
           spacing="lg"
-          style={{ flex: 1, justifyContent: 'center', padding: 24 }}
+          justifyContent="center"
+          className="flex-1 p-6"
         >
           <Stack spacing="sm">
-            <Typography variant="h4" as="h1">
+            <Text variant="h3" accessibilityRole="header">
               Welcome back
-            </Typography>
-            <Typography variant="body2" color="secondary">
-              Sign in to continue
-            </Typography>
+            </Text>
+            <Text variant="muted">Sign in to continue</Text>
           </Stack>
 
           {phase === 'error' && errorMessage ? (
-            <Alert severity="error" onClose={() => setPhase('idle')}>
-              <Typography variant="body2">{errorMessage}</Typography>
+            <Alert variant="destructive">
+              <AlertDescription>{errorMessage}</AlertDescription>
             </Alert>
           ) : null}
 
           <Stack spacing="md">
-            <Input
+            <TextField
               label="Email"
               value={email}
-              onChange={setEmail}
+              onChangeText={setEmail}
               placeholder="you@example.com"
               keyboardType="email-address"
               autoCapitalize="none"
               autoComplete="email"
             />
-            <Input
+            <TextField
               label="Password"
               value={password}
-              onChange={setPassword}
+              onChangeText={setPassword}
               placeholder="••••••••"
               secureTextEntry
               autoComplete="password"
@@ -81,18 +85,18 @@ export default function LoginScreenExample() {
           </Stack>
 
           <Button
-            label="Sign in"
-            fullWidth
-            loading={phase === 'loading'}
-            disabled={!email || !password}
+            className="w-full"
+            disabled={!email || !password || phase === 'loading'}
             onPress={handleSignIn}
-          />
+          >
+            {phase === 'loading' ? 'Signing in…' : 'Sign in'}
+          </Button>
 
-          <Typography variant="caption" color="secondary" align="center">
+          <Text variant="muted" className="text-center text-xs">
             Demo credentials: demo@rnui.dev / password
-          </Typography>
+          </Text>
         </Stack>
       </ScrollView>
-    </Box>
+    </View>
   );
 }

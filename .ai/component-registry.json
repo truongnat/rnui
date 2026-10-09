@@ -1,1354 +1,589 @@
 {
-  "version": "1.0.0",
-  "generatedFrom": "packages/ui/src/index.ts",
-  "primaryPackage": "@truongdq01/ui",
+  "version": "2.0.0",
+  "generatedFrom": "registry/shared/ui",
+  "distributionModel": "shadcn-style registry — files copied into consumer apps under components/ui/ and imported via the @/ alias",
+  "importBase": "@/components/ui",
   "components": [
     {
       "name": "Accordion",
+      "file": "accordion.tsx",
       "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { Accordion } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Expandable sections for grouped content.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
-    },
-    {
-      "name": "Alert",
-      "category": "feedback",
-      "package": "@truongdq01/ui",
-      "import": "import { Alert } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Inline contextual feedback with severity variants.",
-      "commonProps": [
-        "severity",
-        "variant",
-        "children",
-        "onClose",
-        "action",
-        "icon"
-      ],
-      "relatedComponents": ["AlertDialog", "Snackbar", "EmptyState"],
-      "usageHints": [
-        "Use severity error/warning/info/success",
-        "Dismissible with onClose for non-critical info"
-      ],
-      "avoid": [
-        "Colored View with Text for error messages",
-        "Blocking Alert for inline validation"
-      ]
+      "import": "import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';",
+      "description": "Expandable sections for grouped content."
     },
     {
       "name": "AlertDialog",
+      "file": "alert-dialog.tsx",
       "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { AlertDialog } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Modal dialog for critical confirmations.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { AlertDialog, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogCancel } from '@/components/ui/alert-dialog';",
+      "description": "Modal dialog for critical confirmations."
+    },
+    {
+      "name": "Alert",
+      "file": "alert.tsx",
+      "category": "feedback",
+      "import": "import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';",
+      "description": "Inline contextual feedback with severity variants."
     },
     {
       "name": "AnimatedList",
+      "file": "animated-list.tsx",
       "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { AnimatedList } from '@truongdq01/ui';",
-      "status": "experimental",
-      "description": "List with enter/exit layout animations.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { AnimatedList } from '@/components/ui/animated-list';",
+      "description": "List with enter/exit layout animations."
     },
     {
       "name": "AnimatedOverlay",
-      "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { AnimatedOverlay } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Animated overlay backdrop wrapper.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "animated-overlay.tsx",
+      "category": "feedback",
+      "import": "import { AnimatedOverlay } from '@/components/ui/animated-overlay';",
+      "description": "Animated overlay backdrop wrapper."
     },
     {
       "name": "AppBar",
+      "file": "app-bar.tsx",
       "category": "navigation",
-      "package": "@truongdq01/ui",
-      "import": "import { AppBar } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Top app bar with title and leading/trailing slots.",
-      "commonProps": ["title", "children", "elevation"],
-      "relatedComponents": ["AppBarTitle", "AppBarLeading", "AppBarTrailing"],
-      "usageHints": [
-        "One AppBar per screen top",
-        "Put back navigation in leading slot"
-      ],
-      "avoid": ["Custom header View with fixed height 56"]
+      "import": "import { AppBar, AppBarTitle, AppBarSubtitle, AppBarAction } from '@/components/ui/app-bar';",
+      "description": "Top app bar with title and leading/trailing slots."
     },
     {
       "name": "AspectRatio",
+      "file": "aspect-ratio.tsx",
       "category": "layout",
-      "package": "@truongdq01/ui",
-      "import": "import { AspectRatio } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Maintains width/height aspect ratio for content.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { AspectRatio } from '@/components/ui/aspect-ratio';",
+      "description": "Maintains width/height aspect ratio for content."
     },
     {
       "name": "Autocomplete",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { Autocomplete } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Typeahead text input with suggestions.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "autocomplete.tsx",
+      "category": "inputs",
+      "import": "import { Autocomplete } from '@/components/ui/autocomplete';",
+      "description": "Typeahead text input with suggestions."
     },
     {
       "name": "Avatar",
-      "category": "media",
-      "package": "@truongdq01/ui",
-      "import": "import { Avatar } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "User avatar with image, initials, or fallback.",
-      "commonProps": ["src", "initials", "size", "status"],
-      "relatedComponents": ["Badge", "List"],
-      "usageHints": [
-        "Use initials when no image URL",
-        "Pair with List leading slot"
-      ],
-      "avoid": ["Circular Image with manual borderRadius 9999 everywhere"]
+      "file": "avatar.tsx",
+      "category": "data-display",
+      "import": "import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';",
+      "description": "User avatar with image, initials, or fallback."
     },
     {
       "name": "Badge",
+      "file": "badge.tsx",
       "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { Badge } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Small status indicator or count label.",
-      "commonProps": ["label", "variant", "color", "dot"],
-      "relatedComponents": ["Chip", "Typography"],
-      "usageHints": [
-        "Use dot variant for unread indicators",
-        "Keep labels short"
-      ],
-      "avoid": ["Custom absolute-positioned circles for notification dots"]
+      "import": "import { Badge } from '@/components/ui/badge';",
+      "description": "Small status indicator or count label."
     },
     {
       "name": "Blockquote",
+      "file": "blockquote.tsx",
       "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { Blockquote } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Styled quotation block with emphasized left border and secondary text.",
-      "commonProps": ["children", "cite"],
-      "relatedComponents": ["Typography", "Card", "Alert"],
-      "usageHints": [
-        "Use for quoted text, testimonials, or excerpts",
-        "Provide cite when the source is known",
-        "Combine with Card and Grid for testimonial sections"
-      ],
-      "avoid": ["Callout boxes or informational notes — use Alert instead"]
+      "import": "import { Blockquote, BlockquoteCite } from '@/components/ui/blockquote';",
+      "description": "Styled quotation block with emphasized left border and secondary text."
     },
     {
       "name": "BottomNavigation",
+      "file": "bottom-navigation.tsx",
       "category": "navigation",
-      "package": "@truongdq01/ui",
-      "import": "import { BottomNavigation } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Bottom tab navigation bar.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { BottomNavigation } from '@/components/ui/bottom-navigation';",
+      "description": "Bottom tab navigation bar."
     },
     {
-      "name": "BottomSheet",
-      "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { BottomSheet } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Gesture-driven sheet with snap points.",
-      "commonProps": ["open", "onClose", "snapPoints", "children"],
-      "relatedComponents": ["Modal", "Drawer"],
-      "usageHints": [
-        "Use for filters and short forms",
-        "Prefer Modal for full-screen flows"
-      ],
-      "avoid": ["Third-party bottom sheet libraries without approval"]
-    },
-    {
-      "name": "Box",
-      "category": "layout",
-      "package": "@truongdq01/ui",
-      "import": "import { Box } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Layout primitive with flex and sx token-aware styling.",
-      "commonProps": ["flex", "sx", "style", "children"],
-      "relatedComponents": ["Stack", "Grid"],
-      "usageHints": [
-        "flex=1 for scroll body regions",
-        "Use sx for token-based layout tweaks"
-      ],
-      "avoid": ["Replacing Stack when spacing between children is needed"]
-    },
-    {
-      "name": "BreadcrumbItem",
+      "name": "Breadcrumb",
+      "file": "breadcrumb.tsx",
       "category": "navigation",
-      "package": "@truongdq01/ui",
-      "import": "import { BreadcrumbItem } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Individual breadcrumb link or current-page label inside Breadcrumbs.",
-      "commonProps": ["children", "href", "onPress", "isCurrent", "startIcon"],
-      "relatedComponents": ["Breadcrumbs", "Link"],
-      "usageHints": [
-        "Use href or onPress for ancestor pages",
-        "Set isCurrent on the last item, or let Breadcrumbs auto-detect the last item",
-        "Pass startIcon for item-level icons"
-      ],
-      "avoid": ["Wrapping items in manual View rows — use startIcon instead"]
-    },
-    {
-      "name": "Breadcrumbs",
-      "category": "navigation",
-      "package": "@truongdq01/ui",
-      "import": "import { Breadcrumbs, BreadcrumbItem } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Hierarchical navigation trail composed of BreadcrumbItem children.",
-      "commonProps": [
-        "separator",
-        "maxItems",
-        "itemsBeforeCollapse",
-        "itemsAfterCollapse"
-      ],
-      "relatedComponents": ["BreadcrumbItem", "Link"],
-      "usageHints": [
-        "Compose trails with BreadcrumbItem children",
-        "Customize separator with string or icon node",
-        "Use maxItems to collapse long paths"
-      ],
-      "avoid": ["Manual separator Text nodes between children"]
-    },
-    {
-      "name": "Button",
-      "category": "actions",
-      "package": "@truongdq01/ui",
-      "import": "import { Button } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Primary action control with variants, sizes, loading, and icons.",
-      "commonProps": [
-        "label",
-        "variant",
-        "color",
-        "size",
-        "onPress",
-        "disabled",
-        "loading",
-        "fullWidth",
-        "leadingIcon",
-        "accessibilityLabel"
-      ],
-      "relatedComponents": ["ButtonGroup", "Fab", "Link", "ToggleButton"],
-      "usageHints": [
-        "Use variant=solid for primary CTA",
-        "Use outline/ghost for secondary actions",
-        "Set accessibilityLabel when label is icon-only",
-        "Use loading during async onPress"
-      ],
-      "avoid": [
-        "Custom Pressable styled as button",
-        "TouchableOpacity",
-        "Inline backgroundColor for brand actions"
-      ]
+      "import": "import { Breadcrumb, BreadcrumbItem, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';",
+      "description": "Hierarchical navigation trail composed of BreadcrumbItem children."
     },
     {
       "name": "ButtonGroup",
-      "category": "actions",
-      "package": "@truongdq01/ui",
-      "import": "import { ButtonGroup, Button } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Joins related buttons into one connected control with shared borders and outer-corner radius.",
-      "commonProps": ["label", "orientation", "size", "isDisabled"],
-      "relatedComponents": ["Button", "ToggleButtonGroup", "SegmentedControl"],
-      "usageHints": [
-        "Group related actions on the same object (copy, cut, paste)",
-        "Use the same variant on every child button",
-        "Provide label for toolbar accessibility"
-      ],
-      "avoid": [
-        "Mixing unrelated actions in one group",
-        "Using ButtonGroup for view switching — prefer SegmentedControl or Tabs",
-        "Nesting ButtonGroups"
-      ]
+      "file": "button-group.tsx",
+      "category": "inputs",
+      "import": "import { ButtonGroup } from '@/components/ui/button-group';",
+      "description": "Joins related buttons into one connected control with shared borders and outer-corner radius."
+    },
+    {
+      "name": "Button",
+      "file": "button.tsx",
+      "category": "inputs",
+      "import": "import { Button } from '@/components/ui/button';",
+      "description": "Primary action control with variants, sizes, loading, and icons."
     },
     {
       "name": "Calendar",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { Calendar } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Month-grid date selection for single dates or ranges.",
-      "commonProps": [
-        "selectionMode",
-        "value",
-        "range",
-        "minimumDate",
-        "maximumDate",
-        "dateConstraints",
-        "numberOfMonths",
-        "locale"
-      ],
-      "relatedComponents": ["DatePicker", "IconButton", "Tooltip"],
-      "usageHints": [
-        "Use single mode for appointment or due dates",
-        "Use range mode for booking, leave requests, or report filters",
-        "Add minimumDate, maximumDate, or dateConstraints to keep selection valid"
-      ],
-      "avoid": [
-        "Birth dates or far-past dates where text entry is faster",
-        "Large disabled date blocks without context"
-      ]
-    },
-    {
-      "name": "CodeBlock",
+      "file": "calendar.tsx",
       "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { CodeBlock } from '@truongdq01/ui';",
-      "status": "experimental",
-      "description": "Syntax-highlighted code display with copy, line numbers, and language badge.",
-      "commonProps": [
-        "code",
-        "language",
-        "title",
-        "highlightedLines",
-        "showLineNumbers"
-      ],
-      "relatedComponents": ["Blockquote", "Paper"],
-      "usageHints": [
-        "Use language prop for syntax highlighting (jsx, typescript, css, etc.)",
-        "Line numbers auto-hide for fewer than 5 lines",
-        "Copy button appears on hover in the header area",
-        "Use highlightedLines to call out specific lines (1-indexed)"
-      ],
-      "avoid": [
-        "Text component with monospace font for large code snippets",
-        "ScrollView containing other interactive elements inside CodeBlock"
-      ]
+      "import": "import { Calendar } from '@/components/ui/calendar';",
+      "description": "Month-grid date selection for single dates or ranges."
     },
     {
       "name": "Card",
-      "category": "layout",
-      "package": "@truongdq01/ui",
-      "import": "import { Card } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Surface container with token-based padding; optional pressable mode.",
-      "commonProps": [
-        "children",
-        "padding",
-        "onPress",
-        "accessibilityLabel",
-        "style"
-      ],
-      "relatedComponents": ["GlassCard", "Paper", "Box"],
-      "usageHints": [
-        "Group related content in Card sections",
-        "Use padding=lg for spacious layouts",
-        "onPress makes entire card tappable"
-      ],
-      "avoid": [
-        "View with manual shadow/radius hex values",
-        "Duplicate Card wrapper"
-      ]
+      "file": "card.tsx",
+      "category": "data-display",
+      "import": "import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';",
+      "description": "Surface container with token-based padding; optional pressable mode."
     },
     {
       "name": "Carousel",
+      "file": "carousel.tsx",
       "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { Carousel } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Swipeable content strip with snap paging, pagination, and optional navigation controls.",
-      "commonProps": [
-        "data",
-        "renderItem",
-        "accessibilityLabel",
-        "showPagination",
-        "showNavigation",
-        "fadeEdges",
-        "snap",
-        "loop",
-        "onIndexChange"
-      ],
-      "relatedComponents": ["Card", "Image", "ScrollArea"],
-      "usageHints": [
-        "Use for hero stories, featured products, and editorial cards",
-        "Keep snap enabled when one slide should be read at a time",
-        "Provide accessibilityLabel describing what the strip contains"
-      ],
-      "avoid": [
-        "Auto-advancing marketing carousels by default",
-        "Hiding critical actions only inside one slide",
-        "Using carousel when a simple horizontal list would be clearer"
-      ]
+      "import": "import { Carousel } from '@/components/ui/carousel';",
+      "description": "Swipeable content strip with snap paging, pagination, and optional navigation controls."
+    },
+    {
+      "name": "Chart",
+      "file": "chart.tsx",
+      "category": "data-display",
+      "import": "import { BarChart, LineChart, DonutChart, ChartLegend } from '@/components/ui/chart';",
+      "description": "Bar, line, and donut charts for metric visualization."
     },
     {
       "name": "ChatListItem",
+      "file": "chat-list-item.tsx",
       "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { ChatListItem } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "List row optimized for chat previews.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { ChatListItem } from '@/components/ui/chat-list-item';",
+      "description": "List row optimized for chat previews."
     },
     {
       "name": "Checkbox",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { Checkbox } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Boolean selection control with label support.",
-      "commonProps": [
-        "checked",
-        "onChange",
-        "label",
-        "disabled",
-        "indeterminate"
-      ],
-      "relatedComponents": ["Switch", "Radio", "FormControl"],
-      "usageHints": [
-        "Use for multi-select options",
-        "Group related checkboxes in Stack"
-      ],
-      "avoid": ["Custom checkbox with borderWidth hacks"]
+      "file": "checkbox.tsx",
+      "category": "inputs",
+      "import": "import { Checkbox } from '@/components/ui/checkbox';",
+      "description": "Boolean selection control with label support."
     },
     {
       "name": "Chip",
-      "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { Chip } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Compact tag or filter chip.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "chip.tsx",
+      "category": "inputs",
+      "import": "import { Chip } from '@/components/ui/chip';",
+      "description": "Compact tag or filter chip."
     },
     {
       "name": "CircularProgress",
+      "file": "circular-progress.tsx",
       "category": "feedback",
-      "package": "@truongdq01/ui",
-      "import": "import { CircularProgress } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Circular loading indicator (requires react-native-svg).",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { CircularProgress } from '@/components/ui/circular-progress';",
+      "description": "Circular loading indicator (requires react-native-svg)."
+    },
+    {
+      "name": "CodeBlock",
+      "file": "code-block.tsx",
+      "category": "data-display",
+      "import": "import { CodeBlock } from '@/components/ui/code-block';",
+      "description": "Syntax-highlighted code display with copy, line numbers, and language badge."
+    },
+    {
+      "name": "Collapsible",
+      "file": "collapsible.tsx",
+      "category": "data-display",
+      "import": "import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';",
+      "description": "Expandable sections for grouped content."
+    },
+    {
+      "name": "Command",
+      "file": "command.tsx",
+      "category": "data-display",
+      "import": "import { Command } from '@/components/ui/command';",
+      "description": "Command palette with search and selectable items."
     },
     {
       "name": "ContextMenu",
+      "file": "context-menu.tsx",
       "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { ContextMenu } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Long-press context menu.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuShortcut, ContextMenuSeparator, ContextMenuLabel } from '@/components/ui/context-menu';",
+      "description": "Long-press context menu."
     },
     {
-      "name": "DateInput",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { DateInput } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Single-date form input with calendar sheet selection.",
-      "commonProps": [
-        "label",
-        "value",
-        "onChange",
-        "placeholder",
-        "helperText",
-        "error",
-        "status",
-        "statusMessage",
-        "minimumDate",
-        "maximumDate",
-        "clearable"
-      ],
-      "relatedComponents": ["DatePicker", "DateRangeInput", "DateTimeInput"],
-      "usageHints": [
-        "Use for one specific calendar date",
-        "Prefer helperText for non-obvious date purpose",
-        "Use minimumDate and maximumDate for valid windows"
-      ],
-      "avoid": [
-        "Use DateRangeInput when selecting a start/end date",
-        "Use DateTimeInput when time is required"
-      ]
+      "name": "DataTable",
+      "file": "data-table.tsx",
+      "category": "data-display",
+      "import": "import { DataTable } from '@/components/ui/data-table';",
+      "description": "Data table with columns, rows, and sorting."
     },
     {
       "name": "DatePicker",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { DatePicker } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Date and time selection UI.",
-      "commonProps": [],
-      "relatedComponents": ["DateInput", "DateRangeInput", "DateTimeInput"],
-      "usageHints": [
-        "Use directly when you need lower-level date/time picker control",
-        "Prefer DateInput, DateRangeInput, or DateTimeInput for form fields"
-      ],
-      "avoid": []
-    },
-    {
-      "name": "DateRangeInput",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { DateRangeInput } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Start/end date input with range calendar sheet and quick presets.",
-      "commonProps": [
-        "label",
-        "value",
-        "onChange",
-        "placeholder",
-        "helperText",
-        "error",
-        "status",
-        "statusMessage",
-        "presets",
-        "minimumDate",
-        "maximumDate",
-        "clearable"
-      ],
-      "relatedComponents": ["DateInput", "DatePicker", "Calendar"],
-      "usageHints": [
-        "Use for analytics periods, bookings, and report filters",
-        "Keep presets for common ranges like last7 and last30",
-        "Set numberOfMonths to 1 for narrow mobile-only contexts"
-      ],
-      "avoid": ["Use DateInput when only one date is needed"]
-    },
-    {
-      "name": "DateTimeInput",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { DateTimeInput } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Combined date and time form input for scheduling workflows.",
-      "commonProps": [
-        "label",
-        "value",
-        "onChange",
-        "placeholder",
-        "helperText",
-        "error",
-        "status",
-        "statusMessage",
-        "minuteInterval",
-        "is24Hour",
-        "minimumDate",
-        "maximumDate",
-        "clearable"
-      ],
-      "relatedComponents": ["DateInput", "DatePicker"],
-      "usageHints": [
-        "Use for scheduling, event creation, and deadline datetime values",
-        "Set minuteInterval for slot-based scheduling",
-        "Use is24Hour or locale to match regional expectations"
-      ],
-      "avoid": ["Use DateInput when time is not required"]
+      "file": "date-picker.tsx",
+      "category": "inputs",
+      "import": "import { DatePicker } from '@/components/ui/date-picker';",
+      "description": "Date and time selection UI."
     },
     {
       "name": "Dialog",
+      "file": "dialog.tsx",
       "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { Dialog } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Dialog surface with title and actions.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
-    },
-    {
-      "name": "Divider",
-      "category": "layout",
-      "package": "@truongdq01/ui",
-      "import": "import { Divider } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Horizontal or vertical separator.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Dialog, DialogClose, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';",
+      "description": "Dialog surface with title and actions."
     },
     {
       "name": "Drawer",
+      "file": "drawer.tsx",
       "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { Drawer } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Side drawer panel.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Drawer, DrawerHeader, DrawerTitle, DrawerDescription, DrawerContent, DrawerFooter } from '@/components/ui/drawer';",
+      "description": "Side drawer panel."
+    },
+    {
+      "name": "DropdownMenu",
+      "file": "dropdown-menu.tsx",
+      "category": "overlay",
+      "import": "import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuShortcut, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';",
+      "description": "Dropdown menu with items."
     },
     {
       "name": "EmptyState",
-      "category": "feedback",
-      "package": "@truongdq01/ui",
-      "import": "import { EmptyState } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Placeholder when lists or searches have no content.",
-      "commonProps": [
-        "title",
-        "description",
-        "variant",
-        "action",
-        "icon",
-        "size"
-      ],
-      "relatedComponents": ["Button", "Typography", "Alert"],
-      "usageHints": [
-        "Always offer action when user can recover",
-        "Use variant=search|error|offline appropriately"
-      ],
-      "avoid": [
-        "Centered Text only with no action",
-        "Custom empty illustrations without EmptyState structure"
-      ]
+      "file": "empty-state.tsx",
+      "category": "data-display",
+      "import": "import { EmptyState, EmptyStateTitle, EmptyStateDescription, EmptyStateAction } from '@/components/ui/empty-state';",
+      "description": "Placeholder when lists or searches have no content."
     },
     {
       "name": "Fab",
-      "category": "actions",
-      "package": "@truongdq01/ui",
-      "import": "import { Fab } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Floating action button.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "fab.tsx",
+      "category": "inputs",
+      "import": "import { Fab } from '@/components/ui/fab';",
+      "description": "Floating action button."
     },
     {
       "name": "Form",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { Form } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Form context wrapper for field grouping.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
-    },
-    {
-      "name": "FormControl",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { FormControl } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Accessible form control wrapper.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
-    },
-    {
-      "name": "FormField",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { FormField } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Label + input + helper/error composition.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "form.tsx",
+      "category": "inputs",
+      "import": "import { FormField, FormLabel, FormDescription, FormMessage } from '@/components/ui/form';",
+      "description": "Form context wrapper for field grouping."
     },
     {
       "name": "GlassCard",
+      "file": "glass-card.tsx",
       "category": "layout",
-      "package": "@truongdq01/ui",
-      "import": "import { GlassCard } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Frosted glass surface; uses expo-blur when installed, translucent fallback otherwise.",
-      "commonProps": ["children", "intensity", "style"],
-      "relatedComponents": ["Card", "Gradient"],
-      "usageHints": [
-        "Install expo-blur in app for native blur",
-        "Works without blur as translucent card"
-      ],
-      "avoid": [
-        "Requiring expo-blur as hard dependency",
-        "Duplicating blur logic"
-      ]
+      "import": "import { GlassCard } from '@/components/ui/glass-card';",
+      "description": "Frosted glass surface; uses expo-blur when installed, translucent fallback otherwise."
     },
     {
       "name": "Gradient",
+      "file": "gradient.tsx",
       "category": "layout",
-      "package": "@truongdq01/ui",
-      "import": "import { Gradient } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Gradient background; uses expo-linear-gradient when available.",
-      "commonProps": ["colors", "start", "end", "children"],
-      "relatedComponents": ["Box", "GlassCard"],
-      "usageHints": [
-        "Install expo-linear-gradient in Expo apps",
-        "Use sparingly for hero sections"
-      ],
-      "avoid": [
-        "Third-party gradient libs when Gradient exists",
-        "Gradients on every card"
-      ]
+      "import": "import { Gradient } from '@/components/ui/gradient';",
+      "description": "Gradient background; uses expo-linear-gradient when available."
     },
     {
       "name": "Grid",
+      "file": "grid.tsx",
       "category": "layout",
-      "package": "@truongdq01/ui",
-      "import": "import { Grid } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Responsive grid layout.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
-    },
-    {
-      "name": "Icon",
-      "category": "media",
-      "package": "@truongdq01/ui",
-      "import": "import { Icon } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Lucide icon wrapper (requires lucide-react-native + svg).",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Grid, GridItem } from '@/components/ui/grid';",
+      "description": "Responsive grid layout."
     },
     {
       "name": "IconButton",
-      "category": "actions",
-      "package": "@truongdq01/ui",
-      "import": "import { IconButton } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Compact icon-only action button with required accessible label.",
-      "commonProps": [
-        "icon",
-        "label",
-        "variant",
-        "size",
-        "loading",
-        "disabled",
-        "accessibilityHint"
-      ],
-      "relatedComponents": ["Button", "Icon", "Tooltip"],
-      "usageHints": [
-        "Prefer for compact toolbar or row actions where the icon meaning is obvious",
-        "Keep label specific because it becomes the accessibility label",
-        "Ghost is the default to reduce visual clutter in dense UIs"
-      ],
-      "avoid": [
-        "Ambiguous actions that need visible text",
-        "Missing label on icon-only actions"
-      ]
+      "file": "icon-button.tsx",
+      "category": "inputs",
+      "import": "import { IconButton } from '@/components/ui/icon-button';",
+      "description": "Compact icon-only action button with required accessible label."
     },
     {
-      "name": "Image",
-      "category": "media",
-      "package": "@truongdq01/ui",
-      "import": "import { Image } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Themed image with loading states.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "name": "Icon",
+      "file": "icon.tsx",
+      "category": "primitives",
+      "import": "import { Icon } from '@/components/ui/icon';",
+      "description": "Lucide icon wrapper (requires lucide-react-native + svg)."
     },
     {
       "name": "ImageList",
-      "category": "media",
-      "package": "@truongdq01/ui",
-      "import": "import { ImageList } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Grid/masonry image list.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "image-list.tsx",
+      "category": "data-display",
+      "import": "import { ImageList, ImageListItem, ImageListItemBar } from '@/components/ui/image-list';",
+      "description": "Grid/masonry image list."
+    },
+    {
+      "name": "Image",
+      "file": "image.tsx",
+      "category": "data-display",
+      "import": "import { Image } from '@/components/ui/image';",
+      "description": "Themed image with loading states."
+    },
+    {
+      "name": "InputOTP",
+      "file": "input-otp.tsx",
+      "category": "inputs",
+      "import": "import { InputOTP } from '@/components/ui/input-otp';",
+      "description": "One-time code digit input."
     },
     {
       "name": "Input",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { Input } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Text field with label, error, helper text, and optional floating label.",
-      "commonProps": [
-        "label",
-        "value",
-        "onChange",
-        "error",
-        "helperText",
-        "placeholder",
-        "disabled",
-        "size",
-        "floatingLabel"
-      ],
-      "relatedComponents": [
-        "TextField",
-        "TextArea",
-        "FormField",
-        "FormControl",
-        "Label"
-      ],
-      "usageHints": [
-        "Use error prop for validation messages",
-        "Pair with FormField for complex forms",
-        "Use onClearError when error clears on type"
-      ],
-      "avoid": [
-        "Raw TextInput with custom border colors",
-        "Duplicate Input wrapper components"
-      ]
+      "file": "input.tsx",
+      "category": "inputs",
+      "import": "import { Input } from '@/components/ui/input';",
+      "description": "Text field with label, error, helper text, and optional floating label."
     },
     {
       "name": "Label",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { Label } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Form field label text.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
-    },
-    {
-      "name": "LinearProgress",
-      "category": "feedback",
-      "package": "@truongdq01/ui",
-      "import": "import { LinearProgress } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Horizontal progress bar.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "label.tsx",
+      "category": "inputs",
+      "import": "import { Label } from '@/components/ui/label';",
+      "description": "Form field label text."
     },
     {
       "name": "Link",
-      "category": "navigation",
-      "package": "@truongdq01/ui",
-      "import": "import { Link } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Themed tappable link text.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "link.tsx",
+      "category": "inputs",
+      "import": "import { Link } from '@/components/ui/link';",
+      "description": "Themed tappable link text."
+    },
+    {
+      "name": "ListItem",
+      "file": "list-item.tsx",
+      "category": "data-display",
+      "import": "import { ListItem, ListSeparator, ListSectionTitle } from '@/components/ui/list-item';",
+      "description": "Row with leading slot, title/subtitle, and trailing affordance."
     },
     {
       "name": "List",
+      "file": "list.tsx",
       "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { List } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Compound list container with subheaders and item primitives.",
-      "commonProps": ["subheader", "dense", "disablePadding", "children"],
-      "relatedComponents": ["SettingsMenu", "ChatListItem", "Divider"],
-      "usageHints": [
-        "Use subheader for grouped settings",
-        "Combine with Switch in trailing slot patterns"
-      ],
-      "avoid": [
-        "ScrollView mapping huge arrays without virtualization for long lists"
-      ]
+      "import": "import { List } from '@/components/ui/list';",
+      "description": "Compound list container with subheaders and item primitives."
     },
     {
       "name": "Marquee",
+      "file": "marquee.tsx",
       "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { Marquee } from '@truongdq01/ui';",
-      "status": "experimental",
-      "description": "Scrolling text marquee.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
-    },
-    {
-      "name": "Menu",
-      "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { Menu } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Dropdown menu with items.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Marquee } from '@/components/ui/marquee';",
+      "description": "Scrolling text marquee."
     },
     {
       "name": "MessageInput",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { MessageInput } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Chat-style message composer.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "message-input.tsx",
+      "category": "inputs",
+      "import": "import { MessageInput } from '@/components/ui/message-input';",
+      "description": "Chat-style message composer."
     },
     {
       "name": "Modal",
+      "file": "modal.tsx",
       "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { Modal } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Native modal wrapper for dialogs and full-screen overlays.",
-      "commonProps": ["open", "onClose", "children", "title"],
-      "relatedComponents": ["Dialog", "AlertDialog", "BottomSheet"],
-      "usageHints": [
-        "Use for confirmations and focused tasks",
-        "Always provide onClose"
-      ],
-      "avoid": ["JS-only modal libraries when native Modal suffices"]
-    },
-    {
-      "name": "OTPInput",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { OTPInput } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "One-time code digit input.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Modal, ModalContent, ModalHeader, ModalTitle, ModalDescription, ModalFooter } from '@/components/ui/modal';",
+      "description": "Native modal wrapper for dialogs and full-screen overlays."
     },
     {
       "name": "Pagination",
+      "file": "pagination.tsx",
       "category": "navigation",
-      "package": "@truongdq01/ui",
-      "import": "import { Pagination } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Page navigation controls.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Pagination } from '@/components/ui/pagination';",
+      "description": "Page navigation controls."
     },
     {
       "name": "Paper",
+      "file": "paper.tsx",
       "category": "layout",
-      "package": "@truongdq01/ui",
-      "import": "import { Paper } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Elevated surface similar to Card.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Paper } from '@/components/ui/paper';",
+      "description": "Elevated surface similar to Card."
     },
     {
       "name": "Popover",
+      "file": "popover.tsx",
       "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { Popover } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Anchored popover panel.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';",
+      "description": "Anchored popover panel."
     },
     {
       "name": "Popper",
+      "file": "popper.tsx",
       "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { Popper } from '@truongdq01/ui';",
-      "status": "experimental",
-      "description": "Positioned overlay primitive.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
-    },
-    {
-      "name": "Popup",
-      "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { Popup } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Popup menu/surface.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Popper } from '@/components/ui/popper';",
+      "description": "Positioned overlay primitive."
     },
     {
       "name": "Pressable",
-      "category": "actions",
-      "package": "@truongdq01/ui",
-      "import": "import { Pressable } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Low-level pressable with theme feedback.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "pressable.tsx",
+      "category": "primitives",
+      "import": "import { Pressable } from '@/components/ui/pressable';",
+      "description": "Low-level pressable with theme feedback."
     },
     {
-      "name": "Radio",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { Radio } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Single selection radio control.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "name": "Progress",
+      "file": "progress.tsx",
+      "category": "feedback",
+      "import": "import { Progress } from '@/components/ui/progress';",
+      "description": "Horizontal progress bar."
+    },
+    {
+      "name": "RadioGroup",
+      "file": "radio-group.tsx",
+      "category": "inputs",
+      "import": "import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';",
+      "description": "Single selection radio control."
     },
     {
       "name": "Rating",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { Rating } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Star rating input and display with accessibility.",
-      "commonProps": ["value", "onChange", "max", "readOnly", "size"],
-      "relatedComponents": ["Typography", "Button"],
-      "usageHints": [
-        "Use readOnly for display-only ratings",
-        "Provide accessible labels"
-      ],
-      "avoid": ["Row of Text stars with manual touch handlers"]
+      "file": "rating.tsx",
+      "category": "inputs",
+      "import": "import { Rating } from '@/components/ui/rating';",
+      "description": "Star rating input and display with accessibility."
     },
     {
       "name": "ScrollArea",
+      "file": "scroll-area.tsx",
       "category": "layout",
-      "package": "@truongdq01/ui",
-      "import": "import { ScrollArea } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Scrollable region wrapper.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { ScrollArea } from '@/components/ui/scroll-area';",
+      "description": "Scrollable region wrapper."
     },
     {
       "name": "SegmentedControl",
-      "category": "navigation",
-      "package": "@truongdq01/ui",
-      "import": "import { SegmentedControl } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Segmented option switcher.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "segmented-control.tsx",
+      "category": "inputs",
+      "import": "import { SegmentedControl } from '@/components/ui/segmented-control';",
+      "description": "Segmented option switcher."
     },
     {
       "name": "Select",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { Select } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Dropdown selection with trigger and options list.",
-      "commonProps": [
-        "value",
-        "onChange",
-        "options",
-        "placeholder",
-        "disabled",
-        "label"
-      ],
-      "relatedComponents": ["Autocomplete", "Menu", "FormField"],
-      "usageHints": [
-        "Optional FlashList for large option sets",
-        "Use placeholder for unset state"
-      ],
-      "avoid": [
-        "Custom Modal picker duplicating Select",
-        "Inline Picker without RNUI Select"
-      ]
+      "file": "select.tsx",
+      "category": "inputs",
+      "import": "import { Select } from '@/components/ui/select';",
+      "description": "Dropdown selection with trigger and options list."
+    },
+    {
+      "name": "Separator",
+      "file": "separator.tsx",
+      "category": "layout",
+      "import": "import { Separator } from '@/components/ui/separator';",
+      "description": "Horizontal or vertical separator."
     },
     {
       "name": "SettingsMenu",
+      "file": "settings-menu.tsx",
       "category": "navigation",
-      "package": "@truongdq01/ui",
-      "import": "import { SettingsMenu } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Prebuilt settings list patterns.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { SettingsMenu } from '@/components/ui/settings-menu';",
+      "description": "Prebuilt settings list patterns."
+    },
+    {
+      "name": "Sheet",
+      "file": "sheet.tsx",
+      "category": "overlay",
+      "import": "import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@/components/ui/sheet';",
+      "description": "Gesture-driven sheet with snap points."
     },
     {
       "name": "Skeleton",
+      "file": "skeleton.tsx",
       "category": "feedback",
-      "package": "@truongdq01/ui",
-      "import": "import { Skeleton } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Loading placeholder shapes.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Skeleton } from '@/components/ui/skeleton';",
+      "description": "Loading placeholder shapes."
     },
     {
       "name": "Slider",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { Slider } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Range value slider.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "slider.tsx",
+      "category": "inputs",
+      "import": "import { Slider } from '@/components/ui/slider';",
+      "description": "Range value slider."
     },
     {
       "name": "Snackbar",
+      "file": "snackbar.tsx",
       "category": "feedback",
-      "package": "@truongdq01/ui",
-      "import": "import { Snackbar } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Bottom transient message bar.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Snackbar, SnackbarAction } from '@/components/ui/snackbar';",
+      "description": "Bottom transient message bar."
     },
     {
       "name": "SpeedDial",
-      "category": "actions",
-      "package": "@truongdq01/ui",
-      "import": "import { SpeedDial } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Expandable FAB action menu.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "speed-dial.tsx",
+      "category": "navigation",
+      "import": "import { SpeedDial } from '@/components/ui/speed-dial';",
+      "description": "Expandable FAB action menu."
     },
     {
       "name": "Stack",
+      "file": "stack.tsx",
       "category": "layout",
-      "package": "@truongdq01/ui",
-      "import": "import { Stack } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Flex stack with token gap spacing and optional divider.",
-      "commonProps": [
-        "direction",
-        "spacing",
-        "alignItems",
-        "justifyContent",
-        "wrap",
-        "divider",
-        "children"
-      ],
-      "relatedComponents": ["Box", "Grid"],
-      "usageHints": [
-        "Default vertical stack for forms",
-        "direction=row for button groups",
-        "spacing=md between form fields"
-      ],
-      "avoid": [
-        "Nested Views with manual marginBottom loops",
-        "Using gap prop (use spacing)"
-      ]
+      "import": "import { Stack } from '@/components/ui/stack';",
+      "description": "Flex stack with token gap spacing and optional divider."
     },
     {
       "name": "Stepper",
-      "category": "navigation",
-      "package": "@truongdq01/ui",
-      "import": "import { Stepper } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Multi-step progress indicator.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "stepper.tsx",
+      "category": "inputs",
+      "import": "import { Stepper } from '@/components/ui/stepper';",
+      "description": "Multi-step progress indicator."
     },
     {
       "name": "Switch",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { Switch } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Toggle for settings and binary preferences.",
-      "commonProps": ["value", "onValueChange", "disabled", "label"],
-      "relatedComponents": ["Checkbox", "List"],
-      "usageHints": ["Use in settings rows", "Pair label with List item text"],
-      "avoid": ["Custom animated toggle when Switch exists"]
+      "file": "switch.tsx",
+      "category": "inputs",
+      "import": "import { Switch } from '@/components/ui/switch';",
+      "description": "Toggle for settings and binary preferences."
     },
     {
       "name": "TabBar",
+      "file": "tab-bar.tsx",
       "category": "navigation",
-      "package": "@truongdq01/ui",
-      "import": "import { TabBar } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Custom tab bar component.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { TabBar } from '@/components/ui/tab-bar';",
+      "description": "Custom tab bar component."
     },
     {
       "name": "Table",
+      "file": "table.tsx",
       "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { Table } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Tabular data display.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Table, TableScroll, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption } from '@/components/ui/table';",
+      "description": "Tabular data display."
     },
     {
       "name": "Tabs",
+      "file": "tabs.tsx",
       "category": "navigation",
-      "package": "@truongdq01/ui",
-      "import": "import { Tabs } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Compound tabs for section switching within a screen.",
-      "commonProps": ["value", "onChange", "children"],
-      "relatedComponents": ["TabBar", "Tab", "TabPanel", "TabList"],
-      "usageHints": [
-        "Use for 2-5 related sections on one screen",
-        "Keep tab labels short"
-      ],
-      "avoid": ["Custom tab bar with underline hacks"]
-    },
-    {
-      "name": "TextArea",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { TextArea } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Multiline text input.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';",
+      "description": "Compound tabs for section switching within a screen."
     },
     {
       "name": "TextField",
-      "category": "forms",
-      "package": "@truongdq01/ui",
-      "import": "import { TextField } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Material-style text field variant.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "file": "text-field.tsx",
+      "category": "inputs",
+      "import": "import { TextField } from '@/components/ui/text-field';",
+      "description": "Material-style text field variant."
+    },
+    {
+      "name": "Text",
+      "file": "text.tsx",
+      "category": "primitives",
+      "import": "import { Text } from '@/components/ui/text';",
+      "description": "Themed text with variant scale and semantic colors."
+    },
+    {
+      "name": "Textarea",
+      "file": "textarea.tsx",
+      "category": "inputs",
+      "import": "import { Textarea } from '@/components/ui/textarea';",
+      "description": "Multiline text input."
     },
     {
       "name": "Timeline",
+      "file": "timeline.tsx",
       "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { Timeline } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Vertical timeline of events.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "import": "import { Timeline, TimelineItem, TimelineTitle, TimelineDescription } from '@/components/ui/timeline';",
+      "description": "Vertical timeline of events."
     },
     {
       "name": "Toast",
+      "file": "toast.tsx",
       "category": "feedback",
-      "package": "@truongdq01/ui",
-      "import": "import { Toast } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Transient feedback messages via toast host pattern.",
-      "commonProps": ["message", "variant", "duration", "action"],
-      "relatedComponents": ["Snackbar", "Alert", "useToast"],
-      "usageHints": [
-        "Mount ToastContainer once at app root",
-        "Use useToast from headless for imperative API"
-      ],
-      "avoid": [
-        "Alert.alert for non-blocking success messages",
-        "Multiple toast systems"
-      ]
+      "import": "import { ToastProvider } from '@/components/ui/toast';",
+      "description": "Transient feedback messages via toast host pattern."
     },
     {
-      "name": "ToggleButton",
-      "category": "actions",
-      "package": "@truongdq01/ui",
-      "import": "import { ToggleButton } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Toggleable button state.",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
+      "name": "ToggleGroup",
+      "file": "toggle-group.tsx",
+      "category": "inputs",
+      "import": "import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';",
+      "description": "Grouped toggle buttons with single or multiple selection."
+    },
+    {
+      "name": "Toggle",
+      "file": "toggle.tsx",
+      "category": "inputs",
+      "import": "import { Toggle } from '@/components/ui/toggle';",
+      "description": "Toggleable button state."
     },
     {
       "name": "Tooltip",
+      "file": "tooltip.tsx",
       "category": "overlay",
-      "package": "@truongdq01/ui",
-      "import": "import { Tooltip } from '@truongdq01/ui';",
-      "status": "beta",
-      "description": "Hover/focus tooltip (platform-dependent).",
-      "commonProps": [],
-      "relatedComponents": [],
-      "usageHints": [],
-      "avoid": []
-    },
-    {
-      "name": "Typography",
-      "category": "data-display",
-      "package": "@truongdq01/ui",
-      "import": "import { Typography } from '@truongdq01/ui';",
-      "status": "stable",
-      "description": "Themed text with variant scale and semantic colors.",
-      "commonProps": [
-        "variant",
-        "color",
-        "children",
-        "as",
-        "numberOfLines",
-        "align"
-      ],
-      "relatedComponents": ["Label", "Link"],
-      "usageHints": [
-        "Use variant h1-h6 for headings",
-        "color=secondary for subtitles",
-        "as prop for accessibility heading roles",
-        "Use variant display1/display2/display3 for hero/marketing/data callouts (not body copy)"
-      ],
-      "avoid": [
-        "Raw Text with fontSize 14/16/18 scattered",
-        "Hardcoded text colors",
-        "display1-3 for in-page section headers or body content"
-      ]
+      "import": "import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';",
+      "description": "Hover/focus tooltip (platform-dependent)."
     }
   ]
 }

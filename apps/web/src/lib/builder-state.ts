@@ -4,7 +4,7 @@ import {
   type LazyLoadPlan,
   type ScreenSchema,
   type ValidationResult,
-} from '@truongdq01/component-schema';
+} from '@rnui/component-schema';
 import { exportSchemaToTsx } from '../../../../packages/renderer/src/export-tsx';
 import type { ChatMessage } from './ai/types';
 import { exampleSchemas, type ExampleSchemaKey } from './example-schemas';

@@ -1,9 +1,10 @@
 import {
   getComponentSchema,
   type ComponentPropSchema,
-} from '@truongdq01/component-schema';
+} from '@rnui/component-schema';
 
-const BLOCKED_PROP_KEYS = new Set([
+const BLOCKED_PROP_KEYS: Record<string, true> = Object.create(null);
+for (const key of [
   'dangerouslySetInnerHTML',
   'eval',
   '__proto__',
@@ -12,16 +13,20 @@ const BLOCKED_PROP_KEYS = new Set([
   'style',
   'sx',
   'labelStyle',
-]);
+]) {
+  BLOCKED_PROP_KEYS[key] = true;
+}
 
-const LAYOUT_TYPES = new Set([
-  'Screen',
-  'Stack',
-  'Box',
-  'Card',
-  'Paper',
-  'FormGroup',
-]);
+const LAYOUT_TYPES: Record<string, true> = {
+  Screen: true,
+  Stack: true,
+  View: true,
+  Grid: true,
+  GridItem: true,
+  Card: true,
+  Paper: true,
+  List: true,
+};
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -94,7 +99,7 @@ export function guardNodeProps(
   const safeProps: Record<string, unknown> = {};
 
   for (const key of Object.keys(input)) {
-    if (BLOCKED_PROP_KEYS.has(key)) {
+    if (key === '__proto__' || BLOCKED_PROP_KEYS[key]) {
       warnings.push(`Blocked prop "${key}" on ${type}`);
       continue;
     }
@@ -147,7 +152,7 @@ export function layoutAcceptsStringChild(type: string): boolean {
 }
 
 export function isLayoutType(type: string): boolean {
-  return LAYOUT_TYPES.has(type);
+  return LAYOUT_TYPES[type] === true;
 }
 
 export function resolveActionName(action: unknown): string | undefined {

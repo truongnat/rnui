@@ -1,11 +1,17 @@
 import { View } from 'react-native';
-import { Button, Tooltip, Typography } from '@truongdq01/ui';
-import { useTheme } from '@truongdq01/headless';
-import { Info, HelpCircle, Settings } from 'lucide-react-native';
-import { DemoPage, DemoSection, DemoGroup } from '@/demo/DemoPage';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { HelpCircle, Info, Settings } from 'lucide-react-native';
+import { DemoGroup, DemoPage, DemoSection } from '@/demo/DemoPage';
+import { useThemeColor } from '@/lib/utils';
 
 export default function TooltipScreen() {
-  const { tokens } = useTheme();
+  const colors = useThemeColor();
 
   return (
     <DemoPage
@@ -16,19 +22,33 @@ export default function TooltipScreen() {
         title="Basic"
         description="Tap to reveal contextual information."
       >
-        <DemoGroup gap={tokens.spacing[5]}>
-          <Tooltip title="This is a simple tooltip message">
-            <Typography variant="body1" color="brand" fontWeight="600">
-              Tap for info
-            </Typography>
+        <DemoGroup gap={20}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Text
+                variant="large"
+                className="text-base font-semibold text-primary"
+              >
+                Tap for info
+              </Text>
+            </TooltipTrigger>
+            <TooltipContent>This is a simple tooltip message</TooltipContent>
           </Tooltip>
 
-          <Tooltip title="Helpful information about this feature">
-            <HelpCircle size={22} color={tokens.color.text.secondary} />
+          <Tooltip>
+            <TooltipTrigger>
+              <HelpCircle size={22} color={colors.mutedForeground} />
+            </TooltipTrigger>
+            <TooltipContent>
+              Helpful information about this feature
+            </TooltipContent>
           </Tooltip>
 
-          <Tooltip title="System Information">
-            <Info size={22} color={tokens.color.text.secondary} />
+          <Tooltip>
+            <TooltipTrigger>
+              <Info size={22} color={colors.mutedForeground} />
+            </TooltipTrigger>
+            <TooltipContent>System Information</TooltipContent>
           </Tooltip>
         </DemoGroup>
       </DemoSection>
@@ -37,13 +57,21 @@ export default function TooltipScreen() {
         title="Buttons"
         description="Explain icon-only or destructive actions."
       >
-        <DemoGroup gap={tokens.spacing[3]}>
-          <Tooltip title="Save changes to cloud">
-            <Button label="Save" size="sm" />
+        <DemoGroup gap={12}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="sm">Save</Button>
+            </TooltipTrigger>
+            <TooltipContent>Save changes to cloud</TooltipContent>
           </Tooltip>
 
-          <Tooltip title="Permanently delete this item">
-            <Button label="Delete" size="sm" variant="destructive" />
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="sm" variant="destructive">
+                Delete
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Permanently delete this item</TooltipContent>
           </Tooltip>
         </DemoGroup>
       </DemoSection>
@@ -52,24 +80,27 @@ export default function TooltipScreen() {
         title="Complex Anchors"
         description="Attach to any custom view."
       >
-        <Tooltip title="Customize theme, notifications, and privacy preferences.">
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: tokens.spacing[3],
-              padding: tokens.spacing[4],
-              backgroundColor: tokens.color.bg.default,
-              borderRadius: tokens.radius.lg,
-              borderWidth: 1,
-              borderColor: tokens.color.border.subtle,
-            }}
-          >
-            <Settings size={20} color={tokens.color.text.primary} />
-            <Typography variant="body1" fontWeight="500">
-              Account Preferences
-            </Typography>
-          </View>
+        <Tooltip>
+          <TooltipTrigger>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 12,
+                padding: 16,
+                backgroundColor: colors.muted,
+                borderRadius: 12,
+                borderWidth: 1,
+                borderColor: colors.border,
+              }}
+            >
+              <Settings size={20} color={colors.foreground} />
+              <Text className="font-medium">Account Preferences</Text>
+            </View>
+          </TooltipTrigger>
+          <TooltipContent>
+            Customize theme, notifications, and privacy preferences.
+          </TooltipContent>
         </Tooltip>
       </DemoSection>
     </DemoPage>

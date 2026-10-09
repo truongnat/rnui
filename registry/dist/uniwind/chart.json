@@ -5,9 +5,9 @@
   "title": "Chart",
   "description": "Skia-rendered charts: BarChart, LineChart, DonutChart + ChartLegend.",
   "registryDependencies": [
-    "utils",
-    "text",
-    "theme"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
   ],
   "dependencies": [
     "@shopify/react-native-skia@2.6.2"

@@ -1,9 +1,9 @@
 /**
- * Example app chrome — list screen header and search (not part of @truongdq01/ui).
+ * Example app chrome — list screen header and search (not part of the kit).
  */
 
-import { useComponentTokens, useTheme, useTokens } from '@truongdq01/headless';
-import { Typography } from '@truongdq01/ui';
+import { Text } from '@/components/ui/text';
+import { useThemeColor } from '@/lib/utils';
 import { Search } from 'lucide-react-native';
 import type React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
@@ -20,48 +20,33 @@ export function ScreenHeader({
   leftAction?: React.ReactNode;
   rightAction?: React.ReactNode;
 }) {
-  const t = useTokens();
-  const { tokens } = useTheme();
+  const colors = useThemeColor();
   const insets = useSafeAreaInsets();
 
   return (
     <View
-      style={{
-        paddingTop: insets.top + t.spacing[2],
-        paddingBottom: t.spacing[3],
-        paddingHorizontal: t.spacing[4],
-        backgroundColor: t.color.surface.default,
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: t.color.border.subtle,
-        gap: t.spacing[0.5],
-      }}
+      className="bg-card"
+      style={[
+        styles.header,
+        {
+          paddingTop: insets.top + 8,
+          borderBottomColor: colors.border,
+        },
+      ]}
     >
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
+      <View style={styles.headerRow}>
         <View style={styles.headerSide}>{leftAction}</View>
-        <View style={{ flex: 1, alignItems: 'center', gap: t.spacing[0.5] }}>
-          <Typography
-            variant="subtitle1"
-            style={{
-              textAlign: 'center',
-              fontWeight: tokens.fontWeight.semibold,
-              color: t.color.text.primary,
-            }}
-          >
+        <View style={styles.headerCenter}>
+          <Text variant="large" style={styles.headerTitle}>
             {title}
-          </Typography>
+          </Text>
           {subtitle ? (
-            <Typography variant="caption" color="tertiary" align="center">
+            <Text variant="muted" style={styles.headerTitle}>
               {subtitle}
-            </Typography>
+            </Text>
           ) : null}
         </View>
-        <View style={[styles.headerSide, { alignItems: 'flex-end' }]}>
+        <View style={[styles.headerSide, styles.headerSideRight]}>
           {rightAction}
         </View>
       </View>
@@ -78,34 +63,19 @@ export function PillSearchBar({
   onChangeText: (text: string) => void;
   placeholder?: string;
 }) {
-  const t = useTokens();
-  const { input } = useComponentTokens();
+  const colors = useThemeColor();
   return (
     <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: t.spacing[2],
-        paddingHorizontal: t.spacing[4],
-        minHeight: 44,
-        borderRadius: t.radius.lg,
-        backgroundColor: t.color.surface.default,
-        borderWidth: StyleSheet.hairlineWidth,
-        borderColor: t.color.border.subtle,
-      }}
+      className="bg-card"
+      style={[styles.searchBar, { borderColor: colors.border }]}
     >
-      <Search size={18} color={t.color.text.tertiary} />
+      <Search size={18} color={colors.mutedForeground} />
       <TextInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor={input.text.placeholderColor}
-        style={{
-          flex: 1,
-          paddingVertical: t.spacing[2.5],
-          fontSize: input.size.md.fontSize,
-          color: input.text.color,
-        }}
+        placeholderTextColor={colors.mutedForeground}
+        style={[styles.searchInput, { color: colors.foreground }]}
         returnKeyType="search"
         clearButtonMode="while-editing"
         accessibilityLabel={placeholder}
@@ -115,30 +85,59 @@ export function PillSearchBar({
 }
 
 export function ListSectionHeader({ title }: { title: string }) {
-  const t = useTokens();
-  const { tokens } = useTheme();
   return (
-    <View
-      style={{
-        paddingTop: t.spacing[4],
-        paddingBottom: t.spacing[2],
-        paddingHorizontal: t.spacing[1],
-      }}
-    >
-      <Typography
-        variant="overline"
-        color="tertiary"
-        style={{ letterSpacing: 1, fontWeight: tokens.fontWeight.semibold }}
-      >
+    <View style={styles.sectionHeader}>
+      <Text variant="muted" className="uppercase tracking-widest">
         {title}
-      </Typography>
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  header: {
+    paddingBottom: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    gap: 2,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerCenter: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 2,
+  },
+  headerTitle: {
+    textAlign: 'center',
+  },
   headerSide: {
     minWidth: 44,
     justifyContent: 'center',
+  },
+  headerSideRight: {
+    alignItems: 'flex-end',
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 16,
+    minHeight: 44,
+    borderRadius: 12,
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  searchInput: {
+    flex: 1,
+    paddingVertical: 10,
+    fontSize: 16,
+  },
+  sectionHeader: {
+    paddingTop: 16,
+    paddingBottom: 8,
+    paddingHorizontal: 4,
   },
 });

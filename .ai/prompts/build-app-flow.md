@@ -29,14 +29,14 @@ List each screen:
 
 ### Strict rules
 
-- One `ThemeProvider` at app root (`@truongdq01/ui` or `@truongdq01/headless`).
+- Theme via the registry `theme` item (`global.css` CSS variables) set up once at app root by `npx @rnui/cli init` — no `ThemeProvider` component.
 - Every screen uses RNUI components from the registry — no custom design system.
 - Consistent layout: `AppBar` + body `Stack` + footer actions where needed.
 - Shared patterns: same spacing scale, same button variants for primary actions.
 - Navigation: use the project's existing router (Expo Router / React Navigation) — do not invent a new navigator library.
 - Each screen handles loading / empty / error states for its data.
 - TypeScript strict; no new dependencies without approval.
-- Respect package boundaries — app code in `apps/`, not in `packages/ui`.
+- Respect boundaries — app code in `apps/`, component sources in `registry/shared/ui/`.
 
 ### Deliverables
 
@@ -49,7 +49,9 @@ List each screen:
 ### Primary import
 
 ```tsx
-import { ThemeProvider, Button, Stack, Typography } from '@truongdq01/ui';
+import { Button } from '@/components/ui/button';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
 ```
 
 Do not duplicate RNUI primitives. Do not hardcode colors.

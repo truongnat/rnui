@@ -1,34 +1,41 @@
-import { useMemo } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
-import { useToast, useTokens } from '@truongdq01/headless';
-import { Button, Card, GlassCard, Stack, Typography } from '@truongdq01/ui';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { GlassCard } from '@/components/ui/glass-card';
+import { Text } from '@/components/ui/text';
+import { useToast } from '@/components/ui/toast';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
-export default function CardScreen() {
-  const t = useTokens();
-  const toast = useToast();
+const styles = StyleSheet.create({
+  glassContainer: {
+    overflow: 'hidden',
+    height: 168,
+    justifyContent: 'center',
+    borderRadius: 16,
+    padding: 20,
+    backgroundColor: '#09090b',
+  },
+  backgroundImage: {
+    position: 'absolute',
+    width: '120%',
+    height: '120%',
+    opacity: 0.6,
+  },
+  articleImage: {
+    width: '100%',
+    height: 168,
+  },
+});
 
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        glassContainer: {
-          overflow: 'hidden',
-          height: t.spacing[18] * 2 + t.spacing[6],
-          justifyContent: 'center',
-        },
-        backgroundImage: {
-          position: 'absolute',
-          width: '120%',
-          height: '120%',
-          opacity: 0.6,
-        },
-        articleImage: {
-          width: '100%',
-          height: t.spacing[18] * 2 + t.spacing[6],
-        },
-      }),
-    [t.spacing]
-  );
+export default function CardScreen() {
+  const { toast } = useToast();
 
   return (
     <DemoPage
@@ -40,35 +47,39 @@ export default function CardScreen() {
         description="Hero card — billing summary with primary action."
       >
         <Card>
-          <Stack spacing="md">
-            <Typography variant="overline" color="brand">
-              Primary card
-            </Typography>
-            <Typography variant="h4">Visa ending in 4242</Typography>
-            <Typography variant="body2" color="secondary">
+          <CardHeader>
+            <CardTitle>Visa ending in 4242</CardTitle>
+            <CardDescription>
               Expires 08/27 · Used for subscription and one-click checkout.
-            </Typography>
+            </CardDescription>
+          </CardHeader>
+          <CardFooter>
             <Button
-              label="Update billing"
               variant="outline"
               size="sm"
-              style={{ alignSelf: 'flex-start' }}
               onPress={() => toast.info('Opening billing')}
-            />
-          </Stack>
+            >
+              Update billing
+            </Button>
+          </CardFooter>
         </Card>
       </DemoSection>
 
       <DemoSection title="Interactive" bare>
-        <Card
-          onPress={() => toast.success('Opening order details')}
+        <Pressable
+          accessibilityRole="button"
           accessibilityLabel="View order details"
+          onPress={() => toast.success('Opening order details')}
         >
-          <Typography variant="subtitle2">Order #4821</Typography>
-          <Typography variant="body2" color="secondary">
-            Shipped · Tap for tracking and invoice.
-          </Typography>
-        </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Order #4821</CardTitle>
+              <CardDescription>
+                Shipped · Tap for tracking and invoice.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Pressable>
       </DemoSection>
 
       <DemoSection
@@ -76,59 +87,51 @@ export default function CardScreen() {
         description="Blurred overlay for layered, premium surfaces."
         bare
       >
-        <View
-          style={[
-            styles.glassContainer,
-            {
-              borderRadius: t.radius['2xl'],
-              padding: t.spacing[5],
-              backgroundColor: t.color.bg.inverse,
-            },
-          ]}
-        >
+        <View style={styles.glassContainer}>
           <Image
             source={{
               uri: 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=600',
             }}
             style={styles.backgroundImage}
           />
-          <GlassCard intensity={60} style={{ borderRadius: t.radius.lg }}>
-            <Typography variant="h4" color="inverse">
+          <GlassCard intensity={60}>
+            <Text variant="h4" style={{ color: '#fafafa' }}>
               Glass Card
-            </Typography>
-            <Typography
-              variant="body2"
-              color="inverse"
-              style={{ marginTop: t.spacing[1], opacity: 0.85 }}
+            </Text>
+            <Text
+              variant="p"
+              style={{ color: '#fafafa', marginTop: 4, opacity: 0.85 }}
             >
               Elegant transparency with depth.
-            </Typography>
+            </Text>
           </GlassCard>
         </View>
       </DemoSection>
 
       <DemoSection title="Article Layout" bare>
-        <Card padding="none" style={{ overflow: 'hidden' }}>
+        <Card className="overflow-hidden">
           <Image
             source={{
               uri: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=600',
             }}
             style={styles.articleImage}
           />
-          <View style={{ padding: t.spacing[5], gap: t.spacing[3] }}>
-            <Typography variant="h3">Mastering Interface Design</Typography>
-            <Typography variant="body2" color="secondary" numberOfLines={2}>
+          <CardHeader>
+            <CardTitle>Mastering Interface Design</CardTitle>
+            <CardDescription numberOfLines={2}>
               Learn how to create stunning user interfaces using modern design
               principles and tools.
-            </Typography>
+            </CardDescription>
+          </CardHeader>
+          <CardFooter>
             <Button
-              label="Read More"
               size="sm"
               variant="outline"
-              style={{ alignSelf: 'flex-start' }}
               onPress={() => toast.info('Navigating to blog post...')}
-            />
-          </View>
+            >
+              Read More
+            </Button>
+          </CardFooter>
         </Card>
       </DemoSection>
     </DemoPage>

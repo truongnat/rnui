@@ -1,17 +1,18 @@
-import { useTokens } from '@truongdq01/headless';
+import { useState } from 'react';
+import { Pressable, ScrollView, View } from 'react-native';
+import { ArrowDown, ArrowUp } from 'lucide-react-native';
+import { Pagination } from '@/components/ui/pagination';
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
-  TableContainer,
-  TableFooter,
   TableHead,
-  TablePagination,
+  TableHeader,
   TableRow,
-  TableSortLabel,
-} from '@truongdq01/ui';
-import { useState } from 'react';
-import { View } from 'react-native';
+} from '@/components/ui/table';
+import { Text } from '@/components/ui/text';
+import { useIconColor } from '@/lib/utils';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 interface DataItem {
@@ -30,11 +31,11 @@ const INITIAL_DATA: DataItem[] = [
 ];
 
 export default function TableScreen() {
-  const t = useTokens();
+  const iconColor = useIconColor();
   const [sortColumn, setSortColumn] = useState<string>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage] = useState(3);
+  const [page, setPage] = useState(1);
+  const rowsPerPage = 3;
 
   const handleSort = (column: string) => {
     const isAsc = sortColumn === column && sortDirection === 'asc';
@@ -51,10 +52,20 @@ export default function TableScreen() {
     return fieldA < fieldB ? 1 : -1;
   });
 
+  const totalPages = Math.ceil(INITIAL_DATA.length / rowsPerPage);
   const paginatedData = sortedData.slice(
-    page * rowsPerPage,
-    (page + 1) * rowsPerPage
+    (page - 1) * rowsPerPage,
+    page * rowsPerPage
   );
+
+  const sortIcon = (column: string) =>
+    sortColumn === column ? (
+      sortDirection === 'asc' ? (
+        <ArrowUp size={14} color={iconColor} />
+      ) : (
+        <ArrowDown size={14} color={iconColor} />
+      )
+    ) : null;
 
   return (
     <DemoPage
@@ -62,120 +73,104 @@ export default function TableScreen() {
       description="Scan-friendly rows and columns for structured data."
     >
       <DemoSection title="Basic" flush>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell variant="head">ID</TableCell>
-                <TableCell variant="head">Name</TableCell>
-                <TableCell variant="head">Role</TableCell>
-                <TableCell variant="head" align="right">
-                  Status
-                </TableCell>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead flex={2}>Name</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead className="items-end">Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {INITIAL_DATA.slice(0, 3).map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>{String(row.id)}</TableCell>
+                <TableCell flex={2}>{row.name}</TableCell>
+                <TableCell>{row.role}</TableCell>
+                <TableCell className="items-end">{row.status}</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {INITIAL_DATA.slice(0, 3).map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.role}</TableCell>
-                  <TableCell align="right">{row.status}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+            ))}
+          </TableBody>
+        </Table>
+        <TableCaption>3 of 5 team members.</TableCaption>
       </DemoSection>
 
       <DemoSection
         title="Size & Padding"
-        description="Small size with no cell padding."
+        description="Compact cells via className padding overrides."
         flush
       >
-        <TableContainer style={{ marginBottom: t.spacing[4] }}>
-          <Table size="small" padding="none">
-            <TableHead>
-              <TableRow>
-                <TableCell variant="head">Category</TableCell>
-                <TableCell variant="head" align="right">
-                  Value
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>Efficiency</TableCell>
-                <TableCell align="right">98%</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Uptime</TableCell>
-                <TableCell align="right">99.9%</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <Table className="mb-4">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="py-1.5">Category</TableHead>
+              <TableHead className="items-end py-1.5">Value</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="py-1.5">Efficiency</TableCell>
+              <TableCell className="items-end py-1.5">98%</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="py-1.5">Uptime</TableCell>
+              <TableCell className="items-end py-1.5">99.9%</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </DemoSection>
 
       <DemoSection
         title="Sort & Pagination"
-        description="Interactive column sorting with footer pagination."
+        description="Interactive column sorting with pagination."
         flush
       >
-        <TableContainer>
-          <Table
-            sortColumn={sortColumn}
-            sortDirection={sortDirection}
-            onSort={handleSort}
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell variant="head">
-                  <TableSortLabel
-                    active={sortColumn === 'name'}
-                    direction={sortColumn === 'name' ? sortDirection : 'asc'}
-                    onClick={() => handleSort('name')}
-                  >
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>
+                <Pressable
+                  className="flex-row items-center gap-1"
+                  onPress={() => handleSort('name')}
+                >
+                  <Text className="text-sm font-medium text-muted-foreground">
                     Name
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell variant="head">
-                  <TableSortLabel
-                    active={sortColumn === 'role'}
-                    direction={sortColumn === 'role' ? sortDirection : 'asc'}
-                    onClick={() => handleSort('role')}
-                  >
+                  </Text>
+                  {sortIcon('name')}
+                </Pressable>
+              </TableHead>
+              <TableHead>
+                <Pressable
+                  className="flex-row items-center gap-1"
+                  onPress={() => handleSort('role')}
+                >
+                  <Text className="text-sm font-medium text-muted-foreground">
                     Role
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell variant="head" align="right">
-                  Status
-                </TableCell>
+                  </Text>
+                  {sortIcon('role')}
+                </Pressable>
+              </TableHead>
+              <TableHead className="items-end">Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {paginatedData.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.role}</TableCell>
+                <TableCell className="items-end">{row.status}</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {paginatedData.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.role}</TableCell>
-                  <TableCell align="right">{row.status}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <View style={{ flex: 1 }}>
-                  <TablePagination
-                    count={INITIAL_DATA.length}
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    onPageChange={setPage}
-                  />
-                </View>
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
+            ))}
+          </TableBody>
+        </Table>
+        <View className="items-center py-3">
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </View>
       </DemoSection>
 
       <DemoSection
@@ -183,28 +178,24 @@ export default function TableScreen() {
         description="Header stays visible while scrolling."
         flush
       >
-        <View style={{ height: 200 }}>
-          <TableContainer>
-            <Table stickyHeader>
-              <TableHead>
-                <TableRow>
-                  <TableCell variant="head">Column 1</TableCell>
-                  <TableCell variant="head">Column 2</TableCell>
-                  <TableCell variant="head">Column 3</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {[...Array(10)].map((_, i) => (
-                  <TableRow key={i}>
-                    <TableCell>Row {i + 1} Col 1</TableCell>
-                    <TableCell>Row {i + 1} Col 2</TableCell>
-                    <TableCell>Row {i + 1} Col 3</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </View>
+        <ScrollView style={{ height: 200 }} stickyHeaderIndices={[0]}>
+          <TableHeader className="bg-background">
+            <TableRow>
+              <TableHead>Column 1</TableHead>
+              <TableHead>Column 2</TableHead>
+              <TableHead>Column 3</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {[...Array(10)].map((_, i) => (
+              <TableRow key={i}>
+                <TableCell>{`Row ${i + 1} Col 1`}</TableCell>
+                <TableCell>{`Row ${i + 1} Col 2`}</TableCell>
+                <TableCell>{`Row ${i + 1} Col 3`}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </ScrollView>
       </DemoSection>
     </DemoPage>
   );

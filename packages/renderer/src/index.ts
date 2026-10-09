@@ -12,9 +12,7 @@ export type {
   PreparedScreenRender,
   ExportScreenTsxOptions,
   UnsupportedComponentInfo,
-  RendererOptions,
   RNUISchemaRendererProps,
-  ScreenSchemaRendererProps,
   WebPreviewHostProps,
   RenderSchemaNodeProps,
 } from './types';
@@ -43,7 +41,7 @@ export {
   createDefaultComponentMap,
   getMvpComponentTypes,
 } from './componentMap';
-export { createLazyComponentMap } from './lazyComponentMap';
+export { createLazyComponentMap, type ModuleLoader } from './lazyComponentMap';
 
 export {
   loadComponentsForPlan,
@@ -55,12 +53,11 @@ export {
 export {
   getLazyLoadPlan,
   getLazyLoadPlan as createLazyLoadPlan,
-} from '@truongdq01/component-schema';
+} from '@rnui/component-schema';
 
 export { RenderSchemaNode, renderNode } from './render-node';
 export {
   RNUISchemaRenderer,
-  ScreenSchemaRenderer,
   renderSchemaToElement,
 } from './RNUISchemaRenderer';
 export { WebPreviewHost } from './web-preview';

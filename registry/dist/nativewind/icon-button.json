@@ -5,8 +5,8 @@
   "title": "Icon Button",
   "description": "Square icon-only button with variants.",
   "registryDependencies": [
-    "utils",
-    "theme"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
   ],
   "dependencies": [
     "tailwind-variants"

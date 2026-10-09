@@ -1,18 +1,14 @@
 /**
  * RNUI reference: profile screen
+ * Components are registry files copied into the app under components/ui/.
  */
-import { ScrollView } from 'react-native';
-import {
-  AppBar,
-  AppBarTitle,
-  Avatar,
-  Box,
-  Button,
-  Card,
-  Stack,
-  Toolbar,
-  Typography,
-} from '@truongdq01/ui';
+import { ScrollView, View } from 'react-native';
+import { AppBar, AppBarTitle } from '@/components/ui/app-bar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
 
 const MOCK_USER = {
   name: 'Alex Nguyen',
@@ -24,57 +20,52 @@ const MOCK_USER = {
 
 export default function ProfileScreenExample() {
   return (
-    <Box flex={1}>
+    <View className="flex-1">
       <AppBar>
-        <Toolbar>
-          <AppBarTitle>Profile</AppBarTitle>
-        </Toolbar>
+        <AppBarTitle>Profile</AppBarTitle>
       </AppBar>
 
       <ScrollView>
-        <Stack spacing="lg" style={{ padding: 16 }}>
+        <Stack spacing="lg" className="p-4">
           <Stack direction="row" spacing="md" alignItems="center">
             <Avatar
-              initials="AN"
-              size="xl"
-              status="online"
+              className="h-16 w-16"
               accessibilityLabel="Alex Nguyen avatar"
-            />
-            <Stack spacing="xs" style={{ flex: 1 }}>
-              <Typography variant="h6">{MOCK_USER.name}</Typography>
-              <Typography variant="body2" color="secondary">
-                {MOCK_USER.handle}
-              </Typography>
+            >
+              <AvatarFallback>AN</AvatarFallback>
+            </Avatar>
+            <Stack spacing="xs" className="flex-1">
+              <Text variant="large">{MOCK_USER.name}</Text>
+              <Text variant="muted">{MOCK_USER.handle}</Text>
             </Stack>
           </Stack>
 
-          <Card padding="md">
-            <Typography variant="body1">{MOCK_USER.bio}</Typography>
+          <Card>
+            <CardContent className="p-4">
+              <Text variant="p">{MOCK_USER.bio}</Text>
+            </CardContent>
           </Card>
 
           <Stack direction="row" spacing="md">
-            <Card padding="md" style={{ flex: 1 }}>
-              <Typography variant="h5">{MOCK_USER.posts}</Typography>
-              <Typography variant="caption" color="secondary">
-                Posts
-              </Typography>
+            <Card className="flex-1">
+              <CardContent className="p-4">
+                <Text variant="h4">{MOCK_USER.posts}</Text>
+                <Text variant="muted">Posts</Text>
+              </CardContent>
             </Card>
-            <Card padding="md" style={{ flex: 1 }}>
-              <Typography variant="h5">{MOCK_USER.followers}</Typography>
-              <Typography variant="caption" color="secondary">
-                Followers
-              </Typography>
+            <Card className="flex-1">
+              <CardContent className="p-4">
+                <Text variant="h4">{MOCK_USER.followers}</Text>
+                <Text variant="muted">Followers</Text>
+              </CardContent>
             </Card>
           </Stack>
 
-          <Button
-            label="Edit profile"
-            variant="outline"
-            fullWidth
-            onPress={() => {}}
-          />
+          <Button variant="outline" className="w-full" onPress={() => {}}>
+            Edit profile
+          </Button>
         </Stack>
       </ScrollView>
-    </Box>
+    </View>
   );
 }

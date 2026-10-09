@@ -1,7 +1,7 @@
 {
-  "name": "@truongdq01/component-schema",
+  "name": "@rnui/component-schema",
   "version": "0.1.0",
-  "description": "Machine-readable component contracts and ScreenSchema validation for RNUI AI builder",
+  "description": "Machine-readable component contracts and ScreenSchema validation for the @rnui registry kit",
   "license": "MIT",
   "repository": {
     "type": "git",

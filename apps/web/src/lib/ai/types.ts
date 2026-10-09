@@ -1,4 +1,4 @@
-import type { ScreenSchema } from '@truongdq01/component-schema';
+import type { ScreenSchema } from '@rnui/component-schema';
 
 export type GenerateSchemaInput = {
   prompt: string;

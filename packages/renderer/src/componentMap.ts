@@ -1,74 +1,54 @@
-import type { ElementType } from 'react';
 import type { RendererComponentMap } from './types';
 
-/** Synchronous map of web-preview-safe RNUI components keyed by schema type / lazyKey. */
+/**
+ * Build a `RendererComponentMap` from supplied components keyed by schema type
+ * or export name (e.g. `{ Button, Stack, Text, View, ... }` resolved from
+ * `@/components/ui/*` and `react-native`).
+ *
+ * The renderer no longer depends on a fixed UI package — callers inject the
+ * registry kit components. This helper only fills in structural aliases:
+ * `Screen` (the schema root) falls back to `Stack`, then `View`.
+ */
 export function createDefaultComponentMap(
-  ui: typeof import('@truongdq01/ui')
+  components: RendererComponentMap
 ): RendererComponentMap {
-  const {
-    Alert,
-    Avatar,
-    Badge,
-    Box,
-    Button,
-    Card,
-    Checkbox,
-    Chip,
-    Divider,
-    Input,
-    Paper,
-    Stack,
-    Switch,
-    TextField,
-    Typography,
-  } = ui;
-
-  return {
-    Screen: Stack,
-    Stack,
-    Box,
-    Card,
-    Paper,
-    Divider,
-    Typography,
-    Button,
-    Input,
-    TextField,
-    Checkbox,
-    Switch,
-    Badge,
-    Chip,
-    Alert,
-    Avatar,
-  };
+  const map: RendererComponentMap = { ...components };
+  if (!map.Screen) {
+    map.Screen = components.Stack ?? components.View;
+  }
+  return map;
 }
 
+/** Schema types the registry kit supports in web preview by default. */
 export function getMvpComponentTypes(): string[] {
   return [
     'Screen',
     'Stack',
-    'Box',
+    'View',
+    'Grid',
+    'GridItem',
     'Card',
     'Paper',
-    'Typography',
+    'Separator',
+    'Text',
+    'Link',
     'Button',
     'Input',
     'TextField',
+    'Checkbox',
+    'Switch',
     'Badge',
     'Chip',
     'Alert',
+    'AlertTitle',
+    'AlertDescription',
     'Avatar',
-    'Divider',
-    'Switch',
-    'Checkbox',
+    'AvatarImage',
+    'AvatarFallback',
+    'Icon',
+    'Image',
+    'Progress',
+    'List',
+    'ListItem',
   ];
-}
-
-export type UiModule = typeof import('@truongdq01/ui');
-
-export function pickUiComponent(
-  ui: UiModule,
-  named: keyof UiModule
-): ElementType {
-  return ui[named] as ElementType;
 }

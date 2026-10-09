@@ -1,27 +1,31 @@
 {
   "version": "1",
-  "generatedAt": "2026-05-24T04:17:18.862Z",
+  "generatedAt": "2026-10-09T16:14:06.110Z",
   "components": [
     {
       "name": "Screen",
-      "package": "@truongdq01/ui",
       "category": "layout",
       "status": "stable",
-      "description": "ScreenSchema root container. Not a standalone RNUI export — renderer maps to Stack with flex 1 and screen padding.",
+      "description": "ScreenSchema root container. Not a standalone registry export — renderer maps to Stack with flex 1 and screen padding.",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
         "named": "Stack",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/stack",
         "lazyKey": "Screen"
       },
       "props": [
         {
           "name": "padding",
           "type": "enum",
-          "enumValues": ["none", "sm", "md", "lg"],
+          "enumValues": [
+            "none",
+            "sm",
+            "md",
+            "lg"
+          ],
           "defaultValue": "md",
           "description": "Screen edge padding applied by renderer",
           "aiHint": "Use token-aligned padding presets, not raw pixel values",
@@ -30,7 +34,13 @@
         {
           "name": "spacing",
           "type": "enum",
-          "enumValues": ["xs", "sm", "md", "lg", "xl"],
+          "enumValues": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
           "defaultValue": "md",
           "description": "Default gap between direct children when renderer wraps in Stack",
           "safeForAI": true
@@ -53,7 +63,7 @@
             },
             "children": [
               {
-                "type": "Typography",
+                "type": "Text",
                 "props": {
                   "variant": "h4",
                   "children": "Welcome"
@@ -62,16 +72,18 @@
               {
                 "type": "Button",
                 "props": {
-                  "label": "Continue",
-                  "variant": "solid"
+                  "children": "Continue"
                 }
               }
             ]
           },
-          "tsx": "<Stack spacing=\"md\" style={{ flex: 1, padding: 16 }}>\n  <Typography variant=\"h4\">Welcome</Typography>\n  <Button label=\"Continue\" variant=\"solid\" />\n</Stack>"
+          "tsx": "<Stack spacing=\"md\" style={{ flex: 1, padding: 16 }}>\n  <Text variant=\"h4\">Welcome</Text>\n  <Button>Continue</Button>\n</Stack>"
         }
       ],
-      "related": ["Stack", "Box"],
+      "related": [
+        "Stack",
+        "View"
+      ],
       "avoid": [
         "Do not pass arbitrary style objects from ScreenSchema",
         "Do not nest Screen inside Screen"
@@ -80,7 +92,6 @@
     },
     {
       "name": "Stack",
-      "package": "@truongdq01/ui",
       "category": "layout",
       "status": "stable",
       "description": "Flex layout primitive with token-based spacing via gap.",
@@ -90,7 +101,7 @@
       },
       "import": {
         "named": "Stack",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/stack",
         "lazyKey": "Stack"
       },
       "props": [
@@ -103,14 +114,25 @@
         {
           "name": "direction",
           "type": "enum",
-          "enumValues": ["column", "column-reverse", "row", "row-reverse"],
+          "enumValues": [
+            "column",
+            "column-reverse",
+            "row",
+            "row-reverse"
+          ],
           "defaultValue": "column",
           "safeForAI": true
         },
         {
           "name": "spacing",
           "type": "enum",
-          "enumValues": ["xs", "sm", "md", "lg", "xl"],
+          "enumValues": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
           "defaultValue": "sm",
           "description": "Gap between children (token preset or number in TSX)",
           "safeForAI": true
@@ -162,7 +184,7 @@
             },
             "children": [
               {
-                "type": "Input",
+                "type": "TextField",
                 "props": {
                   "label": "Email"
                 }
@@ -170,16 +192,19 @@
               {
                 "type": "Button",
                 "props": {
-                  "label": "Submit",
-                  "fullWidth": true
+                  "children": "Submit"
                 }
               }
             ]
           },
-          "tsx": "<Stack spacing=\"md\">\n  <Input label=\"Email\" />\n  <Button label=\"Submit\" fullWidth />\n</Stack>"
+          "tsx": "<Stack spacing=\"md\">\n  <TextField label=\"Email\" />\n  <Button>Submit</Button>\n</Stack>"
         }
       ],
-      "related": ["Box", "Screen"],
+      "related": [
+        "View",
+        "Grid",
+        "Screen"
+      ],
       "avoid": [
         "Do not use gap prop — Stack uses spacing",
         "Do not inline magic margin on children"
@@ -187,21 +212,26 @@
       "docsPath": "components/stack"
     },
     {
-      "name": "Box",
-      "package": "@truongdq01/ui",
+      "name": "View",
       "category": "layout",
       "status": "stable",
-      "description": "Generic layout container with optional flex.",
+      "description": "Plain react-native View — generic container when no higher-level primitive fits.",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
-        "named": "Box",
-        "from": "@truongdq01/ui",
-        "lazyKey": "Box"
+        "named": "View",
+        "from": "react-native",
+        "lazyKey": "View"
       },
       "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Optional unique identifier",
+          "safeForAI": false
+        },
         {
           "name": "flex",
           "type": "number",
@@ -216,34 +246,195 @@
         {
           "name": "Flex wrapper",
           "schema": {
-            "type": "Box",
+            "type": "View",
             "props": {
               "flex": 1
             },
             "children": []
           },
-          "tsx": "<Box flex={1}>{children}</Box>"
+          "tsx": "<View style={{ flex: 1 }}>{children}</View>"
         }
       ],
-      "related": ["Stack"],
-      "avoid": [
-        "Do not use sx/style for colors — use theme tokens via components"
+      "related": [
+        "Stack",
+        "Grid"
       ],
-      "docsPath": "components/box"
+      "avoid": [
+        "Prefer Stack for spacing — View has no gap",
+        "Do not use style for colors — use kit components"
+      ],
+      "docsPath": "components/view"
+    },
+    {
+      "name": "Grid",
+      "category": "layout",
+      "status": "stable",
+      "description": "Wrap-based responsive grid. Children default to one track; use GridItem for spans.",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "Grid",
+        "from": "@/components/ui/grid",
+        "lazyKey": "Grid"
+      },
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Optional unique identifier",
+          "safeForAI": false
+        },
+        {
+          "name": "columns",
+          "type": "number",
+          "defaultValue": 1,
+          "description": "Track count — each cell is span/columns wide",
+          "safeForAI": true
+        },
+        {
+          "name": "gap",
+          "type": "enum",
+          "enumValues": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
+          "description": "Row and column gutter (token preset)",
+          "safeForAI": true
+        },
+        {
+          "name": "rowGap",
+          "type": "enum",
+          "enumValues": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
+          "safeForAI": true
+        },
+        {
+          "name": "columnGap",
+          "type": "enum",
+          "enumValues": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": true,
+        "description": "Cells (GridItem or plain nodes)"
+      },
+      "examples": [
+        {
+          "name": "Two-column stats",
+          "schema": {
+            "type": "Grid",
+            "props": {
+              "columns": 2,
+              "gap": "md"
+            },
+            "children": [
+              {
+                "type": "Card",
+                "children": []
+              },
+              {
+                "type": "Card",
+                "children": []
+              }
+            ]
+          },
+          "tsx": "<Grid columns={2} gap=\"md\">\n  <Card />\n  <Card />\n</Grid>"
+        }
+      ],
+      "related": [
+        "Stack",
+        "GridItem"
+      ],
+      "docsPath": "components/grid"
+    },
+    {
+      "name": "GridItem",
+      "category": "layout",
+      "status": "stable",
+      "description": "Grid cell that spans multiple tracks.",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "GridItem",
+        "from": "@/components/ui/grid",
+        "lazyKey": "GridItem"
+      },
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Optional unique identifier",
+          "safeForAI": false
+        },
+        {
+          "name": "span",
+          "type": "number",
+          "defaultValue": 1,
+          "description": "Tracks this cell occupies (1..columns)",
+          "safeForAI": true
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "description": "Tracks to skip before this cell",
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": true
+      },
+      "examples": [
+        {
+          "name": "Full-width row cell",
+          "schema": {
+            "type": "GridItem",
+            "props": {
+              "span": 2
+            },
+            "children": []
+          },
+          "tsx": "<GridItem span={2}>{children}</GridItem>"
+        }
+      ],
+      "related": [
+        "Grid"
+      ],
+      "avoid": [
+        "Must be placed inside a Grid"
+      ],
+      "docsPath": "components/grid"
     },
     {
       "name": "Card",
-      "package": "@truongdq01/ui",
       "category": "layout",
       "status": "stable",
-      "description": "Elevated surface for grouped content; optionally pressable.",
+      "description": "Elevated surface for grouped content; pairs with CardHeader/CardTitle/CardContent/CardFooter in TSX.",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
         "named": "Card",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/card",
         "lazyKey": "Card"
       },
       "props": [
@@ -254,23 +445,8 @@
           "safeForAI": false
         },
         {
-          "name": "padding",
-          "type": "enum",
-          "enumValues": ["none", "sm", "md", "lg"],
-          "defaultValue": "md",
-          "safeForAI": true
-        },
-        {
           "name": "accessibilityLabel",
           "type": "string",
-          "description": "Required when card is pressable",
-          "safeForAI": true
-        },
-        {
-          "name": "action",
-          "type": "action",
-          "description": "Press handler reference for schema renderer",
-          "aiHint": "Use action id, not raw onPress function in JSON",
           "safeForAI": true
         }
       ],
@@ -282,68 +458,60 @@
           "name": "Profile card",
           "schema": {
             "type": "Card",
-            "props": {
-              "padding": "md"
-            },
             "children": [
               {
-                "type": "Typography",
+                "type": "Text",
                 "props": {
-                  "variant": "h6",
+                  "variant": "h4",
                   "children": "Profile"
                 }
               },
               {
-                "type": "Typography",
+                "type": "Text",
                 "props": {
-                  "variant": "body2",
-                  "color": "secondary",
+                  "variant": "muted",
                   "children": "Member since 2024"
                 }
               }
             ]
           },
-          "tsx": "<Card padding=\"md\">\n  <Typography variant=\"h6\">Profile</Typography>\n  <Typography variant=\"body2\" color=\"secondary\">Member since 2024</Typography>\n</Card>"
+          "tsx": "<Card>\n  <Text variant=\"h4\">Profile</Text>\n  <Text variant=\"muted\">Member since 2024</Text>\n</Card>"
         }
       ],
-      "related": ["Paper", "Stack"],
-      "avoid": ["Do not pass style for elevation — use Card padding prop"],
+      "related": [
+        "Paper",
+        "GlassCard",
+        "Stack"
+      ],
+      "avoid": [
+        "Do not pass style for elevation — card styling is baked in"
+      ],
       "docsPath": "components/card"
     },
     {
       "name": "Paper",
-      "package": "@truongdq01/ui",
       "category": "layout",
       "status": "stable",
-      "description": "Material-style surface with elevation or outline variants.",
+      "description": "Surface with flat/elevated/outlined variants.",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
         "named": "Paper",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/paper",
         "lazyKey": "Paper"
       },
       "props": [
         {
           "name": "variant",
           "type": "enum",
-          "enumValues": ["elevation", "outlined", "flat"],
-          "defaultValue": "elevation",
-          "safeForAI": true
-        },
-        {
-          "name": "elevation",
-          "type": "enum",
-          "enumValues": ["none", "sm", "md", "lg"],
-          "defaultValue": "sm",
-          "safeForAI": true
-        },
-        {
-          "name": "square",
-          "type": "boolean",
-          "defaultValue": false,
+          "enumValues": [
+            "flat",
+            "elevated",
+            "outlined"
+          ],
+          "defaultValue": "elevated",
           "safeForAI": true
         }
       ],
@@ -360,59 +528,47 @@
             },
             "children": [
               {
-                "type": "Typography",
+                "type": "Text",
                 "props": {
                   "children": "Panel content"
                 }
               }
             ]
           },
-          "tsx": "<Paper variant=\"outlined\">\n  <Typography>Panel content</Typography>\n</Paper>"
+          "tsx": "<Paper variant=\"outlined\">\n  <Text>Panel content</Text>\n</Paper>"
         }
       ],
-      "related": ["Card"],
-      "avoid": ["Do not pass raw style for shadow"],
+      "related": [
+        "Card"
+      ],
+      "avoid": [
+        "Do not pass raw style for shadow"
+      ],
       "docsPath": "components/paper"
     },
     {
-      "name": "Divider",
-      "package": "@truongdq01/ui",
+      "name": "Separator",
       "category": "layout",
       "status": "stable",
-      "description": "Horizontal or vertical separator with optional label.",
+      "description": "Hairline horizontal or vertical separator.",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
-        "named": "Divider",
-        "from": "@truongdq01/ui",
-        "lazyKey": "Divider"
+        "named": "Separator",
+        "from": "@/components/ui/separator",
+        "lazyKey": "Separator"
       },
       "props": [
         {
-          "name": "label",
-          "type": "string",
-          "safeForAI": true
-        },
-        {
           "name": "orientation",
           "type": "enum",
-          "enumValues": ["horizontal", "vertical"],
+          "enumValues": [
+            "horizontal",
+            "vertical"
+          ],
           "defaultValue": "horizontal",
-          "safeForAI": true
-        },
-        {
-          "name": "emphasis",
-          "type": "boolean",
-          "defaultValue": false,
-          "safeForAI": true
-        },
-        {
-          "name": "spacing",
-          "type": "enum",
-          "enumValues": ["none", "sm", "md", "lg"],
-          "defaultValue": "md",
           "safeForAI": true
         }
       ],
@@ -421,34 +577,34 @@
       },
       "examples": [
         {
-          "name": "Labeled divider",
+          "name": "Row separator",
           "schema": {
-            "type": "Divider",
-            "props": {
-              "label": "OR"
-            }
+            "type": "Separator"
           },
-          "tsx": "<Divider label=\"OR\" />"
+          "tsx": "<Separator />"
         }
       ],
-      "related": ["Stack"],
-      "avoid": ["Do not use Divider as a spacer — use Stack spacing"],
-      "docsPath": "components/divider"
+      "related": [
+        "Stack"
+      ],
+      "avoid": [
+        "Do not use Separator as a spacer — use Stack spacing"
+      ],
+      "docsPath": "components/separator"
     },
     {
-      "name": "Typography",
-      "package": "@truongdq01/ui",
+      "name": "Text",
       "category": "text",
       "status": "stable",
-      "description": "Token-driven text with semantic variants and colors.",
+      "description": "Typography primitive with shadcn-style variants (h1–h4, p, lead, muted, …).",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
-        "named": "Typography",
-        "from": "@truongdq01/ui",
-        "lazyKey": "Typography"
+        "named": "Text",
+        "from": "@/components/ui/text",
+        "lazyKey": "Text"
       },
       "props": [
         {
@@ -461,46 +617,20 @@
           "name": "variant",
           "type": "enum",
           "enumValues": [
-            "display",
+            "default",
             "h1",
             "h2",
             "h3",
             "h4",
-            "h5",
-            "h6",
-            "subtitle1",
-            "subtitle2",
-            "body1",
-            "body2",
-            "caption",
-            "button",
-            "overline",
-            "label",
-            "code",
-            "inherit"
+            "p",
+            "lead",
+            "large",
+            "small",
+            "muted",
+            "blockquote",
+            "code"
           ],
-          "defaultValue": "body1",
-          "safeForAI": true
-        },
-        {
-          "name": "color",
-          "type": "enum",
-          "enumValues": [
-            "primary",
-            "secondary",
-            "tertiary",
-            "disabled",
-            "brand",
-            "error",
-            "inverse"
-          ],
-          "aiHint": "Prefer semantic color tokens; avoid raw hex in schema",
-          "safeForAI": true
-        },
-        {
-          "name": "align",
-          "type": "enum",
-          "enumValues": ["left", "right", "center", "justify", "inherit"],
+          "defaultValue": "default",
           "safeForAI": true
         },
         {
@@ -514,11 +644,6 @@
           "name": "numberOfLines",
           "type": "number",
           "safeForAI": true
-        },
-        {
-          "name": "gutterBottom",
-          "type": "boolean",
-          "safeForAI": true
         }
       ],
       "children": {
@@ -531,35 +656,116 @@
         {
           "name": "Heading",
           "schema": {
-            "type": "Typography",
+            "type": "Text",
             "props": {
               "variant": "h4",
               "children": "Settings"
             }
           },
-          "tsx": "<Typography variant=\"h4\">Settings</Typography>"
+          "tsx": "<Text variant=\"h4\">Settings</Text>"
         }
       ],
-      "related": ["Stack"],
+      "related": [
+        "Link",
+        "Stack"
+      ],
       "avoid": [
         "Do not wrap plain strings in View",
         "Do not use random fontSize"
       ],
-      "docsPath": "components/typography"
+      "docsPath": "components/text"
+    },
+    {
+      "name": "Link",
+      "category": "text",
+      "status": "stable",
+      "description": "Inline text link; presses href through scheme-guarded Linking.",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "Link",
+        "from": "@/components/ui/link",
+        "lazyKey": "Link"
+      },
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Optional unique identifier",
+          "safeForAI": false
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "enumValues": [
+            "default",
+            "muted"
+          ],
+          "defaultValue": "default",
+          "safeForAI": true
+        },
+        {
+          "name": "underline",
+          "type": "enum",
+          "enumValues": [
+            "always",
+            "none"
+          ],
+          "defaultValue": "always",
+          "safeForAI": true
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "description": "URL opened via Linking (http/https/mailto/tel scheme-guarded)",
+          "safeForAI": true
+        },
+        {
+          "name": "children",
+          "type": "string",
+          "required": true,
+          "description": "Link text",
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": false,
+        "stringChildAllowed": true,
+        "textAllowed": true
+      },
+      "examples": [
+        {
+          "name": "External link",
+          "schema": {
+            "type": "Link",
+            "props": {
+              "href": "https://example.com",
+              "children": "Learn more"
+            }
+          },
+          "tsx": "<Link href=\"https://example.com\">Learn more</Link>"
+        }
+      ],
+      "related": [
+        "Text",
+        "Button"
+      ],
+      "docsPath": "components/link"
     },
     {
       "name": "Button",
-      "package": "@truongdq01/ui",
       "category": "actions",
       "status": "stable",
-      "description": "Primary action control with variants, sizes, and loading state.",
+      "description": "Primary action control with shadcn variants and sizes.",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
         "named": "Button",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/button",
         "lazyKey": "Button"
       },
       "props": [
@@ -570,46 +776,37 @@
           "safeForAI": false
         },
         {
-          "name": "label",
+          "name": "children",
           "type": "string",
-          "description": "Button text — preferred over string children for AI",
+          "description": "Button label text (schema string child)",
           "safeForAI": true
         },
         {
           "name": "variant",
           "type": "enum",
           "enumValues": [
-            "solid",
-            "outline",
-            "ghost",
+            "default",
             "destructive",
-            "text",
-            "contained",
-            "outlined"
-          ],
-          "defaultValue": "solid",
-          "safeForAI": true
-        },
-        {
-          "name": "color",
-          "type": "enum",
-          "enumValues": [
-            "inherit",
-            "primary",
+            "outline",
             "secondary",
-            "success",
-            "error",
-            "info",
-            "warning",
-            "accent"
+            "ghost",
+            "link"
           ],
+          "defaultValue": "default",
           "safeForAI": true
         },
         {
           "name": "size",
           "type": "enum",
-          "enumValues": ["sm", "md", "lg"],
-          "defaultValue": "md",
+          "enumValues": [
+            "default",
+            "sm",
+            "lg",
+            "icon",
+            "icon-sm",
+            "icon-lg"
+          ],
+          "defaultValue": "default",
           "safeForAI": true
         },
         {
@@ -619,15 +816,10 @@
           "safeForAI": true
         },
         {
-          "name": "loading",
+          "name": "invalid",
           "type": "boolean",
           "defaultValue": false,
-          "safeForAI": true
-        },
-        {
-          "name": "fullWidth",
-          "type": "boolean",
-          "defaultValue": false,
+          "description": "Destructive border, mirrors aria-invalid",
           "safeForAI": true
         },
         {
@@ -640,7 +832,6 @@
         {
           "name": "accessibilityLabel",
           "type": "string",
-          "aiHint": "Required for icon-only buttons",
           "safeForAI": true
         }
       ],
@@ -654,36 +845,37 @@
           "schema": {
             "type": "Button",
             "props": {
-              "label": "Sign in",
-              "variant": "solid",
-              "fullWidth": true,
+              "children": "Sign in",
+              "variant": "default",
               "action": "signIn"
             }
           },
-          "tsx": "<Button label=\"Sign in\" variant=\"solid\" fullWidth onPress={handleSignIn} />"
+          "tsx": "<Button onPress={handleSignIn}>Sign in</Button>"
         }
       ],
-      "related": ["Stack"],
+      "related": [
+        "ButtonGroup",
+        "IconButton",
+        "Stack"
+      ],
       "avoid": [
         "Do not pass arbitrary onPress from schema JSON",
-        "Do not use raw style for colors",
-        "Prefer label prop over string children for AI generation"
+        "Do not use raw style for colors — use variant"
       ],
       "docsPath": "components/button"
     },
     {
       "name": "Input",
-      "package": "@truongdq01/ui",
       "category": "forms",
       "status": "stable",
-      "description": "Text input with label, helper text, and error states.",
+      "description": "Bare text input (TextInput wrapper). Use TextField for label/error/helper chrome.",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
         "named": "Input",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/input",
         "lazyKey": "Input"
       },
       "props": [
@@ -692,11 +884,6 @@
           "type": "string",
           "description": "Optional unique identifier",
           "safeForAI": false
-        },
-        {
-          "name": "label",
-          "type": "string",
-          "safeForAI": true
         },
         {
           "name": "placeholder",
@@ -715,38 +902,156 @@
           "safeForAI": true
         },
         {
-          "name": "error",
-          "type": "string",
+          "name": "secureTextEntry",
+          "type": "boolean",
+          "description": "Password masking",
           "safeForAI": true
         },
         {
-          "name": "helperText",
-          "type": "string",
-          "safeForAI": true
-        },
-        {
-          "name": "size",
+          "name": "keyboardType",
           "type": "enum",
-          "enumValues": ["sm", "md", "lg"],
-          "defaultValue": "md",
+          "enumValues": [
+            "default",
+            "email-address",
+            "numeric",
+            "phone-pad"
+          ],
+          "safeForAI": true
+        },
+        {
+          "name": "multiline",
+          "type": "boolean",
+          "defaultValue": false,
+          "safeForAI": true
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
           "safeForAI": true
         },
         {
           "name": "disabled",
           "type": "boolean",
+          "safeForAI": true
+        },
+        {
+          "name": "accessibilityLabel",
+          "type": "string",
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": false
+      },
+      "examples": [
+        {
+          "name": "Search input",
+          "schema": {
+            "type": "Input",
+            "props": {
+              "placeholder": "Search…",
+              "value": ""
+            }
+          },
+          "tsx": "<Input placeholder=\"Search…\" />"
+        }
+      ],
+      "related": [
+        "TextField",
+        "Textarea",
+        "Stack"
+      ],
+      "avoid": [
+        "Do not pass style prop",
+        "Use TextField when you need a label or error message"
+      ],
+      "docsPath": "components/input"
+    },
+    {
+      "name": "TextField",
+      "category": "forms",
+      "status": "stable",
+      "description": "Input with label, required marker, description, and error message.",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "TextField",
+        "from": "@/components/ui/text-field",
+        "lazyKey": "TextField"
+      },
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Optional unique identifier",
+          "safeForAI": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "safeForAI": true
+        },
+        {
+          "name": "required",
+          "type": "boolean",
           "defaultValue": false,
           "safeForAI": true
         },
         {
-          "name": "floatingLabel",
-          "type": "boolean",
-          "defaultValue": false,
+          "name": "description",
+          "type": "string",
+          "description": "Helper text under the input",
+          "safeForAI": true
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "description": "Error message; marks the input invalid",
+          "safeForAI": true
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "safeForAI": true
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "safeForAI": true
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
           "safeForAI": true
         },
         {
           "name": "secureTextEntry",
           "type": "boolean",
           "description": "Password masking",
+          "safeForAI": true
+        },
+        {
+          "name": "keyboardType",
+          "type": "enum",
+          "enumValues": [
+            "default",
+            "email-address",
+            "numeric",
+            "phone-pad"
+          ],
+          "safeForAI": true
+        },
+        {
+          "name": "multiline",
+          "type": "boolean",
+          "defaultValue": false,
+          "safeForAI": true
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
           "safeForAI": true
         }
       ],
@@ -757,133 +1062,33 @@
         {
           "name": "Email field",
           "schema": {
-            "type": "Input",
+            "type": "TextField",
             "props": {
               "label": "Email",
               "placeholder": "you@example.com",
-              "value": ""
+              "keyboardType": "email-address"
             }
           },
-          "tsx": "<Input label=\"Email\" placeholder=\"you@example.com\" />"
+          "tsx": "<TextField label=\"Email\" placeholder=\"you@example.com\" keyboardType=\"email-address\" />"
         }
       ],
-      "related": ["TextField", "Stack"],
-      "avoid": [
-        "Do not pass style prop — not in public InputProps",
-        "Do not use raw TextInput"
-      ],
-      "docsPath": "components/input"
-    },
-    {
-      "name": "TextField",
-      "package": "@truongdq01/ui",
-      "category": "forms",
-      "status": "stable",
-      "description": "Input wrapper with outlined/filled variants and multiline support.",
-      "support": {
-        "native": true,
-        "webPreview": true
-      },
-      "import": {
-        "named": "TextField",
-        "from": "@truongdq01/ui",
-        "lazyKey": "TextField"
-      },
-      "props": [
-        {
-          "name": "label",
-          "type": "string",
-          "safeForAI": true
-        },
-        {
-          "name": "variant",
-          "type": "enum",
-          "enumValues": ["outlined", "filled", "standard"],
-          "defaultValue": "outlined",
-          "safeForAI": true
-        },
-        {
-          "name": "multiline",
-          "type": "boolean",
-          "defaultValue": false,
-          "safeForAI": true
-        },
-        {
-          "name": "rows",
-          "type": "number",
-          "safeForAI": true
-        },
-        {
-          "name": "helperText",
-          "type": "string",
-          "safeForAI": true
-        },
-        {
-          "name": "error",
-          "type": "string",
-          "description": "Error message string (boolean error also supported in TSX)",
-          "safeForAI": true
-        },
-        {
-          "name": "required",
-          "type": "boolean",
-          "defaultValue": false,
-          "safeForAI": true
-        },
-        {
-          "name": "type",
-          "type": "enum",
-          "enumValues": ["text", "password", "email", "number"],
-          "defaultValue": "text",
-          "safeForAI": true
-        },
-        {
-          "name": "value",
-          "type": "string",
-          "safeForAI": true
-        },
-        {
-          "name": "disabled",
-          "type": "boolean",
-          "safeForAI": true
-        }
-      ],
-      "children": {
-        "allowed": false
-      },
-      "examples": [
-        {
-          "name": "Outlined field",
-          "schema": {
-            "type": "TextField",
-            "props": {
-              "label": "Name",
-              "variant": "outlined",
-              "required": true
-            }
-          },
-          "tsx": "<TextField label=\"Name\" variant=\"outlined\" required />"
-        }
-      ],
-      "related": ["Input"],
-      "avoid": [
-        "Do not set select=true in web preview schema — Select is native-heavy"
+      "related": [
+        "Input"
       ],
       "docsPath": "components/text-field"
     },
     {
       "name": "Checkbox",
-      "package": "@truongdq01/ui",
       "category": "forms",
       "status": "stable",
-      "description": "Boolean toggle with optional label and description.",
+      "description": "Boolean checkbox control (unlabeled — compose with Stack + Text for labels).",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
         "named": "Checkbox",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/checkbox",
         "lazyKey": "Checkbox"
       },
       "props": [
@@ -894,22 +1099,7 @@
           "safeForAI": false
         },
         {
-          "name": "label",
-          "type": "string",
-          "safeForAI": true
-        },
-        {
-          "name": "description",
-          "type": "string",
-          "safeForAI": true
-        },
-        {
           "name": "checked",
-          "type": "boolean",
-          "safeForAI": true
-        },
-        {
-          "name": "defaultChecked",
           "type": "boolean",
           "safeForAI": true
         },
@@ -919,15 +1109,19 @@
           "safeForAI": true
         },
         {
-          "name": "indeterminate",
+          "name": "invalid",
           "type": "boolean",
           "safeForAI": true
         },
         {
-          "name": "size",
-          "type": "enum",
-          "enumValues": ["sm", "md", "lg"],
-          "defaultValue": "md",
+          "name": "action",
+          "type": "action",
+          "description": "Toggle handler reference",
+          "safeForAI": true
+        },
+        {
+          "name": "accessibilityLabel",
+          "type": "string",
           "safeForAI": true
         }
       ],
@@ -938,32 +1132,50 @@
         {
           "name": "Terms acceptance",
           "schema": {
-            "type": "Checkbox",
+            "type": "Stack",
             "props": {
-              "label": "I agree to the terms",
-              "checked": false
-            }
+              "direction": "row",
+              "spacing": "sm",
+              "alignItems": "center"
+            },
+            "children": [
+              {
+                "type": "Checkbox",
+                "props": {
+                  "checked": false
+                }
+              },
+              {
+                "type": "Text",
+                "props": {
+                  "children": "I agree to the terms"
+                }
+              }
+            ]
           },
-          "tsx": "<Checkbox label=\"I agree to the terms\" />"
+          "tsx": "<Stack direction=\"row\" spacing=\"sm\" alignItems=\"center\">\n  <Checkbox />\n  <Text>I agree to the terms</Text>\n</Stack>"
         }
       ],
-      "related": ["Switch"],
-      "avoid": ["Do not pass onChange functions in schema JSON"],
+      "related": [
+        "Switch"
+      ],
+      "avoid": [
+        "Do not pass onCheckedChange functions in schema JSON"
+      ],
       "docsPath": "components/checkbox"
     },
     {
       "name": "Switch",
-      "package": "@truongdq01/ui",
       "category": "forms",
       "status": "stable",
-      "description": "On/off toggle with optional label.",
+      "description": "On/off toggle control (unlabeled — compose with Stack + Text for labels).",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
         "named": "Switch",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/switch",
         "lazyKey": "Switch"
       },
       "props": [
@@ -974,24 +1186,19 @@
           "safeForAI": false
         },
         {
-          "name": "label",
-          "type": "string",
-          "safeForAI": true
-        },
-        {
-          "name": "description",
-          "type": "string",
-          "safeForAI": true
-        },
-        {
-          "name": "on",
+          "name": "checked",
           "type": "boolean",
           "description": "Controlled on state",
           "safeForAI": true
         },
         {
-          "name": "defaultOn",
-          "type": "boolean",
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "default",
+            "sm"
+          ],
+          "defaultValue": "default",
           "safeForAI": true
         },
         {
@@ -1000,10 +1207,19 @@
           "safeForAI": true
         },
         {
-          "name": "size",
-          "type": "enum",
-          "enumValues": ["sm", "md", "lg"],
-          "defaultValue": "md",
+          "name": "invalid",
+          "type": "boolean",
+          "safeForAI": true
+        },
+        {
+          "name": "action",
+          "type": "action",
+          "description": "Toggle handler reference",
+          "safeForAI": true
+        },
+        {
+          "name": "accessibilityLabel",
+          "type": "string",
           "safeForAI": true
         }
       ],
@@ -1014,32 +1230,51 @@
         {
           "name": "Notifications toggle",
           "schema": {
-            "type": "Switch",
+            "type": "Stack",
             "props": {
-              "label": "Enable notifications",
-              "on": true
-            }
+              "direction": "row",
+              "spacing": "sm",
+              "alignItems": "center",
+              "justifyContent": "space-between"
+            },
+            "children": [
+              {
+                "type": "Text",
+                "props": {
+                  "children": "Enable notifications"
+                }
+              },
+              {
+                "type": "Switch",
+                "props": {
+                  "checked": true
+                }
+              }
+            ]
           },
-          "tsx": "<Switch label=\"Enable notifications\" on />"
+          "tsx": "<Stack direction=\"row\" spacing=\"sm\" alignItems=\"center\" justifyContent=\"space-between\">\n  <Text>Enable notifications</Text>\n  <Switch checked />\n</Stack>"
         }
       ],
-      "related": ["Checkbox"],
-      "avoid": ["Do not pass onChange in schema JSON"],
+      "related": [
+        "Checkbox"
+      ],
+      "avoid": [
+        "Do not pass onCheckedChange in schema JSON"
+      ],
       "docsPath": "components/switch"
     },
     {
       "name": "Badge",
-      "package": "@truongdq01/ui",
       "category": "status",
       "status": "stable",
-      "description": "Compact status label or count indicator.",
+      "description": "Compact status label.",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
         "named": "Badge",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/badge",
         "lazyKey": "Badge"
       },
       "props": [
@@ -1050,47 +1285,28 @@
           "safeForAI": false
         },
         {
-          "name": "label",
-          "type": "string",
-          "safeForAI": true
-        },
-        {
-          "name": "count",
-          "type": "string",
-          "description": "Numeric or string count display",
-          "safeForAI": true
-        },
-        {
           "name": "variant",
           "type": "enum",
           "enumValues": [
             "default",
-            "brand",
-            "accent",
-            "success",
-            "warning",
-            "error",
-            "info"
+            "secondary",
+            "destructive",
+            "outline"
           ],
           "defaultValue": "default",
           "safeForAI": true
         },
         {
-          "name": "size",
-          "type": "enum",
-          "enumValues": ["sm", "md", "lg"],
-          "defaultValue": "md",
-          "safeForAI": true
-        },
-        {
-          "name": "dot",
-          "type": "boolean",
-          "defaultValue": false,
+          "name": "children",
+          "type": "string",
+          "required": true,
+          "description": "Badge label text",
           "safeForAI": true
         }
       ],
       "children": {
-        "allowed": false
+        "allowed": false,
+        "stringChildAllowed": true
       },
       "examples": [
         {
@@ -1098,30 +1314,29 @@
           "schema": {
             "type": "Badge",
             "props": {
-              "label": "New",
-              "variant": "brand"
+              "children": "New"
             }
           },
-          "tsx": "<Badge label=\"New\" variant=\"brand\" />"
+          "tsx": "<Badge>New</Badge>"
         }
       ],
-      "related": ["Chip"],
-      "avoid": ["Do not pass icon nodes in schema until icon registry exists"],
+      "related": [
+        "Chip"
+      ],
       "docsPath": "components/badge"
     },
     {
       "name": "Chip",
-      "package": "@truongdq01/ui",
       "category": "status",
       "status": "stable",
-      "description": "Compact interactive or static tag.",
+      "description": "Compact interactive tag with remove affordance.",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
         "named": "Chip",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/chip",
         "lazyKey": "Chip"
       },
       "props": [
@@ -1140,30 +1355,16 @@
         {
           "name": "variant",
           "type": "enum",
-          "enumValues": ["solid", "outlined", "subtle"],
-          "defaultValue": "solid",
-          "safeForAI": true
-        },
-        {
-          "name": "color",
-          "type": "enum",
           "enumValues": [
-            "default",
-            "primary",
-            "secondary",
-            "error",
-            "info",
-            "success",
-            "warning"
+            "filled",
+            "outlined"
           ],
-          "defaultValue": "default",
+          "defaultValue": "filled",
           "safeForAI": true
         },
         {
-          "name": "size",
-          "type": "enum",
-          "enumValues": ["sm", "md", "lg"],
-          "defaultValue": "md",
+          "name": "selected",
+          "type": "boolean",
           "safeForAI": true
         },
         {
@@ -1172,14 +1373,9 @@
           "safeForAI": true
         },
         {
-          "name": "clickable",
-          "type": "boolean",
-          "safeForAI": true
-        },
-        {
           "name": "action",
           "type": "action",
-          "description": "Click handler reference when clickable",
+          "description": "Press handler reference",
           "safeForAI": true
         }
       ],
@@ -1193,32 +1389,32 @@
             "type": "Chip",
             "props": {
               "label": "Design",
-              "variant": "subtle"
+              "variant": "outlined"
             }
           },
-          "tsx": "<Chip label=\"Design\" variant=\"subtle\" />"
+          "tsx": "<Chip label=\"Design\" variant=\"outlined\" />"
         }
       ],
-      "related": ["Badge"],
+      "related": [
+        "Badge"
+      ],
       "avoid": [
-        "Do not pass avatar/icon nodes in schema yet",
-        "Do not use onClick in JSON"
+        "Do not use onClick/onRemove in JSON — use action"
       ],
       "docsPath": "components/chip"
     },
     {
       "name": "Alert",
-      "package": "@truongdq01/ui",
       "category": "feedback",
       "status": "stable",
-      "description": "Inline contextual feedback with severity variants.",
+      "description": "Inline contextual feedback banner.",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
         "named": "Alert",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/alert",
         "lazyKey": "Alert"
       },
       "props": [
@@ -1229,30 +1425,19 @@
           "safeForAI": false
         },
         {
-          "name": "severity",
-          "type": "enum",
-          "enumValues": ["error", "warning", "info", "success"],
-          "defaultValue": "info",
-          "safeForAI": true
-        },
-        {
           "name": "variant",
           "type": "enum",
-          "enumValues": ["standard", "filled", "outlined"],
-          "defaultValue": "standard",
+          "enumValues": [
+            "default",
+            "destructive"
+          ],
+          "defaultValue": "default",
           "safeForAI": true
         },
         {
           "name": "children",
           "type": "string",
-          "required": true,
           "description": "Alert message body",
-          "safeForAI": true
-        },
-        {
-          "name": "action",
-          "type": "action",
-          "description": "Optional action button reference",
           "safeForAI": true
         }
       ],
@@ -1260,7 +1445,7 @@
         "allowed": true,
         "textAllowed": true,
         "stringChildAllowed": true,
-        "description": "Use children string prop; AlertTitle as nested Typography in TSX"
+        "description": "Use children string prop; compose AlertTitle/AlertDescription nodes for richer content"
       },
       "examples": [
         {
@@ -1268,33 +1453,130 @@
           "schema": {
             "type": "Alert",
             "props": {
-              "severity": "info",
               "children": "Your profile was updated successfully."
             }
           },
-          "tsx": "<Alert severity=\"info\">Your profile was updated successfully.</Alert>"
+          "tsx": "<Alert>\n  <AlertDescription>Your profile was updated successfully.</AlertDescription>\n</Alert>"
         }
       ],
-      "related": ["Badge", "Snackbar"],
+      "related": [
+        "AlertTitle",
+        "AlertDescription",
+        "Badge"
+      ],
       "avoid": [
-        "Do not use Alert for blocking confirmations — use AlertDialog on native",
-        "Do not pass onClose in schema JSON"
+        "Do not use Alert for blocking confirmations — use AlertDialog"
+      ],
+      "docsPath": "components/alert"
+    },
+    {
+      "name": "AlertTitle",
+      "category": "feedback",
+      "status": "stable",
+      "description": "Bold title line inside Alert.",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "AlertTitle",
+        "from": "@/components/ui/alert",
+        "lazyKey": "AlertTitle"
+      },
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "required": true,
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": false,
+        "stringChildAllowed": true,
+        "textAllowed": true
+      },
+      "examples": [
+        {
+          "name": "Alert with title",
+          "schema": {
+            "type": "Alert",
+            "children": [
+              {
+                "type": "AlertTitle",
+                "props": {
+                  "children": "Heads up"
+                }
+              },
+              {
+                "type": "AlertDescription",
+                "props": {
+                  "children": "Something needs attention."
+                }
+              }
+            ]
+          },
+          "tsx": "<Alert>\n  <AlertTitle>Heads up</AlertTitle>\n  <AlertDescription>Something needs attention.</AlertDescription>\n</Alert>"
+        }
+      ],
+      "related": [
+        "Alert",
+        "AlertDescription"
+      ],
+      "avoid": [
+        "Must be placed inside an Alert"
+      ],
+      "docsPath": "components/alert"
+    },
+    {
+      "name": "AlertDescription",
+      "category": "feedback",
+      "status": "stable",
+      "description": "Muted body text inside Alert.",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "AlertDescription",
+        "from": "@/components/ui/alert",
+        "lazyKey": "AlertDescription"
+      },
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "required": true,
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": false,
+        "stringChildAllowed": true,
+        "textAllowed": true
+      },
+      "examples": [],
+      "related": [
+        "Alert",
+        "AlertTitle"
+      ],
+      "avoid": [
+        "Must be placed inside an Alert"
       ],
       "docsPath": "components/alert"
     },
     {
       "name": "Avatar",
-      "package": "@truongdq01/ui",
       "category": "data-display",
       "status": "stable",
-      "description": "User image, initials, or fallback icon with optional status.",
+      "description": "Avatar container — compose AvatarImage + AvatarFallback inside.",
       "support": {
         "native": true,
         "webPreview": true
       },
       "import": {
         "named": "Avatar",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/avatar",
         "lazyKey": "Avatar"
       },
       "props": [
@@ -1305,34 +1587,196 @@
           "safeForAI": false
         },
         {
-          "name": "src",
+          "name": "accessibilityLabel",
           "type": "string",
-          "description": "Image URI",
           "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": true,
+        "description": "AvatarImage and AvatarFallback nodes"
+      },
+      "examples": [
+        {
+          "name": "Initials avatar",
+          "schema": {
+            "type": "Avatar",
+            "children": [
+              {
+                "type": "AvatarFallback",
+                "props": {
+                  "children": "TD"
+                }
+              }
+            ]
+          },
+          "tsx": "<Avatar>\n  <AvatarFallback>TD</AvatarFallback>\n</Avatar>"
+        }
+      ],
+      "related": [
+        "AvatarImage",
+        "AvatarFallback",
+        "Card"
+      ],
+      "docsPath": "components/avatar"
+    },
+    {
+      "name": "AvatarImage",
+      "category": "data-display",
+      "status": "stable",
+      "description": "Image layer inside Avatar.",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "AvatarImage",
+        "from": "@/components/ui/avatar",
+        "lazyKey": "AvatarImage"
+      },
+      "props": [
+        {
+          "name": "source",
+          "type": "object",
+          "description": "RN Image source — always the literal shape { uri: \"https://…\" }",
+          "safeForAI": true,
+          "safeShape": "uri"
         },
         {
-          "name": "initials",
+          "name": "accessibilityLabel",
           "type": "string",
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": false
+      },
+      "examples": [
+        {
+          "name": "Avatar with image",
+          "schema": {
+            "type": "Avatar",
+            "children": [
+              {
+                "type": "AvatarImage",
+                "props": {
+                  "source": {
+                    "uri": "https://example.com/me.png"
+                  }
+                }
+              },
+              {
+                "type": "AvatarFallback",
+                "props": {
+                  "children": "TD"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "related": [
+        "Avatar",
+        "AvatarFallback",
+        "Image"
+      ],
+      "avoid": [
+        "Must be placed inside an Avatar"
+      ],
+      "docsPath": "components/avatar"
+    },
+    {
+      "name": "AvatarFallback",
+      "category": "data-display",
+      "status": "stable",
+      "description": "Fallback content (initials) shown while avatar loads/fails.",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "AvatarFallback",
+        "from": "@/components/ui/avatar",
+        "lazyKey": "AvatarFallback"
+      },
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "required": true,
+          "description": "Fallback text, usually initials",
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": false,
+        "stringChildAllowed": true,
+        "textAllowed": true
+      },
+      "examples": [],
+      "related": [
+        "Avatar",
+        "AvatarImage"
+      ],
+      "avoid": [
+        "Must be placed inside an Avatar"
+      ],
+      "docsPath": "components/avatar"
+    },
+    {
+      "name": "Icon",
+      "category": "data-display",
+      "status": "stable",
+      "description": "Lucide icon rendered by name from the kit ICON_MAP.",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "Icon",
+        "from": "@/components/ui/icon",
+        "lazyKey": "Icon"
+      },
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Optional unique identifier",
+          "safeForAI": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Icon name from the kit ICON_MAP (e.g. search, settings)",
           "safeForAI": true
         },
         {
           "name": "size",
           "type": "enum",
-          "enumValues": ["xs", "sm", "md", "lg", "xl", "2xl"],
+          "enumValues": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+            "2xl"
+          ],
           "defaultValue": "md",
           "safeForAI": true
         },
         {
-          "name": "status",
+          "name": "tone",
           "type": "enum",
-          "enumValues": ["online", "offline", "busy", "away"],
-          "safeForAI": true
-        },
-        {
-          "name": "shape",
-          "type": "enum",
-          "enumValues": ["circle", "rounded"],
-          "defaultValue": "circle",
+          "enumValues": [
+            "default",
+            "muted",
+            "primary",
+            "destructive",
+            "success",
+            "warning"
+          ],
+          "defaultValue": "default",
           "safeForAI": true
         },
         {
@@ -1346,39 +1790,304 @@
       },
       "examples": [
         {
-          "name": "Initials avatar",
+          "name": "Search icon",
           "schema": {
-            "type": "Avatar",
+            "type": "Icon",
             "props": {
-              "initials": "TD",
-              "size": "lg"
+              "name": "search",
+              "size": "md"
             }
           },
-          "tsx": "<Avatar initials=\"TD\" size=\"lg\" />"
+          "tsx": "<Icon name=\"search\" />"
         }
       ],
-      "related": ["Card"],
-      "avoid": [
-        "Do not pass fallbackIcon in schema until icon registry exists"
+      "related": [
+        "IconButton",
+        "Text"
       ],
-      "docsPath": "components/avatar"
+      "docsPath": "components/icon"
+    },
+    {
+      "name": "Image",
+      "category": "data-display",
+      "status": "stable",
+      "description": "RN Image with rounded corners, aspect ratio, and loading placeholder.",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "Image",
+        "from": "@/components/ui/image",
+        "lazyKey": "Image"
+      },
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Optional unique identifier",
+          "safeForAI": false
+        },
+        {
+          "name": "source",
+          "type": "object",
+          "required": true,
+          "description": "RN Image source — always the literal shape { uri: \"https://…\" }",
+          "safeForAI": true,
+          "safeShape": "uri"
+        },
+        {
+          "name": "rounded",
+          "type": "enum",
+          "enumValues": [
+            "none",
+            "sm",
+            "md",
+            "lg",
+            "full"
+          ],
+          "defaultValue": "md",
+          "safeForAI": true
+        },
+        {
+          "name": "aspectRatio",
+          "type": "number",
+          "description": "Width/height ratio (e.g. 1.7778 for 16:9, 1 for square)",
+          "safeForAI": true
+        },
+        {
+          "name": "accessibilityLabel",
+          "type": "string",
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": false
+      },
+      "examples": [
+        {
+          "name": "Square thumbnail",
+          "schema": {
+            "type": "Image",
+            "props": {
+              "source": {
+                "uri": "https://example.com/pic.png"
+              },
+              "rounded": "lg",
+              "aspectRatio": 1
+            }
+          },
+          "tsx": "<Image source={{ uri: 'https://example.com/pic.png' }} rounded=\"lg\" aspectRatio={1} />"
+        }
+      ],
+      "related": [
+        "AvatarImage",
+        "ImageList"
+      ],
+      "docsPath": "components/image"
+    },
+    {
+      "name": "Progress",
+      "category": "status",
+      "status": "stable",
+      "description": "Determinate progress bar (0–100).",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "Progress",
+        "from": "@/components/ui/progress",
+        "lazyKey": "Progress"
+      },
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Optional unique identifier",
+          "safeForAI": false
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "required": true,
+          "description": "Progress 0–100",
+          "safeForAI": true
+        },
+        {
+          "name": "accessibilityLabel",
+          "type": "string",
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": false
+      },
+      "examples": [
+        {
+          "name": "Half progress",
+          "schema": {
+            "type": "Progress",
+            "props": {
+              "value": 50
+            }
+          },
+          "tsx": "<Progress value={50} />"
+        }
+      ],
+      "related": [
+        "CircularProgress",
+        "Skeleton"
+      ],
+      "docsPath": "components/progress"
+    },
+    {
+      "name": "List",
+      "category": "data-display",
+      "status": "beta",
+      "description": "Sectioned list container; renders children or a FlatList for data+renderItem (not schema-expressible).",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "List",
+        "from": "@/components/ui/list",
+        "lazyKey": "List"
+      },
+      "props": [
+        {
+          "name": "sectionTitle",
+          "type": "string",
+          "description": "Section header above the items",
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": true,
+        "description": "ListItem nodes"
+      },
+      "examples": [
+        {
+          "name": "Settings list",
+          "schema": {
+            "type": "List",
+            "props": {
+              "sectionTitle": "General"
+            },
+            "children": [
+              {
+                "type": "ListItem",
+                "props": {
+                  "title": "Account",
+                  "chevron": true,
+                  "action": "openAccount"
+                }
+              }
+            ]
+          },
+          "tsx": "<List sectionTitle=\"General\">\n  <ListItem title=\"Account\" chevron onPress={handleOpenAccount} />\n</List>"
+        }
+      ],
+      "related": [
+        "ListItem",
+        "Stack"
+      ],
+      "docsPath": "components/list"
+    },
+    {
+      "name": "ListItem",
+      "category": "data-display",
+      "status": "stable",
+      "description": "Pressable list row with title, subtitle, and chevron.",
+      "support": {
+        "native": true,
+        "webPreview": true
+      },
+      "import": {
+        "named": "ListItem",
+        "from": "@/components/ui/list-item",
+        "lazyKey": "ListItem"
+      },
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Optional unique identifier",
+          "safeForAI": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "safeForAI": true
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "safeForAI": true
+        },
+        {
+          "name": "chevron",
+          "type": "boolean",
+          "description": "Chevron affordance for pressable rows",
+          "safeForAI": true
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "safeForAI": true
+        },
+        {
+          "name": "action",
+          "type": "action",
+          "description": "Press handler reference",
+          "safeForAI": true
+        }
+      ],
+      "children": {
+        "allowed": false
+      },
+      "examples": [
+        {
+          "name": "Pressable row",
+          "schema": {
+            "type": "ListItem",
+            "props": {
+              "title": "Account",
+              "subtitle": "Profile and security",
+              "chevron": true,
+              "action": "openAccount"
+            }
+          },
+          "tsx": "<ListItem title=\"Account\" subtitle=\"Profile and security\" chevron onPress={handleOpenAccount} />"
+        }
+      ],
+      "related": [
+        "List"
+      ],
+      "avoid": [
+        "Do not pass onPress in schema JSON — use action"
+      ],
+      "docsPath": "components/list"
     },
     {
       "name": "Modal",
-      "package": "@truongdq01/ui",
       "category": "overlay",
       "status": "stable",
       "description": "Native modal overlay with compound header/content/footer.",
       "supportReason": "Depends on native Modal, AnimatedOverlay, and safe-area behavior",
       "import": {
         "named": "Modal",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/modal",
         "lazyKey": "Modal"
       },
       "props": [],
       "examples": [],
       "docsPath": "components/modal",
-      "avoid": ["Not available in web preview MVP"],
+      "avoid": [
+        "Not available in web preview MVP"
+      ],
       "support": {
         "native": true,
         "webPreview": false,
@@ -1387,14 +2096,13 @@
     },
     {
       "name": "Dialog",
-      "package": "@truongdq01/ui",
       "category": "overlay",
       "status": "stable",
       "description": "Decision surface with title, content, and actions.",
       "supportReason": "Portal/overlay behavior and native presentation",
       "import": {
         "named": "Dialog",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/dialog",
         "lazyKey": "Dialog"
       },
       "props": [],
@@ -1408,14 +2116,13 @@
     },
     {
       "name": "AlertDialog",
-      "package": "@truongdq01/ui",
       "category": "overlay",
       "status": "stable",
       "description": "Critical confirmation dialog.",
       "supportReason": "Built on Dialog native overlay stack",
       "import": {
         "named": "AlertDialog",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/alert-dialog",
         "lazyKey": "AlertDialog"
       },
       "props": [],
@@ -1428,20 +2135,19 @@
       }
     },
     {
-      "name": "BottomSheet",
-      "package": "@truongdq01/ui",
+      "name": "Sheet",
       "category": "overlay",
       "status": "beta",
-      "description": "Gesture-driven sheet with snap points.",
+      "description": "Gesture-driven bottom sheet with snap points.",
       "supportReason": "Requires Reanimated gestures and native sheet physics",
       "import": {
-        "named": "BottomSheet",
-        "from": "@truongdq01/ui",
-        "lazyKey": "BottomSheet"
+        "named": "Sheet",
+        "from": "@/components/ui/sheet",
+        "lazyKey": "Sheet"
       },
       "props": [],
       "examples": [],
-      "docsPath": "components/bottom-sheet",
+      "docsPath": "components/sheet",
       "support": {
         "native": true,
         "webPreview": false,
@@ -1450,14 +2156,13 @@
     },
     {
       "name": "DatePicker",
-      "package": "@truongdq01/ui",
       "category": "data-entry",
       "status": "beta",
       "description": "Native date/time picker.",
       "supportReason": "Uses @react-native-community/datetimepicker native module",
       "import": {
         "named": "DatePicker",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/date-picker",
         "lazyKey": "DatePicker"
       },
       "props": [],
@@ -1471,14 +2176,13 @@
     },
     {
       "name": "Drawer",
-      "package": "@truongdq01/ui",
       "category": "overlay",
       "status": "beta",
       "description": "Side drawer panel with gesture dismiss.",
       "supportReason": "Gesture + Reanimated panel animation",
       "import": {
         "named": "Drawer",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/drawer",
         "lazyKey": "Drawer"
       },
       "props": [],
@@ -1492,14 +2196,13 @@
     },
     {
       "name": "Popover",
-      "package": "@truongdq01/ui",
       "category": "overlay",
       "status": "beta",
       "description": "Anchored floating content.",
       "supportReason": "Measure/layout anchoring differs on web vs native",
       "import": {
         "named": "Popover",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/popover",
         "lazyKey": "Popover"
       },
       "props": [],
@@ -1513,14 +2216,13 @@
     },
     {
       "name": "Popper",
-      "package": "@truongdq01/ui",
       "category": "overlay",
       "status": "experimental",
       "description": "Positioned overlay relative to anchor.",
       "supportReason": "Native measure and portal positioning",
       "import": {
         "named": "Popper",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/popper",
         "lazyKey": "Popper"
       },
       "props": [],
@@ -1534,14 +2236,13 @@
     },
     {
       "name": "ContextMenu",
-      "package": "@truongdq01/ui",
       "category": "overlay",
       "status": "beta",
       "description": "Long-press context menu.",
       "supportReason": "Native context menu / gesture coordination",
       "import": {
         "named": "ContextMenu",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/context-menu",
         "lazyKey": "ContextMenu"
       },
       "props": [],
@@ -1554,15 +2255,34 @@
       }
     },
     {
+      "name": "DropdownMenu",
+      "category": "overlay",
+      "status": "beta",
+      "description": "Anchored dropdown menu with trigger/content/item compound API.",
+      "supportReason": "Anchored overlay positioning and trigger measurement",
+      "import": {
+        "named": "DropdownMenu",
+        "from": "@/components/ui/dropdown-menu",
+        "lazyKey": "DropdownMenu"
+      },
+      "props": [],
+      "examples": [],
+      "docsPath": "components/dropdown-menu",
+      "support": {
+        "native": true,
+        "webPreview": false,
+        "reason": "Anchored overlay positioning and trigger measurement"
+      }
+    },
+    {
       "name": "Carousel",
-      "package": "@truongdq01/ui",
       "category": "data-display",
       "status": "beta",
       "description": "Swipeable carousel with pagination.",
       "supportReason": "Gesture handler and Reanimated paging",
       "import": {
         "named": "Carousel",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/carousel",
         "lazyKey": "Carousel"
       },
       "props": [],
@@ -1576,14 +2296,13 @@
     },
     {
       "name": "AnimatedOverlay",
-      "package": "@truongdq01/ui",
       "category": "overlay",
       "status": "beta",
       "description": "Animated backdrop wrapper for overlays.",
       "supportReason": "Reanimated enter/exit and native modal host",
       "import": {
         "named": "AnimatedOverlay",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/animated-overlay",
         "lazyKey": "AnimatedOverlay"
       },
       "props": [],
@@ -1597,14 +2316,13 @@
     },
     {
       "name": "AnimatedList",
-      "package": "@truongdq01/ui",
       "category": "data-display",
       "status": "experimental",
       "description": "List with layout animations.",
       "supportReason": "Reanimated layout animations and list virtualization",
       "import": {
         "named": "AnimatedList",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/animated-list",
         "lazyKey": "AnimatedList"
       },
       "props": [],
@@ -1618,14 +2336,13 @@
     },
     {
       "name": "Toast",
-      "package": "@truongdq01/ui",
       "category": "feedback",
       "status": "stable",
       "description": "Transient toast notification host.",
       "supportReason": "Portal positioning and native toast host",
       "import": {
         "named": "Toast",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/toast",
         "lazyKey": "Toast"
       },
       "props": [],
@@ -1639,14 +2356,13 @@
     },
     {
       "name": "Snackbar",
-      "package": "@truongdq01/ui",
       "category": "feedback",
       "status": "stable",
       "description": "Bottom snackbar message.",
       "supportReason": "Native positioning and safe-area insets",
       "import": {
         "named": "Snackbar",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/snackbar",
         "lazyKey": "Snackbar"
       },
       "props": [],
@@ -1660,14 +2376,13 @@
     },
     {
       "name": "Tabs",
-      "package": "@truongdq01/ui",
       "category": "navigation",
       "status": "beta",
       "description": "Tabbed navigation with animated indicator.",
       "supportReason": "Reanimated indicator and gesture-heavy tab bar",
       "import": {
         "named": "Tabs",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/tabs",
         "lazyKey": "Tabs"
       },
       "props": [],
@@ -1681,14 +2396,13 @@
     },
     {
       "name": "Select",
-      "package": "@truongdq01/ui",
       "category": "forms",
       "status": "beta",
       "description": "Dropdown select with sheet/modal presentation.",
       "supportReason": "Native sheet/modal picker and gesture interactions",
       "import": {
         "named": "Select",
-        "from": "@truongdq01/ui",
+        "from": "@/components/ui/select",
         "lazyKey": "Select"
       },
       "props": [],

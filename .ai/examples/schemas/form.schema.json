@@ -23,17 +23,16 @@
         },
         "children": [
           {
-            "type": "Typography",
+            "type": "Text",
             "props": {
               "variant": "h4",
               "children": "Contact us"
             }
           },
           {
-            "type": "Typography",
+            "type": "Text",
             "props": {
-              "variant": "body2",
-              "color": "secondary",
+              "variant": "muted",
               "children": "We typically respond within one business day."
             }
           }
@@ -41,9 +40,6 @@
       },
       {
         "type": "Card",
-        "props": {
-          "padding": "lg"
-        },
         "children": [
           {
             "type": "Stack",
@@ -52,7 +48,7 @@
             },
             "children": [
               {
-                "type": "Input",
+                "type": "TextField",
                 "props": {
                   "label": "Full name",
                   "placeholder": "Jane Doe",
@@ -60,34 +56,33 @@
                 }
               },
               {
-                "type": "Input",
+                "type": "TextField",
                 "props": {
                   "label": "Email",
                   "placeholder": "jane@company.com",
+                  "keyboardType": "email-address",
                   "value": ""
                 }
               },
               {
-                "type": "Input",
+                "type": "TextField",
                 "props": {
                   "label": "Message",
                   "placeholder": "How can we help?",
+                  "multiline": true,
                   "value": ""
                 }
               },
               {
                 "type": "Alert",
                 "props": {
-                  "severity": "warning",
                   "children": "Demo: include a phone number for urgent requests."
                 }
               },
               {
                 "type": "Button",
                 "props": {
-                  "label": "Send message",
-                  "variant": "solid",
-                  "fullWidth": true,
+                  "children": "Send message",
                   "action": "submit"
                 }
               }

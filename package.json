@@ -19,7 +19,6 @@
     "version-packages": "changeset version",
     "release": "turbo build && changeset publish",
     "registry:build": "node scripts/build-registry.mjs",
-    "registry:themes": "bun scripts/gen-themes.mts",
     "demo": "cd apps/example && bun run start",
     "demo:go": "cd apps/example && bun run start:go",
     "ai:check": "bun run ai:check:files",

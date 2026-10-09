@@ -5,7 +5,7 @@
   "title": "Pressable",
   "description": "Pressable with feedback variants (opacity/highlight).",
   "registryDependencies": [
-    "utils"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json"
   ],
   "dependencies": [
     "tailwind-variants"

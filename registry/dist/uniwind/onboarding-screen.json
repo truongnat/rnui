@@ -5,10 +5,10 @@
   "title": "Onboarding Screen",
   "description": "Carousel slides with progress dots and skip.",
   "registryDependencies": [
-    "carousel",
-    "button",
-    "text",
-    "utils"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/carousel.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/button.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json"
   ],
   "files": [
     {

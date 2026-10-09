@@ -1,52 +1,35 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ThemeProvider, usePersistedColorScheme } from '@truongdq01/headless';
-import { ToastContainer } from '@truongdq01/ui';
+import '../global.css';
+
+import { ToastProvider } from '@/components/ui/toast';
+import { DemoThemeContext } from '@/demo/DemoThemeContext';
+import { usePersistedColorScheme } from '@/demo/usePersistedColorScheme';
 import { Stack } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { DemoThemeContext } from '@/demo/DemoThemeContext';
-import { usePersistedBrand } from '@/demo/usePersistedBrand';
 
 /**
- * Wait for persisted scheme before painting routes to avoid a one-frame wrong-theme flash.
+ * Wait for the persisted scheme before painting routes to avoid a one-frame
+ * wrong-theme flash.
  */
 export default function RootLayout() {
-  const {
-    colorScheme,
-    setColorScheme,
-    hydrated: schemeHydrated,
-  } = usePersistedColorScheme({
-    storage: AsyncStorage,
-    storageKey: '@rnui-example/color-scheme',
-    defaultScheme: 'system',
-  });
-  const { brand, hydrated: brandHydrated } = usePersistedBrand();
+  const { schemePreference, setSchemePreference, hydrated } =
+    usePersistedColorScheme();
 
-  if (!schemeHydrated || !brandHydrated) {
+  if (!hydrated) {
     return null;
   }
 
   return (
-    <ThemeProvider
-      colorScheme={colorScheme}
-      onColorSchemeChange={setColorScheme}
-      brand={brand}
+    <DemoThemeContext.Provider
+      value={{ schemePreference, setSchemePreference }}
     >
-      <DemoThemeContext.Provider
-        value={{
-          schemePreference: colorScheme,
-          setSchemePreference: setColorScheme,
-        }}
-      >
-        <SafeAreaProvider>
-          <View style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <ToastProvider position="bottom">
+          <View style={StyleSheet.absoluteFill}>
             <Stack screenOptions={{ headerShown: false }} />
-            <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-              <ToastContainer position="bottom" />
-            </View>
           </View>
-        </SafeAreaProvider>
-      </DemoThemeContext.Provider>
-    </ThemeProvider>
+        </ToastProvider>
+      </SafeAreaProvider>
+    </DemoThemeContext.Provider>
   );
 }

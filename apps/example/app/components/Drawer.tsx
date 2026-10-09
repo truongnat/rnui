@@ -1,16 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Pressable, ScrollView } from 'react-native';
-import {
-  Drawer,
-  DrawerHeader,
-  DrawerFooter,
-  Button,
-  List,
-  ListItem,
-  ListItemContent,
-  ListItemLeading,
-} from '@truongdq01/ui';
-import { useTheme } from '@truongdq01/headless';
 import {
   Bell,
   Eye,
@@ -20,16 +9,26 @@ import {
   User,
   X,
 } from 'lucide-react-native';
+import { Button } from '@/components/ui/button';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/components/ui/drawer';
+import { ListItem, ListSectionTitle } from '@/components/ui/list-item';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
+import { useIconColor } from '@/lib/utils';
 
 const NAV_ICON_SIZE = 22;
 
 export default function DrawerScreen() {
-  const [open, setOpen] = useState(false);
-  const { tokens } = useTheme();
-
-  const close = useCallback(() => setOpen(false), []);
-  const iconColor = tokens.color.text.secondary;
+  const [leftOpen, setLeftOpen] = useState(false);
+  const [rightOpen, setRightOpen] = useState(false);
+  const iconColor = useIconColor('muted');
 
   return (
     <DemoPage
@@ -38,81 +37,113 @@ export default function DrawerScreen() {
     >
       <DemoSection
         title="Navigation Drawer"
-        description="Slides in from the edge with grouped list items and actions."
+        description="Slides in from the left edge with grouped list items and actions."
       >
-        <Button label="Open Navigation Drawer" onPress={() => setOpen(true)} />
+        <Button className="self-start" onPress={() => setLeftOpen(true)}>
+          Open Navigation Drawer
+        </Button>
 
-        <Drawer open={open} onClose={close}>
-          <DrawerHeader
-            title="Settings"
-            trailing={
-              <Pressable
-                onPress={close}
-                hitSlop={12}
-                accessibilityRole="button"
-                accessibilityLabel="Close drawer"
-              >
-                <X size={NAV_ICON_SIZE} color={iconColor} />
-              </Pressable>
-            }
-          />
+        <Drawer open={leftOpen} onOpenChange={setLeftOpen}>
+          <DrawerHeader className="flex-row items-center justify-between">
+            <DrawerTitle>Settings</DrawerTitle>
+            <Pressable
+              onPress={() => setLeftOpen(false)}
+              hitSlop={12}
+              accessibilityRole="button"
+              accessibilityLabel="Close drawer"
+            >
+              <X size={NAV_ICON_SIZE} color={iconColor} />
+            </Pressable>
+          </DrawerHeader>
 
           <ScrollView
             style={{ flex: 1 }}
-            contentContainerStyle={{ paddingVertical: tokens.spacing[2] }}
+            contentContainerStyle={{ paddingVertical: 8 }}
             showsVerticalScrollIndicator={false}
           >
-            <List subheader="Account">
-              <ListItem onPress={close}>
-                <ListItemLeading>
-                  <User size={NAV_ICON_SIZE} color={iconColor} />
-                </ListItemLeading>
-                <ListItemContent primary="Profile" />
-              </ListItem>
-              <ListItem onPress={close}>
-                <ListItemLeading>
-                  <Lock size={NAV_ICON_SIZE} color={iconColor} />
-                </ListItemLeading>
-                <ListItemContent primary="Account Security" />
-              </ListItem>
-              <ListItem onPress={close}>
-                <ListItemLeading>
-                  <Eye size={NAV_ICON_SIZE} color={iconColor} />
-                </ListItemLeading>
-                <ListItemContent primary="Privacy & Data" />
-              </ListItem>
-            </List>
+            <ListSectionTitle>Account</ListSectionTitle>
+            <ListItem
+              title="Profile"
+              leading={<User size={NAV_ICON_SIZE} color={iconColor} />}
+              chevron={false}
+              onPress={() => setLeftOpen(false)}
+            />
+            <ListItem
+              title="Account Security"
+              leading={<Lock size={NAV_ICON_SIZE} color={iconColor} />}
+              chevron={false}
+              onPress={() => setLeftOpen(false)}
+            />
+            <ListItem
+              title="Privacy & Data"
+              leading={<Eye size={NAV_ICON_SIZE} color={iconColor} />}
+              chevron={false}
+              onPress={() => setLeftOpen(false)}
+            />
 
-            <List subheader="Preferences">
-              <ListItem onPress={close}>
-                <ListItemLeading>
-                  <Palette size={NAV_ICON_SIZE} color={iconColor} />
-                </ListItemLeading>
-                <ListItemContent primary="App Appearance" />
-              </ListItem>
-              <ListItem onPress={close}>
-                <ListItemLeading>
-                  <Bell size={NAV_ICON_SIZE} color={iconColor} />
-                </ListItemLeading>
-                <ListItemContent primary="Notifications" />
-              </ListItem>
-              <ListItem onPress={close}>
-                <ListItemLeading>
-                  <HelpCircle size={NAV_ICON_SIZE} color={iconColor} />
-                </ListItemLeading>
-                <ListItemContent primary="Help & Support" />
-              </ListItem>
-            </List>
+            <ListSectionTitle>Preferences</ListSectionTitle>
+            <ListItem
+              title="App Appearance"
+              leading={<Palette size={NAV_ICON_SIZE} color={iconColor} />}
+              chevron={false}
+              onPress={() => setLeftOpen(false)}
+            />
+            <ListItem
+              title="Notifications"
+              leading={<Bell size={NAV_ICON_SIZE} color={iconColor} />}
+              chevron={false}
+              onPress={() => setLeftOpen(false)}
+            />
+            <ListItem
+              title="Help & Support"
+              leading={<HelpCircle size={NAV_ICON_SIZE} color={iconColor} />}
+              chevron={false}
+              onPress={() => setLeftOpen(false)}
+            />
           </ScrollView>
 
           <DrawerFooter>
             <Button
-              label="Log Out"
               variant="outline"
-              color="error"
-              fullWidth
-              onPress={close}
-            />
+              labelClassName="text-destructive"
+              className="w-full"
+              onPress={() => setLeftOpen(false)}
+            >
+              Log Out
+            </Button>
+          </DrawerFooter>
+        </Drawer>
+      </DemoSection>
+
+      <DemoSection
+        title="Right Side"
+        description="side='right' slides a focused panel in from the opposite edge."
+      >
+        <Button
+          className="self-start"
+          variant="outline"
+          onPress={() => setRightOpen(true)}
+        >
+          Open Right Drawer
+        </Button>
+
+        <Drawer open={rightOpen} onOpenChange={setRightOpen} side="right">
+          <DrawerHeader>
+            <DrawerTitle>Details</DrawerTitle>
+            <DrawerDescription>
+              Secondary content panel anchored to the right.
+            </DrawerDescription>
+          </DrawerHeader>
+          <DrawerContent>
+            <Text variant="muted">
+              Use the right drawer for filters, inspectors, or detail tools that
+              complement the main content.
+            </Text>
+          </DrawerContent>
+          <DrawerFooter>
+            <Button className="w-full" onPress={() => setRightOpen(false)}>
+              Done
+            </Button>
           </DrawerFooter>
         </Drawer>
       </DemoSection>

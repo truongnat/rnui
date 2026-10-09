@@ -1,6 +1,3 @@
-/** RNUI package that exports the component. */
-export type ComponentPackage = '@truongdq01/ui';
-
 export type ComponentStatus = 'stable' | 'beta' | 'experimental';
 
 export type ComponentCategory =
@@ -30,9 +27,17 @@ export type ComponentSupport = {
   reason?: string;
 };
 
+/**
+ * Named import for a component. Registry kit components import from
+ * `@/components/ui/<kebab-file>` (e.g. `@/components/ui/button`);
+ * RN primitives import from `react-native`.
+ */
 export type ComponentImportSchema = {
+  /** PascalCase export name (e.g. `Button`, `InputOTP`, `View`). */
   named: string;
-  from: ComponentPackage;
+  /** Module specifier, e.g. `@/components/ui/button` or `react-native`. */
+  from: string;
+  /** Key used by lazy component loaders (defaults to the schema type name). */
   lazyKey: string;
 };
 
@@ -43,7 +48,7 @@ export type ComponentChildrenSchema = {
   min?: number;
   /** Maximum number of child nodes. */
   max?: number;
-  /** When true, text-only children are allowed (e.g. Typography). */
+  /** When true, text-only children are allowed (e.g. Text). */
   textAllowed?: boolean;
   /** When true, a single string child may be used instead of node array. */
   stringChildAllowed?: boolean;
@@ -60,6 +65,8 @@ export type ComponentPropSchema = {
   aiHint?: string;
   /** When false, AI must not generate this prop in ScreenSchema. */
   safeForAI?: boolean;
+  /** Object props are AI-unsafe by default; declare the constrained literal shape (e.g. 'uri' for { uri: string }) to allow them. */
+  safeShape?: string;
 };
 
 export type ComponentExample = {
@@ -71,7 +78,6 @@ export type ComponentExample = {
 
 export type ComponentSchema = {
   name: string;
-  package: ComponentPackage;
   category: ComponentCategory;
   status: ComponentStatus;
   description: string;

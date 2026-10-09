@@ -2,54 +2,45 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Icon,
-} from '@truongdq01/ui';
-import { Image, StyleSheet } from 'react-native';
+} from '@/components/ui/image-list';
+import { Icon } from '@/components/ui/icon';
+import { Image } from '@/components/ui/image';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
-import { useTokens } from '@truongdq01/headless';
 
-const IMAGES = [
-  { id: 1, title: 'Mountain Lake', author: 'nature_lover', rows: 2, cols: 2 },
+const IMAGES: { id: number; title: string; author: string; span?: number }[] = [
+  { id: 1, title: 'Mountain Lake', author: 'nature_lover', span: 2 },
   { id: 2, title: 'City Lights', author: 'urban_explorer' },
   { id: 3, title: 'Desert Sands', author: 'wanderlust' },
-  { id: 4, title: 'Forest Trail', author: 'hiker_joe', rows: 2 },
+  { id: 4, title: 'Forest Trail', author: 'hiker_joe', span: 2 },
   { id: 5, title: 'Ocean Waves', author: 'surfer_girl' },
   { id: 6, title: 'Snowy Peak', author: 'alpha_ski' },
 ];
 
 export default function ImageListScreen() {
-  const t = useTokens();
-
   return (
     <DemoPage
       title="ImageList"
-      description="Optimized image grids — standard, quilted, and woven layouts."
+      description="Optimized image grids — standard, wide, and staggered layouts."
     >
       <DemoSection
         title="Standard"
         description="Two columns with title bars."
         flush
       >
-        <ImageList cols={2} gap={t.spacing[2]} rowHeight={160}>
+        <ImageList cols={2} gap={8}>
           {IMAGES.map((item) => (
             <ImageListItem key={item.id}>
               <Image
                 source={{
                   uri: `https://picsum.photos/400/400?random=${item.id}`,
                 }}
-                style={styles.image}
+                rounded="none"
+                className="h-full w-full"
               />
               <ImageListItemBar
                 title={item.title}
                 subtitle={`by @${item.author}`}
-                actionIcon={
-                  <Icon
-                    name="heart"
-                    size={20}
-                    color={t.color.text.inverse}
-                    style={{ marginRight: t.spacing[2] }}
-                  />
-                }
+                actionIcon={<Icon name="heart" size="md" color="#ffffff" />}
               />
             </ImageListItem>
           ))}
@@ -57,42 +48,39 @@ export default function ImageListScreen() {
       </DemoSection>
 
       <DemoSection
-        title="Quilted"
-        description="Masonry-like variable cell sizes."
+        title="Wide spans"
+        description="Feature tiles spanning multiple columns."
         flush
       >
-        <ImageList
-          variant="quilted"
-          cols={3}
-          gap={t.spacing[1]}
-          rowHeight={100}
-        >
+        <ImageList cols={3} gap={4}>
           {IMAGES.map((item) => (
-            <ImageListItem
-              key={item.id}
-              cols={item.cols ?? 1}
-              rows={item.rows ?? 1}
-            >
+            <ImageListItem key={item.id} span={item.span ?? 1}>
               <Image
                 source={{
                   uri: `https://picsum.photos/400/400?random=${item.id + 10}`,
                 }}
-                style={styles.image}
+                rounded="none"
+                className="h-full w-full"
               />
             </ImageListItem>
           ))}
         </ImageList>
       </DemoSection>
 
-      <DemoSection title="Woven" description="Staggered portrait tiles." flush>
-        <ImageList variant="woven" cols={2} gap={t.spacing[3]}>
+      <DemoSection
+        title="Portrait"
+        description="Staggered portrait tiles."
+        flush
+      >
+        <ImageList cols={2} gap={12}>
           {IMAGES.slice(0, 4).map((item) => (
-            <ImageListItem key={item.id}>
+            <ImageListItem key={item.id} aspectRatio={3 / 4}>
               <Image
                 source={{
                   uri: `https://picsum.photos/400/600?random=${item.id + 20}`,
                 }}
-                style={[styles.image, { borderRadius: t.radius.lg }]}
+                rounded="none"
+                className="h-full w-full"
               />
             </ImageListItem>
           ))}
@@ -101,11 +89,3 @@ export default function ImageListScreen() {
     </DemoPage>
   );
 }
-
-const styles = StyleSheet.create({
-  image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-  },
-});

@@ -5,10 +5,10 @@
   "title": "Data Table",
   "description": "Sortable table built on table primitives (tap header to sort).",
   "registryDependencies": [
-    "utils",
-    "text",
-    "theme",
-    "table"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/table.json"
   ],
   "dependencies": [
     "lucide-react-native"

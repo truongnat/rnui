@@ -8,12 +8,5 @@ export default defineConfig({
   clean: true,
   treeshake: false,
   tsconfig: 'tsconfig.json',
-  external: [
-    'react',
-    'react-native',
-    'react-native-web',
-    '@truongdq01/ui',
-    '@truongdq01/headless',
-    '@truongdq01/component-schema',
-  ],
+  external: ['react', 'react-native', 'react-native-web'],
 });

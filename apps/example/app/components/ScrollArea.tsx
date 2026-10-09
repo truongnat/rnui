@@ -1,32 +1,14 @@
-import { useMemo } from 'react';
 import { View } from 'react-native';
-import { useTokens } from '@truongdq01/headless';
-import { ScrollArea, Typography, Paper } from '@truongdq01/ui';
+import { Paper } from '@/components/ui/paper';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 export default function ScrollAreaScreen() {
-  const t = useTokens();
-
-  const preview = useMemo(
-    () => ({
-      verticalHeight: t.spacing[16] + t.spacing[16],
-      horizontalCard: {
-        width: t.spacing[24] + t.spacing[5],
-        height: t.spacing[20] + t.spacing[5],
-      },
-      fadeHeight: t.spacing[20] + t.spacing[10],
-      page: {
-        width: t.spacing[24] * 3 + t.spacing[4],
-        height: t.spacing[18] + t.spacing[6],
-      },
-    }),
-    [t.spacing]
-  );
-
   return (
     <DemoPage
       title="ScrollArea"
-      description="Scrollable containers with fade edges and platform optimizations."
+      description="Scrollable containers with platform optimizations."
     >
       <DemoSection
         title="Vertical Scroll"
@@ -35,19 +17,16 @@ export default function ScrollAreaScreen() {
         <DemoPreview>
           <Paper
             variant="outlined"
-            style={{ height: preview.verticalHeight, overflow: 'hidden' }}
+            className="p-0"
+            style={{ height: 200, overflow: 'hidden' }}
           >
-            <ScrollArea showVerticalScrollIndicator>
-              <View style={{ padding: t.spacing[4], gap: t.spacing[4] }}>
+            <ScrollArea>
+              <View className="gap-4 p-4">
                 {[...Array(10)].map((_, i) => (
-                  <Paper
-                    key={i}
-                    elevation="sm"
-                    style={{ padding: t.spacing[3] }}
-                  >
-                    <Typography variant="body2">
+                  <Paper key={i} className="p-3">
+                    <Text className="text-sm text-foreground">
                       Scrollable Item {i + 1}
-                    </Typography>
+                    </Text>
                   </Paper>
                 ))}
               </View>
@@ -61,48 +40,19 @@ export default function ScrollAreaScreen() {
         description="Row-based scrolling content."
       >
         <DemoPreview>
-          <ScrollArea
-            direction="horizontal"
-            showHorizontalScrollIndicator={false}
-          >
-            <View style={{ flexDirection: 'row', gap: t.spacing[4] }}>
+          <ScrollArea horizontal showsHorizontalScrollIndicator={false}>
+            <View className="flex-row gap-4">
               {[...Array(6)].map((_, i) => (
                 <Paper
                   key={i}
-                  elevation="sm"
-                  style={{
-                    ...preview.horizontalCard,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                  className="items-center justify-center"
+                  style={{ width: 116, height: 100 }}
                 >
-                  <Typography variant="h6">#{i + 1}</Typography>
+                  <Text variant="h4">#{i + 1}</Text>
                 </Paper>
               ))}
             </View>
           </ScrollArea>
-        </DemoPreview>
-      </DemoSection>
-
-      <DemoSection
-        title="Fade Edges"
-        description="Subtle fade at edges to indicate scrollable content."
-      >
-        <DemoPreview>
-          <Paper
-            variant="outlined"
-            style={{ height: preview.fadeHeight, overflow: 'hidden' }}
-          >
-            <ScrollArea fadeEdges fadeSize={t.spacing[10]}>
-              <View style={{ padding: t.spacing[4], gap: t.spacing[2] }}>
-                {[...Array(10)].map((_, i) => (
-                  <Typography key={i} variant="body2">
-                    Line of text number {i + 1} for scrolling demo
-                  </Typography>
-                ))}
-              </View>
-            </ScrollArea>
-          </Paper>
         </DemoPreview>
       </DemoSection>
 
@@ -112,28 +62,20 @@ export default function ScrollAreaScreen() {
       >
         <DemoPreview>
           <ScrollArea
-            direction="horizontal"
+            horizontal
             pagingEnabled
-            showHorizontalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
           >
-            <View style={{ flexDirection: 'row' }}>
+            <View className="flex-row">
               {[...Array(3)].map((_, i) => (
                 <View
                   key={i}
-                  style={{
-                    width: preview.page.width,
-                    height: preview.page.height,
-                    backgroundColor:
-                      i % 2 === 0
-                        ? t.color.brand.subtle
-                        : t.color.surface.sunken,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: t.radius.md,
-                    marginHorizontal: t.spacing[2],
-                  }}
+                  className={`mx-2 items-center justify-center rounded-md ${
+                    i % 2 === 0 ? 'bg-accent' : 'bg-muted'
+                  }`}
+                  style={{ width: 304, height: 96 }}
                 >
-                  <Typography variant="h5">Page {i + 1}</Typography>
+                  <Text variant="h4">Page {i + 1}</Text>
                 </View>
               ))}
             </View>

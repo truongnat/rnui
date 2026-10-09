@@ -1,86 +1,82 @@
-import { useState, useRef } from 'react';
 import { View } from 'react-native';
-import { useTokens } from '@truongdq01/headless';
-import { Button, Popover, Typography, Paper } from '@truongdq01/ui';
+import { Button } from '@/components/ui/button';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
-type AnchorEl = { x: number; y: number; width: number; height: number };
-
 export default function PopoverScreen() {
-  const t = useTokens();
-  const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<AnchorEl | null>(null);
-  const buttonRef = useRef<View>(null);
-
-  const handleOpen = () => {
-    buttonRef.current?.measure((_x, _y, width, height, pageX, pageY) => {
-      setAnchorEl({ x: pageX, y: pageY, width, height });
-      setOpen(true);
-    });
-  };
-
-  const [posOpen, setPosOpen] = useState(false);
-
   return (
     <DemoPage
       title="Popover"
-      description="Content overlay anchored to an element or fixed position."
+      description="Content overlay anchored to a trigger element."
     >
       <DemoSection
         title="Anchor to Element"
-        description="Position relative to a trigger button."
+        description="The trigger measures itself and positions the content below."
       >
-        <View style={{ alignItems: 'flex-start' }}>
-          <View ref={buttonRef} collapsable={false}>
-            <Button label="Open Popover" onPress={handleOpen} />
-          </View>
+        <View className="items-start">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button>Open Popover</Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-56">
+              <Text variant="small">Popover Content</Text>
+              <Text variant="muted" className="mt-1">
+                Anchored to the button above.
+              </Text>
+            </PopoverContent>
+          </Popover>
         </View>
-
-        <Popover
-          open={open}
-          anchorEl={anchorEl}
-          onClose={() => setOpen(false)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-        >
-          <Paper style={{ padding: t.spacing[4], minWidth: 200 }}>
-            <Typography variant="h6" gutterBottom>
-              Popover Content
-            </Typography>
-            <Typography variant="body2" color="secondary">
-              Anchored to the button above.
-            </Typography>
-            <Button
-              label="Close"
-              variant="ghost"
-              size="sm"
-              style={{ marginTop: t.spacing[3] }}
-              onPress={() => setOpen(false)}
-            />
-          </Paper>
-        </Popover>
       </DemoSection>
 
       <DemoSection
-        title="Fixed Position"
-        description="Anchor via screen coordinates."
+        title="Side Offset"
+        description="Increase the gap between trigger and content."
       >
-        <Button label="Open at (100, 300)" onPress={() => setPosOpen(true)} />
-        <Popover
-          open={posOpen}
-          anchorPosition={{ top: 300, left: 100 }}
-          onClose={() => setPosOpen(false)}
-        >
-          <Paper style={{ padding: t.spacing[3] }}>
-            <Typography variant="body2">Fixed Position Popover</Typography>
-          </Paper>
-        </Popover>
+        <View className="flex-row gap-4">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline">Default</Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-48">
+              <Text variant="muted">sideOffset = 8 (default)</Text>
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline">Offset 24</Button>
+            </PopoverTrigger>
+            <PopoverContent sideOffset={24} className="w-48">
+              <Text variant="muted">sideOffset = 24</Text>
+            </PopoverContent>
+          </Popover>
+        </View>
       </DemoSection>
 
       <DemoSection
-        title="Origin Options"
-        description="Customize anchorOrigin and transformOrigin for precise placement."
-      />
+        title="Rich Content"
+        description="Compose any views inside PopoverContent."
+      >
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="secondary">Account</Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <Text variant="small">Alex Nguyen</Text>
+            <Text variant="muted" className="mt-1">
+              alex@example.com
+            </Text>
+            <View className="my-3 h-px bg-border" />
+            <Button size="sm" variant="outline">
+              View Profile
+            </Button>
+          </PopoverContent>
+        </Popover>
+      </DemoSection>
     </DemoPage>
   );
 }

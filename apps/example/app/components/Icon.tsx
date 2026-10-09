@@ -1,22 +1,9 @@
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
-import { Typography, Stack } from '@truongdq01/ui';
-import { useTheme } from '@truongdq01/headless';
+import { Icon, type IconName } from '@/components/ui/icon';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
-import {
-  Home,
-  Settings,
-  User,
-  Bell,
-  Search,
-  Heart,
-  Share2,
-  Trash2,
-  Edit3,
-  CheckCircle2,
-  AlertCircle,
-  Info,
-} from 'lucide-react-native';
 
 function IconRow({ children }: { children: ReactNode }) {
   return (
@@ -26,9 +13,15 @@ function IconRow({ children }: { children: ReactNode }) {
   );
 }
 
-export default function IconScreen() {
-  const { tokens } = useTheme();
+const NAVIGATION_ICONS: IconName[] = [
+  'home',
+  'search',
+  'bell',
+  'user',
+  'settings',
+];
 
+export default function IconScreen() {
   return (
     <DemoPage
       title="Icons"
@@ -40,77 +33,44 @@ export default function IconScreen() {
       >
         <DemoPreview>
           <IconRow>
-            <Home size={24} color={tokens.color.text.primary} />
-            <Search size={24} color={tokens.color.text.primary} />
-            <Bell size={24} color={tokens.color.text.primary} />
-            <User size={24} color={tokens.color.text.primary} />
-            <Settings size={24} color={tokens.color.text.primary} />
+            {NAVIGATION_ICONS.map((name) => (
+              <Icon key={name} name={name} size="lg" />
+            ))}
           </IconRow>
         </DemoPreview>
       </DemoSection>
-
       <DemoSection title="Status" description="Semantic colors for feedback.">
         <Stack spacing="md">
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: tokens.spacing[3],
-            }}
-          >
-            <CheckCircle2 size={20} color={tokens.color.status.success} />
-            <Typography variant="body2">Success</Typography>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <Icon name="checkCircle" size="md" tone="success" />
+            <Text>Success</Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: tokens.spacing[3],
-            }}
-          >
-            <AlertCircle size={20} color={tokens.color.status.error} />
-            <Typography variant="body2">Error</Typography>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <Icon name="error" size="md" tone="destructive" />
+            <Text>Error</Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: tokens.spacing[3],
-            }}
-          >
-            <Info size={20} color={tokens.color.status.info} />
-            <Typography variant="body2">Information</Typography>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <Icon name="info" size="md" tone="primary" />
+            <Text>Information</Text>
           </View>
         </Stack>
       </DemoSection>
 
       <DemoSection
         title="Sizing & Colors"
-        description="16px to 48px; brand and semantic tints."
+        description="Preset sizes; brand and semantic tones."
       >
         <Stack spacing="lg">
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: tokens.spacing[4],
-            }}
-          >
-            <Heart size={16} color={tokens.color.brand.default} />
-            <Heart size={24} color={tokens.color.brand.default} />
-            <Heart size={32} color={tokens.color.brand.default} />
-            <Heart size={48} color={tokens.color.brand.default} />
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+            <Icon name="heart" size="sm" tone="destructive" />
+            <Icon name="heart" size="lg" tone="destructive" />
+            <Icon name="heart" size="xl" tone="destructive" />
+            <Icon name="heart" size="2xl" tone="destructive" />
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: tokens.spacing[4],
-            }}
-          >
-            <Share2 size={24} color={tokens.color.border.strong} />
-            <Trash2 size={24} color={tokens.color.status.error} />
-            <Edit3 size={24} color={tokens.color.status.warning} />
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+            <Icon name="share" size="lg" tone="muted" />
+            <Icon name="trash" size="lg" tone="destructive" />
+            <Icon name="edit" size="lg" tone="warning" />
           </View>
         </Stack>
       </DemoSection>

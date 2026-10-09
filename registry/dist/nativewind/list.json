@@ -5,8 +5,8 @@
   "title": "List",
   "description": "FlatList group composing list-item + separators.",
   "registryDependencies": [
-    "utils",
-    "list-item"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/list-item.json"
   ],
   "files": [
     {

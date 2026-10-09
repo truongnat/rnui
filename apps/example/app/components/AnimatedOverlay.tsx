@@ -1,103 +1,53 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useTheme } from '@truongdq01/headless';
 import {
   AnimatedOverlay,
-  Button,
-  Typography,
   type OverlayAnimationType,
-} from '@truongdq01/ui';
+} from '@/components/ui/animated-overlay';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoGroup, DemoSection } from '@/demo/DemoPage';
 
 export default function AnimatedOverlayScreen() {
-  const { tokens } = useTheme();
   const [isVisible, setIsVisible] = useState(false);
   const [animationType, setAnimationType] =
     useState<OverlayAnimationType>('fade');
 
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        actionButton: {
-          minWidth: '47%',
-        },
-        infoBox: {
-          padding: tokens.spacing[4],
-          borderRadius: tokens.radius.lg,
-          marginTop: tokens.spacing[5],
-          borderWidth: StyleSheet.hairlineWidth,
-          borderColor: tokens.color.border.subtle,
-        },
-        modalContent: {
-          width: '85%',
-          padding: tokens.spacing[6],
-          ...tokens.shadow.lg,
-        },
-        modalText: {
-          marginBottom: tokens.spacing[6],
-          lineHeight: tokens.fontSize.md * 1.45,
-        },
-      }),
-    [tokens]
-  );
-
-  const showOverlay = useCallback((type: OverlayAnimationType) => {
-    setAnimationType(type);
-    setIsVisible(true);
-  }, []);
-
-  const hideOverlay = useCallback(() => {
-    setIsVisible(false);
-  }, []);
-
-  const renderModalContent = () => (
+  const modalContent = (
     <View
-      style={[
-        styles.modalContent,
-        {
-          backgroundColor: tokens.color.bg.default,
-          borderRadius: tokens.radius.lg,
-          borderWidth: StyleSheet.hairlineWidth,
-          borderColor: tokens.color.border.default,
-        },
-      ]}
+      className="rounded-lg border border-border bg-background"
+      style={styles.modalContent}
     >
-      <Typography
-        variant="h5"
-        align="center"
-        style={{
-          fontWeight: tokens.fontWeight.bold,
-          marginBottom: tokens.spacing[4],
-        }}
-      >
+      <Text variant="h4" style={{ textAlign: 'center', marginBottom: 16 }}>
         {animationType.charAt(0).toUpperCase() + animationType.slice(1)}
-      </Typography>
-      <Typography
-        variant="body1"
-        align="center"
-        color="secondary"
-        style={styles.modalText}
+      </Text>
+      <Text
+        variant="p"
+        className="text-muted-foreground"
+        style={[styles.modalText, { textAlign: 'center' }]}
       >
         Shared motion language across Dialog, Modal, Menu, Snackbar, Drawer, and
         BottomSheet.
-      </Typography>
+      </Text>
 
-      <Button label="Dismiss" onPress={hideOverlay} fullWidth size="lg" />
+      <Button size="lg" className="w-full" onPress={() => setIsVisible(false)}>
+        Dismiss
+      </Button>
     </View>
   );
 
   return (
     <DemoPage
       title="Animated Overlay"
-      description="Reanimated overlay primitive for modals, sheets, and tooltips."
+      description="Animated overlay primitive for modals, sheets, and tooltips."
       floatingContent={
         <AnimatedOverlay
-          isVisible={isVisible}
+          visible={isVisible}
           animationType={animationType}
-          onBackdropPress={hideOverlay}
+          onBackdropPress={() => setIsVisible(false)}
           backdropOpacity={0.6}
         >
-          {renderModalContent()}
+          {modalContent}
         </AnimatedOverlay>
       }
     >
@@ -105,20 +55,22 @@ export default function AnimatedOverlayScreen() {
         title="Animation Presets"
         description="Optimized for high-refresh displays."
       >
-        <DemoGroup gap={tokens.spacing[3]}>
+        <DemoGroup gap={12}>
           {(['fade', 'scale', 'slideUp', 'slideDown', 'none'] as const).map(
             (type) => (
               <Button
                 key={type}
-                label={
-                  type === 'none'
-                    ? 'None'
-                    : type.charAt(0).toUpperCase() + type.slice(1)
-                }
-                onPress={() => showOverlay(type)}
+                onPress={() => {
+                  setAnimationType(type);
+                  setIsVisible(true);
+                }}
                 variant="outline"
                 style={styles.actionButton}
-              />
+              >
+                {type === 'none'
+                  ? 'None'
+                  : type.charAt(0).toUpperCase() + type.slice(1)}
+              </Button>
             )
           )}
         </DemoGroup>
@@ -128,45 +80,54 @@ export default function AnimatedOverlayScreen() {
         title="Timing"
         description="Design-system curves — ease-out enter, ease-in exit."
       >
-        <DemoGroup gap={tokens.spacing[3]}>
+        <DemoGroup gap={12}>
           <Button
-            label="Scale"
             onPress={() => {
               setAnimationType('scale');
               setIsVisible(true);
             }}
-            variant="outline"
-            color="secondary"
+            variant="secondary"
             style={styles.actionButton}
-          />
+          >
+            Scale
+          </Button>
           <Button
-            label="Slide Up"
             onPress={() => {
               setAnimationType('slideUp');
               setIsVisible(true);
             }}
-            variant="outline"
-            color="secondary"
+            variant="secondary"
             style={styles.actionButton}
-          />
+          >
+            Slide Up
+          </Button>
         </DemoGroup>
       </DemoSection>
 
-      <View
-        style={[
-          styles.infoBox,
-          { backgroundColor: tokens.color.surface.default },
-        ]}
-      >
-        <Typography
-          variant="body2"
-          color="secondary"
-          style={{ lineHeight: tokens.fontSize.md * 1.45 }}
-        >
+      <View className="mt-5 rounded-lg border border-border bg-muted p-4">
+        <Text variant="muted" style={{ lineHeight: 22 }}>
           Dialog, Modal, Menu, Snackbar, Drawer, and BottomSheet share these
           timing presets for consistent motion.
-        </Typography>
+        </Text>
       </View>
     </DemoPage>
   );
 }
+
+const styles = StyleSheet.create({
+  actionButton: {
+    minWidth: '47%',
+  },
+  modalContent: {
+    width: '85%',
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 12,
+  },
+  modalText: {
+    marginBottom: 24,
+  },
+});

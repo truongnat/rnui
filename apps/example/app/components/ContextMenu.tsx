@@ -1,75 +1,23 @@
-import { useTokens } from '@truongdq01/headless';
-import { Button, Card, ContextMenu, Icon } from '@truongdq01/ui';
-import { useCallback, useMemo, useRef, useState, type RefObject } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { View } from 'react-native';
+import { Card } from '@/components/ui/card';
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from '@/components/ui/context-menu';
+import { Icon } from '@/components/ui/icon';
+import { Text } from '@/components/ui/text';
+import { useToast } from '@/components/ui/toast';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
-type Anchor = { x: number; y: number; width: number; height: number };
-
 export default function ContextMenuScreen() {
-  const t = useTokens();
-  const [open, setOpen] = useState(false);
-  const [anchor, setAnchor] = useState<Anchor | null>(null);
-
-  const cardRefA = useRef<View>(null);
-  const cardRefB = useRef<View>(null);
-  const buttonWrapRef = useRef<View>(null);
-
-  const openMenu = useCallback((ref: RefObject<View | null>) => {
-    ref.current?.measureInWindow((x, y, width, height) => {
-      setAnchor({ x, y, width, height });
-      setOpen(true);
-    });
-  }, []);
-
-  const contextItems = useMemo(
-    () => [
-      {
-        id: 'edit',
-        label: 'Edit Post',
-        icon: <Icon name="edit" size={18} color={t.color.text.secondary} />,
-      },
-      {
-        id: 'share',
-        label: 'Share',
-        icon: <Icon name="share" size={18} color={t.color.text.secondary} />,
-      },
-      {
-        id: 'download',
-        label: 'Download',
-        icon: <Icon name="download" size={18} color={t.color.text.secondary} />,
-      },
-      {
-        id: 'delete',
-        label: 'Delete',
-        icon: <Icon name="trash" size={18} color={t.color.status.error} />,
-        destructive: true,
-      },
-    ],
-    [t.color.text.secondary, t.color.status.error]
-  );
-
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        grid: {
-          flexDirection: 'row',
-          gap: t.spacing[4],
-        },
-        pressable: {
-          flex: 1,
-        },
-        itemCard: {
-          padding: t.spacing[6],
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        buttonWrap: {
-          alignSelf: 'flex-start',
-        },
-      }),
-    [t.spacing]
-  );
+  const { toast } = useToast();
+  const [pinned, setPinned] = useState(false);
+  const [notifications, setNotifications] = useState(true);
 
   return (
     <DemoPage
@@ -78,66 +26,77 @@ export default function ContextMenuScreen() {
     >
       <DemoSection
         title="Card Triggers"
-        description="Tap cards to open a context menu."
+        description="Long-press a card to open the shared menu at its anchor."
       >
-        <View style={styles.grid}>
-          <Pressable
-            ref={cardRefA}
-            collapsable={false}
-            onPress={() => openMenu(cardRefA)}
-            style={({ pressed }) => [
-              styles.pressable,
-              pressed ? { opacity: 0.92 } : null,
-            ]}
-          >
-            <Card style={styles.itemCard}>
-              <Icon
-                name="more-vertical"
-                size={24}
-                color={t.color.text.secondary}
-              />
-            </Card>
-          </Pressable>
+        <ContextMenu>
+          <View className="flex-row gap-4">
+            <ContextMenuTrigger className="flex-1">
+              <Card className="items-center justify-center p-6">
+                <Icon name="moreVertical" size={24} tone="muted" />
+              </Card>
+            </ContextMenuTrigger>
 
-          <Pressable
-            ref={cardRefB}
-            collapsable={false}
-            onPress={() => openMenu(cardRefB)}
-            style={({ pressed }) => [
-              styles.pressable,
-              pressed ? { opacity: 0.92 } : null,
-            ]}
-          >
-            <Card style={styles.itemCard}>
-              <Icon name="image" size={24} color={t.color.text.secondary} />
-            </Card>
-          </Pressable>
-        </View>
+            <ContextMenuTrigger className="flex-1">
+              <Card className="items-center justify-center p-6">
+                <Icon name="image" size={24} tone="muted" />
+              </Card>
+            </ContextMenuTrigger>
+          </View>
+
+          <ContextMenuContent>
+            <ContextMenuItem onPress={() => toast.info('Edit Post')}>
+              <Icon name="edit" size={18} tone="muted" />
+              <Text className="text-sm text-foreground">Edit Post</Text>
+            </ContextMenuItem>
+            <ContextMenuItem onPress={() => toast.info('Share')}>
+              <Icon name="share" size={18} tone="muted" />
+              <Text className="text-sm text-foreground">Share</Text>
+            </ContextMenuItem>
+            <ContextMenuItem onPress={() => toast.info('Download')}>
+              <Icon name="download" size={18} tone="muted" />
+              <Text className="text-sm text-foreground">Download</Text>
+            </ContextMenuItem>
+            <ContextMenuSeparator />
+            <ContextMenuItem destructive onPress={() => toast.error('Delete')}>
+              <Icon name="trash" size={18} tone="destructive" />
+              <Text className="text-sm text-destructive">Delete</Text>
+            </ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
       </DemoSection>
 
-      <DemoSection title="Button Trigger">
-        <View ref={buttonWrapRef} collapsable={false} style={styles.buttonWrap}>
-          <Button
-            variant="outline"
-            onPress={() => openMenu(buttonWrapRef)}
-            leadingIcon={<Icon name="menu" size={20} />}
-            label="Options Menu"
-          />
-        </View>
-      </DemoSection>
+      <DemoSection
+        title="Icon Trigger"
+        description="Long-press the icon — asChild clones the child so it keeps its own press handlers."
+      >
+        <ContextMenu>
+          <ContextMenuTrigger className="self-start p-2">
+            <Icon name="moreVertical" size={24} tone="foreground" />
+          </ContextMenuTrigger>
 
-      <ContextMenu
-        open={open}
-        onClose={() => setOpen(false)}
-        anchor={anchor}
-        items={contextItems.map((i) => ({
-          id: i.id,
-          label: i.label,
-          icon: i.icon,
-          destructive: i.destructive,
-          onPress: () => {},
-        }))}
-      />
+          <ContextMenuContent>
+            <ContextMenuCheckboxItem
+              checked={pinned}
+              onCheckedChange={setPinned}
+            >
+              Pinned to Top
+            </ContextMenuCheckboxItem>
+            <ContextMenuCheckboxItem
+              checked={notifications}
+              onCheckedChange={setNotifications}
+            >
+              Enable Notifications
+            </ContextMenuCheckboxItem>
+            <ContextMenuSeparator />
+            <ContextMenuItem
+              destructive
+              onPress={() => toast.error('Remove item')}
+            >
+              Remove Item
+            </ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
+      </DemoSection>
     </DemoPage>
   );
 }

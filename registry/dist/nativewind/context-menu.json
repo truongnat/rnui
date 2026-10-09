@@ -5,9 +5,9 @@
   "title": "Context Menu",
   "description": "Long-press anchored menu (items, labels, separators).",
   "registryDependencies": [
-    "utils",
-    "text",
-    "theme"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
   ],
   "dependencies": [
     "lucide-react-native"

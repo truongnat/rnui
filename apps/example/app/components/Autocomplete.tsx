@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { Autocomplete, Avatar, Typography } from '@truongdq01/ui';
-import { useTokens } from '@truongdq01/headless';
+import { Autocomplete } from '@/components/ui/autocomplete';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 const COUNTRIES = [
@@ -17,42 +17,16 @@ const COUNTRIES = [
   'Brazil',
 ];
 
-const USERS = [
-  {
-    id: '1',
-    name: 'Truong Dang',
-    email: 'truong@example.com',
-    avatar: 'https://i.pravatar.cc/150?u=1',
-  },
-  {
-    id: '2',
-    name: 'John Doe',
-    email: 'john@example.com',
-    avatar: 'https://i.pravatar.cc/150?u=2',
-  },
-  {
-    id: '3',
-    name: 'Jane Smith',
-    email: 'jane@example.com',
-    avatar: 'https://i.pravatar.cc/150?u=3',
-  },
-  {
-    id: '4',
-    name: 'Alex Johnson',
-    email: 'alex@example.com',
-    avatar: 'https://i.pravatar.cc/150?u=4',
-  },
-];
-
-type UserRow = (typeof USERS)[number];
+const USER_NAMES = ['Truong Dang', 'John Doe', 'Jane Smith', 'Alex Johnson'];
 
 export default function AutocompleteScreen() {
-  const t = useTokens();
+  const [country, setCountry] = useState('');
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  const [selectedUser, setSelectedUser] = useState<UserRow | null>(null);
+  const [user, setUser] = useState('');
 
   const [asyncOptions, setAsyncOptions] = useState<string[]>([]);
   const [asyncLoading, setAsyncLoading] = useState(true);
+  const [asyncQuery, setAsyncQuery] = useState('');
 
   useEffect(() => {
     let cancelled = false;
@@ -80,79 +54,49 @@ export default function AutocompleteScreen() {
         description="String options with search filtering."
       >
         <Autocomplete
-          label="Country"
           placeholder="Type a country name…"
           options={COUNTRIES}
-          value={selectedCountry}
-          onChange={(value) =>
-            setSelectedCountry(typeof value === 'string' ? value : null)
-          }
-          getOptionLabel={(option) => option}
-          noResultsText="Không tìm thấy kết quả"
+          value={country}
+          onChange={setCountry}
+          onSelect={setSelectedCountry}
+          emptyText="Không tìm thấy kết quả"
         />
         {selectedCountry ? (
-          <Typography variant="body2" style={{ marginTop: t.spacing[2] }}>
-            Selected:{' '}
-            <Typography variant="body2" fontWeight="bold">
-              {selectedCountry}
-            </Typography>
-          </Typography>
+          <Text variant="p" style={{ marginTop: 8 }}>
+            Selected: <Text className="font-semibold">{selectedCountry}</Text>
+          </Text>
         ) : null}
       </DemoSection>
 
       <DemoSection
-        title="Custom Options"
-        description="Rich rows with avatar and email."
+        title="User search"
+        description="Search a directory of names."
       >
         <Autocomplete
-          label="Select User"
           placeholder="Search for a user…"
-          options={USERS}
-          value={selectedUser}
-          onChange={(value) =>
-            setSelectedUser(
-              value && typeof value === 'object' && 'id' in value ? value : null
-            )
-          }
-          noResultsText="Không tìm thấy kết quả"
-          getOptionLabel={(option) => option.name}
-          renderOption={(option) => (
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: t.spacing[3],
-                paddingVertical: t.spacing[2],
-              }}
-            >
-              <Avatar src={option.avatar} size="sm" />
-              <View>
-                <Typography variant="body1">{option.name}</Typography>
-                <Typography variant="body2" color="secondary">
-                  {option.email}
-                </Typography>
-              </View>
-            </View>
-          )}
+          options={USER_NAMES}
+          value={user}
+          onChange={setUser}
+          emptyText="Không tìm thấy kết quả"
         />
       </DemoSection>
 
       <DemoSection title="States" description="Disabled and async loading.">
         <Autocomplete
-          label="Disabled"
-          disabled
+          inputProps={{ disabled: true }}
           options={COUNTRIES}
           value="Vietnam"
+          placeholder="Disabled"
         />
-        <View style={{ height: t.spacing[4] }} />
+        <View style={{ height: 16 }} />
         <Autocomplete
-          label="Loading (async)"
           options={asyncOptions}
-          loading={asyncLoading}
-          loadingText="Đang tải danh sách…"
-          placeholder="Focus to see loading panel (~1.6s)"
-          getOptionLabel={(option) => option}
-          noResultsText="Không tìm thấy kết quả"
+          value={asyncQuery}
+          onChange={setAsyncQuery}
+          emptyText={
+            asyncLoading ? 'Đang tải danh sách…' : 'Không tìm thấy kết quả'
+          }
+          placeholder="Focus and type — options load in ~1.6s"
         />
       </DemoSection>
     </DemoPage>

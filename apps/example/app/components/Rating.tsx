@@ -1,14 +1,12 @@
-import { useTokens } from '@truongdq01/headless';
-import { Rating, Typography } from '@truongdq01/ui';
 import { useState } from 'react';
 import { View } from 'react-native';
-import { Heart } from 'lucide-react-native';
+import { Rating } from '@/components/ui/rating';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function RatingScreen() {
-  const t = useTokens();
   const [val1, setVal1] = useState(3);
-  const [val2, setVal2] = useState(3.5);
+  const [val2, setVal2] = useState(4);
 
   return (
     <DemoPage
@@ -23,86 +21,48 @@ export default function RatingScreen() {
       </DemoSection>
 
       <DemoSection
-        title="Half Stars"
-        description="Precision 0.5 with value display."
+        title="Value Display"
+        description="Pair the control with a numeric readout."
       >
-        <Rating value={val2} onChange={setVal2} precision={0.5} showValue />
+        <View className="flex-row items-center gap-2">
+          <Rating value={val2} onChange={setVal2} />
+          <Text variant="muted">{val2}/5</Text>
+        </View>
       </DemoSection>
 
       <DemoSection title="Sizes">
-        <View style={{ gap: t.spacing[4] }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: t.spacing[2],
-            }}
-          >
-            <Rating size="sm" defaultValue={4} readOnly />
-            <Typography variant="caption">Small</Typography>
+        <View className="gap-4">
+          <View className="flex-row items-center gap-2">
+            <Rating value={4} size={16} readonly />
+            <Text variant="small">Small</Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: t.spacing[2],
-            }}
-          >
-            <Rating size="md" defaultValue={4} readOnly />
-            <Typography variant="caption">Medium</Typography>
+          <View className="flex-row items-center gap-2">
+            <Rating value={4} size={24} readonly />
+            <Text variant="small">Medium</Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: t.spacing[2],
-            }}
-          >
-            <Rating size="lg" defaultValue={4} readOnly />
-            <Typography variant="caption">Large</Typography>
+          <View className="flex-row items-center gap-2">
+            <Rating value={4} size={32} readonly />
+            <Text variant="small">Large</Text>
           </View>
         </View>
       </DemoSection>
 
-      <DemoSection title="Custom Icons" description="Hearts instead of stars.">
-        <Rating
-          precision={0.5}
-          defaultValue={4.5}
-          iconNames={{
-            filled: 'heart',
-            empty: 'heart',
-            half: 'starHalf',
-          }}
-          renderIcon={(state, size, color) => (
-            <Heart
-              size={size}
-              color={color}
-              fill={state === 'filled' ? color : 'transparent'}
-            />
-          )}
-        />
+      <DemoSection
+        title="Custom Max & Colors"
+        description="Ten hearts-worth of stars with a destructive tint."
+      >
+        <Rating value={6} max={10} readonly color="#ef4444" />
       </DemoSection>
 
       <DemoSection title="Read Only & Disabled">
-        <View style={{ gap: t.spacing[4] }}>
-          <Rating
-            defaultValue={3.8}
-            precision={0.1}
-            readOnly
-            ratingCount={1240}
-            showValue
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: t.spacing[2],
-            }}
-          >
-            <Rating defaultValue={2} disabled />
-            <Typography variant="caption" color="disabled">
-              Disabled
-            </Typography>
+        <View className="gap-4">
+          <View className="flex-row items-center gap-2">
+            <Rating value={4} readonly />
+            <Text variant="muted">1,240 ratings</Text>
+          </View>
+          <View className="flex-row items-center gap-2">
+            <Rating value={2} disabled />
+            <Text variant="muted">Disabled</Text>
           </View>
         </View>
       </DemoSection>

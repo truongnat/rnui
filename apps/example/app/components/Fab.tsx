@@ -1,11 +1,12 @@
-import { Plus, Send, Camera, MessageCircle } from 'lucide-react-native';
+import { Camera, MessageCircle, Plus, Send } from 'lucide-react-native';
 import { View } from 'react-native';
-import { useTheme } from '@truongdq01/headless';
-import { Fab, Typography } from '@truongdq01/ui';
+import { Fab } from '@/components/ui/fab';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
+import { useIconColor } from '@/lib/utils';
 
 export default function FabScreen() {
-  const { tokens } = useTheme();
+  const onPrimary = useIconColor('onPrimary');
 
   return (
     <DemoPage
@@ -17,27 +18,19 @@ export default function FabScreen() {
         description="Primary interactions with icon-only FABs."
       >
         <DemoPreview>
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: tokens.spacing[4],
-              alignItems: 'center',
-            }}
-          >
+          <View className="flex-row items-center gap-4">
             <Fab
-              icon={<Plus size={24} />}
+              icon={<Plus size={24} color={onPrimary} />}
               onPress={() => {}}
               accessibilityLabel="Create"
             />
             <Fab
-              variant="outline"
-              icon={<Camera size={24} />}
+              icon={<Camera size={24} color={onPrimary} />}
               onPress={() => {}}
               accessibilityLabel="Open camera"
             />
             <Fab
-              variant="ghost"
-              icon={<MessageCircle size={24} />}
+              icon={<MessageCircle size={24} color={onPrimary} />}
               onPress={() => {}}
               accessibilityLabel="Open messages"
             />
@@ -49,43 +42,50 @@ export default function FabScreen() {
         title="Extended"
         description="Label + icon for maximum clarity."
       >
-        <View style={{ gap: tokens.spacing[3], alignItems: 'flex-start' }}>
+        <View className="items-start gap-3">
           <Fab
-            variant="extended"
             label="Create New"
-            icon={<Plus size={20} />}
+            icon={<Plus size={20} color={onPrimary} />}
             onPress={() => {}}
           />
           <Fab
-            variant="extended"
             label="Send Message"
-            icon={<Send size={18} />}
+            icon={<Send size={18} color={onPrimary} />}
             onPress={() => {}}
           />
         </View>
       </DemoSection>
 
-      <DemoSection title="Sizes" description="Small (44dp) and default (56dp).">
-        <View
-          style={{
-            flexDirection: 'row',
-            gap: tokens.spacing[6],
-            alignItems: 'flex-end',
-          }}
-        >
-          <View style={{ alignItems: 'center', gap: tokens.spacing[2] }}>
-            <Fab size="sm" icon={<Plus size={18} />} onPress={() => {}} />
-            <Typography variant="caption" color="secondary">
-              Small
-            </Typography>
+      <DemoSection title="Sizes" description="Small (40dp) and default (56dp).">
+        <View className="flex-row items-end gap-6">
+          <View className="items-center gap-2">
+            <Fab
+              size="sm"
+              icon={<Plus size={18} color={onPrimary} />}
+              onPress={() => {}}
+            />
+            <Text variant="muted">Small</Text>
           </View>
-          <View style={{ alignItems: 'center', gap: tokens.spacing[2] }}>
-            <Fab icon={<Plus size={24} />} onPress={() => {}} />
-            <Typography variant="caption" color="secondary">
-              Default
-            </Typography>
+          <View className="items-center gap-2">
+            <Fab
+              icon={<Plus size={24} color={onPrimary} />}
+              onPress={() => {}}
+            />
+            <Text variant="muted">Default</Text>
           </View>
         </View>
+      </DemoSection>
+
+      <DemoSection
+        title="Disabled"
+        description="Dims and blocks interaction for unavailable actions."
+      >
+        <Fab
+          icon={<Plus size={24} color={onPrimary} />}
+          onPress={() => {}}
+          disabled
+          accessibilityLabel="Create (unavailable)"
+        />
       </DemoSection>
     </DemoPage>
   );

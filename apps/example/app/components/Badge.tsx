@@ -1,4 +1,3 @@
-import { Badge, Stack } from '@truongdq01/ui';
 import {
   CheckCircle2,
   Clock,
@@ -6,8 +5,52 @@ import {
   Package,
   TriangleAlert,
 } from 'lucide-react-native';
+import { Badge } from '@/components/ui/badge';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
+import { useIconColor } from '@/lib/utils';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 import { DemoSurfacePanel } from '@/demo/DemoSurfacePanel';
+
+function BadgeStatusRow() {
+  const iconColor = useIconColor('foreground');
+  const onPrimary = useIconColor('onPrimary');
+
+  return (
+    <Stack direction="row" spacing="sm" wrap>
+      <Badge variant="secondary">
+        <Package size={12} color={iconColor} style={{ marginRight: 4 }} />
+        <Text className="text-xs font-semibold text-secondary-foreground">
+          Shipped
+        </Text>
+      </Badge>
+      <Badge variant="secondary">
+        <Clock size={12} color={iconColor} style={{ marginRight: 4 }} />
+        <Text className="text-xs font-semibold text-secondary-foreground">
+          Processing
+        </Text>
+      </Badge>
+      <Badge variant="destructive">
+        <CreditCard size={12} color={onPrimary} style={{ marginRight: 4 }} />
+        <Text className="text-xs font-semibold text-destructive-foreground">
+          Payment failed
+        </Text>
+      </Badge>
+      <Badge variant="default">
+        <CheckCircle2 size={12} color={onPrimary} style={{ marginRight: 4 }} />
+        <Text className="text-xs font-semibold text-primary-foreground">
+          Verified
+        </Text>
+      </Badge>
+      <Badge variant="outline">
+        <TriangleAlert size={12} color={iconColor} style={{ marginRight: 4 }} />
+        <Text className="text-xs font-semibold text-foreground">
+          Action required
+        </Text>
+      </Badge>
+    </Stack>
+  );
+}
 
 export default function BadgeScreen() {
   return (
@@ -19,47 +62,15 @@ export default function BadgeScreen() {
         title="Order & account status"
         description="Realistic labels for commerce and account flows."
       >
-        <Stack direction="row" spacing="sm" wrap>
-          <Badge
-            label="Shipped"
-            variant="success"
-            icon={<Package size={12} />}
-          />
-          <Badge
-            label="Processing"
-            variant="warning"
-            icon={<Clock size={12} />}
-          />
-          <Badge
-            label="Payment failed"
-            variant="error"
-            icon={<CreditCard size={12} />}
-          />
-          <Badge
-            label="Verified"
-            variant="brand"
-            icon={<CheckCircle2 size={12} />}
-          />
-          <Badge
-            label="Action required"
-            variant="accent"
-            icon={<TriangleAlert size={12} />}
-          />
-        </Stack>
+        <BadgeStatusRow />
       </DemoSection>
 
-      <DemoSection
-        title="Variants"
-        description="All public variants including accent."
-      >
+      <DemoSection title="Variants" description="All public variants.">
         <Stack direction="row" spacing="sm" wrap>
-          <Badge label="Default" variant="default" />
-          <Badge label="Brand" variant="brand" />
-          <Badge label="Accent" variant="accent" />
-          <Badge label="Success" variant="success" />
-          <Badge label="Warning" variant="warning" />
-          <Badge label="Error" variant="error" />
-          <Badge label="Info" variant="info" />
+          <Badge variant="default">Default</Badge>
+          <Badge variant="secondary">Secondary</Badge>
+          <Badge variant="destructive">Destructive</Badge>
+          <Badge variant="outline">Outline</Badge>
         </Stack>
       </DemoSection>
 
@@ -69,48 +80,40 @@ export default function BadgeScreen() {
       >
         <Stack spacing="md">
           <DemoSurfacePanel label="White surface" surface="white">
-            <Stack direction="row" spacing="sm" wrap>
-              <Badge label="Delivered" variant="success" />
-              <Badge label="Premium" variant="accent" />
-              <Badge label="Draft" variant="default" />
-            </Stack>
+            <BadgeStatusRow />
           </DemoSurfacePanel>
           <DemoSurfacePanel label="App background" surface="app">
-            <Stack direction="row" spacing="sm" wrap>
-              <Badge label="Delivered" variant="success" />
-              <Badge label="Premium" variant="accent" />
-              <Badge label="Draft" variant="default" />
-            </Stack>
+            <BadgeStatusRow />
           </DemoSurfacePanel>
           <DemoSurfacePanel label="Card surface" surface="card">
-            <Stack direction="row" spacing="sm" wrap>
-              <Badge label="Delivered" variant="success" />
-              <Badge label="Premium" variant="accent" />
-              <Badge label="Draft" variant="default" />
-            </Stack>
+            <BadgeStatusRow />
           </DemoSurfacePanel>
           <DemoSurfacePanel label="Glass surface" surface="glass">
-            <Stack direction="row" spacing="sm" wrap>
-              <Badge label="Delivered" variant="success" />
-              <Badge label="Premium" variant="accent" />
-              <Badge label="Draft" variant="default" />
-            </Stack>
+            <BadgeStatusRow />
           </DemoSurfacePanel>
           <DemoSurfacePanel label="Dark surface" surface="dark">
-            <Stack direction="row" spacing="sm" wrap>
-              <Badge label="Delivered" variant="success" />
-              <Badge label="Premium" variant="accent" />
-              <Badge label="Draft" variant="default" />
-            </Stack>
+            <BadgeStatusRow />
           </DemoSurfacePanel>
         </Stack>
       </DemoSection>
 
       <DemoSection title="Sizes">
         <Stack direction="row" spacing="sm" alignItems="center">
-          <Badge label="Small" size="sm" variant="brand" />
-          <Badge label="Medium" size="md" variant="brand" />
-          <Badge label="Large" size="lg" variant="brand" />
+          <Badge
+            variant="default"
+            className="px-2 py-0"
+            labelClassName="text-[10px]"
+          >
+            Small
+          </Badge>
+          <Badge variant="default">Medium</Badge>
+          <Badge
+            variant="default"
+            className="px-3 py-1"
+            labelClassName="text-sm"
+          >
+            Large
+          </Badge>
         </Stack>
       </DemoSection>
 
@@ -119,11 +122,14 @@ export default function BadgeScreen() {
         description="Notification counts and status dots."
       >
         <Stack direction="row" spacing="md" alignItems="center">
-          <Badge dot size="md" variant="error" />
-          <Badge dot size="md" variant="success" />
-          <Badge count={3} variant="error" />
-          <Badge count={99} variant="error" />
-          <Badge count="99+" variant="error" />
+          <Badge variant="destructive" className="h-2 w-2 px-0 py-0" />
+          <Badge
+            variant="default"
+            className="h-2 w-2 border-transparent bg-green-600 px-0 py-0"
+          />
+          <Badge variant="destructive">3</Badge>
+          <Badge variant="destructive">99</Badge>
+          <Badge variant="destructive">99+</Badge>
         </Stack>
       </DemoSection>
     </DemoPage>

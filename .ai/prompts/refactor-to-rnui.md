@@ -22,15 +22,14 @@ Refactor the following **custom React Native UI** to use **RNUI** components and
 ### Refactor rules
 
 1. **Map primitives:**
-   - Custom buttons → `Button`
-   - Custom text styles → `Typography`
-   - Custom cards/surfaces → `Card` or `Paper`
-   - Custom inputs → `Input` / `TextField` / `FormField`
-   - Custom stacks → `Stack` / `Box`
-   - Custom modals → `Modal` / `Dialog`
-   - Custom alerts → `Alert` / `Toast` / `Snackbar`
+   - Custom buttons → `Button` (`variant` + `children` label)
+   - Custom text styles → `Text` variants
+   - Custom cards/surfaces → `Card` (+ `CardContent`) or `Paper`
+   - Custom inputs → `TextField` / `Input` / `FormField`
+   - Custom stacks → `Stack` / `View` (`className="flex-1"`)
+   - Custom modals → `Modal` / `Dialog` / `Sheet`
 
-2. **Remove** inline color/spacing constants — use component props and `useTokens()`.
+2. **Remove** inline color/spacing constants — use component props, semantic classes, and `useThemeColor()` from `@/lib/utils`.
 
 3. **Preserve behavior** — same user flows, callbacks, and navigation.
 
@@ -50,4 +49,4 @@ Refactor the following **custom React Native UI** to use **RNUI** components and
 4. Optional native peers needed (svg, expo-blur, etc.)
 5. Follow-up items if no 1:1 RNUI equivalent exists (name the closest registry entry)
 
-If a custom component duplicates RNUI, delete the custom component and import from `@truongdq01/ui`.
+If a custom component duplicates RNUI, delete the custom component and import from `@/components/ui/<kebab>` (add missing items with `npx @rnui/cli add`).

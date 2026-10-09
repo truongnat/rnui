@@ -1,6 +1,7 @@
-import { View, Image as RNImage } from 'react-native';
-import { Typography, Card } from '@truongdq01/ui';
-import { useTheme } from '@truongdq01/headless';
+import { View } from 'react-native';
+import { Card } from '@/components/ui/card';
+import { Image } from '@/components/ui/image';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection, DemoGroup, DemoPreview } from '@/demo/DemoPage';
 
 const DEMO_IMAGE =
@@ -9,8 +10,6 @@ const DEMO_IMAGE_2 =
   'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=600';
 
 export default function ImageScreen() {
-  const { tokens } = useTheme();
-
   return (
     <DemoPage
       title="Image"
@@ -18,21 +17,15 @@ export default function ImageScreen() {
     >
       <DemoSection title="Basic" description="Rounded and circular crops.">
         <DemoGroup direction="row">
-          <RNImage
+          <Image
             source={{ uri: DEMO_IMAGE }}
-            style={{
-              width: tokens.spacing[24],
-              height: tokens.spacing[24],
-              borderRadius: tokens.radius.md,
-            }}
+            rounded="md"
+            style={{ width: 96, height: 96 }}
           />
-          <RNImage
+          <Image
             source={{ uri: DEMO_IMAGE_2 }}
-            style={{
-              width: tokens.spacing[24],
-              height: tokens.spacing[24],
-              borderRadius: tokens.radius.full,
-            }}
+            rounded="full"
+            style={{ width: 96, height: 96 }}
           />
         </DemoGroup>
       </DemoSection>
@@ -42,34 +35,31 @@ export default function ImageScreen() {
         description="Cover mode inside cards."
         bare
       >
-        <Card padding="none" style={{ overflow: 'hidden' }}>
-          <RNImage
+        <Card className="overflow-hidden">
+          <Image
             source={{ uri: DEMO_IMAGE }}
-            style={{
-              width: '100%',
-              height: tokens.spacing[18] * 2 + tokens.spacing[6],
-            }}
+            rounded="none"
+            aspectRatio={16 / 9}
+            className="w-full"
             resizeMode="cover"
           />
-          <View style={{ padding: tokens.spacing[3] }}>
-            <Typography variant="body2" color="secondary">
-              16:9 Cover
-            </Typography>
+          <View style={{ padding: 12 }}>
+            <Text variant="muted">16:9 Cover</Text>
           </View>
         </Card>
 
-        <View style={{ height: tokens.spacing[4] }} />
+        <View style={{ height: 16 }} />
 
-        <Card padding="none" style={{ overflow: 'hidden' }}>
-          <RNImage
+        <Card className="overflow-hidden">
+          <Image
             source={{ uri: DEMO_IMAGE_2 }}
-            style={{ width: '100%', aspectRatio: 1 }}
+            rounded="none"
+            aspectRatio={1}
+            className="w-full"
             resizeMode="cover"
           />
-          <View style={{ padding: tokens.spacing[3] }}>
-            <Typography variant="body2" color="secondary">
-              1:1 Square
-            </Typography>
+          <View style={{ padding: 12 }}>
+            <Text variant="muted">1:1 Square</Text>
           </View>
         </Card>
       </DemoSection>
@@ -80,19 +70,16 @@ export default function ImageScreen() {
             style={{
               flexDirection: 'row',
               flexWrap: 'wrap',
-              gap: tokens.spacing[2],
+              gap: 8,
             }}
           >
             {[1, 2, 3, 4].map((i) => (
-              <RNImage
+              <Image
                 key={i}
                 source={{ uri: `https://picsum.photos/seed/${i + 20}/200` }}
-                style={{
-                  width: '48%',
-                  aspectRatio: 1,
-                  borderRadius: tokens.radius.lg,
-                  backgroundColor: tokens.color.bg.muted,
-                }}
+                rounded="lg"
+                aspectRatio={1}
+                style={{ width: '48%' }}
               />
             ))}
           </View>

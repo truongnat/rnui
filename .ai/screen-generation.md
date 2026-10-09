@@ -14,39 +14,39 @@ Workflow for AI agents building React Native screens with RNUI.
 
 - Vertical flow → `Stack` (default `direction="column"`)
 - Horizontal actions → `Stack direction="row"`
-- Flexible areas → `Box flex={1}`
-- Grid of tiles → `Grid`
+- Flexible areas → `View` with `className="flex-1"` (or a `Stack` that fills)
+- Grid of tiles → `Grid` + `GridItem`
 
 ### 3. Select RNUI components
 
-Look up each component in `.ai/component-registry.json`. Prefer **stable** status.
+Look up each component in `.ai/component-registry.json`.
 
 ### 4. Define data states
 
 | State | UI pattern |
 | ----- | ---------- |
-| Loading | `Skeleton`, spinner, or disabled inputs |
+| Loading | `Skeleton`, `Progress`, or disabled inputs |
 | Empty | `EmptyState` + optional `Button` action |
-| Error | `Alert`, `Input error`, or `EmptyState variant="error"` |
+| Error | `Alert variant="destructive"`, `TextField error`, or `EmptyState` |
 | Success | Primary content; confirm with `Toast` if needed |
 
 ### 5. Compose the screen
 
-- Header: `AppBar` or top `Typography variant="h5"`
+- Header: `AppBar` (with `AppBarTitle`) or top `Text variant="h4"`
 - Body: `Stack` + `Card` sections
 - Footer: sticky `Button` row for primary actions
 
 ### 6. Add accessibility
 
-- Labels on icon buttons
-- Heading hierarchy via `Typography`
+- Labels on icon-only buttons (`IconButton`, `Button size="icon"`)
+- Heading hierarchy via `Text` variants + `accessibilityRole="header"`
 - Error text associated with inputs
 
 ### 7. Add responsive spacing
 
 - Use `Stack spacing="md"` / `"lg"` between sections
-- Use `Card padding="md"` for inner grouping
-- Token spacing via `useTokens().spacing[n]` only when needed
+- Use `Card`/`CardContent` (`p-4`/`p-6`) for inner grouping
+- Semantic class utilities (`p-4`, `gap-2`) or `cn()` composition; resolved colors via `useThemeColor()` only when needed
 
 ### 8. Add example data
 
@@ -68,22 +68,22 @@ Look up each component in `.ai/component-registry.json`. Prefer **stable** statu
 
 **Purpose:** Authenticate with email/password or social.
 
-**Recommended components:** `Stack`, `Typography`, `Input`, `Button`, `Link`, `Alert`
+**Recommended components:** `Stack`, `Text`, `TextField`, `Button`, `Link`, `Alert`
 
 **Layout structure:**
 
 ```
-Stack (spacing lg, flex 1, centered)
-  Typography h4 — app name
-  Typography body2 secondary — subtitle
-  Input label email
-  Input label password (secureTextEntry)
-  Button fullWidth — Sign in
+Stack (spacing lg, flex-1, centered)
+  Text h3 — app name
+  Text muted — subtitle
+  TextField label Email
+  TextField label Password (secureTextEntry)
+  Button className="w-full" — Sign in
   Link — Forgot password
-  Alert (error) — when auth fails
+  Alert variant="destructive" — when auth fails
 ```
 
-**Notes:** Handle loading on submit (`Button loading`). Show `Alert` for auth errors. No custom text inputs.
+**Notes:** Disable `Button` while submitting (`disabled={loading}`). Show `Alert` for auth errors. No custom text inputs.
 
 ---
 
@@ -91,22 +91,22 @@ Stack (spacing lg, flex 1, centered)
 
 **Purpose:** Toggle preferences and navigate to sub-settings.
 
-**Recommended components:** `AppBar`, `Stack`, `List`, `Switch`, `Typography`, `Divider`
+**Recommended components:** `AppBar`, `Stack`, `List`, `ListItem`, `ListSectionTitle`, `Switch`, `Separator`
 
 **Layout structure:**
 
 ```
-AppBar title Settings
+AppBar with AppBarTitle Settings
 ScrollView
-  List subheader Account
-    ListItem + Switch / chevron rows
-  List subheader Preferences
-    Switch rows for notifications, dark mode (via theme)
-  List subheader About
-    navigation rows
+  ListSectionTitle Account
+  List — ListItem rows with Switch trailing / chevron
+  ListSectionTitle Preferences
+  List — Switch rows for notifications, dark mode
+  ListSectionTitle About
+  List — navigation rows
 ```
 
-**Notes:** Group with `List subheader`. Use `Switch` for booleans. Navigate with router, not custom modals unless needed.
+**Notes:** Group with `ListSectionTitle` + `List`. Use `Switch` (`checked`/`onCheckedChange`) for booleans. Navigate with router, not custom modals unless needed.
 
 ---
 
@@ -114,7 +114,7 @@ ScrollView
 
 **Purpose:** Show user identity and key stats/actions.
 
-**Recommended components:** `Stack`, `Avatar`, `Typography`, `Button`, `Card`, `Divider`
+**Recommended components:** `Stack`, `Avatar` + `AvatarFallback`, `Text`, `Button`, `Card`, `Separator`
 
 **Layout structure:**
 
@@ -122,11 +122,11 @@ ScrollView
 Stack spacing md
   Stack row — Avatar + name + subtitle
   Card — bio / stats
-  Button outline — Edit profile
-  Card — recent activity list (Typography rows)
+  Button variant="outline" — Edit profile
+  Card — recent activity list (Text rows)
 ```
 
-**Notes:** Center avatar row. Use `Typography variant="h6"` for name. Secondary actions as `Button variant="outline"`.
+**Notes:** Center avatar row. Use `Text variant="large"` for name. Secondary actions as `Button variant="outline"`.
 
 ---
 
@@ -134,15 +134,15 @@ Stack spacing md
 
 **Purpose:** Summary metrics and quick actions.
 
-**Recommended components:** `AppBar`, `Grid`, `Card`, `Typography`, `Button`, `Badge`
+**Recommended components:** `AppBar`, `Grid` + `GridItem`, `Card`, `Text`, `Button`, `Badge`
 
 **Layout structure:**
 
 ```
-AppBar title Dashboard
+AppBar with AppBarTitle Dashboard
 Stack spacing md
-  Typography h5 — greeting
-  Grid — metric Cards (2 columns)
+  Text h4 — greeting
+  Grid columns={2} — metric Cards
   Card — chart placeholder / recent list
   Stack row — quick action Buttons
 ```
@@ -155,28 +155,28 @@ Stack spacing md
 
 **Purpose:** Browse items and drill into one.
 
-**Recommended components:** `AppBar`, `List`, `Typography`, `Avatar`, `Card`, `EmptyState`
+**Recommended components:** `AppBar`, `List`, `ListItem`, `Text`, `Avatar`, `Card`, `EmptyState`
 
 **List layout:**
 
 ```
-AppBar title + search action
+AppBar with AppBarTitle + trailing search action
 List
-  ListItem rows (leading Avatar, primary/secondary text)
+  ListItem rows (leading Avatar, title/subtitle)
 EmptyState when data.length === 0
 ```
 
 **Detail layout:**
 
 ```
-AppBar back + title
+AppBar onBack + AppBarTitle
 Stack spacing md
   Card — hero content
-  Typography sections
+  Text sections
   Button primary action
 ```
 
-**Notes:** Empty list → `EmptyState`. Prefer compound `List` API. Separate list and detail into two screen files for navigation.
+**Notes:** Empty list → `EmptyState` (+ `EmptyStateTitle`/`EmptyStateDescription`/`EmptyStateAction`). Prefer compound `List` API. Separate list and detail into two screen files for navigation.
 
 ---
 
@@ -184,21 +184,21 @@ Stack spacing md
 
 **Purpose:** Collect and submit structured input.
 
-**Recommended components:** `Stack`, `FormField`, `Input`, `TextArea`, `Select`, `Checkbox`, `Button`, `Alert`
+**Recommended components:** `Stack`, `TextField`, `FormField` + `FormLabel`, `Textarea`, `Select`, `Checkbox`, `Button`, `Alert`
 
 **Layout structure:**
 
 ```
-Typography h5 — form title
+Text h4 — form title
 Stack spacing md
-  FormField / Input pairs
+  TextField (label + error) / FormField + Input pairs
   Select for enums
-  Checkbox for consent
-  Alert error summary (optional)
-  Button fullWidth — Submit
+  Checkbox + label row for consent
+  Alert variant="destructive" summary (optional)
+  Button className="w-full" — Submit
 ```
 
-**Notes:** Validate before submit. Show field-level `Input error`. Disable submit while loading.
+**Notes:** Validate before submit. Show field-level `TextField error` (auto-invalid via `FormField`). Disable submit while loading.
 
 ---
 
@@ -206,18 +206,18 @@ Stack spacing md
 
 **Purpose:** Explain why content is missing and what to do next.
 
-**Recommended components:** `EmptyState`, `Button`, `Stack`
+**Recommended components:** `EmptyState` (+ `EmptyStateTitle`, `EmptyStateDescription`, `EmptyStateAction`), `Button`, `Stack`
 
 **Layout structure:**
 
 ```
-Box flex 1 centered
+View flex-1 centered
   EmptyState
-    title, description, variant
-    action — Button
+    EmptyStateTitle, EmptyStateDescription
+    EmptyStateAction — Button
 ```
 
-**Notes:** Use `variant="search" | "error" | "offline"` when appropriate. Always offer a primary action when user can fix the state.
+**Notes:** Always offer a primary action when the user can fix the state.
 
 ---
 
@@ -235,5 +235,5 @@ See `.ai/examples/` for copy-paste starting points:
 ## After generation
 
 1. Run through `.ai/prompts/review-rnui-usage.md` mentally or with an agent.
-2. Confirm imports are from `@truongdq01/ui`.
+2. Confirm imports are per-file from `@/components/ui/<kebab>` (never a single package barrel).
 3. Confirm no forbidden patterns from `.ai/design-rules.md`.

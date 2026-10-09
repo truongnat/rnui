@@ -25,14 +25,34 @@ describe('component schema registry', () => {
     const webNames = listWebPreviewComponents().map((schema) => schema.name);
     expect(webNames).toContain('Button');
     expect(webNames).not.toContain('Modal');
-    expect(webNames).not.toContain('BottomSheet');
+    expect(webNames).not.toContain('Sheet');
   });
 
   test('getAllowedProps returns AI-safe props only', () => {
     const props = getAllowedProps('Button');
-    expect(props).toContain('label');
+    expect(props).toContain('children');
     expect(props).toContain('variant');
     expect(props).not.toContain('style');
+  });
+});
+
+describe('registry import schema', () => {
+  test('kit components import from @/components/ui/<kebab>', () => {
+    expect(getComponentSchema('Button')?.import).toEqual({
+      named: 'Button',
+      from: '@/components/ui/button',
+      lazyKey: 'Button',
+    });
+    expect(getComponentSchema('Text')?.import.from).toBe(
+      '@/components/ui/text'
+    );
+    expect(getComponentSchema('TextField')?.import.from).toBe(
+      '@/components/ui/text-field'
+    );
+    expect(getComponentSchema('Sheet')?.import.from).toBe(
+      '@/components/ui/sheet'
+    );
+    expect(getComponentSchema('View')?.import.from).toBe('react-native');
   });
 });
 
@@ -45,7 +65,7 @@ describe('validateComponentProps', () => {
 
   test('rejects function prop', () => {
     const result = validateComponentProps('Button', {
-      label: 'Go',
+      children: 'Go',
       onPress: () => {},
     });
     expect(result.valid).toBe(false);
@@ -54,9 +74,8 @@ describe('validateComponentProps', () => {
 
   test('accepts valid button props', () => {
     const result = validateComponentProps('Button', {
-      label: 'Save',
-      variant: 'solid',
-      fullWidth: true,
+      children: 'Save',
+      variant: 'default',
       action: 'save',
     });
     expect(result.valid).toBe(true);

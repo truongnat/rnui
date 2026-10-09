@@ -1,40 +1,29 @@
-import { useMemo } from 'react';
+import { View } from 'react-native';
+import { Check } from 'lucide-react-native';
+import { Card } from '@/components/ui/card';
 import {
   Timeline,
+  TimelineDescription,
   TimelineItem,
-  TimelineContent,
-  TimelineSeparator,
-  TimelineDot,
-  TimelineConnector,
-  TimelineOppositeContent,
-  Typography,
-  Card,
-  Icon,
-} from '@truongdq01/ui';
-import { View, StyleSheet } from 'react-native';
+  TimelineTitle,
+} from '@/components/ui/timeline';
+import { useIconColor } from '@/lib/utils';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
-import { useTokens } from '@truongdq01/headless';
+
+function Dot({ tone }: { tone: 'primary' | 'muted' }) {
+  return (
+    <View
+      className={
+        tone === 'primary'
+          ? 'mt-1.5 h-2.5 w-2.5 rounded-full bg-primary'
+          : 'mt-1.5 h-2.5 w-2.5 rounded-full bg-muted-foreground/40'
+      }
+    />
+  );
+}
 
 export default function TimelineScreen() {
-  const t = useTokens();
-
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        card: {
-          padding: t.spacing[3],
-        },
-        customDot: {
-          width: t.spacing[6],
-          height: t.spacing[6],
-          borderRadius: t.radius.full,
-          backgroundColor: t.color.success.icon,
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-      }),
-    [t]
-  );
+  const checkColor = useIconColor('onPrimary');
 
   return (
     <DemoPage
@@ -43,100 +32,55 @@ export default function TimelineScreen() {
     >
       <DemoSection
         title="Basic"
-        description="completed, active, and pending states."
+        description="Completed, active, and pending states."
       >
         <Timeline>
-          <TimelineItem status="completed">
-            <TimelineContent>
-              <Typography variant="subtitle1">Order Placed</Typography>
-              <Typography variant="body2" color="secondary">
-                Your order has been received
-              </Typography>
-            </TimelineContent>
+          <TimelineItem>
+            <TimelineTitle>Order Placed</TimelineTitle>
+            <TimelineDescription>
+              Your order has been received
+            </TimelineDescription>
           </TimelineItem>
-          <TimelineItem status="completed">
-            <TimelineContent>
-              <Typography variant="subtitle1">Payment Confirmed</Typography>
-              <Typography variant="body2" color="secondary">
-                Transaction successful
-              </Typography>
-            </TimelineContent>
+          <TimelineItem>
+            <TimelineTitle>Payment Confirmed</TimelineTitle>
+            <TimelineDescription>Transaction successful</TimelineDescription>
           </TimelineItem>
-          <TimelineItem status="active">
-            <TimelineContent>
-              <Typography variant="subtitle1">Processing</Typography>
-              <Typography variant="body2" color="secondary">
-                Preparing your items
-              </Typography>
-            </TimelineContent>
+          <TimelineItem dot={<Dot tone="primary" />}>
+            <TimelineTitle>Processing</TimelineTitle>
+            <TimelineDescription>Preparing your items</TimelineDescription>
           </TimelineItem>
-          <TimelineItem status="pending">
-            <TimelineContent>
-              <Typography variant="subtitle1">Shipped</Typography>
-              <Typography variant="body2" color="secondary">
-                Pending pickup
-              </Typography>
-            </TimelineContent>
+          <TimelineItem line={false} dot={<Dot tone="muted" />}>
+            <TimelineTitle>Shipped</TimelineTitle>
+            <TimelineDescription>Pending pickup</TimelineDescription>
           </TimelineItem>
         </Timeline>
       </DemoSection>
 
-      <DemoSection
-        title="Opposite Content"
-        description="Timestamps on the left."
-      >
-        <Timeline position="left">
-          <TimelineItem status="completed">
-            <TimelineOppositeContent>
-              <Typography variant="caption">09:30 AM</Typography>
-            </TimelineOppositeContent>
-            <TimelineContent>
-              <Typography variant="subtitle2">Login</Typography>
-            </TimelineContent>
+      <DemoSection title="Timestamps" description="Times above each event.">
+        <Timeline>
+          <TimelineItem>
+            <TimelineDescription>09:30 AM</TimelineDescription>
+            <TimelineTitle>Login</TimelineTitle>
           </TimelineItem>
-          <TimelineItem status="active">
-            <TimelineOppositeContent>
-              <Typography variant="caption">10:45 AM</Typography>
-            </TimelineOppositeContent>
-            <TimelineContent>
-              <Typography variant="subtitle2">Meeting</Typography>
-            </TimelineContent>
+          <TimelineItem line={false}>
+            <TimelineDescription>10:45 AM</TimelineDescription>
+            <TimelineTitle>Meeting</TimelineTitle>
           </TimelineItem>
         </Timeline>
       </DemoSection>
 
-      <DemoSection title="Alternate" description="Zigzag layout with cards.">
-        <Timeline position="alternate">
-          <TimelineItem status="completed">
-            <TimelineOppositeContent>
-              <Typography variant="caption">Step 1</Typography>
-            </TimelineOppositeContent>
-            <TimelineContent>
-              <Card style={styles.card}>
-                <Typography variant="body2">Initial Setup</Typography>
-              </Card>
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem status="completed">
-            <TimelineOppositeContent>
-              <Typography variant="caption">Step 2</Typography>
-            </TimelineOppositeContent>
-            <TimelineContent>
-              <Card style={styles.card}>
-                <Typography variant="body2">Configuration</Typography>
-              </Card>
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem status="active">
-            <TimelineOppositeContent>
-              <Typography variant="caption">Step 3</Typography>
-            </TimelineOppositeContent>
-            <TimelineContent>
-              <Card style={styles.card}>
-                <Typography variant="body2">Deployment</Typography>
-              </Card>
-            </TimelineContent>
-          </TimelineItem>
+      <DemoSection title="Cards" description="Rich content inside each item.">
+        <Timeline>
+          {['Initial Setup', 'Configuration', 'Deployment'].map(
+            (title, i, arr) => (
+              <TimelineItem key={title} line={i < arr.length - 1}>
+                <Card className="p-3">
+                  <TimelineTitle>{title}</TimelineTitle>
+                  <TimelineDescription>Step {i + 1}</TimelineDescription>
+                </Card>
+              </TimelineItem>
+            )
+          )}
         </Timeline>
       </DemoSection>
 
@@ -145,30 +89,24 @@ export default function TimelineScreen() {
         description="Outlined and custom icon dots."
       >
         <Timeline>
-          <TimelineItem status="error">
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" status="error" />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <Typography
-                variant="subtitle2"
-                style={{ color: t.color.status.error }}
-              >
-                System Failure
-              </Typography>
-            </TimelineContent>
+          <TimelineItem
+            dot={
+              <View className="mt-1 h-3 w-3 rounded-full border-2 border-destructive bg-background" />
+            }
+          >
+            <TimelineTitle className="text-destructive">
+              System Failure
+            </TimelineTitle>
           </TimelineItem>
-          <TimelineItem status="completed">
-            <TimelineSeparator>
-              <View style={styles.customDot}>
-                <Icon name="check" size={12} color={t.color.text.inverse} />
+          <TimelineItem
+            line={false}
+            dot={
+              <View className="h-6 w-6 items-center justify-center rounded-full bg-primary">
+                <Check size={12} color={checkColor} strokeWidth={3} />
               </View>
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <Typography variant="subtitle2">Recovered</Typography>
-            </TimelineContent>
+            }
+          >
+            <TimelineTitle>Recovered</TimelineTitle>
           </TimelineItem>
         </Timeline>
       </DemoSection>

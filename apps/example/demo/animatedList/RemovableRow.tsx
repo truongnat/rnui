@@ -20,14 +20,11 @@ import Animated, {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-export type RemoveVariant = 'fade' | 'slide' | 'zoom';
-
 const REMOVE_DURATION = 380;
 
 type RemovableRowProps = {
   /** Row identity — resets local removal state when the cell is recycled. */
   resetKey: string;
-  variant: RemoveVariant;
   onRemoved: () => void;
   /** Render prop: receives a stable `remove` trigger to wire into the row. */
   children: (remove: () => void) => ReactNode;
@@ -36,12 +33,12 @@ type RemovableRowProps = {
 /**
  * Two-phase removal wrapper.
  *
- * FlashList frees a row's space the instant it leaves `data`, so a plain
- * `exiting` animation looks like the rows below "jump up" while the removed row
- * is still animating out. Instead we keep the item in `data`, collapse this
- * wrapper's measured height to 0 (which makes FlashList push the rows below up
- * *gradually*, in sync with the fade/slide), and only remove it from `data`
- * once the animation finishes via `onRemoved`.
+ * The list frees a row's space the instant it leaves `data`, so a plain exit
+ * animation looks like the rows below "jump up" while the removed row is still
+ * animating out. Instead we keep the item in `data`, collapse this wrapper's
+ * measured height to 0 (which pushes the rows below up *gradually*, in sync
+ * with the fade), and only remove it from `data` once the animation finishes
+ * via `onRemoved`.
  *
  * Removal state is LOCAL to each row (not lifted to the screen). This keeps
  * `renderItem` stable so pressing Remove only re-renders the affected cell,
@@ -49,7 +46,6 @@ type RemovableRowProps = {
  */
 export const RemovableRow = memo(function RemovableRow({
   resetKey,
-  variant,
   onRemoved,
   children,
 }: RemovableRowProps) {
@@ -67,7 +63,7 @@ export const RemovableRow = memo(function RemovableRow({
     onRemovedRef.current();
   }, []);
 
-  // Reset when FlashList recycles this cell to a different item.
+  // Reset when the list recycles this cell to a different item.
   useLayoutEffect(() => {
     setRemoving(false);
     progress.set(1);
@@ -105,12 +101,9 @@ export const RemovableRow = memo(function RemovableRow({
   const animatedStyle = useAnimatedStyle<ViewStyle>(() => {
     if (!removing) return {};
     const p = progress.get();
-    const translateX = variant === 'slide' ? (1 - p) * -80 : 0;
-    const scale = variant === 'zoom' ? 0.85 + p * 0.15 : 1;
     return {
       opacity: p,
       height: hasMeasured.get() ? measuredHeight.get() * p : undefined,
-      transform: [{ translateX }, { scale }] as ViewStyle['transform'],
     };
   });
 

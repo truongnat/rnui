@@ -17,7 +17,7 @@
     },
     "children": [
       {
-        "type": "Typography",
+        "type": "Text",
         "props": {
           "variant": "h4",
           "children": "Settings"
@@ -25,9 +25,6 @@
       },
       {
         "type": "Card",
-        "props": {
-          "padding": "md"
-        },
         "children": [
           {
             "type": "Stack",
@@ -39,14 +36,17 @@
             "children": [
               {
                 "type": "Avatar",
-                "props": {
-                  "initials": "TD",
-                  "size": "md",
-                  "status": "online"
-                }
+                "children": [
+                  {
+                    "type": "AvatarFallback",
+                    "props": {
+                      "children": "TD"
+                    }
+                  }
+                ]
               },
               {
-                "type": "Box",
+                "type": "View",
                 "props": {
                   "flex": 1
                 },
@@ -58,17 +58,16 @@
                     },
                     "children": [
                       {
-                        "type": "Typography",
+                        "type": "Text",
                         "props": {
-                          "variant": "subtitle1",
+                          "variant": "large",
                           "children": "Truong Dev"
                         }
                       },
                       {
-                        "type": "Typography",
+                        "type": "Text",
                         "props": {
-                          "variant": "body2",
-                          "color": "secondary",
+                          "variant": "muted",
                           "children": "truong@example.com"
                         }
                       }
@@ -82,9 +81,6 @@
       },
       {
         "type": "Card",
-        "props": {
-          "padding": "md"
-        },
         "children": [
           {
             "type": "Stack",
@@ -93,36 +89,83 @@
             },
             "children": [
               {
-                "type": "Typography",
+                "type": "Text",
                 "props": {
-                  "variant": "overline",
+                  "variant": "small",
                   "children": "Preferences"
                 }
               },
               {
-                "type": "Switch",
+                "type": "Stack",
                 "props": {
-                  "label": "Push notifications",
-                  "on": true
-                }
+                  "direction": "row",
+                  "spacing": "sm",
+                  "alignItems": "center",
+                  "justifyContent": "space-between"
+                },
+                "children": [
+                  {
+                    "type": "Text",
+                    "props": {
+                      "children": "Push notifications"
+                    }
+                  },
+                  {
+                    "type": "Switch",
+                    "props": {
+                      "checked": true
+                    }
+                  }
+                ]
               },
               {
-                "type": "Switch",
+                "type": "Stack",
                 "props": {
-                  "label": "Email updates",
-                  "on": false
-                }
+                  "direction": "row",
+                  "spacing": "sm",
+                  "alignItems": "center",
+                  "justifyContent": "space-between"
+                },
+                "children": [
+                  {
+                    "type": "Text",
+                    "props": {
+                      "children": "Email updates"
+                    }
+                  },
+                  {
+                    "type": "Switch",
+                    "props": {
+                      "checked": false
+                    }
+                  }
+                ]
               },
               {
-                "type": "Divider",
+                "type": "Separator",
                 "props": {}
               },
               {
-                "type": "Checkbox",
+                "type": "Stack",
                 "props": {
-                  "label": "Share anonymous analytics",
-                  "checked": true
-                }
+                  "direction": "row",
+                  "spacing": "sm",
+                  "alignItems": "center"
+                },
+                "children": [
+                  {
+                    "type": "Checkbox",
+                    "props": {
+                      "checked": true
+                    }
+                  },
+                  {
+                    "type": "Text",
+                    "props": {
+                      "children": "Share anonymous analytics"
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -131,9 +174,8 @@
       {
         "type": "Button",
         "props": {
-          "label": "Sign out",
+          "children": "Sign out",
           "variant": "destructive",
-          "fullWidth": true,
           "action": "signOut"
         }
       }

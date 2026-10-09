@@ -1,19 +1,14 @@
 /**
  * RNUI reference: settings screen
+ * Components are registry files copied into the app under components/ui/.
  */
 import { useState } from 'react';
-import { ScrollView } from 'react-native';
-import {
-  AppBar,
-  AppBarTitle,
-  Box,
-  List,
-  ListItem,
-  Stack,
-  Switch,
-  Toolbar,
-  Typography,
-} from '@truongdq01/ui';
+import { ScrollView, View } from 'react-native';
+import { AppBar, AppBarTitle } from '@/components/ui/app-bar';
+import { List, ListSectionTitle } from '@/components/ui/list';
+import { ListItem } from '@/components/ui/list-item';
+import { Stack } from '@/components/ui/stack';
+import { Switch } from '@/components/ui/switch';
 
 export default function SettingsScreenExample() {
   const [pushEnabled, setPushEnabled] = useState(true);
@@ -21,57 +16,52 @@ export default function SettingsScreenExample() {
   const [marketing, setMarketing] = useState(false);
 
   return (
-    <Box flex={1}>
+    <View className="flex-1">
       <AppBar>
-        <Toolbar>
-          <AppBarTitle>Settings</AppBarTitle>
-        </Toolbar>
+        <AppBarTitle>Settings</AppBarTitle>
       </AppBar>
 
       <ScrollView>
-        <Stack spacing="md" style={{ paddingVertical: 16 }}>
-          <Typography
-            variant="overline"
-            color="secondary"
-            style={{ paddingHorizontal: 16 }}
-          >
-            Notifications
-          </Typography>
+        <Stack spacing={0} className="py-4">
+          <ListSectionTitle>Notifications</ListSectionTitle>
           <List>
             <ListItem
-              label="Push notifications"
-              secondaryAction={
-                <Switch on={pushEnabled} onChange={setPushEnabled} />
+              title="Push notifications"
+              chevron={false}
+              trailing={
+                <Switch
+                  checked={pushEnabled}
+                  onCheckedChange={setPushEnabled}
+                />
               }
             />
             <ListItem
-              label="Weekly email digest"
-              secondaryAction={
-                <Switch on={emailDigest} onChange={setEmailDigest} />
+              title="Weekly email digest"
+              chevron={false}
+              trailing={
+                <Switch
+                  checked={emailDigest}
+                  onCheckedChange={setEmailDigest}
+                />
               }
             />
             <ListItem
-              label="Product updates"
-              secondaryAction={
-                <Switch on={marketing} onChange={setMarketing} />
+              title="Product updates"
+              chevron={false}
+              trailing={
+                <Switch checked={marketing} onCheckedChange={setMarketing} />
               }
             />
           </List>
 
-          <Typography
-            variant="overline"
-            color="secondary"
-            style={{ paddingHorizontal: 16 }}
-          >
-            Account
-          </Typography>
+          <ListSectionTitle>Account</ListSectionTitle>
           <List>
-            <ListItem label="Edit profile" onPress={() => {}} />
-            <ListItem label="Privacy & security" onPress={() => {}} />
-            <ListItem label="Sign out" onPress={() => {}} />
+            <ListItem title="Edit profile" onPress={() => {}} />
+            <ListItem title="Privacy & security" onPress={() => {}} />
+            <ListItem title="Sign out" onPress={() => {}} />
           </List>
         </Stack>
       </ScrollView>
-    </Box>
+    </View>
   );
 }

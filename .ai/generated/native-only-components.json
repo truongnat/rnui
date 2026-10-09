@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "generatedAt": "2026-05-24T04:17:18.862Z",
+  "generatedAt": "2026-10-09T16:14:06.110Z",
   "components": [
     {
       "name": "Modal",
@@ -21,10 +21,10 @@
       "docsPath": "components/alert-dialog"
     },
     {
-      "name": "BottomSheet",
+      "name": "Sheet",
       "status": "beta",
       "reason": "Requires Reanimated gestures and native sheet physics",
-      "docsPath": "components/bottom-sheet"
+      "docsPath": "components/sheet"
     },
     {
       "name": "DatePicker",
@@ -55,6 +55,12 @@
       "status": "beta",
       "reason": "Native context menu / gesture coordination",
       "docsPath": "components/context-menu"
+    },
+    {
+      "name": "DropdownMenu",
+      "status": "beta",
+      "reason": "Anchored overlay positioning and trigger measurement",
+      "docsPath": "components/dropdown-menu"
     },
     {
       "name": "Carousel",

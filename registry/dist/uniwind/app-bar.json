@@ -5,9 +5,9 @@
   "title": "App Bar",
   "description": "Top navigation bar with leading/back, title, and trailing actions.",
   "registryDependencies": [
-    "utils",
-    "text",
-    "theme"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
   ],
   "dependencies": [
     "lucide-react-native"

@@ -1,38 +1,33 @@
 import { useState } from 'react';
 import { View } from 'react-native';
-import { useTokens } from '@truongdq01/headless';
-import {
-  Button,
-  Stepper,
-  Step,
-  StepLabel,
-  StepContent,
-  Typography,
-  Card,
-} from '@truongdq01/ui';
+import { CheckCircle2 } from 'lucide-react-native';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Stack } from '@/components/ui/stack';
+import { Stepper } from '@/components/ui/stepper';
+import { Text } from '@/components/ui/text';
+import { useThemeColor } from '@/lib/utils';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
-import { CheckCircle2, User, CreditCard, Ship } from 'lucide-react-native';
 
 const STEPS = [
   {
     label: 'Account Info',
     description: 'Create your display name and password',
-    icon: User,
   },
   {
     label: 'Payment Method',
     description: 'Add your credit card or PayPal',
-    icon: CreditCard,
   },
   {
     label: 'Shipping',
     description: 'Select your preferred carrier',
-    icon: Ship,
   },
 ];
 
+const STEP_LABELS = STEPS.map((s) => s.label);
+
 export default function StepperScreen() {
-  const t = useTokens();
+  const colors = useThemeColor();
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () =>
@@ -49,109 +44,50 @@ export default function StepperScreen() {
         title="Horizontal"
         description="Labels below indicators — ideal for compact flows."
       >
-        <Stepper activeStep={activeStep}>
-          {STEPS.map((step, index) => (
-            <Step key={step.label} index={index}>
-              <StepLabel>{step.label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+        <Stepper steps={STEP_LABELS} current={activeStep} />
 
-        <Card style={{ marginTop: t.spacing[6], padding: t.spacing[4] }}>
+        <Card className="mt-6 p-4">
           {activeStep < STEPS.length ? (
             <>
-              <Typography variant="h6" gutterBottom>
+              <Text variant="h4" className="mb-1">
                 {STEPS[activeStep].label}
-              </Typography>
-              <Typography variant="body2" color="secondary" paragraph>
-                {STEPS[activeStep].description}
-              </Typography>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  gap: t.spacing[3],
-                  marginTop: t.spacing[4],
-                }}
-              >
+              </Text>
+              <Text variant="muted">{STEPS[activeStep].description}</Text>
+              <View className="mt-4 flex-row gap-3">
                 <Button
-                  label="Back"
                   variant="outline"
                   disabled={activeStep === 0}
                   onPress={handleBack}
-                />
-                <Button
-                  label={activeStep === STEPS.length - 1 ? 'Finish' : 'Next'}
-                  onPress={handleNext}
-                />
+                >
+                  Back
+                </Button>
+                <Button onPress={handleNext}>
+                  {activeStep === STEPS.length - 1 ? 'Finish' : 'Next'}
+                </Button>
               </View>
             </>
           ) : (
-            <View style={{ alignItems: 'center' }}>
-              <CheckCircle2 color={t.color.brand.default} size={48} />
-              <Typography variant="h6" style={{ marginTop: t.spacing[4] }}>
+            <View className="items-center">
+              <CheckCircle2 color={colors.primary} size={48} />
+              <Text variant="h4" className="mt-4">
                 All Steps Completed!
-              </Typography>
-              <Button
-                label="Reset Flow"
-                variant="ghost"
-                onPress={handleReset}
-                style={{ marginTop: t.spacing[4] }}
-              />
+              </Text>
+              <Button variant="ghost" onPress={handleReset} className="mt-4">
+                Reset Flow
+              </Button>
             </View>
           )}
         </Card>
       </DemoSection>
 
       <DemoSection
-        title="Vertical"
-        description="Descriptions alongside each step for complex forms."
+        title="States"
+        description="Mid-flow versus fully completed sequences."
       >
-        <Stepper activeStep={1} orientation="vertical">
-          <Step index={0}>
-            <StepLabel>Selection</StepLabel>
-            <StepContent>
-              <Typography variant="caption" color="secondary">
-                Choose a category to continue.
-              </Typography>
-            </StepContent>
-          </Step>
-          <Step index={1}>
-            <StepLabel>Details</StepLabel>
-            <StepContent>
-              <Typography variant="caption" color="secondary">
-                Provide specific information about your request.
-              </Typography>
-              <Button
-                label="SAVE DETAILS"
-                size="sm"
-                variant="outline"
-                style={{ marginTop: t.spacing[2] }}
-              />
-            </StepContent>
-          </Step>
-          <Step index={2}>
-            <StepLabel>Confirmation</StepLabel>
-          </Step>
-        </Stepper>
-      </DemoSection>
-
-      <DemoSection title="Error State">
-        <Stepper activeStep={1} completed={{ 0: true }}>
-          <Step index={0}>
-            <StepLabel>Applied</StepLabel>
-          </Step>
-          <Step index={1}>
-            <StepLabel
-              subtitle="Verification Failed"
-              style={{ color: t.color.status.error }}
-            >
-              Security
-            </StepLabel>
-          </Step>
-          <Step index={2}>
-            <StepLabel>Review</StepLabel>
-          </Step>
-        </Stepper>
+        <Stack spacing="lg">
+          <Stepper steps={['Cart', 'Payment', 'Review', 'Done']} current={2} />
+          <Stepper steps={['Cart', 'Payment', 'Review', 'Done']} current={4} />
+        </Stack>
       </DemoSection>
     </DemoPage>
   );

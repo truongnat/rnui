@@ -5,8 +5,8 @@
   "title": "Scroll Area",
   "description": "ScrollView wrapper with themed defaults.",
   "registryDependencies": [
-    "utils",
-    "theme"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
   ],
   "files": [
     {

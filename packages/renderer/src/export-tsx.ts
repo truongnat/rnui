@@ -3,7 +3,7 @@ import {
   getLazyLoadPlan,
   type ComponentNode,
   type ScreenSchema,
-} from '@truongdq01/component-schema';
+} from '@rnui/component-schema';
 import { resolveActionName } from './propGuards';
 import {
   isNativeOnlyType,
@@ -12,6 +12,23 @@ import {
 } from './resolve-props';
 import { resolveScreenPadding } from './token-map';
 import type { ExportScreenTsxOptions } from './types';
+
+/** Schema types whose `action` prop maps to `onPress`-style handlers in TSX. */
+const ACTION_TYPES: Record<string, true> = {
+  Button: true,
+  Chip: true,
+  ListItem: true,
+  Checkbox: true,
+  Switch: true,
+};
+
+const ACTION_HANDLER_PROP: Record<string, string> = {
+  Button: 'onPress',
+  Chip: 'onPress',
+  ListItem: 'onPress',
+  Checkbox: 'onCheckedChange',
+  Switch: 'onCheckedChange',
+};
 
 function escapeJsxTextContent(text: string): string {
   if (/[<>&{}]/.test(text)) {
@@ -97,10 +114,15 @@ function renderNodeTsx(node: ComponentNode, indent: number): string {
   const props = { ...resolved.props };
 
   const propParts: string[] = [];
-  const buttonAction = resolveActionName(node.props?.action);
-  if (node.type === 'Button' && buttonAction) {
-    propParts.push(`onPress={handle${toPascalCase(buttonAction)}}`);
+  const actionName = resolveActionName(node.props?.action);
+  if (ACTION_TYPES[node.type] && actionName) {
+    propParts.push(
+      `${ACTION_HANDLER_PROP[node.type]}={handle${toPascalCase(actionName)}}`
+    );
     delete props.action;
+    // resolveNodeRender already turned `action` into a runtime handler fn —
+    // strip it so the schema-level handler name wins.
+    delete props[ACTION_HANDLER_PROP[node.type]];
   }
 
   for (const [key, value] of Object.entries(props)) {
@@ -131,10 +153,6 @@ function renderNodeTsx(node: ComponentNode, indent: number): string {
     return `${pad}<${tag}${propString}>${escapeJsxTextContent(props.children)}</${tag}>`;
   }
 
-  if (node.type === 'Button' && typeof props.label === 'string') {
-    return `${pad}<${tag}${propString} />`;
-  }
-
   const selfClosing = propParts.length > 0 ? ` ${propParts.join(' ')}` : '';
   return `${pad}<${tag}${selfClosing} />`;
 }
@@ -147,20 +165,26 @@ function toPascalCase(value: string): string {
     .join('');
 }
 
-function buildImportLine(schema: ScreenSchema): string {
+function buildImportLines(schema: ScreenSchema): string {
   const plan = getLazyLoadPlan(schema);
-  const named = new Set<string>();
+  /** module specifier → set of named imports */
+  const byModule = new Map<string, Set<string>>();
 
   for (const entry of plan.components) {
-    if (entry.type === 'Screen') {
-      named.add('Stack');
-    } else {
-      named.add(entry.import.named);
-    }
+    const mod = entry.import.from;
+    const named = entry.type === 'Screen' ? 'Stack' : entry.import.named;
+    const bucket = byModule.get(mod) ?? new Set<string>();
+    bucket.add(named);
+    byModule.set(mod, bucket);
   }
 
-  const sorted = [...named].sort();
-  return `import { ${sorted.join(', ')} } from '@truongdq01/ui';`;
+  const lines = [...byModule.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(
+      ([mod, named]) =>
+        `import { ${[...named].sort().join(', ')} } from '${mod}';`
+    );
+  return lines.join('\n');
 }
 
 function buildActionHandlers(schema: ScreenSchema): string {
@@ -191,23 +215,16 @@ export function exportScreenSchemaToTsx(
   options: ExportScreenTsxOptions = {}
 ): string {
   const componentName = options.componentName ?? toPascalCase(schema.id);
-  const includeThemeProvider = options.includeThemeProvider ?? true;
   const includeActionHandlers = options.includeActionHandlers ?? true;
 
-  const importLine = buildImportLine(schema);
-  const themeImport = includeThemeProvider
-    ? "import { ThemeProvider } from '@truongdq01/headless';\n"
-    : '';
+  const importLines = buildImportLines(schema);
   const actionHandlers = includeActionHandlers
     ? buildActionHandlers(schema)
     : '';
 
   const body = renderNodeTsx(schema.root, 2);
-  const wrappedBody = includeThemeProvider
-    ? `<ThemeProvider>\n${body}\n  </ThemeProvider>`
-    : body;
 
-  return `import React from 'react';\n${themeImport}${importLine}\n\nexport function ${componentName}() {${actionHandlers}\n  return (\n    ${wrappedBody}\n  );\n}\n`;
+  return `import React from 'react';\n${importLines}\n\nexport function ${componentName}() {${actionHandlers}\n  return (\n    ${body}\n  );\n}\n`;
 }
 
 export function exportScreenSchemaToTsxFile(

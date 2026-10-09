@@ -1,16 +1,19 @@
-import { Stack, Typography, Paper, Divider } from '@truongdq01/ui';
 import { View } from 'react-native';
-import { useTokens } from '@truongdq01/headless';
+import { Paper } from '@/components/ui/paper';
+import { Separator } from '@/components/ui/separator';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
+import { useThemeColor } from '@/lib/utils';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 const Item = ({ children, padding }: { children: string; padding: number }) => (
   <Paper elevation="sm" style={{ padding, minWidth: 60, alignItems: 'center' }}>
-    <Typography variant="button">{children}</Typography>
+    <Text variant="small">{children}</Text>
   </Paper>
 );
 
 export default function StackScreen() {
-  const t = useTokens();
+  const colors = useThemeColor();
 
   return (
     <DemoPage
@@ -23,9 +26,9 @@ export default function StackScreen() {
       >
         <DemoPreview>
           <Stack spacing="md">
-            <Item padding={t.spacing[3]}>Item 1</Item>
-            <Item padding={t.spacing[3]}>Item 2</Item>
-            <Item padding={t.spacing[3]}>Item 3</Item>
+            <Item padding={12}>Item 1</Item>
+            <Item padding={12}>Item 2</Item>
+            <Item padding={12}>Item 3</Item>
           </Stack>
         </DemoPreview>
       </DemoSection>
@@ -36,9 +39,9 @@ export default function StackScreen() {
       >
         <DemoPreview>
           <Stack direction="row" spacing="lg">
-            <Item padding={t.spacing[3]}>1</Item>
-            <Item padding={t.spacing[3]}>2</Item>
-            <Item padding={t.spacing[3]}>3</Item>
+            <Item padding={12}>1</Item>
+            <Item padding={12}>2</Item>
+            <Item padding={12}>3</Item>
           </Stack>
         </DemoPreview>
       </DemoSection>
@@ -48,10 +51,10 @@ export default function StackScreen() {
         description="Insert dividers between each child."
       >
         <DemoPreview>
-          <Stack spacing="md" divider={<Divider />}>
-            <Item padding={t.spacing[3]}>Top</Item>
-            <Item padding={t.spacing[3]}>Middle</Item>
-            <Item padding={t.spacing[3]}>Bottom</Item>
+          <Stack spacing="md" divider={<Separator />}>
+            <Item padding={12}>Top</Item>
+            <Item padding={12}>Middle</Item>
+            <Item padding={12}>Bottom</Item>
           </Stack>
         </DemoPreview>
       </DemoSection>
@@ -65,30 +68,30 @@ export default function StackScreen() {
             <Stack direction="row" spacing="xs">
               <View
                 style={{
-                  width: t.spacing[10],
-                  height: t.spacing[10],
-                  backgroundColor: t.color.brand.default,
-                  borderRadius: t.radius.full,
+                  width: 40,
+                  height: 40,
+                  backgroundColor: colors.primary,
+                  borderRadius: 9999,
                 }}
               />
               <View
                 style={{
-                  width: t.spacing[10],
-                  height: t.spacing[10],
-                  backgroundColor: t.color.warning.border,
-                  borderRadius: t.radius.full,
+                  width: 40,
+                  height: 40,
+                  backgroundColor: '#f59e0b',
+                  borderRadius: 9999,
                 }}
               />
               <View
                 style={{
-                  width: t.spacing[10],
-                  height: t.spacing[10],
-                  backgroundColor: t.color.success.border,
-                  borderRadius: t.radius.full,
+                  width: 40,
+                  height: 40,
+                  backgroundColor: '#16a34a',
+                  borderRadius: 9999,
                 }}
               />
             </Stack>
-            <Typography variant="h6">Centered Stack</Typography>
+            <Text variant="h4">Centered Stack</Text>
           </Stack>
         </DemoPreview>
       </DemoSection>

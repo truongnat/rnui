@@ -23,19 +23,19 @@ Review the following React Native screen(s) for **correct RNUI usage**.
 
 #### Component selection
 
-- [ ] Uses `@truongdq01/ui` components instead of custom Button/Card/Input/Typography/Stack
+- [ ] Uses registry components via `@/components/ui/<kebab>` imports instead of custom Button/Card/Input/Text/Stack
 - [ ] Components exist in `.ai/component-registry.json`
-- [ ] Beta/experimental components used only where justified
+- [ ] Registry components used only where they fit (do not force composites)
 
 #### Theming and tokens
 
 - [ ] No hardcoded hex colors for semantic UI
-- [ ] Spacing/radius via RNUI props or `useTokens()` — not random numbers
+- [ ] Spacing/radius via component props (`spacing`, `gap`) or Tailwind classes — not random numbers
 - [ ] Dark mode compatible (no light-only assumptions)
 
 #### Layout
 
-- [ ] Layout uses Stack/Box/Grid — not nested Views with manual margins everywhere
+- [ ] Layout uses Stack/View(flex)/Grid — not nested Views with manual margins everywhere
 - [ ] Mobile-readable spacing and touch targets ≥ 44pt
 
 #### States
@@ -46,7 +46,7 @@ Review the following React Native screen(s) for **correct RNUI usage**.
 #### Accessibility
 
 - [ ] Icon-only actions have `accessibilityLabel`
-- [ ] Typography heading hierarchy where needed
+- [ ] `Text` heading variants + `accessibilityRole="header"` where needed
 
 #### Architecture
 

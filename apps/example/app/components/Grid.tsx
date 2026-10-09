@@ -1,46 +1,29 @@
 import { View } from 'react-native';
-import { Typography, Box, Stack } from '@truongdq01/ui';
-import { useTheme } from '@truongdq01/headless';
+import { Grid, GridItem } from '@/components/ui/grid';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 export default function GridScreen() {
-  const { tokens } = useTheme();
-
   return (
     <DemoPage
       title="Grid Layout"
-      description="Responsive grid patterns using Box and Stack."
+      description="Responsive grid patterns using Grid and GridItem."
     >
       <DemoSection
         title="2-Column Grid"
         description="Equal-width cells with wrap."
       >
         <DemoPreview>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              gap: tokens.spacing[4],
-            }}
-          >
+          <Grid columns={2} gap="md">
             {[1, 2, 3, 4].map((i) => (
-              <Box
+              <View
                 key={i}
-                style={{
-                  width: '46.5%',
-                  height: tokens.spacing[14],
-                  backgroundColor: tokens.color.bg.subtle,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: tokens.radius.md,
-                  borderWidth: 1,
-                  borderColor: tokens.color.border.default,
-                }}
+                className="h-14 items-center justify-center rounded-md border border-border bg-muted"
               >
-                <Typography variant="h4">{i}</Typography>
-              </Box>
+                <Text variant="h4">{i}</Text>
+              </View>
             ))}
-          </View>
+          </Grid>
         </DemoPreview>
       </DemoSection>
 
@@ -49,75 +32,37 @@ export default function GridScreen() {
         description="Square aspect-ratio cells."
       >
         <DemoPreview>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              gap: tokens.spacing[3],
-            }}
-          >
+          <Grid columns={3} gap="sm">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <Box
+              <View
                 key={i}
-                style={{
-                  width: '30.5%',
-                  aspectRatio: 1,
-                  backgroundColor: tokens.color.brand.muted,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: tokens.radius.sm,
-                }}
+                className="aspect-square items-center justify-center rounded-sm bg-primary/10"
               >
-                <Typography
-                  variant="body1"
-                  style={{ color: tokens.color.brand.text }}
-                >
-                  {i}
-                </Typography>
-              </Box>
+                <Text className="text-primary">{i}</Text>
+              </View>
             ))}
-          </View>
+          </Grid>
         </DemoPreview>
       </DemoSection>
 
       <DemoSection
-        title="Mixed Spacing"
+        title="Mixed Spans"
         description="Combine full-width and split rows."
       >
-        <Stack spacing="lg">
-          <Box
-            style={{
-              height: tokens.spacing[14],
-              backgroundColor: tokens.color.bg.subtle,
-              borderRadius: tokens.radius.md,
-            }}
-          />
-          <View style={{ flexDirection: 'row', gap: tokens.spacing[4] }}>
-            <Box
-              style={{
-                flex: 2,
-                height: tokens.spacing[14],
-                backgroundColor: tokens.color.bg.subtle,
-                borderRadius: tokens.radius.md,
-              }}
-            />
-            <Box
-              style={{
-                flex: 1,
-                height: tokens.spacing[14],
-                backgroundColor: tokens.color.bg.subtle,
-                borderRadius: tokens.radius.md,
-              }}
-            />
-          </View>
-          <Box
-            style={{
-              height: tokens.spacing[14],
-              backgroundColor: tokens.color.bg.subtle,
-              borderRadius: tokens.radius.md,
-            }}
-          />
-        </Stack>
+        <Grid columns={3} gap="md">
+          <GridItem span={3}>
+            <View className="h-14 rounded-md bg-muted" />
+          </GridItem>
+          <GridItem span={2}>
+            <View className="h-14 rounded-md bg-muted" />
+          </GridItem>
+          <GridItem span={1}>
+            <View className="h-14 rounded-md bg-muted" />
+          </GridItem>
+          <GridItem span={3}>
+            <View className="h-14 rounded-md bg-muted" />
+          </GridItem>
+        </Grid>
       </DemoSection>
     </DemoPage>
   );

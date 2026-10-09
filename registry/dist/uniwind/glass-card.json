@@ -5,7 +5,7 @@
   "title": "Glass Card",
   "description": "Translucent blur card (expo-blur with fallback).",
   "registryDependencies": [
-    "utils"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json"
   ],
   "files": [
     {

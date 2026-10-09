@@ -1,12 +1,11 @@
-import type React from 'react';
-import { useMemo } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Typography } from '@truongdq01/ui';
-import { useTheme } from '@truongdq01/headless';
+import { Text } from '@/components/ui/text';
+import { useThemeColor } from '@/lib/utils';
+import { DemoThemeControls } from '@/demo/DemoThemeControls';
 import { ChevronLeft } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
-import { DemoThemeControls } from '@/demo/DemoThemeControls';
+import type React from 'react';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface DemoPageProps {
   title: string;
@@ -14,7 +13,7 @@ interface DemoPageProps {
   children: React.ReactNode;
   scrollable?: boolean;
   floatingContent?: React.ReactNode;
-  /** Show global theme preview FAB (light/dark + brand). Default true. */
+  /** Show global theme preview FAB (light/dark/system). Default true. */
   showThemeControls?: boolean;
 }
 
@@ -26,90 +25,50 @@ export const DemoPage: React.FC<DemoPageProps> = ({
   floatingContent,
   showThemeControls = true,
 }) => {
-  const { tokens } = useTheme();
+  const colors = useThemeColor();
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
-  const themedStyles = useMemo(
-    () =>
-      StyleSheet.create({
-        scrollContent: {
-          paddingHorizontal: tokens.spacing[4],
-        },
-        introSection: {
-          marginTop: tokens.spacing[4],
-          marginBottom: tokens.spacing[2],
-          gap: tokens.spacing[2],
-        },
-        description: {
-          lineHeight: tokens.fontSize.md * 1.55,
-        },
-        content: {
-          gap: tokens.spacing[5],
-        },
-        header: {
-          paddingBottom: tokens.spacing[3],
-          paddingHorizontal: tokens.spacing[3],
-          borderBottomWidth: StyleSheet.hairlineWidth,
-          borderBottomColor: tokens.color.border.subtle,
-          backgroundColor: tokens.color.surface.default,
-        },
-      }),
-    [tokens]
-  );
-
   const renderContent = () => (
-    <View
-      style={[
-        themedStyles.introSection,
-        !scrollable && styles.introSectionStatic,
-      ]}
-    >
+    <View style={[styles.introSection, !scrollable && styles.flex]}>
       {description ? (
-        <Typography
-          variant="body1"
-          color="secondary"
-          style={themedStyles.description}
-        >
+        <Text variant="muted" style={styles.description}>
           {description}
-        </Typography>
+        </Text>
       ) : null}
-      <View style={[themedStyles.content, !scrollable && styles.contentStatic]}>
+      <View style={[styles.content, !scrollable && styles.flex]}>
         {children}
       </View>
     </View>
   );
 
   return (
-    <View
-      style={[styles.container, { backgroundColor: tokens.color.bg.subtle }]}
-    >
+    <View className="flex-1 bg-background">
       <View
+        className="bg-card"
         style={[
           styles.header,
-          themedStyles.header,
-          { paddingTop: insets.top + tokens.spacing[1.5] },
+          {
+            paddingTop: insets.top + 6,
+            borderBottomColor: colors.border,
+          },
         ]}
       >
         <Pressable
           onPress={() => router.back()}
           style={({ pressed }) => [
             styles.backButton,
-            pressed && { opacity: tokens.opacity[70] },
+            pressed && { opacity: 0.7 },
           ]}
           accessibilityRole="button"
           accessibilityLabel="Go back"
         >
-          <ChevronLeft color={tokens.color.text.primary} size={24} />
+          <ChevronLeft color={colors.foreground} size={24} />
         </Pressable>
         <View style={styles.headerTitleContainer}>
-          <Typography
-            variant="subtitle1"
-            align="center"
-            style={{ fontWeight: tokens.fontWeight.semibold }}
-          >
+          <Text variant="large" style={styles.headerTitle}>
             {title}
-          </Typography>
+          </Text>
         </View>
         <View style={styles.headerPlaceholder} />
       </View>
@@ -117,10 +76,10 @@ export const DemoPage: React.FC<DemoPageProps> = ({
       {scrollable ? (
         <ScrollView
           keyboardShouldPersistTaps="handled"
-          style={styles.container}
+          style={styles.flex}
           contentContainerStyle={[
-            themedStyles.scrollContent,
-            { paddingBottom: insets.bottom + tokens.spacing[8] },
+            styles.scrollContent,
+            { paddingBottom: insets.bottom + 32 },
           ]}
         >
           {renderContent()}
@@ -128,10 +87,9 @@ export const DemoPage: React.FC<DemoPageProps> = ({
       ) : (
         <View
           style={[
-            styles.container,
-            themedStyles.scrollContent,
-            styles.scrollContentStatic,
-            { paddingBottom: insets.bottom + tokens.spacing[4] },
+            styles.flex,
+            styles.scrollContent,
+            { paddingBottom: insets.bottom + 16 },
           ]}
         >
           {renderContent()}
@@ -157,48 +115,33 @@ export const DemoSection: React.FC<{
   /** When true, skip the outer surface card — for demos that are already card-like */
   bare?: boolean;
 }> = ({ title, description, children, flush = false, bare = false }) => {
-  const { tokens } = useTheme();
+  const colors = useThemeColor();
 
   const header = (
-    <View
-      style={{ gap: tokens.spacing[1], paddingHorizontal: tokens.spacing[0.5] }}
-    >
-      <Typography
-        variant="subtitle2"
-        style={{ fontWeight: tokens.fontWeight.semibold }}
-      >
-        {title}
-      </Typography>
-      {description ? (
-        <Typography variant="body2" color="secondary">
-          {description}
-        </Typography>
-      ) : null}
+    <View style={styles.sectionHeader}>
+      <Text variant="large">{title}</Text>
+      {description ? <Text variant="muted">{description}</Text> : null}
     </View>
   );
 
   if (bare) {
     return (
-      <View style={{ gap: tokens.spacing[3] }}>
+      <View style={styles.bareSection}>
         {header}
-        <View style={{ gap: tokens.spacing[3] }}>{children}</View>
+        <View style={styles.bareContent}>{children}</View>
       </View>
     );
   }
 
   return (
-    <View style={{ gap: tokens.spacing[2] }}>
+    <View style={styles.section}>
       {header}
       <View
-        style={{
-          backgroundColor: tokens.color.surface.default,
-          borderRadius: tokens.radius.lg,
-          borderWidth: StyleSheet.hairlineWidth,
-          borderColor: tokens.color.border.subtle,
-          padding: flush ? 0 : tokens.spacing[4],
-          gap: tokens.spacing[3],
-          overflow: 'hidden',
-        }}
+        className="bg-card"
+        style={[
+          styles.sectionCard,
+          { borderColor: colors.border, padding: flush ? 0 : 16 },
+        ]}
       >
         {children}
       </View>
@@ -210,19 +153,7 @@ export const DemoSection: React.FC<{
 export const DemoPreview: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { tokens } = useTheme();
-  return (
-    <View
-      style={{
-        padding: tokens.spacing[4],
-        borderRadius: tokens.radius.md,
-        backgroundColor: tokens.color.surface.sunken,
-        gap: tokens.spacing[3],
-      }}
-    >
-      {children}
-    </View>
-  );
+  return <View className="rounded-md bg-muted p-4 gap-3">{children}</View>;
 };
 
 export const DemoGroup: React.FC<{
@@ -231,18 +162,13 @@ export const DemoGroup: React.FC<{
   direction?: 'row' | 'column';
   label?: string;
 }> = ({ children, gap, direction = 'row', label }) => {
-  const { tokens } = useTheme();
   return (
-    <View style={{ gap: tokens.spacing[2] }}>
-      {label ? (
-        <Typography variant="caption" color="tertiary">
-          {label}
-        </Typography>
-      ) : null}
+    <View style={styles.group}>
+      {label ? <Text variant="muted">{label}</Text> : null}
       <View
         style={[
-          direction === 'row' ? styles.group : styles.groupColumn,
-          { gap: gap ?? tokens.spacing[3] },
+          direction === 'row' ? styles.groupRow : styles.groupColumn,
+          { gap: gap ?? 12 },
         ]}
       >
         {children}
@@ -252,13 +178,16 @@ export const DemoGroup: React.FC<{
 };
 
 const styles = StyleSheet.create({
-  container: {
+  flex: {
     flex: 1,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 10,
+    paddingBottom: 12,
+    paddingHorizontal: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   backButton: {
     zIndex: 10,
@@ -271,19 +200,49 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  headerTitle: {
+    textAlign: 'center',
+  },
   headerPlaceholder: {
     width: 44,
   },
-  scrollContentStatic: {
-    flex: 1,
+  scrollContent: {
+    paddingHorizontal: 16,
   },
-  introSectionStatic: {
-    flex: 1,
+  introSection: {
+    marginTop: 16,
+    marginBottom: 8,
+    gap: 8,
   },
-  contentStatic: {
-    flex: 1,
+  description: {
+    lineHeight: 22,
+  },
+  content: {
+    gap: 20,
+  },
+  section: {
+    gap: 8,
+  },
+  sectionHeader: {
+    gap: 4,
+    paddingHorizontal: 2,
+  },
+  sectionCard: {
+    borderRadius: 12,
+    borderWidth: StyleSheet.hairlineWidth,
+    gap: 12,
+    overflow: 'hidden',
+  },
+  bareSection: {
+    gap: 12,
+  },
+  bareContent: {
+    gap: 12,
   },
   group: {
+    gap: 8,
+  },
+  groupRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',

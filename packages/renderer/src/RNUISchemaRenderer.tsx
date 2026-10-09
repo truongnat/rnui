@@ -1,9 +1,6 @@
 import React, { useMemo } from 'react';
-import * as UI from '@truongdq01/ui';
-import {
-  createDefaultComponentMap,
-  prepareScreenRender,
-} from './component-loader';
+import { prepareScreenRender } from './component-loader';
+import { createDefaultComponentMap } from './componentMap';
 import { renderNode } from './render-node';
 import { SchemaValidationPanel } from './validation-panel';
 import type { RNUISchemaRendererProps } from './types';
@@ -25,8 +22,10 @@ export function RNUISchemaRenderer({
     [schema, requireWebPreview]
   );
 
+  // Callers inject registry kit components; structural aliases (Screen →
+  // Stack/View) are filled in. No bundled UI package — pass a componentMap.
   const resolvedMap = useMemo(
-    () => componentMap ?? createDefaultComponentMap(UI),
+    () => createDefaultComponentMap(componentMap ?? {}),
     [componentMap]
   );
 
@@ -60,24 +59,4 @@ export function renderSchemaToElement(
   options: Omit<RNUISchemaRendererProps, 'schema'> = {}
 ): React.ReactElement | null {
   return React.createElement(RNUISchemaRenderer, { schema, ...options });
-}
-
-/** @deprecated Use RNUISchemaRenderer */
-export function ScreenSchemaRenderer(
-  props: Omit<RNUISchemaRendererProps, 'mode'> & {
-    onValidationError?: (errors: string[]) => void;
-  }
-): React.ReactElement | null {
-  return (
-    <RNUISchemaRenderer
-      schema={props.schema}
-      componentMap={props.componentMap}
-      actions={props.actions}
-      onAction={props.onAction}
-      requireWebPreview={props.requireWebPreview}
-      onValidationError={props.onValidationError}
-      fallbackComponent={props.fallbackComponent}
-      renderUnsupported={props.renderUnsupported}
-    />
-  );
 }

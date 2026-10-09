@@ -5,16 +5,16 @@
   "title": "Text Field",
   "description": "Label + input + description/error composite.",
   "registryDependencies": [
-    "utils",
-    "form",
-    "input"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/form.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/input.json"
   ],
   "files": [
     {
       "path": "registry/shared/ui/text-field.tsx",
       "type": "registry:ui",
       "target": "components/ui/text-field.tsx",
-      "content": "import {\n  FormDescription,\n  FormField,\n  FormLabel,\n  FormMessage,\n} from '@/components/ui/form';\nimport { Input, type InputProps } from '@/components/ui/input';\nimport { cn } from '@/lib/utils';\n\nexport interface TextFieldProps extends InputProps {\n  /** Label above the input. Appends ` *` when `required`. */\n  label?: string;\n  /** Appends ` *` to the label. */\n  required?: boolean;\n  /** Helper text under the input — hidden while `error` is set. */\n  description?: string;\n  /** Error message; also marks the input invalid via FormFieldContext. */\n  error?: string;\n  labelClassName?: string;\n  descriptionClassName?: string;\n  /** Classes for the Input itself — `className` targets the field container. */\n  inputClassName?: string;\n}\n\n/**\n * Composite field: label + input + description/error message, wired through\n * `FormFieldContext` so `Input` picks up `nativeID` and the destructive\n * border automatically.\n */\nexport function TextField({\n  label,\n  required,\n  description,\n  error,\n  className,\n  labelClassName,\n  descriptionClassName,\n  inputClassName,\n  ...inputProps\n}: TextFieldProps) {\n  const labelText = required && label ? `${label} *` : label;\n  return (\n    <FormField error={error} className={cn(className)}>\n      {label ? <FormLabel className={labelClassName}>{labelText}</FormLabel> : null}\n      <Input className={inputClassName} {...inputProps} />\n      {error ? (\n        <FormMessage />\n      ) : description ? (\n        <FormDescription className={descriptionClassName}>\n          {description}\n        </FormDescription>\n      ) : null}\n    </FormField>\n  );\n}\n"
+      "content": "import {\n  FormDescription,\n  FormField,\n  FormLabel,\n  FormMessage,\n} from '@/components/ui/form';\nimport { Input, type InputProps } from '@/components/ui/input';\nimport { cn } from '@/lib/utils';\n\nexport interface TextFieldProps extends InputProps {\n  /** Label above the input. Appends ` *` when `required`. */\n  label?: string;\n  /** Appends ` *` to the label. */\n  required?: boolean;\n  /** Helper text under the input — hidden while `error` is set. */\n  description?: string;\n  /** Error message; also marks the input invalid via FormFieldContext. */\n  error?: string;\n  labelClassName?: string;\n  descriptionClassName?: string;\n  /** Classes for the Input itself — `className` targets the field container. */\n  inputClassName?: string;\n}\n\n/**\n * Composite field: label + input + description/error message, wired through\n * `FormFieldContext` so `Input` picks up `nativeID` and the destructive\n * border automatically.\n */\nexport function TextField({\n  label,\n  required,\n  description,\n  error,\n  className,\n  labelClassName,\n  descriptionClassName,\n  inputClassName,\n  ...inputProps\n}: TextFieldProps) {\n  const labelText = required && label ? `${label} *` : label;\n  return (\n    <FormField error={error} className={cn(className)}>\n      {label ? (\n        <FormLabel className={labelClassName}>{labelText}</FormLabel>\n      ) : null}\n      <Input className={inputClassName} {...inputProps} />\n      {error ? (\n        <FormMessage />\n      ) : description ? (\n        <FormDescription className={descriptionClassName}>\n          {description}\n        </FormDescription>\n      ) : null}\n    </FormField>\n  );\n}\n"
     }
   ]
 }

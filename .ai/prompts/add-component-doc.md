@@ -14,22 +14,26 @@ Write documentation for an **existing** RNUI component. Do **not** create a new 
 
 ### Sources to read first
 
-1. `packages/ui/src/components/[Component]/` — implementation and types
+1. `registry/shared/ui/<kebab>.tsx` — implementation and types (source of truth)
 2. `.ai/component-registry.json` — current metadata entry
-3. `docs/src/content/docs/components/` — existing doc if any
-4. `apps/example/app/components/[Component].tsx` — usage demo (may have API drift)
-5. `docs/src/content/docs/components/status.md` — maturity status
+3. `registry/registry.json` — catalog item (title, description, files, peers)
+4. `apps/example` — usage demo if present (may have API drift)
+5. `registry/README.md` — registry conventions and variant notes
 
-### Output: Starlight doc page
+### Output: registry metadata + usage doc
 
-Create or update `docs/src/content/docs/components/[slug].mdx` with:
+Update the component's `registry/registry.json` item description and, when a docs surface exists, its page, with:
 
 1. **Frontmatter** — `title`, `description`
 2. **Overview** — one paragraph on purpose
-3. **Import**
+3. **Install + import**
+
+   ```bash
+   npx @rnui/cli add <kebab-name>
+   ```
 
    ```tsx
-   import { ComponentName } from '@truongdq01/ui';
+   import { ComponentName } from '@/components/ui/<kebab-name>';
    ```
 
 4. **Basic usage** — minimal working example
@@ -43,7 +47,7 @@ Create or update `docs/src/content/docs/components/[slug].mdx` with:
 ### Also update
 
 - `.ai/component-registry.json` entry if props or hints changed
-- `docs/src/content/docs/components/status.md` if maturity changed
+- `registry/registry.json` item description if the summary changed
 
 ### Rules
 

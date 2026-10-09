@@ -1,28 +1,23 @@
-import { useToast } from '@truongdq01/headless';
-import { Calendar, Card, Stack, Typography } from '@truongdq01/ui';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { useToast } from '@/components/ui/toast';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 const today = new Date();
-const nextQuarterEnd = new Date(today.getFullYear(), today.getMonth() + 3, 0);
 
 export default function CalendarScreen() {
-  const toast = useToast();
-  const [selectedDate, setSelectedDate] = useState<Date | null>(today);
-  const [travelRange, setTravelRange] = useState({
-    start: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 3),
-    end: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 8),
-  });
-
-  const weekendConstraint = useMemo(
-    () => (date: Date) =>
-      date.getDay() === 0 || date.getDay() === 6
-        ? {
-            disabled: true,
-            reason: 'Weekends are blocked for delivery scheduling.',
-          }
-        : false,
-    []
+  const { toast } = useToast();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(today);
+  const [bookingDate, setBookingDate] = useState<Date | undefined>();
+  const [visibleMonth, setVisibleMonth] = useState(
+    new Date(today.getFullYear(), today.getMonth() + 1, 1)
   );
 
   return (
@@ -35,65 +30,49 @@ export default function CalendarScreen() {
         description="Choose one appointment date with the surrounding month visible."
       >
         <Card>
-          <Stack spacing="md">
-            <Typography variant="subtitle2">Book an onboarding call</Typography>
+          <CardHeader>
+            <CardTitle>Book an onboarding call</CardTitle>
+            <CardDescription>
+              {selectedDate
+                ? `Selected ${selectedDate.toDateString()}`
+                : 'Pick a day to continue.'}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
             <Calendar
-              value={selectedDate}
-              onChange={(date) => {
+              selected={selectedDate}
+              onSelect={(date) => {
                 setSelectedDate(date);
-                if (date) {
-                  toast.info(`Selected ${date.toDateString()}`);
-                }
+                toast.info(`Selected ${date.toDateString()}`);
               }}
-              minimumDate={today}
-              maximumDate={nextQuarterEnd}
             />
-          </Stack>
+          </CardContent>
         </Card>
       </DemoSection>
 
       <DemoSection
-        title="Range selection"
-        description="Use range mode when the user needs a start and end date together."
+        title="Controlled month"
+        description="Drive the visible month from outside — e.g. jump to a billing period."
       >
         <Card>
-          <Stack spacing="md">
-            <Typography variant="subtitle2">Plan your stay</Typography>
+          <CardHeader>
+            <CardTitle>Plan your stay</CardTitle>
+            <CardDescription>
+              Viewing{' '}
+              {visibleMonth.toLocaleString(undefined, {
+                month: 'long',
+                year: 'numeric',
+              })}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
             <Calendar
-              selectionMode="range"
-              range={travelRange}
-              onRangeChange={setTravelRange}
-              numberOfMonths={2}
-              minimumDate={today}
+              selected={bookingDate}
+              onSelect={setBookingDate}
+              month={visibleMonth}
+              onMonthChange={setVisibleMonth}
             />
-          </Stack>
-        </Card>
-      </DemoSection>
-
-      <DemoSection
-        title="Constraints"
-        description="Disable invalid days and explain why they are unavailable."
-      >
-        <Card>
-          <Stack spacing="md">
-            <Typography variant="subtitle2">
-              Delivery slots on business days only
-            </Typography>
-            <Calendar
-              value={selectedDate}
-              onChange={setSelectedDate}
-              dateConstraints={weekendConstraint}
-              onUnavailableDatePress={(_, reason) => {
-                if (reason) {
-                  toast.warning(reason);
-                }
-              }}
-            />
-            <Typography variant="caption" color="tertiary">
-              Weekends are intentionally blocked because the support team is
-              offline.
-            </Typography>
-          </Stack>
+          </CardContent>
         </Card>
       </DemoSection>
     </DemoPage>

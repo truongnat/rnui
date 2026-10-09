@@ -6,10 +6,7 @@
     "incremental": true,
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
     "paths": {
-      "@truongdq01/component-schema": ["../component-schema/dist"],
-      "@truongdq01/ui": ["../ui/dist"],
-      "@truongdq01/headless": ["../headless/dist"],
-      "@truongdq01/tokens": ["../tokens/dist"]
+      "@rnui/component-schema": ["../component-schema/dist"]
     }
   },
   "include": ["src"],

@@ -1,3 +1,10 @@
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
+import { useToast } from '@/components/ui/toast';
+import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
+import { rendererComponentMap } from '@/demo/rendererComponentMap';
 import {
   builtInScreenSchemaExamples,
   dashboardScreenSchemaExample,
@@ -6,19 +13,16 @@ import {
   profileCardScreenSchemaExample,
   settingsScreenSchemaExample,
   type ScreenSchema,
-} from '@truongdq01/component-schema';
+} from '@rnui/component-schema';
 import {
   createLazyLoadPlan,
   exportSchemaToTsx,
   RNUISchemaRenderer,
   validateBeforeRender,
   type RendererAction,
-} from '@truongdq01/renderer';
-import { useToast } from '@truongdq01/headless';
-import { Button, Card, Stack, Typography } from '@truongdq01/ui';
+} from '@rnui/renderer';
 import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 type ExampleKey = 'login' | 'settings' | 'profile' | 'dashboard' | 'form';
 
@@ -31,7 +35,7 @@ const EXAMPLES: Record<ExampleKey, ScreenSchema> = {
 };
 
 export default function AIRendererScreen() {
-  const toast = useToast();
+  const { toast } = useToast();
   const [activeKey, setActiveKey] = useState<ExampleKey>('login');
   const [schema, setSchema] = useState<ScreenSchema>(loginScreenSchemaExample);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
@@ -98,6 +102,14 @@ export default function AIRendererScreen() {
     [handleAction]
   );
 
+  const loadButtons: Array<{ key: ExampleKey; label: string }> = [
+    { key: 'login', label: 'Load Login' },
+    { key: 'settings', label: 'Load Settings' },
+    { key: 'profile', label: 'Profile card' },
+    { key: 'dashboard', label: 'Dashboard' },
+    { key: 'form', label: 'Form' },
+  ];
+
   return (
     <DemoPage
       title="AI Render Preview"
@@ -105,39 +117,19 @@ export default function AIRendererScreen() {
     >
       <DemoSection
         title="Example schemas"
-        description={`${builtInScreenSchemaExamples.length} built-in fixtures from @truongdq01/component-schema.`}
+        description={`${builtInScreenSchemaExamples.length} built-in fixtures from @rnui/component-schema.`}
       >
         <Stack direction="row" spacing="sm" wrap>
-          <Button
-            label="Load Login"
-            size="sm"
-            variant={activeKey === 'login' ? 'solid' : 'outline'}
-            onPress={() => loadExample('login')}
-          />
-          <Button
-            label="Load Settings"
-            size="sm"
-            variant={activeKey === 'settings' ? 'solid' : 'outline'}
-            onPress={() => loadExample('settings')}
-          />
-          <Button
-            label="Profile card"
-            size="sm"
-            variant={activeKey === 'profile' ? 'solid' : 'outline'}
-            onPress={() => loadExample('profile')}
-          />
-          <Button
-            label="Dashboard"
-            size="sm"
-            variant={activeKey === 'dashboard' ? 'solid' : 'outline'}
-            onPress={() => loadExample('dashboard')}
-          />
-          <Button
-            label="Form"
-            size="sm"
-            variant={activeKey === 'form' ? 'solid' : 'outline'}
-            onPress={() => loadExample('form')}
-          />
+          {loadButtons.map(({ key, label }) => (
+            <Button
+              key={key}
+              size="sm"
+              variant={activeKey === key ? 'default' : 'outline'}
+              onPress={() => loadExample(key)}
+            >
+              {label}
+            </Button>
+          ))}
         </Stack>
       </DemoSection>
 
@@ -146,26 +138,21 @@ export default function AIRendererScreen() {
         description="Validate, export, or trigger a sample action."
       >
         <Stack direction="row" spacing="sm" wrap>
+          <Button size="sm" variant="outline" onPress={runValidate}>
+            Validate
+          </Button>
+          <Button size="sm" variant="outline" onPress={runExport}>
+            Export TSX
+          </Button>
           <Button
-            label="Validate"
-            size="sm"
-            variant="outline"
-            onPress={runValidate}
-          />
-          <Button
-            label="Export TSX"
-            size="sm"
-            variant="outline"
-            onPress={runExport}
-          />
-          <Button
-            label="Trigger sample action"
             size="sm"
             variant="ghost"
             onPress={() =>
               handleAction({ name: 'sample', sourceNodeId: 'demo' })
             }
-          />
+          >
+            Trigger sample action
+          </Button>
         </Stack>
       </DemoSection>
 
@@ -178,6 +165,7 @@ export default function AIRendererScreen() {
             <RNUISchemaRenderer
               schema={schema}
               requireWebPreview={false}
+              componentMap={rendererComponentMap}
               actions={actionHandlers}
               onAction={handleAction}
               onValidationError={setValidationErrors}
@@ -185,9 +173,7 @@ export default function AIRendererScreen() {
           </View>
         </DemoPreview>
         {lastAction ? (
-          <Typography variant="caption" color="secondary">
-            Last action: {lastAction}
-          </Typography>
+          <Text variant="muted">Last action: {lastAction}</Text>
         ) : null}
       </DemoSection>
 
@@ -195,23 +181,25 @@ export default function AIRendererScreen() {
         title="Validation"
         description="Latest validateBeforeRender output."
       >
-        <Card padding="md">
+        <Card className="p-4">
           <Stack spacing="xs">
             {validationErrors.length === 0 ? (
-              <Typography variant="body2" color="secondary">
-                No validation errors recorded.
-              </Typography>
+              <Text variant="muted">No validation errors recorded.</Text>
             ) : (
               validationErrors.map((message) => (
-                <Typography key={message} variant="caption" color="error">
+                <Text
+                  key={message}
+                  variant="small"
+                  className="text-destructive"
+                >
                   {message}
-                </Typography>
+                </Text>
               ))
             )}
             {validationWarnings.map((message) => (
-              <Typography key={message} variant="caption" color="tertiary">
+              <Text key={message} variant="small" className="text-muted">
                 {message}
-              </Typography>
+              </Text>
             ))}
           </Stack>
         </Card>
@@ -221,10 +209,8 @@ export default function AIRendererScreen() {
         title="Lazy-load plan"
         description="Unique component types required by the current schema."
       >
-        <Card padding="md">
-          <Typography variant="body2">
-            {uniqueComponentTypes.join(', ') || '—'}
-          </Typography>
+        <Card className="p-4">
+          <Text>{uniqueComponentTypes.join(', ') || '—'}</Text>
         </Card>
       </DemoSection>
 
@@ -233,11 +219,11 @@ export default function AIRendererScreen() {
           title="Exported TSX"
           description="Static export — handlers are TODO stubs."
         >
-          <Card padding="md">
+          <Card className="p-4">
             <ScrollView horizontal>
-              <Typography variant="caption" style={{ fontFamily: 'Menlo' }}>
+              <Text variant="small" style={{ fontFamily: 'Menlo' }}>
                 {exportedTsx}
-              </Typography>
+              </Text>
             </ScrollView>
           </Card>
         </DemoSection>

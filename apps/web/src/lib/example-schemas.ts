@@ -1,4 +1,4 @@
-import type { ScreenSchema } from '@truongdq01/component-schema';
+import type { ScreenSchema } from '@rnui/component-schema';
 import dashboardSchema from '../../../../.ai/examples/schemas/dashboard.schema.json';
 import formSchema from '../../../../.ai/examples/schemas/form.schema.json';
 import loginSchema from '../../../../.ai/examples/schemas/login.schema.json';

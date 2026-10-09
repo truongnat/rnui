@@ -1,45 +1,9 @@
-import { useMemo } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
-import { useTokens } from '@truongdq01/headless';
-import { GlassCard, Typography } from '@truongdq01/ui';
+import { GlassCard } from '@/components/ui/glass-card';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function GlassCardScreen() {
-  const t = useTokens();
-
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        background: {
-          height: 200,
-          width: '100%',
-          borderRadius: t.radius.lg,
-          overflow: 'hidden',
-        },
-        backgroundImage: {
-          borderRadius: t.radius.lg,
-        },
-        content: {
-          flex: 1,
-          padding: t.spacing[5],
-          justifyContent: 'center',
-        },
-        grid: {
-          flex: 1,
-          padding: t.spacing[5],
-          flexDirection: 'row',
-          gap: t.spacing[3],
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        smallCard: {
-          flex: 1,
-          alignItems: 'center',
-        },
-      }),
-    [t]
-  );
-
   return (
     <DemoPage
       title="GlassCard"
@@ -57,16 +21,15 @@ export default function GlassCardScreen() {
         >
           <View style={styles.content}>
             <GlassCard>
-              <Typography variant="h6" color="inverse">
+              <Text variant="large" className="text-white">
                 Default Glass
-              </Typography>
-              <Typography
-                variant="body2"
-                color="inverse"
-                style={{ marginTop: t.spacing[1], opacity: 0.9 }}
+              </Text>
+              <Text
+                className="text-white"
+                style={{ marginTop: 4, opacity: 0.9 }}
               >
                 Standard intensity blur with automatic tint.
-              </Typography>
+              </Text>
             </GlassCard>
           </View>
         </ImageBackground>
@@ -84,14 +47,14 @@ export default function GlassCardScreen() {
         >
           <View style={styles.grid}>
             <GlassCard tint="light" intensity={20} style={styles.smallCard}>
-              <Typography variant="subtitle2" color="primary">
+              <Text variant="small" className="text-zinc-900">
                 Light 20%
-              </Typography>
+              </Text>
             </GlassCard>
             <GlassCard tint="dark" intensity={60} style={styles.smallCard}>
-              <Typography variant="subtitle2" color="inverse">
+              <Text variant="small" className="text-white">
                 Dark 60%
-              </Typography>
+              </Text>
             </GlassCard>
           </View>
         </ImageBackground>
@@ -109,22 +72,21 @@ export default function GlassCardScreen() {
         >
           <View style={styles.content}>
             <GlassCard
-              borderRadius={t.radius['2xl']}
+              className="rounded-3xl"
               style={{
                 borderWidth: 2,
-                borderColor: t.color.surface.glassBorder,
+                borderColor: 'rgba(255,255,255,0.45)',
               }}
             >
-              <Typography variant="h6" color="inverse">
+              <Text variant="large" className="text-white">
                 Custom Border & Radius
-              </Typography>
-              <Typography
-                variant="body2"
-                color="inverse"
-                style={{ marginTop: t.spacing[1], opacity: 0.9 }}
+              </Text>
+              <Text
+                className="text-white"
+                style={{ marginTop: 4, opacity: 0.9 }}
               >
                 Customizable via props and styles.
-              </Typography>
+              </Text>
             </GlassCard>
           </View>
         </ImageBackground>
@@ -132,3 +94,32 @@ export default function GlassCardScreen() {
     </DemoPage>
   );
 }
+
+const styles = StyleSheet.create({
+  background: {
+    height: 200,
+    width: '100%',
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  backgroundImage: {
+    borderRadius: 12,
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+  },
+  grid: {
+    flex: 1,
+    padding: 20,
+    flexDirection: 'row',
+    gap: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  smallCard: {
+    flex: 1,
+    alignItems: 'center',
+  },
+});

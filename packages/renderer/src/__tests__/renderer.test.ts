@@ -2,12 +2,13 @@ import { describe, expect, test } from 'bun:test';
 import {
   getLazyLoadPlan,
   loginScreenSchemaExample,
-} from '@truongdq01/component-schema';
+} from '@rnui/component-schema';
 import {
   createLazyComponentMap,
   prepareScreenRender,
   validateBeforeRender,
 } from '../component-loader';
+import { createDefaultComponentMap } from '../componentMap';
 import { exportSchemaToTsx, exportScreenSchemaToTsx } from '../export-tsx';
 import { guardNodeProps, resolveActionName } from '../propGuards';
 import { resolveNodeRender, shouldWrapStringChild } from '../resolve-props';
@@ -38,14 +39,14 @@ describe('resolveActionName', () => {
 describe('guardNodeProps', () => {
   test('blocks style and unknown props on Button', () => {
     const result = guardNodeProps('Button', {
-      label: 'Go',
-      variant: 'solid',
+      children: 'Go',
+      variant: 'default',
       style: { color: 'red' },
       onPress: () => {},
       unknownProp: true,
     });
 
-    expect(result.safeProps.label).toBe('Go');
+    expect(result.safeProps.children).toBe('Go');
     expect(result.safeProps.style).toBeUndefined();
     expect(result.safeProps.onPress).toBeUndefined();
     expect(result.safeProps.unknownProp).toBeUndefined();
@@ -66,16 +67,28 @@ describe('resolveNodeRender', () => {
     expect(resolved.props.spacing).toBe('md');
   });
 
+  test('maps View flex prop to style', () => {
+    const resolved = resolveNodeRender({
+      type: 'View',
+      props: { flex: 1 },
+      children: [],
+    });
+
+    expect(resolved.componentType).toBe('View');
+    expect(resolved.props.style).toEqual({ flex: 1 });
+    expect(resolved.props.flex).toBeUndefined();
+  });
+
   test('maps Button string action to onPress when handler provided', () => {
     const resolved = resolveNodeRender(
       {
         type: 'Button',
-        props: { label: 'Go', action: 'signIn' },
+        props: { children: 'Go', action: 'signIn' },
       },
       { actions: { signIn: () => {} } }
     );
 
-    expect(resolved.props.label).toBe('Go');
+    expect(resolved.children).toBe('Go');
     expect(resolved.props.action).toBeUndefined();
     expect(typeof resolved.props.onPress).toBe('function');
   });
@@ -87,7 +100,7 @@ describe('resolveNodeRender', () => {
         id: 'cta',
         type: 'Button',
         props: {
-          label: 'Continue',
+          children: 'Continue',
           action: { type: 'event', name: 'continue' },
         },
       },
@@ -103,20 +116,20 @@ describe('resolveNodeRender', () => {
     expect(captured).toEqual({ name: 'continue', sourceNodeId: 'cta' });
   });
 
-  test('maps string children to Button label when label missing', () => {
+  test('keeps Button string children as children', () => {
     const resolved = resolveNodeRender({
       type: 'Button',
-      props: { variant: 'solid', action: 'go' },
+      props: { variant: 'default', action: 'go' },
       children: 'Continue',
     });
 
-    expect(resolved.props.label).toBe('Continue');
-    expect(resolved.children).toBeUndefined();
+    expect(resolved.children).toBe('Continue');
+    expect(resolved.props.label).toBeUndefined();
   });
 
-  test('promotes Typography children prop to text child', () => {
+  test('promotes Text children prop to text child', () => {
     const resolved = resolveNodeRender({
-      type: 'Typography',
+      type: 'Text',
       props: { variant: 'h4', children: 'Hello' },
     });
 
@@ -130,8 +143,8 @@ describe('shouldWrapStringChild', () => {
     expect(shouldWrapStringChild('Stack')).toBe(true);
   });
 
-  test('allows Typography string children', () => {
-    expect(shouldWrapStringChild('Typography')).toBe(false);
+  test('allows Text string children', () => {
+    expect(shouldWrapStringChild('Text')).toBe(false);
   });
 });
 
@@ -161,19 +174,26 @@ describe('prepareScreenRender / validateBeforeRender', () => {
 });
 
 describe('exportScreenSchemaToTsx / exportSchemaToTsx', () => {
-  test('exports login screen with Stack root and ThemeProvider', () => {
+  test('exports login screen with per-file kit imports and no ThemeProvider', () => {
     const tsx = exportScreenSchemaToTsx(loginScreenSchemaExample, {
       componentName: 'LoginScreen',
     });
 
+    expect(tsx).not.toContain('ThemeProvider');
+    expect(tsx).not.toContain('@truongdq01');
     expect(tsx).toContain(
-      "import { ThemeProvider } from '@truongdq01/headless'"
+      "import { Avatar, AvatarFallback } from '@/components/ui/avatar';"
     );
+    expect(tsx).toContain("import { Button } from '@/components/ui/button';");
+    expect(tsx).toContain("import { Card } from '@/components/ui/card';");
+    expect(tsx).toContain("import { Stack } from '@/components/ui/stack';");
+    expect(tsx).toContain("import { Text } from '@/components/ui/text';");
     expect(tsx).toContain(
-      "import { Avatar, Box, Button, Card, Input, Stack, Typography } from '@truongdq01/ui'"
+      "import { TextField } from '@/components/ui/text-field';"
     );
+    expect(tsx).toContain("import { View } from 'react-native';");
     expect(tsx).toContain('export function LoginScreen');
-    expect(tsx).toContain('<Avatar initials');
+    expect(tsx).toContain('<AvatarFallback>RN</AvatarFallback>');
     expect(tsx).toContain('onPress={handleSignIn}');
     expect(tsx).toContain('const handleSignIn');
     expect(tsx).toContain('const handleForgotPassword');
@@ -191,12 +211,12 @@ describe('exportScreenSchemaToTsx / exportSchemaToTsx', () => {
       name: 'Quote',
       version: '1',
       root: {
-        type: 'Typography',
-        props: { variant: 'body1', children: "It's fine" },
+        type: 'Text',
+        props: { variant: 'p', children: "It's fine" },
       },
     });
 
-    expect(tsx).toContain(">It's fine</Typography>");
+    expect(tsx).toContain(">It's fine</Text>");
   });
 
   test('comments out native-only components', () => {
@@ -207,7 +227,7 @@ describe('exportScreenSchemaToTsx / exportSchemaToTsx', () => {
       root: {
         type: 'Screen',
         props: { padding: 'md' },
-        children: [{ type: 'Modal', props: { visible: true } }],
+        children: [{ type: 'Modal', props: {} }],
       },
     });
 
@@ -216,10 +236,23 @@ describe('exportScreenSchemaToTsx / exportSchemaToTsx', () => {
 });
 
 describe('component maps', () => {
-  test('createLazyComponentMap includes Screen lazy key', () => {
-    const map = createLazyComponentMap();
+  test('createLazyComponentMap keys loaders by lazyKey', () => {
+    const loaded: string[] = [];
+    const map = createLazyComponentMap((specifier) => {
+      loaded.push(specifier);
+      return Promise.resolve({ Button: () => null });
+    });
+
     expect(typeof map.Screen).toBe('function');
     expect(typeof map.Button).toBe('function');
+    expect(typeof map.Sheet).toBe('function');
+  });
+
+  test('createDefaultComponentMap maps Screen to Stack then View', () => {
+    const Stack = () => null;
+    const View = () => null;
+    expect(createDefaultComponentMap({ Stack }).Screen).toBe(Stack);
+    expect(createDefaultComponentMap({ View }).Screen).toBe(View);
   });
 
   test('getLazyLoadPlan returns unique component types for login schema', () => {
@@ -227,7 +260,7 @@ describe('component maps', () => {
     const types = plan.components.map((entry) => entry.type);
     expect(types).toContain('Screen');
     expect(types).toContain('Button');
-    expect(types).toContain('Input');
+    expect(types).toContain('TextField');
     expect(new Set(types).size).toBe(types.length);
   });
 });

@@ -1,38 +1,44 @@
-import type { RendererComponentMap } from '@truongdq01/renderer';
-import { Alert } from '../../../../packages/ui/src/components/Alert';
-import { Avatar } from '../../../../packages/ui/src/components/Avatar';
-import { Badge } from '../../../../packages/ui/src/components/Badge';
-import { Box } from '../../../../packages/ui/src/components/Box';
-import { Button } from '../../../../packages/ui/src/components/Button';
-import { Card } from '../../../../packages/ui/src/components/Card';
-import { Chip } from '../../../../packages/ui/src/components/Chip';
-import { Divider } from '../../../../packages/ui/src/components/Divider';
-import { Paper } from '../../../../packages/ui/src/components/Paper';
-import { Stack } from '../../../../packages/ui/src/components/Stack';
-import { Typography } from '../../../../packages/ui/src/components/Typography';
-import { TextField } from '@/mocks/text-field';
+import type { RendererComponentMap } from '@rnui/renderer';
 import {
+  PreviewAlert,
+  PreviewAvatar,
+  PreviewBadge,
+  PreviewBox,
+  PreviewButton,
+  PreviewCard,
   PreviewCheckbox,
+  PreviewChip,
+  PreviewDivider,
   PreviewInput,
+  PreviewPaper,
+  PreviewScreen,
+  PreviewStack,
   PreviewSwitch,
-} from '@/lib/preview-interactive';
+  PreviewTextField,
+  PreviewTypography,
+} from '@/lib/preview-kit';
 
-/** Slim component map — avoids importing the full @truongdq01/ui barrel on web. */
+/**
+ * Builder preview component map — HTML/CSS approximations (preview-kit) of the
+ * registry UI kit. Screen resolves to Stack via the renderer.
+ */
 export const previewComponentMap: RendererComponentMap = {
-  Screen: Stack,
-  Stack,
-  Box,
-  Card,
-  Paper,
-  Divider,
-  Typography,
-  Button,
+  Screen: PreviewScreen,
+  Stack: PreviewStack,
+  Box: PreviewBox,
+  Card: PreviewCard,
+  Paper: PreviewPaper,
+  Divider: PreviewDivider,
+  Separator: PreviewDivider,
+  Typography: PreviewTypography,
+  Text: PreviewTypography,
+  Button: PreviewButton,
   Input: PreviewInput,
-  TextField,
+  TextField: PreviewTextField,
   Checkbox: PreviewCheckbox,
   Switch: PreviewSwitch,
-  Badge,
-  Chip,
-  Alert,
-  Avatar,
+  Badge: PreviewBadge,
+  Chip: PreviewChip,
+  Alert: PreviewAlert,
+  Avatar: PreviewAvatar,
 };

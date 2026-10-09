@@ -1,4 +1,7 @@
-import { Blockquote, Card, Grid, Stack } from '@truongdq01/ui';
+import { Blockquote } from '@/components/ui/blockquote';
+import { Card, CardContent } from '@/components/ui/card';
+import { Grid } from '@/components/ui/grid';
+import { Stack } from '@/components/ui/stack';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 const TESTIMONIALS = [
@@ -52,10 +55,12 @@ export default function BlockquoteScreen() {
         title="Testimonials"
         description="Combine with Card and Grid for social-proof layouts."
       >
-        <Grid columns={1} spacing="md">
+        <Grid columns={1} gap="md">
           {TESTIMONIALS.map((item) => (
-            <Card key={item.id} padding="md">
-              <Blockquote cite={item.author}>{item.quote}</Blockquote>
+            <Card key={item.id}>
+              <CardContent className="pt-6">
+                <Blockquote cite={item.author}>{item.quote}</Blockquote>
+              </CardContent>
             </Card>
           ))}
         </Grid>

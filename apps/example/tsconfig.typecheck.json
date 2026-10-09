@@ -1,11 +1,15 @@
 {
   "extends": "./tsconfig.json",
   "include": [
-    "app/_layout.tsx",
-    "app/index.tsx",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
     "demo/**/*.ts",
     "demo/**/*.tsx",
+    "lib/**/*.ts",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "nativewind-env.d.ts"
   ]
 }

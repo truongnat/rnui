@@ -1,9 +1,10 @@
-import type { ColorScheme } from '@truongdq01/tokens';
 import { createContext, useContext } from 'react';
 
+export type SchemePreference = 'light' | 'dark' | 'system';
+
 export interface DemoThemeContextValue {
-  schemePreference: ColorScheme | 'system';
-  setSchemePreference: (scheme: ColorScheme | 'system') => void;
+  schemePreference: SchemePreference;
+  setSchemePreference: (scheme: SchemePreference) => void;
 }
 
 export const DemoThemeContext = createContext<DemoThemeContextValue | null>(

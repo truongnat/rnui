@@ -1,14 +1,17 @@
 {
   "version": "1",
-  "generatedAt": "2026-05-24T04:17:18.862Z",
+  "generatedAt": "2026-10-09T16:14:06.110Z",
   "components": [
     "Screen",
     "Stack",
-    "Box",
+    "View",
+    "Grid",
+    "GridItem",
     "Card",
     "Paper",
-    "Divider",
-    "Typography",
+    "Separator",
+    "Text",
+    "Link",
     "Button",
     "Input",
     "TextField",
@@ -17,6 +20,15 @@
     "Badge",
     "Chip",
     "Alert",
-    "Avatar"
+    "AlertTitle",
+    "AlertDescription",
+    "Avatar",
+    "AvatarImage",
+    "AvatarFallback",
+    "Icon",
+    "Image",
+    "Progress",
+    "List",
+    "ListItem"
   ]
 }

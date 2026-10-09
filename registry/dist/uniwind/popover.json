@@ -5,8 +5,8 @@
   "title": "Popover",
   "description": "Anchored overlay via measureInWindow + Modal.",
   "registryDependencies": [
-    "utils",
-    "theme"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
   ],
   "files": [
     {

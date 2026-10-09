@@ -5,7 +5,7 @@
   "title": "Image",
   "description": "Image with rounded variants, aspect ratio, fade-in and fallback.",
   "registryDependencies": [
-    "utils"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json"
   ],
   "files": [
     {

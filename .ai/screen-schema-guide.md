@@ -25,7 +25,7 @@ ScreenSchema is the JSON contract between AI and the future RNUI builder rendere
 {
   "id": "optional-node-id",
   "type": "Button",
-  "props": { "label": "Continue", "variant": "solid", "action": "continue" },
+  "props": { "children": "Continue", "variant": "default", "action": "continue" },
   "children": []
 }
 ```
@@ -39,7 +39,7 @@ ScreenSchema is the JSON contract between AI and the future RNUI builder rendere
 Run validation before preview or export:
 
 ```ts
-import { validateScreenSchema } from '@truongdq01/component-schema';
+import { validateScreenSchema } from '@rnui/component-schema';
 
 const result = validateScreenSchema(schema, { requireWebPreview: true });
 ```
@@ -59,13 +59,13 @@ Rules enforced:
 After validation, derive imports:
 
 ```ts
-import { getLazyLoadPlan } from '@truongdq01/component-schema';
+import { getLazyLoadPlan } from '@rnui/component-schema';
 
 const plan = getLazyLoadPlan(schema);
 // plan.components → [{ type, import: { named, from, lazyKey }, webPreview }]
 ```
 
-Builder uses `@truongdq01/renderer`:
+Builder uses `@rnui/renderer`:
 
 1. `prepareScreenRender(schema)` or `validateScreenSchema(schema)`
 2. `getLazyLoadPlan(schema)`
@@ -100,10 +100,10 @@ All examples use web-preview-safe components only.
 
 ## Export to TSX
 
-Use `@truongdq01/renderer`:
+Use `@rnui/renderer`:
 
 ```ts
-import { exportScreenSchemaToTsx } from '@truongdq01/renderer';
+import { exportScreenSchemaToTsx } from '@rnui/renderer';
 
 const tsx = exportScreenSchemaToTsx(schema);
 ```
@@ -112,5 +112,5 @@ Rules:
 
 - Map `Screen` → `Stack` with flex 1 + padding
 - Map `action` props → `onPress` handlers from action registry
-- Use `@truongdq01/ui` imports from lazy plan
+- Use `@/components/ui/<kebab>` imports from lazy plan
 - Never export raw style objects from schema props

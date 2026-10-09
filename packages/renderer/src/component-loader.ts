@@ -2,8 +2,8 @@ import {
   getLazyLoadPlan,
   listWebPreviewComponents,
   validateScreenSchema,
-} from '@truongdq01/component-schema';
-import type { ScreenSchema } from '@truongdq01/component-schema';
+} from '@rnui/component-schema';
+import type { LazyLoadPlan, ScreenSchema } from '@rnui/component-schema';
 import { createLazyComponentMap } from './lazyComponentMap';
 import type {
   LazyComponentMap,
@@ -19,7 +19,7 @@ export {
 export { createLazyComponentMap } from './lazyComponentMap';
 
 export async function loadComponentsForPlan(
-  plan: ReturnType<typeof getLazyLoadPlan>,
+  plan: LazyLoadPlan,
   lazyMap: LazyComponentMap = createLazyComponentMap()
 ): Promise<RendererComponentMap> {
   const entries = await Promise.all(
@@ -31,7 +31,8 @@ export async function loadComponentsForPlan(
         );
       }
       const loaded = await loader();
-      return [entry.import.lazyKey, loaded.default] as const;
+      // Key by schema type so RenderSchemaNode lookups by node.type resolve.
+      return [entry.type, loaded.default] as const;
     })
   );
 

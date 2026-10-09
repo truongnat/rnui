@@ -1,40 +1,13 @@
-import { useTokens } from '@truongdq01/headless';
-import type { ReactNode } from 'react';
-import {
-  AppBar,
-  AppBarLeading,
-  AppBarTitle,
-  AppBarTrailing,
-  Button,
-  Stack,
-  Toolbar,
-} from '@truongdq01/ui';
 import { ChevronLeft, Menu, MoreVertical, Search } from 'lucide-react-native';
-import { StyleSheet, View } from 'react-native';
-import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
-
-function PreviewCard({ children }: { children: ReactNode }) {
-  const t = useTokens();
-
-  return (
-    <View
-      style={[
-        styles.card,
-        {
-          backgroundColor: t.color.surface.default,
-          borderColor: t.color.border.subtle,
-          borderRadius: t.radius.xl,
-          padding: t.spacing[3],
-        },
-      ]}
-    >
-      {children}
-    </View>
-  );
-}
+import { AppBar, AppBarSubtitle, AppBarTitle } from '@/components/ui/app-bar';
+import { IconButton } from '@/components/ui/icon-button';
+import { Stack } from '@/components/ui/stack';
+import { useIconColor } from '@/lib/utils';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function AppBarScreen() {
-  const t = useTokens();
+  const iconColor = useIconColor('foreground');
+  const inverseIconColor = useIconColor('onPrimary');
 
   return (
     <DemoPage
@@ -45,50 +18,38 @@ export default function AppBarScreen() {
         title="Basic"
         description="Leading navigation and trailing actions."
       >
-        <AppBar style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}>
-          <Toolbar style={{ paddingVertical: t.spacing[2] }}>
-            <AppBarLeading>
-              <Button
+        <AppBar
+          className="overflow-hidden rounded-xl"
+          leading={
+            <IconButton
+              variant="ghost"
+              icon={<Menu size={22} color={iconColor} />}
+              accessibilityLabel="Open menu"
+            />
+          }
+          trailing={
+            <>
+              <IconButton
                 variant="ghost"
-                style={styles.iconButton}
-                leadingIcon={<Menu size={22} />}
-                accessibilityLabel="Open menu"
-              />
-            </AppBarLeading>
-            <AppBarTitle>Page Title</AppBarTitle>
-            <AppBarTrailing>
-              <Button
-                variant="ghost"
-                style={styles.iconButton}
-                leadingIcon={<Search size={22} />}
+                icon={<Search size={22} color={iconColor} />}
                 accessibilityLabel="Search"
               />
-              <Button
+              <IconButton
                 variant="ghost"
-                style={styles.iconButton}
-                leadingIcon={<MoreVertical size={22} />}
+                icon={<MoreVertical size={22} color={iconColor} />}
                 accessibilityLabel="More actions"
               />
-            </AppBarTrailing>
-          </Toolbar>
+            </>
+          }
+        >
+          <AppBarTitle>Page Title</AppBarTitle>
         </AppBar>
       </DemoSection>
 
       <DemoSection title="With Subtitle">
-        <AppBar style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}>
-          <Toolbar style={{ paddingVertical: t.spacing[2] }}>
-            <AppBarLeading>
-              <Button
-                variant="ghost"
-                style={styles.iconButton}
-                leadingIcon={<ChevronLeft size={22} />}
-                accessibilityLabel="Go back"
-              />
-            </AppBarLeading>
-            <AppBarTitle subtitle="Subtitle or secondary info">
-              Main Title
-            </AppBarTitle>
-          </Toolbar>
+        <AppBar className="overflow-hidden rounded-xl" onBack={() => {}}>
+          <AppBarTitle>Main Title</AppBarTitle>
+          <AppBarSubtitle>Subtitle or secondary info</AppBarSubtitle>
         </AppBar>
       </DemoSection>
 
@@ -97,72 +58,50 @@ export default function AppBarScreen() {
         description="Inverse text on brand backgrounds."
       >
         <AppBar
-          color="primary"
-          style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}
+          className="overflow-hidden rounded-xl bg-primary"
+          leading={
+            <IconButton
+              variant="ghost"
+              icon={<ChevronLeft size={22} color={inverseIconColor} />}
+              accessibilityLabel="Go back"
+            />
+          }
+          trailing={
+            <IconButton
+              variant="ghost"
+              icon={<Search size={22} color={inverseIconColor} />}
+              accessibilityLabel="Search"
+            />
+          }
         >
-          <Toolbar style={{ paddingVertical: t.spacing[2] }}>
-            <AppBarLeading>
-              <Button
-                variant="ghost"
-                style={styles.iconButton}
-                leadingIcon={
-                  <ChevronLeft size={22} color={t.color.text.inverse} />
-                }
-                accessibilityLabel="Go back"
-              />
-            </AppBarLeading>
-            <AppBarTitle subtitle="In the cloud">Brand Identity</AppBarTitle>
-            <AppBarTrailing>
-              <Button
-                variant="ghost"
-                style={styles.iconButton}
-                leadingIcon={<Search size={22} color={t.color.text.inverse} />}
-                accessibilityLabel="Search"
-              />
-            </AppBarTrailing>
-          </Toolbar>
+          <AppBarTitle className="text-primary-foreground">
+            Brand Identity
+          </AppBarTitle>
+          <AppBarSubtitle className="text-primary-foreground opacity-70">
+            In the cloud
+          </AppBarSubtitle>
         </AppBar>
       </DemoSection>
 
       <DemoSection title="Variants">
         <Stack spacing="lg">
-          <AppBar
-            color="default"
-            variant="outlined"
-            style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}
-          >
-            <Toolbar style={{ paddingVertical: t.spacing[2] }}>
-              <AppBarTitle>Bordered App Bar</AppBarTitle>
-            </Toolbar>
+          <AppBar className="overflow-hidden rounded-xl border">
+            <AppBarTitle>Bordered App Bar</AppBarTitle>
           </AppBar>
           <AppBar
-            color="transparent"
-            style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}
+            className="border-transparent bg-transparent"
+            trailing={
+              <IconButton
+                variant="ghost"
+                icon={<MoreVertical size={22} color={iconColor} />}
+                accessibilityLabel="More actions"
+              />
+            }
           >
-            <Toolbar style={{ paddingVertical: t.spacing[2] }}>
-              <AppBarTitle>Transparent App Bar</AppBarTitle>
-              <AppBarTrailing>
-                <Button
-                  variant="ghost"
-                  style={styles.iconButton}
-                  leadingIcon={<MoreVertical size={22} />}
-                  accessibilityLabel="More actions"
-                />
-              </AppBarTrailing>
-            </Toolbar>
+            <AppBarTitle>Transparent App Bar</AppBarTitle>
           </AppBar>
         </Stack>
       </DemoSection>
     </DemoPage>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    borderWidth: 1,
-  },
-  iconButton: {
-    width: 44,
-    height: 44,
-  },
-});

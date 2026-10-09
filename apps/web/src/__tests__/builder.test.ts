@@ -2,7 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import {
   builtInScreenSchemaExamples,
   validateScreenSchema,
-} from '@truongdq01/component-schema';
+} from '@rnui/component-schema';
 import { MockAIProvider } from '@/lib/ai/mockProvider';
 import {
   applyExampleTemplate,
@@ -56,7 +56,7 @@ describe('example schemas', () => {
     });
   }
 
-  test('login schema uses Card and Typography hierarchy', () => {
+  test('login schema uses Card and Text hierarchy', () => {
     const login = exampleSchemas.login;
     const json = JSON.stringify(login.root);
     expect(json).toContain('"type":"Card"');
@@ -65,7 +65,7 @@ describe('example schemas', () => {
     expect(json).toContain('"justifyContent":"center"');
   });
 
-  test('each built-in example has layout container and Typography', () => {
+  test('each built-in example has layout container and Text', () => {
     for (const schema of builtInScreenSchemaExamples) {
       const json = JSON.stringify(schema.root);
       const hasLayout =
@@ -73,7 +73,7 @@ describe('example schemas', () => {
         json.includes('"type":"Paper"') ||
         json.includes('"type":"Stack"');
       expect(hasLayout).toBe(true);
-      expect(json).toContain('"type":"Typography"');
+      expect(json).toContain('"type":"Text"');
     }
   });
 });
@@ -96,7 +96,7 @@ describe('builder-state utilities', () => {
 
   test('exportTsxFromState includes imports for valid schema', () => {
     const tsx = exportTsxFromState(createInitialState());
-    expect(tsx).toContain('@truongdq01/ui');
+    expect(tsx).toMatch(/import\s+\{[^}]+\}\s+from\s+'/);
     expect(tsx).toContain('LoginScreen');
   });
 

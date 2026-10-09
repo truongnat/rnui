@@ -1,10 +1,19 @@
-import { useToast } from '@truongdq01/headless';
-import { Card, Icon, IconButton, Stack, Typography } from '@truongdq01/ui';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
+import { Card } from '@/components/ui/card';
+import { Icon, type IconName } from '@/components/ui/icon';
+import { IconButton } from '@/components/ui/icon-button';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
+import { useToast } from '@/components/ui/toast';
+import { useThemeColor } from '@/lib/utils';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
-const TOOLBAR_ACTIONS = [
+const TOOLBAR_ACTIONS: {
+  icon: IconName;
+  label: string;
+  message: string;
+}[] = [
   { icon: 'search', label: 'Search', message: 'Search opened' },
   { icon: 'share', label: 'Share board', message: 'Share sheet opened' },
   { icon: 'settings', label: 'Open settings', message: 'Settings opened' },
@@ -13,10 +22,11 @@ const TOOLBAR_ACTIONS = [
     label: 'More actions',
     message: 'More actions opened',
   },
-] as const;
+];
 
 export default function IconButtonScreen() {
-  const toast = useToast();
+  const { toast } = useToast();
+  const colors = useThemeColor();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   return (
@@ -28,13 +38,13 @@ export default function IconButtonScreen() {
         title="Action toolbar"
         description="Ghost is the default for dense surfaces to keep the chrome quiet."
       >
-        <Card>
+        <Card className="p-4">
           <Stack spacing="md">
             <Stack spacing="xs">
-              <Typography variant="h5">Project board</Typography>
-              <Typography variant="body2" color="secondary">
+              <Text variant="large">Project board</Text>
+              <Text variant="muted">
                 Common header actions without a full text button row.
-              </Typography>
+              </Text>
             </Stack>
 
             <View style={{ alignItems: 'flex-end' }}>
@@ -43,7 +53,7 @@ export default function IconButtonScreen() {
                   <IconButton
                     key={action.label}
                     icon={<Icon name={action.icon} />}
-                    label={action.label}
+                    accessibilityLabel={action.label}
                     onPress={() => toast.info(action.message)}
                   />
                 ))}
@@ -57,39 +67,32 @@ export default function IconButtonScreen() {
         title="Row actions"
         description="Use specific labels because assistive tech only hears the accessible name."
       >
-        <Stack spacing="md">
-          <Card>
-            <Stack direction="row" spacing="md" alignItems="center">
-              <View style={{ flex: 1 }}>
-                <Typography variant="subtitle2">
-                  Summer campaign brief
-                </Typography>
-                <Typography variant="body2" color="secondary">
-                  Draft shared with 6 reviewers
-                </Typography>
-              </View>
-              <Stack direction="row" spacing="sm">
-                <IconButton
-                  icon={<Icon name="heart" />}
-                  label="Favorite brief"
-                  onPress={() => toast.success('Saved to favorites')}
-                />
-                <IconButton
-                  icon={<Icon name="edit" />}
-                  label="Edit brief"
-                  variant="outline"
-                  onPress={() => toast.info('Edit mode opened')}
-                />
-                <IconButton
-                  icon={<Icon name="trash" />}
-                  label="Delete brief"
-                  variant="destructive"
-                  onPress={() => toast.error('Delete requested')}
-                />
-              </Stack>
+        <Card className="p-4">
+          <Stack direction="row" spacing="md" alignItems="center">
+            <View style={{ flex: 1 }}>
+              <Text variant="small">Summer campaign brief</Text>
+              <Text variant="muted">Draft shared with 6 reviewers</Text>
+            </View>
+            <Stack direction="row" spacing="sm">
+              <IconButton
+                icon={<Icon name="heart" />}
+                accessibilityLabel="Favorite brief"
+                onPress={() => toast.success('Saved to favorites')}
+              />
+              <IconButton
+                icon={<Icon name="edit" />}
+                accessibilityLabel="Edit brief"
+                variant="outline"
+                onPress={() => toast.info('Edit mode opened')}
+              />
+              <IconButton
+                icon={<Icon name="trash" color={colors.destructive} />}
+                accessibilityLabel="Delete brief"
+                onPress={() => toast.error('Delete requested')}
+              />
             </Stack>
-          </Card>
-        </Stack>
+          </Stack>
+        </Card>
       </DemoSection>
 
       <DemoSection
@@ -100,20 +103,20 @@ export default function IconButtonScreen() {
           <DemoPreview>
             <Stack direction="row" spacing="md" alignItems="center" wrap>
               <IconButton
-                icon={<Icon name="plus" />}
-                label="Add item"
+                icon={<Icon name="plus" size="sm" />}
+                accessibilityLabel="Add item"
                 size="sm"
                 onPress={() => toast.info('Small action')}
               />
               <IconButton
                 icon={<Icon name="bell" />}
-                label="Notifications"
+                accessibilityLabel="Notifications"
                 size="md"
                 onPress={() => toast.info('Medium action')}
               />
               <IconButton
-                icon={<Icon name="settings" />}
-                label="Workspace settings"
+                icon={<Icon name="settings" size="lg" />}
+                accessibilityLabel="Workspace settings"
                 size="lg"
                 onPress={() => toast.info('Large action')}
               />
@@ -122,9 +125,15 @@ export default function IconButtonScreen() {
 
           <Stack direction="row" spacing="sm" alignItems="center">
             <IconButton
-              icon={<Icon name="refresh" />}
-              label="Refresh feed"
-              loading={isRefreshing}
+              icon={
+                isRefreshing ? (
+                  <ActivityIndicator size="small" color={colors.foreground} />
+                ) : (
+                  <Icon name="refresh" />
+                )
+              }
+              accessibilityLabel="Refresh feed"
+              disabled={isRefreshing}
               onPress={() => {
                 setIsRefreshing(true);
                 setTimeout(() => {
@@ -135,15 +144,15 @@ export default function IconButtonScreen() {
             />
             <IconButton
               icon={<Icon name="share" />}
-              label="Share report"
+              accessibilityLabel="Share report"
               disabled
             />
           </Stack>
 
-          <Typography variant="caption" color="tertiary">
+          <Text variant="muted">
             Use a regular Button when the action is not obvious from the icon
             alone.
-          </Typography>
+          </Text>
         </Stack>
       </DemoSection>
     </DemoPage>

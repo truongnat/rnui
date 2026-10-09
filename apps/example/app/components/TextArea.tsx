@@ -1,11 +1,16 @@
-import { useTokens } from '@truongdq01/headless';
-import { TextArea } from '@truongdq01/ui';
 import { useState } from 'react';
 import { View } from 'react-native';
+import {
+  FormDescription,
+  FormField,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Text } from '@/components/ui/text';
+import { Textarea } from '@/components/ui/textarea';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function TextAreaScreen() {
-  const t = useTokens();
   const [value1, setValue1] = useState('');
   const [value2, setValue2] = useState(
     'This is a preset value with character counter enabled.'
@@ -22,70 +27,85 @@ export default function TextAreaScreen() {
         title="Standard"
         description="Label, placeholder, and helper text."
       >
-        <TextArea
-          label="Notes"
-          placeholder="Enter your notes here…"
-          value={value1}
-          onChangeText={setValue1}
-          helperText="No character limit set."
-        />
+        <FormField>
+          <FormLabel>Notes</FormLabel>
+          <Textarea
+            placeholder="Enter your notes here…"
+            value={value1}
+            onChangeText={setValue1}
+          />
+          <FormDescription>No character limit set.</FormDescription>
+        </FormField>
       </DemoSection>
 
       <DemoSection
         title="Character Counter"
-        description="Inside or above the field."
+        description="Counters placed inside or below the field."
       >
-        <TextArea
-          label="Description (Inside Counter)"
-          placeholder="Tell us about yourself…"
-          value={value2}
-          onChangeText={setValue2}
-          maxLength={100}
-          showCounter
-          counterPosition="inside"
-        />
-        <View style={{ height: t.spacing[4] }} />
-        <TextArea
-          label="Feedback (Above Counter)"
-          placeholder="Any suggestions?"
-          value={value3}
-          onChangeText={setValue3}
-          maxLength={50}
-          showCounter
-          counterPosition="above"
-        />
+        <FormField>
+          <FormLabel>Description</FormLabel>
+          <View>
+            <Textarea
+              placeholder="Tell us about yourself…"
+              value={value2}
+              onChangeText={setValue2}
+              maxLength={100}
+              className="pb-6"
+            />
+            <View className="absolute bottom-2 right-3">
+              <Text className="text-xs text-muted-foreground">
+                {value2.length}/100
+              </Text>
+            </View>
+          </View>
+        </FormField>
+        <View className="h-4" />
+        <FormField>
+          <View className="flex-row items-baseline justify-between">
+            <FormLabel>Feedback</FormLabel>
+            <Text className="text-xs text-muted-foreground">
+              {value3.length}/50
+            </Text>
+          </View>
+          <Textarea
+            placeholder="Any suggestions?"
+            value={value3}
+            onChangeText={setValue3}
+            maxLength={50}
+          />
+        </FormField>
       </DemoSection>
 
       <DemoSection title="States" description="Error and disabled variants.">
-        <TextArea
-          label="Error State"
-          value={value4}
-          onChangeText={setValue4}
-          error="Something went wrong while saving your notes."
-        />
-        <View style={{ height: t.spacing[4] }} />
-        <TextArea
-          label="Disabled State"
-          value="You cannot edit this content."
-          disabled
-          helperText="This field is read-only."
-        />
+        <FormField error="Something went wrong while saving your notes.">
+          <FormLabel>Error State</FormLabel>
+          <Textarea value={value4} onChangeText={setValue4} />
+          <FormMessage />
+        </FormField>
+        <View className="h-4" />
+        <FormField>
+          <FormLabel>Disabled State</FormLabel>
+          <Textarea value="You cannot edit this content." disabled />
+          <FormDescription>This field is read-only.</FormDescription>
+        </FormField>
       </DemoSection>
 
       <DemoSection title="Height" description="Control min and max lines.">
-        <TextArea
-          label="Compact (Rows: 2–4)"
-          placeholder="Short bio…"
-          minLines={2}
-          maxLines={4}
-        />
-        <View style={{ height: t.spacing[4] }} />
-        <TextArea
-          label="Tall (Rows: 8+)"
-          placeholder="Long essay…"
-          minLines={8}
-          maxLines={12}
-        />
+        <FormField>
+          <FormLabel>Compact (Rows: 2–4)</FormLabel>
+          <Textarea
+            placeholder="Short bio…"
+            style={{ minHeight: 60, maxHeight: 100 }}
+          />
+        </FormField>
+        <View className="h-4" />
+        <FormField>
+          <FormLabel>Tall (Rows: 8+)</FormLabel>
+          <Textarea
+            placeholder="Long essay…"
+            style={{ minHeight: 180, maxHeight: 280 }}
+          />
+        </FormField>
       </DemoSection>
     </DemoPage>
   );

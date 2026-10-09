@@ -5,12 +5,12 @@
   "title": "Login Screen",
   "description": "Sign-in card block composed from registry components.",
   "registryDependencies": [
-    "card",
-    "input",
-    "label",
-    "button",
-    "checkbox",
-    "text"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/card.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/input.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/label.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/button.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/checkbox.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json"
   ],
   "files": [
     {

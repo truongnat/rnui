@@ -5,10 +5,10 @@
   "title": "Settings Menu",
   "description": "Grouped settings list built on list-item.",
   "registryDependencies": [
-    "utils",
-    "text",
-    "theme",
-    "list-item"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/list-item.json"
   ],
   "files": [
     {

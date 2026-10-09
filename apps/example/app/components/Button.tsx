@@ -1,44 +1,58 @@
-import { useToast } from '@truongdq01/headless';
-import { Button, Card, Stack, Typography } from '@truongdq01/ui';
 import { ArrowRight, Heart, Plus, Settings } from 'lucide-react-native';
 import { useState } from 'react';
+import { ActivityIndicator } from 'react-native';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
+import { useToast } from '@/components/ui/toast';
+import { useThemeColor } from '@/lib/utils';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function ButtonScreen() {
-  const toast = useToast();
+  const { toast } = useToast();
+  const colors = useThemeColor();
   const [loading, setLoading] = useState(false);
 
   return (
     <DemoPage
       title="Button"
-      description="Primary actions for checkout, onboarding, and settings — premium defaults at 44dp."
+      description="Primary actions for checkout, onboarding, and settings — premium defaults at 40dp."
     >
       <DemoSection
         title="Upgrade your plan"
         description="Hero CTA pattern — solid primary + ghost secondary on a card."
       >
         <Card>
-          <Stack spacing="md">
-            <Typography variant="h4">Pro workspace</Typography>
-            <Typography variant="body2" color="secondary">
+          <CardHeader>
+            <CardTitle>Pro workspace</CardTitle>
+            <CardDescription>
               Unlimited projects, shared billing, and priority support for your
               team.
-            </Typography>
-            <Stack spacing="sm">
-              <Button
-                label="Start free trial"
-                trailingIcon={<ArrowRight size={18} />}
-                fullWidth
-                onPress={() => toast.success('Trial started')}
-              />
-              <Button
-                label="Compare plans"
-                variant="ghost"
-                fullWidth
-                onPress={() => toast.info('Opening plans')}
-              />
-            </Stack>
-          </Stack>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="gap-2">
+            <Button
+              className="w-full"
+              onPress={() => toast.success('Trial started')}
+            >
+              <Text>Start free trial</Text>
+              <ArrowRight size={18} color={colors.primaryForeground} />
+            </Button>
+            <Button
+              variant="ghost"
+              className="w-full"
+              onPress={() => toast.info('Opening plans')}
+            >
+              Compare plans
+            </Button>
+          </CardContent>
         </Card>
       </DemoSection>
 
@@ -47,86 +61,105 @@ export default function ButtonScreen() {
         description="Emphasis levels for different actions."
       >
         <Stack spacing="md">
+          <Button onPress={() => toast.info('Solid tapped')}>
+            Continue checkout
+          </Button>
           <Button
-            label="Continue checkout"
-            onPress={() => toast.info('Solid tapped')}
-          />
+            variant="secondary"
+            onPress={() => toast.info('Secondary tapped')}
+          >
+            Save for later
+          </Button>
           <Button
-            label="Save for later"
             variant="outline"
             onPress={() => toast.info('Outline tapped')}
-          />
+          >
+            Share quote
+          </Button>
+          <Button variant="ghost" onPress={() => toast.info('Ghost tapped')}>
+            Skip for now
+          </Button>
           <Button
-            label="Skip for now"
-            variant="ghost"
-            onPress={() => toast.info('Ghost tapped')}
-          />
-          <Button
-            label="Delete account"
             variant="destructive"
             onPress={() => toast.info('Destructive tapped')}
-          />
+          >
+            Delete account
+          </Button>
+          <Button
+            variant="link"
+            className="self-center"
+            onPress={() => toast.info('Link tapped')}
+          >
+            Terms of service
+          </Button>
         </Stack>
       </DemoSection>
 
       <DemoSection
         title="Sizes"
-        description="sm 36 · md 44 · lg 52 — native touch targets."
+        description="sm 36 · default 40 · lg 44 — native touch targets."
       >
         <Stack direction="row" spacing="md" alignItems="center" wrap>
-          <Button label="Small" size="sm" onPress={() => {}} />
-          <Button label="Medium" size="md" onPress={() => {}} />
-          <Button label="Large" size="lg" onPress={() => {}} />
-        </Stack>
-      </DemoSection>
-
-      <DemoSection title="Semantic colors">
-        <Stack direction="row" spacing="sm" wrap alignItems="flex-start">
-          <Button label="Primary" color="primary" onPress={() => {}} />
-          <Button label="Accent" color="accent" onPress={() => {}} />
-          <Button label="Success" color="success" onPress={() => {}} />
-          <Button label="Warning" color="warning" onPress={() => {}} />
-          <Button label="Error" color="error" onPress={() => {}} />
+          <Button size="sm" onPress={() => {}}>
+            Small
+          </Button>
+          <Button onPress={() => {}}>Default</Button>
+          <Button size="lg" onPress={() => {}}>
+            Large
+          </Button>
         </Stack>
       </DemoSection>
 
       <DemoSection title="Icons & states">
         <Stack spacing="md">
-          <Button
-            label="Add payment method"
-            leadingIcon={<Plus size={18} />}
-            onPress={() => {}}
-          />
-          <Button
-            label="Continue"
-            trailingIcon={<ArrowRight size={18} />}
-            variant="outline"
-            onPress={() => {}}
-          />
+          <Button onPress={() => {}}>
+            <Plus size={18} color={colors.primaryForeground} />
+            <Text>Add payment method</Text>
+          </Button>
+          <Button variant="outline" onPress={() => {}}>
+            <Text>Continue</Text>
+            <ArrowRight size={18} color={colors.foreground} />
+          </Button>
           <Stack direction="row" spacing="sm">
             <Button
-              leadingIcon={<Settings size={20} />}
+              size="icon"
               variant="ghost"
               accessibilityLabel="Settings"
               onPress={() => {}}
-            />
+            >
+              <Settings size={20} color={colors.foreground} />
+            </Button>
             <Button
-              leadingIcon={<Heart size={18} />}
+              size="icon-sm"
               variant="destructive"
-              size="sm"
               accessibilityLabel="Remove favorite"
               onPress={() => {}}
-            />
+            >
+              <Heart size={18} color={colors.primaryForeground} />
+            </Button>
           </Stack>
           <Button
-            label="Processing payment"
-            loading={loading}
+            disabled={loading}
             onPress={() => {
               setLoading(true);
               setTimeout(() => setLoading(false), 2000);
             }}
-          />
-          <Button label="Unavailable" disabled onPress={() => {}} />
+          >
+            {loading ? (
+              <>
+                <ActivityIndicator
+                  size="small"
+                  color={colors.primaryForeground}
+                />
+                <Text>Processing payment</Text>
+              </>
+            ) : (
+              'Pay now'
+            )}
+          </Button>
+          <Button disabled onPress={() => {}}>
+            Unavailable
+          </Button>
         </Stack>
       </DemoSection>
     </DemoPage>

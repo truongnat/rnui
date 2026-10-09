@@ -1,22 +1,21 @@
-import { useTokens, useTheme } from '@truongdq01/headless';
-import { Typography } from '@truongdq01/ui';
-import { useRouter, type Href } from 'expo-router';
-import { ChevronRight } from 'lucide-react-native';
-import { useMemo, useState } from 'react';
-import { Pressable, SectionList, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Text } from '@/components/ui/text';
+import { useThemeColor } from '@/lib/utils';
 import {
   ListSectionHeader,
   PillSearchBar,
   ScreenHeader,
 } from '@/demo/ExampleChrome';
 import { DemoThemeControls } from '@/demo/DemoThemeControls';
+import { useRouter, type Href } from 'expo-router';
+import { ChevronRight } from 'lucide-react-native';
+import { useMemo, useState } from 'react';
+import { Pressable, SectionList, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const COMPONENTS = [
   'AIRenderer',
   'Accordion',
   'Alert',
-  'AstryxTokens',
   'AlertDialog',
   'AnimatedList',
   'AnimatedOverlay',
@@ -27,9 +26,7 @@ const COMPONENTS = [
   'Badge',
   'Blockquote',
   'BottomNavigation',
-  'BottomSheet',
-  'Box',
-  'Breadcrumbs',
+  'Breadcrumb',
   'Button',
   'ButtonGroup',
   'Calendar',
@@ -37,22 +34,17 @@ const COMPONENTS = [
   'Carousel',
   'ChatListItem',
   'Checkbox',
-  'CodeBlock',
   'Chip',
   'CircularProgress',
+  'CodeBlock',
   'ContextMenu',
-  'DateInput',
   'DatePicker',
-  'DateRangeInput',
-  'DateTimeInput',
   'Dialog',
-  'Divider',
   'Drawer',
+  'DropdownMenu',
   'EmptyState',
   'Fab',
   'Form',
-  'FormControl',
-  'FormField',
   'GlassCard',
   'Gradient',
   'Grid',
@@ -61,67 +53,59 @@ const COMPONENTS = [
   'Image',
   'ImageList',
   'Input',
+  'InputOtp',
   'Label',
-  'LinearProgress',
   'Link',
   'List',
   'Marquee',
-  'Menu',
   'MessageInput',
   'Modal',
-  'OTPInput',
   'Pagination',
   'Paper',
   'Popover',
   'Popper',
-  'Popup',
   'Pressable',
-  'Radio',
+  'Progress',
+  'RadioGroup',
   'Rating',
   'ScrollArea',
   'SegmentedControl',
   'Select',
+  'Separator',
   'SettingsMenu',
+  'Sheet',
   'Skeleton',
   'Slider',
   'Snackbar',
   'SpeedDial',
   'Stack',
   'Stepper',
-  'SurfaceVisibility',
   'Switch',
   'TabBar',
   'Table',
   'Tabs',
-  'TextArea',
+  'Text',
+  'Textarea',
   'TextField',
   'Timeline',
   'Toast',
-  'ToggleButton',
+  'Toggle',
   'Tooltip',
-  'Typography',
 ] as const;
 
-function componentHref(name: string): Href {
-  return `/components/${name}` as Href;
-}
-
 function groupComponents(items: readonly string[]) {
-  const map = new Map<string, string[]>();
+  const map: Record<string, string[]> = {};
   for (const name of items) {
     const letter = name[0]?.toUpperCase() ?? '#';
-    const bucket = map.get(letter) ?? [];
-    bucket.push(name);
-    map.set(letter, bucket);
+    (map[letter] ??= []).push(name);
   }
-  return [...map.entries()]
+  return Object.entries(map)
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([letter, data]) => ({ title: letter, data }));
+    .map(([title, data]) => ({ title, data }));
 }
 
 export default function ComponentsListScreen() {
-  const t = useTokens();
-  const { tokens } = useTheme();
+  const colors = useThemeColor();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [search, setSearch] = useState('');
@@ -137,16 +121,9 @@ export default function ComponentsListScreen() {
   const sections = useMemo(() => groupComponents(filtered), [filtered]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: t.color.bg.subtle }}>
+    <View className="flex-1 bg-background">
       <ScreenHeader title="RNUI" subtitle={`${COMPONENTS.length} components`} />
-      <View
-        style={{
-          paddingHorizontal: t.spacing[4],
-          paddingTop: t.spacing[3],
-          paddingBottom: t.spacing[2],
-          backgroundColor: t.color.bg.subtle,
-        }}
-      >
+      <View className="bg-background px-4 pb-2 pt-3">
         <PillSearchBar
           value={search}
           onChangeText={setSearch}
@@ -159,21 +136,15 @@ export default function ComponentsListScreen() {
         keyboardShouldPersistTaps="handled"
         stickySectionHeadersEnabled={false}
         contentContainerStyle={{
-          paddingHorizontal: t.spacing[4],
-          paddingBottom: insets.bottom + t.spacing[8],
+          paddingHorizontal: 16,
+          paddingBottom: insets.bottom + 32,
         }}
         ListEmptyComponent={
-          <View
-            style={{
-              padding: t.spacing[8],
-              alignItems: 'center',
-              gap: t.spacing[2],
-            }}
-          >
-            <Typography variant="subtitle2">No matches</Typography>
-            <Typography variant="body2" color="secondary" align="center">
+          <View style={styles.emptyState}>
+            <Text variant="large">No matches</Text>
+            <Text variant="muted" style={styles.centered}>
               Try a different search term
-            </Typography>
+            </Text>
           </View>
         }
         renderSectionHeader={({ section: { title } }) => (
@@ -181,32 +152,19 @@ export default function ComponentsListScreen() {
         )}
         renderItem={({ item }) => (
           <Pressable
-            onPress={() => router.push(componentHref(item))}
-            style={({ pressed }) => ({
-              paddingVertical: t.spacing[3.5],
-              paddingHorizontal: t.spacing[4],
-              marginBottom: t.spacing[2],
-              backgroundColor: pressed
-                ? t.color.surface.sunken
-                : t.color.surface.default,
-              borderRadius: t.radius.lg,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderWidth: StyleSheet.hairlineWidth,
-              borderColor: t.color.border.subtle,
-              minHeight: 52,
-            })}
+            onPress={() => router.push(`/components/${item}` as Href)}
+            style={({ pressed }) => [
+              styles.row,
+              {
+                backgroundColor: pressed ? colors.accent : colors.background,
+                borderColor: colors.border,
+              },
+            ]}
             accessibilityRole="button"
-            accessibilityLabel={`Open ${item} demo`}
+            accessibilityLabel={`Open ${item} examples`}
           >
-            <Typography
-              variant="body1"
-              style={{ fontWeight: tokens.fontWeight.medium }}
-            >
-              {item}
-            </Typography>
-            <ChevronRight size={18} color={t.color.text.tertiary} />
+            <Text>{item}</Text>
+            <ChevronRight size={18} color={colors.mutedForeground} />
           </Pressable>
         )}
       />
@@ -216,3 +174,25 @@ export default function ComponentsListScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  row: {
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    marginBottom: 8,
+    borderRadius: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderWidth: StyleSheet.hairlineWidth,
+    minHeight: 52,
+  },
+  emptyState: {
+    padding: 32,
+    alignItems: 'center',
+    gap: 8,
+  },
+  centered: {
+    textAlign: 'center',
+  },
+});

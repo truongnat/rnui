@@ -1,7 +1,7 @@
 {
-  "name": "@truongdq01/renderer",
+  "name": "@rnui/renderer",
   "version": "0.1.0",
-  "description": "ScreenSchema renderer — validate, lazy-load RNUI components, preview, and export TSX",
+  "description": "ScreenSchema renderer — validate, lazy-load registry kit components, preview, and export TSX",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -34,11 +34,9 @@
     "clean": "rm -rf dist dist-types"
   },
   "dependencies": {
-    "@truongdq01/component-schema": "workspace:*"
+    "@rnui/component-schema": "workspace:*"
   },
   "peerDependencies": {
-    "@truongdq01/headless": "^1.0.3",
-    "@truongdq01/ui": "^1.0.3",
     "react": "^19.2.0",
     "react-native": "^0.83.2",
     "react-native-web": ">=0.19.0"
@@ -49,9 +47,6 @@
     }
   },
   "devDependencies": {
-    "@truongdq01/headless": "workspace:*",
-    "@truongdq01/themes": "workspace:*",
-    "@truongdq01/ui": "workspace:*",
     "@types/react": "^19.2.14",
     "react": "19.2.0",
     "react-native": "0.83.2",

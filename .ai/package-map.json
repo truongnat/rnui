@@ -1,62 +1,86 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "distributionModel": "shadcn-style registry — components are copied into consumer apps under components/ui/ via npx @rnui/cli add and imported through the @/ alias; there is no installed @rnui/ui runtime package",
   "packages": {
-    "@truongdq01/tokens": {
-      "purpose": "Design tokens: primitive, semantic, component, brand, and motion values",
+    "registry:components": {
+      "path": "registry/shared/ui",
+      "purpose": "Source of truth for all UI components — kebab-case .tsx files copied into consumer apps",
       "useWhen": [
-        "Defining or extending the design system token pipeline",
-        "Building semantic color/spacing/type scales",
-        "Referencing token types in headless or theme code",
-        "Low-level design math without React components"
+        "Composing app screens and features (import from '@/components/ui/<kebab>')",
+        "Adding or editing a component — edit registry/shared/ui, variants are generated",
+        "Choosing UI for a task: buttons, inputs, cards, lists, overlays, feedback"
       ],
       "doNotUseFor": [
-        "React components or JSX",
-        "App business logic",
-        "Direct imports in app screens for one-off styling (prefer useTheme/useTokens via headless)",
-        "Native module integration"
-      ]
-    },
-    "@truongdq01/headless": {
-      "purpose": "ThemeProvider, theme hooks, behavior hooks, accessibility helpers, and motion primitives",
-      "useWhen": [
-        "Wrapping the app with ThemeProvider",
-        "Reading theme/tokens with useTheme, useTokens, useIsDark",
-        "Shared interaction logic (usePressable, useModal, useToast, useSelect, etc.)",
-        "Building custom components that need RNUI behavior without styled opinions"
-      ],
-      "doNotUseFor": [
-        "Styled UI in app screens when @truongdq01/ui already exports a component",
-        "Duplicating component visuals that exist in @truongdq01/ui",
-        "App-specific API calls or navigation"
-      ]
-    },
-    "@truongdq01/ui": {
-      "purpose": "Styled React Native UI components — primary import for app screens",
-      "useWhen": [
-        "Composing app screens and features",
-        "Any standard UI: buttons, inputs, cards, lists, modals, feedback",
-        "Re-exported ThemeProvider and theme hooks for convenience"
-      ],
-      "doNotUseFor": [
-        "Defining new design tokens (use tokens package)",
         "Heavy business logic (keep in app hooks/services)",
-        "Bundling or re-wrapping native modules inside the library"
+        "Importing registry files via relative paths into packages/ — consumers use the @/ alias"
       ]
     },
-    "@truongdq01/themes": {
-      "purpose": "Pre-built brand theme presets (default, ocean, forest, etc.)",
+    "registry:theme": {
+      "path": "registry/themes + registry/templates",
+      "purpose": "Theme presets (neutral, stone, butter, chocolate, matcha, gothic, y2k) shipped as CSS variable files per styling variant",
       "useWhen": [
-        "Applying a packaged brand to ThemeProvider",
-        "Switching brand presets at runtime",
-        "Demo / multi-brand apps"
+        "Setting up theming via global.css / @theme block",
+        "Switching brand presets (npx @rnui/cli add theme-<brand>)",
+        "Looking up semantic color token names (primary, muted, destructive, ...)"
       ],
       "doNotUseFor": [
-        "One-off app colors (use ThemeProvider overrides instead)",
-        "Components or hooks",
-        "Replacing semantic tokens in the tokens package"
+        "Runtime theme objects or a ThemeProvider — none exists; colors resolve through CSS vars",
+        "One-off app colors (extend global.css instead)"
+      ]
+    },
+    "registry:lib": {
+      "path": "registry/shared/lib/utils.ts",
+      "purpose": "Shared utilities copied with components: cn(), spacingValue(), useThemeColor(), useIconColor(), FormFieldContext",
+      "useWhen": [
+        "Composing Tailwind/NativeWind classes conditionally (cn)",
+        "Reading resolved semantic colors for style-prop overrides (useThemeColor)",
+        "Icon tinting (useIconColor)"
+      ],
+      "doNotUseFor": [
+        "App-level utilities unrelated to registry components"
+      ]
+    },
+    "@rnui/cli": {
+      "path": "packages/cli",
+      "purpose": "CLI for the RNUI registry — init NativeWind/Uniwind setup and add components/themes to React Native apps",
+      "useWhen": [
+        "Bootstrapping a consumer app (npx @rnui/cli init)",
+        "Adding components or theme presets (npx @rnui/cli add <item>)",
+        "Listing available registry items"
+      ],
+      "doNotUseFor": [
+        "Runtime dependencies inside app screens",
+        "Editing component sources (edit registry/shared/ui instead)"
+      ]
+    },
+    "@rnui/component-schema": {
+      "path": "packages/component-schema",
+      "purpose": "Machine-readable component contracts and ScreenSchema validation for the AI builder",
+      "useWhen": [
+        "Validating ScreenSchema JSON (validateScreenSchema)",
+        "Deriving lazy-load import plans (getLazyLoadPlan)",
+        "Reading per-component prop contracts, safety flags, web-preview support"
+      ],
+      "doNotUseFor": [
+        "Rendering UI directly",
+        "Styling or theme logic"
+      ]
+    },
+    "@rnui/renderer": {
+      "path": "packages/renderer",
+      "purpose": "ScreenSchema renderer — validates, lazy-loads registry components, previews, and exports TSX",
+      "useWhen": [
+        "Rendering a ScreenSchema at runtime (ScreenSchemaRenderer, WebPreviewHost)",
+        "Exporting schemas to TSX (exportScreenSchemaToTsx)",
+        "Building the component map for a lazy-load plan"
+      ],
+      "doNotUseFor": [
+        "Direct screen authoring (compose registry components by hand instead)",
+        "Schema authoring rules (that is @rnui/component-schema)"
       ]
     },
     "apps/example": {
+      "path": "apps/example",
       "purpose": "Expo example app with per-component showcase screens",
       "useWhen": [
         "Visual reference for component usage",
@@ -64,20 +88,18 @@
         "Copying patterns for demo screens"
       ],
       "doNotUseFor": [
-        "Importing example code into published packages",
-        "Treating showcase screens as type-safe canonical API reference (some drift exists)"
+        "Treating showcase screens as canonical API reference (some drift exists)"
       ]
     },
-    "docs": {
-      "purpose": "Astro Starlight documentation site",
+    "apps/web": {
+      "path": "apps/web",
+      "purpose": "Web builder / preview app for ScreenSchema-driven screens",
       "useWhen": [
-        "Human-readable component docs",
-        "AI usage guide at guides/ai-usage",
-        "Publishing docs to static site"
+        "Previewing generated schemas in the browser",
+        "Developing the AI screen builder flow"
       ],
       "doNotUseFor": [
-        "Runtime app dependencies",
-        "Replacing .ai/component-registry.json for machine-readable metadata"
+        "Runtime app dependencies for native consumers"
       ]
     }
   }

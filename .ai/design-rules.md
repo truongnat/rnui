@@ -2,88 +2,82 @@
 
 How to design mobile screens with RNUI. Read alongside `.ai/component-registry.json` and `.ai/rnui.manifest.json`.
 
-> Token baseline: RNUI aligns with the [Astryx Design System](https://astryx.atmeta.com/docs/getting-started) (color, shape, spacing, typography, motion), adapted for React Native. RNUI keeps its own token names/architecture — the alignment is additive.
+> RNUI is a **shadcn-style registry**: component source files are copied into the consumer app under `components/ui/` and imported via the `@/` alias. Styling is Tailwind classes (`className` + `cn()`), themed by CSS variables — there is no runtime `ThemeProvider` or token package.
 
 ## Layout first
 
 1. Define screen regions: header, body, footer/actions.
 2. Use layout primitives before decorative components.
 3. Prefer vertical `Stack` for forms and settings; use `direction="row"` for toolbars and chip rows.
-4. Use `Box` with `flex` for flexible regions; use `Grid` for responsive tile layouts.
+4. Use a plain `View` with `className="flex-1"` for flexible regions; use `Grid`/`GridItem` for responsive tile layouts.
 
 ## Component mapping
 
 | Need | RNUI component |
 | ---- | -------------- |
-| Page structure | `Stack`, `Box`, `Grid` |
+| Page structure | `Stack`, `View` (`flex-1`), `Grid`, `ScrollArea` |
 | Surfaces | `Card`, `GlassCard`, `Paper` |
-| Text | `Typography` (never raw `Text` for body copy unless inside a custom leaf) |
-| Primary actions | `Button` |
-| Secondary actions | `Button` (`variant="outline"` / `ghost`) or `Link` |
-| Text input | `Input`, `TextField`, `TextArea` |
-| Form structure | `FormField`, `FormControl`, `Form`, `Label` |
+| Text | `Text` variants (never raw RN `Text` for body copy unless inside a custom leaf) |
+| Primary actions | `Button` (`variant="default"`) |
+| Secondary actions | `Button` (`variant="outline"` / `secondary` / `ghost`) or `Link` |
+| Text input | `TextField` (label + input + error), `Input`, `Textarea` |
+| Form structure | `FormField` + `FormLabel` + `FormDescription` + `FormMessage`, `Label` |
 | Navigation chrome | `AppBar`, `Tabs`, `TabBar`, `BottomNavigation` |
-| Lists | `List` (+ compound items) |
-| Feedback | `Alert`, `Snackbar`, `Toast` |
-| Overlays | `Modal`, `BottomSheet`, `Dialog`, `Drawer` |
+| Lists | `List`, `ListItem`, `ListSectionTitle`, `ListSeparator` |
+| Feedback | `Alert`, `Snackbar`, `Toast` (`ToastProvider` + `useToast`) |
+| Overlays | `Modal`, `Sheet`, `Dialog`, `Drawer`, `Popover` |
 | Empty / error | `EmptyState` |
-| Loading | `Skeleton`, `CircularProgress`, `LinearProgress` |
+| Loading | `Skeleton`, `CircularProgress`, `Progress` |
 | Media | `Avatar`, `Image`, `Icon` |
 
 ## Tokens and theme
 
-- Read spacing, colors, and radii via `useTokens()` or `useTheme()` from `@truongdq01/headless`.
-- Prefer semantic colors: `Typography color="secondary"`, `Button color="primary"`, Alert `severity`.
-- Use component token-driven props (`Stack spacing="md"`, `Card padding="lg"`) over raw numbers when available.
-- Avoid `StyleSheet` with hardcoded values unless no token exists — then use token values from `useTokens()`.
+- Colors are **semantic CSS-var Tailwind classes**: `bg-background`, `text-foreground`, `text-muted-foreground`, `bg-primary`, `text-destructive`, `border-border`, `bg-card`, etc.
+- Prefer variant-driven props (`Text variant="muted"`, `Button variant="outline"`, `Alert variant="destructive"`) over manual color classes.
+- When a dynamic color is needed at runtime (charts, state-driven), read resolved values with `useThemeColor()` from `@/lib/utils` and pass them through `style` — **never toggle var-referencing classes at runtime** (Hermes OOM).
+- Use component props like `Stack spacing="md"` or `Grid gap="md"` over raw pixel gaps; reach for `className` padding utilities (`p-4`, `px-6`) elsewhere.
 
-### Surface hierarchy (Astryx)
+### Surface hierarchy
 
-- Layer surfaces in order: `bg` (body/canvas) → `surface` → `surface.card` → `surface.popover`. Each level sits visually above the previous. `Card` already renders on `surface.card`.
+- Layer surfaces in order: `bg-background` (canvas) → card/popover surfaces. `Card` already renders the card surface and `text-card-foreground`.
 
-### Semantic radius (Astryx)
+### Radius
 
-- `tokens.radius` exposes semantic aliases alongside the t-shirt scale: `inner` (8, nested elements), `element` (12, buttons/inputs/selectors), `container` (16, cards/panels/dialogs), `page` (32, page-level), `chat` (28, chat bubbles).
-- For media/elements nested inside a padded rounded container, use the concentric radius: `concentricRadius(outerRadius, padding)` from `@truongdq01/headless`, or read the surrounding card's `useCardSurface()`.
+- Components ship with consistent rounded corners (`rounded-md` / `rounded-lg`, `borderCurve: 'continuous'`). Keep custom surfaces on the same scale.
 
-### Typography scale (Astryx)
+### Typography scale
 
-- Standard ramp: `display`, `h1`–`h6`, `body1/2`, `caption`, `overline`, `label`, `code`.
-- Geometric display variants for hero/marketing/data callouts: `Typography variant="display1" | "display2" | "display3"`. Do not use display variants for body content or in-page section headers.
+- `Text` variants: `default`, `h1`–`h4`, `p`, `lead`, `large`, `small`, `muted`, `blockquote`, `code`.
+- Use `accessibilityRole="header"` on heading-level `Text` — there is no `as` prop.
 
-### Data & syntax colors
+### Motion
 
-- For charts/visualizations use `tokens.color.data` (categorical set + `blue/green/orange/pink/purple/red/teal/yellow/gray` 1–5 ramps, `neutral`). For code surfaces use `tokens.color.syntax`.
-
-### Motion (Astryx)
-
-- Duration tiers via `durationScale`: `fast` (small frequent interactions), `medium` (layout-rearranging transitions), `slow` (large spatial moves), each with `*Min`/`*Max` variants. Default curve: `motionEasing.standard`.
-- Always honor reduced motion: gate non-essential animations on `useReducedMotion()` (alias of `useReduceMotionEnabled`). `usePressable`, `Skeleton`, overlays, and `Accordion` already do this.
+- Use Reanimated/worklets already installed for the styling variant. Honor reduced motion for non-essential animations.
 
 ## Visual style
 
 - Prefer **simple, clean UI** over heavy decoration.
-- Limit font size variety — use `Typography` variants and color for hierarchy.
-- Use `Card` or `GlassCard` to group related content.
-- Optional: `Gradient` background only when it serves the design (requires `expo-linear-gradient` in app).
+- Limit font size variety — use `Text` variants for hierarchy.
+- Use `Card`/`CardContent` or `GlassCard` to group related content.
+- Optional: `Gradient` background only when it serves the design (requires `expo-linear-gradient` in the app).
 
 ## Mobile UX
 
 - Minimum touch target **44×44 pt** for tappable areas.
 - Adequate vertical spacing between form fields (`Stack spacing="md"` or larger).
 - Scroll long content — wrap body in `ScrollView` when needed (RN primitive), keep header/footer fixed.
-- Support **dark mode** through theme — no light-only hex colors.
+- Support **dark mode** — rely on semantic classes, never light-only hex colors.
 
 ## Accessibility
 
-- `accessibilityLabel` on icon-only `Button` and controls.
-- Use `Typography as="h1"` etc. for heading semantics where appropriate.
-- Don't rely on color alone for errors — use `Input error`, `Alert severity="error"`, helper text.
+- `accessibilityLabel` on icon-only `IconButton`/`Button size="icon"` and controls.
+- Use `Text` heading variants with `accessibilityRole="header"` for heading semantics.
+- Don't rely on color alone for errors — use `TextField error`, `Alert variant="destructive"`, `FormMessage` text.
 
 ## Dark mode and brands
 
-- Wrap app in `ThemeProvider`; optional brand from `@truongdq01/themes`.
-- Do not hardcode platform-specific visual hacks (iOS-only shadows, etc.) unless using theme tokens.
+- Brand presets are `registry/themes/<brand>.json` added via the CLI (`npx @rnui/cli add theme-<brand>`) — they swap CSS variable values, not a provider.
+- Do not hardcode platform-specific visual hacks (iOS-only shadows, etc.).
 
 ---
 
@@ -91,11 +85,11 @@ How to design mobile screens with RNUI. Read alongside `.ai/component-registry.j
 
 | Anti-pattern | Why |
 | ------------ | --- |
-| One giant screen file with 200+ lines of inline styles | Unmaintainable; split sections and use RNUI props |
+| One giant screen file with 200+ lines of inline styles | Unmaintainable; split sections and use registry props/classes |
 | Random hex colors (`#1a1a1a`, `#6366f1`) | Breaks theming and dark mode |
-| Custom `PrimaryButton` / `CustomCard` | Duplicates `@truongdq01/ui` |
+| Custom `PrimaryButton` / `CustomCard` | Duplicates registry components |
 | Adding UI libraries (Tamagui, NativeBase, RN Paper) | Conflicts with RNUI tokens and boundaries |
-| Importing `@truongdq01/ui` inside `packages/tokens` | Violates package boundary |
+| Toggling var-referencing classes at runtime (e.g. `dark:` swaps on state) | Hermes OOM — use `style` + `useThemeColor()` |
 | Styling with fixed pixel widths for all text | Breaks accessibility and font scaling |
 | FlashList/FlatList with heavy hooks inside every row | Performance — keep list items light |
 | `{count && <Text>}` when count can be 0 | RN crash — use ternary or `count > 0` |
@@ -104,9 +98,9 @@ How to design mobile screens with RNUI. Read alongside `.ai/component-registry.j
 
 Every data-driven screen should consider:
 
-- **Loading** — `Skeleton` or progress indicator
-- **Empty** — `EmptyState` with action
-- **Error** — `Alert severity="error"` or `EmptyState variant="error"`
+- **Loading** — `Skeleton` or `Progress`/`CircularProgress`
+- **Empty** — `EmptyState` with `EmptyStateAction`
+- **Error** — `Alert variant="destructive"` or `EmptyState`
 - **Success** — main content with optional `Toast` / `Snackbar`
 
 ## Optional native peers
@@ -115,7 +109,8 @@ Document in registry when using:
 
 - `expo-blur` → `GlassCard`
 - `expo-linear-gradient` → `Gradient`
-- `@shopify/flash-list` → `Select` (performance)
-- `react-native-svg` + `lucide-react-native` → `Icon`
+- `react-native-svg` + `lucide-react-native` → `Icon`, `CircularProgress`
+- `react-native-safe-area-context` → `Sheet`, `Modal`, `TabBar`
+- `@shopify/flash-list` → `AnimatedList`, large lists
 
 Install peers in the **app** package, not only in a shared library.

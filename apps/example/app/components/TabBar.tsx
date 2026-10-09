@@ -1,16 +1,17 @@
-import { useTokens } from '@truongdq01/headless';
-import { TabBar, TabBarItem, Typography } from '@truongdq01/ui';
-import { Bell, Home, Search, Settings, User } from 'lucide-react-native';
 import { useState } from 'react';
 import { View } from 'react-native';
+import { Bell, Home, Search, Settings, User } from 'lucide-react-native';
+import { TabBar } from '@/components/ui/tab-bar';
+import { Text } from '@/components/ui/text';
+import { useThemeColor } from '@/lib/utils';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
+const ICON_SIZE = 24;
+
 export default function TabBarScreen() {
-  const t = useTokens();
+  const colors = useThemeColor();
   const [activeTab, setActiveTab] = useState('home');
   const [activeTab2, setActiveTab2] = useState('search');
-
-  const ICON_SIZE = 24;
 
   return (
     <DemoPage
@@ -22,114 +23,86 @@ export default function TabBarScreen() {
         description="Labels, icons, and badge counts."
         bare
       >
-        <View
-          style={{
-            borderRadius: t.radius.lg,
-            overflow: 'hidden',
-            borderWidth: 1,
-            borderColor: t.color.border.subtle,
-          }}
-        >
+        <View className="overflow-hidden rounded-lg border border-border">
           <View
-            style={{
-              height: t.spacing[20],
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: t.color.bg.default,
-            }}
+            className="items-center justify-center"
+            style={{ height: 80, backgroundColor: colors.background }}
           >
-            <Typography variant="h6">Active Tab: {activeTab}</Typography>
+            <Text variant="h4">Active Tab: {activeTab}</Text>
           </View>
-          <TabBar value={activeTab} onChange={setActiveTab} glassEffect={false}>
-            <TabBarItem
-              value="home"
-              label="Home"
-              icon={<Home size={ICON_SIZE} color={t.color.text.secondary} />}
-              activeIcon={
-                <Home size={ICON_SIZE} color={t.color.brand.default} />
-              }
-            />
-            <TabBarItem
-              value="search"
-              label="Search"
-              icon={<Search size={ICON_SIZE} color={t.color.text.secondary} />}
-              activeIcon={
-                <Search size={ICON_SIZE} color={t.color.brand.default} />
-              }
-            />
-            <TabBarItem
-              value="notifications"
-              label="Inbox"
-              icon={<Bell size={ICON_SIZE} color={t.color.text.secondary} />}
-              activeIcon={
-                <Bell size={ICON_SIZE} color={t.color.brand.default} />
-              }
-              badge={5}
-            />
-            <TabBarItem
-              value="settings"
-              label="Settings"
-              icon={
-                <Settings size={ICON_SIZE} color={t.color.text.secondary} />
-              }
-              activeIcon={
-                <Settings size={ICON_SIZE} color={t.color.brand.default} />
-              }
-            />
-          </TabBar>
+          <TabBar
+            safeArea={false}
+            value={activeTab}
+            onValueChange={setActiveTab}
+            items={[
+              {
+                key: 'home',
+                label: 'Home',
+                icon: <Home size={ICON_SIZE} />,
+              },
+              {
+                key: 'search',
+                label: 'Search',
+                icon: <Search size={ICON_SIZE} />,
+              },
+              {
+                key: 'notifications',
+                label: 'Inbox',
+                icon: <Bell size={ICON_SIZE} />,
+                badge: 5,
+              },
+              {
+                key: 'settings',
+                label: 'Settings',
+                icon: <Settings size={ICON_SIZE} />,
+              },
+            ]}
+          />
         </View>
       </DemoSection>
 
       <DemoSection
-        title="Glass & Badges"
-        description="Transparency, dot badges, text badges, and disabled tabs."
+        title="Badges & States"
+        description="Dot badges, text badges, and disabled tabs."
         bare
       >
-        <View
-          style={{
-            borderRadius: t.radius.lg,
-            overflow: 'hidden',
-            borderWidth: 1,
-            borderColor: t.color.border.subtle,
-          }}
-        >
+        <View className="overflow-hidden rounded-lg border border-border">
           <View
-            style={{
-              height: t.spacing[20],
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: t.color.brand.subtle,
-            }}
+            className="items-center justify-center bg-muted"
+            style={{ height: 80 }}
           >
-            <Typography variant="body1">Content with background</Typography>
+            <Text variant="p">Content with background</Text>
           </View>
-          <TabBar value={activeTab2} onChange={setActiveTab2} glassEffect>
-            <TabBarItem
-              value="home"
-              label="Home"
-              icon={<Home size={ICON_SIZE} color={t.color.text.secondary} />}
-            />
-            <TabBarItem
-              value="search"
-              label="Search"
-              icon={<Search size={ICON_SIZE} color={t.color.text.secondary} />}
-              badge
-            />
-            <TabBarItem
-              value="user"
-              label="Profile"
-              icon={<User size={ICON_SIZE} color={t.color.text.secondary} />}
-              badge="NEW"
-            />
-            <TabBarItem
-              value="settings"
-              label="Settings"
-              icon={
-                <Settings size={ICON_SIZE} color={t.color.text.secondary} />
-              }
-              disabled
-            />
-          </TabBar>
+          <TabBar
+            safeArea={false}
+            value={activeTab2}
+            onValueChange={setActiveTab2}
+            items={[
+              {
+                key: 'home',
+                label: 'Home',
+                icon: <Home size={ICON_SIZE} />,
+              },
+              {
+                key: 'search',
+                label: 'Search',
+                icon: <Search size={ICON_SIZE} />,
+                badge: true,
+              },
+              {
+                key: 'user',
+                label: 'Profile',
+                icon: <User size={ICON_SIZE} />,
+                badge: 'NEW',
+              },
+              {
+                key: 'settings',
+                label: 'Settings',
+                icon: <Settings size={ICON_SIZE} />,
+                disabled: true,
+              },
+            ]}
+          />
         </View>
       </DemoSection>
 

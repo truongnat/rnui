@@ -1,12 +1,9 @@
-import { useTokens } from '@truongdq01/headless';
-import { Button, MessageInput, Stack } from '@truongdq01/ui';
-import { Camera, Mic } from 'lucide-react-native';
 import { useState } from 'react';
 import { Alert, View } from 'react-native';
+import { MessageInput } from '@/components/ui/message-input';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function MessageInputScreen() {
-  const t = useTokens();
   const [value, setValue] = useState('');
 
   const handleSend = (text: string) => {
@@ -16,95 +13,52 @@ export default function MessageInputScreen() {
   return (
     <DemoPage
       title="MessageInput"
-      description="Chat input with attachments, glass effects, and auto-expanding height."
+      description="Chat input with a multiline field and a send button."
     >
       <DemoSection
         title="Basic"
-        description="Default input with attach and emoji buttons."
+        description="Uncontrolled input — clears itself after send."
+      >
+        <MessageInput onSend={handleSend} />
+      </DemoSection>
+
+      <DemoSection
+        title="Controlled"
+        description="Controlled value with an explicit onChange handler."
       >
         <MessageInput
           value={value}
-          onChangeText={setValue}
-          onSend={handleSend}
-          onAttach={() => Alert.alert('Attach pressed')}
-          onSticker={() => Alert.alert('Sticker pressed')}
+          onChange={setValue}
+          placeholder="Controlled input…"
+          onSend={(text) => {
+            handleSend(text);
+            setValue('');
+          }}
         />
       </DemoSection>
 
       <DemoSection
-        title="Custom Actions"
-        description="Left and right action slots."
+        title="Custom Styling"
+        description="Override className to restyle the container."
       >
         <MessageInput
-          placeholder="With custom buttons…"
-          leftActions={
-            <Button
-              variant="ghost"
-              style={{ width: t.spacing[10], height: t.spacing[10] }}
-              leadingIcon={<Camera size={20} color={t.color.text.secondary} />}
-            />
-          }
-          rightActions={
-            <Button
-              variant="ghost"
-              style={{ width: t.spacing[10], height: t.spacing[10] }}
-              leadingIcon={<Mic size={20} color={t.color.text.secondary} />}
-            />
-          }
+          placeholder="Rounded card style…"
+          className="rounded-xl border bg-muted"
           onSend={handleSend}
         />
       </DemoSection>
 
       <DemoSection
-        title="Flat Background"
-        description="Disable glass for a solid appearance."
+        title="Inside a Surface"
+        description="The row composes inside any container."
       >
-        <View
-          style={{
-            padding: t.spacing[2],
-            backgroundColor: t.color.bg.muted,
-            borderRadius: t.radius.lg,
-          }}
-        >
+        <View className="rounded-xl bg-muted p-2">
           <MessageInput
-            glassEffect={false}
-            placeholder="Flat background style…"
+            placeholder="Send a message…"
+            className="border-0 bg-transparent px-1 py-0"
             onSend={handleSend}
           />
         </View>
-      </DemoSection>
-
-      <DemoSection title="States">
-        <Stack spacing="lg">
-          <MessageInput
-            disabled
-            placeholder="Cannot type here…"
-            value="This input is disabled"
-          />
-          <MessageInput
-            placeholder="Custom send button…"
-            sendButton={
-              <Button
-                label="SEND"
-                size="sm"
-                style={{ marginLeft: t.spacing[2] }}
-                onPress={() => Alert.alert('Custom Send')}
-              />
-            }
-          />
-        </Stack>
-      </DemoSection>
-
-      <DemoSection
-        title="Minimal"
-        description="Hide default attach and sticker actions."
-      >
-        <MessageInput
-          showAttach={false}
-          showSticker={false}
-          placeholder="Simple input…"
-          onSend={handleSend}
-        />
       </DemoSection>
     </DemoPage>
   );

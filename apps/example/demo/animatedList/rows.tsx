@@ -1,15 +1,13 @@
 import { memo, type ReactNode } from 'react';
-import { Image, Pressable, StyleSheet, View } from 'react-native';
-import type { useTokens } from '@truongdq01/headless';
-import {
-  Avatar,
-  Badge,
-  Button,
-  Divider,
-  IconButton,
-  ListItem,
-  Typography,
-} from '@truongdq01/ui';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { IconButton } from '@/components/ui/icon-button';
+import { Image } from '@/components/ui/image';
+import { ListItem, ListSeparator } from '@/components/ui/list-item';
+import { Separator } from '@/components/ui/separator';
+import { Text } from '@/components/ui/text';
 import {
   Heart,
   MessageCircle,
@@ -24,23 +22,19 @@ import {
   type SocialPost,
   type TimelinePost,
 } from '@/demo/animatedListDemoData';
-
-export type ThemeTokens = ReturnType<typeof useTokens>;
-
-const bareIconButtonStyle = { backgroundColor: 'transparent' } as const;
+import { useIconColor, useThemeColor } from '@/lib/utils';
 
 type EngagementActionProps = {
-  tokens: ThemeTokens;
   icon: ReactNode;
   label: string;
   count?: number;
   active?: boolean;
+  /** Color shown for the count when `active` (matches the icon color). */
   activeColor?: string;
   onPress: () => void;
 };
 
 const EngagementAction = memo(function EngagementAction({
-  tokens,
   icon,
   label,
   count,
@@ -48,6 +42,8 @@ const EngagementAction = memo(function EngagementAction({
   activeColor,
   onPress,
 }: EngagementActionProps) {
+  const mutedColor = useIconColor('muted');
+
   return (
     <Pressable
       onPress={onPress}
@@ -58,26 +54,22 @@ const EngagementAction = memo(function EngagementAction({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: tokens.spacing[1.5],
-        paddingVertical: tokens.spacing[2],
-        opacity: pressed ? tokens.opacity[70] : 1,
+        gap: 6,
+        paddingVertical: 8,
+        opacity: pressed ? 0.7 : 1,
       })}
     >
       {icon}
       {count !== undefined && count > 0 ? (
-        <Typography
-          variant="caption"
+        <Text
+          variant="muted"
           style={{
-            color: active
-              ? (activeColor ?? tokens.color.brand.primary)
-              : tokens.color.text.secondary,
-            fontWeight: active
-              ? tokens.fontWeight.semibold
-              : tokens.fontWeight.regular,
+            color: active ? activeColor : mutedColor,
+            fontWeight: active ? '600' : '400',
           }}
         >
           {formatEngagementCount(count)}
-        </Typography>
+        </Text>
       ) : null}
     </Pressable>
   );
@@ -90,11 +82,8 @@ export type ContactRowProps = {
   initials: string;
   unread: number;
   isLast: boolean;
-  contentGap: number;
-  actionPaddingH: number;
-  actionPaddingV: number;
   onOpen: (id: string, name: string) => void;
-  onRemove: (id: string) => void;
+  onRemove: () => void;
 };
 
 export const ContactRow = memo(function ContactRow({
@@ -104,58 +93,44 @@ export const ContactRow = memo(function ContactRow({
   initials,
   unread,
   isLast,
-  contentGap,
-  actionPaddingH,
-  actionPaddingV,
   onOpen,
   onRemove,
 }: ContactRowProps) {
   return (
-    <ListItem
-      onPress={() => onOpen(id, name)}
-      divider={!isLast}
-      secondaryAction={
-        <Button
-          variant="ghost"
-          size="sm"
-          onPress={() => onRemove(id)}
-          style={{
-            paddingHorizontal: actionPaddingH,
-            paddingVertical: actionPaddingV,
-          }}
-        >
-          Remove
-        </Button>
-      }
-    >
-      <Avatar initials={initials} size="sm" />
-      <View style={{ flex: 1, marginLeft: contentGap }}>
-        <Typography variant="subtitle2" numberOfLines={1}>
-          {name}
-        </Typography>
-        <Typography variant="caption" color="secondary" numberOfLines={1}>
-          {role}
-        </Typography>
-      </View>
-      {unread > 0 ? (
-        <Badge count={unread > 99 ? '99+' : unread} variant="brand" size="sm" />
-      ) : null}
-    </ListItem>
+    <View>
+      <ListItem
+        onPress={() => onOpen(id, name)}
+        title={name}
+        subtitle={role}
+        leading={
+          <Avatar className="h-9 w-9">
+            <AvatarFallback>{initials}</AvatarFallback>
+          </Avatar>
+        }
+        trailing={
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            {unread > 0 ? <Badge>{unread > 99 ? '99+' : unread}</Badge> : null}
+            <Button variant="ghost" size="sm" onPress={onRemove}>
+              Remove
+            </Button>
+          </View>
+        }
+      />
+      {!isLast ? <ListSeparator /> : null}
+    </View>
   );
 });
 
 export type SocialFeedRowProps = {
-  tokens: ThemeTokens;
   postImageHeight: number;
   onToast: (message: string) => void;
   post: SocialPost;
   isLast: boolean;
-  onRemove: (id: string) => void;
+  onRemove: () => void;
   onToggleLike: (id: string) => void;
 };
 
 export const SocialFeedRow = memo(function SocialFeedRow({
-  tokens,
   postImageHeight,
   onToast,
   post,
@@ -163,73 +138,62 @@ export const SocialFeedRow = memo(function SocialFeedRow({
   onRemove,
   onToggleLike,
 }: SocialFeedRowProps) {
+  const colors = useThemeColor();
+  const mutedIcon = useIconColor('muted');
+  const primaryIcon = useIconColor('primary');
+
   return (
     <View
       style={{
-        backgroundColor: tokens.color.surface.default,
+        backgroundColor: colors.background,
         borderBottomWidth: isLast ? 0 : StyleSheet.hairlineWidth,
-        borderBottomColor: tokens.color.border.subtle,
+        borderBottomColor: colors.border,
       }}
     >
       <View
         style={{
-          paddingHorizontal: tokens.spacing[4],
-          paddingTop: tokens.spacing[4],
-          gap: tokens.spacing[3],
+          paddingHorizontal: 16,
+          paddingTop: 16,
+          gap: 12,
         }}
       >
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            gap: tokens.spacing[3],
+            gap: 12,
           }}
         >
-          <Avatar initials={post.author.initials} size="md" />
-          <View style={{ flex: 1, gap: tokens.spacing[0.5] }}>
-            <Typography variant="subtitle2" numberOfLines={1}>
+          <Avatar>
+            <AvatarFallback>{post.author.initials}</AvatarFallback>
+          </Avatar>
+          <View style={{ flex: 1, gap: 2 }}>
+            <Text className="font-semibold" numberOfLines={1}>
               {post.author.name}
-            </Typography>
-            <Typography variant="caption" color="tertiary">
-              {post.timestamp} · Public
-            </Typography>
+            </Text>
+            <Text variant="muted">{post.timestamp} · Public</Text>
           </View>
           <IconButton
-            icon={
-              <MoreHorizontal color={tokens.color.text.tertiary} size={18} />
-            }
-            label="Post options"
+            icon={<MoreHorizontal color={mutedIcon} size={18} />}
             accessibilityLabel="Post options"
             size="sm"
-            style={bareIconButtonStyle}
             onPress={() => onToast('Post options')}
           />
           <IconButton
-            icon={<X color={tokens.color.text.tertiary} size={18} />}
-            label="Remove post"
+            icon={<X color={mutedIcon} size={18} />}
             accessibilityLabel="Remove post"
             size="sm"
-            style={bareIconButtonStyle}
-            onPress={() => onRemove(post.id)}
+            onPress={onRemove}
           />
         </View>
 
-        <Typography
-          variant="body2"
-          style={{ lineHeight: tokens.fontSize.md * 1.5 }}
-        >
-          {post.body}
-        </Typography>
+        <Text variant="p">{post.body}</Text>
 
         {post.imageUrl ? (
           <Image
             source={{ uri: post.imageUrl }}
-            style={{
-              width: '100%',
-              height: postImageHeight,
-              borderRadius: tokens.radius.lg,
-              backgroundColor: tokens.color.surface.sunken,
-            }}
+            rounded="lg"
+            style={{ width: '100%', height: postImageHeight }}
             resizeMode="cover"
             accessibilityLabel="Post attachment"
           />
@@ -239,56 +203,45 @@ export const SocialFeedRow = memo(function SocialFeedRow({
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            paddingBottom: tokens.spacing[1],
+            paddingBottom: 4,
           }}
         >
-          <Typography variant="caption" color="secondary">
-            {formatEngagementCount(post.likes)} likes
-          </Typography>
-          <Typography variant="caption" color="secondary">
+          <Text variant="muted">{formatEngagementCount(post.likes)} likes</Text>
+          <Text variant="muted">
             {formatEngagementCount(post.comments)} comments ·{' '}
             {formatEngagementCount(post.shares)} shares
-          </Typography>
+          </Text>
         </View>
       </View>
 
-      <Divider spacing="none" />
+      <Separator />
 
-      <View
-        style={{ flexDirection: 'row', paddingHorizontal: tokens.spacing[2] }}
-      >
+      <View style={{ flexDirection: 'row', paddingHorizontal: 8 }}>
         <EngagementAction
-          tokens={tokens}
           label="Like"
           count={post.likes}
           active={post.liked}
-          activeColor={tokens.color.brand.primary}
+          activeColor={primaryIcon}
           onPress={() => onToggleLike(post.id)}
           icon={
             <ThumbsUp
               size={18}
-              color={
-                post.liked
-                  ? tokens.color.brand.primary
-                  : tokens.color.text.secondary
-              }
-              fill={post.liked ? tokens.color.brand.primary : 'transparent'}
+              color={post.liked ? primaryIcon : mutedIcon}
+              fill={post.liked ? primaryIcon : 'transparent'}
             />
           }
         />
         <EngagementAction
-          tokens={tokens}
           label="Comment"
           count={post.comments}
           onPress={() => onToast('Open comments')}
-          icon={<MessageCircle size={18} color={tokens.color.text.secondary} />}
+          icon={<MessageCircle size={18} color={mutedIcon} />}
         />
         <EngagementAction
-          tokens={tokens}
           label="Share"
           count={post.shares}
           onPress={() => onToast('Share post')}
-          icon={<Share2 size={18} color={tokens.color.text.secondary} />}
+          icon={<Share2 size={18} color={mutedIcon} />}
         />
       </View>
     </View>
@@ -296,17 +249,15 @@ export const SocialFeedRow = memo(function SocialFeedRow({
 });
 
 export type TimelineFeedRowProps = {
-  tokens: ThemeTokens;
   onToast: (message: string) => void;
   post: TimelinePost;
   isLast: boolean;
-  onRemove: (id: string) => void;
+  onRemove: () => void;
   onToggleLike: (id: string) => void;
   onToggleRepost: (id: string) => void;
 };
 
 export const TimelineFeedRow = memo(function TimelineFeedRow({
-  tokens,
   onToast,
   post,
   isLast,
@@ -314,114 +265,96 @@ export const TimelineFeedRow = memo(function TimelineFeedRow({
   onToggleLike,
   onToggleRepost,
 }: TimelineFeedRowProps) {
+  const colors = useThemeColor();
+  const mutedIcon = useIconColor('muted');
+  const destructiveIcon = useIconColor('destructive');
+  const successIcon = useIconColor('success');
+
   return (
     <View
       style={{
         flexDirection: 'row',
-        paddingHorizontal: tokens.spacing[4],
-        paddingVertical: tokens.spacing[4],
-        gap: tokens.spacing[3],
+        paddingHorizontal: 16,
+        paddingVertical: 16,
+        gap: 12,
         borderBottomWidth: isLast ? 0 : StyleSheet.hairlineWidth,
-        borderBottomColor: tokens.color.border.subtle,
-        backgroundColor: tokens.color.surface.default,
+        borderBottomColor: colors.border,
+        backgroundColor: colors.background,
       }}
     >
-      <Avatar initials={post.author.initials} size="md" />
+      <Avatar>
+        <AvatarFallback>{post.author.initials}</AvatarFallback>
+      </Avatar>
 
-      <View style={{ flex: 1, gap: tokens.spacing[2] }}>
+      <View style={{ flex: 1, gap: 8 }}>
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'flex-start',
-            gap: tokens.spacing[2],
+            gap: 8,
           }}
         >
-          <View style={{ flex: 1, gap: tokens.spacing[1] }}>
+          <View style={{ flex: 1, gap: 4 }}>
             <View
               style={{
                 flexDirection: 'row',
                 flexWrap: 'wrap',
                 alignItems: 'center',
-                gap: tokens.spacing[1],
+                gap: 4,
               }}
             >
-              <Typography variant="subtitle2">{post.author.name}</Typography>
-              <Typography variant="caption" color="tertiary">
-                {post.handle}
-              </Typography>
-              <Typography variant="caption" color="tertiary">
-                · {post.timestamp}
-              </Typography>
+              <Text className="font-semibold">{post.author.name}</Text>
+              <Text variant="muted">{post.handle}</Text>
+              <Text variant="muted">· {post.timestamp}</Text>
             </View>
-            <Typography
-              variant="body2"
-              style={{ lineHeight: tokens.fontSize.md * 1.5 }}
-            >
-              {post.body}
-            </Typography>
+            <Text variant="p">{post.body}</Text>
           </View>
           <IconButton
-            icon={<X color={tokens.color.text.tertiary} size={18} />}
-            label="Remove post"
+            icon={<X color={mutedIcon} size={18} />}
             accessibilityLabel="Remove post"
             size="sm"
-            style={bareIconButtonStyle}
-            onPress={() => onRemove(post.id)}
+            onPress={onRemove}
           />
         </View>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <EngagementAction
-            tokens={tokens}
             label="Reply"
             count={post.replies}
             onPress={() => onToast('Reply to post')}
-            icon={
-              <MessageCircle size={17} color={tokens.color.text.tertiary} />
-            }
+            icon={<MessageCircle size={17} color={mutedIcon} />}
           />
           <EngagementAction
-            tokens={tokens}
             label="Repost"
             count={post.reposts}
             active={post.reposted}
-            activeColor={tokens.color.success.icon}
+            activeColor={successIcon}
             onPress={() => onToggleRepost(post.id)}
             icon={
               <Repeat2
                 size={17}
-                color={
-                  post.reposted
-                    ? tokens.color.success.icon
-                    : tokens.color.text.tertiary
-                }
+                color={post.reposted ? successIcon : mutedIcon}
               />
             }
           />
           <EngagementAction
-            tokens={tokens}
             label="Like"
             count={post.likes}
             active={post.liked}
-            activeColor={tokens.color.error.icon}
+            activeColor={destructiveIcon}
             onPress={() => onToggleLike(post.id)}
             icon={
               <Heart
                 size={17}
-                color={
-                  post.liked
-                    ? tokens.color.error.icon
-                    : tokens.color.text.tertiary
-                }
-                fill={post.liked ? tokens.color.error.icon : 'transparent'}
+                color={post.liked ? destructiveIcon : mutedIcon}
+                fill={post.liked ? destructiveIcon : 'transparent'}
               />
             }
           />
           <EngagementAction
-            tokens={tokens}
             label="Share"
             onPress={() => onToast('Share post')}
-            icon={<Share2 size={17} color={tokens.color.text.tertiary} />}
+            icon={<Share2 size={17} color={mutedIcon} />}
           />
         </View>
       </View>

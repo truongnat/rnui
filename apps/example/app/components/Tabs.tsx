@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useTokens } from '@truongdq01/headless';
-import { Tab, Tabs, Typography, Card } from '@truongdq01/ui';
+import { Card } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function TabsScreen() {
-  const t = useTokens();
   const [activeTab1, setActiveTab1] = useState('profile');
 
   return (
@@ -14,22 +14,27 @@ export default function TabsScreen() {
     >
       <DemoSection
         title="Standard Navigation"
-        description="Underlined style with animated indicator."
+        description="Segmented style with animated indicator."
       >
-        <Tabs value={activeTab1} onChange={(v) => setActiveTab1(v as string)}>
-          <Tab value="profile" label="Profile" />
-          <Tab value="settings" label="Settings" />
-          <Tab value="notifications" label="Notifications" />
+        <Tabs value={activeTab1} onValueChange={setActiveTab1}>
+          <TabsList>
+            <TabsTrigger value="profile">Profile</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
+            <TabsTrigger value="notifications">Notifications</TabsTrigger>
+          </TabsList>
+          {(['profile', 'settings', 'notifications'] as const).map((tab) => (
+            <TabsContent key={tab} value={tab}>
+              <Card className="p-4">
+                <Text variant="h4" className="mb-2">
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)} View
+                </Text>
+                <Text variant="p">
+                  Content for the selected tab appears here.
+                </Text>
+              </Card>
+            </TabsContent>
+          ))}
         </Tabs>
-
-        <Card style={{ marginTop: t.spacing[4], padding: t.spacing[4] }}>
-          <Typography variant="h4" style={{ marginBottom: t.spacing[2] }}>
-            {activeTab1.charAt(0).toUpperCase() + activeTab1.slice(1)} View
-          </Typography>
-          <Typography variant="body1">
-            Content for the selected tab appears here.
-          </Typography>
-        </Card>
       </DemoSection>
 
       <DemoSection

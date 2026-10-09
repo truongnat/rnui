@@ -1,12 +1,15 @@
 import { View } from 'react-native';
-import { Link, Typography, Stack } from '@truongdq01/ui';
-import { useTheme, useToast } from '@truongdq01/headless';
-import { DemoPage, DemoSection } from '@/demo/DemoPage';
 import { ExternalLink } from 'lucide-react-native';
+import { Link } from '@/components/ui/link';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
+import { useToast } from '@/components/ui/toast';
+import { useThemeColor } from '@/lib/utils';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function LinkScreen() {
-  const { tokens } = useTheme();
-  const toast = useToast();
+  const colors = useThemeColor();
+  const { toast } = useToast();
 
   return (
     <DemoPage
@@ -21,10 +24,7 @@ export default function LinkScreen() {
           <Link onPress={() => toast.info('Navigating to profile…')}>
             My Profile
           </Link>
-          <Link
-            color={tokens.color.text.secondary}
-            onPress={() => toast.info('Opening settings…')}
-          >
+          <Link variant="muted" onPress={() => toast.info('Opening settings…')}>
             Account Settings
           </Link>
         </Stack>
@@ -38,39 +38,37 @@ export default function LinkScreen() {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            gap: tokens.spacing[1],
+            gap: 4,
           }}
         >
-          <Link onPress={() => toast.info('Opening browser…')}>
-            Visit GitHub Repository
-          </Link>
-          <ExternalLink size={14} color={tokens.color.brand.default} />
+          <Link href="https://github.com">Visit GitHub Repository</Link>
+          <ExternalLink size={14} color={colors.primary} />
         </View>
       </DemoSection>
 
       <DemoSection
         title="Typography Variants"
-        description="Wrap in Typography for different sizes."
+        description="Wrap in Text for different sizes."
       >
         <Stack spacing="md" alignItems="flex-start">
-          <Typography variant="h4">
+          <Text variant="h4">
             <Link onPress={() => {}}>Header Link</Link>
-          </Typography>
-          <Typography variant="body2">
+          </Text>
+          <Text variant="p">
             <Link onPress={() => {}}>Small Body Link</Link>
-          </Typography>
-          <Typography variant="caption">
+          </Text>
+          <Text variant="small">
             <Link onPress={() => {}}>Caption Link Style</Link>
-          </Typography>
+          </Text>
         </Stack>
       </DemoSection>
 
       <DemoSection title="Inline Usage">
-        <Typography variant="body1">
+        <Text variant="p">
           Read our <Link onPress={() => {}}>Privacy Policy</Link> and{' '}
           <Link onPress={() => {}}>Terms of Service</Link> to learn how we
           protect your data.
-        </Typography>
+        </Text>
       </DemoSection>
     </DemoPage>
   );

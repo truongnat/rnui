@@ -1,8 +1,6 @@
 'use client';
 
-import { ThemeProvider, useTheme } from '@truongdq01/headless';
 import { useMemo, useState, type ReactNode } from 'react';
-import { View } from 'react-native';
 import type { RendererAction } from '../../../../../packages/renderer/src/types';
 import { RenderSchemaNode } from '../../../../../packages/renderer/src/render-node';
 import { previewComponentMap } from '@/lib/preview-component-map';
@@ -15,19 +13,19 @@ type PreviewPanelProps = {
 };
 
 function PreviewCanvas({ children }: { children: ReactNode }) {
-  const { tokens } = useTheme();
   return (
-    <View
+    <div
+      className="pk-root"
       style={{
         flex: 1,
         minHeight: '100%',
-        backgroundColor: tokens.color.bg.default,
-        paddingTop: tokens.spacing[4],
-        paddingBottom: tokens.spacing[6],
+        background: 'var(--pk-bg)',
+        paddingTop: 16,
+        paddingBottom: 24,
       }}
     >
       {children}
-    </View>
+    </div>
   );
 }
 
@@ -61,7 +59,9 @@ export function PreviewPanel({ state }: PreviewPanelProps) {
       <header className="panel-header">
         <div>
           <h2>Preview</h2>
-          <p className="panel-subtitle">React Native Web · RNUI components</p>
+          <p className="panel-subtitle">
+            Web preview kit · registry components
+          </p>
         </div>
         <div className="preview-header-actions">
           <fieldset className="theme-toggle" aria-label="Preview color scheme">
@@ -105,11 +105,11 @@ export function PreviewPanel({ state }: PreviewPanelProps) {
             <strong>Schema JSON</strong> — ScreenSchema mô tả cây component
           </li>
           <li>
-            <strong>@truongdq01/renderer</strong> — map node → props RNUI
+            <strong>@rnui/renderer</strong> — map node → props
           </li>
           <li>
-            <strong>@truongdq01/ui + react-native-web</strong> — render trong
-            browser (không phải native view)
+            <strong>preview-kit</strong> — HTML/CSS approximation of the
+            registry kit, rendered in the browser
           </li>
         </ol>
         <p>
@@ -134,19 +134,14 @@ export function PreviewPanel({ state }: PreviewPanelProps) {
           <div className="phone-screen" data-preview-theme={colorScheme}>
             <div className="phone-screen-inner">
               {state.validation.valid ? (
-                <ThemeProvider
-                  colorScheme={colorScheme}
-                  withGestureRoot={false}
-                >
-                  <PreviewCanvas>
-                    <RenderSchemaNode
-                      node={state.schema.root}
-                      componentMap={previewComponentMap}
-                      actions={actions}
-                      onAction={onAction}
-                    />
-                  </PreviewCanvas>
-                </ThemeProvider>
+                <PreviewCanvas>
+                  <RenderSchemaNode
+                    node={state.schema.root}
+                    componentMap={previewComponentMap}
+                    actions={actions}
+                    onAction={onAction}
+                  />
+                </PreviewCanvas>
               ) : (
                 <div className="preview-error-panel">
                   <p className="preview-error-title">

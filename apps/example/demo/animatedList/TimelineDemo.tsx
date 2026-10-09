@@ -1,35 +1,31 @@
 import { useCallback, useMemo } from 'react';
-import { View } from 'react-native';
+import { View, type ListRenderItemInfo } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useToast, useTokens } from '@truongdq01/headless';
-import { AnimatedList } from '@truongdq01/ui';
+import { AnimatedList } from '@/components/ui/animated-list';
+import { useToast } from '@/components/ui/toast';
 import {
   createInitialTimelinePosts,
   createRandomTimelinePost,
   type TimelinePost,
 } from '@/demo/animatedListDemoData';
 import { AnimatedListDemoFrame } from './AnimatedListDemoFrame';
-import { INSERT_AT_TOP_MVCP, useAnimatedListController } from './controller';
+import { useAnimatedListController } from './controller';
 import { RemovableRow } from './RemovableRow';
 import { TimelineFeedRow } from './rows';
 
 export function TimelineDemo() {
-  const t = useTokens();
-  const toast = useToast();
+  const { toast } = useToast();
   const insets = useSafeAreaInsets();
 
   const initialData = useMemo(() => createInitialTimelinePosts(), []);
   const {
     items,
     setItems,
-    type,
-    setType,
     listRef,
-    countRef,
     insert,
     finalizeRemove,
-    activeListConfig,
-    removeVariant,
+    animated,
+    itemDelay,
     keyExtractor,
   } = useAnimatedListController<TimelinePost>({
     initialData,
@@ -77,23 +73,21 @@ export function TimelineDemo() {
   );
 
   const listFooter = useMemo(
-    () => <View style={{ height: insets.bottom + t.spacing[8] }} />,
-    [insets.bottom, t.spacing]
+    () => <View style={{ height: insets.bottom + 32 }} />,
+    [insets.bottom]
   );
 
   const renderItem = useCallback(
-    (info: { item: TimelinePost; index: number }) => (
+    (info: ListRenderItemInfo<TimelinePost>) => (
       <RemovableRow
         resetKey={info.item.id}
-        variant={removeVariant}
         onRemoved={() => finalizeRemove(info.item.id)}
       >
         {(remove) => (
           <TimelineFeedRow
-            tokens={t}
             onToast={onToast}
             post={info.item}
-            isLast={info.index === countRef.current - 1}
+            isLast={info.index === items.length - 1}
             onRemove={remove}
             onToggleLike={toggleLike}
             onToggleRepost={toggleRepost}
@@ -101,31 +95,18 @@ export function TimelineDemo() {
         )}
       </RemovableRow>
     ),
-    [
-      countRef,
-      finalizeRemove,
-      onToast,
-      removeVariant,
-      t,
-      toggleLike,
-      toggleRepost,
-    ]
+    [finalizeRemove, items.length, onToast, toggleLike, toggleRepost]
   );
 
   return (
-    <AnimatedListDemoFrame
-      type={type}
-      onChangeType={setType}
-      insertLabel="Post Update"
-      onInsert={insert}
-    >
+    <AnimatedListDemoFrame insertLabel="Post Update" onInsert={insert}>
       <AnimatedList<TimelinePost>
         ref={listRef}
-        {...activeListConfig}
         style={{ flex: 1 }}
         data={items}
         extraData={items.length}
-        maintainVisibleContentPosition={INSERT_AT_TOP_MVCP}
+        animated={animated}
+        itemDelay={itemDelay}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         ListFooterComponent={listFooter}

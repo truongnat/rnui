@@ -1,29 +1,28 @@
-import { useTokens } from '@truongdq01/headless';
-import { SegmentedControl, Typography } from '@truongdq01/ui';
 import { useState } from 'react';
 import { View } from 'react-native';
+import { SegmentedControl } from '@/components/ui/segmented-control';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
-export default function SegmentedControlScreen() {
-  const [index1, setIndex1] = useState(0);
-  const [index2, setIndex2] = useState(1);
-  const [index3, setIndex3] = useState(0);
+const PERIODS = ['Daily', 'Weekly', 'Monthly'] as const;
+const STATUSES = ['All', 'Active', 'Pending', 'Completed', 'Archived'] as const;
+const VIEWS = ['List', 'Grid', 'Gallery'] as const;
 
-  const t = useTokens();
+export default function SegmentedControlScreen() {
+  const [period, setPeriod] = useState<(typeof PERIODS)[number]>('Daily');
+  const [status, setStatus] = useState<(typeof STATUSES)[number]>('Active');
+  const [view, setView] = useState<(typeof VIEWS)[number]>('List');
 
   return (
     <DemoPage
       title="Segmented Control"
       description="Mutually exclusive segments for switching views or filters."
     >
-      <DemoSection
-        title="Basic"
-        description={`Selected: ${['Daily', 'Weekly', 'Monthly'][index1]}`}
-      >
+      <DemoSection title="Basic" description={`Selected: ${period}`}>
         <SegmentedControl
-          options={['Daily', 'Weekly', 'Monthly']}
-          selectedIndex={index1}
-          onChange={setIndex1}
+          options={PERIODS}
+          value={period}
+          onValueChange={(v) => setPeriod(v)}
         />
       </DemoSection>
 
@@ -32,9 +31,9 @@ export default function SegmentedControlScreen() {
         description="Five segments for status filtering."
       >
         <SegmentedControl
-          options={['All', 'Active', 'Pending', 'Completed', 'Archived']}
-          selectedIndex={index2}
-          onChange={setIndex2}
+          options={STATUSES}
+          value={status}
+          onValueChange={(v) => setStatus(v)}
         />
       </DemoSection>
 
@@ -43,32 +42,16 @@ export default function SegmentedControlScreen() {
         description="Segmented control driving a preview area."
       >
         <DemoPreview>
-          <Typography variant="h6" style={{ marginBottom: t.spacing[3] }}>
+          <Text variant="h4" className="mb-3">
             View Preferences
-          </Typography>
+          </Text>
           <SegmentedControl
-            options={['List', 'Grid', 'Gallery']}
-            selectedIndex={index3}
-            onChange={setIndex3}
+            options={VIEWS}
+            value={view}
+            onValueChange={(v) => setView(v)}
           />
-          <View
-            style={{
-              height: t.spacing[20],
-              marginTop: t.spacing[3],
-              backgroundColor: t.color.surface.sunken,
-              borderRadius: t.radius.md,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderStyle: 'dashed',
-              borderWidth: 1,
-              borderColor: t.color.border.default,
-            }}
-          >
-            <Typography color="secondary">
-              {index3 === 0 ? 'List View Content' : null}
-              {index3 === 1 ? 'Grid View Content' : null}
-              {index3 === 2 ? 'Gallery View Content' : null}
-            </Typography>
+          <View className="mt-3 h-20 items-center justify-center rounded-md border border-dashed border-border bg-muted">
+            <Text variant="muted">{view} View Content</Text>
           </View>
         </DemoPreview>
       </DemoSection>

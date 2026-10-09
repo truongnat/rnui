@@ -47,13 +47,8 @@ async function main() {
       fail(`Duplicate component name: ${schema.name}`);
     names.add(schema.name);
 
-    if (
-      !schema.package ||
-      !schema.import ||
-      !schema.category ||
-      !schema.status
-    ) {
-      fail(`Component ${schema.name} missing package/import/category/status`);
+    if (!schema.import?.from || !schema.category || !schema.status) {
+      fail(`Component ${schema.name} missing import/category/status`);
     }
 
     if (schema.support?.webPreview && !Array.isArray(schema.props)) {
@@ -69,7 +64,8 @@ async function main() {
       if (
         prop.safeForAI === true &&
         prop.type === 'object' &&
-        prop.name !== 'action'
+        prop.name !== 'action' &&
+        !prop.safeShape
       ) {
         fail(
           `Unsafe object prop "${prop.name}" marked safeForAI on ${schema.name}`

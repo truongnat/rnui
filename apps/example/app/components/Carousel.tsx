@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
 import { Image, StyleSheet, View, useWindowDimensions } from 'react-native';
-import { Carousel, Typography, Card } from '@truongdq01/ui';
-import { useTheme, useToast } from '@truongdq01/headless';
+import { Card } from '@/components/ui/card';
+import { Carousel } from '@/components/ui/carousel';
+import { Text } from '@/components/ui/text';
+import { useToast } from '@/components/ui/toast';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 type CarouselSlide = {
@@ -24,58 +26,54 @@ const STORY_IMAGES = [
   'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80',
 ] as const;
 
+const styles = StyleSheet.create({
+  heroImage: {
+    width: '100%',
+    height: '100%',
+  },
+  heroOverlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    padding: 16,
+    gap: 4,
+    experimental_backgroundImage:
+      'linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0))',
+  },
+  card: {
+    flex: 1,
+    overflow: 'hidden',
+    marginHorizontal: 6,
+  },
+  cardImage: {
+    width: '100%',
+    height: 104,
+  },
+  cardBody: {
+    padding: 12,
+    gap: 4,
+  },
+  railCard: {
+    flex: 1,
+    overflow: 'hidden',
+    marginHorizontal: 6,
+  },
+  railImage: {
+    width: '100%',
+    height: 72,
+  },
+  railBody: {
+    padding: 12,
+  },
+});
+
 export default function CarouselScreen() {
-  const toast = useToast();
-  const { tokens: t } = useTheme();
+  const { toast } = useToast();
   const { width: windowWidth } = useWindowDimensions();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const cardWidth = Math.round(windowWidth * 0.78);
-
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        heroImage: {
-          width: '100%',
-          height: '100%',
-        },
-        heroOverlay: {
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
-          padding: t.spacing[4],
-          gap: t.spacing[1],
-          experimental_backgroundImage:
-            'linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0))',
-        },
-        card: {
-          flex: 1,
-          overflow: 'hidden',
-          marginHorizontal: t.spacing[1.5],
-        },
-        cardImage: {
-          width: '100%',
-          height: t.spacing[18] + t.spacing[8],
-        },
-        cardBody: {
-          padding: t.spacing[3],
-          gap: t.spacing[1],
-        },
-        railCard: {
-          flex: 1,
-          overflow: 'hidden',
-        },
-        railImage: {
-          width: '100%',
-          height: t.spacing[18],
-        },
-        railBody: {
-          padding: t.spacing[3],
-        },
-      }),
-    [t.spacing]
-  );
 
   const heroSlides = useMemo<CarouselSlide[]>(
     () => [
@@ -132,56 +130,6 @@ export default function CarouselScreen() {
     []
   );
 
-  const renderHeroItem = (item: CarouselSlide) => (
-    <View style={{ flex: 1 }}>
-      <Image
-        source={{ uri: item.imageUrl }}
-        style={styles.heroImage}
-        resizeMode="cover"
-        accessibilityIgnoresInvertColors
-      />
-      <View style={styles.heroOverlay}>
-        <Typography variant="h4" color="inverse">
-          {item.title}
-        </Typography>
-        <Typography variant="body2" color="inverse" style={{ opacity: 0.9 }}>
-          {item.description}
-        </Typography>
-      </View>
-    </View>
-  );
-
-  const renderStoryCard = (item: CarouselSlide) => (
-    <Card style={styles.card} padding="none">
-      <Image
-        source={{ uri: item.imageUrl }}
-        style={styles.cardImage}
-        resizeMode="cover"
-        accessibilityIgnoresInvertColors
-      />
-      <View style={styles.cardBody}>
-        <Typography variant="subtitle1">{item.title}</Typography>
-        <Typography variant="body2" color="secondary">
-          {item.description}
-        </Typography>
-      </View>
-    </Card>
-  );
-
-  const renderRailCard = (item: CarouselSlide) => (
-    <Card style={styles.railCard} padding="none">
-      <Image
-        source={{ uri: item.imageUrl }}
-        style={styles.railImage}
-        resizeMode="cover"
-        accessibilityIgnoresInvertColors
-      />
-      <View style={styles.railBody}>
-        <Typography variant="subtitle2">{item.title}</Typography>
-      </View>
-    </Card>
-  );
-
   return (
     <DemoPage
       title="Carousel"
@@ -192,42 +140,60 @@ export default function CarouselScreen() {
         description="Full-width, snap paging with tappable dots — a clean image hero."
         bare
       >
-        <View
-          style={{
-            borderRadius: t.radius.lg,
-            overflow: 'hidden',
-          }}
-        >
+        <View style={{ borderRadius: 12, overflow: 'hidden', height: 200 }}>
           <Carousel
             data={heroSlides}
             accessibilityLabel="Featured landscapes"
-            height={200}
-            showNavigation={false}
-            fadeEdges={false}
             onIndexChange={setActiveIndex}
-            keyExtractor={(item) => item.id}
-            renderItem={renderHeroItem}
+            renderItem={(item) => (
+              <View style={{ flex: 1 }}>
+                <Image
+                  source={{ uri: item.imageUrl }}
+                  style={styles.heroImage}
+                  resizeMode="cover"
+                  accessibilityIgnoresInvertColors
+                />
+                <View style={styles.heroOverlay}>
+                  <Text variant="h4" style={{ color: '#fafafa' }}>
+                    {item.title}
+                  </Text>
+                  <Text variant="p" style={{ color: '#fafafa', opacity: 0.9 }}>
+                    {item.description}
+                  </Text>
+                </View>
+              </View>
+            )}
           />
         </View>
-        <Typography variant="caption" color="secondary" align="center">
+        <Text variant="muted" style={{ textAlign: 'center' }}>
           Slide {activeIndex + 1} of {heroSlides.length}
-        </Typography>
+        </Text>
       </DemoSection>
 
       <DemoSection
         title="Card carousel"
-        description="Peek-and-snap cards with fade edges and circular navigation buttons."
+        description="Peek-and-snap cards with circular navigation buttons."
         bare
       >
         <Carousel
           data={storySlides}
           accessibilityLabel="Featured stories"
-          autoHeight
           itemWidth={cardWidth}
-          gap={t.spacing[2]}
-          edgeColor={t.color.bg.subtle}
-          keyExtractor={(item) => item.id}
-          renderItem={renderStoryCard}
+          showArrows
+          renderItem={(item) => (
+            <Card style={styles.card}>
+              <Image
+                source={{ uri: item.imageUrl }}
+                style={styles.cardImage}
+                resizeMode="cover"
+                accessibilityIgnoresInvertColors
+              />
+              <View style={styles.cardBody}>
+                <Text variant="large">{item.title}</Text>
+                <Text variant="muted">{item.description}</Text>
+              </View>
+            </Card>
+          )}
           onIndexChange={(index) => {
             const item = storySlides[index];
             if (item) {
@@ -239,20 +205,27 @@ export default function CarouselScreen() {
 
       <DemoSection
         title="Continuous strip"
-        description="Snap off — a free-scrolling image rail that fades at the edges."
+        description="A compact image rail without dots."
       >
         <DemoPreview>
           <Carousel
             data={storySlides}
             accessibilityLabel="Inspiration rail"
-            height={t.spacing[18] + t.spacing[10]}
             itemWidth={200}
-            gap={t.spacing[3]}
-            snap={false}
-            showPagination={false}
-            edgeColor={t.color.surface.sunken}
-            keyExtractor={(item) => item.id}
-            renderItem={renderRailCard}
+            showDots={false}
+            renderItem={(item) => (
+              <Card style={styles.railCard}>
+                <Image
+                  source={{ uri: item.imageUrl }}
+                  style={styles.railImage}
+                  resizeMode="cover"
+                  accessibilityIgnoresInvertColors
+                />
+                <View style={styles.railBody}>
+                  <Text variant="small">{item.title}</Text>
+                </View>
+              </Card>
+            )}
           />
         </DemoPreview>
       </DemoSection>

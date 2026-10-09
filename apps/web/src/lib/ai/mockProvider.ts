@@ -1,5 +1,5 @@
-import { validateScreenSchema } from '@truongdq01/component-schema';
-import type { ScreenSchema } from '@truongdq01/component-schema';
+import { validateScreenSchema } from '@rnui/component-schema';
+import type { ScreenSchema } from '@rnui/component-schema';
 import { exampleSchemas, type ExampleSchemaKey } from '../example-schemas';
 import type {
   AIProvider,

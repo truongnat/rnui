@@ -5,8 +5,8 @@
   "title": "Aspect Ratio",
   "description": "Constrains children to a fixed width/height ratio.",
   "registryDependencies": [
-    "utils",
-    "theme"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
   ],
   "files": [
     {

@@ -1,10 +1,9 @@
-import { useTokens } from '@truongdq01/headless';
-import { Paper, Stack, Typography } from '@truongdq01/ui';
+import { Paper } from '@/components/ui/paper';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function PaperScreen() {
-  const t = useTokens();
-
   return (
     <DemoPage
       title="Paper"
@@ -14,55 +13,57 @@ export default function PaperScreen() {
         title="Account profile"
         description="Default Paper is visible on app background without custom styling."
       >
-        <Paper style={{ padding: t.spacing[4] }}>
+        <Paper>
           <Stack spacing="sm">
-            <Typography variant="h5">Alex Nguyen</Typography>
-            <Typography variant="body2" color="secondary">
-              Product designer · San Francisco
-            </Typography>
-            <Typography variant="caption" color="tertiary">
+            <Text variant="h4">Alex Nguyen</Text>
+            <Text variant="muted">Product designer · San Francisco</Text>
+            <Text variant="muted" className="text-xs">
               Member since March 2024
-            </Typography>
+            </Text>
           </Stack>
         </Paper>
       </DemoSection>
 
       <DemoSection title="Elevation" bare>
         <Stack spacing="md">
-          <Paper elevation="none" style={{ padding: t.spacing[4] }}>
-            <Typography variant="subtitle2">None</Typography>
-            <Typography variant="body2" color="secondary">
+          <Paper elevation="none">
+            <Text variant="large">None</Text>
+            <Text variant="muted">
               Border only — flat panels on raised cards.
-            </Typography>
+            </Text>
           </Paper>
-          <Paper elevation="sm" style={{ padding: t.spacing[4] }}>
-            <Typography variant="subtitle2">Small elevation</Typography>
-            <Typography variant="body2" color="secondary">
-              Default depth for list sections.
-            </Typography>
+          <Paper elevation="sm">
+            <Text variant="large">Small elevation</Text>
+            <Text variant="muted">Default depth for list sections.</Text>
           </Paper>
-          <Paper elevation="md" style={{ padding: t.spacing[4] }}>
-            <Typography variant="subtitle2">Medium elevation</Typography>
-            <Typography variant="body2" color="secondary">
+          <Paper elevation="md">
+            <Text variant="large">Medium elevation</Text>
+            <Text variant="muted">
               Emphasized blocks such as payment summaries.
-            </Typography>
+            </Text>
+          </Paper>
+          <Paper elevation="lg">
+            <Text variant="large">Large elevation</Text>
+            <Text variant="muted">Maximum depth for hero surfaces.</Text>
           </Paper>
         </Stack>
       </DemoSection>
 
       <DemoSection title="Outlined & flat" bare>
         <Stack spacing="md">
-          <Paper variant="outlined" style={{ padding: t.spacing[4] }}>
-            <Typography variant="subtitle2">Outlined</Typography>
-            <Typography variant="body2" color="secondary">
+          <Paper variant="outlined">
+            <Text variant="large">Outlined</Text>
+            <Text variant="muted">
               Secondary emphasis without extra shadow.
-            </Typography>
+            </Text>
           </Paper>
-          <Paper variant="flat" style={{ padding: t.spacing[4] }}>
-            <Typography variant="subtitle2">Flat</Typography>
-            <Typography variant="body2" color="secondary">
-              Sunken sections inside a card.
-            </Typography>
+          <Paper variant="flat">
+            <Text variant="large">Flat</Text>
+            <Text variant="muted">Sunken sections inside a card.</Text>
+          </Paper>
+          <Paper variant="outlined" square>
+            <Text variant="large">Square</Text>
+            <Text variant="muted">Sharp corners via the `square` prop.</Text>
           </Paper>
         </Stack>
       </DemoSection>

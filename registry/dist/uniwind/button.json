@@ -5,8 +5,8 @@
   "title": "Button",
   "description": "Pressable button with variant + size styles via tailwind-variants slots.",
   "registryDependencies": [
-    "utils",
-    "theme"
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
+    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
   ],
   "dependencies": [
     "tailwind-variants"

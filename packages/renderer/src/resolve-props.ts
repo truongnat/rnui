@@ -1,5 +1,5 @@
-import { getComponentSchema } from '@truongdq01/component-schema';
-import type { ComponentNode } from '@truongdq01/component-schema';
+import { getComponentSchema } from '@rnui/component-schema';
+import type { ComponentNode } from '@rnui/component-schema';
 import { guardNodeProps, resolveActionName } from './propGuards';
 import { resolveScreenPadding } from './token-map';
 import type { RendererActionContext, SchemaActionHandlers } from './types';
@@ -16,25 +16,35 @@ function stripRendererOnlyProps(
   props: Record<string, unknown>
 ): Record<string, unknown> {
   const next = { ...props };
-  if (type === 'Button' && 'action' in next) {
+  if ('action' in next && ACTION_HANDLER_PROP[type]) {
     delete next.action;
   }
   return next;
 }
+
+/** Schema `action` prop → handler prop name on the target component. */
+const ACTION_HANDLER_PROP: Record<string, string> = {
+  Button: 'onPress',
+  Chip: 'onPress',
+  ListItem: 'onPress',
+  Checkbox: 'onCheckedChange',
+  Switch: 'onCheckedChange',
+};
 
 function applyActionProps(
   type: string,
   props: Record<string, unknown>,
   context: RendererActionContext | undefined
 ): Record<string, unknown> {
-  if (type !== 'Button') return props;
+  const handlerProp = ACTION_HANDLER_PROP[type];
+  if (!handlerProp) return props;
 
   const actionName = resolveActionName(props.action);
   if (!actionName) return props;
 
   const { action: _action, ...rest } = props;
 
-  const onPress = () => {
+  const handler = () => {
     context?.onAction?.({
       name: actionName,
       sourceNodeId: context.nodeId,
@@ -42,7 +52,7 @@ function applyActionProps(
     context?.actions?.[actionName]?.();
   };
 
-  return { ...rest, onPress };
+  return { ...rest, [handlerProp]: handler };
 }
 
 function extractChildrenFromProps(props: Record<string, unknown>): {
@@ -76,13 +86,14 @@ export function resolveNodeRender(
     children = textChild;
   }
 
-  if (
-    schemaType === 'Button' &&
-    typeof propsWithoutTextChild.label !== 'string' &&
-    typeof children === 'string'
-  ) {
-    propsWithoutTextChild.label = children;
-    children = undefined;
+  if (schemaType === 'View' && typeof propsWithoutTextChild.flex === 'number') {
+    const { flex, ...rest } = propsWithoutTextChild;
+    return {
+      componentType: 'View',
+      props: { ...rest, style: { flex } },
+      children,
+      propWarnings: guarded.warnings,
+    };
   }
 
   if (schemaType === 'Screen') {
@@ -126,15 +137,12 @@ export function isUnknownComponentType(type: string): boolean {
   return getComponentSchema(type) === undefined;
 }
 
-/** Layout nodes must not render raw strings — wrap in Typography instead. */
+/** Layout nodes must not render raw strings — wrap in Text instead. */
 export function shouldWrapStringChild(type: string): boolean {
   const schema = getComponentSchema(type);
   if (!schema) return true;
-  if (type === 'Typography' || type === 'Button') return false;
+  if (type === 'Text' || type === 'Button') return false;
   if (schema.children?.stringChildAllowed === true) return false;
   if (schema.children?.textAllowed === true) return false;
   return true;
 }
-
-/** @deprecated Use RendererActionContext */
-export type LegacyActionHandlers = SchemaActionHandlers;

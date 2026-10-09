@@ -2,7 +2,7 @@ import type {
   ComponentNode,
   LazyLoadPlan,
   ScreenSchema,
-} from '@truongdq01/component-schema';
+} from '@rnui/component-schema';
 import type { ElementType, ReactElement } from 'react';
 
 export type SchemaActionHandlers = Record<string, () => void>;
@@ -43,7 +43,6 @@ export type PreparedScreenRender = {
 
 export type ExportScreenTsxOptions = {
   componentName?: string;
-  includeThemeProvider?: boolean;
   includeActionHandlers?: boolean;
 };
 
@@ -72,20 +71,10 @@ export type RNUISchemaRendererProps = {
   renderUnsupported?: (info: UnsupportedComponentInfo) => ReactElement;
 };
 
-/** @deprecated Use RNUISchemaRendererProps */
-export type ScreenSchemaRendererProps = {
-  schema: ScreenSchema;
-  componentMap?: RendererComponentMap;
-  actions?: SchemaActionHandlers;
-  requireWebPreview?: boolean;
-  onValidationError?: (errors: string[]) => void;
-};
-
 export type WebPreviewHostProps = RNUISchemaRendererProps & {
   minHeight?: number;
-  withGestureRoot?: boolean;
-  /** Preview color scheme — default `light` for consistent web builder output. */
-  colorScheme?: 'light' | 'dark' | 'system';
+  /** Preview canvas background color (plain value — no theme provider). */
+  backgroundColor?: string;
 };
 
 export type RenderSchemaNodeProps = {

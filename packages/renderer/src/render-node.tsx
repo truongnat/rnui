@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { getComponentSchema } from '@truongdq01/component-schema';
+import { getComponentSchema } from '@rnui/component-schema';
 import {
   getUnsupportedReason,
   isNativeOnlyType,
@@ -54,15 +54,15 @@ function renderStringChild(
   path: string
 ): React.ReactElement {
   if (!shouldWrapStringChild(type)) {
-    const Component = componentMap[type] ?? componentMap.Typography;
+    const Component = componentMap[type] ?? componentMap.Text ?? Text;
     return React.createElement(Component, { key: path }, text);
   }
 
-  const Typography = componentMap.Typography;
-  if (Typography) {
+  const TextComponent = componentMap.Text;
+  if (TextComponent) {
     return React.createElement(
-      Typography,
-      { variant: 'body2', key: `${path}.text` },
+      TextComponent,
+      { variant: 'muted', key: `${path}.text` },
       text
     );
   }

@@ -1,11 +1,11 @@
 import { View } from 'react-native';
-import { Label, Typography, TextField, Stack } from '@truongdq01/ui';
-import { useTheme } from '@truongdq01/headless';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function LabelScreen() {
-  const { tokens } = useTheme();
-
   return (
     <DemoPage
       title="Label"
@@ -16,49 +16,41 @@ export default function LabelScreen() {
         description="Semantic context for form fields."
       >
         <Stack spacing="lg">
-          <View>
+          <View style={{ gap: 6 }}>
             <Label>Full Name</Label>
-            <TextField placeholder="Jane Doe" />
+            <Input placeholder="Jane Doe" />
           </View>
-          <View>
-            <Label required>Email Address</Label>
-            <TextField placeholder="jane@example.com" />
+          <View style={{ gap: 6 }}>
+            <Label>
+              Email Address <Text className="text-destructive">*</Text>
+            </Label>
+            <Input placeholder="jane@example.com" />
           </View>
         </Stack>
       </DemoSection>
 
       <DemoSection title="States">
         <Stack spacing="md">
-          <Typography variant="label" color="secondary">
-            Secondary Label (Optional)
-          </Typography>
-          <Typography variant="label" color="error">
-            Error Label State
-          </Typography>
-          <Label style={{ opacity: tokens.opacity[50] }}>
-            Disabled Label State
-          </Label>
+          <Text variant="muted">Secondary Label (Optional)</Text>
+          <Label className="text-destructive">Error Label State</Label>
+          <Label disabled>Disabled Label State</Label>
         </Stack>
       </DemoSection>
 
       <DemoSection
         title="Typography Variants"
-        description="Pair with Typography for hierarchy."
+        description="Pair with Text for hierarchy."
       >
-        <View style={{ gap: tokens.spacing[4] }}>
+        <View style={{ gap: 16 }}>
           <View>
-            <Typography variant="overline">Section Title Style</Typography>
-            <View
-              style={{
-                height: 2,
-                backgroundColor: tokens.color.border.default,
-                marginTop: tokens.spacing[1],
-              }}
-            />
+            <Text variant="small" className="tracking-widest uppercase">
+              Section Title Style
+            </Text>
+            <View className="mt-1 h-0.5 bg-border" />
           </View>
           <View>
-            <Typography variant="caption">Small Helper Label</Typography>
-            <Typography variant="body2">Supporting text content</Typography>
+            <Text variant="muted">Small Helper Label</Text>
+            <Text variant="p">Supporting text content</Text>
           </View>
         </View>
       </DemoSection>

@@ -21,7 +21,7 @@
     },
     "children": [
       {
-        "type": "Box",
+        "type": "View",
         "props": {
           "flex": 1
         },
@@ -44,23 +44,28 @@
                   {
                     "type": "Avatar",
                     "props": {
-                      "initials": "RN",
-                      "size": "xl",
                       "accessibilityLabel": "RNUI"
-                    }
+                    },
+                    "children": [
+                      {
+                        "type": "AvatarFallback",
+                        "props": {
+                          "children": "RN"
+                        }
+                      }
+                    ]
                   },
                   {
-                    "type": "Typography",
+                    "type": "Text",
                     "props": {
                       "variant": "h3",
                       "children": "Welcome back"
                     }
                   },
                   {
-                    "type": "Typography",
+                    "type": "Text",
                     "props": {
-                      "variant": "body2",
-                      "color": "secondary",
+                      "variant": "muted",
                       "children": "Sign in to your account to continue"
                     }
                   }
@@ -68,9 +73,6 @@
               },
               {
                 "type": "Card",
-                "props": {
-                  "padding": "lg"
-                },
                 "children": [
                   {
                     "type": "Stack",
@@ -79,15 +81,16 @@
                     },
                     "children": [
                       {
-                        "type": "Input",
+                        "type": "TextField",
                         "props": {
                           "label": "Email",
                           "placeholder": "you@example.com",
+                          "keyboardType": "email-address",
                           "value": ""
                         }
                       },
                       {
-                        "type": "Input",
+                        "type": "TextField",
                         "props": {
                           "label": "Password",
                           "placeholder": "Enter your password",
@@ -98,10 +101,7 @@
                       {
                         "type": "Button",
                         "props": {
-                          "label": "Sign in",
-                          "variant": "solid",
-                          "color": "primary",
-                          "fullWidth": true,
+                          "children": "Sign in",
                           "action": "signIn"
                         }
                       }
@@ -119,17 +119,15 @@
                   {
                     "type": "Button",
                     "props": {
-                      "label": "Forgot password?",
+                      "children": "Forgot password?",
                       "variant": "ghost",
-                      "color": "primary",
                       "action": "forgotPassword"
                     }
                   },
                   {
-                    "type": "Typography",
+                    "type": "Text",
                     "props": {
-                      "variant": "caption",
-                      "color": "secondary",
+                      "variant": "muted",
                       "children": "By signing in you agree to the Terms of Service."
                     }
                   }

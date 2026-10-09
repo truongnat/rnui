@@ -1,21 +1,17 @@
 /**
  * RNUI reference: dashboard screen (loading / success states)
+ * Components are registry files copied into the app under components/ui/.
  */
 import { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
-import {
-  AppBar,
-  AppBarTitle,
-  Badge,
-  Box,
-  Button,
-  Card,
-  Grid,
-  Skeleton,
-  Stack,
-  Toolbar,
-  Typography,
-} from '@truongdq01/ui';
+import { ScrollView, View } from 'react-native';
+import { AppBar, AppBarSubtitle, AppBarTitle } from '@/components/ui/app-bar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Grid, GridItem } from '@/components/ui/grid';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
 
 type DashboardPhase = 'loading' | 'success';
 
@@ -35,61 +31,62 @@ export default function DashboardScreenExample() {
   }, []);
 
   return (
-    <Box flex={1}>
+    <View className="flex-1">
       <AppBar>
-        <Toolbar>
-          <AppBarTitle subtitle="Today">Dashboard</AppBarTitle>
-        </Toolbar>
+        <View>
+          <AppBarTitle>Dashboard</AppBarTitle>
+          <AppBarSubtitle>Today</AppBarSubtitle>
+        </View>
       </AppBar>
 
       <ScrollView>
-        <Stack spacing="lg" style={{ padding: 16 }}>
+        <Stack spacing="lg" className="p-4">
           <Stack direction="row" spacing="sm" alignItems="center">
-            <Typography variant="h5">Good morning</Typography>
-            <Badge label="Live" variant="success" size="sm" />
+            <Text variant="h4">Good morning</Text>
+            <Badge variant="secondary">Live</Badge>
           </Stack>
 
           {phase === 'loading' ? (
             <Stack spacing="md">
-              <Skeleton width="100%" height={96} />
-              <Skeleton width="100%" height={96} />
-              <Skeleton width="100%" height={120} />
+              <Skeleton className="h-24 w-full rounded-lg" />
+              <Skeleton className="h-24 w-full rounded-lg" />
+              <Skeleton className="h-30 w-full rounded-lg" />
             </Stack>
           ) : (
             <>
-              <Grid container spacing="md" columns={2}>
+              <Grid columns={2} gap="md">
                 {MOCK_METRICS.map((metric) => (
-                  <Grid key={metric.label} size={6}>
-                    <Card padding="md">
-                      <Typography variant="caption" color="secondary">
-                        {metric.label}
-                      </Typography>
-                      <Typography variant="h5">{metric.value}</Typography>
-                      <Typography variant="body2" color="brand">
-                        {metric.change}
-                      </Typography>
+                  <GridItem key={metric.label} span={1}>
+                    <Card>
+                      <CardContent className="p-4">
+                        <Text variant="muted">{metric.label}</Text>
+                        <Text variant="h4">{metric.value}</Text>
+                        <Text variant="small" className="text-primary">
+                          {metric.change}
+                        </Text>
+                      </CardContent>
                     </Card>
-                  </Grid>
+                  </GridItem>
                 ))}
               </Grid>
 
-              <Card padding="md">
-                <Typography variant="subtitle1" gutterBottom>
-                  Recent activity
-                </Typography>
-                <Typography variant="body2" color="secondary">
-                  3 new sign-ups in the last hour.
-                </Typography>
+              <Card>
+                <CardContent className="p-4">
+                  <Text variant="large">Recent activity</Text>
+                  <Text variant="muted">3 new sign-ups in the last hour.</Text>
+                </CardContent>
               </Card>
 
               <Stack direction="row" spacing="sm">
-                <Button label="View report" onPress={() => {}} />
-                <Button label="Export" variant="outline" onPress={() => {}} />
+                <Button onPress={() => {}}>View report</Button>
+                <Button variant="outline" onPress={() => {}}>
+                  Export
+                </Button>
               </Stack>
             </>
           )}
         </Stack>
       </ScrollView>
-    </Box>
+    </View>
   );
 }
