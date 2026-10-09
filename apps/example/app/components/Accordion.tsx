@@ -22,13 +22,18 @@ export default function AccordionScreen() {
       title="Accordion"
       description="Expandable sections for compact content organization."
     >
-      <DemoSection title="Single Mode" description="Only one item expanded at a time." flush>
+      <DemoSection
+        title="Single Mode"
+        description="Only one item expanded at a time."
+        flush
+      >
         <AccordionGroup variant="single">
           <Accordion id="1" defaultExpanded>
             <AccordionSummary>What is RNUI?</AccordionSummary>
             <AccordionDetails>
               <Typography variant="body2" color="secondary">
-                A high-performance, themeable component library for React Native.
+                A high-performance, themeable component library for React
+                Native.
               </Typography>
             </AccordionDetails>
           </Accordion>
@@ -37,14 +42,19 @@ export default function AccordionScreen() {
             <AccordionSummary>Can I use it with Expo?</AccordionSummary>
             <AccordionDetails>
               <Typography variant="body2" color="secondary">
-                Yes — fully compatible with Expo SDK and expo-blur / expo-haptics.
+                Yes — fully compatible with Expo SDK and expo-blur /
+                expo-haptics.
               </Typography>
             </AccordionDetails>
           </Accordion>
         </AccordionGroup>
       </DemoSection>
 
-      <DemoSection title="Multiple Mode" description="Several items open simultaneously." flush>
+      <DemoSection
+        title="Multiple Mode"
+        description="Several items open simultaneously."
+        flush
+      >
         <Stack direction="row" spacing="sm" style={{ padding: t.spacing[4] }}>
           <Button
             label="Expand All"
@@ -94,7 +104,11 @@ export default function AccordionScreen() {
         </AccordionGroup>
       </DemoSection>
 
-      <DemoSection title="Bordered" description="Containers and separators via bordered prop." flush>
+      <DemoSection
+        title="Bordered"
+        description="Containers and separators via bordered prop."
+        flush
+      >
         <AccordionGroup bordered>
           <Accordion id="1">
             <AccordionSummary>Account Settings</AccordionSummary>
@@ -118,7 +132,9 @@ export default function AccordionScreen() {
       <DemoSection title="Customization">
         <Stack spacing="md">
           <Accordion>
-            <AccordionSummary expandIcon={<Plus size={24} color={t.color.brand.default} />}>
+            <AccordionSummary
+              expandIcon={<Plus size={24} color={t.color.brand.default} />}
+            >
               Custom Expand Icon
             </AccordionSummary>
             <AccordionDetails>

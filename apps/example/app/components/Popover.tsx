@@ -26,7 +26,10 @@ export default function PopoverScreen() {
       title="Popover"
       description="Content overlay anchored to an element or fixed position."
     >
-      <DemoSection title="Anchor to Element" description="Position relative to a trigger button.">
+      <DemoSection
+        title="Anchor to Element"
+        description="Position relative to a trigger button."
+      >
         <View style={{ alignItems: 'flex-start' }}>
           <View ref={buttonRef} collapsable={false}>
             <Button label="Open Popover" onPress={handleOpen} />
@@ -58,7 +61,10 @@ export default function PopoverScreen() {
         </Popover>
       </DemoSection>
 
-      <DemoSection title="Fixed Position" description="Anchor via screen coordinates.">
+      <DemoSection
+        title="Fixed Position"
+        description="Anchor via screen coordinates."
+      >
         <Button label="Open at (100, 300)" onPress={() => setPosOpen(true)} />
         <Popover
           open={posOpen}

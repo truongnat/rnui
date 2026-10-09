@@ -11,7 +11,10 @@ export default function GridScreen() {
       title="Grid Layout"
       description="Responsive grid patterns using Box and Stack."
     >
-      <DemoSection title="2-Column Grid" description="Equal-width cells with wrap.">
+      <DemoSection
+        title="2-Column Grid"
+        description="Equal-width cells with wrap."
+      >
         <DemoPreview>
           <View
             style={{
@@ -41,7 +44,10 @@ export default function GridScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="3-Column Grid" description="Square aspect-ratio cells.">
+      <DemoSection
+        title="3-Column Grid"
+        description="Square aspect-ratio cells."
+      >
         <DemoPreview>
           <View
             style={{

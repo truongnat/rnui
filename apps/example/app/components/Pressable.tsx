@@ -18,7 +18,7 @@ export default function PressableScreen() {
       borderWidth: 1,
       borderColor: 'transparent' as const,
     }),
-    [tokens.spacing, tokens.radius.lg],
+    [tokens.spacing, tokens.radius.lg]
   );
 
   return (
@@ -26,7 +26,10 @@ export default function PressableScreen() {
       title="Pressable"
       description="Touch handling with scale, opacity feedback, and haptics."
     >
-      <DemoSection title="Feedback Modes" description="Customize press animations.">
+      <DemoSection
+        title="Feedback Modes"
+        description="Customize press animations."
+      >
         <DemoPreview>
           <DemoGroup>
             <Pressable
@@ -34,7 +37,10 @@ export default function PressableScreen() {
               feedbackMode="scale"
               style={[boxStyle, { backgroundColor: tokens.color.brand.subtle }]}
             >
-              <Typography variant="button" style={{ color: tokens.color.brand.text }}>
+              <Typography
+                variant="button"
+                style={{ color: tokens.color.brand.text }}
+              >
                 SCALE
               </Typography>
             </Pressable>
@@ -44,7 +50,10 @@ export default function PressableScreen() {
               feedbackMode="scaleSubtle"
               style={[boxStyle, { backgroundColor: tokens.color.brand.subtle }]}
             >
-              <Typography variant="button" style={{ color: tokens.color.brand.text }}>
+              <Typography
+                variant="button"
+                style={{ color: tokens.color.brand.text }}
+              >
                 SCALE SUBTLE
               </Typography>
             </Pressable>
@@ -54,7 +63,10 @@ export default function PressableScreen() {
               feedbackMode="opacity"
               style={[boxStyle, { backgroundColor: tokens.color.brand.subtle }]}
             >
-              <Typography variant="button" style={{ color: tokens.color.brand.text }}>
+              <Typography
+                variant="button"
+                style={{ color: tokens.color.brand.text }}
+              >
                 OPACITY
               </Typography>
             </Pressable>
@@ -70,14 +82,20 @@ export default function PressableScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Complex Layouts" description="Feedback applies to the entire container.">
+      <DemoSection
+        title="Complex Layouts"
+        description="Feedback applies to the entire container."
+      >
         <Pressable
           onPress={() => toast.success('Card action triggered')}
           feedbackMode="scaleSubtle"
         >
           <Card
             padding="md"
-            style={{ borderLeftWidth: 4, borderLeftColor: tokens.color.brand.default }}
+            style={{
+              borderLeftWidth: 4,
+              borderLeftColor: tokens.color.brand.default,
+            }}
           >
             <View style={{ gap: tokens.spacing[1] }}>
               <Typography variant="h4">Actionable Card</Typography>

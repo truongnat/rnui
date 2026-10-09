@@ -24,11 +24,17 @@ export default function LinearProgressScreen() {
       title="Linear Progress"
       description="Horizontal bar for loading, uploading, or processing."
     >
-      <DemoSection title="Indeterminate" description="Unknown wait time or no granular updates.">
+      <DemoSection
+        title="Indeterminate"
+        description="Unknown wait time or no granular updates."
+      >
         <LinearProgress variant="indeterminate" />
       </DemoSection>
 
-      <DemoSection title="Determinate" description="Measured progress such as file uploads.">
+      <DemoSection
+        title="Determinate"
+        description="Measured progress such as file uploads."
+      >
         <Stack spacing="lg">
           <View>
             <View

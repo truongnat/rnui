@@ -17,7 +17,11 @@ export default function TabBarScreen() {
       title="TabBar"
       description="Bottom navigation for switching primary destinations."
     >
-      <DemoSection title="Standard" description="Labels, icons, and badge counts." bare>
+      <DemoSection
+        title="Standard"
+        description="Labels, icons, and badge counts."
+        bare
+      >
         <View
           style={{
             borderRadius: t.radius.lg,
@@ -41,26 +45,36 @@ export default function TabBarScreen() {
               value="home"
               label="Home"
               icon={<Home size={ICON_SIZE} color={t.color.text.secondary} />}
-              activeIcon={<Home size={ICON_SIZE} color={t.color.brand.default} />}
+              activeIcon={
+                <Home size={ICON_SIZE} color={t.color.brand.default} />
+              }
             />
             <TabBarItem
               value="search"
               label="Search"
               icon={<Search size={ICON_SIZE} color={t.color.text.secondary} />}
-              activeIcon={<Search size={ICON_SIZE} color={t.color.brand.default} />}
+              activeIcon={
+                <Search size={ICON_SIZE} color={t.color.brand.default} />
+              }
             />
             <TabBarItem
               value="notifications"
               label="Inbox"
               icon={<Bell size={ICON_SIZE} color={t.color.text.secondary} />}
-              activeIcon={<Bell size={ICON_SIZE} color={t.color.brand.default} />}
+              activeIcon={
+                <Bell size={ICON_SIZE} color={t.color.brand.default} />
+              }
               badge={5}
             />
             <TabBarItem
               value="settings"
               label="Settings"
-              icon={<Settings size={ICON_SIZE} color={t.color.text.secondary} />}
-              activeIcon={<Settings size={ICON_SIZE} color={t.color.brand.default} />}
+              icon={
+                <Settings size={ICON_SIZE} color={t.color.text.secondary} />
+              }
+              activeIcon={
+                <Settings size={ICON_SIZE} color={t.color.brand.default} />
+              }
             />
           </TabBar>
         </View>
@@ -110,7 +124,9 @@ export default function TabBarScreen() {
             <TabBarItem
               value="settings"
               label="Settings"
-              icon={<Settings size={ICON_SIZE} color={t.color.text.secondary} />}
+              icon={
+                <Settings size={ICON_SIZE} color={t.color.text.secondary} />
+              }
               disabled
             />
           </TabBar>

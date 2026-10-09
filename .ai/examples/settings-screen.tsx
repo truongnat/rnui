@@ -30,7 +30,11 @@ export default function SettingsScreenExample() {
 
       <ScrollView>
         <Stack spacing="md" style={{ paddingVertical: 16 }}>
-          <Typography variant="overline" color="secondary" style={{ paddingHorizontal: 16 }}>
+          <Typography
+            variant="overline"
+            color="secondary"
+            style={{ paddingHorizontal: 16 }}
+          >
             Notifications
           </Typography>
           <List>
@@ -54,7 +58,11 @@ export default function SettingsScreenExample() {
             />
           </List>
 
-          <Typography variant="overline" color="secondary" style={{ paddingHorizontal: 16 }}>
+          <Typography
+            variant="overline"
+            color="secondary"
+            style={{ paddingHorizontal: 16 }}
+          >
             Account
           </Typography>
           <List>

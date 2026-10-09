@@ -1,4 +1,4 @@
 module.exports = {
   default: {},
-  Touchable: { Mixin: {} }
+  Touchable: { Mixin: {} },
 };

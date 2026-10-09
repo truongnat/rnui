@@ -101,7 +101,10 @@ function FormSurfacesSection() {
       <FormField label="TextField">
         <TextField placeholder="Inside card context" />
       </FormField>
-      <FormGroup variant="grouped" footer="Grouped container border must read on card.">
+      <FormGroup
+        variant="grouped"
+        footer="Grouped container border must read on card."
+      >
         <FormField label="Phone">
           <Input placeholder="+1 (555) 000-0000" />
         </FormField>
@@ -138,10 +141,14 @@ function StatusSurfacesSection() {
       </Stack>
       <Alert severity="info">
         <AlertTitle>Standard info</AlertTitle>
-        <Typography variant="body2">Fill + border — no shadow required.</Typography>
+        <Typography variant="body2">
+          Fill + border — no shadow required.
+        </Typography>
       </Alert>
       <Alert severity="success" variant="outlined">
-        <Typography variant="body2">Outlined success on this surface.</Typography>
+        <Typography variant="body2">
+          Outlined success on this surface.
+        </Typography>
       </Alert>
       <Alert severity="error" variant="filled">
         <Typography variant="body2" color="inverse">
@@ -204,7 +211,10 @@ function DataSurfacesSection() {
           <ListItemContent primary="List row" secondary="Inset + avatar" />
         </ListItem>
         <ListItem>
-          <ListItemContent primary="Second row" secondary="Border-separated rows" />
+          <ListItemContent
+            primary="Second row"
+            secondary="Border-separated rows"
+          />
         </ListItem>
       </List>
       <Pagination count={5} page={page} onChange={setPage} variant="outlined" />
@@ -445,8 +455,8 @@ export default function SurfaceVisibilityScreen() {
       >
         <Stack spacing="xs">
           <Typography variant="body2" color="secondary">
-            Light + dark: this screen, Card-in-Card, Badge/Chip on Card, Input in
-            Card, FormGroup grouped, Toast/Snackbar triggers.
+            Light + dark: this screen, Card-in-Card, Badge/Chip on Card, Input
+            in Card, FormGroup grouped, Toast/Snackbar triggers.
           </Typography>
           <Typography variant="body2" color="secondary">
             Overlays: Modal, Dialog, AlertDialog, Menu, Select — iOS + Android.

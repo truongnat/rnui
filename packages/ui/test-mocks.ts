@@ -41,7 +41,7 @@ export const createReanimatedMock = () => {
     build: () => ({}),
   };
 
-  const createSharedValue = <T,>(initial: T) => {
+  const createSharedValue = <T>(initial: T) => {
     let current = initial;
     return {
       get value() {

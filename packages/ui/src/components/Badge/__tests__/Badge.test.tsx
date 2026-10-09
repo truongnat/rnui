@@ -91,7 +91,7 @@ describe('Badge', () => {
       );
       expect(getByText('Bordered')).toBeTruthy();
       const tree = JSON.stringify(toJSON());
-      expect(tree).toContain('"borderWidth":1');
+      expect(tree).toContain('"borderColor":"#24BB5E"');
     });
 
     it('renders info variant', () => {

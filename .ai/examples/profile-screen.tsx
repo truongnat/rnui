@@ -34,7 +34,12 @@ export default function ProfileScreenExample() {
       <ScrollView>
         <Stack spacing="lg" style={{ padding: 16 }}>
           <Stack direction="row" spacing="md" alignItems="center">
-            <Avatar initials="AN" size="xl" status="online" accessibilityLabel="Alex Nguyen avatar" />
+            <Avatar
+              initials="AN"
+              size="xl"
+              status="online"
+              accessibilityLabel="Alex Nguyen avatar"
+            />
             <Stack spacing="xs" style={{ flex: 1 }}>
               <Typography variant="h6">{MOCK_USER.name}</Typography>
               <Typography variant="body2" color="secondary">
@@ -62,7 +67,12 @@ export default function ProfileScreenExample() {
             </Card>
           </Stack>
 
-          <Button label="Edit profile" variant="outline" fullWidth onPress={() => {}} />
+          <Button
+            label="Edit profile"
+            variant="outline"
+            fullWidth
+            onPress={() => {}}
+          />
         </Stack>
       </ScrollView>
     </Box>

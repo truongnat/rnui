@@ -129,7 +129,11 @@ export default function DialogScreen() {
           onClose={() => setScrollOpen(false)}
           title="Terms of Service"
           actions={
-            <Button label="I Agree" onPress={() => setScrollOpen(false)} fullWidth />
+            <Button
+              label="I Agree"
+              onPress={() => setScrollOpen(false)}
+              fullWidth
+            />
           }
         >
           <Stack spacing="md">

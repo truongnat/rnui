@@ -27,7 +27,9 @@ export default function BottomSheetScreen() {
       floatingContent={
         <>
           <BottomSheet ref={basicSheetRef}>
-            <View style={{ padding: tokens.spacing[6], gap: tokens.spacing[4] }}>
+            <View
+              style={{ padding: tokens.spacing[6], gap: tokens.spacing[4] }}
+            >
               <Typography variant="h3" fontWeight="700">
                 Quick Action
               </Typography>
@@ -43,7 +45,9 @@ export default function BottomSheetScreen() {
           </BottomSheet>
 
           <BottomSheet ref={snapSheetRef} snapPoints={['50%', '90%']}>
-            <View style={{ padding: tokens.spacing[6], gap: tokens.spacing[4] }}>
+            <View
+              style={{ padding: tokens.spacing[6], gap: tokens.spacing[4] }}
+            >
               <Typography variant="h3">Snap Points</Typography>
               <Typography variant="body1">
                 Define multiple heights for the sheet to stop at.

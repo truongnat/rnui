@@ -1,5 +1,11 @@
 import { Badge, Stack } from '@truongdq01/ui';
-import { CheckCircle2, Clock, CreditCard, Package, TriangleAlert } from 'lucide-react-native';
+import {
+  CheckCircle2,
+  Clock,
+  CreditCard,
+  Package,
+  TriangleAlert,
+} from 'lucide-react-native';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 import { DemoSurfacePanel } from '@/demo/DemoSurfacePanel';
 
@@ -14,15 +20,38 @@ export default function BadgeScreen() {
         description="Realistic labels for commerce and account flows."
       >
         <Stack direction="row" spacing="sm" wrap>
-          <Badge label="Shipped" variant="success" icon={<Package size={12} />} />
-          <Badge label="Processing" variant="warning" icon={<Clock size={12} />} />
-          <Badge label="Payment failed" variant="error" icon={<CreditCard size={12} />} />
-          <Badge label="Verified" variant="brand" icon={<CheckCircle2 size={12} />} />
-          <Badge label="Action required" variant="accent" icon={<TriangleAlert size={12} />} />
+          <Badge
+            label="Shipped"
+            variant="success"
+            icon={<Package size={12} />}
+          />
+          <Badge
+            label="Processing"
+            variant="warning"
+            icon={<Clock size={12} />}
+          />
+          <Badge
+            label="Payment failed"
+            variant="error"
+            icon={<CreditCard size={12} />}
+          />
+          <Badge
+            label="Verified"
+            variant="brand"
+            icon={<CheckCircle2 size={12} />}
+          />
+          <Badge
+            label="Action required"
+            variant="accent"
+            icon={<TriangleAlert size={12} />}
+          />
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Variants" description="All public variants including accent.">
+      <DemoSection
+        title="Variants"
+        description="All public variants including accent."
+      >
         <Stack direction="row" spacing="sm" wrap>
           <Badge label="Default" variant="default" />
           <Badge label="Brand" variant="brand" />
@@ -85,7 +114,10 @@ export default function BadgeScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Dots & counts" description="Notification counts and status dots.">
+      <DemoSection
+        title="Dots & counts"
+        description="Notification counts and status dots."
+      >
         <Stack direction="row" spacing="md" alignItems="center">
           <Badge dot size="md" variant="error" />
           <Badge dot size="md" variant="success" />

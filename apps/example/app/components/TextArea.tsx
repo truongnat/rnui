@@ -7,7 +7,9 @@ import { DemoPage, DemoSection } from '@/demo/DemoPage';
 export default function TextAreaScreen() {
   const t = useTokens();
   const [value1, setValue1] = useState('');
-  const [value2, setValue2] = useState('This is a preset value with character counter enabled.');
+  const [value2, setValue2] = useState(
+    'This is a preset value with character counter enabled.'
+  );
   const [value3, setValue3] = useState('');
   const [value4, setValue4] = useState('Error state example');
 
@@ -16,7 +18,10 @@ export default function TextAreaScreen() {
       title="TextArea"
       description="Multi-line text input for long-form content."
     >
-      <DemoSection title="Standard" description="Label, placeholder, and helper text.">
+      <DemoSection
+        title="Standard"
+        description="Label, placeholder, and helper text."
+      >
         <TextArea
           label="Notes"
           placeholder="Enter your notes here…"
@@ -26,7 +31,10 @@ export default function TextAreaScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Character Counter" description="Inside or above the field.">
+      <DemoSection
+        title="Character Counter"
+        description="Inside or above the field."
+      >
         <TextArea
           label="Description (Inside Counter)"
           placeholder="Tell us about yourself…"

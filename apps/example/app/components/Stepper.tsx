@@ -80,9 +80,7 @@ export default function StepperScreen() {
                   onPress={handleBack}
                 />
                 <Button
-                  label={
-                    activeStep === STEPS.length - 1 ? 'Finish' : 'Next'
-                  }
+                  label={activeStep === STEPS.length - 1 ? 'Finish' : 'Next'}
                   onPress={handleNext}
                 />
               </View>

@@ -18,7 +18,10 @@ export default function MessageInputScreen() {
       title="MessageInput"
       description="Chat input with attachments, glass effects, and auto-expanding height."
     >
-      <DemoSection title="Basic" description="Default input with attach and emoji buttons.">
+      <DemoSection
+        title="Basic"
+        description="Default input with attach and emoji buttons."
+      >
         <MessageInput
           value={value}
           onChangeText={setValue}
@@ -28,7 +31,10 @@ export default function MessageInputScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Custom Actions" description="Left and right action slots.">
+      <DemoSection
+        title="Custom Actions"
+        description="Left and right action slots."
+      >
         <MessageInput
           placeholder="With custom buttons…"
           leftActions={
@@ -49,7 +55,10 @@ export default function MessageInputScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Flat Background" description="Disable glass for a solid appearance.">
+      <DemoSection
+        title="Flat Background"
+        description="Disable glass for a solid appearance."
+      >
         <View
           style={{
             padding: t.spacing[2],
@@ -86,7 +95,10 @@ export default function MessageInputScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Minimal" description="Hide default attach and sticker actions.">
+      <DemoSection
+        title="Minimal"
+        description="Hide default attach and sticker actions."
+      >
         <MessageInput
           showAttach={false}
           showSticker={false}

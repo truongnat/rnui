@@ -4,14 +4,7 @@
  */
 import { useState } from 'react';
 import { ScrollView } from 'react-native';
-import {
-  Alert,
-  Box,
-  Button,
-  Input,
-  Stack,
-  Typography,
-} from '@truongdq01/ui';
+import { Alert, Box, Button, Input, Stack, Typography } from '@truongdq01/ui';
 
 type AuthPhase = 'idle' | 'loading' | 'error';
 
@@ -29,15 +22,16 @@ export default function LoginScreenExample() {
     setErrorMessage(undefined);
 
     setTimeout(() => {
-      const ok =
-        email === MOCK_VALID_EMAIL && password === MOCK_VALID_PASSWORD;
+      const ok = email === MOCK_VALID_EMAIL && password === MOCK_VALID_PASSWORD;
       if (ok) {
         setPhase('idle');
         // Navigate to home in a real app
         return;
       }
       setPhase('error');
-      setErrorMessage('Invalid email or password. Try demo@rnui.dev / password');
+      setErrorMessage(
+        'Invalid email or password. Try demo@rnui.dev / password'
+      );
     }, 800);
   };
 
@@ -47,7 +41,10 @@ export default function LoginScreenExample() {
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
-        <Stack spacing="lg" style={{ flex: 1, justifyContent: 'center', padding: 24 }}>
+        <Stack
+          spacing="lg"
+          style={{ flex: 1, justifyContent: 'center', padding: 24 }}
+        >
           <Stack spacing="sm">
             <Typography variant="h4" as="h1">
               Welcome back

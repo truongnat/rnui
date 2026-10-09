@@ -27,7 +27,7 @@ export default function CardScreen() {
           height: t.spacing[18] * 2 + t.spacing[6],
         },
       }),
-    [t.spacing],
+    [t.spacing]
   );
 
   return (

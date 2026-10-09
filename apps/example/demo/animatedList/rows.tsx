@@ -1,6 +1,6 @@
 import { memo, type ReactNode } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
-import { useTokens } from '@truongdq01/headless';
+import type { useTokens } from '@truongdq01/headless';
 import {
   Avatar,
   Badge,
@@ -195,7 +195,9 @@ export const SocialFeedRow = memo(function SocialFeedRow({
             </Typography>
           </View>
           <IconButton
-            icon={<MoreHorizontal color={tokens.color.text.tertiary} size={18} />}
+            icon={
+              <MoreHorizontal color={tokens.color.text.tertiary} size={18} />
+            }
             label="Post options"
             accessibilityLabel="Post options"
             size="sm"
@@ -374,7 +376,9 @@ export const TimelineFeedRow = memo(function TimelineFeedRow({
             label="Reply"
             count={post.replies}
             onPress={() => onToast('Reply to post')}
-            icon={<MessageCircle size={17} color={tokens.color.text.tertiary} />}
+            icon={
+              <MessageCircle size={17} color={tokens.color.text.tertiary} />
+            }
           />
           <EngagementAction
             tokens={tokens}

@@ -96,7 +96,10 @@ export default function SkeletonScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Text Lines" description="Single and multi-line placeholders.">
+      <DemoSection
+        title="Text Lines"
+        description="Single and multi-line placeholders."
+      >
         <SkeletonText lines={1} lastLineWidth="40%" />
         <View style={{ height: tokens.spacing[3] }} />
         <SkeletonText lines={3} />

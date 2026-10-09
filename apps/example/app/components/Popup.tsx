@@ -16,12 +16,31 @@ export default function PopupScreen() {
       title="Popup"
       description="Temporary overlay messages with auto-hide and severity variants."
     >
-      <DemoSection title="Severity" description="Info, success, warning, and error levels.">
+      <DemoSection
+        title="Severity"
+        description="Info, success, warning, and error levels."
+      >
         <Stack spacing="md">
-          <Button label="Show Info Popup" variant="outline" onPress={showPopup('info')} />
-          <Button label="Show Success Popup" variant="outline" onPress={showPopup('success')} />
-          <Button label="Show Warning Popup" variant="outline" onPress={showPopup('warning')} />
-          <Button label="Show Error Popup" variant="outline" onPress={showPopup('error')} />
+          <Button
+            label="Show Info Popup"
+            variant="outline"
+            onPress={showPopup('info')}
+          />
+          <Button
+            label="Show Success Popup"
+            variant="outline"
+            onPress={showPopup('success')}
+          />
+          <Button
+            label="Show Warning Popup"
+            variant="outline"
+            onPress={showPopup('warning')}
+          />
+          <Button
+            label="Show Error Popup"
+            variant="outline"
+            onPress={showPopup('error')}
+          />
         </Stack>
 
         <Popup
@@ -58,11 +77,29 @@ export default function PopupScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Positions" description="Top, center, or bottom of the screen.">
+      <DemoSection
+        title="Positions"
+        description="Top, center, or bottom of the screen."
+      >
         <Stack direction="row" spacing="sm">
-          <Button label="Top" size="sm" variant="outline" onPress={showPopup('pos-top')} />
-          <Button label="Center" size="sm" variant="outline" onPress={showPopup('pos-center')} />
-          <Button label="Bottom" size="sm" variant="outline" onPress={showPopup('pos-bottom')} />
+          <Button
+            label="Top"
+            size="sm"
+            variant="outline"
+            onPress={showPopup('pos-top')}
+          />
+          <Button
+            label="Center"
+            size="sm"
+            variant="outline"
+            onPress={showPopup('pos-center')}
+          />
+          <Button
+            label="Bottom"
+            size="sm"
+            variant="outline"
+            onPress={showPopup('pos-bottom')}
+          />
         </Stack>
 
         <Popup
@@ -85,10 +122,21 @@ export default function PopupScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Actions & Persistent" description="Inline actions or no auto-hide.">
+      <DemoSection
+        title="Actions & Persistent"
+        description="Inline actions or no auto-hide."
+      >
         <Stack spacing="md">
-          <Button label="Popup with Actions" variant="outline" onPress={showPopup('actions')} />
-          <Button label="Persistent Popup" variant="outline" onPress={showPopup('persistent')} />
+          <Button
+            label="Popup with Actions"
+            variant="outline"
+            onPress={showPopup('actions')}
+          />
+          <Button
+            label="Persistent Popup"
+            variant="outline"
+            onPress={showPopup('persistent')}
+          />
         </Stack>
 
         <Popup
@@ -97,7 +145,12 @@ export default function PopupScreen() {
           message="The message has been moved to trash."
           onClose={hidePopup}
           actions={
-            <Button label="UNDO" size="sm" variant="ghost" onPress={hidePopup} />
+            <Button
+              label="UNDO"
+              size="sm"
+              variant="ghost"
+              onPress={hidePopup}
+            />
           }
         />
         <Popup

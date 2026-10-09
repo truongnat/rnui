@@ -39,16 +39,28 @@ export default function ToggleButtonScreen() {
           exclusive
         >
           <ToggleButton value="left">
-            <AlignLeft size={ICON_SIZE} color={iconColor(alignment === 'left')} />
+            <AlignLeft
+              size={ICON_SIZE}
+              color={iconColor(alignment === 'left')}
+            />
           </ToggleButton>
           <ToggleButton value="center">
-            <AlignCenter size={ICON_SIZE} color={iconColor(alignment === 'center')} />
+            <AlignCenter
+              size={ICON_SIZE}
+              color={iconColor(alignment === 'center')}
+            />
           </ToggleButton>
           <ToggleButton value="right">
-            <AlignRight size={ICON_SIZE} color={iconColor(alignment === 'right')} />
+            <AlignRight
+              size={ICON_SIZE}
+              color={iconColor(alignment === 'right')}
+            />
           </ToggleButton>
           <ToggleButton value="justify">
-            <AlignJustify size={ICON_SIZE} color={iconColor(alignment === 'justify')} />
+            <AlignJustify
+              size={ICON_SIZE}
+              color={iconColor(alignment === 'justify')}
+            />
           </ToggleButton>
         </ToggleButtonGroup>
       </DemoSection>
@@ -57,12 +69,15 @@ export default function ToggleButtonScreen() {
         title="Multiple"
         description={`Selected styles: ${Array.isArray(formatting) ? formatting.join(', ') : formatting}`}
       >
-        <ToggleButtonGroup value={formatting} onChange={(v) => setFormatting(v)}>
+        <ToggleButtonGroup
+          value={formatting}
+          onChange={(v) => setFormatting(v)}
+        >
           <ToggleButton value="bold">
             <Bold
               size={ICON_SIZE}
               color={iconColor(
-                Array.isArray(formatting) && formatting.includes('bold'),
+                Array.isArray(formatting) && formatting.includes('bold')
               )}
             />
           </ToggleButton>
@@ -70,7 +85,7 @@ export default function ToggleButtonScreen() {
             <Italic
               size={ICON_SIZE}
               color={iconColor(
-                Array.isArray(formatting) && formatting.includes('italic'),
+                Array.isArray(formatting) && formatting.includes('italic')
               )}
             />
           </ToggleButton>
@@ -78,7 +93,7 @@ export default function ToggleButtonScreen() {
             <Underline
               size={ICON_SIZE}
               color={iconColor(
-                Array.isArray(formatting) && formatting.includes('underline'),
+                Array.isArray(formatting) && formatting.includes('underline')
               )}
             />
           </ToggleButton>

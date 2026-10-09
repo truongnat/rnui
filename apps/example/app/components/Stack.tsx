@@ -43,7 +43,10 @@ export default function StackScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Dividers" description="Insert dividers between each child.">
+      <DemoSection
+        title="Dividers"
+        description="Insert dividers between each child."
+      >
         <DemoPreview>
           <Stack spacing="md" divider={<Divider />}>
             <Item padding={t.spacing[3]}>Top</Item>

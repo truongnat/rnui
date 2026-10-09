@@ -1,6 +1,13 @@
 import { useTokens } from '@truongdq01/headless';
 import { SpeedDial, SpeedDialAction, Stack } from '@truongdq01/ui';
-import { Copy, FilePlus, Mail, Plus, Printer, Share2 } from 'lucide-react-native';
+import {
+  Copy,
+  FilePlus,
+  Mail,
+  Plus,
+  Printer,
+  Share2,
+} from 'lucide-react-native';
 import { Alert, View } from 'react-native';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
@@ -18,7 +25,12 @@ export default function SpeedDialScreen() {
     >
       <DemoSection title="Standard" description="Expands upward from the FAB.">
         <DemoPreview>
-          <View style={{ height: t.spacing[20] + t.spacing[10], alignItems: 'center' }}>
+          <View
+            style={{
+              height: t.spacing[20] + t.spacing[10],
+              alignItems: 'center',
+            }}
+          >
             <SpeedDial ariaLabel="Add Actions" icon={<Plus size={24} />}>
               <SpeedDialAction
                 icon={<Mail size={20} color={t.color.text.secondary} />}
@@ -40,7 +52,10 @@ export default function SpeedDialScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Directions" description="Open up, down, left, or right.">
+      <DemoSection
+        title="Directions"
+        description="Open up, down, left, or right."
+      >
         <Stack spacing="xl">
           <View style={{ height: t.spacing[20], alignItems: 'center' }}>
             <SpeedDial
@@ -61,7 +76,12 @@ export default function SpeedDialScreen() {
             </SpeedDial>
           </View>
 
-          <View style={{ height: t.spacing[20] + t.spacing[10], alignItems: 'center' }}>
+          <View
+            style={{
+              height: t.spacing[20] + t.spacing[10],
+              alignItems: 'center',
+            }}
+          >
             <SpeedDial
               direction="down"
               ariaLabel="Down Actions"

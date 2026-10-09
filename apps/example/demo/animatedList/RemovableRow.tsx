@@ -7,7 +7,11 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { StyleSheet, type LayoutChangeEvent, type ViewStyle } from 'react-native';
+import {
+  StyleSheet,
+  type LayoutChangeEvent,
+  type ViewStyle,
+} from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,

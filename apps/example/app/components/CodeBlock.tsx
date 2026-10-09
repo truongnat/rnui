@@ -53,11 +53,7 @@ export default function CodeBlockScreen() {
         title="CSS"
         description="CSS syntax highlighting with title."
       >
-        <CodeBlock
-          code={CSS_CODE}
-          language="css"
-          title="styles.css"
-        />
+        <CodeBlock code={CSS_CODE} language="css" title="styles.css" />
       </DemoSection>
 
       <DemoSection
@@ -76,7 +72,6 @@ export default function CodeBlockScreen() {
       >
         <CodeBlock code={TYPESCRIPT_CODE} />
       </DemoSection>
-
     </DemoPage>
   );
 }

@@ -9,9 +9,7 @@
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json",
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
   ],
-  "dependencies": [
-    "lucide-react-native"
-  ],
+  "dependencies": ["lucide-react-native"],
   "files": [
     {
       "path": "registry/shared/ui/toast.tsx",

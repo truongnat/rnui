@@ -9,9 +9,7 @@
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json",
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
   ],
-  "dependencies": [
-    "react-native-safe-area-context"
-  ],
+  "dependencies": ["react-native-safe-area-context"],
   "files": [
     {
       "path": "registry/shared/ui/drawer.tsx",

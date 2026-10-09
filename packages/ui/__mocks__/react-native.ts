@@ -1,8 +1,8 @@
-const ReactNative = jest.requireActual("react-native");
+const ReactNative = jest.requireActual('react-native');
 
 module.exports = {
-	...ReactNative,
-	Touchable: {
-		Mixin: {},
-	},
+  ...ReactNative,
+  Touchable: {
+    Mixin: {},
+  },
 };

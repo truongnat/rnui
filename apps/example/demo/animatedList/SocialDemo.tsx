@@ -91,7 +91,15 @@ export function SocialDemo() {
         )}
       </RemovableRow>
     ),
-    [countRef, finalizeRemove, onToast, postImageHeight, removeVariant, t, toggleLike]
+    [
+      countRef,
+      finalizeRemove,
+      onToast,
+      postImageHeight,
+      removeVariant,
+      t,
+      toggleLike,
+    ]
   );
 
   return (

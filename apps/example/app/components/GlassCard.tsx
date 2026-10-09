@@ -37,7 +37,7 @@ export default function GlassCardScreen() {
           alignItems: 'center',
         },
       }),
-    [t],
+    [t]
   );
 
   return (
@@ -45,7 +45,11 @@ export default function GlassCardScreen() {
       title="GlassCard"
       description="Glassmorphism card with background blur and tint."
     >
-      <DemoSection title="Default" description="Standard blur with automatic tint." bare>
+      <DemoSection
+        title="Default"
+        description="Standard blur with automatic tint."
+        bare
+      >
         <ImageBackground
           source={{ uri: 'https://picsum.photos/800/400?random=1' }}
           style={styles.background}
@@ -68,7 +72,11 @@ export default function GlassCardScreen() {
         </ImageBackground>
       </DemoSection>
 
-      <DemoSection title="Tints & Intensity" description="Light and dark blur strengths." bare>
+      <DemoSection
+        title="Tints & Intensity"
+        description="Light and dark blur strengths."
+        bare
+      >
         <ImageBackground
           source={{ uri: 'https://picsum.photos/800/400?random=2' }}
           style={styles.background}
@@ -89,7 +97,11 @@ export default function GlassCardScreen() {
         </ImageBackground>
       </DemoSection>
 
-      <DemoSection title="Custom Styling" description="Border radius and glass border." bare>
+      <DemoSection
+        title="Custom Styling"
+        description="Border radius and glass border."
+        bare
+      >
         <ImageBackground
           source={{ uri: 'https://picsum.photos/800/400?random=3' }}
           style={styles.background}

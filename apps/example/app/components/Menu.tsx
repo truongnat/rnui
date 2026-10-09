@@ -42,9 +42,20 @@ export default function MenuScreen() {
       title="Menu"
       description="Temporary surfaces with a list of choices."
     >
-      <DemoSection title="Basic Dropdown" description="Select an action from a list.">
-        <View ref={basicBtnRef} collapsable={false} style={{ alignSelf: 'flex-start' }}>
-          <Button label="Account Options" variant="outline" onPress={openBasic} />
+      <DemoSection
+        title="Basic Dropdown"
+        description="Select an action from a list."
+      >
+        <View
+          ref={basicBtnRef}
+          collapsable={false}
+          style={{ alignSelf: 'flex-start' }}
+        >
+          <Button
+            label="Account Options"
+            variant="outline"
+            onPress={openBasic}
+          />
         </View>
 
         <Menu
@@ -53,13 +64,22 @@ export default function MenuScreen() {
           anchorEl={basicAnchor}
         >
           <MenuItem label="View Profile" onPress={() => setBasicOpen(false)} />
-          <MenuItem label="Account Settings" onPress={() => setBasicOpen(false)} />
-          <MenuItem label="Privacy Policy" onPress={() => setBasicOpen(false)} />
+          <MenuItem
+            label="Account Settings"
+            onPress={() => setBasicOpen(false)}
+          />
+          <MenuItem
+            label="Privacy Policy"
+            onPress={() => setBasicOpen(false)}
+          />
           <MenuItem label="Sign Out" onPress={() => setBasicOpen(false)} />
         </Menu>
       </DemoSection>
 
-      <DemoSection title="With Icons" description="Icons help users scan actions faster.">
+      <DemoSection
+        title="With Icons"
+        description="Icons help users scan actions faster."
+      >
         <View
           ref={iconBtnRef}
           collapsable={false}
@@ -72,7 +92,11 @@ export default function MenuScreen() {
             borderColor: t.color.border.default,
           }}
         >
-          <MoreVertical size={24} color={t.color.text.primary} onPress={openIcon} />
+          <MoreVertical
+            size={24}
+            color={t.color.text.primary}
+            onPress={openIcon}
+          />
         </View>
 
         <Menu

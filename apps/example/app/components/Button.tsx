@@ -21,7 +21,8 @@ export default function ButtonScreen() {
           <Stack spacing="md">
             <Typography variant="h4">Pro workspace</Typography>
             <Typography variant="body2" color="secondary">
-              Unlimited projects, shared billing, and priority support for your team.
+              Unlimited projects, shared billing, and priority support for your
+              team.
             </Typography>
             <Stack spacing="sm">
               <Button
@@ -41,9 +42,15 @@ export default function ButtonScreen() {
         </Card>
       </DemoSection>
 
-      <DemoSection title="Variants" description="Emphasis levels for different actions.">
+      <DemoSection
+        title="Variants"
+        description="Emphasis levels for different actions."
+      >
         <Stack spacing="md">
-          <Button label="Continue checkout" onPress={() => toast.info('Solid tapped')} />
+          <Button
+            label="Continue checkout"
+            onPress={() => toast.info('Solid tapped')}
+          />
           <Button
             label="Save for later"
             variant="outline"
@@ -62,7 +69,10 @@ export default function ButtonScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Sizes" description="sm 36 · md 44 · lg 52 — native touch targets.">
+      <DemoSection
+        title="Sizes"
+        description="sm 36 · md 44 · lg 52 — native touch targets."
+      >
         <Stack direction="row" spacing="md" alignItems="center" wrap>
           <Button label="Small" size="sm" onPress={() => {}} />
           <Button label="Medium" size="md" onPress={() => {}} />
@@ -82,7 +92,11 @@ export default function ButtonScreen() {
 
       <DemoSection title="Icons & states">
         <Stack spacing="md">
-          <Button label="Add payment method" leadingIcon={<Plus size={18} />} onPress={() => {}} />
+          <Button
+            label="Add payment method"
+            leadingIcon={<Plus size={18} />}
+            onPress={() => {}}
+          />
           <Button
             label="Continue"
             trailingIcon={<ArrowRight size={18} />}

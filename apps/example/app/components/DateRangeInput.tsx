@@ -17,7 +17,10 @@ export default function DateRangeInputScreen() {
       title="Date Range Input"
       description="Dual-month range selection with quick presets and clearable state."
     >
-      <DemoSection title="With Presets" description="Fast report and analytics filters.">
+      <DemoSection
+        title="With Presets"
+        description="Fast report and analytics filters."
+      >
         <DateRangeInput
           label="Reporting period"
           value={range}
@@ -26,7 +29,10 @@ export default function DateRangeInputScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Booking Window" description="Min/max constraints and empty state.">
+      <DemoSection
+        title="Booking Window"
+        description="Min/max constraints and empty state."
+      >
         <DateRangeInput
           label="Stay dates"
           value={emptyRange}

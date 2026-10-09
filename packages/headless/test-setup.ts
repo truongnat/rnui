@@ -19,7 +19,7 @@ const createReanimatedMock = () => {
     return Component;
   };
 
-  const createSharedValue = <T,>(initial: T) => {
+  const createSharedValue = <T>(initial: T) => {
     let current = initial;
     return {
       get value() {
@@ -147,8 +147,7 @@ const createGestureHandlerMock = () => {
     return chain;
   };
 
-  const GestureDetector = ({ children }: React.PropsWithChildren) =>
-    children;
+  const GestureDetector = ({ children }: React.PropsWithChildren) => children;
 
   return {
     GestureDetector,

@@ -101,7 +101,15 @@ export function TimelineDemo() {
         )}
       </RemovableRow>
     ),
-    [countRef, finalizeRemove, onToast, removeVariant, t, toggleLike, toggleRepost]
+    [
+      countRef,
+      finalizeRemove,
+      onToast,
+      removeVariant,
+      t,
+      toggleLike,
+      toggleRepost,
+    ]
   );
 
   return (

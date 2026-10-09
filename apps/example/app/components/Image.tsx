@@ -37,7 +37,11 @@ export default function ImageScreen() {
         </DemoGroup>
       </DemoSection>
 
-      <DemoSection title="Aspect Ratios" description="Cover mode inside cards." bare>
+      <DemoSection
+        title="Aspect Ratios"
+        description="Cover mode inside cards."
+        bare
+      >
         <Card padding="none" style={{ overflow: 'hidden' }}>
           <RNImage
             source={{ uri: DEMO_IMAGE }}

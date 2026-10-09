@@ -20,7 +20,7 @@ export default function ScrollAreaScreen() {
         height: t.spacing[18] + t.spacing[6],
       },
     }),
-    [t.spacing],
+    [t.spacing]
   );
 
   return (
@@ -40,7 +40,11 @@ export default function ScrollAreaScreen() {
             <ScrollArea showVerticalScrollIndicator>
               <View style={{ padding: t.spacing[4], gap: t.spacing[4] }}>
                 {[...Array(10)].map((_, i) => (
-                  <Paper key={i} elevation="sm" style={{ padding: t.spacing[3] }}>
+                  <Paper
+                    key={i}
+                    elevation="sm"
+                    style={{ padding: t.spacing[3] }}
+                  >
                     <Typography variant="body2">
                       Scrollable Item {i + 1}
                     </Typography>
@@ -52,9 +56,15 @@ export default function ScrollAreaScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Horizontal Scroll" description="Row-based scrolling content.">
+      <DemoSection
+        title="Horizontal Scroll"
+        description="Row-based scrolling content."
+      >
         <DemoPreview>
-          <ScrollArea direction="horizontal" showHorizontalScrollIndicator={false}>
+          <ScrollArea
+            direction="horizontal"
+            showHorizontalScrollIndicator={false}
+          >
             <View style={{ flexDirection: 'row', gap: t.spacing[4] }}>
               {[...Array(6)].map((_, i) => (
                 <Paper

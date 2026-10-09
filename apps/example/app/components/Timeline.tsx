@@ -33,7 +33,7 @@ export default function TimelineScreen() {
           justifyContent: 'center',
         },
       }),
-    [t],
+    [t]
   );
 
   return (
@@ -41,7 +41,10 @@ export default function TimelineScreen() {
       title="Timeline"
       description="Events in chronological order with status indicators."
     >
-      <DemoSection title="Basic" description="completed, active, and pending states.">
+      <DemoSection
+        title="Basic"
+        description="completed, active, and pending states."
+      >
         <Timeline>
           <TimelineItem status="completed">
             <TimelineContent>
@@ -78,7 +81,10 @@ export default function TimelineScreen() {
         </Timeline>
       </DemoSection>
 
-      <DemoSection title="Opposite Content" description="Timestamps on the left.">
+      <DemoSection
+        title="Opposite Content"
+        description="Timestamps on the left."
+      >
         <Timeline position="left">
           <TimelineItem status="completed">
             <TimelineOppositeContent>
@@ -134,7 +140,10 @@ export default function TimelineScreen() {
         </Timeline>
       </DemoSection>
 
-      <DemoSection title="Custom Dots" description="Outlined and custom icon dots.">
+      <DemoSection
+        title="Custom Dots"
+        description="Outlined and custom icon dots."
+      >
         <Timeline>
           <TimelineItem status="error">
             <TimelineSeparator>

@@ -72,7 +72,10 @@ export default function AvatarScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Avatar Group" description="Overlapping avatars with max count.">
+      <DemoSection
+        title="Avatar Group"
+        description="Overlapping avatars with max count."
+      >
         <Stack spacing="xl">
           <AvatarGroup
             avatars={[

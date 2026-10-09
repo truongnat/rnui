@@ -33,10 +33,7 @@ const nextConfig: NextConfig = {
         rootDir,
         'src/mocks/gesture-handler.tsx'
       ),
-      'react-native-worklets': path.resolve(
-        rootDir,
-        'src/mocks/worklets.ts'
-      ),
+      'react-native-worklets': path.resolve(rootDir, 'src/mocks/worklets.ts'),
       'react-native-safe-area-context': path.resolve(
         rootDir,
         'src/mocks/safe-area-context.tsx'
@@ -47,10 +44,7 @@ const nextConfig: NextConfig = {
         rootDir,
         'src/mocks/datetimepicker.tsx'
       ),
-      '@shopify/flash-list': path.resolve(
-        rootDir,
-        'src/mocks/flash-list.tsx'
-      ),
+      '@shopify/flash-list': path.resolve(rootDir, 'src/mocks/flash-list.tsx'),
       'expo-blur': path.resolve(rootDir, 'src/mocks/expo-blur.tsx'),
       'expo-linear-gradient': path.resolve(rootDir, 'src/mocks/expo-blur.tsx'),
     };

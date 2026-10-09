@@ -11,12 +11,15 @@ import { usePersistedBrand } from '@/demo/usePersistedBrand';
  * Wait for persisted scheme before painting routes to avoid a one-frame wrong-theme flash.
  */
 export default function RootLayout() {
-  const { colorScheme, setColorScheme, hydrated: schemeHydrated } =
-    usePersistedColorScheme({
-      storage: AsyncStorage,
-      storageKey: '@rnui-example/color-scheme',
-      defaultScheme: 'system',
-    });
+  const {
+    colorScheme,
+    setColorScheme,
+    hydrated: schemeHydrated,
+  } = usePersistedColorScheme({
+    storage: AsyncStorage,
+    storageKey: '@rnui-example/color-scheme',
+    defaultScheme: 'system',
+  });
   const { brand, hydrated: brandHydrated } = usePersistedBrand();
 
   if (!schemeHydrated || !brandHydrated) {

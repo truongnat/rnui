@@ -11,7 +11,10 @@ export default function DatePickerScreen() {
       title="Date Picker"
       description="Cross-platform date selection with validation and locale support."
     >
-      <DemoSection title="Basic" description="Native pickers with design-system labels.">
+      <DemoSection
+        title="Basic"
+        description="Native pickers with design-system labels."
+      >
         <DatePicker
           label="Appointment Date"
           placeholder="Pick a date"
@@ -20,7 +23,10 @@ export default function DatePickerScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Placeholder" description="Empty state before selection.">
+      <DemoSection
+        title="Placeholder"
+        description="Empty state before selection."
+      >
         <DatePicker
           label="Birth Date"
           placeholder="Select your birthday"
@@ -29,7 +35,10 @@ export default function DatePickerScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Vietnamese Locale" description="Custom formatOptions and modal strings.">
+      <DemoSection
+        title="Vietnamese Locale"
+        description="Custom formatOptions and modal strings."
+      >
         <DatePicker
           label="Ngày hẹn"
           placeholder="Chọn ngày"

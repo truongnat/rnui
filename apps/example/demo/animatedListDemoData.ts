@@ -253,7 +253,10 @@ export function createInitialTimelinePosts(): TimelinePost[] {
   ];
 }
 
-export function createRandomSocialPost(uniqueId: string, bodyIndex: number): SocialPost {
+export function createRandomSocialPost(
+  uniqueId: string,
+  bodyIndex: number
+): SocialPost {
   const author = createRandomContact(`author-${uniqueId}`, bodyIndex);
   const withImage = bodyIndex % 2 === 0;
   return {
@@ -271,7 +274,10 @@ export function createRandomSocialPost(uniqueId: string, bodyIndex: number): Soc
   };
 }
 
-export function createRandomTimelinePost(uniqueId: string, bodyIndex: number): TimelinePost {
+export function createRandomTimelinePost(
+  uniqueId: string,
+  bodyIndex: number
+): TimelinePost {
   const author = createRandomContact(`author-${uniqueId}`, bodyIndex);
   return {
     id: uniqueId,

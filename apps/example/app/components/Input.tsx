@@ -64,11 +64,18 @@ export default function InputScreen() {
               error="This domain is not allowed for your organization"
               value="user@blocked.com"
             />
-            <Input label="Account locked" disabled value="Contact support to restore access" />
+            <Input
+              label="Account locked"
+              disabled
+              value="Contact support to restore access"
+            />
           </Stack>
         </DemoSection>
 
-        <DemoSection title="Sizes" description="sm 36 · md 44 · lg 52 — matches Button scale.">
+        <DemoSection
+          title="Sizes"
+          description="sm 36 · md 44 · lg 52 — matches Button scale."
+        >
           <Stack spacing="md">
             <Input size="sm" label="Promo code" placeholder="SAVE10" />
             <Input size="md" label="Full name" placeholder="Alex Nguyen" />

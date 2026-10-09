@@ -10,7 +10,10 @@ export default function BoxScreen() {
       title="Box"
       description="Layout wrapper for padding, flexbox, and nested surfaces."
     >
-      <DemoSection title="Basic" description="Padding, background, and border radius.">
+      <DemoSection
+        title="Basic"
+        description="Padding, background, and border radius."
+      >
         <DemoPreview>
           <Box
             style={{
@@ -26,7 +29,10 @@ export default function BoxScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Flexbox" description="Row layout with gap and alignment.">
+      <DemoSection
+        title="Flexbox"
+        description="Row layout with gap and alignment."
+      >
         <Box
           style={{
             flexDirection: 'row',
@@ -61,7 +67,10 @@ export default function BoxScreen() {
         </Box>
       </DemoSection>
 
-      <DemoSection title="Accent Border" description="Semantic spacing and brand accent.">
+      <DemoSection
+        title="Accent Border"
+        description="Semantic spacing and brand accent."
+      >
         <Box
           style={{
             marginVertical: tokens.spacing[6],

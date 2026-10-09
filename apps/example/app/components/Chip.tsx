@@ -12,7 +12,7 @@ export default function ChipScreen() {
 
   const toggleSelection = (key: string) => {
     setSelected((prev) =>
-      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key],
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
   };
 
@@ -21,8 +21,13 @@ export default function ChipScreen() {
       title="Chip"
       description="Filters, payment status, and tags — visible raised surfaces on any canvas."
     >
-      <DemoSection title="Payment & order filters" description="Product copy for status chips.">
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
+      <DemoSection
+        title="Payment & order filters"
+        description="Product copy for status chips."
+      >
+        <View
+          style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}
+        >
           <Chip label="Paid" color="success" icon={<CreditCard size={12} />} />
           <Chip label="Pending" color="warning" />
           <Chip label="Declined" color="error" />
@@ -30,8 +35,13 @@ export default function ChipScreen() {
         </View>
       </DemoSection>
 
-      <DemoSection title="Variants" description="Solid, outlined, and subtle styles.">
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
+      <DemoSection
+        title="Variants"
+        description="Solid, outlined, and subtle styles."
+      >
+        <View
+          style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}
+        >
           <Chip label="All orders" variant="solid" />
           <Chip label="In transit" variant="outlined" />
           <Chip label="Saved filter" variant="subtle" color="primary" />
@@ -53,9 +63,19 @@ export default function ChipScreen() {
             ] as const
           ).map(([label, surface]) => (
             <DemoSurfacePanel key={surface} label={label} surface={surface}>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  gap: t.spacing[2],
+                }}
+              >
                 <Chip label="Paid" color="success" />
-                <Chip label="Filter" variant="outlined" icon={<Filter size={12} />} />
+                <Chip
+                  label="Filter"
+                  variant="outlined"
+                  icon={<Filter size={12} />}
+                />
                 <Chip label="Draft" variant="solid" />
               </View>
             </DemoSurfacePanel>
@@ -63,8 +83,13 @@ export default function ChipScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Selection" description="Filter chips for order status.">
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
+      <DemoSection
+        title="Selection"
+        description="Filter chips for order status."
+      >
+        <View
+          style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}
+        >
           {[
             { key: 'paid', label: 'Paid' },
             { key: 'pending', label: 'Pending' },
@@ -82,7 +107,9 @@ export default function ChipScreen() {
       </DemoSection>
 
       <DemoSection title="Disabled & deletable">
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}>
+        <View
+          style={{ flexDirection: 'row', flexWrap: 'wrap', gap: t.spacing[2] }}
+        >
           <Chip label="Archived" disabled />
           <Chip label="Remove tag" onDelete={() => {}} />
         </View>

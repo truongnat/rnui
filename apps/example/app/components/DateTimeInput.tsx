@@ -11,7 +11,10 @@ export default function DateTimeInputScreen() {
       title="Date Time Input"
       description="Combined calendar and time selection for scheduling workflows."
     >
-      <DemoSection title="Basic" description="Date and time in one interaction.">
+      <DemoSection
+        title="Basic"
+        description="Date and time in one interaction."
+      >
         <DateTimeInput
           label="Starts at"
           value={startsAt}
@@ -22,7 +25,10 @@ export default function DateTimeInputScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Locale" description="24-hour format for regional scheduling.">
+      <DemoSection
+        title="Locale"
+        description="24-hour format for regional scheduling."
+      >
         <DateTimeInput
           label="Thời hạn"
           value={deadline}

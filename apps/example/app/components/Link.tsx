@@ -13,7 +13,10 @@ export default function LinkScreen() {
       title="Link"
       description="Interactive text for navigation or triggering actions."
     >
-      <DemoSection title="Basic" description="Inline or standalone navigation links.">
+      <DemoSection
+        title="Basic"
+        description="Inline or standalone navigation links."
+      >
         <Stack spacing="md" alignItems="flex-start">
           <Link onPress={() => toast.info('Navigating to profile…')}>
             My Profile
@@ -27,8 +30,17 @@ export default function LinkScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="External" description="Often paired with an external-link icon.">
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing[1] }}>
+      <DemoSection
+        title="External"
+        description="Often paired with an external-link icon."
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: tokens.spacing[1],
+          }}
+        >
           <Link onPress={() => toast.info('Opening browser…')}>
             Visit GitHub Repository
           </Link>
@@ -36,7 +48,10 @@ export default function LinkScreen() {
         </View>
       </DemoSection>
 
-      <DemoSection title="Typography Variants" description="Wrap in Typography for different sizes.">
+      <DemoSection
+        title="Typography Variants"
+        description="Wrap in Typography for different sizes."
+      >
         <Stack spacing="md" alignItems="flex-start">
           <Typography variant="h4">
             <Link onPress={() => {}}>Header Link</Link>

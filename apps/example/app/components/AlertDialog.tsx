@@ -20,7 +20,10 @@ export default function AlertDialogScreen() {
       title="AlertDialog"
       description="Modal dialog for urgent information or required actions."
     >
-      <DemoSection title="Standard" description="Simple confirmation with OK and Cancel.">
+      <DemoSection
+        title="Standard"
+        description="Simple confirmation with OK and Cancel."
+      >
         <Button
           label="Show Standard Alert"
           variant="outline"
@@ -38,7 +41,10 @@ export default function AlertDialogScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Destructive" description="Highlight irreversible actions.">
+      <DemoSection
+        title="Destructive"
+        description="Highlight irreversible actions."
+      >
         <Button
           label="Show Destructive Alert"
           variant="destructive"
@@ -57,7 +63,10 @@ export default function AlertDialogScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Advanced" description="Custom button labels and variants.">
+      <DemoSection
+        title="Advanced"
+        description="Custom button labels and variants."
+      >
         <Stack spacing="md">
           <Button
             label="Long Action Labels"

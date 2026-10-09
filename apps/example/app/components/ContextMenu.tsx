@@ -46,7 +46,7 @@ export default function ContextMenuScreen() {
         destructive: true,
       },
     ],
-    [t.color.text.secondary, t.color.status.error],
+    [t.color.text.secondary, t.color.status.error]
   );
 
   const styles = useMemo(
@@ -68,7 +68,7 @@ export default function ContextMenuScreen() {
           alignSelf: 'flex-start',
         },
       }),
-    [t.spacing],
+    [t.spacing]
   );
 
   return (
@@ -76,7 +76,10 @@ export default function ContextMenuScreen() {
       title="ContextMenu"
       description="Temporary menu for additional actions on an element."
     >
-      <DemoSection title="Card Triggers" description="Tap cards to open a context menu.">
+      <DemoSection
+        title="Card Triggers"
+        description="Tap cards to open a context menu."
+      >
         <View style={styles.grid}>
           <Pressable
             ref={cardRefA}
@@ -88,7 +91,11 @@ export default function ContextMenuScreen() {
             ]}
           >
             <Card style={styles.itemCard}>
-              <Icon name="more-vertical" size={24} color={t.color.text.secondary} />
+              <Icon
+                name="more-vertical"
+                size={24}
+                color={t.color.text.secondary}
+              />
             </Card>
           </Pressable>
 

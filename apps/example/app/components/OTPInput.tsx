@@ -14,7 +14,10 @@ export default function OTPInputScreen() {
       title="OTP Input"
       description="One-time passwords and PINs with automatic focus management."
     >
-      <DemoSection title="6-Digit Code" description="Standard 2FA verification format.">
+      <DemoSection
+        title="6-Digit Code"
+        description="Standard 2FA verification format."
+      >
         <View style={{ alignItems: 'center' }}>
           <OTPInput
             length={6}
@@ -25,7 +28,10 @@ export default function OTPInputScreen() {
         </View>
       </DemoSection>
 
-      <DemoSection title="4-Digit PIN" description="Transaction PINs or simple login codes.">
+      <DemoSection
+        title="4-Digit PIN"
+        description="Transaction PINs or simple login codes."
+      >
         <View style={{ alignItems: 'center' }}>
           <OTPInput
             length={4}

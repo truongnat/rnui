@@ -11,7 +11,10 @@ export default function LabelScreen() {
       title="Label"
       description="Accessible labels for input fields and selection controls."
     >
-      <DemoSection title="Standard" description="Semantic context for form fields.">
+      <DemoSection
+        title="Standard"
+        description="Semantic context for form fields."
+      >
         <Stack spacing="lg">
           <View>
             <Label>Full Name</Label>
@@ -38,7 +41,10 @@ export default function LabelScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Typography Variants" description="Pair with Typography for hierarchy.">
+      <DemoSection
+        title="Typography Variants"
+        description="Pair with Typography for hierarchy."
+      >
         <View style={{ gap: tokens.spacing[4] }}>
           <View>
             <Typography variant="overline">Section Title Style</Typography>

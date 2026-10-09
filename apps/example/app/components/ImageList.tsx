@@ -1,4 +1,9 @@
-import { ImageList, ImageListItem, ImageListItemBar, Icon } from '@truongdq01/ui';
+import {
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Icon,
+} from '@truongdq01/ui';
 import { Image, StyleSheet } from 'react-native';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 import { useTokens } from '@truongdq01/headless';
@@ -20,12 +25,18 @@ export default function ImageListScreen() {
       title="ImageList"
       description="Optimized image grids — standard, quilted, and woven layouts."
     >
-      <DemoSection title="Standard" description="Two columns with title bars." flush>
+      <DemoSection
+        title="Standard"
+        description="Two columns with title bars."
+        flush
+      >
         <ImageList cols={2} gap={t.spacing[2]} rowHeight={160}>
           {IMAGES.map((item) => (
             <ImageListItem key={item.id}>
               <Image
-                source={{ uri: `https://picsum.photos/400/400?random=${item.id}` }}
+                source={{
+                  uri: `https://picsum.photos/400/400?random=${item.id}`,
+                }}
                 style={styles.image}
               />
               <ImageListItemBar
@@ -45,8 +56,17 @@ export default function ImageListScreen() {
         </ImageList>
       </DemoSection>
 
-      <DemoSection title="Quilted" description="Masonry-like variable cell sizes." flush>
-        <ImageList variant="quilted" cols={3} gap={t.spacing[1]} rowHeight={100}>
+      <DemoSection
+        title="Quilted"
+        description="Masonry-like variable cell sizes."
+        flush
+      >
+        <ImageList
+          variant="quilted"
+          cols={3}
+          gap={t.spacing[1]}
+          rowHeight={100}
+        >
           {IMAGES.map((item) => (
             <ImageListItem
               key={item.id}
@@ -54,7 +74,9 @@ export default function ImageListScreen() {
               rows={item.rows ?? 1}
             >
               <Image
-                source={{ uri: `https://picsum.photos/400/400?random=${item.id + 10}` }}
+                source={{
+                  uri: `https://picsum.photos/400/400?random=${item.id + 10}`,
+                }}
                 style={styles.image}
               />
             </ImageListItem>
@@ -67,7 +89,9 @@ export default function ImageListScreen() {
           {IMAGES.slice(0, 4).map((item) => (
             <ImageListItem key={item.id}>
               <Image
-                source={{ uri: `https://picsum.photos/400/600?random=${item.id + 20}` }}
+                source={{
+                  uri: `https://picsum.photos/400/600?random=${item.id + 20}`,
+                }}
                 style={[styles.image, { borderRadius: t.radius.lg }]}
               />
             </ImageListItem>

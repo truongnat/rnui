@@ -10,9 +10,7 @@
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json",
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/calendar.json"
   ],
-  "dependencies": [
-    "lucide-react-native"
-  ],
+  "dependencies": ["lucide-react-native"],
   "files": [
     {
       "path": "registry/shared/ui/date-picker.tsx",

@@ -26,7 +26,12 @@ export default function CircularProgressScreen() {
       >
         <DemoPreview>
           <View style={{ alignItems: 'center', gap: t.spacing[4] }}>
-            <CircularProgress value={progress} size={120} strokeWidth={12} showValue />
+            <CircularProgress
+              value={progress}
+              size={120}
+              strokeWidth={12}
+              showValue
+            />
             <View style={{ flexDirection: 'row', gap: t.spacing[3] }}>
               <Button
                 size="sm"
@@ -45,7 +50,10 @@ export default function CircularProgressScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Colors" description="Semantic track and indicator colors.">
+      <DemoSection
+        title="Colors"
+        description="Semantic track and indicator colors."
+      >
         <View
           style={{
             flexDirection: 'row',
@@ -53,10 +61,26 @@ export default function CircularProgressScreen() {
             alignItems: 'center',
           }}
         >
-          <CircularProgress value={0.75} color={t.color.brand.default} size={60} />
-          <CircularProgress value={0.6} color={t.color.status.success} size={60} />
-          <CircularProgress value={0.4} color={t.color.status.danger} size={60} />
-          <CircularProgress value={0.9} color={t.color.status.warning} size={60} />
+          <CircularProgress
+            value={0.75}
+            color={t.color.brand.default}
+            size={60}
+          />
+          <CircularProgress
+            value={0.6}
+            color={t.color.status.success}
+            size={60}
+          />
+          <CircularProgress
+            value={0.4}
+            color={t.color.status.danger}
+            size={60}
+          />
+          <CircularProgress
+            value={0.9}
+            color={t.color.status.warning}
+            size={60}
+          />
         </View>
       </DemoSection>
 
@@ -75,7 +99,10 @@ export default function CircularProgressScreen() {
         </View>
       </DemoSection>
 
-      <DemoSection title="Indeterminate" description="Unknown duration processes.">
+      <DemoSection
+        title="Indeterminate"
+        description="Unknown duration processes."
+      >
         <View style={{ alignItems: 'center' }}>
           <CircularProgress indeterminate size={60} strokeWidth={6} />
         </View>

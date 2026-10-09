@@ -12,7 +12,10 @@ export default function FabScreen() {
       title="Floating Action Button"
       description="Primary action button that hovers over screen content."
     >
-      <DemoSection title="Standard" description="Primary interactions with icon-only FABs.">
+      <DemoSection
+        title="Standard"
+        description="Primary interactions with icon-only FABs."
+      >
         <DemoPreview>
           <View
             style={{
@@ -42,7 +45,10 @@ export default function FabScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Extended" description="Label + icon for maximum clarity.">
+      <DemoSection
+        title="Extended"
+        description="Label + icon for maximum clarity."
+      >
         <View style={{ gap: tokens.spacing[3], alignItems: 'flex-start' }}>
           <Fab
             variant="extended"

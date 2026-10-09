@@ -26,9 +26,24 @@ type Message = {
 };
 
 const MOCK_MESSAGES: Message[] = [
-  { id: '1', name: 'Design team', preview: 'Updated the component specs.', initials: 'DT' },
-  { id: '2', name: 'Support', preview: 'Your ticket has been resolved.', initials: 'SU' },
-  { id: '3', name: 'Billing', preview: 'Invoice ready for March.', initials: 'BI' },
+  {
+    id: '1',
+    name: 'Design team',
+    preview: 'Updated the component specs.',
+    initials: 'DT',
+  },
+  {
+    id: '2',
+    name: 'Support',
+    preview: 'Your ticket has been resolved.',
+    initials: 'SU',
+  },
+  {
+    id: '3',
+    name: 'Billing',
+    preview: 'Invoice ready for March.',
+    initials: 'BI',
+  },
 ];
 
 function MessageListScreen({
@@ -90,7 +105,11 @@ function MessageDetailScreen({
         </Stack>
         <Card padding="md">
           <Typography variant="body1">{item.preview}</Typography>
-          <Typography variant="body2" color="secondary" style={{ marginTop: 8 }}>
+          <Typography
+            variant="body2"
+            color="secondary"
+            style={{ marginTop: 8 }}
+          >
             Full message body would appear here in a real app.
           </Typography>
         </Card>

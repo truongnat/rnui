@@ -6,13 +6,7 @@ import {
 } from '@truongdq01/headless';
 import type { Brand } from '@truongdq01/tokens';
 import { allBrands } from '@truongdq01/themes';
-import {
-  Button,
-  Card,
-  Skeleton,
-  Stack,
-  Typography,
-} from '@truongdq01/ui';
+import { Button, Card, Skeleton, Stack, Typography } from '@truongdq01/ui';
 import { View } from 'react-native';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
@@ -60,18 +54,12 @@ function BrandSwitcher() {
 
   return (
     <Stack direction="row" spacing="sm" wrap>
-      {renderChip(
-        'builtin',
-        'Built-in',
-        activeBrand == null,
-        () => setBrand(undefined)
+      {renderChip('builtin', 'Built-in', activeBrand == null, () =>
+        setBrand(undefined)
       )}
       {allBrands.map((brand: Brand) =>
-        renderChip(
-          brand.id,
-          brand.name,
-          activeBrand?.id === brand.id,
-          () => setBrand(brand)
+        renderChip(brand.id, brand.name, activeBrand?.id === brand.id, () =>
+          setBrand(brand)
         )
       )}
       <Typography variant="caption" color="tertiary">
@@ -129,7 +117,10 @@ function SurfaceHierarchy() {
       layer(
         t.color.surface.card ?? t.color.surface.default,
         'surface.card',
-        layer(t.color.surface.popover ?? t.color.surface.raised, 'surface.popover')
+        layer(
+          t.color.surface.popover ?? t.color.surface.raised,
+          'surface.popover'
+        )
       )
     )
   );

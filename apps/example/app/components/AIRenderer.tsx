@@ -73,7 +73,9 @@ export default function AIRendererScreen() {
       toast.error('Fix validation errors before export');
       return;
     }
-    setExportedTsx(exportSchemaToTsx(result.schema, { componentName: 'GeneratedScreen' }));
+    setExportedTsx(
+      exportSchemaToTsx(result.schema, { componentName: 'GeneratedScreen' })
+    );
     toast.success('TSX exported below');
   }, [schema, toast]);
 
@@ -139,15 +141,30 @@ export default function AIRendererScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Tools" description="Validate, export, or trigger a sample action.">
+      <DemoSection
+        title="Tools"
+        description="Validate, export, or trigger a sample action."
+      >
         <Stack direction="row" spacing="sm" wrap>
-          <Button label="Validate" size="sm" variant="outline" onPress={runValidate} />
-          <Button label="Export TSX" size="sm" variant="outline" onPress={runExport} />
+          <Button
+            label="Validate"
+            size="sm"
+            variant="outline"
+            onPress={runValidate}
+          />
+          <Button
+            label="Export TSX"
+            size="sm"
+            variant="outline"
+            onPress={runExport}
+          />
           <Button
             label="Trigger sample action"
             size="sm"
             variant="ghost"
-            onPress={() => handleAction({ name: 'sample', sourceNodeId: 'demo' })}
+            onPress={() =>
+              handleAction({ name: 'sample', sourceNodeId: 'demo' })
+            }
           />
         </Stack>
       </DemoSection>
@@ -174,7 +191,10 @@ export default function AIRendererScreen() {
         ) : null}
       </DemoSection>
 
-      <DemoSection title="Validation" description="Latest validateBeforeRender output.">
+      <DemoSection
+        title="Validation"
+        description="Latest validateBeforeRender output."
+      >
         <Card padding="md">
           <Stack spacing="xs">
             {validationErrors.length === 0 ? (
@@ -209,7 +229,10 @@ export default function AIRendererScreen() {
       </DemoSection>
 
       {exportedTsx ? (
-        <DemoSection title="Exported TSX" description="Static export — handlers are TODO stubs.">
+        <DemoSection
+          title="Exported TSX"
+          description="Static export — handlers are TODO stubs."
+        >
           <Card padding="md">
             <ScrollView horizontal>
               <Typography variant="caption" style={{ fontFamily: 'Menlo' }}>

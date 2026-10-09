@@ -38,7 +38,7 @@ export default function AnimatedOverlayScreen() {
           lineHeight: tokens.fontSize.md * 1.45,
         },
       }),
-    [tokens],
+    [tokens]
   );
 
   const showOverlay = useCallback((type: OverlayAnimationType) => {
@@ -119,7 +119,7 @@ export default function AnimatedOverlayScreen() {
                 variant="outline"
                 style={styles.actionButton}
               />
-            ),
+            )
           )}
         </DemoGroup>
       </DemoSection>

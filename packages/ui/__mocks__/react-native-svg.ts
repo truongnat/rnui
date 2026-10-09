@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const Svg = ({ children, ...props }: any) =>
-	React.createElement("Svg", props, children);
+  React.createElement('Svg', props, children);
 
 export default Svg;
 export {

@@ -1,10 +1,7 @@
 {
   "name": "rnui",
   "homepage": "https://github.com/truongnat/rnui",
-  "variants": [
-    "nativewind",
-    "uniwind"
-  ],
+  "variants": ["nativewind", "uniwind"],
   "items": [
     "theme",
     "utils",

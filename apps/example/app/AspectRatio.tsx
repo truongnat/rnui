@@ -11,7 +11,10 @@ export default function AspectRatioScreen() {
       title="AspectRatio"
       description="Maintain consistent proportions for images, video, and cards."
     >
-      <DemoSection title="16:9" description="Widescreen video and hero banners.">
+      <DemoSection
+        title="16:9"
+        description="Widescreen video and hero banners."
+      >
         <DemoPreview>
           <AspectRatio ratio={16 / 9}>
             <View

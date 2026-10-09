@@ -43,10 +43,16 @@ async function main() {
   const names = new Set();
   for (const schema of components) {
     if (!schema.name) fail('Component missing name');
-    if (names.has(schema.name)) fail(`Duplicate component name: ${schema.name}`);
+    if (names.has(schema.name))
+      fail(`Duplicate component name: ${schema.name}`);
     names.add(schema.name);
 
-    if (!schema.package || !schema.import || !schema.category || !schema.status) {
+    if (
+      !schema.package ||
+      !schema.import ||
+      !schema.category ||
+      !schema.status
+    ) {
       fail(`Component ${schema.name} missing package/import/category/status`);
     }
 
@@ -82,7 +88,9 @@ async function main() {
   ).components.sort();
 
   if (JSON.stringify(webFromRegistry) !== JSON.stringify(webFromJson)) {
-    fail('web-preview-components.json is stale — re-run component-schema:generate');
+    fail(
+      'web-preview-components.json is stale — re-run component-schema:generate'
+    );
   }
 
   console.log(

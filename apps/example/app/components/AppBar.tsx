@@ -41,7 +41,10 @@ export default function AppBarScreen() {
       title="AppBar"
       description="Top bar with navigation, title, and screen actions."
     >
-      <DemoSection title="Basic" description="Leading navigation and trailing actions.">
+      <DemoSection
+        title="Basic"
+        description="Leading navigation and trailing actions."
+      >
         <AppBar style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}>
           <Toolbar style={{ paddingVertical: t.spacing[2] }}>
             <AppBarLeading>
@@ -72,81 +75,82 @@ export default function AppBarScreen() {
       </DemoSection>
 
       <DemoSection title="With Subtitle">
-            <AppBar style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}>
-              <Toolbar style={{ paddingVertical: t.spacing[2] }}>
-                <AppBarLeading>
-                  <Button
-                    variant="ghost"
-                    style={styles.iconButton}
-                    leadingIcon={<ChevronLeft size={22} />}
-                    accessibilityLabel="Go back"
-                  />
-                </AppBarLeading>
-                <AppBarTitle subtitle="Subtitle or secondary info">
-                  Main Title
-                </AppBarTitle>
-              </Toolbar>
-            </AppBar>
+        <AppBar style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}>
+          <Toolbar style={{ paddingVertical: t.spacing[2] }}>
+            <AppBarLeading>
+              <Button
+                variant="ghost"
+                style={styles.iconButton}
+                leadingIcon={<ChevronLeft size={22} />}
+                accessibilityLabel="Go back"
+              />
+            </AppBarLeading>
+            <AppBarTitle subtitle="Subtitle or secondary info">
+              Main Title
+            </AppBarTitle>
+          </Toolbar>
+        </AppBar>
       </DemoSection>
 
-      <DemoSection title="Brand" description="Inverse text on brand backgrounds.">
-            <AppBar
-              color="primary"
-              style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}
-            >
-              <Toolbar style={{ paddingVertical: t.spacing[2] }}>
-                <AppBarLeading>
-                  <Button
-                    variant="ghost"
-                    style={styles.iconButton}
-                    leadingIcon={
-                      <ChevronLeft size={22} color={t.color.text.inverse} />
-                    }
-                    accessibilityLabel="Go back"
-                  />
-                </AppBarLeading>
-                <AppBarTitle subtitle="In the cloud">Brand Identity</AppBarTitle>
-                <AppBarTrailing>
-                  <Button
-                    variant="ghost"
-                    style={styles.iconButton}
-                    leadingIcon={
-                      <Search size={22} color={t.color.text.inverse} />
-                    }
-                    accessibilityLabel="Search"
-                  />
-                </AppBarTrailing>
-              </Toolbar>
-            </AppBar>
+      <DemoSection
+        title="Brand"
+        description="Inverse text on brand backgrounds."
+      >
+        <AppBar
+          color="primary"
+          style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}
+        >
+          <Toolbar style={{ paddingVertical: t.spacing[2] }}>
+            <AppBarLeading>
+              <Button
+                variant="ghost"
+                style={styles.iconButton}
+                leadingIcon={
+                  <ChevronLeft size={22} color={t.color.text.inverse} />
+                }
+                accessibilityLabel="Go back"
+              />
+            </AppBarLeading>
+            <AppBarTitle subtitle="In the cloud">Brand Identity</AppBarTitle>
+            <AppBarTrailing>
+              <Button
+                variant="ghost"
+                style={styles.iconButton}
+                leadingIcon={<Search size={22} color={t.color.text.inverse} />}
+                accessibilityLabel="Search"
+              />
+            </AppBarTrailing>
+          </Toolbar>
+        </AppBar>
       </DemoSection>
 
       <DemoSection title="Variants">
         <Stack spacing="lg">
-            <AppBar
-              color="default"
-              variant="outlined"
-              style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}
-            >
-              <Toolbar style={{ paddingVertical: t.spacing[2] }}>
-                <AppBarTitle>Bordered App Bar</AppBarTitle>
-              </Toolbar>
-            </AppBar>
-            <AppBar
-              color="transparent"
-              style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}
-            >
-              <Toolbar style={{ paddingVertical: t.spacing[2] }}>
-                <AppBarTitle>Transparent App Bar</AppBarTitle>
-                <AppBarTrailing>
-                  <Button
-                    variant="ghost"
-                    style={styles.iconButton}
-                    leadingIcon={<MoreVertical size={22} />}
-                    accessibilityLabel="More actions"
-                  />
-                </AppBarTrailing>
-              </Toolbar>
-            </AppBar>
+          <AppBar
+            color="default"
+            variant="outlined"
+            style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}
+          >
+            <Toolbar style={{ paddingVertical: t.spacing[2] }}>
+              <AppBarTitle>Bordered App Bar</AppBarTitle>
+            </Toolbar>
+          </AppBar>
+          <AppBar
+            color="transparent"
+            style={{ borderRadius: t.radius.xl, overflow: 'hidden' }}
+          >
+            <Toolbar style={{ paddingVertical: t.spacing[2] }}>
+              <AppBarTitle>Transparent App Bar</AppBarTitle>
+              <AppBarTrailing>
+                <Button
+                  variant="ghost"
+                  style={styles.iconButton}
+                  leadingIcon={<MoreVertical size={22} />}
+                  accessibilityLabel="More actions"
+                />
+              </AppBarTrailing>
+            </Toolbar>
+          </AppBar>
         </Stack>
       </DemoSection>
     </DemoPage>

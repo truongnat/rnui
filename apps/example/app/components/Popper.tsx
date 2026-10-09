@@ -1,5 +1,12 @@
 import { useTokens } from '@truongdq01/headless';
-import { Button, Paper, Popper, type PopperPlacement, Stack, Typography } from '@truongdq01/ui';
+import {
+  Button,
+  Paper,
+  Popper,
+  type PopperPlacement,
+  Stack,
+  Typography,
+} from '@truongdq01/ui';
 import { useRef, useState } from 'react';
 import { View } from 'react-native';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
@@ -27,10 +34,18 @@ export default function PopperScreen() {
   };
 
   const placements: PopperPlacement[] = [
-    'top-start', 'top', 'top-end',
-    'left-start', 'left', 'left-end',
-    'right-start', 'right', 'right-end',
-    'bottom-start', 'bottom', 'bottom-end',
+    'top-start',
+    'top',
+    'top-end',
+    'left-start',
+    'left',
+    'left-end',
+    'right-start',
+    'right',
+    'right-end',
+    'bottom-start',
+    'bottom',
+    'bottom-end',
   ];
 
   return (
@@ -38,7 +53,10 @@ export default function PopperScreen() {
       title="Popper"
       description="Low-level positioning for tooltips, menus, and overlays."
     >
-      <DemoSection title="Placements" description="Tap a button to see each relative position.">
+      <DemoSection
+        title="Placements"
+        description="Tap a button to see each relative position."
+      >
         <View
           style={{
             alignItems: 'center',
@@ -59,7 +77,11 @@ export default function PopperScreen() {
           </View>
         </View>
 
-        <Stack direction="row" spacing="sm" style={{ flexWrap: 'wrap', justifyContent: 'center' }}>
+        <Stack
+          direction="row"
+          spacing="sm"
+          style={{ flexWrap: 'wrap', justifyContent: 'center' }}
+        >
           {placements.map((p) => (
             <Button
               key={p}

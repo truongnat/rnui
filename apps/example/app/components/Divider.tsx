@@ -11,7 +11,10 @@ export default function DividerScreen() {
       title="Divider"
       description="Visual separators to group content or define boundaries."
     >
-      <DemoSection title="Horizontal" description="Spacing between stacked sections.">
+      <DemoSection
+        title="Horizontal"
+        description="Spacing between stacked sections."
+      >
         <DemoPreview>
           <Typography variant="body2" color="secondary">
             Section A
@@ -27,19 +30,33 @@ export default function DividerScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="With Labels" description="Centered text between content blocks.">
-        <Typography variant="body2" color="secondary" style={{ textAlign: 'center' }}>
+      <DemoSection
+        title="With Labels"
+        description="Centered text between content blocks."
+      >
+        <Typography
+          variant="body2"
+          color="secondary"
+          style={{ textAlign: 'center' }}
+        >
           Content above
         </Typography>
         <Divider label="OR" spacing="lg" />
-        <Typography variant="body2" color="secondary" style={{ textAlign: 'center' }}>
+        <Typography
+          variant="body2"
+          color="secondary"
+          style={{ textAlign: 'center' }}
+        >
           Content below
         </Typography>
         <View style={{ height: tokens.spacing[4] }} />
         <Divider label="CONTINUE WITH" spacing="lg" />
       </DemoSection>
 
-      <DemoSection title="Vertical" description="Inline separators in row layouts.">
+      <DemoSection
+        title="Vertical"
+        description="Inline separators in row layouts."
+      >
         <DemoPreview>
           <View
             style={{
@@ -58,7 +75,10 @@ export default function DividerScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Emphasis" description="Standard vs stronger border weight.">
+      <DemoSection
+        title="Emphasis"
+        description="Standard vs stronger border weight."
+      >
         <Typography variant="caption" color="tertiary">
           Standard
         </Typography>

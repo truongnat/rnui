@@ -75,7 +75,10 @@ export default function AutocompleteScreen() {
       title="Autocomplete"
       description="Text input enhanced by a panel of suggested options."
     >
-      <DemoSection title="Basic" description="String options with search filtering.">
+      <DemoSection
+        title="Basic"
+        description="String options with search filtering."
+      >
         <Autocomplete
           label="Country"
           placeholder="Type a country name…"
@@ -97,7 +100,10 @@ export default function AutocompleteScreen() {
         ) : null}
       </DemoSection>
 
-      <DemoSection title="Custom Options" description="Rich rows with avatar and email.">
+      <DemoSection
+        title="Custom Options"
+        description="Rich rows with avatar and email."
+      >
         <Autocomplete
           label="Select User"
           placeholder="Search for a user…"
@@ -105,7 +111,7 @@ export default function AutocompleteScreen() {
           value={selectedUser}
           onChange={(value) =>
             setSelectedUser(
-              value && typeof value === 'object' && 'id' in value ? value : null,
+              value && typeof value === 'object' && 'id' in value ? value : null
             )
           }
           noResultsText="Không tìm thấy kết quả"
@@ -132,7 +138,12 @@ export default function AutocompleteScreen() {
       </DemoSection>
 
       <DemoSection title="States" description="Disabled and async loading.">
-        <Autocomplete label="Disabled" disabled options={COUNTRIES} value="Vietnam" />
+        <Autocomplete
+          label="Disabled"
+          disabled
+          options={COUNTRIES}
+          value="Vietnam"
+        />
         <View style={{ height: t.spacing[4] }} />
         <Autocomplete
           label="Loading (async)"

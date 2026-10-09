@@ -14,7 +14,10 @@ export default function FormFieldScreen() {
       title="FormField"
       description="Wrap inputs with labels, requirements, and validation messages."
     >
-      <DemoSection title="Standard" description="Helper text, errors, and trailing links.">
+      <DemoSection
+        title="Standard"
+        description="Helper text, errors, and trailing links."
+      >
         <FormField
           label="Display Name"
           helperText="Visible to anyone on the platform"
@@ -34,7 +37,10 @@ export default function FormFieldScreen() {
         </FormField>
       </DemoSection>
 
-      <DemoSection title="Form Group" description="Stack related fields with consistent gap.">
+      <DemoSection
+        title="Form Group"
+        description="Stack related fields with consistent gap."
+      >
         <FormGroup gap="md">
           <FormField label="First Name">
             <Input />
@@ -65,8 +71,14 @@ export default function FormFieldScreen() {
         </FormGroup>
       </DemoSection>
 
-      <DemoSection title="Grouped Validation" description="Group-level error message.">
-        <FormGroup variant="grouped" error="Some fields have invalid information">
+      <DemoSection
+        title="Grouped Validation"
+        description="Group-level error message."
+      >
+        <FormGroup
+          variant="grouped"
+          error="Some fields have invalid information"
+        >
           <FormField label="Credit Card" error="Invalid number">
             <Input placeholder="XXXX XXXX XXXX XXXX" />
           </FormField>

@@ -22,21 +22,42 @@ export default function RatingScreen() {
         <Rating value={val1} onChange={setVal1} />
       </DemoSection>
 
-      <DemoSection title="Half Stars" description="Precision 0.5 with value display.">
+      <DemoSection
+        title="Half Stars"
+        description="Precision 0.5 with value display."
+      >
         <Rating value={val2} onChange={setVal2} precision={0.5} showValue />
       </DemoSection>
 
       <DemoSection title="Sizes">
         <View style={{ gap: t.spacing[4] }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: t.spacing[2] }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: t.spacing[2],
+            }}
+          >
             <Rating size="sm" defaultValue={4} readOnly />
             <Typography variant="caption">Small</Typography>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: t.spacing[2] }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: t.spacing[2],
+            }}
+          >
             <Rating size="md" defaultValue={4} readOnly />
             <Typography variant="caption">Medium</Typography>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: t.spacing[2] }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: t.spacing[2],
+            }}
+          >
             <Rating size="lg" defaultValue={4} readOnly />
             <Typography variant="caption">Large</Typography>
           </View>
@@ -71,7 +92,13 @@ export default function RatingScreen() {
             ratingCount={1240}
             showValue
           />
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: t.spacing[2] }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: t.spacing[2],
+            }}
+          >
             <Rating defaultValue={2} disabled />
             <Typography variant="caption" color="disabled">
               Disabled

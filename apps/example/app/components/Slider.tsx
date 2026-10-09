@@ -17,7 +17,10 @@ export default function SliderScreen() {
       title="Slider"
       description="Select from a range — single value, interval, or custom thumb."
     >
-      <DemoSection title="Basic" description="Single value with min/max labels.">
+      <DemoSection
+        title="Basic"
+        description="Single value with min/max labels."
+      >
         <Slider
           label="Volume"
           showValue
@@ -46,7 +49,10 @@ export default function SliderScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Vertical" description="Column orientation for brightness-style controls.">
+      <DemoSection
+        title="Vertical"
+        description="Column orientation for brightness-style controls."
+      >
         <View
           style={{
             height: tokens.spacing[24] * 2 + tokens.spacing[7],
@@ -69,7 +75,10 @@ export default function SliderScreen() {
         </View>
       </DemoSection>
 
-      <DemoSection title="Custom Thumb" description="Render a custom icon inside the thumb.">
+      <DemoSection
+        title="Custom Thumb"
+        description="Render a custom icon inside the thumb."
+      >
         <Slider
           label="Star Level"
           showValue

@@ -103,10 +103,7 @@ function rgbToHex({ r, g, b }) {
 }
 
 function checkPair(label, fgValue, bgValue, canvasRgb, options = {}) {
-  const {
-    minDelta = MIN_LUMINANCE_DELTA,
-    kind = 'surface',
-  } = options;
+  const { minDelta = MIN_LUMINANCE_DELTA, kind = 'surface' } = options;
 
   const fg = resolveTokenColor(fgValue, canvasRgb);
   const bg = resolveTokenColor(bgValue, canvasRgb);
@@ -159,7 +156,9 @@ function printTable(mode, rows) {
 
   for (const row of rows) {
     if (row.level === 'skip') {
-      console.log(`${row.label.padEnd(36)} ${'—'.padStart(6)} ${'—'.padStart(7)} skip`);
+      console.log(
+        `${row.label.padEnd(36)} ${'—'.padStart(6)} ${'—'.padStart(7)} skip`
+      );
       continue;
     }
     const deltaStr = row.delta?.toFixed(3) ?? '—';
@@ -181,9 +180,24 @@ function auditMode(modeName, tokens) {
   const white = { r: 255, g: 255, b: 255, a: 1 };
 
   const pairs = [
-    checkPair('bg.default vs surface.default', c.surface.default, c.bg.default, canvas),
-    checkPair('bg.default vs surface.raised', c.surface.raised, c.bg.default, canvas),
-    checkPair('bg.default vs surface.sunken', c.surface.sunken, c.bg.default, canvas),
+    checkPair(
+      'bg.default vs surface.default',
+      c.surface.default,
+      c.bg.default,
+      canvas
+    ),
+    checkPair(
+      'bg.default vs surface.raised',
+      c.surface.raised,
+      c.bg.default,
+      canvas
+    ),
+    checkPair(
+      'bg.default vs surface.sunken',
+      c.surface.sunken,
+      c.bg.default,
+      canvas
+    ),
     checkPair(
       'surface.default vs surface.raised',
       c.surface.raised,
@@ -275,7 +289,9 @@ async function main() {
     );
   }
 
-  const { lightTokens, darkTokens } = await import(pathToFileURL(distEntry).href);
+  const { lightTokens, darkTokens } = await import(
+    pathToFileURL(distEntry).href
+  );
 
   console.log('RNUI surface visibility audit');
   console.log(`Tokens: ${distEntry}`);
@@ -283,8 +299,8 @@ async function main() {
   const light = auditMode('Light', lightTokens);
   const dark = auditMode('Dark', darkTokens);
 
-  let brandFails = [];
-  let brandWarns = [];
+  const brandFails = [];
+  const brandWarns = [];
   const themesEntry = join(root, 'packages/themes/dist/index.mjs');
   if (existsSync(themesEntry)) {
     const { allBrands } = await import(pathToFileURL(themesEntry).href);
@@ -293,7 +309,12 @@ async function main() {
     console.log(`${'─'.repeat(72)}`);
     for (const brand of allBrands) {
       const c = brand.light;
-      const canvas = parseColor(c.bg.default) ?? { r: 255, g: 255, b: 255, a: 1 };
+      const canvas = parseColor(c.bg.default) ?? {
+        r: 255,
+        g: 255,
+        b: 255,
+        a: 1,
+      };
       const white = { r: 255, g: 255, b: 255, a: 1 };
       const pairs = [
         checkPair(
@@ -321,16 +342,18 @@ async function main() {
       brandWarns.push(...pairs.filter((p) => p.level === 'warn'));
     }
   } else {
-    console.log('\nBrand audit skipped — themes dist missing (run bun run build).');
+    console.log(
+      '\nBrand audit skipped — themes dist missing (run bun run build).'
+    );
   }
 
-  const totalFails =
-    light.fails.length + dark.fails.length + brandFails.length;
-  const totalWarns =
-    light.warns.length + dark.warns.length + brandWarns.length;
+  const totalFails = light.fails.length + dark.fails.length + brandFails.length;
+  const totalWarns = light.warns.length + dark.warns.length + brandWarns.length;
 
   console.log(`\n${'─'.repeat(72)}`);
-  console.log(` Summary: ${totalFails} critical failure(s), ${totalWarns} warning(s)`);
+  console.log(
+    ` Summary: ${totalFails} critical failure(s), ${totalWarns} warning(s)`
+  );
   console.log(`${'─'.repeat(72)}`);
 
   if (totalWarns > 0) {
@@ -340,7 +363,9 @@ async function main() {
   }
 
   if (totalFails > 0) {
-    console.error('\nCritical pairs collapsed — fix semantic tokens before release.');
+    console.error(
+      '\nCritical pairs collapsed — fix semantic tokens before release.'
+    );
     for (const f of [...light.fails, ...dark.fails, ...brandFails]) {
       console.error(`  • ${f.label}: ${f.note}`);
     }

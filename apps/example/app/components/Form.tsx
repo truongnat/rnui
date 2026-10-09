@@ -1,5 +1,13 @@
 import { useToast } from '@truongdq01/headless';
-import { Button, Checkbox, Divider, Stack, Switch, TextField, Card } from '@truongdq01/ui';
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Stack,
+  Switch,
+  TextField,
+  Card,
+} from '@truongdq01/ui';
 import { useState } from 'react';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 

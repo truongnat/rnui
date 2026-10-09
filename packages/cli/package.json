@@ -18,7 +18,7 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "lint": "biome check ./src",
-    "test": "bun test"
+    "test": "bun test --pass-with-no-tests"
   },
   "dependencies": {
     "@clack/prompts": "^1.8.1"

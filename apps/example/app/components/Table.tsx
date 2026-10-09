@@ -53,7 +53,7 @@ export default function TableScreen() {
 
   const paginatedData = sortedData.slice(
     page * rowsPerPage,
-    (page + 1) * rowsPerPage,
+    (page + 1) * rowsPerPage
   );
 
   return (
@@ -88,7 +88,11 @@ export default function TableScreen() {
         </TableContainer>
       </DemoSection>
 
-      <DemoSection title="Size & Padding" description="Small size with no cell padding." flush>
+      <DemoSection
+        title="Size & Padding"
+        description="Small size with no cell padding."
+        flush
+      >
         <TableContainer style={{ marginBottom: t.spacing[4] }}>
           <Table size="small" padding="none">
             <TableHead>
@@ -113,7 +117,11 @@ export default function TableScreen() {
         </TableContainer>
       </DemoSection>
 
-      <DemoSection title="Sort & Pagination" description="Interactive column sorting with footer pagination." flush>
+      <DemoSection
+        title="Sort & Pagination"
+        description="Interactive column sorting with footer pagination."
+        flush
+      >
         <TableContainer>
           <Table
             sortColumn={sortColumn}
@@ -170,7 +178,11 @@ export default function TableScreen() {
         </TableContainer>
       </DemoSection>
 
-      <DemoSection title="Sticky Header" description="Header stays visible while scrolling." flush>
+      <DemoSection
+        title="Sticky Header"
+        description="Header stays visible while scrolling."
+        flush
+      >
         <View style={{ height: 200 }}>
           <TableContainer>
             <Table stickyHeader>

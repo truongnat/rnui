@@ -1,8 +1,4 @@
-import {
-  useActiveBrand,
-  useBrandSwitch,
-  useTheme,
-} from '@truongdq01/headless';
+import { useActiveBrand, useBrandSwitch, useTheme } from '@truongdq01/headless';
 import type { Brand, ColorScheme } from '@truongdq01/tokens';
 import { allBrands } from '@truongdq01/themes';
 import {
@@ -15,7 +11,13 @@ import {
 } from '@truongdq01/ui';
 import { Palette, X } from 'lucide-react-native';
 import { useCallback, useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { persistBrandId } from './demoThemeStorage';
 import { useDemoThemePreference } from './DemoThemeContext';

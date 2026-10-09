@@ -21,7 +21,10 @@ export default function PaginationScreen() {
         <Pagination count={10} page={page} onChange={setPage} />
       </DemoSection>
 
-      <DemoSection title="Outlined & Rounded" description="Shape and variant options.">
+      <DemoSection
+        title="Outlined & Rounded"
+        description="Shape and variant options."
+      >
         <View style={{ gap: t.spacing[4] }}>
           <Pagination
             count={8}
@@ -46,7 +49,10 @@ export default function PaginationScreen() {
         </View>
       </DemoSection>
 
-      <DemoSection title="Large Page Count" description="Truncates with ellipsis for many pages.">
+      <DemoSection
+        title="Large Page Count"
+        description="Truncates with ellipsis for many pages."
+      >
         <Pagination count={100} page={page} onChange={setPage} />
       </DemoSection>
     </DemoPage>

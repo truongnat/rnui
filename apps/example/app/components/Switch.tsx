@@ -52,7 +52,12 @@ export default function SwitchScreen() {
       <DemoSection title="Disabled">
         <Stack spacing="md">
           <Switch label="Managed by admin" disabled on onChange={() => {}} />
-          <Switch label="Unavailable feature" disabled on={false} onChange={() => {}} />
+          <Switch
+            label="Unavailable feature"
+            disabled
+            on={false}
+            onChange={() => {}}
+          />
         </Stack>
       </DemoSection>
     </DemoPage>

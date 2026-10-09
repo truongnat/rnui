@@ -21,12 +21,7 @@
         {
           "name": "padding",
           "type": "enum",
-          "enumValues": [
-            "none",
-            "sm",
-            "md",
-            "lg"
-          ],
+          "enumValues": ["none", "sm", "md", "lg"],
           "defaultValue": "md",
           "description": "Screen edge padding applied by renderer",
           "aiHint": "Use token-aligned padding presets, not raw pixel values",
@@ -35,13 +30,7 @@
         {
           "name": "spacing",
           "type": "enum",
-          "enumValues": [
-            "xs",
-            "sm",
-            "md",
-            "lg",
-            "xl"
-          ],
+          "enumValues": ["xs", "sm", "md", "lg", "xl"],
           "defaultValue": "md",
           "description": "Default gap between direct children when renderer wraps in Stack",
           "safeForAI": true
@@ -82,10 +71,7 @@
           "tsx": "<Stack spacing=\"md\" style={{ flex: 1, padding: 16 }}>\n  <Typography variant=\"h4\">Welcome</Typography>\n  <Button label=\"Continue\" variant=\"solid\" />\n</Stack>"
         }
       ],
-      "related": [
-        "Stack",
-        "Box"
-      ],
+      "related": ["Stack", "Box"],
       "avoid": [
         "Do not pass arbitrary style objects from ScreenSchema",
         "Do not nest Screen inside Screen"
@@ -117,25 +103,14 @@
         {
           "name": "direction",
           "type": "enum",
-          "enumValues": [
-            "column",
-            "column-reverse",
-            "row",
-            "row-reverse"
-          ],
+          "enumValues": ["column", "column-reverse", "row", "row-reverse"],
           "defaultValue": "column",
           "safeForAI": true
         },
         {
           "name": "spacing",
           "type": "enum",
-          "enumValues": [
-            "xs",
-            "sm",
-            "md",
-            "lg",
-            "xl"
-          ],
+          "enumValues": ["xs", "sm", "md", "lg", "xl"],
           "defaultValue": "sm",
           "description": "Gap between children (token preset or number in TSX)",
           "safeForAI": true
@@ -204,10 +179,7 @@
           "tsx": "<Stack spacing=\"md\">\n  <Input label=\"Email\" />\n  <Button label=\"Submit\" fullWidth />\n</Stack>"
         }
       ],
-      "related": [
-        "Box",
-        "Screen"
-      ],
+      "related": ["Box", "Screen"],
       "avoid": [
         "Do not use gap prop — Stack uses spacing",
         "Do not inline magic margin on children"
@@ -253,9 +225,7 @@
           "tsx": "<Box flex={1}>{children}</Box>"
         }
       ],
-      "related": [
-        "Stack"
-      ],
+      "related": ["Stack"],
       "avoid": [
         "Do not use sx/style for colors — use theme tokens via components"
       ],
@@ -286,12 +256,7 @@
         {
           "name": "padding",
           "type": "enum",
-          "enumValues": [
-            "none",
-            "sm",
-            "md",
-            "lg"
-          ],
+          "enumValues": ["none", "sm", "md", "lg"],
           "defaultValue": "md",
           "safeForAI": true
         },
@@ -341,13 +306,8 @@
           "tsx": "<Card padding=\"md\">\n  <Typography variant=\"h6\">Profile</Typography>\n  <Typography variant=\"body2\" color=\"secondary\">Member since 2024</Typography>\n</Card>"
         }
       ],
-      "related": [
-        "Paper",
-        "Stack"
-      ],
-      "avoid": [
-        "Do not pass style for elevation — use Card padding prop"
-      ],
+      "related": ["Paper", "Stack"],
+      "avoid": ["Do not pass style for elevation — use Card padding prop"],
       "docsPath": "components/card"
     },
     {
@@ -369,23 +329,14 @@
         {
           "name": "variant",
           "type": "enum",
-          "enumValues": [
-            "elevation",
-            "outlined",
-            "flat"
-          ],
+          "enumValues": ["elevation", "outlined", "flat"],
           "defaultValue": "elevation",
           "safeForAI": true
         },
         {
           "name": "elevation",
           "type": "enum",
-          "enumValues": [
-            "none",
-            "sm",
-            "md",
-            "lg"
-          ],
+          "enumValues": ["none", "sm", "md", "lg"],
           "defaultValue": "sm",
           "safeForAI": true
         },
@@ -419,12 +370,8 @@
           "tsx": "<Paper variant=\"outlined\">\n  <Typography>Panel content</Typography>\n</Paper>"
         }
       ],
-      "related": [
-        "Card"
-      ],
-      "avoid": [
-        "Do not pass raw style for shadow"
-      ],
+      "related": ["Card"],
+      "avoid": ["Do not pass raw style for shadow"],
       "docsPath": "components/paper"
     },
     {
@@ -451,10 +398,7 @@
         {
           "name": "orientation",
           "type": "enum",
-          "enumValues": [
-            "horizontal",
-            "vertical"
-          ],
+          "enumValues": ["horizontal", "vertical"],
           "defaultValue": "horizontal",
           "safeForAI": true
         },
@@ -467,12 +411,7 @@
         {
           "name": "spacing",
           "type": "enum",
-          "enumValues": [
-            "none",
-            "sm",
-            "md",
-            "lg"
-          ],
+          "enumValues": ["none", "sm", "md", "lg"],
           "defaultValue": "md",
           "safeForAI": true
         }
@@ -492,12 +431,8 @@
           "tsx": "<Divider label=\"OR\" />"
         }
       ],
-      "related": [
-        "Stack"
-      ],
-      "avoid": [
-        "Do not use Divider as a spacer — use Stack spacing"
-      ],
+      "related": ["Stack"],
+      "avoid": ["Do not use Divider as a spacer — use Stack spacing"],
       "docsPath": "components/divider"
     },
     {
@@ -565,13 +500,7 @@
         {
           "name": "align",
           "type": "enum",
-          "enumValues": [
-            "left",
-            "right",
-            "center",
-            "justify",
-            "inherit"
-          ],
+          "enumValues": ["left", "right", "center", "justify", "inherit"],
           "safeForAI": true
         },
         {
@@ -611,9 +540,7 @@
           "tsx": "<Typography variant=\"h4\">Settings</Typography>"
         }
       ],
-      "related": [
-        "Stack"
-      ],
+      "related": ["Stack"],
       "avoid": [
         "Do not wrap plain strings in View",
         "Do not use random fontSize"
@@ -681,11 +608,7 @@
         {
           "name": "size",
           "type": "enum",
-          "enumValues": [
-            "sm",
-            "md",
-            "lg"
-          ],
+          "enumValues": ["sm", "md", "lg"],
           "defaultValue": "md",
           "safeForAI": true
         },
@@ -740,9 +663,7 @@
           "tsx": "<Button label=\"Sign in\" variant=\"solid\" fullWidth onPress={handleSignIn} />"
         }
       ],
-      "related": [
-        "Stack"
-      ],
+      "related": ["Stack"],
       "avoid": [
         "Do not pass arbitrary onPress from schema JSON",
         "Do not use raw style for colors",
@@ -806,11 +727,7 @@
         {
           "name": "size",
           "type": "enum",
-          "enumValues": [
-            "sm",
-            "md",
-            "lg"
-          ],
+          "enumValues": ["sm", "md", "lg"],
           "defaultValue": "md",
           "safeForAI": true
         },
@@ -850,10 +767,7 @@
           "tsx": "<Input label=\"Email\" placeholder=\"you@example.com\" />"
         }
       ],
-      "related": [
-        "TextField",
-        "Stack"
-      ],
+      "related": ["TextField", "Stack"],
       "avoid": [
         "Do not pass style prop — not in public InputProps",
         "Do not use raw TextInput"
@@ -884,11 +798,7 @@
         {
           "name": "variant",
           "type": "enum",
-          "enumValues": [
-            "outlined",
-            "filled",
-            "standard"
-          ],
+          "enumValues": ["outlined", "filled", "standard"],
           "defaultValue": "outlined",
           "safeForAI": true
         },
@@ -923,12 +833,7 @@
         {
           "name": "type",
           "type": "enum",
-          "enumValues": [
-            "text",
-            "password",
-            "email",
-            "number"
-          ],
+          "enumValues": ["text", "password", "email", "number"],
           "defaultValue": "text",
           "safeForAI": true
         },
@@ -960,9 +865,7 @@
           "tsx": "<TextField label=\"Name\" variant=\"outlined\" required />"
         }
       ],
-      "related": [
-        "Input"
-      ],
+      "related": ["Input"],
       "avoid": [
         "Do not set select=true in web preview schema — Select is native-heavy"
       ],
@@ -1023,11 +926,7 @@
         {
           "name": "size",
           "type": "enum",
-          "enumValues": [
-            "sm",
-            "md",
-            "lg"
-          ],
+          "enumValues": ["sm", "md", "lg"],
           "defaultValue": "md",
           "safeForAI": true
         }
@@ -1048,12 +947,8 @@
           "tsx": "<Checkbox label=\"I agree to the terms\" />"
         }
       ],
-      "related": [
-        "Switch"
-      ],
-      "avoid": [
-        "Do not pass onChange functions in schema JSON"
-      ],
+      "related": ["Switch"],
+      "avoid": ["Do not pass onChange functions in schema JSON"],
       "docsPath": "components/checkbox"
     },
     {
@@ -1107,11 +1002,7 @@
         {
           "name": "size",
           "type": "enum",
-          "enumValues": [
-            "sm",
-            "md",
-            "lg"
-          ],
+          "enumValues": ["sm", "md", "lg"],
           "defaultValue": "md",
           "safeForAI": true
         }
@@ -1132,12 +1023,8 @@
           "tsx": "<Switch label=\"Enable notifications\" on />"
         }
       ],
-      "related": [
-        "Checkbox"
-      ],
-      "avoid": [
-        "Do not pass onChange in schema JSON"
-      ],
+      "related": ["Checkbox"],
+      "avoid": ["Do not pass onChange in schema JSON"],
       "docsPath": "components/switch"
     },
     {
@@ -1191,11 +1078,7 @@
         {
           "name": "size",
           "type": "enum",
-          "enumValues": [
-            "sm",
-            "md",
-            "lg"
-          ],
+          "enumValues": ["sm", "md", "lg"],
           "defaultValue": "md",
           "safeForAI": true
         },
@@ -1222,12 +1105,8 @@
           "tsx": "<Badge label=\"New\" variant=\"brand\" />"
         }
       ],
-      "related": [
-        "Chip"
-      ],
-      "avoid": [
-        "Do not pass icon nodes in schema until icon registry exists"
-      ],
+      "related": ["Chip"],
+      "avoid": ["Do not pass icon nodes in schema until icon registry exists"],
       "docsPath": "components/badge"
     },
     {
@@ -1261,11 +1140,7 @@
         {
           "name": "variant",
           "type": "enum",
-          "enumValues": [
-            "solid",
-            "outlined",
-            "subtle"
-          ],
+          "enumValues": ["solid", "outlined", "subtle"],
           "defaultValue": "solid",
           "safeForAI": true
         },
@@ -1287,11 +1162,7 @@
         {
           "name": "size",
           "type": "enum",
-          "enumValues": [
-            "sm",
-            "md",
-            "lg"
-          ],
+          "enumValues": ["sm", "md", "lg"],
           "defaultValue": "md",
           "safeForAI": true
         },
@@ -1328,9 +1199,7 @@
           "tsx": "<Chip label=\"Design\" variant=\"subtle\" />"
         }
       ],
-      "related": [
-        "Badge"
-      ],
+      "related": ["Badge"],
       "avoid": [
         "Do not pass avatar/icon nodes in schema yet",
         "Do not use onClick in JSON"
@@ -1362,23 +1231,14 @@
         {
           "name": "severity",
           "type": "enum",
-          "enumValues": [
-            "error",
-            "warning",
-            "info",
-            "success"
-          ],
+          "enumValues": ["error", "warning", "info", "success"],
           "defaultValue": "info",
           "safeForAI": true
         },
         {
           "name": "variant",
           "type": "enum",
-          "enumValues": [
-            "standard",
-            "filled",
-            "outlined"
-          ],
+          "enumValues": ["standard", "filled", "outlined"],
           "defaultValue": "standard",
           "safeForAI": true
         },
@@ -1415,10 +1275,7 @@
           "tsx": "<Alert severity=\"info\">Your profile was updated successfully.</Alert>"
         }
       ],
-      "related": [
-        "Badge",
-        "Snackbar"
-      ],
+      "related": ["Badge", "Snackbar"],
       "avoid": [
         "Do not use Alert for blocking confirmations — use AlertDialog on native",
         "Do not pass onClose in schema JSON"
@@ -1461,35 +1318,20 @@
         {
           "name": "size",
           "type": "enum",
-          "enumValues": [
-            "xs",
-            "sm",
-            "md",
-            "lg",
-            "xl",
-            "2xl"
-          ],
+          "enumValues": ["xs", "sm", "md", "lg", "xl", "2xl"],
           "defaultValue": "md",
           "safeForAI": true
         },
         {
           "name": "status",
           "type": "enum",
-          "enumValues": [
-            "online",
-            "offline",
-            "busy",
-            "away"
-          ],
+          "enumValues": ["online", "offline", "busy", "away"],
           "safeForAI": true
         },
         {
           "name": "shape",
           "type": "enum",
-          "enumValues": [
-            "circle",
-            "rounded"
-          ],
+          "enumValues": ["circle", "rounded"],
           "defaultValue": "circle",
           "safeForAI": true
         },
@@ -1515,9 +1357,7 @@
           "tsx": "<Avatar initials=\"TD\" size=\"lg\" />"
         }
       ],
-      "related": [
-        "Card"
-      ],
+      "related": ["Card"],
       "avoid": [
         "Do not pass fallbackIcon in schema until icon registry exists"
       ],
@@ -1538,9 +1378,7 @@
       "props": [],
       "examples": [],
       "docsPath": "components/modal",
-      "avoid": [
-        "Not available in web preview MVP"
-      ],
+      "avoid": ["Not available in web preview MVP"],
       "support": {
         "native": true,
         "webPreview": false,

@@ -48,7 +48,9 @@ export const AlertStory: StoryObj = {
     <View style={{ gap: 12 }}>
       <Alert severity="success">
         <AlertTitle>Saved</AlertTitle>
-        <Typography variant="body2">Your changes were saved successfully.</Typography>
+        <Typography variant="body2">
+          Your changes were saved successfully.
+        </Typography>
       </Alert>
       <Alert severity="warning">Warning message</Alert>
       <Alert severity="error">Error occurred</Alert>

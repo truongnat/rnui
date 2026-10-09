@@ -4,10 +4,7 @@
   "type": "registry:lib",
   "title": "Utils",
   "description": "Shared helpers. Currently cn() = clsx + tailwind-merge.",
-  "dependencies": [
-    "clsx",
-    "tailwind-merge"
-  ],
+  "dependencies": ["clsx", "tailwind-merge"],
   "files": [
     {
       "path": "registry/shared/lib/utils.ts",

@@ -1,5 +1,21 @@
-import { Button, ButtonGroup, Stack, ToggleButton, ToggleButtonGroup } from '@truongdq01/ui';
-import { AlignCenter, AlignLeft, AlignRight, Bold, Italic, Scissors, Copy, ClipboardPaste, Underline } from 'lucide-react-native';
+import {
+  Button,
+  ButtonGroup,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@truongdq01/ui';
+import {
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
+  Bold,
+  Italic,
+  Scissors,
+  Copy,
+  ClipboardPaste,
+  Underline,
+} from 'lucide-react-native';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
@@ -18,9 +34,24 @@ export default function ButtonGroupScreen() {
         description="Related edit actions with the same variant, like Astryx copy / cut / paste."
       >
         <ButtonGroup label="Text editing actions">
-          <Button label="Copy" variant="outline" startIcon={<Copy size={16} />} onPress={() => {}} />
-          <Button label="Cut" variant="outline" startIcon={<Scissors size={16} />} onPress={() => {}} />
-          <Button label="Paste" variant="outline" startIcon={<ClipboardPaste size={16} />} onPress={() => {}} />
+          <Button
+            label="Copy"
+            variant="outline"
+            startIcon={<Copy size={16} />}
+            onPress={() => {}}
+          />
+          <Button
+            label="Cut"
+            variant="outline"
+            startIcon={<Scissors size={16} />}
+            onPress={() => {}}
+          />
+          <Button
+            label="Paste"
+            variant="outline"
+            startIcon={<ClipboardPaste size={16} />}
+            onPress={() => {}}
+          />
         </ButtonGroup>
       </DemoSection>
 
@@ -57,9 +88,15 @@ export default function ButtonGroupScreen() {
           onChange={(v) => v && setAlignment(v as string)}
           exclusive
         >
-          <ToggleButton value="left"><AlignLeft size={18} /></ToggleButton>
-          <ToggleButton value="center"><AlignCenter size={18} /></ToggleButton>
-          <ToggleButton value="right"><AlignRight size={18} /></ToggleButton>
+          <ToggleButton value="left">
+            <AlignLeft size={18} />
+          </ToggleButton>
+          <ToggleButton value="center">
+            <AlignCenter size={18} />
+          </ToggleButton>
+          <ToggleButton value="right">
+            <AlignRight size={18} />
+          </ToggleButton>
         </ToggleButtonGroup>
       </DemoSection>
 
@@ -72,9 +109,15 @@ export default function ButtonGroupScreen() {
           onChange={(v) => setFormats(v as string[])}
           exclusive={false}
         >
-          <ToggleButton value="bold"><Bold size={18} /></ToggleButton>
-          <ToggleButton value="italic"><Italic size={18} /></ToggleButton>
-          <ToggleButton value="underline"><Underline size={18} /></ToggleButton>
+          <ToggleButton value="bold">
+            <Bold size={18} />
+          </ToggleButton>
+          <ToggleButton value="italic">
+            <Italic size={18} />
+          </ToggleButton>
+          <ToggleButton value="underline">
+            <Underline size={18} />
+          </ToggleButton>
         </ToggleButtonGroup>
       </DemoSection>
 

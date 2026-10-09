@@ -14,7 +14,7 @@ export default function SelectScreen() {
 
   const bigOptions = useMemo(
     () => LARGE_COUNTRIES.slice(0, bigLoaded),
-    [bigLoaded],
+    [bigLoaded]
   );
 
   const bigHasMore = bigLoaded < LARGE_COUNTRIES.length;

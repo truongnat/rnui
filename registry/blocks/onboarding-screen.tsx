@@ -31,9 +31,7 @@ export function OnboardingScreen({ onDone }: { onDone?: () => void }) {
     <View className="flex-1 bg-background">
       <View className="items-end px-4 pt-4">
         <Pressable accessibilityRole="button" onPress={onDone}>
-          <Text className="text-sm text-muted-foreground">
-            Skip
-          </Text>
+          <Text className="text-sm text-muted-foreground">Skip</Text>
         </Pressable>
       </View>
       <Carousel

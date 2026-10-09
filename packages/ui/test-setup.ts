@@ -212,8 +212,12 @@ mock.module('@shopify/flash-list', () => createFlashListMock());
 // Mock expo-blur (optional peer — may resolve from app workspace on CI)
 mock.module('expo-blur', () => {
   const createMockComponent = (name: string) => {
-    const Component = ({ children, ...props }: { children?: React.ReactNode }) =>
-      React.createElement(name, props, children);
+    const Component = ({
+      children,
+      ...props
+    }: {
+      children?: React.ReactNode;
+    }) => React.createElement(name, props, children);
     Component.displayName = name;
     return Component;
   };
@@ -226,8 +230,12 @@ mock.module('expo-blur', () => {
 // Mock expo-linear-gradient (optional peer — may resolve from app workspace on CI)
 mock.module('expo-linear-gradient', () => {
   const createMockComponent = (name: string) => {
-    const Component = ({ children, ...props }: { children?: React.ReactNode }) =>
-      React.createElement(name, props, children);
+    const Component = ({
+      children,
+      ...props
+    }: {
+      children?: React.ReactNode;
+    }) => React.createElement(name, props, children);
     Component.displayName = name;
     return Component;
   };

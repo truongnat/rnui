@@ -10,7 +10,11 @@ export default function ChatListItemScreen() {
       title="ChatListItem"
       description="Chat rows with avatar, preview, badges, and status."
     >
-      <DemoSection title="Standard" description="Unread count and online status." flush>
+      <DemoSection
+        title="Standard"
+        description="Unread count and online status."
+        flush
+      >
         <ChatListItem
           name="Truong Dang"
           preview="Hey! How is the component migration going?"
@@ -35,7 +39,11 @@ export default function ChatListItemScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="States" description="Read receipts, muted, and pinned." flush>
+      <DemoSection
+        title="States"
+        description="Read receipts, muted, and pinned."
+        flush
+      >
         <ChatListItem
           name="James Wilson"
           preview="The PR was approved! 🚀"
@@ -63,7 +71,11 @@ export default function ChatListItemScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Custom Trailing" description="Replace default chevron or badge." flush>
+      <DemoSection
+        title="Custom Trailing"
+        description="Replace default chevron or badge."
+        flush
+      >
         <ChatListItem
           name="Payment Alert"
           preview="Your subscription will be renewed tomorrow."
@@ -74,7 +86,11 @@ export default function ChatListItemScreen() {
             status: 'online',
           }}
           trailingElement={
-            <Icon name="chevron-right" size={20} color={t.color.text.tertiary} />
+            <Icon
+              name="chevron-right"
+              size={20}
+              color={t.color.text.tertiary}
+            />
           }
           onPress={() => {}}
         />

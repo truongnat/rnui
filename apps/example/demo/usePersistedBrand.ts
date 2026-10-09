@@ -3,7 +3,9 @@ import { allBrands } from '@truongdq01/themes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { loadPersistedBrandId } from './demoThemeStorage';
 
-export function resolveBrandById(id: string | null | undefined): Brand | undefined {
+export function resolveBrandById(
+  id: string | null | undefined
+): Brand | undefined {
   if (id == null || id === '') {
     return undefined;
   }

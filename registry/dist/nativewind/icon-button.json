@@ -8,9 +8,7 @@
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
   ],
-  "dependencies": [
-    "tailwind-variants"
-  ],
+  "dependencies": ["tailwind-variants"],
   "files": [
     {
       "path": "registry/shared/ui/icon-button.tsx",

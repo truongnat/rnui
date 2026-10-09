@@ -28,7 +28,7 @@ const OUT_DIR = join(ROOT, 'registry', 'dist');
 const VARIANTS = ['nativewind', 'uniwind'];
 const BASE_URL = (
   process.env.RNUI_REGISTRY_BASE_URL ??
-    'https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist'
+  'https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist'
 ).replace(/\/$/, '');
 
 const catalog = JSON.parse(

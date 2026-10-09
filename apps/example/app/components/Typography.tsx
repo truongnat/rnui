@@ -18,8 +18,8 @@ export default function TypographyScreen() {
             </Typography>
             <Typography variant="h2">Payment received</Typography>
             <Typography variant="body1" color="secondary">
-              Your subscription renews on June 12. You can manage billing anytime in
-              Settings.
+              Your subscription renews on June 12. You can manage billing
+              anytime in Settings.
             </Typography>
             <Divider spacing="sm" />
             <Typography variant="caption" color="tertiary">
@@ -56,10 +56,18 @@ export default function TypographyScreen() {
 
       <DemoSection title="Semantic colors">
         <Stack spacing="xs">
-          <Typography variant="body1" color="primary">Primary</Typography>
-          <Typography variant="body1" color="secondary">Secondary</Typography>
-          <Typography variant="body1" color="brand">Brand accent</Typography>
-          <Typography variant="body1" color="error">Payment failed</Typography>
+          <Typography variant="body1" color="primary">
+            Primary
+          </Typography>
+          <Typography variant="body1" color="secondary">
+            Secondary
+          </Typography>
+          <Typography variant="body1" color="brand">
+            Brand accent
+          </Typography>
+          <Typography variant="body1" color="error">
+            Payment failed
+          </Typography>
         </Stack>
       </DemoSection>
 

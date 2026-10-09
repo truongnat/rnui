@@ -83,7 +83,10 @@ export default function BottomNavigationScreen() {
         </BottomNavigation>
       </DemoSection>
 
-      <DemoSection title="Icons Only" description="Compact icon-only navigation.">
+      <DemoSection
+        title="Icons Only"
+        description="Compact icon-only navigation."
+      >
         <BottomNavigation
           value={activeTab}
           onChange={setActiveTab}

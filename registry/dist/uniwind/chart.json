@@ -9,9 +9,7 @@
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json",
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
   ],
-  "dependencies": [
-    "@shopify/react-native-skia@2.6.2"
-  ],
+  "dependencies": ["@shopify/react-native-skia@2.6.2"],
   "files": [
     {
       "path": "registry/shared/ui/chart.tsx",

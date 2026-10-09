@@ -8,9 +8,7 @@
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
   ],
-  "dependencies": [
-    "tailwind-variants"
-  ],
+  "dependencies": ["tailwind-variants"],
   "files": [
     {
       "path": "registry/shared/ui/text.tsx",

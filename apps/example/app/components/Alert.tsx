@@ -81,21 +81,24 @@ export default function AlertScreen() {
           <Alert severity="warning">
             <AlertTitle>Card expiring soon</AlertTitle>
             <Typography variant="body2">
-              Your Visa ending in 4242 expires in 12 days. Update billing to avoid interruption.
+              Your Visa ending in 4242 expires in 12 days. Update billing to
+              avoid interruption.
             </Typography>
           </Alert>
 
           <Alert severity="error">
             <AlertTitle>Could not charge subscription</AlertTitle>
             <Typography variant="body2">
-              We could not process your renewal. Check your payment method and try again.
+              We could not process your renewal. Check your payment method and
+              try again.
             </Typography>
           </Alert>
 
           <Alert severity="info">
             <AlertTitle>Delivery update</AlertTitle>
             <Typography variant="body2">
-              Your package is out for delivery and should arrive today before 6 PM.
+              Your package is out for delivery and should arrive today before 6
+              PM.
             </Typography>
           </Alert>
         </Stack>
@@ -139,7 +142,10 @@ export default function AlertScreen() {
         </Stack>
       </DemoSection>
 
-      <DemoSection title="Customizations" description="Actions and custom icons.">
+      <DemoSection
+        title="Customizations"
+        description="Actions and custom icons."
+      >
         <Stack spacing="md">
           <Alert
             severity="info"
@@ -161,9 +167,7 @@ export default function AlertScreen() {
             severity="info"
             icon={<Info color={t.color.info.icon} size={20} />}
           >
-            <Typography variant="body2">
-              Custom Lucide info icon.
-            </Typography>
+            <Typography variant="body2">Custom Lucide info icon.</Typography>
           </Alert>
         </Stack>
       </DemoSection>

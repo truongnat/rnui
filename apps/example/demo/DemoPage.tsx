@@ -55,7 +55,7 @@ export const DemoPage: React.FC<DemoPageProps> = ({
           backgroundColor: tokens.color.surface.default,
         },
       }),
-    [tokens],
+    [tokens]
   );
 
   const renderContent = () => (
@@ -138,7 +138,7 @@ export const DemoPage: React.FC<DemoPageProps> = ({
         </View>
       )}
 
-      {(showThemeControls || floatingContent) ? (
+      {showThemeControls || floatingContent ? (
         <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
           {showThemeControls ? <DemoThemeControls /> : null}
           {floatingContent}
@@ -160,7 +160,9 @@ export const DemoSection: React.FC<{
   const { tokens } = useTheme();
 
   const header = (
-    <View style={{ gap: tokens.spacing[1], paddingHorizontal: tokens.spacing[0.5] }}>
+    <View
+      style={{ gap: tokens.spacing[1], paddingHorizontal: tokens.spacing[0.5] }}
+    >
       <Typography
         variant="subtitle2"
         style={{ fontWeight: tokens.fontWeight.semibold }}

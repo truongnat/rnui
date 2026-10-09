@@ -6,7 +6,7 @@ export default function CheckboxScreen() {
   const [terms, setTerms] = useState(false);
   const [marketing, setMarketing] = useState(true);
   const [selectAll, setSelectAll] = useState<boolean | 'indeterminate'>(
-    'indeterminate',
+    'indeterminate'
   );
 
   return (
@@ -46,8 +46,18 @@ export default function CheckboxScreen() {
 
       <DemoSection title="Disabled">
         <Stack spacing="md">
-          <Checkbox label="Required by organization policy" disabled checked onChange={() => {}} />
-          <Checkbox label="Unavailable in your region" disabled checked={false} onChange={() => {}} />
+          <Checkbox
+            label="Required by organization policy"
+            disabled
+            checked
+            onChange={() => {}}
+          />
+          <Checkbox
+            label="Unavailable in your region"
+            disabled
+            checked={false}
+            onChange={() => {}}
+          />
         </Stack>
       </DemoSection>
     </DemoPage>

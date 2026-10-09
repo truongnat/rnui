@@ -46,4 +46,6 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
-console.log(`RNUI AI check passed — ${requiredFiles.length} required files present.`);
+console.log(
+  `RNUI AI check passed — ${requiredFiles.length} required files present.`
+);

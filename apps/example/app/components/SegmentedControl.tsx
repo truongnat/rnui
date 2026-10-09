@@ -16,7 +16,10 @@ export default function SegmentedControlScreen() {
       title="Segmented Control"
       description="Mutually exclusive segments for switching views or filters."
     >
-      <DemoSection title="Basic" description={`Selected: ${['Daily', 'Weekly', 'Monthly'][index1]}`}>
+      <DemoSection
+        title="Basic"
+        description={`Selected: ${['Daily', 'Weekly', 'Monthly'][index1]}`}
+      >
         <SegmentedControl
           options={['Daily', 'Weekly', 'Monthly']}
           selectedIndex={index1}
@@ -24,7 +27,10 @@ export default function SegmentedControlScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Many Options" description="Five segments for status filtering.">
+      <DemoSection
+        title="Many Options"
+        description="Five segments for status filtering."
+      >
         <SegmentedControl
           options={['All', 'Active', 'Pending', 'Completed', 'Archived']}
           selectedIndex={index2}
@@ -32,7 +38,10 @@ export default function SegmentedControlScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="In Context" description="Segmented control driving a preview area.">
+      <DemoSection
+        title="In Context"
+        description="Segmented control driving a preview area."
+      >
         <DemoPreview>
           <Typography variant="h6" style={{ marginBottom: t.spacing[3] }}>
             View Preferences

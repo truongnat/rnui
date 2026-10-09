@@ -46,7 +46,7 @@ export default function MarqueeScreen() {
           textAlign: 'center',
         },
       }),
-    [t],
+    [t]
   );
 
   return (
@@ -59,8 +59,9 @@ export default function MarqueeScreen() {
           <View style={styles.marqueeContainer}>
             <Marquee speed={60}>
               <Typography variant="h6" style={{ marginRight: t.spacing[10] }}>
-                BREAKING NEWS: The new component library is out now! • Explore 78+
-                components • built with Reanimated 3 • performance optimized •
+                BREAKING NEWS: The new component library is out now! • Explore
+                78+ components • built with Reanimated 3 • performance optimized
+                •
               </Typography>
             </Marquee>
           </View>
@@ -79,7 +80,10 @@ export default function MarqueeScreen() {
               {[1, 2, 3, 4, 5].map((i) => (
                 <View key={i} style={styles.badge}>
                   <Icon name="star" size={16} color={t.color.brand.primary} />
-                  <Typography variant="body2" style={{ marginLeft: t.spacing[2] }}>
+                  <Typography
+                    variant="body2"
+                    style={{ marginLeft: t.spacing[2] }}
+                  >
                     Feature Item #{i}
                   </Typography>
                 </View>
@@ -115,7 +119,10 @@ export default function MarqueeScreen() {
         </DemoPreview>
       </DemoSection>
 
-      <DemoSection title="Fast & No Fade" description="High speed without edge fade.">
+      <DemoSection
+        title="Fast & No Fade"
+        description="High speed without edge fade."
+      >
         <View style={styles.marqueeContainer}>
           <Marquee speed={150} fadeEdges={false}>
             <Typography

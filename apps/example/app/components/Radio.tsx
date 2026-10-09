@@ -18,7 +18,10 @@ export default function RadioScreen() {
       title="Radio"
       description="Select one option from mutually exclusive choices."
     >
-      <DemoSection title="Radio Group" description="Vertical list with descriptions.">
+      <DemoSection
+        title="Radio Group"
+        description="Vertical list with descriptions."
+      >
         <RadioGroup
           label="Subscription Plan"
           value={plan}
@@ -43,7 +46,10 @@ export default function RadioScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Direction & Size" description="Horizontal layout and compact density.">
+      <DemoSection
+        title="Direction & Size"
+        description="Horizontal layout and compact density."
+      >
         <DemoGroup label="Horizontal (SM)">
           <RadioGroup
             direction="horizontal"
@@ -73,7 +79,10 @@ export default function RadioScreen() {
         </DemoGroup>
       </DemoSection>
 
-      <DemoSection title="Standalone Items" description="Custom layout with useRadioGroup.">
+      <DemoSection
+        title="Standalone Items"
+        description="Custom layout with useRadioGroup."
+      >
         <DemoGroup direction="row">
           <RadioItem
             value="one"

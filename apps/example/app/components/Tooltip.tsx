@@ -12,7 +12,10 @@ export default function TooltipScreen() {
       title="Tooltip"
       description="Brief messages on press for icons or ambiguous labels."
     >
-      <DemoSection title="Basic" description="Tap to reveal contextual information.">
+      <DemoSection
+        title="Basic"
+        description="Tap to reveal contextual information."
+      >
         <DemoGroup gap={tokens.spacing[5]}>
           <Tooltip title="This is a simple tooltip message">
             <Typography variant="body1" color="brand" fontWeight="600">
@@ -30,7 +33,10 @@ export default function TooltipScreen() {
         </DemoGroup>
       </DemoSection>
 
-      <DemoSection title="Buttons" description="Explain icon-only or destructive actions.">
+      <DemoSection
+        title="Buttons"
+        description="Explain icon-only or destructive actions."
+      >
         <DemoGroup gap={tokens.spacing[3]}>
           <Tooltip title="Save changes to cloud">
             <Button label="Save" size="sm" />
@@ -42,7 +48,10 @@ export default function TooltipScreen() {
         </DemoGroup>
       </DemoSection>
 
-      <DemoSection title="Complex Anchors" description="Attach to any custom view.">
+      <DemoSection
+        title="Complex Anchors"
+        description="Attach to any custom view."
+      >
         <Tooltip title="Customize theme, notifications, and privacy preferences.">
           <View
             style={{

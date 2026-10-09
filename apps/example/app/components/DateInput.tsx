@@ -21,7 +21,10 @@ export default function DateInputScreen() {
         />
       </DemoSection>
 
-      <DemoSection title="Constraints" description="Restrict the valid date window.">
+      <DemoSection
+        title="Constraints"
+        description="Restrict the valid date window."
+      >
         <DateInput
           label="Booking date"
           value={birthday}

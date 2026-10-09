@@ -73,7 +73,11 @@ export default function FormScreenExample() {
           ) : null}
 
           <Stack spacing="md">
-            <FormField label="Full name" required error={phase === 'error' && !name ? 'Required' : undefined}>
+            <FormField
+              label="Full name"
+              required
+              error={phase === 'error' && !name ? 'Required' : undefined}
+            >
               <Input value={name} onChange={setName} placeholder="Jane Doe" />
             </FormField>
 
@@ -88,7 +92,11 @@ export default function FormScreenExample() {
             </FormField>
 
             <FormField label="Message" helperText="Max 500 characters">
-              <TextArea value={message} onChangeText={setMessage} placeholder="How can we help?" />
+              <TextArea
+                value={message}
+                onChangeText={setMessage}
+                placeholder="How can we help?"
+              />
             </FormField>
 
             <Checkbox

@@ -166,8 +166,13 @@ export default function ModalScreen() {
             <Typography variant="h3" color="inverse">
               Surface Customization
             </Typography>
-            <Typography variant="body1" color="inverse" style={{ opacity: 0.85 }}>
-              Apply unique designs, high-contrast modes, or specialized branding.
+            <Typography
+              variant="body1"
+              color="inverse"
+              style={{ opacity: 0.85 }}
+            >
+              Apply unique designs, high-contrast modes, or specialized
+              branding.
             </Typography>
             <Button
               label="Acknowledged"
