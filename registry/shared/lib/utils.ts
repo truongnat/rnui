@@ -1,10 +1,30 @@
 import { createContext, type MutableRefObject, type Ref } from 'react';
 import { type ClassValue, clsx } from 'clsx';
-import { useColorScheme } from 'react-native';
+import { Linking, useColorScheme } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+/** Named spacing steps shared by layout components (stack, grid). */
+export const spacingScale = {
+  none: 0,
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+} as const;
+
+export type SpacingToken = keyof typeof spacingScale;
+
+/** Resolve a spacing token or raw number to pixels. */
+export function spacingValue(
+  value: SpacingToken | number | undefined
+): number {
+  if (value === undefined) return 0;
+  return typeof value === 'number' ? value : spacingScale[value];
 }
 
 export interface FormFieldContextValue {
@@ -23,15 +43,28 @@ export const FormFieldContext = createContext<FormFieldContextValue | null>(
  */
 export const TextClassContext = createContext<string | undefined>(undefined);
 
-type IconTone = 'muted' | 'foreground' | 'onPrimary';
+type IconTone =
+  | 'default'
+  | 'muted'
+  | 'foreground'
+  | 'onPrimary'
+  | 'primary'
+  | 'destructive'
+  | 'success'
+  | 'warning';
 
 /** Scheme-aware colors for lucide/SVG icons; keep aligned with global.css tokens. */
 export function useIconColor(tone: IconTone = 'muted') {
   const dark = useColorScheme() === 'dark';
   const tones: Record<IconTone, string> = {
+    default: dark ? '#fafafa' : '#09090b',
     muted: dark ? '#a1a1aa' : '#71717a',
     foreground: dark ? '#fafafa' : '#09090b',
     onPrimary: dark ? '#18181b' : '#fafafa',
+    primary: dark ? '#fafafa' : '#18181b',
+    destructive: dark ? '#f87171' : '#ef4444',
+    success: '#16a34a',
+    warning: '#f59e0b',
   };
   return tones[tone];
 }
@@ -81,4 +114,30 @@ export function useThemeColor(): Record<ThemeColorToken, string> {
     accent: dark ? '#27272a' : '#f4f4f5',
     mutedForeground: dark ? '#a1a1aa' : '#71717a',
   };
+}
+
+const SAFE_URL_SCHEMES = ['http:', 'https:', 'mailto:', 'tel:'];
+
+/**
+ * Opens a URL via Linking after allow-listing its scheme.
+ * Blocks javascript:/file:/etc — mirror of packages/headless `openSafeUrl`.
+ */
+export async function openSafeUrl(url: string): Promise<void> {
+  let protocol: string | null = null;
+  try {
+    protocol = new URL(url).protocol;
+  } catch {
+    if (__DEV__) console.warn(`[openSafeUrl] Invalid URL: ${url}`);
+    return;
+  }
+  if (!SAFE_URL_SCHEMES.includes(protocol)) {
+    if (__DEV__)
+      console.warn(`[openSafeUrl] Blocked scheme "${protocol}": ${url}`);
+    return;
+  }
+  if (!(await Linking.canOpenURL(url))) {
+    if (__DEV__) console.warn(`[openSafeUrl] Cannot open URL: ${url}`);
+    return;
+  }
+  await Linking.openURL(url);
 }

@@ -5,11 +5,13 @@
   "title": "Circular Progress",
   "description": "SVG ring progress with optional percent label.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
+    "utils",
+    "text",
+    "theme"
   ],
-  "dependencies": ["react-native-svg"],
+  "dependencies": [
+    "react-native-svg"
+  ],
   "files": [
     {
       "path": "registry/shared/ui/circular-progress.tsx",

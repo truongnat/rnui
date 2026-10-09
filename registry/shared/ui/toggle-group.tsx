@@ -8,6 +8,7 @@ interface GroupContextValue {
   toggle: (v: string) => void;
   variant?: ToggleProps['variant'];
   size?: ToggleProps['size'];
+  disabled?: boolean;
 }
 const GroupContext = createContext<GroupContextValue>({
   value: [],
@@ -17,24 +18,34 @@ const GroupContext = createContext<GroupContextValue>({
 export interface ToggleGroupProps extends ViewProps {
   type?: 'single' | 'multiple';
   value?: string | string[];
+  /** Initial selection for uncontrolled usage. */
+  defaultValue?: string | string[];
   onValueChange?: (value: string | string[]) => void;
   variant?: ToggleProps['variant'];
   size?: ToggleProps['size'];
+  /** Disables every item in the group. */
+  disabled?: boolean;
+  orientation?: 'horizontal' | 'vertical';
   className?: string;
 }
 
 export function ToggleGroup({
   type = 'single',
   value: controlled,
+  defaultValue,
   onValueChange,
   variant,
   size,
+  disabled = false,
+  orientation = 'horizontal',
   className,
   ...props
 }: ToggleGroupProps) {
   const toArr = (v?: string | string[]) =>
     Array.isArray(v) ? v : v ? [v] : [];
-  const [uncontrolled, setUncontrolled] = useState<string[]>(toArr(controlled));
+  const [uncontrolled, setUncontrolled] = useState<string[]>(
+    toArr(controlled ?? defaultValue)
+  );
   const value = controlled !== undefined ? toArr(controlled) : uncontrolled;
 
   const toggle = (v: string) => {
@@ -51,9 +62,15 @@ export function ToggleGroup({
   };
 
   return (
-    <GroupContext.Provider value={{ value, toggle, variant, size }}>
+    <GroupContext.Provider
+      value={{ value, toggle, variant, size, disabled }}
+    >
       <View
-        className={cn('flex-row items-center gap-1', className)}
+        className={cn(
+          'items-center gap-1',
+          orientation === 'horizontal' ? 'flex-row' : 'flex-col items-stretch',
+          className
+        )}
         {...props}
       />
     </GroupContext.Provider>
@@ -68,6 +85,7 @@ export function ToggleGroupItem({
   value,
   variant,
   size,
+  disabled,
   ...props
 }: ToggleGroupItemProps) {
   const group = useContext(GroupContext);
@@ -77,6 +95,7 @@ export function ToggleGroupItem({
       onPressedChange={() => group.toggle(value)}
       variant={variant ?? group.variant}
       size={size ?? group.size}
+      disabled={disabled ?? group.disabled}
       {...props}
     />
   );

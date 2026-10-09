@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tab-bar",
+  "type": "registry:ui",
+  "title": "Tab Bar",
+  "description": "Bottom tab bar with badges, icons and safe-area inset.",
+  "registryDependencies": [
+    "utils",
+    "badge",
+    "text"
+  ],
+  "dependencies": [
+    "tailwind-variants",
+    "react-native-safe-area-context"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/tab-bar.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/tab-bar.tsx",
+      "content": "import {\n  cloneElement,\n  isValidElement,\n  useState,\n  type ReactElement,\n  type ReactNode,\n} from 'react';\nimport { Pressable, View, type ViewProps } from 'react-native';\nimport { useSafeAreaInsets } from 'react-native-safe-area-context';\nimport { tv } from 'tailwind-variants';\nimport { Badge } from '@/components/ui/badge';\nimport { Text } from '@/components/ui/text';\nimport { cn, useThemeColor } from '@/lib/utils';\n\nconst tabBarStyles = tv({\n  slots: {\n    container: 'flex-row border-t border-border bg-background px-2 pt-1',\n    item: 'flex-1 items-center justify-center gap-0.5 py-1.5',\n    label: 'text-xs font-medium',\n  },\n});\n\nexport interface TabBarItem {\n  key: string;\n  label: string;\n  /** Icon element — `color` is injected when unset (active foreground / inactive muted). */\n  icon?: ReactNode;\n  /** Rendered instead of `icon` while the item is active. */\n  activeIcon?: ReactNode;\n  /** Badge count/text; `true` renders a plain dot. */\n  badge?: number | string | boolean;\n  disabled?: boolean;\n}\n\nexport interface TabBarProps extends ViewProps {\n  items: TabBarItem[];\n  value?: string;\n  defaultValue?: string;\n  onValueChange?: (key: string) => void;\n  /** Pad the bottom edge for the home indicator. Default true. */\n  safeArea?: boolean;\n  className?: string;\n  itemClassName?: string;\n  labelClassName?: string;\n}\n\nexport function TabBar({\n  items,\n  value: controlled,\n  defaultValue,\n  onValueChange,\n  safeArea = true,\n  className,\n  itemClassName,\n  labelClassName,\n  style,\n  ...props\n}: TabBarProps) {\n  const { container, item, label } = tabBarStyles();\n  const insets = useSafeAreaInsets();\n  const colors = useThemeColor();\n  const [uncontrolled, setUncontrolled] = useState(defaultValue);\n  const value = controlled !== undefined ? controlled : uncontrolled;\n\n  const select = (key: string) => {\n    if (controlled === undefined) setUncontrolled(key);\n    onValueChange?.(key);\n  };\n\n  return (\n    <View\n      accessibilityRole=\"tablist\"\n      className={cn(container(), className)}\n      style={[safeArea && { paddingBottom: insets.bottom }, style]}\n      {...props}\n    >\n      {items.map((entry) => {\n        const active = entry.key === value;\n        const tint = active ? colors.foreground : colors.mutedForeground;\n        const icon = active && entry.activeIcon ? entry.activeIcon : entry.icon;\n\n        return (\n          <Pressable\n            key={entry.key}\n            accessibilityRole=\"tab\"\n            accessibilityState={{ selected: active, disabled: !!entry.disabled }}\n            disabled={entry.disabled}\n            onPress={() => select(entry.key)}\n            className={cn(\n              item(),\n              entry.disabled && 'opacity-50',\n              itemClassName\n            )}\n          >\n            <View>\n              {isValidElement<{ color?: string }>(icon)\n                ? cloneElement(icon as ReactElement<{ color?: string }>, {\n                    color: icon.props.color ?? tint,\n                  })\n                : icon}\n              {entry.badge !== undefined && entry.badge !== false && (\n                <View className=\"absolute -right-2 -top-1\">\n                  {entry.badge === true ? (\n                    <View\n                      className=\"h-2 w-2 rounded-full\"\n                      style={{ backgroundColor: colors.destructive }}\n                    />\n                  ) : (\n                    <Badge variant=\"destructive\" className=\"px-1.5 py-0\">\n                      {entry.badge}\n                    </Badge>\n                  )}\n                </View>\n              )}\n            </View>\n            <Text\n              className={cn(label(), labelClassName)}\n              style={{ color: tint }}\n            >\n              {entry.label}\n            </Text>\n          </Pressable>\n        );\n      })}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

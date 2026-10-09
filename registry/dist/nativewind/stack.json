@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stack",
+  "type": "registry:ui",
+  "title": "Stack",
+  "description": "Flex stack with spacing tokens and optional dividers.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/stack.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/stack.tsx",
+      "content": "import { Children, type ReactNode } from 'react';\nimport { View, type ViewProps, type ViewStyle } from 'react-native';\nimport { cn, spacingValue, type SpacingToken } from '@/lib/utils';\n\nexport interface StackProps extends ViewProps {\n  /** flex-direction shorthand. */\n  direction?: ViewStyle['flexDirection'];\n  /** Gap between children — token or pixel value. */\n  spacing?: SpacingToken | number;\n  /** Insert between every pair of children. */\n  divider?: ReactNode;\n  alignItems?: ViewStyle['alignItems'];\n  justifyContent?: ViewStyle['justifyContent'];\n  /** Shorthand for `flexWrap: 'wrap'` (handy for rows of chips). */\n  wrap?: boolean;\n  flexWrap?: ViewStyle['flexWrap'];\n  className?: string;\n  children?: ReactNode;\n}\n\n/**\n * One-dimensional layout helper — flex row/column with uniform spacing.\n *\n * @example\n * <Stack direction=\"row\" spacing=\"md\" alignItems=\"center\">\n *   <Icon /><Label>Title</Label>\n * </Stack>\n */\nexport function Stack({\n  direction = 'column',\n  spacing = 'sm',\n  divider,\n  alignItems,\n  justifyContent,\n  wrap,\n  flexWrap,\n  className,\n  children,\n  style,\n  ...props\n}: StackProps) {\n  const items = Children.toArray(children);\n  const content = divider\n    ? items.flatMap((child, i) => (i === 0 ? [child] : [divider, child]))\n    : items;\n\n  return (\n    <View\n      className={cn(className)}\n      style={[\n        {\n          flexDirection: direction,\n          gap: spacingValue(spacing),\n          alignItems,\n          justifyContent,\n          flexWrap: flexWrap ?? (wrap ? 'wrap' : undefined),\n        },\n        style,\n      ]}\n      {...props}\n    >\n      {content}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

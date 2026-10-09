@@ -5,10 +5,12 @@
   "title": "Checkbox",
   "description": "Pressable checkbox with lucide check icon.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
+    "utils",
+    "theme"
   ],
-  "dependencies": ["lucide-react-native"],
+  "dependencies": [
+    "lucide-react-native"
+  ],
   "files": [
     {
       "path": "registry/shared/ui/checkbox.tsx",

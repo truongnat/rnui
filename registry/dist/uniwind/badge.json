@@ -5,10 +5,12 @@
   "title": "Badge",
   "description": "Small status pill with tv() variants.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
+    "utils",
+    "theme"
   ],
-  "dependencies": ["tailwind-variants"],
+  "dependencies": [
+    "tailwind-variants"
+  ],
   "files": [
     {
       "path": "registry/shared/ui/badge.tsx",

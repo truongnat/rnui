@@ -5,11 +5,13 @@
   "title": "Message Input",
   "description": "Multiline input row with send button.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/input.json"
+    "utils",
+    "theme",
+    "input"
   ],
-  "dependencies": ["lucide-react-native"],
+  "dependencies": [
+    "lucide-react-native"
+  ],
   "files": [
     {
       "path": "registry/shared/ui/message-input.tsx",

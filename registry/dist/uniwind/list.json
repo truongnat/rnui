@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "list",
+  "type": "registry:ui",
+  "title": "List",
+  "description": "FlatList group composing list-item + separators.",
+  "registryDependencies": [
+    "utils",
+    "list-item"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/list.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/list.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport {\n  FlatList,\n  View,\n  type FlatListProps,\n  type ListRenderItem,\n  type ViewProps,\n} from 'react-native';\nimport {\n  ListItem,\n  ListSectionTitle,\n  ListSeparator,\n} from '@/components/ui/list-item';\nimport { cn } from '@/lib/utils';\n\nexport { ListItem, ListSectionTitle, ListSeparator };\nexport type { ListItemProps } from '@/components/ui/list-item';\n\nexport interface ListProps<T>\n  extends Omit<FlatListProps<T>, 'data' | 'renderItem'> {\n  /** When provided with `renderItem`, renders a FlatList. */\n  data?: readonly T[];\n  renderItem?: ListRenderItem<T>;\n  /** String title rendered as a section header above the items. */\n  sectionTitle?: string;\n  className?: string;\n  children?: ReactNode;\n}\n\n/**\n * List container.\n *\n * - With `data` + `renderItem`: FlatList (extra props forwarded) with a\n *   default row separator and optional `sectionTitle` header.\n * - With `children` only: plain View grouping `<ListItem>` rows.\n */\nexport function List<T>({\n  data,\n  renderItem,\n  sectionTitle,\n  className,\n  ItemSeparatorComponent,\n  children,\n  ...props\n}: ListProps<T>) {\n  const header = sectionTitle ? (\n    <ListSectionTitle>{sectionTitle}</ListSectionTitle>\n  ) : null;\n\n  if (data && renderItem) {\n    return (\n      <FlatList\n        data={data as T[]}\n        renderItem={renderItem}\n        ItemSeparatorComponent={ItemSeparatorComponent ?? ListSeparator}\n        ListHeaderComponent={header}\n        {...props}\n      />\n    );\n  }\n\n  return (\n    <View className={cn(className)} {...(props as ViewProps)}>\n      {header}\n      {children}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "blockquote",
+  "type": "registry:ui",
+  "title": "Blockquote",
+  "description": "Quoted block with accent border and cite.",
+  "registryDependencies": [
+    "utils",
+    "text"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/blockquote.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/blockquote.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { View, type ViewProps } from 'react-native';\nimport { Text, type TextProps } from '@/components/ui/text';\nimport { cn } from '@/lib/utils';\n\nexport interface BlockquoteProps extends ViewProps {\n  /** Attribution line (author, source). Rendered as muted small text. */\n  cite?: ReactNode;\n  className?: string;\n  textClassName?: string;\n  children?: ReactNode;\n}\n\n/**\n * Quoted passage — left border accent + muted text, with optional cite.\n *\n * @example\n * <Blockquote cite=\"— Ada Lovelace\">\n *   The Analytical Engine weaves algebraic patterns…\n * </Blockquote>\n */\nexport function Blockquote({\n  cite,\n  className,\n  textClassName,\n  children,\n  ...props\n}: BlockquoteProps) {\n  return (\n    <View\n      className={cn('gap-2 border-l-4 border-border pl-4', className)}\n      {...props}\n    >\n      <Text\n        className={cn(\n          'text-base italic leading-7 text-muted-foreground',\n          textClassName\n        )}\n      >\n        {children}\n      </Text>\n      {cite != null ? <BlockquoteCite>{cite}</BlockquoteCite> : null}\n    </View>\n  );\n}\n\n/** Standalone cite — also usable inside `cite` for custom styling. */\nexport function BlockquoteCite({ className, ...props }: TextProps) {\n  return (\n    <Text\n      className={cn('text-sm not-italic text-muted-foreground', className)}\n      {...props}\n    />\n  );\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "link",
+  "type": "registry:ui",
+  "title": "Link",
+  "description": "Text link with scheme-safe external opening.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "dependencies": [
+    "tailwind-variants"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/link.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/link.tsx",
+      "content": "import { Text as RNText, type TextProps as RNTextProps } from 'react-native';\nimport { tv } from 'tailwind-variants';\nimport { cn, openSafeUrl } from '@/lib/utils';\n\nconst linkVariants = tv({\n  variants: {\n    variant: {\n      default: 'text-primary',\n      muted: 'text-muted-foreground',\n    },\n  },\n  defaultVariants: { variant: 'default' },\n});\n\nexport type LinkVariant = 'default' | 'muted';\n\nexport interface LinkProps extends RNTextProps {\n  variant?: LinkVariant;\n  /** Text decoration; 'none' removes the underline. */\n  underline?: 'always' | 'none';\n  /** URL to open with `Linking` when `external` — scheme-guarded to http/https/mailto/tel. */\n  href?: string;\n  /**\n   * When true (default), `href` is opened via `Linking.openURL`.\n   * Set false to route it through your own `onPress` instead.\n   */\n  external?: boolean;\n  className?: string;\n}\n\n/** Inline text link; presses `href` through scheme-guarded Linking. */\nexport function Link({\n  variant = 'default',\n  underline = 'always',\n  href,\n  external = true,\n  onPress,\n  className,\n  ...props\n}: LinkProps) {\n  return (\n    <RNText\n      accessibilityRole=\"link\"\n      className={cn(\n        linkVariants({ variant }),\n        underline === 'always' && 'underline',\n        className\n      )}\n      onPress={(e) => {\n        onPress?.(e);\n        if (external && href) void openSafeUrl(href);\n      }}\n      {...props}\n    />\n  );\n}\n"
+    }
+  ]
+}

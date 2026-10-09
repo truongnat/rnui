@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "paper",
+  "type": "registry:ui",
+  "title": "Paper",
+  "description": "Elevated surface — flat/elevated/outlined variants.",
+  "registryDependencies": [
+    "utils",
+    "theme"
+  ],
+  "dependencies": [
+    "tailwind-variants"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/paper.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/paper.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport { View, type ViewProps, type ViewStyle } from 'react-native';\nimport { tv } from 'tailwind-variants';\nimport { cn } from '@/lib/utils';\n\nconst paperVariants = tv({\n  base: 'rounded-xl bg-card p-4',\n  variants: {\n    variant: {\n      flat: 'bg-muted/50',\n      elevated: 'bg-card',\n      outlined: 'border border-border bg-transparent',\n    },\n    square: {\n      true: 'rounded-none',\n    },\n  },\n  defaultVariants: {\n    variant: 'elevated',\n  },\n});\n\nexport type PaperVariant = 'flat' | 'elevated' | 'outlined';\nexport type PaperElevation = 'none' | 'sm' | 'md' | 'lg';\n\nexport interface PaperProps extends ViewProps {\n  variant?: PaperVariant;\n  /** Shadow depth — only applies to the `elevated` variant. */\n  elevation?: PaperElevation;\n  /** Remove border radius. */\n  square?: boolean;\n  className?: string;\n  children?: ReactNode;\n}\n\n// Elevation shadows must live in style — NativeWind can't express\n// iOS shadowOffset/shadowRadius via classes.\nconst elevationStyle: Record<PaperElevation, ViewStyle> = {\n  none: {},\n  sm: {\n    elevation: 2,\n    shadowColor: '#000',\n    shadowOpacity: 0.08,\n    shadowRadius: 4,\n    shadowOffset: { width: 0, height: 1 },\n  },\n  md: {\n    elevation: 5,\n    shadowColor: '#000',\n    shadowOpacity: 0.12,\n    shadowRadius: 10,\n    shadowOffset: { width: 0, height: 3 },\n  },\n  lg: {\n    elevation: 10,\n    shadowColor: '#000',\n    shadowOpacity: 0.18,\n    shadowRadius: 20,\n    shadowOffset: { width: 0, height: 6 },\n  },\n};\n\n/**\n * Elevated surface — shadcn card-like container with flat/elevated/outlined\n * variants.\n */\nexport function Paper({\n  variant = 'elevated',\n  elevation = 'sm',\n  square,\n  className,\n  children,\n  style,\n  ...props\n}: PaperProps) {\n  return (\n    <View\n      className={cn(paperVariants({ variant, square }), className)}\n      style={[variant === 'elevated' && elevationStyle[elevation], style]}\n      {...props}\n    >\n      {children}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

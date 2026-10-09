@@ -5,10 +5,12 @@
   "title": "Text",
   "description": "Typography primitives with shadcn-style variants (h1-h4, p, lead, muted, blockquote, code).",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
+    "utils",
+    "theme"
   ],
-  "dependencies": ["tailwind-variants"],
+  "dependencies": [
+    "tailwind-variants"
+  ],
   "files": [
     {
       "path": "registry/shared/ui/text.tsx",

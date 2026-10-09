@@ -5,10 +5,10 @@
   "title": "Settings Screen",
   "description": "Grouped settings with profile header and toggles.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/settings-menu.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/switch.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/avatar.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json"
+    "settings-menu",
+    "switch",
+    "avatar",
+    "text"
   ],
   "files": [
     {

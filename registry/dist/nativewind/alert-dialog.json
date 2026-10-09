@@ -5,9 +5,9 @@
   "title": "Alert Dialog",
   "description": "Confirm/cancel modal dialog (non-dismissable on backdrop).",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
+    "utils",
+    "text",
+    "theme"
   ],
   "files": [
     {

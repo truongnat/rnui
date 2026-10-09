@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "glass-card",
+  "type": "registry:ui",
+  "title": "Glass Card",
+  "description": "Translucent blur card (expo-blur with fallback).",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/glass-card.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/glass-card.tsx",
+      "content": "import type { ComponentType, ReactNode } from 'react';\nimport { useMemo } from 'react';\nimport {\n  StyleSheet,\n  useColorScheme,\n  View,\n  type StyleProp,\n  type ViewProps,\n  type ViewStyle,\n} from 'react-native';\nimport { cn } from '@/lib/utils';\n\ntype ExpoBlurViewProps = {\n  intensity?: number;\n  tint?: 'light' | 'dark' | 'default';\n  style?: StyleProp<ViewStyle>;\n};\n\n// Optional peer: expo-blur enables native blur. Without it, GlassCard uses a\n// translucent background fallback.\n// Expo: npx expo install expo-blur\nlet BlurView: ComponentType<ExpoBlurViewProps> | null = null;\ntry {\n  // eslint-disable-next-line @typescript-eslint/no-require-imports\n  BlurView = require('expo-blur').BlurView;\n} catch {\n  // expo-blur not installed — fall back to translucent View\n}\n\nexport interface GlassCardProps extends ViewProps {\n  /** Blur intensity (0–100). Only effective when expo-blur is installed. */\n  intensity?: number;\n  /** expo-blur tint. Auto-selects from color scheme when omitted. */\n  tint?: 'light' | 'dark' | 'default';\n  className?: string;\n  children?: ReactNode;\n}\n\n/**\n * Frosted-glass surface card.\n *\n * Uses `expo-blur` when installed for native blur; otherwise renders a\n * translucent background so it still works in bare React Native apps.\n */\nexport function GlassCard({\n  intensity = 40,\n  tint,\n  className,\n  style,\n  children,\n  ...props\n}: GlassCardProps) {\n  const isDark = useColorScheme() === 'dark';\n  const resolvedTint = tint ?? (isDark ? 'dark' : 'light');\n\n  const glassStyle = useMemo<ViewStyle>(\n    () => ({\n      borderWidth: 1,\n      borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.3)',\n      backgroundColor: BlurView\n        ? 'transparent'\n        : isDark\n          ? 'rgba(15,23,42,0.72)'\n          : 'rgba(255,255,255,0.72)',\n    }),\n    [isDark]\n  );\n\n  return (\n    <View\n      className={cn('overflow-hidden rounded-xl', className)}\n      style={[glassStyle, style]}\n      {...props}\n    >\n      {BlurView && (\n        <BlurView\n          intensity={intensity}\n          tint={resolvedTint}\n          style={StyleSheet.absoluteFill}\n        />\n      )}\n      <View className=\"p-4\" style={styles.content}>\n        {children}\n      </View>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  content: {\n    position: 'relative',\n    zIndex: 1,\n  },\n});\n"
+    }
+  ]
+}

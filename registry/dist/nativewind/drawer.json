@@ -5,11 +5,13 @@
   "title": "Drawer",
   "description": "Edge slide-in panel with animated translate.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
+    "utils",
+    "text",
+    "theme"
   ],
-  "dependencies": ["react-native-safe-area-context"],
+  "dependencies": [
+    "react-native-safe-area-context"
+  ],
   "files": [
     {
       "path": "registry/shared/ui/drawer.tsx",

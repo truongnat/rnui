@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "image",
+  "type": "registry:ui",
+  "title": "Image",
+  "description": "Image with rounded variants, aspect ratio, fade-in and fallback.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/image.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/image.tsx",
+      "content": "import { useRef, useState, type ReactNode } from 'react';\nimport {\n  Animated,\n  Image as RNImage,\n  type ImageProps as RNImageProps,\n  StyleSheet,\n  View,\n} from 'react-native';\nimport { cn } from '@/lib/utils';\n\nconst AnimatedImage = Animated.createAnimatedComponent(RNImage);\n\nexport type ImageRounded = 'none' | 'sm' | 'md' | 'lg' | 'full';\n\nconst ROUNDED_CLASSES: Record<ImageRounded, string> = {\n  none: '',\n  sm: 'rounded-sm',\n  md: 'rounded-md',\n  lg: 'rounded-lg',\n  full: 'rounded-full',\n};\n\nexport interface ImageProps extends RNImageProps {\n  /** Corner radius preset. */\n  rounded?: ImageRounded;\n  /** Width/height ratio applied to the container (e.g. 16/9, 1). */\n  aspectRatio?: number;\n  /**\n   * Content rendered in place of the image while loading or after an\n   * error. Defaults to a muted placeholder surface; pass `null` to\n   * disable entirely.\n   */\n  fallback?: ReactNode;\n  /** className applied to the image container. */\n  className?: string;\n}\n\n/**\n * RN Image with rounded/aspect-ratio presets, a muted loading\n * placeholder, optional fallback content, and a fade-in on load.\n */\nexport function Image({\n  rounded = 'md',\n  aspectRatio,\n  fallback,\n  className,\n  style,\n  onLoad,\n  onError,\n  ...props\n}: ImageProps) {\n  const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>(\n    'loading'\n  );\n  const opacity = useRef(new Animated.Value(0)).current;\n\n  const showFallback = status !== 'loaded' && fallback !== null;\n\n  return (\n    <View\n      className={cn(\n        'overflow-hidden bg-muted',\n        ROUNDED_CLASSES[rounded],\n        className\n      )}\n      style={[aspectRatio != null && { aspectRatio }, style]}\n    >\n      {status !== 'error' && (\n        <AnimatedImage\n          style={[StyleSheet.absoluteFill, { opacity }]}\n          onLoad={(e) => {\n            setStatus('loaded');\n            Animated.timing(opacity, {\n              toValue: 1,\n              duration: 200,\n              useNativeDriver: true,\n            }).start();\n            onLoad?.(e);\n          }}\n          onError={(e) => {\n            setStatus('error');\n            onError?.(e);\n          }}\n          {...props}\n        />\n      )}\n      {showFallback && (\n        <View className=\"absolute inset-0 items-center justify-center\">\n          {typeof fallback === 'undefined' ? null : fallback}\n        </View>\n      )}\n    </View>\n  );\n}\n"
+    }
+  ]
+}

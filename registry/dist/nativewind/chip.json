@@ -5,11 +5,14 @@
   "title": "Chip",
   "description": "Compact tag/filter element with selected and removable states.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
+    "utils",
+    "text",
+    "theme"
   ],
-  "dependencies": ["tailwind-variants", "lucide-react-native"],
+  "dependencies": [
+    "tailwind-variants",
+    "lucide-react-native"
+  ],
   "files": [
     {
       "path": "registry/shared/ui/chip.tsx",

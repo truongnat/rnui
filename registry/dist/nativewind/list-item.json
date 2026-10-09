@@ -5,11 +5,13 @@
   "title": "List Item",
   "description": "Row primitive: title, subtitle, leading, trailing, chevron.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
+    "utils",
+    "text",
+    "theme"
   ],
-  "dependencies": ["lucide-react-native"],
+  "dependencies": [
+    "lucide-react-native"
+  ],
   "files": [
     {
       "path": "registry/shared/ui/list-item.tsx",

@@ -5,11 +5,13 @@
   "title": "Context Menu",
   "description": "Long-press anchored menu (items, labels, separators).",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
+    "utils",
+    "text",
+    "theme"
   ],
-  "dependencies": ["lucide-react-native"],
+  "dependencies": [
+    "lucide-react-native"
+  ],
   "files": [
     {
       "path": "registry/shared/ui/context-menu.tsx",

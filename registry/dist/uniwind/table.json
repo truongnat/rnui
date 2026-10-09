@@ -5,9 +5,9 @@
   "title": "Table",
   "description": "Flex-based table primitives.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/text.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
+    "utils",
+    "text",
+    "theme"
   ],
   "files": [
     {

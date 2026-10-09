@@ -5,8 +5,8 @@
   "title": "Switch",
   "description": "Animated toggle built on RN Animated (no reanimated dep).",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/theme.json"
+    "utils",
+    "theme"
   ],
   "files": [
     {

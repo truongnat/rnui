@@ -5,8 +5,8 @@
   "title": "Separator",
   "description": "Horizontal/vertical divider line.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
+    "utils",
+    "theme"
   ],
   "files": [
     {

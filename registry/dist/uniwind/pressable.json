@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pressable",
+  "type": "registry:ui",
+  "title": "Pressable",
+  "description": "Pressable with feedback variants (opacity/highlight).",
+  "registryDependencies": [
+    "utils"
+  ],
+  "dependencies": [
+    "tailwind-variants"
+  ],
+  "files": [
+    {
+      "path": "registry/shared/ui/pressable.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/pressable.tsx",
+      "content": "import type { ReactNode } from 'react';\nimport {\n  Pressable as RNPressable,\n  type PressableProps as RNPressableProps,\n  type PressableStateCallbackType,\n} from 'react-native';\nimport { tv } from 'tailwind-variants';\nimport { cn } from '@/lib/utils';\n\nconst pressableVariants = tv({\n  variants: {\n    variant: {\n      /** No pressed feedback. */\n      plain: '',\n      /** Dimmed while pressed. */\n      opacity: 'active:opacity-70',\n      /** Accent background while pressed (row/card taps). */\n      highlight: 'active:bg-accent',\n    },\n  },\n  defaultVariants: { variant: 'plain' },\n});\n\nexport type PressableVariant = 'plain' | 'opacity' | 'highlight';\n\nexport interface PressableProps extends Omit<RNPressableProps, 'children'> {\n  variant?: PressableVariant;\n  className?: string;\n  children?: ReactNode | ((state: PressableStateCallbackType) => ReactNode);\n}\n\n/**\n * RN Pressable with a `variant` for pressed feedback and\n * render-prop children receiving the pressed state.\n */\nexport function Pressable({\n  variant = 'plain',\n  className,\n  children,\n  ...props\n}: PressableProps) {\n  return (\n    <RNPressable\n      className={cn(pressableVariants({ variant }), className)}\n      {...props}\n    >\n      {children}\n    </RNPressable>\n  );\n}\n"
+    }
+  ]
+}

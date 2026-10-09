@@ -5,12 +5,12 @@
   "title": "Profile Screen",
   "description": "Avatar, stats card, bio and actions.",
   "registryDependencies": [
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/avatar.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/badge.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/button.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/card.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/separator.json",
-    "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/text.json"
+    "avatar",
+    "badge",
+    "button",
+    "card",
+    "separator",
+    "text"
   ],
   "files": [
     {
