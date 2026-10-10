@@ -55,10 +55,17 @@ export const DemoPage: React.FC<DemoPageProps> = ({
         ]}
       >
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.replace('/');
+            }
+          }}
+          hitSlop={14}
           style={({ pressed }) => [
             styles.backButton,
-            pressed && { opacity: 0.7 },
+            pressed && { opacity: 0.6 },
           ]}
           accessibilityRole="button"
           accessibilityLabel="Go back"
