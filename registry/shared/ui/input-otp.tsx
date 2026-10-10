@@ -1,6 +1,8 @@
 import { useContext, useRef, useState } from 'react';
 import {
+  Platform,
   Pressable,
+  StyleSheet,
   TextInput,
   View,
   type TextInputProps,
@@ -20,6 +22,7 @@ export interface InputOTPProps extends ViewProps {
   invalid?: boolean;
   /** Prevents input focus and dims slots. */
   disabled?: boolean;
+  autoFocus?: boolean;
   keyboardType?: TextInputProps['keyboardType'];
   className?: string;
   slotClassName?: string;
@@ -33,12 +36,13 @@ export function InputOTP({
   secure = false,
   invalid,
   disabled = false,
+  autoFocus = false,
   keyboardType = 'number-pad',
   className,
   slotClassName,
   ...props
 }: InputOTPProps) {
-  const input = useRef<TextInput>(null);
+  const inputRef = useRef<TextInput>(null);
   const [focused, setFocused] = useState(false);
   const field = useContext(FormFieldContext);
   const colors = useThemeColor();
@@ -47,17 +51,23 @@ export function InputOTP({
   const handleChange = (text: string) => {
     const next = text.replace(/[^0-9a-zA-Z]/g, '').slice(0, length);
     onChange?.(next);
-    if (next.length === length) onComplete?.(next);
+    if (next.length === length) {
+      onComplete?.(next);
+    }
   };
 
   return (
     <Pressable
       disabled={disabled}
-      onPress={() => input.current?.focus()}
+      onPress={() => inputRef.current?.focus()}
+      accessibilityRole="none"
       accessibilityState={{ disabled }}
-      className={cn(disabled && 'opacity-50')}
+      className={cn('relative', disabled && 'opacity-50')}
     >
-      <View className={cn('flex-row items-center gap-2', className)} {...props}>
+      <View
+        className={cn('flex-row items-center gap-2', className)}
+        {...props}
+      >
         {Array.from({ length }).map((_, i) => {
           const char = value[i] ?? '';
           const isActive =
@@ -67,40 +77,53 @@ export function InputOTP({
               // biome-ignore lint/suspicious/noArrayIndexKey: slots are positional by design
               key={i}
               className={cn(
-                'h-12 w-10 items-center justify-center rounded-md border border-input bg-background',
+                'h-12 w-10 items-center justify-center rounded-lg border border-input bg-background',
                 slotClassName
               )}
               style={[
                 { borderCurve: 'continuous' },
-                isActive && { borderColor: colors.ring },
+                isActive && {
+                  borderColor: colors.ring,
+                  borderWidth: 1.5,
+                },
                 isInvalid && { borderColor: colors.destructive },
               ]}
             >
-              <Text className="text-lg font-medium text-foreground">
+              <Text className="text-lg font-semibold text-foreground">
                 {secure && char ? '•' : char}
               </Text>
             </View>
           );
         })}
+
+        {/* Hidden full-area input wired for iOS & Android SMS Auto-Fill */}
         <TextInput
-          ref={input}
+          ref={inputRef}
           value={value}
           editable={!disabled}
+          autoFocus={autoFocus}
+          maxLength={length}
           onChangeText={handleChange}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           keyboardType={keyboardType}
-          autoComplete="one-time-code"
+          autoComplete={Platform.select({
+            android: 'sms-otp',
+            default: 'one-time-code',
+          })}
           textContentType="oneTimeCode"
-          accessibilityLabel="One-time code"
-          style={{
-            position: 'absolute',
-            opacity: 0,
-            width: 1,
-            height: 1,
-          }}
+          accessibilityLabel="One-time verification code"
+          style={styles.hiddenInput}
+          caretHidden
         />
       </View>
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  hiddenInput: {
+    ...StyleSheet.absoluteFillObject,
+    opacity: 0,
+  },
+});
