@@ -1,29 +1,60 @@
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
-import { useThemeColor } from '@/lib/utils';
-import {
-  ListSectionHeader,
-  PillSearchBar,
-  ScreenHeader,
-} from '@/demo/ExampleChrome';
 import { DemoThemeControls } from '@/demo/DemoThemeControls';
+import { usePersistedColorScheme } from '@/demo/usePersistedColorScheme';
+import { useThemeColor } from '@/lib/utils';
 import { useRouter, type Href } from 'expo-router';
-import { ChevronRight } from 'lucide-react-native';
-import { useMemo, useState } from 'react';
-import { Pressable, SectionList, StyleSheet, Text as RNText, View } from 'react-native';
+import {
+  Bell,
+  Boxes,
+  ChevronRight,
+  Compass,
+  Layers,
+  LayoutGrid,
+  Moon,
+  Palette,
+  Search,
+  Sliders,
+  Sparkles,
+  Sun,
+  X,
+} from 'lucide-react-native';
+import React, { useMemo, useState } from 'react';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text as RNText,
+  TextInput,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export interface FeatureCategory {
+export interface CategoryInfo {
+  id: string;
   title: string;
+  description: string;
+  icon: React.ComponentType<{ size?: number; color?: string }>;
+  accentColor: string;
   items: readonly string[];
 }
 
-export const FEATURE_CATEGORIES: readonly FeatureCategory[] = [
+export const CATEGORIES: readonly CategoryInfo[] = [
   {
+    id: 'ai',
     title: 'AI & Automation',
+    description: 'Autonomous screen generation & schema rendering',
+    icon: Sparkles,
+    accentColor: '#8b5cf6',
     items: ['AIRenderer'],
   },
   {
+    id: 'inputs',
     title: 'Inputs & Forms',
+    description: 'Buttons, fields, pickers, toggles & form controls',
+    icon: Sliders,
+    accentColor: '#3b82f6',
     items: [
       'Button',
       'ButtonGroup',
@@ -49,7 +80,11 @@ export const FEATURE_CATEGORIES: readonly FeatureCategory[] = [
     ],
   },
   {
+    id: 'layout',
     title: 'Layout & Structure',
+    description: 'Stacks, responsive grids, cards, surfaces & glass',
+    icon: LayoutGrid,
+    accentColor: '#10b981',
     items: [
       'Stack',
       'Grid',
@@ -63,7 +98,11 @@ export const FEATURE_CATEGORIES: readonly FeatureCategory[] = [
     ],
   },
   {
+    id: 'navigation',
     title: 'Navigation',
+    description: 'Tabs, breadcrumbs, app bars, steppers & pagination',
+    icon: Compass,
+    accentColor: '#f59e0b',
     items: [
       'Tabs',
       'TabBar',
@@ -77,7 +116,11 @@ export const FEATURE_CATEGORIES: readonly FeatureCategory[] = [
     ],
   },
   {
+    id: 'feedback',
     title: 'Feedback & Status',
+    description: 'Alerts, toasts, progress bars, chips & skeletons',
+    icon: Bell,
+    accentColor: '#ec4899',
     items: [
       'Alert',
       'AlertDialog',
@@ -91,7 +134,11 @@ export const FEATURE_CATEGORIES: readonly FeatureCategory[] = [
     ],
   },
   {
-    title: 'Overlays & Popups',
+    id: 'overlays',
+    title: 'Overlays & Dialogs',
+    description: 'Modals, bottom sheets, drawers, popovers & menus',
+    icon: Layers,
+    accentColor: '#06b6d4',
     items: [
       'Dialog',
       'Sheet',
@@ -107,7 +154,11 @@ export const FEATURE_CATEGORIES: readonly FeatureCategory[] = [
     ],
   },
   {
+    id: 'media',
     title: 'Data Display & Media',
+    description: 'Avatars, carousels, charts, tables, lists & calendars',
+    icon: Boxes,
+    accentColor: '#6366f1',
     items: [
       'Text',
       'Avatar',
@@ -131,99 +182,437 @@ export const FEATURE_CATEGORIES: readonly FeatureCategory[] = [
   },
 ];
 
-export default function ComponentsListScreen() {
+export default function ComponentsShowcaseScreen() {
   const colors = useThemeColor();
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { schemePreference, setSchemePreference } = usePersistedColorScheme();
   const [search, setSearch] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  const sections = useMemo(() => {
+  const isDark = schemePreference === 'dark';
+
+  const toggleTheme = () => {
+    setSchemePreference(isDark ? 'light' : 'dark');
+  };
+
+  const filteredCategories = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return FEATURE_CATEGORIES.map((cat) => ({
-      title: cat.title,
-      data: q
-        ? cat.items.filter((item) => item.toLowerCase().includes(q))
-        : [...cat.items],
-    })).filter((section) => section.data.length > 0);
-  }, [search]);
+    return CATEGORIES.map((cat) => {
+      let items = cat.items;
+      if (selectedCategory !== 'all' && cat.id !== selectedCategory) {
+        items = [];
+      } else if (q) {
+        items = cat.items.filter((item) => item.toLowerCase().includes(q));
+      }
+      return {
+        ...cat,
+        items,
+      };
+    }).filter((cat) => cat.items.length > 0);
+  }, [search, selectedCategory]);
 
-  const totalCount = useMemo(
-    () => sections.reduce((sum, sec) => sum + sec.data.length, 0),
-    [sections]
+  const totalVisibleCount = useMemo(
+    () => filteredCategories.reduce((sum, cat) => sum + cat.items.length, 0),
+    [filteredCategories]
   );
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <ScreenHeader
-        title="RNUI"
-        subtitle={`${totalCount} components`}
-        rightAction={<View style={{ width: 28 }} />}
-      />
-      <View style={styles.searchWrapper}>
-        <PillSearchBar
-          value={search}
-          onChangeText={setSearch}
-          placeholder="Search components..."
-        />
-      </View>
-      <SectionList
-        sections={sections}
-        keyExtractor={(item) => item}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          paddingHorizontal: 16,
-          paddingBottom: insets.bottom + 32,
-        }}
-        ListEmptyComponent={
-          <View style={styles.emptyState}>
-            <Text variant="large">No matches</Text>
-            <Text variant="muted" style={styles.centered}>
-              Try a different search term
-            </Text>
+    <View style={[styles.screen, { backgroundColor: colors.background }]}>
+      {/* Sticky Header */}
+      <View
+        style={[
+          styles.header,
+          {
+            paddingTop: insets.top + 8,
+            backgroundColor: colors.background,
+            borderBottomColor: colors.border,
+          },
+        ]}
+      >
+        <View style={styles.headerTop}>
+          <View style={styles.brandRow}>
+            <View
+              style={[
+                styles.brandLogo,
+                { backgroundColor: colors.primary },
+              ]}
+            >
+              <Boxes size={20} color={colors.primaryForeground} />
+            </View>
+            <View>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                <RNText style={[styles.brandTitle, { color: colors.foreground }]}>
+                  RNUI
+                </RNText>
+                <View
+                  style={[
+                    styles.versionBadge,
+                    { backgroundColor: colors.muted },
+                  ]}
+                >
+                  <RNText
+                    style={[
+                      styles.versionText,
+                      { color: colors.mutedForeground },
+                    ]}
+                  >
+                    Registry
+                  </RNText>
+                </View>
+              </View>
+              <RNText style={[styles.brandSub, { color: colors.mutedForeground }]}>
+                shadcn/ui for React Native
+              </RNText>
+            </View>
           </View>
-        }
-        renderSectionHeader={({ section: { title, data } }) => (
-          <View
-            style={[
-              styles.sectionHeader,
-              { backgroundColor: colors.background },
-            ]}
-          >
-            <Text variant="muted" style={styles.sectionTitle}>
-              {title}
-            </Text>
-            <Text variant="muted" style={styles.sectionCount}>
-              {data.length}
-            </Text>
-          </View>
-        )}
-        renderItem={({ item }) => (
+
+          {/* Quick Action Button (Theme Switcher) */}
           <Pressable
-            onPress={() => router.push(`/components/${item}` as Href)}
+            onPress={toggleTheme}
             style={({ pressed }) => [
-              styles.row,
+              styles.themeToggle,
               {
                 backgroundColor: pressed ? colors.accent : colors.card,
                 borderColor: colors.border,
               },
             ]}
             accessibilityRole="button"
-            accessibilityLabel={`Open ${item} examples`}
+            accessibilityLabel={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+          >
+            {isDark ? (
+              <Sun size={18} color="#f59e0b" />
+            ) : (
+              <Moon size={18} color={colors.foreground} />
+            )}
+          </Pressable>
+        </View>
+
+        {/* Search Bar */}
+        <View
+          style={[
+            styles.searchBox,
+            {
+              backgroundColor: colors.card,
+              borderColor: colors.border,
+            },
+          ]}
+        >
+          <Search size={17} color={colors.mutedForeground} />
+          <TextInput
+            value={search}
+            onChangeText={setSearch}
+            placeholder="Search 78 components..."
+            placeholderTextColor={colors.mutedForeground}
+            style={[styles.searchInput, { color: colors.foreground }]}
+            returnKeyType="search"
+            clearButtonMode="never"
+          />
+          {search ? (
+            <Pressable
+              onPress={() => setSearch('')}
+              hitSlop={8}
+              style={styles.clearBtn}
+            >
+              <X size={14} color={colors.mutedForeground} />
+            </Pressable>
+          ) : null}
+        </View>
+
+        {/* Category Filter Pills (Horizontal) */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.pillsScroll}
+        >
+          <Pressable
+            onPress={() => setSelectedCategory('all')}
+            style={[
+              styles.pill,
+              {
+                backgroundColor:
+                  selectedCategory === 'all'
+                    ? colors.primary
+                    : colors.card,
+                borderColor:
+                  selectedCategory === 'all'
+                    ? colors.primary
+                    : colors.border,
+              },
+            ]}
           >
             <RNText
-              style={{
-                flex: 1,
-                fontSize: 15,
-                fontWeight: '600',
-                color: colors.foreground,
-              }}
+              style={[
+                styles.pillText,
+                {
+                  color:
+                    selectedCategory === 'all'
+                      ? colors.primaryForeground
+                      : colors.foreground,
+                },
+              ]}
             >
-              {item}
+              All (78)
             </RNText>
-            <ChevronRight size={18} color={colors.mutedForeground} />
           </Pressable>
-        )}
-      />
+
+          {CATEGORIES.map((cat) => {
+            const isSelected = selectedCategory === cat.id;
+            const IconComp = cat.icon;
+            return (
+              <Pressable
+                key={cat.id}
+                onPress={() =>
+                  setSelectedCategory(isSelected ? 'all' : cat.id)
+                }
+                style={[
+                  styles.pill,
+                  {
+                    backgroundColor: isSelected
+                      ? colors.primary
+                      : colors.card,
+                    borderColor: isSelected
+                      ? colors.primary
+                      : colors.border,
+                  },
+                ]}
+              >
+                <IconComp
+                  size={14}
+                  color={
+                    isSelected
+                      ? colors.primaryForeground
+                      : cat.accentColor
+                  }
+                />
+                <RNText
+                  style={[
+                    styles.pillText,
+                    {
+                      color: isSelected
+                        ? colors.primaryForeground
+                        : colors.foreground,
+                    },
+                  ]}
+                >
+                  {cat.title} ({cat.items.length})
+                </RNText>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </View>
+
+      {/* Main Content Area */}
+      <ScrollView
+        contentContainerStyle={[
+          styles.mainScroll,
+          { paddingBottom: insets.bottom + 40 },
+        ]}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        {/* Quick Stats Bento */}
+        {selectedCategory === 'all' && !search ? (
+          <View style={styles.statsRow}>
+            <View
+              style={[
+                styles.statCard,
+                {
+                  backgroundColor: colors.card,
+                  borderColor: colors.border,
+                },
+              ]}
+            >
+              <RNText
+                style={[styles.statNumber, { color: colors.foreground }]}
+              >
+                83
+              </RNText>
+              <RNText
+                style={[styles.statLabel, { color: colors.mutedForeground }]}
+              >
+                Components
+              </RNText>
+            </View>
+
+            <View
+              style={[
+                styles.statCard,
+                {
+                  backgroundColor: colors.card,
+                  borderColor: colors.border,
+                },
+              ]}
+            >
+              <RNText
+                style={[styles.statNumber, { color: colors.foreground }]}
+              >
+                2
+              </RNText>
+              <RNText
+                style={[styles.statLabel, { color: colors.mutedForeground }]}
+              >
+                Engines (NW/UW)
+              </RNText>
+            </View>
+
+            <View
+              style={[
+                styles.statCard,
+                {
+                  backgroundColor: colors.card,
+                  borderColor: colors.border,
+                },
+              ]}
+            >
+              <RNText
+                style={[styles.statNumber, { color: colors.foreground }]}
+              >
+                7
+              </RNText>
+              <RNText
+                style={[styles.statLabel, { color: colors.mutedForeground }]}
+              >
+                Themes
+              </RNText>
+            </View>
+          </View>
+        ) : null}
+
+        {/* Empty Search Result */}
+        {filteredCategories.length === 0 ? (
+          <View
+            style={[
+              styles.emptyBox,
+              {
+                backgroundColor: colors.card,
+                borderColor: colors.border,
+              },
+            ]}
+          >
+            <Search size={32} color={colors.mutedForeground} />
+            <RNText style={[styles.emptyTitle, { color: colors.foreground }]}>
+              No components found
+            </RNText>
+            <RNText
+              style={[
+                styles.emptySubtitle,
+                { color: colors.mutedForeground },
+              ]}
+            >
+              No match for "{search}". Try searching for button, dialog, tabs...
+            </RNText>
+          </View>
+        ) : null}
+
+        {/* Category Bento Cards */}
+        {filteredCategories.map((cat) => {
+          const IconComp = cat.icon;
+          return (
+            <View
+              key={cat.id}
+              style={[
+                styles.categoryCard,
+                {
+                  backgroundColor: colors.card,
+                  borderColor: colors.border,
+                },
+              ]}
+            >
+              {/* Category Header */}
+              <View style={styles.categoryHeader}>
+                <View style={styles.categoryHeaderLeft}>
+                  <View
+                    style={[
+                      styles.categoryIconWrap,
+                      { backgroundColor: `${cat.accentColor}18` },
+                    ]}
+                  >
+                    <IconComp size={20} color={cat.accentColor} />
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <RNText
+                      style={[
+                        styles.categoryTitle,
+                        { color: colors.foreground },
+                      ]}
+                    >
+                      {cat.title}
+                    </RNText>
+                    <RNText
+                      style={[
+                        styles.categoryDesc,
+                        { color: colors.mutedForeground },
+                      ]}
+                    >
+                      {cat.description}
+                    </RNText>
+                  </View>
+                </View>
+                <View
+                  style={[
+                    styles.countPill,
+                    { backgroundColor: colors.muted },
+                  ]}
+                >
+                  <RNText
+                    style={[
+                      styles.countText,
+                      { color: colors.mutedForeground },
+                    ]}
+                  >
+                    {cat.items.length}
+                  </RNText>
+                </View>
+              </View>
+
+              {/* 2-Column Component Grid Tiles */}
+              <View style={styles.componentGrid}>
+                {cat.items.map((comp) => (
+                  <Pressable
+                    key={comp}
+                    onPress={() => router.push(`/components/${comp}` as Href)}
+                    style={({ pressed }) => ({
+                      width: '48.5%',
+                      paddingVertical: 11,
+                      paddingHorizontal: 12,
+                      borderRadius: 12,
+                      borderWidth: 1,
+                      borderColor: colors.border,
+                      backgroundColor: pressed ? colors.accent : colors.muted,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    })}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Open ${comp} demo`}
+                  >
+                    <RNText
+                      style={{
+                        fontSize: 13,
+                        fontWeight: '600',
+                        color: colors.foreground,
+                        flex: 1,
+                        marginRight: 4,
+                      }}
+                      numberOfLines={1}
+                    >
+                      {comp}
+                    </RNText>
+                    <ChevronRight
+                      size={14}
+                      color={colors.mutedForeground}
+                    />
+                  </Pressable>
+                ))}
+              </View>
+            </View>
+          );
+        })}
+      </ScrollView>
+
+      {/* Floating Theme Palette Dialog Overlay */}
       <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
         <DemoThemeControls />
       </View>
@@ -232,52 +621,207 @@ export default function ComponentsListScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
   },
-  searchWrapper: {
+  header: {
     paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 8,
+    paddingBottom: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    gap: 12,
   },
-  sectionHeader: {
-    paddingTop: 18,
-    paddingBottom: 8,
+  headerTop: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  sectionTitle: {
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 1.2,
-    textTransform: 'uppercase',
+  brandRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
-  sectionCount: {
+  brandLogo: {
+    width: 38,
+    height: 38,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  brandTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    letterSpacing: -0.5,
+  },
+  versionBadge: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  versionText: {
+    fontSize: 10,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  brandSub: {
     fontSize: 12,
     fontWeight: '500',
+    marginTop: 1,
   },
-  row: {
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    marginBottom: 8,
-    borderRadius: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  themeToggle: {
+    width: 38,
+    height: 38,
+    borderRadius: 10,
     borderWidth: StyleSheet.hairlineWidth,
-    minHeight: 52,
-  },
-  rowText: {
-    fontSize: 15,
-    fontWeight: '600',
-  },
-  emptyState: {
-    padding: 32,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  searchBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    height: 42,
+    borderRadius: 10,
+    borderWidth: StyleSheet.hairlineWidth,
     gap: 8,
   },
-  centered: {
+  searchInput: {
+    flex: 1,
+    fontSize: 14,
+    paddingVertical: 0,
+    height: '100%',
+  },
+  clearBtn: {
+    padding: 4,
+  },
+  pillsScroll: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingRight: 16,
+  },
+  pill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 9999,
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  pillText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  mainScroll: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
+  statsRow: {
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 16,
+  },
+  statCard: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 14,
+    borderWidth: StyleSheet.hairlineWidth,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  statNumber: {
+    fontSize: 22,
+    fontWeight: '800',
+    letterSpacing: -0.5,
+  },
+  statLabel: {
+    fontSize: 11,
+    fontWeight: '600',
+    marginTop: 2,
+  },
+  emptyBox: {
+    padding: 36,
+    borderRadius: 16,
+    borderWidth: StyleSheet.hairlineWidth,
+    alignItems: 'center',
+    gap: 10,
+    marginTop: 24,
+  },
+  emptyTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  emptySubtitle: {
+    fontSize: 13,
     textAlign: 'center',
+    lineHeight: 18,
+  },
+  categoryCard: {
+    borderRadius: 16,
+    borderWidth: StyleSheet.hairlineWidth,
+    padding: 16,
+    marginBottom: 16,
+    gap: 14,
+  },
+  categoryHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  categoryHeaderLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    flex: 1,
+  },
+  categoryIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  categoryTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    letterSpacing: -0.3,
+  },
+  categoryDesc: {
+    fontSize: 12,
+    marginTop: 2,
+    lineHeight: 16,
+  },
+  countPill: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+  },
+  countText: {
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  componentGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  componentTile: {
+    width: '48.5%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  tileName: {
+    fontSize: 13,
+    fontWeight: '600',
+    flex: 1,
+    marginRight: 6,
   },
 });
