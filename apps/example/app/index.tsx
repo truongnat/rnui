@@ -182,61 +182,6 @@ export const CATEGORIES: readonly CategoryInfo[] = [
   },
 ];
 
-function chunkPairs<T>(items: readonly T[]): T[][] {
-  const result: T[][] = [];
-  for (let i = 0; i < items.length; i += 2) {
-    result.push([items[i], items[i + 1]].filter(Boolean) as T[]);
-  }
-  return result;
-}
-
-function ComponentTile({
-  name,
-  accentColor,
-  colors,
-  onPress,
-}: {
-  name: string;
-  accentColor: string;
-  colors: Record<string, string>;
-  onPress: () => void;
-}) {
-  return (
-    <View
-      style={[
-        styles.tileContainer,
-        {
-          backgroundColor: colors.muted,
-          borderColor: colors.border,
-        },
-      ]}
-    >
-      <Pressable
-        onPress={onPress}
-        style={styles.tilePressable}
-        accessibilityRole="button"
-        accessibilityLabel={`Open ${name} demo`}
-      >
-        <View style={styles.tileContent}>
-          <View
-            style={[
-              styles.tileDot,
-              { backgroundColor: accentColor },
-            ]}
-          />
-          <RNText
-            style={[styles.tileText, { color: colors.foreground }]}
-            numberOfLines={1}
-          >
-            {name}
-          </RNText>
-        </View>
-        <ChevronRight size={14} color={colors.mutedForeground} />
-      </Pressable>
-    </View>
-  );
-}
-
 export default function ComponentsShowcaseScreen() {
   const colors = useThemeColor();
   const insets = useSafeAreaInsets();
@@ -263,7 +208,6 @@ export default function ComponentsShowcaseScreen() {
       return {
         ...cat,
         items,
-        pairs: chunkPairs(items),
       };
     }).filter((cat) => cat.items.length > 0);
   }, [search, selectedCategory]);
@@ -557,7 +501,7 @@ export default function ComponentsShowcaseScreen() {
           </View>
         ) : null}
 
-        {/* Category Bento Cards */}
+        {/* Category Inset Grouped Cards */}
         {filteredCategories.map((cat) => {
           const IconComp = cat.icon;
           return (
@@ -618,30 +562,64 @@ export default function ComponentsShowcaseScreen() {
                 </View>
               </View>
 
-              {/* 2-Column Row-based Grid */}
-              <View style={styles.gridRowsWrapper}>
-                {cat.pairs.map((pair, rowIdx) => (
-                  <View key={rowIdx} style={styles.gridRow}>
-                    <ComponentTile
-                      name={pair[0]}
-                      accentColor={cat.accentColor}
-                      colors={colors}
-                      onPress={() => router.push(`/components/${pair[0]}` as Href)}
-                    />
-                    {pair[1] ? (
-                      <ComponentTile
-                        name={pair[1]}
-                        accentColor={cat.accentColor}
-                        colors={colors}
-                        onPress={() =>
-                          router.push(`/components/${pair[1]}` as Href)
-                        }
-                      />
-                    ) : (
-                      <View style={styles.tilePlaceholder} />
-                    )}
-                  </View>
-                ))}
+              {/* Clean Rows List (No heavy item background, elegant dividers) */}
+              <View
+                style={[
+                  styles.listWrapper,
+                  {
+                    borderTopColor: colors.border,
+                  },
+                ]}
+              >
+                {cat.items.map((comp, idx) => {
+                  const isLast = idx === cat.items.length - 1;
+                  return (
+                    <Pressable
+                      key={comp}
+                      onPress={() =>
+                        router.push(`/components/${comp}` as Href)
+                      }
+                      style={({ pressed }) => ({
+                        backgroundColor: pressed
+                          ? colors.accent
+                          : 'transparent',
+                      })}
+                      accessibilityRole="button"
+                      accessibilityLabel={`Open ${comp} demo`}
+                    >
+                      <View
+                        style={[
+                          styles.itemRow,
+                          !isLast && {
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                            borderBottomColor: colors.border,
+                          },
+                        ]}
+                      >
+                        <View style={styles.itemLeft}>
+                          <View
+                            style={[
+                              styles.itemDot,
+                              { backgroundColor: cat.accentColor },
+                            ]}
+                          />
+                          <RNText
+                            style={[
+                              styles.itemTitle,
+                              { color: colors.foreground },
+                            ]}
+                          >
+                            {comp}
+                          </RNText>
+                        </View>
+                        <ChevronRight
+                          size={16}
+                          color={colors.mutedForeground}
+                        />
+                      </View>
+                    </Pressable>
+                  );
+                })}
               </View>
             </View>
           );
@@ -797,14 +775,14 @@ const styles = StyleSheet.create({
   categoryCard: {
     borderRadius: 18,
     borderWidth: 1,
-    padding: 16,
     marginBottom: 16,
-    gap: 14,
+    overflow: 'hidden',
   },
   categoryHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    padding: 16,
     gap: 12,
   },
   categoryHeaderLeft: {
@@ -839,46 +817,32 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
   },
-  gridRowsWrapper: {
-    gap: 8,
+  listWrapper: {
+    borderTopWidth: StyleSheet.hairlineWidth,
   },
-  gridRow: {
-    flexDirection: 'row',
-    gap: 8,
-    width: '100%',
-  },
-  tileContainer: {
-    flex: 1,
-    borderRadius: 12,
-    borderWidth: 1,
-    overflow: 'hidden',
-  },
-  tilePlaceholder: {
-    flex: 1,
-  },
-  tilePressable: {
+  itemRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    minHeight: 46,
+    paddingVertical: 13,
+    paddingHorizontal: 16,
+    minHeight: 48,
   },
-  tileContent: {
+  itemLeft: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 10,
     flex: 1,
-    marginRight: 6,
-  },
-  tileDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
     marginRight: 8,
   },
-  tileText: {
-    fontSize: 13,
-    fontWeight: '600',
-    flex: 1,
+  itemDot: {
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
+  },
+  itemTitle: {
+    fontSize: 15,
+    fontWeight: '500',
+    letterSpacing: -0.2,
   },
 });
