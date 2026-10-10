@@ -9,100 +9,127 @@ import { DemoThemeControls } from '@/demo/DemoThemeControls';
 import { useRouter, type Href } from 'expo-router';
 import { ChevronRight } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
-import { Pressable, SectionList, StyleSheet, View } from 'react-native';
+import { Pressable, SectionList, StyleSheet, Text as RNText, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const COMPONENTS = [
-  'AIRenderer',
-  'Accordion',
-  'Alert',
-  'AlertDialog',
-  'AnimatedList',
-  'AnimatedOverlay',
-  'AppBar',
-  'AspectRatio',
-  'Autocomplete',
-  'Avatar',
-  'Badge',
-  'Blockquote',
-  'BottomNavigation',
-  'Breadcrumb',
-  'Button',
-  'ButtonGroup',
-  'Calendar',
-  'Card',
-  'Carousel',
-  'ChatListItem',
-  'Checkbox',
-  'Chip',
-  'CircularProgress',
-  'CodeBlock',
-  'ContextMenu',
-  'DatePicker',
-  'Dialog',
-  'Drawer',
-  'DropdownMenu',
-  'EmptyState',
-  'Fab',
-  'Form',
-  'GlassCard',
-  'Gradient',
-  'Grid',
-  'Icon',
-  'IconButton',
-  'Image',
-  'ImageList',
-  'Input',
-  'InputOtp',
-  'Label',
-  'Link',
-  'List',
-  'Marquee',
-  'MessageInput',
-  'Modal',
-  'Pagination',
-  'Paper',
-  'Popover',
-  'Popper',
-  'Pressable',
-  'Progress',
-  'RadioGroup',
-  'Rating',
-  'ScrollArea',
-  'SegmentedControl',
-  'Select',
-  'Separator',
-  'SettingsMenu',
-  'Sheet',
-  'Skeleton',
-  'Slider',
-  'Snackbar',
-  'SpeedDial',
-  'Stack',
-  'Stepper',
-  'Switch',
-  'TabBar',
-  'Table',
-  'Tabs',
-  'Text',
-  'Textarea',
-  'TextField',
-  'Timeline',
-  'Toast',
-  'Toggle',
-  'Tooltip',
-] as const;
-
-function groupComponents(items: readonly string[]) {
-  const map: Record<string, string[]> = {};
-  for (const name of items) {
-    const letter = name[0]?.toUpperCase() ?? '#';
-    (map[letter] ??= []).push(name);
-  }
-  return Object.entries(map)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([title, data]) => ({ title, data }));
+export interface FeatureCategory {
+  title: string;
+  items: readonly string[];
 }
+
+export const FEATURE_CATEGORIES: readonly FeatureCategory[] = [
+  {
+    title: 'AI & Automation',
+    items: ['AIRenderer'],
+  },
+  {
+    title: 'Inputs & Forms',
+    items: [
+      'Button',
+      'ButtonGroup',
+      'IconButton',
+      'Fab',
+      'Input',
+      'TextField',
+      'Textarea',
+      'Checkbox',
+      'RadioGroup',
+      'Select',
+      'Switch',
+      'Slider',
+      'Rating',
+      'SegmentedControl',
+      'Toggle',
+      'DatePicker',
+      'InputOtp',
+      'Autocomplete',
+      'Form',
+      'Label',
+      'Pressable',
+    ],
+  },
+  {
+    title: 'Layout & Structure',
+    items: [
+      'Stack',
+      'Grid',
+      'Card',
+      'Paper',
+      'GlassCard',
+      'Gradient',
+      'AspectRatio',
+      'ScrollArea',
+      'Separator',
+    ],
+  },
+  {
+    title: 'Navigation',
+    items: [
+      'Tabs',
+      'TabBar',
+      'Breadcrumb',
+      'Pagination',
+      'BottomNavigation',
+      'AppBar',
+      'Stepper',
+      'Link',
+      'SpeedDial',
+    ],
+  },
+  {
+    title: 'Feedback & Status',
+    items: [
+      'Alert',
+      'AlertDialog',
+      'Toast',
+      'Snackbar',
+      'Progress',
+      'CircularProgress',
+      'Badge',
+      'Chip',
+      'Skeleton',
+    ],
+  },
+  {
+    title: 'Overlays & Popups',
+    items: [
+      'Dialog',
+      'Sheet',
+      'Modal',
+      'Drawer',
+      'Popover',
+      'Popper',
+      'DropdownMenu',
+      'ContextMenu',
+      'Tooltip',
+      'SettingsMenu',
+      'AnimatedOverlay',
+    ],
+  },
+  {
+    title: 'Data Display & Media',
+    items: [
+      'Text',
+      'Avatar',
+      'Icon',
+      'Image',
+      'ImageList',
+      'Table',
+      'List',
+      'ChatListItem',
+      'MessageInput',
+      'Carousel',
+      'Calendar',
+      'Accordion',
+      'CodeBlock',
+      'Blockquote',
+      'Timeline',
+      'Marquee',
+      'EmptyState',
+      'AnimatedList',
+    ],
+  },
+];
 
 export default function ComponentsListScreen() {
   const colors = useThemeColor();
@@ -110,31 +137,39 @@ export default function ComponentsListScreen() {
   const router = useRouter();
   const [search, setSearch] = useState('');
 
-  const filtered = useMemo(
-    () =>
-      COMPONENTS.filter((c) =>
-        c.toLowerCase().includes(search.trim().toLowerCase())
-      ),
-    [search]
+  const sections = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return FEATURE_CATEGORIES.map((cat) => ({
+      title: cat.title,
+      data: q
+        ? cat.items.filter((item) => item.toLowerCase().includes(q))
+        : [...cat.items],
+    })).filter((section) => section.data.length > 0);
+  }, [search]);
+
+  const totalCount = useMemo(
+    () => sections.reduce((sum, sec) => sum + sec.data.length, 0),
+    [sections]
   );
 
-  const sections = useMemo(() => groupComponents(filtered), [filtered]);
-
   return (
-    <View className="flex-1 bg-background">
-      <ScreenHeader title="RNUI" subtitle={`${COMPONENTS.length} components`} />
-      <View className="bg-background px-4 pb-2 pt-3">
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <ScreenHeader
+        title="RNUI"
+        subtitle={`${totalCount} components`}
+        rightAction={<View style={{ width: 28 }} />}
+      />
+      <View style={styles.searchWrapper}>
         <PillSearchBar
           value={search}
           onChangeText={setSearch}
-          placeholder="Search components…"
+          placeholder="Search components..."
         />
       </View>
       <SectionList
         sections={sections}
         keyExtractor={(item) => item}
         keyboardShouldPersistTaps="handled"
-        stickySectionHeadersEnabled={false}
         contentContainerStyle={{
           paddingHorizontal: 16,
           paddingBottom: insets.bottom + 32,
@@ -147,8 +182,20 @@ export default function ComponentsListScreen() {
             </Text>
           </View>
         }
-        renderSectionHeader={({ section: { title } }) => (
-          <ListSectionHeader title={title} />
+        renderSectionHeader={({ section: { title, data } }) => (
+          <View
+            style={[
+              styles.sectionHeader,
+              { backgroundColor: colors.background },
+            ]}
+          >
+            <Text variant="muted" style={styles.sectionTitle}>
+              {title}
+            </Text>
+            <Text variant="muted" style={styles.sectionCount}>
+              {data.length}
+            </Text>
+          </View>
         )}
         renderItem={({ item }) => (
           <Pressable
@@ -156,14 +203,23 @@ export default function ComponentsListScreen() {
             style={({ pressed }) => [
               styles.row,
               {
-                backgroundColor: pressed ? colors.accent : colors.background,
+                backgroundColor: pressed ? colors.accent : colors.card,
                 borderColor: colors.border,
               },
             ]}
             accessibilityRole="button"
             accessibilityLabel={`Open ${item} examples`}
           >
-            <Text>{item}</Text>
+            <RNText
+              style={{
+                flex: 1,
+                fontSize: 15,
+                fontWeight: '600',
+                color: colors.foreground,
+              }}
+            >
+              {item}
+            </RNText>
             <ChevronRight size={18} color={colors.mutedForeground} />
           </Pressable>
         )}
@@ -176,6 +232,31 @@ export default function ComponentsListScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  searchWrapper: {
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 8,
+  },
+  sectionHeader: {
+    paddingTop: 18,
+    paddingBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  sectionTitle: {
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 1.2,
+    textTransform: 'uppercase',
+  },
+  sectionCount: {
+    fontSize: 12,
+    fontWeight: '500',
+  },
   row: {
     paddingVertical: 14,
     paddingHorizontal: 16,
@@ -186,6 +267,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: StyleSheet.hairlineWidth,
     minHeight: 52,
+  },
+  rowText: {
+    fontSize: 15,
+    fontWeight: '600',
   },
   emptyState: {
     padding: 32,

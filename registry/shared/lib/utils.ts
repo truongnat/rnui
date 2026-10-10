@@ -86,6 +86,8 @@ export type ThemeColorToken =
   | 'destructive'
   | 'input'
   | 'border'
+  | 'card'
+  | 'cardForeground'
   | 'muted'
   | 'accent'
   | 'mutedForeground';
@@ -108,6 +110,8 @@ export function useThemeColor(): Record<ThemeColorToken, string> {
     destructive: dark ? '#7f1d1d' : '#ef4444',
     input: dark ? '#27272a' : '#e4e4e7',
     border: dark ? '#27272a' : '#e4e4e7',
+    card: dark ? '#18181b' : '#ffffff',
+    cardForeground: dark ? '#fafafa' : '#09090b',
     muted: dark ? '#27272a' : '#f4f4f5',
     accent: dark ? '#27272a' : '#f4f4f5',
     mutedForeground: dark ? '#a1a1aa' : '#71717a',
