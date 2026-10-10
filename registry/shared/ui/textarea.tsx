@@ -1,5 +1,5 @@
 import { forwardRef, useContext, useState } from 'react';
-import { TextInput, type TextInputProps } from 'react-native';
+import { StyleSheet, TextInput, type TextInputProps, type TextStyle } from 'react-native';
 import { cn, FormFieldContext, useThemeColor } from '@/lib/utils';
 
 export interface TextareaProps extends TextInputProps {
@@ -36,16 +36,25 @@ export const Textarea = forwardRef<TextInput, TextareaProps>(
     const [focused, setFocused] = useState(false);
     const field = useContext(FormFieldContext);
     const colors = useThemeColor();
-
     const isInvalid = invalid ?? !!field?.error;
     const isDisabled = disabled || editable === false;
 
     const placeholder = cn('text-muted-foreground/60', placeholderClassName);
-    // See input.tsx: nativewind/uniwind disagree on the placeholder prop name.
     const placeholderProps = {
       placeholderClassName: placeholder,
       placeholderTextColorClassName: placeholder,
     };
+
+    const dynamicStyle: TextStyle = {
+      borderColor: isInvalid
+        ? colors.destructive
+        : focused
+          ? colors.ring || colors.primary
+          : colors.input || colors.border,
+      borderWidth: focused || isInvalid ? 1.5 : 1,
+      backgroundColor: colors.background,
+    };
+
     return (
       <TextInput
         ref={ref}
@@ -55,16 +64,16 @@ export const Textarea = forwardRef<TextInput, TextareaProps>(
         multiline={multiline}
         textAlignVertical="top"
         className={cn(
-          'min-h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-base leading-5 text-foreground dark:bg-input/30',
+          'min-h-[100px] w-full rounded-xl p-3.5 text-base text-foreground',
           isDisabled && 'opacity-50',
           className
         )}
         style={[
-          { borderCurve: 'continuous' },
-          focused && { borderColor: colors.ring },
-          isInvalid && { borderColor: colors.destructive },
+          styles.baseTextarea,
+          dynamicStyle,
           style,
         ]}
+        placeholderTextColor={colors.mutedForeground}
         selectionColor={selectionColor ?? colors.primary}
         cursorColor={cursorColor ?? colors.primary}
         onFocus={(e) => {
@@ -82,3 +91,10 @@ export const Textarea = forwardRef<TextInput, TextareaProps>(
   }
 );
 Textarea.displayName = 'Textarea';
+
+const styles = StyleSheet.create({
+  baseTextarea: {
+    borderCurve: 'continuous',
+    fontSize: 15,
+  },
+});

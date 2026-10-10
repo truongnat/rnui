@@ -18,7 +18,7 @@ export function FormField({
   const id = useId();
   return (
     <FormFieldContext.Provider value={{ id, error }}>
-      <View className={cn('gap-1.5', className)} {...props}>
+      <View className={cn('gap-2', className)} {...props}>
         {children}
       </View>
     </FormFieldContext.Provider>
@@ -38,7 +38,7 @@ export function FormLabel({ className, ...props }: TextProps) {
   const theme = useThemeColor();
   return (
     <Text
-      className={cn('text-sm font-medium text-foreground', className)}
+      className={cn('text-sm font-semibold text-foreground', className)}
       style={error ? { color: theme.destructive } : undefined}
       {...props}
     />
@@ -48,7 +48,7 @@ export function FormLabel({ className, ...props }: TextProps) {
 export function FormDescription({ className, ...props }: TextProps) {
   return (
     <Text
-      className={cn('text-xs text-muted-foreground', className)}
+      className={cn('text-[13px] leading-4 text-muted-foreground', className)}
       {...props}
     />
   );
@@ -59,7 +59,7 @@ export function FormMessage({ className, ...props }: TextProps) {
   if (!error) return null;
   return (
     <Text
-      className={cn('text-xs font-medium text-destructive', className)}
+      className={cn('text-[13px] font-medium text-destructive', className)}
       {...props}
     >
       {error}
