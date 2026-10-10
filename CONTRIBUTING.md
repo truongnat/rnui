@@ -1,70 +1,64 @@
 # Contributing to RNUI
 
+RNUI is a **shadcn-compatible registry**, not an npm library. Components live in `registry/shared/ui/` and are copied into consumer apps.
+
 ## Setup
 
 ```bash
-git clone https://github.com/your-org/rnui
+git clone https://github.com/truongnat/rnui
 cd rnui
 bun install
-bun turbo build
+bun run build
 ```
 
-## Monorepo structure
+## Repo structure
 
-| Package             | Role                                                |
-| ------------------- | --------------------------------------------------- |
-| `packages/tokens`   | Design tokens — edit here to change visual language |
-| `packages/headless` | Logic hooks — no styles, pure React                 |
-| `packages/ui`       | Styled components — wrap headless, use tokens       |
-| `apps/example`      | Expo example app — component showcase screens       |
-| `apps/storybook`    | RN Storybook on-device                              |
+| Path | Role |
+| --- | --- |
+| `registry/shared/ui/` | Components (kebab file, PascalCase exports) |
+| `registry/shared/lib/utils.ts` | `cn()`, contexts, `useThemeColor`, `openSafeUrl`, `spacingScale` |
+| `registry/variants/{nativewind,uniwind}/` | Engine setup files + per-variant overrides |
+| `registry/themes/*.json` | Brand theme presets (canonical — edit by hand) |
+| `registry/registry.json` | Item catalog — every component needs an entry |
+| `packages/component-schema` | AI-readable component contracts |
+| `packages/renderer` | ScreenSchema renderer + TSX export |
+| `packages/cli` | `rnui init/add/list` CLI |
+| `apps/example` | Expo showcase — vendors the kit, use it to verify changes |
+| `apps/web` | Next.js schema builder + preview |
 
 ## Rules
 
-**No primitive tokens in components.** ESLint will fail if you import `primitive` directly from `@truongdq01/tokens` inside a component. Always go through `useTokens()` or `useComponentTokens()`.
+**Registry code is self-contained.** No imports from workspace packages. Only `@/components/ui/*`, `@/lib/utils`, React, RN core, and declared `dependencies`/`registryDependencies`.
 
-**Every styled component must wrap a headless hook.** If the component has any interactive state (press, focus, toggle, open/close), it should use the corresponding `use*` hook from `@truongdq01/headless`.
+**Classes via `cn()`/`tv()`, dynamic colors via `style` + `useThemeColor()`.** Never toggle var-referencing classes at runtime — css-interop stringify can OOM Hermes.
 
-**All animation runs on the UI thread.** Use Reanimated 3 worklets. Never use the legacy `Animated` API or `setTimeout` for transitions.
+**Every host node accepts `className`** and merges it last so consumers can override.
 
-**Dark mode is mandatory.** Every style value must come from a semantic token. Never hardcode a color.
+**Optional peers must degrade.** Use the try/catch `require` pattern (see `glass-card.tsx`, `gradient.tsx`) and add the package to `peerDependenciesMeta`/`optionalPeers` docs.
+
+**Dark mode is mandatory.** Colors come from semantic tokens (global.css vars / `useThemeColor`), never raw hex in component code.
 
 ## Adding a new component
 
-1. Add headless hook to `packages/headless/src/hooks/use<Name>.ts`
-2. Export from `packages/headless/src/index.ts`
-3. Add styled component to `packages/ui/src/components/<Name>/`
-4. Export from `packages/ui/src/index.ts`
-5. Add unit tests to `packages/headless/src/__tests__/hooks.test.tsx`
-6. Add Storybook story to `apps/storybook/stories/`
-7. Add a showcase screen at `apps/example/app/components/<Name>.tsx` and list the component in `apps/example/app/index.tsx`
-8. Add E2E scenario to `apps/example/e2e/main.e2e.ts`
+1. Create `registry/shared/ui/<name>.tsx` (shadcn conventions, see `COMPONENT-PORT.md`).
+2. If it needs variant-specific code, add a same-named file under `registry/variants/<variant>/` (drop-in override).
+3. Add a catalog entry in `registry/registry.json` (`registryDependencies`, npm `dependencies`, `target`).
+4. If the component should be AI-generatable, add/update its schema in `packages/component-schema/src/registry/`.
+5. Add a showcase screen `apps/example/app/components/<Name>.tsx`, link it in `apps/example/app/index.tsx`, and vendor the file into `apps/example/components/ui/`.
+6. `bun run registry:build` → commit `registry/dist`.
 
 ## Testing
 
 ```bash
-bun turbo test           # all unit tests
-cd packages/ui && bun test:perf  # Reassure perf regression
-cd apps/example && bun e2e:ios   # Detox E2E on iOS simulator
+bun run test            # all workspace tests
+bun run typecheck       # all packages + apps
+bun run lint            # biome
+bun run registry:build  # validates catalog → dist
+cd apps/example && bunx tsc --noEmit   # vendored-kit typecheck
 ```
 
-## Releasing
+Registry `shared/` files are templates — they don't typecheck standalone; `apps/example` vendored copy is the real check.
 
-```bash
-# Create a changeset describing what changed
-bun run changeset
+## Distribution
 
-# Commit, push, open PR → CI runs
-# Merge to main → changesets/action creates release PR automatically
-# Merge release PR → packages published to npm
-```
-
-## Token changes
-
-When changing tokens, think in order:
-
-1. Does the change belong in `primitive.ts`? (new raw value)
-2. Does it need a new semantic mapping? (`semantic.ts`)
-3. Does it need a new component-level recipe? (`component.ts`)
-
-Never skip a layer. A component should never use a primitive token directly.
+No npm publish for components — consumers use `npx shadcn add <raw-url>` or `npx github:truongnat/rnui#cli <cmd>`. Releases = merging to `main` (dist is served from `main` via GitHub raw). Version bumps/changesets apply only to `@rnui/*` internal packages.
