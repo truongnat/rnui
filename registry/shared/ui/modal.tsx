@@ -109,7 +109,7 @@ export function ModalContent({
   const { position } = useContext(ModalContext);
   const insets = useSafeAreaInsets();
   return (
-    <Pressable onPress={(e) => e.stopPropagation()}>
+    <Pressable>
       <View
         accessibilityViewIsModal
         className={cn(

@@ -1,112 +1,97 @@
 import { View } from 'react-native';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Stack } from '@/components/ui/stack';
+import { useToast } from '@/components/ui/toast';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
-import { DemoSurfacePanel } from '@/demo/DemoSurfacePanel';
-
-function AlertSeverityRow() {
-  return (
-    <Stack spacing="sm">
-      <Alert>
-        <AlertTitle>Delivery update</AlertTitle>
-        <AlertDescription>
-          Package out for delivery today before 6 PM.
-        </AlertDescription>
-      </Alert>
-      <Alert variant="destructive">
-        <AlertTitle className="text-destructive">Charge failed</AlertTitle>
-        <AlertDescription>
-          Could not process renewal — update payment method.
-        </AlertDescription>
-      </Alert>
-    </Stack>
-  );
-}
 
 export default function AlertScreen() {
+  const { toast } = useToast();
+
   return (
     <DemoPage
       title="Alert"
-      description="Contextual feedback for user actions — default and destructive."
+      description="Contextual feedback banners with solid surface backgrounds, status tints, and icons."
     >
+      {/* 1. Status Variants */}
       <DemoSection
-        title="Surface visibility"
-        description="Standard alerts on common backgrounds — readable without shadow."
+        title="Status Variants"
+        description="Default, destructive, success, and warning alert styles."
+        bare
       >
         <Stack spacing="md">
-          <DemoSurfacePanel label="App background" surface="app">
-            <AlertSeverityRow />
-          </DemoSurfacePanel>
-          <DemoSurfacePanel label="White surface" surface="white">
-            <AlertSeverityRow />
-          </DemoSurfacePanel>
-          <DemoSurfacePanel label="Card surface" surface="card">
-            <AlertSeverityRow />
-          </DemoSurfacePanel>
-          <DemoSurfacePanel label="Glass surface" surface="glass">
-            <AlertSeverityRow />
-          </DemoSurfacePanel>
-          <DemoSurfacePanel label="Dark surface" surface="dark">
-            <AlertSeverityRow />
-          </DemoSurfacePanel>
-        </Stack>
-      </DemoSection>
-
-      <DemoSection
-        title="Order & account status"
-        description="Default and destructive variants for feedback."
-      >
-        <Stack spacing="md">
-          <Alert>
-            <AlertTitle>Payment received</AlertTitle>
+          {/* Default */}
+          <Alert variant="default">
+            <AlertTitle>System Notice</AlertTitle>
             <AlertDescription>
-              Order #4821 is confirmed. You will get a receipt by email.
+              A new software update is available for your device.
             </AlertDescription>
           </Alert>
 
-          <Alert>
-            <AlertTitle>Card expiring soon</AlertTitle>
-            <AlertDescription>
-              Your Visa ending in 4242 expires in 12 days. Update billing to
-              avoid interruption.
-            </AlertDescription>
-          </Alert>
-
+          {/* Destructive */}
           <Alert variant="destructive">
-            <AlertTitle className="text-destructive">
-              Could not charge subscription
-            </AlertTitle>
+            <AlertTitle>Payment Authorization Failed</AlertTitle>
             <AlertDescription>
-              We could not process your renewal. Check your payment method and
-              try again.
+              We were unable to charge your card on file. Please update your payment method to avoid suspension.
             </AlertDescription>
           </Alert>
 
-          <Alert>
-            <AlertTitle>Delivery update</AlertTitle>
+          {/* Success */}
+          <Alert variant="success">
+            <AlertTitle>Order Placed Successfully</AlertTitle>
             <AlertDescription>
-              Your package is out for delivery and should arrive today before 6
-              PM.
+              Your order #8921 has been confirmed. A receipt has been sent to your email.
+            </AlertDescription>
+          </Alert>
+
+          {/* Warning */}
+          <Alert variant="warning">
+            <AlertTitle>Storage Almost Full</AlertTitle>
+            <AlertDescription>
+              You have used 92% of your monthly storage quota. Consider upgrading your plan.
             </AlertDescription>
           </Alert>
         </Stack>
       </DemoSection>
 
+      {/* 2. Alert with Action Button */}
       <DemoSection
-        title="Customizations"
-        description="Compose actions as children inside the alert."
+        title="Alert with Interactive Action"
+        description="Embed buttons for immediate recovery or dismiss actions."
+        bare
       >
-        <Stack spacing="md">
-          <Alert>
+        <Card className="p-5 border-border">
+          <Alert variant="default">
+            <AlertTitle>File Deleted</AlertTitle>
             <AlertDescription>
-              The item has been deleted from your library.
+              "project-roadmap-2026.pdf" was moved to the trash folder.
             </AlertDescription>
-            <View className="mt-2 flex-row justify-end">
-              <Button variant="ghost" size="sm" onPress={() => {}}>
-                UNDO
+            <View className="mt-3 flex-row justify-end">
+              <Button
+                variant="outline"
+                size="sm"
+                onPress={() => toast.success('Action undone!')}
+              >
+                Undo Delete
               </Button>
             </View>
+          </Alert>
+        </Card>
+      </DemoSection>
+
+      {/* 3. Without Icons */}
+      <DemoSection
+        title="Minimal Text-only Alert"
+        description="Clean notice banner without leading icon."
+        bare
+      >
+        <Stack spacing="md">
+          <Alert hideIcon variant="default">
+            <AlertTitle>Maintenance Window</AlertTitle>
+            <AlertDescription>
+              Scheduled database maintenance tonight from 2:00 AM to 3:00 AM UTC.
+            </AlertDescription>
           </Alert>
         </Stack>
       </DemoSection>
