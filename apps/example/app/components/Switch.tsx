@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Stack } from '@/components/ui/stack';
 import { Switch } from '@/components/ui/switch';
 import { Text } from '@/components/ui/text';
@@ -13,19 +13,27 @@ function SwitchRow({
   checked,
   onCheckedChange,
   disabled,
+  size,
 }: {
   label: string;
   description?: string;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
   disabled?: boolean;
+  size?: 'default' | 'sm';
 }) {
   return (
-    <View
+    <Pressable
+      onPress={() => {
+        if (!disabled) onCheckedChange(!checked);
+      }}
+      disabled={disabled}
       className={cn(
-        'flex-row items-center justify-between gap-4',
-        disabled && 'opacity-60'
+        'flex-row items-center justify-between gap-4 py-1 active:opacity-75',
+        disabled && 'opacity-50'
       )}
+      accessibilityRole="switch"
+      accessibilityState={{ checked, disabled: !!disabled }}
     >
       <View className="flex-1 gap-0.5">
         <Text className="text-sm font-medium text-foreground">{label}</Text>
@@ -37,8 +45,9 @@ function SwitchRow({
         checked={checked}
         onCheckedChange={onCheckedChange}
         disabled={disabled}
+        size={size}
       />
-    </View>
+    </Pressable>
   );
 }
 
@@ -47,11 +56,12 @@ export default function SwitchScreen() {
   const [orderUpdates, setOrderUpdates] = useState(true);
   const [marketing, setMarketing] = useState(false);
   const [biometrics, setBiometrics] = useState(true);
+  const [soundEffects, setSoundEffects] = useState(true);
 
   return (
     <DemoPage
       title="Switch"
-      description="Notification and privacy preferences — clear on/off states at native touch size."
+      description="Notification and privacy preferences — clear on/off states with smooth spring animations."
     >
       <DemoSection
         title="Notifications"
@@ -75,6 +85,21 @@ export default function SwitchScreen() {
             description="Required for payments over $100"
             checked={biometrics}
             onCheckedChange={setBiometrics}
+          />
+        </Stack>
+      </DemoSection>
+
+      <DemoSection
+        title="Sizes"
+        description="Compact size (sm) for dense control rows."
+      >
+        <Stack spacing="md">
+          <SwitchRow
+            label="Sound effects"
+            description="Play audio cues on interaction"
+            checked={soundEffects}
+            onCheckedChange={setSoundEffects}
+            size="sm"
           />
         </Stack>
       </DemoSection>
