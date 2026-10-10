@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { DatePicker } from '@/components/ui/date-picker';
+import { DatePicker, DateRangePicker } from '@/components/ui/date-picker';
+import { type DateRange } from '@/components/ui/calendar';
 import {
   FormDescription,
   FormField,
@@ -13,33 +14,19 @@ export default function DatePickerScreen() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [birthDate, setBirthDate] = useState<Date | undefined>();
   const [startsAt, setStartsAt] = useState<Date | undefined>(new Date());
-  const [range, setRange] = useState<{
-    start?: Date;
-    end?: Date;
-  }>({
-    start: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-    end: new Date(),
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    start: new Date(new Date().getFullYear(), new Date().getMonth(), 5),
+    end: new Date(new Date().getFullYear(), new Date().getMonth(), 18),
   });
-  const [rangeError, setRangeError] = useState<string | undefined>();
-
-  const updateRange = (key: 'start' | 'end') => (d: Date) => {
-    const next = { ...range, [key]: d };
-    setRange(next);
-    setRangeError(
-      next.start && next.end && next.end.getTime() < next.start.getTime()
-        ? 'End date must be after the start date'
-        : undefined
-    );
-  };
 
   return (
     <DemoPage
       title="Date Picker"
-      description="Calendar-backed date selection composable inside form fields."
+      description="Calendar-backed date selection and unified date-range picker."
     >
       <DemoSection
-        title="Basic"
-        description="Form field with label and helper text."
+        title="Basic (Default Format)"
+        description="Single date selection with default locale format."
       >
         <FormField>
           <FormLabel>Appointment Date</FormLabel>
@@ -53,73 +40,64 @@ export default function DatePickerScreen() {
       </DemoSection>
 
       <DemoSection
-        title="Placeholder"
-        description="Empty state before selection."
+        title="Format Option (String Pattern)"
+        description="Direct format pattern using format='DD/MM/YYYY'."
       >
         <FormField>
-          <FormLabel>Birth Date</FormLabel>
+          <FormLabel>Ngày sinh (DD/MM/YYYY)</FormLabel>
           <DatePicker
             value={birthDate}
             onChange={setBirthDate}
-            placeholder="Select your birthday"
+            format="DD/MM/YYYY"
+            placeholder="Chọn ngày sinh (DD/MM/YYYY)"
           />
+          <FormDescription>Định dạng ngày/tháng/năm quen thuộc tại Việt Nam.</FormDescription>
         </FormField>
       </DemoSection>
 
       <DemoSection
-        title="Custom Format"
-        description="format controls the trigger label — here a locale-aware date+time for scheduling."
+        title="Custom Format (Function)"
+        description="format function callback for full localized formatting."
       >
         <FormField>
           <FormLabel>Thời hạn</FormLabel>
           <DatePicker
             value={startsAt}
             onChange={setStartsAt}
-            placeholder="Chọn ngày và giờ"
+            placeholder="Chọn ngày"
             format={(d) =>
-              d.toLocaleString('vi-VN', {
-                day: '2-digit',
-                month: '2-digit',
+              d.toLocaleDateString('vi-VN', {
+                weekday: 'long',
                 year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
+                month: 'long',
+                day: 'numeric',
               })
             }
           />
-          <FormDescription>The calendar selects the date only.</FormDescription>
         </FormField>
       </DemoSection>
 
       <DemoSection
-        title="Date Range"
-        description="Compose two pickers for start/end inputs; clamp the range in onChange."
+        title="Unified Date Range Picker (1 Input)"
+        description="Chọn cả khoảng thời gian (Start & End) trên 1 Calendar duy nhất thay vì 2 ô input riêng lẻ."
       >
-        <Stack spacing="lg">
-          <FormField error={rangeError}>
-            <FormLabel>Reporting period</FormLabel>
-            <Stack spacing="md">
-              <DatePicker
-                value={range.start}
-                onChange={updateRange('start')}
-                placeholder="Start date"
-              />
-              <DatePicker
-                value={range.end}
-                onChange={updateRange('end')}
-                placeholder="End date"
-              />
-            </Stack>
-            <FormMessage />
-            <FormDescription>
-              Pick a start, then an end — invalid ranges surface an error.
-            </FormDescription>
-          </FormField>
-        </Stack>
+        <FormField>
+          <FormLabel>Reporting Period (Khoảng ngày)</FormLabel>
+          <DateRangePicker
+            value={dateRange}
+            onChange={setDateRange}
+            format="DD/MM/YYYY"
+            placeholder="Chọn khoảng ngày (Start - End)"
+          />
+          <FormDescription>
+            Bấm ngày đầu để bắt đầu, bấm ngày sau để kết thúc. Lịch tự động tô màu dải ngày ở giữa.
+          </FormDescription>
+        </FormField>
       </DemoSection>
 
       <DemoSection
         title="States"
-        description="FormField error turns the trigger border destructive; disabled dims the control."
+        description="Validation error and disabled states."
       >
         <Stack spacing="lg">
           <FormField error="Date cannot be in the past">

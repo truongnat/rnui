@@ -35,10 +35,10 @@ export const DemoPage: React.FC<DemoPageProps> = ({
       if (navigation && navigation.canGoBack()) {
         navigation.goBack();
       } else {
-        router.replace('/');
+        router.push('/');
       }
     } catch {
-      router.replace('/');
+      router.push('/');
     }
   };
 
