@@ -1,7 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
-import { DemoThemeControls } from '@/demo/DemoThemeControls';
 import { usePersistedColorScheme } from '@/demo/usePersistedColorScheme';
 import { useThemeColor } from '@/lib/utils';
 import { useRouter, type Href } from 'expo-router';
@@ -562,7 +561,7 @@ export default function ComponentsShowcaseScreen() {
                 </View>
               </View>
 
-              {/* Clean Rows List (No heavy item background, elegant dividers) */}
+              {/* Clean Rows List */}
               <View
                 style={[
                   styles.listWrapper,
@@ -625,7 +624,6 @@ export default function ComponentsShowcaseScreen() {
           );
         })}
       </ScrollView>
-
     </View>
   );
 }

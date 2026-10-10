@@ -1,5 +1,4 @@
 import {
-  Children,
   isValidElement,
   type ReactNode,
 } from 'react';
@@ -52,8 +51,8 @@ export interface AppBarProps extends ViewProps {
 
 /**
  * Top-tier mobile App Bar engineered to iOS 18 Human Interface Guidelines.
- * Supports standard centered bar, large collapsible heading, search-integrated bar,
- * and floating island modes.
+ * Features 54px navigation height, symmetric side touch anchors, perfectly anchored
+ * badges, non-clipped large display titles, and subtle Apple elevation.
  */
 export function AppBar({
   leading,
@@ -89,9 +88,10 @@ export function AppBar({
       onPress={onBack}
       hitSlop={8}
       style={({ pressed }) => [
-        styles.circleBtn,
+        styles.actionWell,
         {
           backgroundColor: pressed ? colors.accent : 'transparent',
+          transform: [{ scale: pressed ? 0.92 : 1 }],
         },
       ]}
     >
@@ -105,33 +105,36 @@ export function AppBar({
     <View
       className={cn(
         isFloating
-          ? 'mx-4 rounded-2xl border border-border bg-card shadow-sm px-3.5 py-2'
+          ? 'mx-4 rounded-2xl border border-border bg-card px-4 py-2.5'
           : isGlass
-            ? 'border-b border-border/80 bg-card/90 px-3'
+            ? 'border-b border-border bg-card/90 px-4'
             : isTransparent
-              ? 'bg-transparent px-3'
-              : 'border-b border-border bg-card px-3',
+              ? 'bg-transparent px-4'
+              : 'border-b border-border bg-card px-4',
         className
       )}
       style={[
         isFloating
-          ? {
-              marginTop: safeArea ? insets.top + 8 : 12,
-              backgroundColor: colors.card,
-              borderColor: colors.border,
-            }
+          ? [
+              styles.floatingCard,
+              {
+                marginTop: safeArea ? insets.top + 8 : 12,
+                backgroundColor: colors.card,
+                borderColor: colors.border,
+              },
+            ]
           : [
-              !isTransparent && { backgroundColor: isGlass ? colors.card : colors.card },
+              !isTransparent && { backgroundColor: colors.card },
               safeArea && { paddingTop: insets.top + 4 },
-              { paddingBottom: isLarge ? 8 : isSearch ? 8 : 8 },
+              { paddingBottom: isLarge ? 12 : 8 },
             ],
         style,
       ]}
       {...props}
     >
-      {/* Top Navigation Row (52px height) */}
+      {/* Top Navigation Row (54px height) */}
       <View style={styles.topRow}>
-        {/* Leading Touch Anchor (Min 44x44px for iOS HIG compliance) */}
+        {/* Leading Side Anchor (Min 44x44px for iOS touch target) */}
         <View style={styles.sideSlot}>{resolvedLeading}</View>
 
         {/* Center Section: Search Bar OR Standard Title */}
@@ -206,7 +209,7 @@ export function AppBar({
           <View style={styles.centerSlot}>{!title && children}</View>
         )}
 
-        {/* Trailing Touch Anchor (Min 44x44px) */}
+        {/* Trailing Side Anchor (Min 44x44px) */}
         <View style={[styles.sideSlot, styles.trailingSlot]}>
           {trailing}
         </View>
@@ -219,7 +222,6 @@ export function AppBar({
             <View style={styles.largeTitleStack}>
               <Text
                 style={[styles.largeTitleText, { color: colors.foreground }]}
-                numberOfLines={1}
               >
                 {title}
               </Text>
@@ -296,47 +298,52 @@ export function AppBarAction({
       hitSlop={6}
       onPress={onPress}
       style={({ pressed }) => [
-        styles.circleBtn,
+        styles.actionWell,
         {
           backgroundColor: pressed ? colors.accent : 'transparent',
+          transform: [{ scale: pressed ? 0.92 : 1 }],
         },
       ]}
       className={className}
     >
-      {children}
-      {badge !== undefined && badge !== false && (
-        <View style={styles.badgeWrap}>
-          {badge === true ? (
-            <View
-              style={[
-                styles.dotBadge,
-                { backgroundColor: colors.destructive },
-              ]}
-            />
-          ) : (
-            <Badge
-              variant="destructive"
-              className="px-1 py-0 min-w-3.5 h-3.5 rounded-full"
-            >
-              <Text style={styles.badgeText}>{badge}</Text>
-            </Badge>
-          )}
-        </View>
-      )}
+      {/* Icon Wrapper with Corner-Anchored Badge */}
+      <View style={styles.iconWrapper}>
+        {children}
+
+        {badge !== undefined && badge !== false && (
+          <View style={styles.badgeAnchor}>
+            {badge === true ? (
+              <View
+                style={[
+                  styles.dotBadge,
+                  { backgroundColor: colors.destructive },
+                ]}
+              />
+            ) : (
+              <Badge
+                variant="destructive"
+                className="px-1.5 py-0 min-w-4 h-4 rounded-full"
+              >
+                <Text style={styles.badgeText}>{badge}</Text>
+              </Badge>
+            )}
+          </View>
+        )}
+      </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   topRow: {
-    height: 50,
+    height: 52,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
   },
   sideSlot: {
-    minWidth: 42,
+    minWidth: 44,
     height: 44,
     flexDirection: 'row',
     alignItems: 'center',
@@ -349,7 +356,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 6,
+    paddingHorizontal: 8,
   },
   leftAlignSlot: {
     alignItems: 'flex-start',
@@ -368,13 +375,34 @@ const styles = StyleSheet.create({
     fontSize: 11,
     marginTop: 1,
   },
-  circleBtn: {
-    position: 'relative',
+  actionWell: {
     width: 40,
     height: 40,
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  iconWrapper: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  badgeAnchor: {
+    position: 'absolute',
+    top: -5,
+    right: -8,
+    zIndex: 10,
+  },
+  dotBadge: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  badgeText: {
+    fontSize: 9,
+    fontWeight: '800',
+    color: '#ffffff',
+    lineHeight: 12,
   },
   searchBarWrapper: {
     flex: 1,
@@ -383,7 +411,7 @@ const styles = StyleSheet.create({
   searchBarInner: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 38,
+    height: 40,
     borderRadius: 12,
     borderWidth: StyleSheet.hairlineWidth,
     paddingHorizontal: 10,
@@ -399,35 +427,38 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   largeTitleSection: {
-    paddingHorizontal: 4,
-    paddingTop: 10,
-    paddingBottom: 6,
+    paddingHorizontal: 2,
+    paddingTop: 12,
+    paddingBottom: 4,
   },
   largeTitleStack: {
-    gap: 2,
+    gap: 3,
   },
   largeTitleText: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: '800',
-    letterSpacing: -0.8,
+    letterSpacing: -0.6,
+    lineHeight: 34,
+    paddingBottom: 2,
   },
   largeSubText: {
     fontSize: 13,
+    lineHeight: 18,
   },
-  badgeWrap: {
-    position: 'absolute',
-    top: 4,
-    right: 4,
-  },
-  dotBadge: {
-    width: 7,
-    height: 7,
-    borderRadius: 3.5,
-  },
-  badgeText: {
-    fontSize: 8,
-    fontWeight: '800',
-    color: '#ffffff',
-    lineHeight: 10,
+  floatingCard: {
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 20,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 2,
+      },
+      default: {},
+    }),
   },
 });
