@@ -1,9 +1,12 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 import {
   Pressable,
+  StyleSheet,
   View,
   type PressableProps,
+  type StyleProp,
   type ViewProps,
+  type ViewStyle,
 } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { cn, useIconColor, useThemeColor } from '@/lib/utils';
@@ -44,24 +47,29 @@ export function Pagination({
   className,
   ...props
 }: PaginationProps) {
-  const muted = useIconColor();
-  const theme = useThemeColor();
+  const iconColor = useIconColor('foreground');
+  const colors = useThemeColor();
   const items = range(page, totalPages, siblings);
 
   return (
-    <View className={cn('flex-row items-center gap-1', className)} {...props}>
+    <View
+      accessibilityRole="toolbar"
+      className={cn('flex-row items-center gap-1.5 self-center', className)}
+      {...props}
+    >
       <PaginationButton
         disabled={page <= 1}
         onPress={() => onPageChange?.(page - 1)}
         accessibilityLabel="Previous page"
       >
-        <ChevronLeft size={16} color={muted} />
+        <ChevronLeft size={18} color={iconColor} />
       </PaginationButton>
+
       {items.map((it, i) =>
         it === '…' ? (
           <Text
             key={`ellipsis-${items[i - 1]}-${items[i + 1]}`}
-            className="px-2 text-muted-foreground"
+            className="px-1 text-sm text-muted-foreground"
           >
             …
           </Text>
@@ -70,29 +78,31 @@ export function Pagination({
             key={it}
             active={it === page}
             activeStyle={{
-              borderColor: theme.border,
-              backgroundColor: theme.background,
+              backgroundColor: colors.primary,
+              borderColor: colors.primary,
             }}
             onPress={() => onPageChange?.(it)}
             accessibilityLabel={`Page ${it}`}
           >
             <Text
-              className={cn(
-                'text-sm',
-                it === page ? 'text-foreground' : 'text-muted-foreground'
-              )}
+              style={{
+                fontSize: 14,
+                fontWeight: it === page ? '700' : '500',
+                color: it === page ? colors.primaryForeground : colors.foreground,
+              }}
             >
               {it}
             </Text>
           </PaginationButton>
         )
       )}
+
       <PaginationButton
         disabled={page >= totalPages}
         onPress={() => onPageChange?.(page + 1)}
         accessibilityLabel="Next page"
       >
-        <ChevronRight size={16} color={muted} />
+        <ChevronRight size={18} color={iconColor} />
       </PaginationButton>
     </View>
   );
@@ -103,23 +113,31 @@ function PaginationButton({
   activeStyle,
   disabled,
   className,
+  style,
   ...props
 }: PressableProps & {
   active?: boolean;
-  activeStyle?: PressableProps['style'];
+  activeStyle?: ViewStyle;
   className?: string;
+  style?: StyleProp<ViewStyle>;
 }) {
+  const colors = useThemeColor();
+
   return (
     <Pressable
       disabled={disabled}
+      hitSlop={6}
       className={cn(
-        'h-9 min-w-9 items-center justify-center rounded-md px-2',
-        active && 'border',
-        !active && 'active:bg-accent',
+        'h-10 min-w-10 items-center justify-center rounded-xl border border-transparent px-2.5',
+        !active && 'border-border bg-card active:bg-accent',
         disabled && 'opacity-40',
         className
       )}
-      style={active ? activeStyle : undefined}
+      style={[
+        { borderCurve: 'continuous' },
+        active ? activeStyle : undefined,
+        style,
+      ]}
       {...props}
     />
   );
