@@ -4,10 +4,10 @@ import {
   Platform,
   Pressable,
   StyleSheet,
+  Text as RNText,
   View,
   type ViewProps,
 } from 'react-native';
-import { Text } from '@/components/ui/text';
 import { cn, useThemeColor } from '@/lib/utils';
 
 export interface SegmentedControlProps<T extends string> extends ViewProps {
@@ -95,7 +95,7 @@ export function SegmentedControl<T extends string>({
         />
       )}
 
-      {/* Segment Option Buttons */}
+      {/* Segment Option Buttons with Guaranteed Equal Widths & Centered Text */}
       {options.map((opt) => {
         const active = opt === value;
         return (
@@ -105,9 +105,12 @@ export function SegmentedControl<T extends string>({
             accessibilityState={{ selected: active, disabled }}
             disabled={disabled}
             onPress={() => handleSelect(opt)}
-            style={styles.segmentButton}
+            style={[
+              styles.segmentButton,
+              segmentWidth > 0 && { width: segmentWidth, flex: 0 },
+            ]}
           >
-            <Text
+            <RNText
               style={[
                 styles.segmentText,
                 {
@@ -118,9 +121,10 @@ export function SegmentedControl<T extends string>({
                 },
               ]}
               numberOfLines={1}
+              ellipsizeMode="tail"
             >
               {opt}
-            </Text>
+            </RNText>
           </Pressable>
         );
       })}
@@ -154,10 +158,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 7,
-    paddingHorizontal: 4,
+    paddingHorizontal: 2,
     zIndex: 1,
   },
   segmentText: {
     fontSize: 12,
+    textAlign: 'center',
+    width: '100%',
   },
 });
