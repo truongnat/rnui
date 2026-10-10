@@ -1,9 +1,11 @@
-import type { ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import {
+  Animated,
   type GestureResponderEvent,
   Pressable as RNPressable,
   type PressableProps as RNPressableProps,
   type PressableStateCallbackType,
+  type StyleProp,
   type ViewStyle,
 } from 'react-native';
 import { cn, useThemeColor } from '@/lib/utils';
@@ -17,13 +19,14 @@ export type PressableVariant =
 
 export interface PressableProps extends Omit<RNPressableProps, 'children'> {
   variant?: PressableVariant;
-  /** Active opacity when pressed (default: 0.72 for opacity variant). */
+  /** Active opacity when pressed (default: 0.72 for opacity/bounce variant). */
   activeOpacity?: number;
-  /** Active scale when pressed (default: 0.97 for scale/bounce variant). */
+  /** Active scale when pressed (default: 0.96 for scale/bounce variant). */
   activeScale?: number;
   /** Trigger tactile haptic vibration on press (iOS / Android). */
   haptic?: boolean | 'light' | 'medium' | 'heavy' | 'selection';
   className?: string;
+  contentStyle?: StyleProp<ViewStyle>;
   children?: ReactNode | ((state: PressableStateCallbackType) => ReactNode);
 }
 
@@ -62,73 +65,117 @@ function triggerHaptic(type: PressableProps['haptic']) {
 }
 
 /**
- * Premium RN Pressable with native feedback variants (opacity, scale, bounce, highlight),
- * tactile haptic support, and safe disabled handling.
+ * Animated tactile RN Pressable with spring scale, smooth opacity dimming,
+ * background highlight, and haptics running directly on the native UI thread.
  */
 export function Pressable({
   variant = 'plain',
   activeOpacity = 0.72,
-  activeScale = 0.97,
+  activeScale = 0.96,
   haptic,
   className,
   disabled = false,
   hitSlop = 6,
   style,
+  contentStyle,
   onPress,
+  onPressIn,
+  onPressOut,
   children,
   ...props
 }: PressableProps) {
   const colors = useThemeColor();
+  const [isPressed, setIsPressed] = useState(false);
 
-  const handlePress = (e: GestureResponderEvent) => {
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const opacityAnim = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = (e: GestureResponderEvent) => {
     if (disabled) return;
+    setIsPressed(true);
+
     if (haptic) {
       triggerHaptic(haptic);
     }
-    onPress?.(e);
+
+    if (variant === 'scale' || variant === 'bounce') {
+      Animated.spring(scaleAnim, {
+        toValue: activeScale,
+        damping: 18,
+        stiffness: 350,
+        mass: 0.6,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    if (variant === 'opacity' || variant === 'bounce') {
+      Animated.timing(opacityAnim, {
+        toValue: activeOpacity,
+        duration: 80,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    onPressIn?.(e);
   };
+
+  const handlePressOut = (e: GestureResponderEvent) => {
+    if (disabled) return;
+    setIsPressed(false);
+
+    if (variant === 'scale' || variant === 'bounce') {
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        damping: 18,
+        stiffness: 350,
+        mass: 0.6,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    if (variant === 'opacity' || variant === 'bounce') {
+      Animated.timing(opacityAnim, {
+        toValue: 1,
+        duration: 120,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    onPressOut?.(e);
+  };
+
+  const isAnimated = variant !== 'plain' && variant !== 'highlight';
 
   return (
     <RNPressable
       disabled={disabled}
       hitSlop={hitSlop}
-      onPress={handlePress}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      onPress={onPress}
       accessibilityRole="button"
       accessibilityState={{ disabled: !!disabled }}
       className={cn(disabled && 'opacity-50', className)}
-      style={(state) => {
-        const { pressed } = state;
-        const variantStyles: ViewStyle = {};
-
-        if (pressed && !disabled) {
-          switch (variant) {
-            case 'opacity':
-              variantStyles.opacity = activeOpacity;
-              break;
-            case 'highlight':
-              variantStyles.backgroundColor = colors.accent;
-              break;
-            case 'scale':
-              variantStyles.transform = [{ scale: activeScale }];
-              break;
-            case 'bounce':
-              variantStyles.opacity = activeOpacity;
-              variantStyles.transform = [{ scale: activeScale }];
-              break;
-            case 'plain':
-            default:
-              break;
-          }
-        }
-
-        const userStyle =
-          typeof style === 'function' ? style(state) : style;
-
-        return [variantStyles, userStyle];
-      }}
+      style={style}
       {...props}
     >
-      {children}
+      <Animated.View
+        style={[
+          variant === 'highlight' &&
+            isPressed && {
+              backgroundColor: colors.accent,
+            },
+          isAnimated && {
+            transform: [{ scale: scaleAnim }],
+            opacity: opacityAnim,
+          },
+          contentStyle,
+        ]}
+      >
+        {typeof children === 'function'
+          ? children({ pressed: isPressed, hovered: false })
+          : children}
+      </Animated.View>
     </RNPressable>
   );
 }
