@@ -182,6 +182,61 @@ export const CATEGORIES: readonly CategoryInfo[] = [
   },
 ];
 
+function chunkPairs<T>(items: readonly T[]): T[][] {
+  const result: T[][] = [];
+  for (let i = 0; i < items.length; i += 2) {
+    result.push([items[i], items[i + 1]].filter(Boolean) as T[]);
+  }
+  return result;
+}
+
+function ComponentTile({
+  name,
+  accentColor,
+  colors,
+  onPress,
+}: {
+  name: string;
+  accentColor: string;
+  colors: Record<string, string>;
+  onPress: () => void;
+}) {
+  return (
+    <View
+      style={[
+        styles.tileContainer,
+        {
+          backgroundColor: colors.muted,
+          borderColor: colors.border,
+        },
+      ]}
+    >
+      <Pressable
+        onPress={onPress}
+        style={styles.tilePressable}
+        accessibilityRole="button"
+        accessibilityLabel={`Open ${name} demo`}
+      >
+        <View style={styles.tileContent}>
+          <View
+            style={[
+              styles.tileDot,
+              { backgroundColor: accentColor },
+            ]}
+          />
+          <RNText
+            style={[styles.tileText, { color: colors.foreground }]}
+            numberOfLines={1}
+          >
+            {name}
+          </RNText>
+        </View>
+        <ChevronRight size={14} color={colors.mutedForeground} />
+      </Pressable>
+    </View>
+  );
+}
+
 export default function ComponentsShowcaseScreen() {
   const colors = useThemeColor();
   const insets = useSafeAreaInsets();
@@ -208,14 +263,10 @@ export default function ComponentsShowcaseScreen() {
       return {
         ...cat,
         items,
+        pairs: chunkPairs(items),
       };
     }).filter((cat) => cat.items.length > 0);
   }, [search, selectedCategory]);
-
-  const totalVisibleCount = useMemo(
-    () => filteredCategories.reduce((sum, cat) => sum + cat.items.length, 0),
-    [filteredCategories]
-  );
 
   return (
     <View style={[styles.screen, { backgroundColor: colors.background }]}>
@@ -270,10 +321,10 @@ export default function ComponentsShowcaseScreen() {
           {/* Quick Action Button (Theme Switcher) */}
           <Pressable
             onPress={toggleTheme}
-            style={({ pressed }) => [
+            style={[
               styles.themeToggle,
               {
-                backgroundColor: pressed ? colors.accent : colors.card,
+                backgroundColor: colors.card,
                 borderColor: colors.border,
               },
             ]}
@@ -567,44 +618,29 @@ export default function ComponentsShowcaseScreen() {
                 </View>
               </View>
 
-              {/* 2-Column Component Grid Tiles */}
-              <View style={styles.componentGrid}>
-                {cat.items.map((comp) => (
-                  <Pressable
-                    key={comp}
-                    onPress={() => router.push(`/components/${comp}` as Href)}
-                    style={({ pressed }) => ({
-                      width: '48.5%',
-                      paddingVertical: 11,
-                      paddingHorizontal: 12,
-                      borderRadius: 12,
-                      borderWidth: 1,
-                      borderColor: colors.border,
-                      backgroundColor: pressed ? colors.accent : colors.muted,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    })}
-                    accessibilityRole="button"
-                    accessibilityLabel={`Open ${comp} demo`}
-                  >
-                    <RNText
-                      style={{
-                        fontSize: 13,
-                        fontWeight: '600',
-                        color: colors.foreground,
-                        flex: 1,
-                        marginRight: 4,
-                      }}
-                      numberOfLines={1}
-                    >
-                      {comp}
-                    </RNText>
-                    <ChevronRight
-                      size={14}
-                      color={colors.mutedForeground}
+              {/* 2-Column Row-based Grid */}
+              <View style={styles.gridRowsWrapper}>
+                {cat.pairs.map((pair, rowIdx) => (
+                  <View key={rowIdx} style={styles.gridRow}>
+                    <ComponentTile
+                      name={pair[0]}
+                      accentColor={cat.accentColor}
+                      colors={colors}
+                      onPress={() => router.push(`/components/${pair[0]}` as Href)}
                     />
-                  </Pressable>
+                    {pair[1] ? (
+                      <ComponentTile
+                        name={pair[1]}
+                        accentColor={cat.accentColor}
+                        colors={colors}
+                        onPress={() =>
+                          router.push(`/components/${pair[1]}` as Href)
+                        }
+                      />
+                    ) : (
+                      <View style={styles.tilePlaceholder} />
+                    )}
+                  </View>
                 ))}
               </View>
             </View>
@@ -672,7 +708,7 @@ const styles = StyleSheet.create({
     width: 38,
     height: 38,
     borderRadius: 10,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -682,7 +718,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     height: 42,
     borderRadius: 10,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     gap: 8,
   },
   searchInput: {
@@ -707,7 +743,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 7,
     borderRadius: 9999,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
   },
   pillText: {
     fontSize: 12,
@@ -727,7 +763,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 14,
     borderRadius: 14,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -744,7 +780,7 @@ const styles = StyleSheet.create({
   emptyBox: {
     padding: 36,
     borderRadius: 16,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     alignItems: 'center',
     gap: 10,
     marginTop: 24,
@@ -759,8 +795,8 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   categoryCard: {
-    borderRadius: 16,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 18,
+    borderWidth: 1,
     padding: 16,
     marginBottom: 16,
     gap: 14,
@@ -803,25 +839,46 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
   },
-  componentGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+  gridRowsWrapper: {
     gap: 8,
   },
-  componentTile: {
-    width: '48.5%',
+  gridRow: {
+    flexDirection: 'row',
+    gap: 8,
+    width: '100%',
+  },
+  tileContainer: {
+    flex: 1,
+    borderRadius: 12,
+    borderWidth: 1,
+    overflow: 'hidden',
+  },
+  tilePlaceholder: {
+    flex: 1,
+  },
+  tilePressable: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 10,
+    paddingVertical: 12,
     paddingHorizontal: 12,
-    borderRadius: 10,
-    borderWidth: StyleSheet.hairlineWidth,
+    minHeight: 46,
   },
-  tileName: {
+  tileContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    marginRight: 6,
+  },
+  tileDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginRight: 8,
+  },
+  tileText: {
     fontSize: 13,
     fontWeight: '600',
     flex: 1,
-    marginRight: 6,
   },
 });
