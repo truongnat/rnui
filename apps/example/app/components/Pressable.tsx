@@ -1,103 +1,111 @@
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Pressable } from '@/components/ui/pressable';
+import { Stack } from '@/components/ui/stack';
 import { Text } from '@/components/ui/text';
 import { useToast } from '@/components/ui/toast';
-import { DemoGroup, DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function PressableScreen() {
   const { toast } = useToast();
 
-  const boxClass =
-    'items-center justify-center rounded-lg border border-transparent px-6 py-4';
-
   return (
     <DemoPage
       title="Pressable"
-      description="Touch handling with opacity, highlight, and custom pressed-state feedback."
+      description="Touch surface with tactile feedback variants (scale, bounce, opacity, highlight) and haptics."
     >
       <DemoSection
-        title="Feedback Modes"
-        description="Built-in variants plus render-prop children for scale."
+        title="Tactile Feedback Variants"
+        description="Try pressing each tile to feel the tactile visual and haptic response."
+        bare
       >
-        <DemoPreview>
-          <DemoGroup direction="row">
+        <Card className="p-5">
+          <Stack spacing="md">
+            {/* Scale */}
             <Pressable
-              onPress={() => toast.info('Scale feedback')}
-              className="rounded-lg"
+              variant="scale"
+              haptic="light"
+              onPress={() => toast.info('Scale feedback (0.97x)')}
+              className="p-4 rounded-xl border border-border bg-background items-center justify-center"
             >
-              {({ pressed }) => (
-                <Card
-                  className={`${boxClass} bg-accent`}
-                  style={{ transform: [{ scale: pressed ? 0.92 : 1 }] }}
-                >
-                  <Text variant="small" className="uppercase">
-                    Scale
-                  </Text>
-                </Card>
-              )}
+              <Text className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                Scale Feedback (0.97x)
+              </Text>
+              <Text variant="muted">Subtle shrink on press with light haptic</Text>
             </Pressable>
 
+            {/* Bounce (Scale + Opacity) */}
             <Pressable
-              onPress={() => toast.info('Opacity feedback')}
+              variant="bounce"
+              haptic="medium"
+              onPress={() => toast.info('Bounce feedback')}
+              className="p-4 rounded-xl border border-border bg-background items-center justify-center"
+            >
+              <Text className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                Bounce (Scale + Opacity)
+              </Text>
+              <Text variant="muted">Combined tactile bounce with medium haptic</Text>
+            </Pressable>
+
+            {/* Opacity */}
+            <Pressable
               variant="opacity"
-              className={`${boxClass} bg-accent`}
+              haptic="selection"
+              onPress={() => toast.info('Opacity feedback')}
+              className="p-4 rounded-xl border border-border bg-background items-center justify-center"
             >
-              <Text variant="small" className="uppercase">
-                Opacity
+              <Text className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                Opacity Feedback
               </Text>
+              <Text variant="muted">Classic dimming to 72% opacity</Text>
             </Pressable>
 
+            {/* Highlight */}
             <Pressable
-              onPress={() => toast.info('Highlight feedback')}
               variant="highlight"
-              className={`${boxClass} rounded-lg`}
+              onPress={() => toast.info('Highlight feedback')}
+              className="p-4 rounded-xl border border-border bg-card items-center justify-center"
             >
-              <Text variant="small" className="uppercase">
-                Highlight
+              <Text className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                Highlight Feedback
               </Text>
+              <Text variant="muted">Accent background flash for list rows</Text>
             </Pressable>
-
-            <Pressable
-              onPress={() => toast.info('No feedback')}
-              variant="plain"
-              className={`${boxClass} bg-muted`}
-            >
-              <Text variant="small" className="uppercase">
-                Plain
-              </Text>
-            </Pressable>
-          </DemoGroup>
-        </DemoPreview>
+          </Stack>
+        </Card>
       </DemoSection>
 
       <DemoSection
-        title="Complex Layouts"
-        description="Feedback applies to the entire container."
+        title="Interactive Card Action"
+        description="Full container touch area with scale animation."
+        bare
       >
         <Pressable
-          onPress={() => toast.success('Card action triggered')}
-          variant="highlight"
-          className="rounded-lg"
+          variant="scale"
+          haptic="selection"
+          onPress={() => toast.success('Card action executed!')}
         >
-          <Card className="border-l-4 border-l-primary">
-            <CardContent className="gap-1 p-4">
-              <CardTitle className="text-xl">Actionable Card</CardTitle>
+          <Card className="border-l-4 border-l-primary p-5">
+            <CardContent className="gap-1 p-0">
+              <CardTitle className="text-lg">Tappable Card Action</CardTitle>
               <Text variant="muted">
-                Tap for a highlight on the whole container.
+                Press anywhere on this card to feel the spring scale response and trigger an action.
               </Text>
             </CardContent>
           </Card>
         </Pressable>
       </DemoSection>
 
-      <DemoSection title="Disabled">
-        <DemoGroup direction="row">
-          <Pressable disabled className={`${boxClass} bg-muted opacity-50`}>
-            <Text variant="small" className="uppercase text-muted-foreground">
-              Disabled
+      <DemoSection title="Disabled State" bare>
+        <Card className="p-5">
+          <Pressable
+            disabled
+            className="p-4 rounded-xl border border-border bg-muted items-center justify-center"
+          >
+            <Text className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+              Disabled (No Touch Response)
             </Text>
           </Pressable>
-        </DemoGroup>
+        </Card>
       </DemoSection>
     </DemoPage>
   );
