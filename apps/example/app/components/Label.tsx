@@ -1,58 +1,92 @@
-import { View } from 'react-native';
+import { useRef } from 'react';
+import { type TextInput, View } from 'react-native';
+import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Stack } from '@/components/ui/stack';
 import { Text } from '@/components/ui/text';
+import { useToast } from '@/components/ui/toast';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function LabelScreen() {
+  const { toast } = useToast();
+  const inputRef = useRef<TextInput>(null);
+
   return (
     <DemoPage
       title="Label"
-      description="Accessible labels for input fields and selection controls."
+      description="Accessible form labels with required indicators, optional hints, and tap-to-focus bindings."
     >
       <DemoSection
-        title="Standard"
-        description="Semantic context for form fields."
+        title="Form Inputs with Labels"
+        description="Labels paired with inputs including required (*) and optional indicators."
+        bare
       >
-        <Stack spacing="lg">
-          <View style={{ gap: 6 }}>
-            <Label>Full Name</Label>
-            <Input placeholder="Jane Doe" />
-          </View>
-          <View style={{ gap: 6 }}>
-            <Label>
-              Email Address <Text className="text-destructive">*</Text>
-            </Label>
-            <Input placeholder="jane@example.com" />
-          </View>
-        </Stack>
-      </DemoSection>
+        <Card className="p-5">
+          <Stack spacing="lg">
+            <View className="gap-2">
+              <Label required>Full Name</Label>
+              <Input placeholder="Jane Doe" />
+            </View>
 
-      <DemoSection title="States">
-        <Stack spacing="md">
-          <Text variant="muted">Secondary Label (Optional)</Text>
-          <Label className="text-destructive">Error Label State</Label>
-          <Label disabled>Disabled Label State</Label>
-        </Stack>
+            <View className="gap-2">
+              <Label required>Work Email Address</Label>
+              <Input
+                placeholder="jane@company.com"
+                keyboardType="email-address"
+              />
+            </View>
+
+            <View className="gap-2">
+              <Label optional>Company Website</Label>
+              <Input placeholder="https://example.com" />
+            </View>
+          </Stack>
+        </Card>
       </DemoSection>
 
       <DemoSection
-        title="Typography Variants"
-        description="Pair with Text for hierarchy."
+        title="Tap Label to Focus"
+        description="Tapping on the label focuses the corresponding input directly."
+        bare
       >
-        <View style={{ gap: 16 }}>
-          <View>
-            <Text variant="small" className="tracking-widest uppercase">
-              Section Title Style
-            </Text>
-            <View className="mt-1 h-0.5 bg-border" />
+        <Card className="p-5">
+          <View className="gap-2">
+            <Label
+              onPress={() => {
+                inputRef.current?.focus();
+                toast.info('Focused input via Label tap!');
+              }}
+            >
+              Click this label to focus 👉
+            </Label>
+            <Input ref={inputRef} placeholder="I received focus from the label" />
           </View>
-          <View>
-            <Text variant="muted">Small Helper Label</Text>
-            <Text variant="p">Supporting text content</Text>
-          </View>
-        </View>
+        </Card>
+      </DemoSection>
+
+      <DemoSection
+        title="States & Hierarchy"
+        description="Validation error and disabled states."
+        bare
+      >
+        <Card className="p-5">
+          <Stack spacing="md">
+            <View className="gap-1">
+              <Label className="text-destructive">Payment Method (Error)</Label>
+              <Text variant="muted">
+                Highlighted with destructive color when error occurs.
+              </Text>
+            </View>
+
+            <View className="gap-1">
+              <Label disabled>SSN / Tax ID (Disabled)</Label>
+              <Text variant="muted">
+                Dims label to 50% opacity when the field is locked.
+              </Text>
+            </View>
+          </Stack>
+        </Card>
       </DemoSection>
     </DemoPage>
   );
