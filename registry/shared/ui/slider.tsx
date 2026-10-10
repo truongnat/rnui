@@ -1,5 +1,10 @@
 import { useContext, useRef, useState } from 'react';
-import { PanResponder, View, type ViewProps } from 'react-native';
+import {
+  PanResponder,
+  StyleSheet,
+  View,
+  type ViewProps,
+} from 'react-native';
 import { cn, FormFieldContext, useThemeColor } from '@/lib/utils';
 
 export interface SliderProps extends ViewProps {
@@ -20,7 +25,7 @@ export interface SliderProps extends ViewProps {
   thumbClassName?: string;
 }
 
-/** PanResponder-based slider — no gesture-handler dependency. */
+/** PanResponder-based slider with termination protection against parent scroll/navigation gestures. */
 export function Slider({
   value,
   defaultValue = 0,
@@ -30,94 +35,147 @@ export function Slider({
   onValueChange,
   onSlidingStart,
   onSlidingComplete,
-  disabled,
+  disabled = false,
   invalid,
   className,
   trackClassName,
   thumbClassName,
+  style,
   ...props
 }: SliderProps) {
-  const [width, setWidth] = useState(0);
-  const [inner, setInner] = useState(defaultValue);
-  const trackRef = useRef<View>(null);
-  const trackX = useRef(0);
+  const [trackWidth, setTrackWidth] = useState(0);
+  const [innerValue, setInnerValue] = useState(defaultValue);
   const field = useContext(FormFieldContext);
   const colors = useThemeColor();
   const isInvalid = invalid ?? !!field?.error;
 
-  const current = value ?? inner;
+  const current = value ?? innerValue;
   const clamp = (v: number) => Math.min(max, Math.max(min, v));
-  const snapped = (v: number) => Math.round(v / step) * step;
-  const pct = width > 0 ? ((clamp(current) - min) / (max - min)) * 100 : 0;
-
-  const commit = (v: number) => {
-    if (value === undefined) setInner(v);
-    onValueChange?.(v);
+  const snap = (v: number) => {
+    const stepped = Math.round((v - min) / step) * step + min;
+    return Math.min(max, Math.max(min, stepped));
   };
 
-  const update = (pageX: number) => {
-    if (width <= 0) return;
-    const ratio = Math.min(1, Math.max(0, (pageX - trackX.current) / width));
-    commit(snapped(min + ratio * (max - min)));
+  const pct =
+    trackWidth > 0
+      ? ((clamp(current) - min) / (max - min)) * 100
+      : 0;
+
+  const latestValueRef = useRef(current);
+  latestValueRef.current = current;
+
+  const startValueRef = useRef(current);
+  const disabledRef = useRef(disabled);
+  disabledRef.current = disabled;
+
+  const commitValue = (val: number) => {
+    const clamped = snap(clamp(val));
+    if (value === undefined) {
+      setInnerValue(clamped);
+    }
+    onValueChange?.(clamped);
   };
 
-  const pan = useRef(
+  const panResponder = useRef(
     PanResponder.create({
-      onStartShouldSetPanResponder: () => !disabled,
-      onMoveShouldSetPanResponder: () => !disabled,
+      onStartShouldSetPanResponder: () => !disabledRef.current,
+      onStartShouldSetPanResponderCapture: () => false,
+      onMoveShouldSetPanResponder: (_, gestureState) =>
+        !disabledRef.current &&
+        (Math.abs(gestureState.dx) > 2 || Math.abs(gestureState.dy) > 2),
+      onMoveShouldSetPanResponderCapture: () => false,
+
       onPanResponderGrant: (e) => {
-        trackRef.current?.measureInWindow((x) => {
-          trackX.current = x;
-          onSlidingStart?.(current);
-          update(e.nativeEvent.pageX);
-        });
+        if (disabledRef.current) return;
+        const startVal = latestValueRef.current;
+        startValueRef.current = startVal;
+        onSlidingStart?.(startVal);
+
+        // If user tapped directly on track, move thumb to tap position immediately
+        const touchX = e.nativeEvent.locationX;
+        if (trackWidth > 0 && touchX !== undefined) {
+          const ratio = Math.min(1, Math.max(0, touchX / trackWidth));
+          const tapValue = snap(min + ratio * (max - min));
+          startValueRef.current = tapValue;
+          commitValue(tapValue);
+        }
       },
-      onPanResponderMove: (e) => update(e.nativeEvent.pageX),
-      onPanResponderRelease: () => onSlidingComplete?.(value ?? inner),
+
+      onPanResponderMove: (_, gestureState) => {
+        if (disabledRef.current || trackWidth <= 0) return;
+        const deltaValue =
+          (gestureState.dx / trackWidth) * (max - min);
+        const nextValue = snap(clamp(startValueRef.current + deltaValue));
+        commitValue(nextValue);
+      },
+
+      // Crucial: prevent parent ScrollView or iOS edge swipe from stealing gesture
+      onPanResponderTerminationRequest: () => false,
+
+      onPanResponderRelease: () => {
+        onSlidingComplete?.(latestValueRef.current);
+      },
+      onPanResponderTerminate: () => {
+        onSlidingComplete?.(latestValueRef.current);
+      },
     })
   ).current;
 
+  const activeColor = isInvalid
+    ? colors.destructive
+    : colors.primary;
+
   return (
     <View
-      ref={trackRef}
       accessibilityRole="adjustable"
       accessibilityState={{ disabled: !!disabled }}
       accessibilityValue={{ min, max, now: clamp(current) }}
       className={cn(
-        'h-6 w-full justify-center',
+        'w-full justify-center',
         disabled && 'opacity-50',
         className
       )}
-      onLayout={(e) => setWidth(e.nativeEvent.layout.width)}
-      {...pan.panHandlers}
+      style={[styles.container, style]}
+      onLayout={(e) => setTrackWidth(e.nativeEvent.layout.width)}
+      {...panResponder.panHandlers}
       {...props}
     >
+      {/* Background Track */}
       <View
-        className={cn(
-          'h-1.5 w-full overflow-hidden rounded-full bg-muted',
-          trackClassName
-        )}
+        className={cn('h-1.5 w-full rounded-full', trackClassName)}
+        style={{ backgroundColor: colors.muted }}
       >
+        {/* Active Filled Range */}
         <View
-          className="h-full"
+          className="h-full rounded-full"
           style={{
             width: `${pct}%`,
-            backgroundColor: isInvalid ? colors.destructive : colors.primary,
+            backgroundColor: activeColor,
           }}
         />
       </View>
+
+      {/* Draggable Thumb */}
       <View
         className={cn(
-          'absolute h-5 w-5 rounded-full border bg-background shadow',
+          'absolute h-5 w-5 rounded-full border shadow-sm',
           thumbClassName
         )}
         style={{
           left: `${pct}%`,
           marginLeft: -10,
-          borderColor: isInvalid ? colors.destructive : colors.primary,
-          borderCurve: 'continuous',
+          backgroundColor: colors.background,
+          borderColor: activeColor,
+          borderWidth: 2,
         }}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 36,
+    justifyContent: 'center',
+  },
+});
