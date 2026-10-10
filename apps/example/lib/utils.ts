@@ -107,7 +107,7 @@ export function useThemeColor(): Record<ThemeColorToken, string> {
     primary: dark ? '#fafafa' : '#18181b',
     primaryForeground: dark ? '#18181b' : '#fafafa',
     ring: dark ? '#d4d4d8' : '#09090b',
-    destructive: dark ? '#7f1d1d' : '#ef4444',
+    destructive: dark ? '#f87171' : '#ef4444',
     input: dark ? '#27272a' : '#e4e4e7',
     border: dark ? '#27272a' : '#e4e4e7',
     card: dark ? '#18181b' : '#ffffff',

@@ -103,7 +103,7 @@ export function AlertDescription({ className, style, ...props }: TextProps) {
         className
       )}
       style={[
-        isDestructive && { color: colors.destructive, opacity: 0.9 },
+        isDestructive && { color: colors.destructive },
         style,
       ]}
       {...props}
