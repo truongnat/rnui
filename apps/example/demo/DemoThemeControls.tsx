@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Fab } from '@/components/ui/fab';
+import { AppBarAction } from '@/components/ui/app-bar';
 import {
   Modal,
   ModalContent,
@@ -8,7 +8,8 @@ import {
 } from '@/components/ui/modal';
 import { Stack } from '@/components/ui/stack';
 import { Text } from '@/components/ui/text';
-import { Palette } from 'lucide-react-native';
+import { useThemeColor } from '@/lib/utils';
+import { Moon, Palette, Sun } from 'lucide-react-native';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -19,24 +20,24 @@ import {
 
 const SCHEME_OPTIONS: SchemePreference[] = ['light', 'dark', 'system'];
 
-export function DemoThemeControls() {
-  const insets = useSafeAreaInsets();
+export function ThemeToggleButton() {
   const { schemePreference, setSchemePreference } = useDemoThemePreference();
   const [open, setOpen] = useState(false);
+  const colors = useThemeColor();
+  const isDark = schemePreference === 'dark';
 
   return (
     <>
-      <View
-        pointerEvents="box-none"
-        style={[styles.fabHost, { top: insets.top + 8 }]}
+      <AppBarAction
+        onPress={() => setOpen(true)}
+        accessibilityLabel="Theme preview settings"
       >
-        <Fab
-          icon={<Palette />}
-          size="sm"
-          accessibilityLabel="Open theme preview settings"
-          onPress={() => setOpen(true)}
-        />
-      </View>
+        {isDark ? (
+          <Sun size={18} color="#f59e0b" />
+        ) : (
+          <Moon size={18} color={colors.foreground} />
+        )}
+      </AppBarAction>
 
       <Modal open={open} onOpenChange={setOpen}>
         <ModalContent>
@@ -68,10 +69,6 @@ export function DemoThemeControls() {
   );
 }
 
-const styles = StyleSheet.create({
-  fabHost: {
-    position: 'absolute',
-    right: 12,
-    zIndex: 100,
-  },
-});
+export function DemoThemeControls() {
+  return null;
+}

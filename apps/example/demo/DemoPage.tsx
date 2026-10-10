@@ -1,10 +1,11 @@
+import { AppBar } from '@/components/ui/app-bar';
+import { Card } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
+import { ThemeToggleButton } from '@/demo/DemoThemeControls';
 import { useThemeColor } from '@/lib/utils';
-import { DemoThemeControls } from '@/demo/DemoThemeControls';
-import { ChevronLeft } from 'lucide-react-native';
-import { useRouter, useNavigation } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 import type React from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface DemoPageProps {
@@ -13,7 +14,7 @@ interface DemoPageProps {
   children: React.ReactNode;
   scrollable?: boolean;
   floatingContent?: React.ReactNode;
-  /** Show global theme preview FAB (light/dark/system). Default true. */
+  /** Show global theme toggle button in AppBar trailing slot. Default true. */
   showThemeControls?: boolean;
 }
 
@@ -25,7 +26,6 @@ export const DemoPage: React.FC<DemoPageProps> = ({
   floatingContent,
   showThemeControls = true,
 }) => {
-  const colors = useThemeColor();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const navigation = useNavigation();
@@ -42,50 +42,14 @@ export const DemoPage: React.FC<DemoPageProps> = ({
     }
   };
 
-  const renderContent = () => (
-    <View style={[styles.introSection, !scrollable && styles.flex]}>
-      {description ? (
-        <Text variant="muted" style={styles.description}>
-          {description}
-        </Text>
-      ) : null}
-      <View style={[styles.content, !scrollable && styles.flex]}>
-        {children}
-      </View>
-    </View>
-  );
-
   return (
     <View className="flex-1 bg-background">
-      <View
-        className="bg-card"
-        style={[
-          styles.header,
-          {
-            paddingTop: insets.top + 6,
-            borderBottomColor: colors.border,
-          },
-        ]}
-      >
-        <Pressable
-          onPress={handleBack}
-          hitSlop={14}
-          style={({ pressed }) => [
-            styles.backButton,
-            pressed && { opacity: 0.6 },
-          ]}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-        >
-          <ChevronLeft color={colors.foreground} size={24} />
-        </Pressable>
-        <View style={styles.headerTitleContainer}>
-          <Text variant="large" style={styles.headerTitle}>
-            {title}
-          </Text>
-        </View>
-        <View style={styles.headerPlaceholder} />
-      </View>
+      {/* Official AppBar component with integrated Back well and Theme Action */}
+      <AppBar
+        title={title}
+        onBack={handleBack}
+        trailing={showThemeControls ? <ThemeToggleButton /> : null}
+      />
 
       {scrollable ? (
         <ScrollView
@@ -93,29 +57,33 @@ export const DemoPage: React.FC<DemoPageProps> = ({
           style={styles.flex}
           contentContainerStyle={[
             styles.scrollContent,
-            { paddingBottom: insets.bottom + 32 },
+            { paddingBottom: insets.bottom + 36 },
           ]}
+          showsVerticalScrollIndicator={false}
         >
-          {renderContent()}
+          {description ? (
+            <View className="mt-4 mb-2">
+              <Text variant="muted" className="leading-5">
+                {description}
+              </Text>
+            </View>
+          ) : null}
+          <View className="gap-5 pb-8">{children}</View>
         </ScrollView>
       ) : (
-        <View
-          style={[
-            styles.flex,
-            styles.scrollContent,
-            { paddingBottom: insets.bottom + 16 },
-          ]}
-        >
-          {renderContent()}
+        <View style={[styles.flex, styles.scrollContent]}>
+          {description ? (
+            <View className="mt-4 mb-2">
+              <Text variant="muted" className="leading-5">
+                {description}
+              </Text>
+            </View>
+          ) : null}
+          <View className="flex-1 gap-5 pb-8">{children}</View>
         </View>
       )}
 
-      {showThemeControls || floatingContent ? (
-        <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-          {showThemeControls ? <DemoThemeControls /> : null}
-          {floatingContent}
-        </View>
-      ) : null}
+      {floatingContent}
     </View>
   );
 };
@@ -129,12 +97,16 @@ export const DemoSection: React.FC<{
   /** When true, skip the outer surface card — for demos that are already card-like */
   bare?: boolean;
 }> = ({ title, description, children, flush = false, bare = false }) => {
-  const colors = useThemeColor();
-
   const header = (
     <View style={styles.sectionHeader}>
-      <Text variant="large">{title}</Text>
-      {description ? <Text variant="muted">{description}</Text> : null}
+      <Text className="text-base font-bold text-foreground tracking-tight">
+        {title}
+      </Text>
+      {description ? (
+        <Text variant="muted" className="text-xs leading-4 mt-0.5">
+          {description}
+        </Text>
+      ) : null}
     </View>
   );
 
@@ -151,25 +123,18 @@ export const DemoSection: React.FC<{
     <View style={styles.section}>
       {header}
       {children ? (
-        <View
-          className="bg-card"
-          style={[
-            styles.sectionCard,
-            { borderColor: colors.border, padding: flush ? 0 : 16 },
-          ]}
-        >
+        <Card className={flush ? 'p-0 border-border' : 'p-5 border-border'}>
           {children}
-        </View>
+        </Card>
       ) : null}
     </View>
   );
 };
 
-/** Muted well for isolating interactive previews inside a section card */
 export const DemoPreview: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  return <View className="rounded-md bg-muted p-4 gap-3">{children}</View>;
+  return <View className="rounded-xl bg-muted/50 p-4 gap-3 border border-border">{children}</View>;
 };
 
 export const DemoGroup: React.FC<{
@@ -177,14 +142,18 @@ export const DemoGroup: React.FC<{
   gap?: number;
   direction?: 'row' | 'column';
   label?: string;
-}> = ({ children, gap, direction = 'row', label }) => {
+}> = ({ children, gap = 12, direction = 'row', label }) => {
   return (
     <View style={styles.group}>
-      {label ? <Text variant="muted">{label}</Text> : null}
+      {label ? (
+        <Text variant="muted" className="text-xs font-semibold uppercase tracking-wider mb-2">
+          {label}
+        </Text>
+      ) : null}
       <View
         style={[
           direction === 'row' ? styles.groupRow : styles.groupColumn,
-          { gap: gap ?? 12 },
+          { gap },
         ]}
       >
         {children}
@@ -197,66 +166,24 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    zIndex: 10,
-    paddingBottom: 12,
-    paddingHorizontal: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  backButton: {
-    zIndex: 10,
-    width: 44,
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerTitleContainer: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  headerTitle: {
-    textAlign: 'center',
-  },
-  headerPlaceholder: {
-    width: 44,
-  },
   scrollContent: {
     paddingHorizontal: 16,
   },
-  introSection: {
-    marginTop: 16,
-    marginBottom: 8,
-    gap: 8,
-  },
-  description: {
-    lineHeight: 22,
-  },
-  content: {
-    gap: 20,
-  },
   section: {
-    gap: 8,
-  },
-  sectionHeader: {
-    gap: 4,
-    paddingHorizontal: 2,
-  },
-  sectionCard: {
-    borderRadius: 12,
-    borderWidth: StyleSheet.hairlineWidth,
-    gap: 12,
-    overflow: 'hidden',
+    gap: 10,
   },
   bareSection: {
-    gap: 12,
+    gap: 10,
+  },
+  sectionHeader: {
+    gap: 2,
+    paddingHorizontal: 2,
   },
   bareContent: {
     gap: 12,
   },
   group: {
-    gap: 8,
+    gap: 4,
   },
   groupRow: {
     flexDirection: 'row',
@@ -265,6 +192,5 @@ const styles = StyleSheet.create({
   },
   groupColumn: {
     flexDirection: 'column',
-    alignItems: 'stretch',
   },
 });

@@ -215,16 +215,19 @@ export function AppBarAction({
   className,
   children,
   onPress,
+  accessibilityLabel,
   ...props
 }: {
   className?: string;
   children?: ReactNode;
   onPress?: () => void;
+  accessibilityLabel?: string;
 }) {
   const colors = useThemeColor();
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
       hitSlop={8}
       onPress={onPress}
       style={({ pressed }) => [

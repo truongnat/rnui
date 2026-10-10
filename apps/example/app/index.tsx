@@ -626,10 +626,6 @@ export default function ComponentsShowcaseScreen() {
         })}
       </ScrollView>
 
-      {/* Floating Theme Palette Dialog Overlay */}
-      <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-        <DemoThemeControls />
-      </View>
     </View>
   );
 }
