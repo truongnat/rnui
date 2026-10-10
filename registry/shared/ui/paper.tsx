@@ -1,15 +1,15 @@
 import type { ReactNode } from 'react';
-import { View, type ViewProps, type ViewStyle } from 'react-native';
+import { StyleSheet, View, type ViewProps, type ViewStyle } from 'react-native';
 import { tv } from 'tailwind-variants';
 import { cn } from '@/lib/utils';
 
 const paperVariants = tv({
-  base: 'rounded-xl bg-card p-4',
+  base: 'rounded-2xl bg-card p-5',
   variants: {
     variant: {
-      flat: 'bg-muted/50',
+      flat: 'bg-muted/50 border border-transparent',
       elevated: 'bg-card',
-      outlined: 'border border-border bg-transparent',
+      outlined: 'border border-border bg-card',
     },
     square: {
       true: 'rounded-none',
@@ -33,36 +33,40 @@ export interface PaperProps extends ViewProps {
   children?: ReactNode;
 }
 
-// Elevation shadows must live in style — NativeWind can't express
-// iOS shadowOffset/shadowRadius via classes.
 const elevationStyle: Record<PaperElevation, ViewStyle> = {
   none: {},
   sm: {
-    elevation: 2,
+    elevation: 1.5,
     shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
+    shadowOpacity: 0.06,
+    shadowRadius: 3,
     shadowOffset: { width: 0, height: 1 },
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(0,0,0,0.06)',
   },
   md: {
-    elevation: 5,
+    elevation: 3.5,
     shadowColor: '#000',
-    shadowOpacity: 0.12,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(0,0,0,0.06)',
   },
   lg: {
-    elevation: 10,
+    elevation: 7,
     shadowColor: '#000',
-    shadowOpacity: 0.18,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.12,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 4 },
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(0,0,0,0.06)',
   },
 };
 
 /**
  * Elevated surface — shadcn card-like container with flat/elevated/outlined
- * variants.
+ * variants and refined soft shadows.
  */
 export function Paper({
   variant = 'elevated',
@@ -76,7 +80,11 @@ export function Paper({
   return (
     <View
       className={cn(paperVariants({ variant, square }), className)}
-      style={[variant === 'elevated' && elevationStyle[elevation], style]}
+      style={[
+        { borderCurve: 'continuous' },
+        variant === 'elevated' && elevationStyle[elevation],
+        style,
+      ]}
       {...props}
     >
       {children}

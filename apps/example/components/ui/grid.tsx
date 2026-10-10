@@ -36,12 +36,8 @@ function toPct(n: number): DimensionValue {
 }
 
 /**
- * Wrap-based responsive grid. Children without an explicit `GridItem` are
- * wrapped as one-track cells, so `columns={3}` renders three per row.
- * Use `GridItem span`/`offset` for non-uniform layouts.
- * <Grid columns={2} gap="md">
- *   <Paper /><Paper /><GridItem span={2}><Paper /></GridItem>
- * </Grid>
+ * Responsive grid using symmetric gutters to prevent horizontal screen overflow.
+ * Children without an explicit `GridItem` are wrapped as one-track cells.
  */
 export function Grid({
   columns = 1,
@@ -69,9 +65,10 @@ export function Grid({
       <View
         className={cn('flex-row flex-wrap', className)}
         style={[
-          // Gutters: parent pulls back, each cell pushes in — keeps
-          // percentage widths exact even with gaps.
-          { marginLeft: -col, marginTop: -row },
+          {
+            marginHorizontal: -col / 2,
+            marginVertical: -row / 2,
+          },
           style,
         ]}
         {...props}
@@ -98,8 +95,8 @@ export function GridItem({
       style={[
         {
           width: toPct(width),
-          paddingLeft: col,
-          paddingTop: row,
+          paddingHorizontal: col / 2,
+          paddingVertical: row / 2,
           marginLeft: offset ? toPct((offset / columns) * 100) : undefined,
         },
         style,
