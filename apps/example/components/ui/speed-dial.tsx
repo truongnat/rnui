@@ -5,6 +5,7 @@ import {
   Pressable,
   StyleSheet,
   View,
+  type GestureResponderEvent,
   type ViewProps,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -29,14 +30,14 @@ export interface SpeedDialProps extends ViewProps {
   onOpenChange?: (open: boolean) => void;
   /** Offset from screen edge considering device Home indicator. Default: true. */
   safeArea?: boolean;
-  /** Dim the backdrop when open. Default: true. */
+  /** Dim the backdrop when open. Default: false. */
   overlay?: boolean;
   className?: string;
 }
 
 /**
  * Animated floating SpeedDial with spring rotation, staggered action slide-in,
- * and tactile haptic response.
+ * and concrete native styling.
  */
 export function SpeedDial({
   icon,
@@ -44,8 +45,8 @@ export function SpeedDial({
   actions,
   open: controlledOpen,
   onOpenChange,
-  safeArea = true,
-  overlay = true,
+  safeArea = false,
+  overlay = false,
   className,
   style,
   ...props
@@ -111,9 +112,9 @@ export function SpeedDial({
       {/* Floating Actions Container */}
       <View
         pointerEvents="box-none"
-        className={cn('absolute right-5 items-end gap-3.5', className)}
+        className={cn('absolute right-4 bottom-4 items-end gap-3', className)}
         style={[
-          { bottom: safeArea ? insets.bottom + 16 : 24 },
+          safeArea && { bottom: insets.bottom + 16 },
           style,
         ]}
         {...props}
@@ -123,20 +124,19 @@ export function SpeedDial({
           const count = actions.length;
           const reverseIndex = count - 1 - idx;
 
-          // Staggered slide up & scale animation per action
           const itemTranslateY = anim.interpolate({
             inputRange: [0, 1],
-            outputRange: [20 * (reverseIndex + 1), 0],
+            outputRange: [22 * (reverseIndex + 1), 0],
           });
 
           const itemScale = anim.interpolate({
-            inputRange: [0, 0.5, 1],
-            outputRange: [0.4, 0.8, 1],
+            inputRange: [0, 0.4, 1],
+            outputRange: [0.3, 0.75, 1],
           });
 
           const itemOpacity = anim.interpolate({
-            inputRange: [0, 0.4, 1],
-            outputRange: [0, 0.5, 1],
+            inputRange: [0, 0.3, 1],
+            outputRange: [0, 0.4, 1],
           });
 
           return (
@@ -159,7 +159,7 @@ export function SpeedDial({
                   style={[
                     styles.actionLabelPill,
                     {
-                      backgroundColor: colors.card,
+                      backgroundColor: colors.card || '#ffffff',
                       borderColor: colors.border,
                     },
                   ]}
@@ -179,13 +179,12 @@ export function SpeedDial({
                   action.onPress?.();
                   close();
                 }}
-                hitSlop={6}
-                style={({ pressed }) => [
+                hitSlop={8}
+                style={[
                   styles.actionButton,
                   {
-                    backgroundColor: colors.card,
+                    backgroundColor: colors.card || '#ffffff',
                     borderColor: colors.border,
-                    opacity: pressed ? 0.8 : 1,
                   },
                 ]}
               >
@@ -195,17 +194,16 @@ export function SpeedDial({
           );
         })}
 
-        {/* Main Trigger FAB */}
+        {/* Main Trigger FAB with Guaranteed Solid Dimensions */}
         <Pressable
           accessibilityRole="button"
           accessibilityState={{ expanded: isOpen }}
           onPress={toggle}
-          hitSlop={6}
-          style={({ pressed }) => [
+          hitSlop={8}
+          style={[
             styles.mainFab,
             {
               backgroundColor: colors.primary,
-              opacity: pressed ? 0.9 : 1,
             },
           ]}
         >
@@ -234,14 +232,14 @@ const styles = StyleSheet.create({
   },
   actionLabelPill: {
     borderRadius: 9999,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     paddingHorizontal: 12,
     paddingVertical: 6,
     ...Platform.select({
       ios: {
         shadowColor: '#000000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
+        shadowOpacity: 0.1,
         shadowRadius: 4,
       },
       android: {
@@ -252,20 +250,20 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   actionButton: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
     ...Platform.select({
       ios: {
         shadowColor: '#000000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.12,
         shadowRadius: 4,
       },
       android: {
@@ -284,7 +282,7 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: '#000000',
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.18,
+        shadowOpacity: 0.22,
         shadowRadius: 8,
       },
       android: {

@@ -1,4 +1,4 @@
-import { Copy, FileText, Mail, Plus, Send, Share2 } from 'lucide-react-native';
+import { Copy, FileText, Mail, Plus, Share2 } from 'lucide-react-native';
 import { View } from 'react-native';
 import { Card } from '@/components/ui/card';
 import { SpeedDial } from '@/components/ui/speed-dial';
@@ -26,6 +26,7 @@ export default function SpeedDialScreen() {
           <View
             style={{
               height: 320,
+              position: 'relative',
               padding: 20,
               justifyContent: 'center',
               alignItems: 'center',
@@ -39,8 +40,6 @@ export default function SpeedDialScreen() {
             </Text>
 
             <SpeedDial
-              safeArea={false}
-              overlay={false}
               icon={<Plus size={24} color={fabColor} />}
               actions={[
                 {
