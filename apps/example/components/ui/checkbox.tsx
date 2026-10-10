@@ -4,6 +4,8 @@ import {
   type GestureResponderEvent,
   Pressable,
   type PressableProps,
+  StyleSheet,
+  type ViewStyle,
 } from 'react-native';
 import { cn, FormFieldContext, useThemeColor } from '@/lib/utils';
 
@@ -46,40 +48,52 @@ export function Checkbox({
     onPress?.(e);
   };
 
+  const dynamicStyle: ViewStyle = {
+    backgroundColor: checked ? colors.primary : colors.background,
+    borderColor: isInvalid
+      ? colors.destructive
+      : checked
+        ? colors.primary
+        : colors.input || colors.border,
+    opacity: disabled ? 0.5 : 1,
+  };
+
   return (
     <Pressable
-      hitSlop={10}
+      hitSlop={12}
       accessibilityRole="checkbox"
       accessibilityState={{ checked, disabled: !!disabled }}
       disabled={disabled}
       onPress={handlePress}
       className={cn(
         'h-5 w-5 items-center justify-center rounded-[4px] border',
-        checked
-          ? 'border-primary bg-primary'
-          : 'border-input bg-background dark:bg-input/30',
-        isInvalid && 'border-destructive',
-        disabled && 'opacity-50',
         className
       )}
-      style={(state) => [
-        { borderCurve: 'continuous' },
-        checked && {
-          backgroundColor: colors.primary,
-          borderColor: colors.primary,
-        },
-        isInvalid && { borderColor: colors.destructive },
-        typeof style === 'function' ? style(state) : style,
+      style={[
+        styles.base,
+        dynamicStyle,
+        style as ViewStyle,
       ]}
       {...props}
     >
-      {checked && (
+      {checked ? (
         <Check
-          size={14}
-          color={colors.primaryForeground}
+          size={13}
+          color={colors.primaryForeground || '#ffffff'}
           strokeWidth={3}
         />
-      )}
+      ) : null}
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  base: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Stack } from '@/components/ui/stack';
 import { Text } from '@/components/ui/text';
@@ -21,8 +21,8 @@ export default function CheckboxScreen() {
       >
         <Stack spacing="md">
           <Pressable
-            onPress={() => setTerms((v) => !v)}
-            className="flex-row items-start gap-3 active:opacity-75"
+            onPress={() => setTerms((prev) => !prev)}
+            style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}
             accessibilityRole="checkbox"
             accessibilityState={{ checked: terms }}
           >
@@ -31,15 +31,15 @@ export default function CheckboxScreen() {
               onCheckedChange={setTerms}
               style={{ marginTop: 2 }}
             />
-            <Stack spacing="xs" className="flex-1">
+            <View style={{ flex: 1 }}>
               <Text variant="small">I agree to the Terms of Service</Text>
               <Text variant="muted">Required to complete your purchase</Text>
-            </Stack>
+            </View>
           </Pressable>
 
           <Pressable
-            onPress={() => setMarketing((v) => !v)}
-            className="flex-row items-start gap-3 active:opacity-75"
+            onPress={() => setMarketing((prev) => !prev)}
+            style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}
             accessibilityRole="checkbox"
             accessibilityState={{ checked: marketing }}
           >
@@ -48,20 +48,20 @@ export default function CheckboxScreen() {
               onCheckedChange={setMarketing}
               style={{ marginTop: 2 }}
             />
-            <Stack spacing="xs" className="flex-1">
+            <View style={{ flex: 1 }}>
               <Text variant="small">Email me about order updates</Text>
               <Text variant="muted">
                 Shipping, delivery, and refund notifications only
               </Text>
-            </Stack>
+            </View>
           </Pressable>
         </Stack>
       </DemoSection>
 
       <DemoSection title="Bulk select">
         <Pressable
-          onPress={() => setDelivery((v) => !v)}
-          className="flex-row items-start gap-3 active:opacity-75"
+          onPress={() => setDelivery((prev) => !prev)}
+          style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}
           accessibilityRole="checkbox"
           accessibilityState={{ checked: delivery }}
         >
@@ -70,23 +70,23 @@ export default function CheckboxScreen() {
             onCheckedChange={setDelivery}
             style={{ marginTop: 2 }}
           />
-          <Stack spacing="xs" className="flex-1">
+          <View style={{ flex: 1 }}>
             <Text variant="small">Select all items</Text>
             <Text variant="muted">3 of 5 order lines selected</Text>
-          </Stack>
+          </View>
         </Pressable>
       </DemoSection>
 
       <DemoSection title="Disabled">
         <Stack spacing="md">
-          <Stack direction="row" spacing="sm" alignItems="center">
-            <Checkbox disabled checked onCheckedChange={() => {}} />
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <Checkbox disabled checked />
             <Text variant="small">Required by organization policy</Text>
-          </Stack>
-          <Stack direction="row" spacing="sm" alignItems="center">
-            <Checkbox disabled checked={false} onCheckedChange={() => {}} />
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <Checkbox disabled checked={false} />
             <Text variant="small">Unavailable in your region</Text>
-          </Stack>
+          </View>
         </Stack>
       </DemoSection>
     </DemoPage>
