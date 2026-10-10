@@ -25,7 +25,6 @@ export interface SliderProps extends ViewProps {
   thumbClassName?: string;
 }
 
-/** PanResponder-based slider with termination protection against parent scroll/navigation gestures. */
 export function Slider({
   value,
   defaultValue = 0,
@@ -45,6 +44,10 @@ export function Slider({
 }: SliderProps) {
   const [trackWidth, setTrackWidth] = useState(0);
   const [innerValue, setInnerValue] = useState(defaultValue);
+  const containerRef = useRef<View>(null);
+  const trackWidthRef = useRef(0);
+  trackWidthRef.current = trackWidth;
+
   const field = useContext(FormFieldContext);
   const colors = useThemeColor();
   const isInvalid = invalid ?? !!field?.error;
@@ -78,43 +81,55 @@ export function Slider({
 
   const panResponder = useRef(
     PanResponder.create({
+      // Capture touch immediately on start to prevent parent ScrollView / iOS swipe from canceling
       onStartShouldSetPanResponder: () => !disabledRef.current,
-      onStartShouldSetPanResponderCapture: () => false,
+      onStartShouldSetPanResponderCapture: () => !disabledRef.current,
+
       onMoveShouldSetPanResponder: (_, gestureState) =>
         !disabledRef.current &&
-        (Math.abs(gestureState.dx) > 2 || Math.abs(gestureState.dy) > 2),
-      onMoveShouldSetPanResponderCapture: () => false,
+        Math.abs(gestureState.dx) > Math.abs(gestureState.dy),
+      onMoveShouldSetPanResponderCapture: (_, gestureState) =>
+        !disabledRef.current &&
+        Math.abs(gestureState.dx) > Math.abs(gestureState.dy),
 
       onPanResponderGrant: (e) => {
         if (disabledRef.current) return;
-        const startVal = latestValueRef.current;
-        startValueRef.current = startVal;
-        onSlidingStart?.(startVal);
-
-        // If user tapped directly on track, move thumb to tap position immediately
-        const touchX = e.nativeEvent.locationX;
-        if (trackWidth > 0 && touchX !== undefined) {
-          const ratio = Math.min(1, Math.max(0, touchX / trackWidth));
-          const tapValue = snap(min + ratio * (max - min));
-          startValueRef.current = tapValue;
-          commitValue(tapValue);
-        }
+        startValueRef.current = latestValueRef.current;
+        onSlidingStart?.(latestValueRef.current);
       },
 
       onPanResponderMove: (_, gestureState) => {
-        if (disabledRef.current || trackWidth <= 0) return;
+        if (disabledRef.current || trackWidthRef.current <= 0) return;
         const deltaValue =
-          (gestureState.dx / trackWidth) * (max - min);
+          (gestureState.dx / trackWidthRef.current) * (max - min);
         const nextValue = snap(clamp(startValueRef.current + deltaValue));
         commitValue(nextValue);
       },
 
-      // Crucial: prevent parent ScrollView or iOS edge swipe from stealing gesture
+      // Crucial: lock touch responder so parent ScrollView / iOS back gesture cannot steal it
       onPanResponderTerminationRequest: () => false,
 
-      onPanResponderRelease: () => {
-        onSlidingComplete?.(latestValueRef.current);
+      onPanResponderRelease: (e, gestureState) => {
+        if (disabledRef.current) return;
+
+        // If it was a quick tap with minimal drag (dx < 3), calculate tap target position
+        if (
+          Math.abs(gestureState.dx) < 3 &&
+          trackWidthRef.current > 0 &&
+          containerRef.current
+        ) {
+          containerRef.current.measure((_x, _y, w, _h, pageX) => {
+            const tapX = e.nativeEvent.pageX - pageX;
+            const ratio = Math.min(1, Math.max(0, tapX / w));
+            const tapValue = snap(min + ratio * (max - min));
+            commitValue(tapValue);
+            onSlidingComplete?.(tapValue);
+          });
+        } else {
+          onSlidingComplete?.(latestValueRef.current);
+        }
       },
+
       onPanResponderTerminate: () => {
         onSlidingComplete?.(latestValueRef.current);
       },
@@ -127,6 +142,7 @@ export function Slider({
 
   return (
     <View
+      ref={containerRef}
       accessibilityRole="adjustable"
       accessibilityState={{ disabled: !!disabled }}
       accessibilityValue={{ min, max, now: clamp(current) }}
@@ -136,7 +152,11 @@ export function Slider({
         className
       )}
       style={[styles.container, style]}
-      onLayout={(e) => setTrackWidth(e.nativeEvent.layout.width)}
+      onLayout={(e) => {
+        const w = e.nativeEvent.layout.width;
+        setTrackWidth(w);
+        trackWidthRef.current = w;
+      }}
       {...panResponder.panHandlers}
       {...props}
     >
@@ -175,7 +195,7 @@ export function Slider({
 
 const styles = StyleSheet.create({
   container: {
-    height: 36,
+    height: 38,
     justifyContent: 'center',
   },
 });
