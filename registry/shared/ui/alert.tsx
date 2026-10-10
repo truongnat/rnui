@@ -1,20 +1,14 @@
 import {
   createContext,
   useContext,
-  type ComponentType,
   type ReactNode,
 } from 'react';
 import { StyleSheet, View, type ViewProps, type ViewStyle } from 'react-native';
-import {
-  AlertCircle,
-  AlertTriangle,
-  CheckCircle2,
-  Info,
-} from 'lucide-react-native';
+import { AlertCircle, Info } from 'lucide-react-native';
 import { Text, type TextProps } from '@/components/ui/text';
 import { cn, useThemeColor } from '@/lib/utils';
 
-export type AlertVariant = 'default' | 'destructive' | 'success' | 'warning';
+export type AlertVariant = 'default' | 'destructive';
 
 const AlertContext = createContext<{ variant: AlertVariant }>({
   variant: 'default',
@@ -30,19 +24,9 @@ export interface AlertProps extends ViewProps {
   children?: ReactNode;
 }
 
-const VARIANT_ICONS: Record<
-  AlertVariant,
-  ComponentType<{ size?: number; color?: string }>
-> = {
-  default: Info,
-  destructive: AlertCircle,
-  success: CheckCircle2,
-  warning: AlertTriangle,
-};
-
 /**
- * Contextual Alert card with solid surface backgrounds, theme-safe status tints,
- * and automatic icon & title color wiring.
+ * Standard shadcn/ui Alert banner with solid surface background,
+ * sharp high-contrast typography, and clean borders.
  */
 export function Alert({
   variant = 'default',
@@ -54,63 +38,31 @@ export function Alert({
   ...props
 }: AlertProps) {
   const colors = useThemeColor();
-
-  const getVariantStyles = (): {
-    bg: string;
-    border: string;
-    accent: string;
-  } => {
-    switch (variant) {
-      case 'destructive':
-        return {
-          bg: `${colors.destructive}12`,
-          border: `${colors.destructive}38`,
-          accent: colors.destructive,
-        };
-      case 'success':
-        return {
-          bg: '#16a34a14',
-          border: '#16a34a38',
-          accent: '#16a34a',
-        };
-      case 'warning':
-        return {
-          bg: '#f59e0b14',
-          border: '#f59e0b38',
-          accent: '#f59e0b',
-        };
-      case 'default':
-      default:
-        return {
-          bg: colors.card,
-          border: colors.border,
-          accent: colors.primary,
-        };
-    }
-  };
-
-  const variantStyles = getVariantStyles();
-  const DefaultIconComponent = VARIANT_ICONS[variant];
+  const isDestructive = variant === 'destructive';
 
   const dynamicStyle: ViewStyle = {
-    backgroundColor: variantStyles.bg,
-    borderColor: variantStyles.border,
+    backgroundColor: colors.card,
+    borderColor: isDestructive ? colors.destructive : colors.border,
+    borderWidth: 1,
     borderCurve: 'continuous',
   };
+
+  const defaultIconColor = isDestructive
+    ? colors.destructive
+    : colors.foreground;
+  const DefaultIcon = isDestructive ? AlertCircle : Info;
 
   return (
     <AlertContext.Provider value={{ variant }}>
       <View
         accessibilityRole="alert"
-        className={cn('flex-row items-start gap-3 rounded-xl border p-4 shadow-sm', className)}
-        style={[dynamicStyle, style]}
+        className={cn('flex-row items-start gap-3 rounded-xl p-4', className)}
+        style={[styles.baseAlert, dynamicStyle, style]}
         {...props}
       >
         {!hideIcon && (
           <View style={styles.iconWell}>
-            {icon ?? (
-              <DefaultIconComponent size={18} color={variantStyles.accent} />
-            )}
+            {icon ?? <DefaultIcon size={18} color={defaultIconColor} />}
           </View>
         )}
         <View style={styles.contentStack}>{children}</View>
@@ -122,20 +74,16 @@ export function Alert({
 export function AlertTitle({ className, style, ...props }: TextProps) {
   const { variant } = useContext(AlertContext);
   const colors = useThemeColor();
-
   const isDestructive = variant === 'destructive';
 
   return (
     <Text
       className={cn(
-        'text-[15px] font-bold tracking-tight leading-5',
+        'text-[15px] font-semibold tracking-tight leading-5',
         isDestructive ? 'text-destructive' : 'text-foreground',
         className
       )}
-      style={[
-        isDestructive && { color: colors.destructive },
-        style,
-      ]}
+      style={[isDestructive && { color: colors.destructive }, style]}
       numberOfLines={1}
       {...props}
     />
@@ -143,16 +91,30 @@ export function AlertTitle({ className, style, ...props }: TextProps) {
 }
 
 export function AlertDescription({ className, style, ...props }: TextProps) {
+  const { variant } = useContext(AlertContext);
+  const colors = useThemeColor();
+  const isDestructive = variant === 'destructive';
+
   return (
     <Text
-      className={cn('text-[13px] leading-5 text-muted-foreground mt-0.5', className)}
-      style={style}
+      className={cn(
+        'text-[13px] leading-5',
+        isDestructive ? 'text-destructive/90' : 'text-muted-foreground',
+        className
+      )}
+      style={[
+        isDestructive && { color: colors.destructive, opacity: 0.9 },
+        style,
+      ]}
       {...props}
     />
   );
 }
 
 const styles = StyleSheet.create({
+  baseAlert: {
+    width: '100%',
+  },
   iconWell: {
     marginTop: 1,
     alignItems: 'center',

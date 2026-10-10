@@ -16,40 +16,24 @@ export default function AlertScreen() {
     >
       {/* 1. Status Variants */}
       <DemoSection
-        title="Status Variants"
-        description="Default, destructive, success, and warning alert styles."
+        title="Standard Variants"
+        description="Clean default and destructive alert banners with solid surface and high contrast."
         bare
       >
         <Stack spacing="md">
           {/* Default */}
           <Alert variant="default">
-            <AlertTitle>System Notice</AlertTitle>
+            <AlertTitle>Heads up!</AlertTitle>
             <AlertDescription>
-              A new software update is available for your device.
+              You can install components directly into your project using npx shadcn add.
             </AlertDescription>
           </Alert>
 
           {/* Destructive */}
           <Alert variant="destructive">
-            <AlertTitle>Payment Authorization Failed</AlertTitle>
+            <AlertTitle>Error: Session Expired</AlertTitle>
             <AlertDescription>
-              We were unable to charge your card on file. Please update your payment method to avoid suspension.
-            </AlertDescription>
-          </Alert>
-
-          {/* Success */}
-          <Alert variant="success">
-            <AlertTitle>Order Placed Successfully</AlertTitle>
-            <AlertDescription>
-              Your order #8921 has been confirmed. A receipt has been sent to your email.
-            </AlertDescription>
-          </Alert>
-
-          {/* Warning */}
-          <Alert variant="warning">
-            <AlertTitle>Storage Almost Full</AlertTitle>
-            <AlertDescription>
-              You have used 92% of your monthly storage quota. Consider upgrading your plan.
+              Your session has expired. Please log in again to verify your identity.
             </AlertDescription>
           </Alert>
         </Stack>
