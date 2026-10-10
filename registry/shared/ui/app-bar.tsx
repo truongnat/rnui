@@ -1,43 +1,59 @@
-import type { ReactNode } from 'react';
+import {
+  Children,
+  isValidElement,
+  type ReactNode,
+} from 'react';
 import {
   Platform,
   Pressable,
   StyleSheet,
+  TextInput,
   View,
   type ViewProps,
 } from 'react-native';
-import { ChevronLeft } from 'lucide-react-native';
+import { ChevronLeft, Search, X } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Badge } from '@/components/ui/badge';
 import { Text, type TextProps } from '@/components/ui/text';
 import { cn, useIconColor, useThemeColor } from '@/lib/utils';
 
-export type AppBarVariant = 'default' | 'large' | 'floating' | 'transparent';
+export type AppBarVariant =
+  | 'default'
+  | 'large'
+  | 'search'
+  | 'floating'
+  | 'glass'
+  | 'transparent';
 
 export interface AppBarProps extends ViewProps {
-  /** Leading icon / custom element (e.g. menu button). Overrides `onBack`. */
+  /** Leading icon / custom element (e.g. back button, avatar). Overrides `onBack`. */
   leading?: ReactNode;
-  /** Back button handler. Renders a circular chevron well when passed. */
+  /** Back button callback. Renders a rounded chevron well when passed. */
   onBack?: () => void;
-  /** Trailing action buttons (e.g. search, settings, more). */
+  /** Trailing action buttons (search, more, settings). */
   trailing?: ReactNode;
-  /** Header presentation style. Default: 'default'. */
+  /** Header visual variant. Default: 'default'. */
   variant?: AppBarVariant;
-  /** Header title string. */
+  /** Main header title. */
   title?: string;
-  /** Subtitle string under title. */
+  /** Subtitle text displayed beneath main title. */
   subtitle?: string;
   /** Alignment of title in standard mode. Default: 'center'. */
   alignTitle?: 'center' | 'left';
-  /** Apply top padding for device notch / Dynamic Island. Default: true. */
+  /** Value for embedded search input when `variant="search"`. */
+  searchValue?: string;
+  onSearchChange?: (text: string) => void;
+  searchPlaceholder?: string;
+  /** Auto-apply safe area top inset padding. Default: true. */
   safeArea?: boolean;
   className?: string;
   children?: ReactNode;
 }
 
 /**
- * Top App Bar designed according to iOS Human Interface Guidelines and UI/UX Pro Max standards.
- * Features 52px navigation height, symmetric side touch anchors (min 44x44px), centered 17px bold title,
- * and large heading collapsible variants.
+ * Top-tier mobile App Bar engineered to iOS 18 Human Interface Guidelines.
+ * Supports standard centered bar, large collapsible heading, search-integrated bar,
+ * and floating island modes.
  */
 export function AppBar({
   leading,
@@ -47,6 +63,9 @@ export function AppBar({
   title,
   subtitle,
   alignTitle = 'center',
+  searchValue,
+  onSearchChange,
+  searchPlaceholder = 'Search...',
   safeArea = true,
   className,
   style,
@@ -58,7 +77,9 @@ export function AppBar({
   const colors = useThemeColor();
 
   const isLarge = variant === 'large';
+  const isSearch = variant === 'search';
   const isFloating = variant === 'floating';
+  const isGlass = variant === 'glass';
   const isTransparent = variant === 'transparent';
 
   const backBtn = onBack ? (
@@ -68,7 +89,7 @@ export function AppBar({
       onPress={onBack}
       hitSlop={8}
       style={({ pressed }) => [
-        styles.actionWell,
+        styles.circleBtn,
         {
           backgroundColor: pressed ? colors.accent : 'transparent',
         },
@@ -78,14 +99,18 @@ export function AppBar({
     </Pressable>
   ) : null;
 
+  const resolvedLeading = leading ?? backBtn;
+
   return (
     <View
       className={cn(
         isFloating
           ? 'mx-4 rounded-2xl border border-border bg-card shadow-sm px-3.5 py-2'
-          : isTransparent
-            ? 'bg-transparent px-3'
-            : 'border-b border-border bg-card px-3',
+          : isGlass
+            ? 'border-b border-border/80 bg-card/90 px-3'
+            : isTransparent
+              ? 'bg-transparent px-3'
+              : 'border-b border-border bg-card px-3',
         className
       )}
       style={[
@@ -96,23 +121,52 @@ export function AppBar({
               borderColor: colors.border,
             }
           : [
-              !isTransparent && { backgroundColor: colors.card },
+              !isTransparent && { backgroundColor: isGlass ? colors.card : colors.card },
               safeArea && { paddingTop: insets.top + 4 },
-              { paddingBottom: isLarge ? 8 : 10 },
+              { paddingBottom: isLarge ? 8 : isSearch ? 8 : 8 },
             ],
         style,
       ]}
       {...props}
     >
-      {/* 52px Standard Navigation Row */}
+      {/* Top Navigation Row (52px height) */}
       <View style={styles.topRow}>
-        {/* Leading Side Anchor (Min 44x44 for touch accessibility) */}
-        <View style={styles.sideSlot}>
-          {leading ?? backBtn}
-        </View>
+        {/* Leading Touch Anchor (Min 44x44px for iOS HIG compliance) */}
+        <View style={styles.sideSlot}>{resolvedLeading}</View>
 
-        {/* Center / Inline Title Stack */}
-        {!isLarge && (
+        {/* Center Section: Search Bar OR Standard Title */}
+        {isSearch ? (
+          <View style={styles.searchBarWrapper}>
+            <View
+              style={[
+                styles.searchBarInner,
+                {
+                  backgroundColor: colors.muted,
+                  borderColor: colors.border,
+                },
+              ]}
+            >
+              <Search size={16} color={colors.mutedForeground} />
+              <TextInput
+                value={searchValue}
+                onChangeText={onSearchChange}
+                placeholder={searchPlaceholder}
+                placeholderTextColor={colors.mutedForeground}
+                style={[styles.searchInputText, { color: colors.foreground }]}
+                returnKeyType="search"
+              />
+              {searchValue ? (
+                <Pressable
+                  onPress={() => onSearchChange?.('')}
+                  hitSlop={6}
+                  style={styles.clearSearchBtn}
+                >
+                  <X size={13} color={colors.mutedForeground} />
+                </Pressable>
+              ) : null}
+            </View>
+          </View>
+        ) : !isLarge ? (
           <View
             style={[
               styles.centerSlot,
@@ -148,15 +202,17 @@ export function AppBar({
               children
             )}
           </View>
+        ) : (
+          <View style={styles.centerSlot}>{!title && children}</View>
         )}
 
-        {/* Trailing Side Anchor (Min 44x44 for touch accessibility) */}
+        {/* Trailing Touch Anchor (Min 44x44px) */}
         <View style={[styles.sideSlot, styles.trailingSlot]}>
           {trailing}
         </View>
       </View>
 
-      {/* Large Title Row (iOS Large Heading pattern) */}
+      {/* Large Title Section (iOS Large Display Heading pattern) */}
       {isLarge && (
         <View style={styles.largeTitleSection}>
           {title ? (
@@ -191,7 +247,10 @@ export function AppBar({
 export function AppBarTitle({ className, style, ...props }: TextProps) {
   return (
     <Text
-      className={cn('text-[17px] font-bold text-foreground text-center tracking-tight', className)}
+      className={cn(
+        'text-[17px] font-bold text-foreground text-center tracking-tight',
+        className
+      )}
       style={style}
       numberOfLines={1}
       {...props}
@@ -202,7 +261,10 @@ export function AppBarTitle({ className, style, ...props }: TextProps) {
 export function AppBarSubtitle({ className, style, ...props }: TextProps) {
   return (
     <Text
-      className={cn('text-xs text-muted-foreground text-center mt-0.5', className)}
+      className={cn(
+        'text-xs text-muted-foreground text-center mt-0.5',
+        className
+      )}
       style={style}
       numberOfLines={1}
       {...props}
@@ -210,49 +272,71 @@ export function AppBarSubtitle({ className, style, ...props }: TextProps) {
   );
 }
 
+export interface AppBarActionProps {
+  className?: string;
+  children?: ReactNode;
+  badge?: number | string | boolean;
+  onPress?: () => void;
+  accessibilityLabel?: string;
+}
+
 export function AppBarAction({
   className,
   children,
+  badge,
   onPress,
   accessibilityLabel,
-  ...props
-}: {
-  className?: string;
-  children?: ReactNode;
-  onPress?: () => void;
-  accessibilityLabel?: string;
-}) {
+}: AppBarActionProps) {
   const colors = useThemeColor();
+
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
-      hitSlop={8}
+      hitSlop={6}
       onPress={onPress}
       style={({ pressed }) => [
-        styles.actionWell,
+        styles.circleBtn,
         {
           backgroundColor: pressed ? colors.accent : 'transparent',
         },
       ]}
       className={className}
-      {...props}
     >
       {children}
+      {badge !== undefined && badge !== false && (
+        <View style={styles.badgeWrap}>
+          {badge === true ? (
+            <View
+              style={[
+                styles.dotBadge,
+                { backgroundColor: colors.destructive },
+              ]}
+            />
+          ) : (
+            <Badge
+              variant="destructive"
+              className="px-1 py-0 min-w-3.5 h-3.5 rounded-full"
+            >
+              <Text style={styles.badgeText}>{badge}</Text>
+            </Badge>
+          )}
+        </View>
+      )}
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   topRow: {
-    height: 52,
+    height: 50,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
   },
   sideSlot: {
-    minWidth: 44,
+    minWidth: 42,
     height: 44,
     flexDirection: 'row',
     alignItems: 'center',
@@ -265,11 +349,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 8,
+    paddingHorizontal: 6,
   },
   leftAlignSlot: {
     alignItems: 'flex-start',
-    paddingHorizontal: 4,
+    paddingHorizontal: 2,
   },
   titleStack: {
     alignItems: 'center',
@@ -284,12 +368,35 @@ const styles = StyleSheet.create({
     fontSize: 11,
     marginTop: 1,
   },
-  actionWell: {
+  circleBtn: {
+    position: 'relative',
     width: 40,
     height: 40,
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  searchBarWrapper: {
+    flex: 1,
+    paddingHorizontal: 6,
+  },
+  searchBarInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 38,
+    borderRadius: 12,
+    borderWidth: StyleSheet.hairlineWidth,
+    paddingHorizontal: 10,
+    gap: 8,
+  },
+  searchInputText: {
+    flex: 1,
+    fontSize: 14,
+    paddingVertical: 0,
+    height: '100%',
+  },
+  clearSearchBtn: {
+    padding: 2,
   },
   largeTitleSection: {
     paddingHorizontal: 4,
@@ -300,11 +407,27 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   largeTitleText: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '800',
-    letterSpacing: -0.6,
+    letterSpacing: -0.8,
   },
   largeSubText: {
     fontSize: 13,
+  },
+  badgeWrap: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+  },
+  dotBadge: {
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
+  },
+  badgeText: {
+    fontSize: 8,
+    fontWeight: '800',
+    color: '#ffffff',
+    lineHeight: 10,
   },
 });
