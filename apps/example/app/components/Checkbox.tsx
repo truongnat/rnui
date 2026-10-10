@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Pressable } from 'react-native';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Stack } from '@/components/ui/stack';
 import { Text } from '@/components/ui/text';
@@ -19,7 +20,12 @@ export default function CheckboxScreen() {
         description="Legal and marketing preferences during payment."
       >
         <Stack spacing="md">
-          <Stack direction="row" spacing="sm" alignItems="flex-start">
+          <Pressable
+            onPress={() => setTerms((v) => !v)}
+            className="flex-row items-start gap-3 active:opacity-75"
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: terms }}
+          >
             <Checkbox
               checked={terms}
               onCheckedChange={setTerms}
@@ -29,8 +35,14 @@ export default function CheckboxScreen() {
               <Text variant="small">I agree to the Terms of Service</Text>
               <Text variant="muted">Required to complete your purchase</Text>
             </Stack>
-          </Stack>
-          <Stack direction="row" spacing="sm" alignItems="flex-start">
+          </Pressable>
+
+          <Pressable
+            onPress={() => setMarketing((v) => !v)}
+            className="flex-row items-start gap-3 active:opacity-75"
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: marketing }}
+          >
             <Checkbox
               checked={marketing}
               onCheckedChange={setMarketing}
@@ -42,12 +54,17 @@ export default function CheckboxScreen() {
                 Shipping, delivery, and refund notifications only
               </Text>
             </Stack>
-          </Stack>
+          </Pressable>
         </Stack>
       </DemoSection>
 
       <DemoSection title="Bulk select">
-        <Stack direction="row" spacing="sm" alignItems="flex-start">
+        <Pressable
+          onPress={() => setDelivery((v) => !v)}
+          className="flex-row items-start gap-3 active:opacity-75"
+          accessibilityRole="checkbox"
+          accessibilityState={{ checked: delivery }}
+        >
           <Checkbox
             checked={delivery}
             onCheckedChange={setDelivery}
@@ -57,7 +74,7 @@ export default function CheckboxScreen() {
             <Text variant="small">Select all items</Text>
             <Text variant="muted">3 of 5 order lines selected</Text>
           </Stack>
-        </Stack>
+        </Pressable>
       </DemoSection>
 
       <DemoSection title="Disabled">
