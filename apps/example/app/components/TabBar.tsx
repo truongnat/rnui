@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { Bell, Home, Search, Settings, User } from 'lucide-react-native';
+import { Card } from '@/components/ui/card';
 import { TabBar } from '@/components/ui/tab-bar';
 import { Text } from '@/components/ui/text';
 import { useThemeColor } from '@/lib/utils';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
-const ICON_SIZE = 24;
+const ICON_SIZE = 22;
 
 export default function TabBarScreen() {
   const colors = useThemeColor();
@@ -16,19 +17,22 @@ export default function TabBarScreen() {
   return (
     <DemoPage
       title="TabBar"
-      description="Bottom navigation for switching primary destinations."
+      description="Bottom navigation bar with icons, labels, badge counters, and safe-area insets."
     >
       <DemoSection
-        title="Standard"
-        description="Labels, icons, and badge counts."
+        title="Interactive Standard TabBar"
+        description="Tap destinations to switch active tab with color tinting."
         bare
       >
-        <View className="overflow-hidden rounded-lg border border-border">
+        <Card className="overflow-hidden border border-border">
           <View
-            className="items-center justify-center"
-            style={{ height: 80, backgroundColor: colors.background }}
+            className="items-center justify-center p-6"
+            style={{ minHeight: 90, backgroundColor: colors.background }}
           >
-            <Text variant="h4">Active Tab: {activeTab}</Text>
+            <Text className="text-base font-semibold text-foreground capitalize">
+              Active View: {activeTab}
+            </Text>
+            <Text variant="muted">Content rendered for the active tab</Text>
           </View>
           <TabBar
             safeArea={false}
@@ -46,10 +50,10 @@ export default function TabBarScreen() {
                 icon: <Search size={ICON_SIZE} />,
               },
               {
-                key: 'notifications',
+                key: 'inbox',
                 label: 'Inbox',
                 icon: <Bell size={ICON_SIZE} />,
-                badge: 5,
+                badge: 4,
               },
               {
                 key: 'settings',
@@ -58,20 +62,23 @@ export default function TabBarScreen() {
               },
             ]}
           />
-        </View>
+        </Card>
       </DemoSection>
 
       <DemoSection
-        title="Badges & States"
-        description="Dot badges, text badges, and disabled tabs."
+        title="Badges & Disabled States"
+        description="Red dot badge, 'NEW' text badge, and disabled tabs."
         bare
       >
-        <View className="overflow-hidden rounded-lg border border-border">
+        <Card className="overflow-hidden border border-border">
           <View
-            className="items-center justify-center bg-muted"
-            style={{ height: 80 }}
+            className="items-center justify-center bg-muted/40 p-6"
+            style={{ minHeight: 90 }}
           >
-            <Text variant="p">Content with background</Text>
+            <Text className="text-base font-semibold text-foreground capitalize">
+              Selected: {activeTab2}
+            </Text>
+            <Text variant="muted">Testing notification badges and disabled items</Text>
           </View>
           <TabBar
             safeArea={false}
@@ -90,7 +97,7 @@ export default function TabBarScreen() {
                 badge: true,
               },
               {
-                key: 'user',
+                key: 'profile',
                 label: 'Profile',
                 icon: <User size={ICON_SIZE} />,
                 badge: 'NEW',
@@ -103,13 +110,8 @@ export default function TabBarScreen() {
               },
             ]}
           />
-        </View>
+        </Card>
       </DemoSection>
-
-      <DemoSection
-        title="Note"
-        description="TabBar is usually fixed to the screen bottom — shown inline here for demo."
-      />
     </DemoPage>
   );
 }

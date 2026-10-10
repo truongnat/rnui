@@ -142,7 +142,7 @@ export const DemoSection: React.FC<{
     return (
       <View style={styles.bareSection}>
         {header}
-        <View style={styles.bareContent}>{children}</View>
+        {children ? <View style={styles.bareContent}>{children}</View> : null}
       </View>
     );
   }
@@ -150,15 +150,17 @@ export const DemoSection: React.FC<{
   return (
     <View style={styles.section}>
       {header}
-      <View
-        className="bg-card"
-        style={[
-          styles.sectionCard,
-          { borderColor: colors.border, padding: flush ? 0 : 16 },
-        ]}
-      >
-        {children}
-      </View>
+      {children ? (
+        <View
+          className="bg-card"
+          style={[
+            styles.sectionCard,
+            { borderColor: colors.border, padding: flush ? 0 : 16 },
+          ]}
+        >
+          {children}
+        </View>
+      ) : null}
     </View>
   );
 };

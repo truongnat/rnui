@@ -1,19 +1,34 @@
-import { createContext, useContext, useState } from 'react';
 import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
+import {
+  Animated,
   Platform,
   Pressable,
   StyleSheet,
   View,
+  type LayoutRectangle,
   type PressableProps,
   type ViewProps,
 } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { cn, useThemeColor } from '@/lib/utils';
 
-const TabsContext = createContext<{
+interface TabsContextValue {
   value: string;
-  onValueChange?: (v: string) => void;
-}>({ value: '' });
+  onValueChange: (v: string) => void;
+  registerTrigger?: (val: string, layout: LayoutRectangle) => void;
+}
+
+const TabsContext = createContext<TabsContextValue>({
+  value: '',
+  onValueChange: () => {},
+});
 
 export interface TabsProps extends ViewProps {
   value?: string;
@@ -27,17 +42,47 @@ export function Tabs({
   defaultValue = '',
   onValueChange,
   className,
+  children,
   ...props
 }: TabsProps) {
   const [uncontrolled, setUncontrolled] = useState(defaultValue);
   const value = controlled ?? uncontrolled;
+
+  const [triggerLayouts, setTriggerLayouts] = useState<
+    Record<string, LayoutRectangle>
+  >({});
+
   const setValue = (v: string) => {
-    setUncontrolled(v);
+    if (controlled === undefined) {
+      setUncontrolled(v);
+    }
     onValueChange?.(v);
   };
+
+  const registerTrigger = (val: string, layout: LayoutRectangle) => {
+    setTriggerLayouts((prev) => {
+      if (
+        prev[val] &&
+        prev[val].x === layout.x &&
+        prev[val].width === layout.width
+      ) {
+        return prev;
+      }
+      return { ...prev, [val]: layout };
+    });
+  };
+
   return (
-    <TabsContext.Provider value={{ value, onValueChange: setValue }}>
-      <View className={cn('w-full', className)} {...props} />
+    <TabsContext.Provider
+      value={{
+        value,
+        onValueChange: setValue,
+        registerTrigger,
+      }}
+    >
+      <View className={cn('w-full', className)} {...props}>
+        {children}
+      </View>
     </TabsContext.Provider>
   );
 }
@@ -45,17 +90,89 @@ export function Tabs({
 export function TabsList({
   className,
   style,
+  children,
   ...props
 }: ViewProps & { className?: string }) {
+  const { value } = useContext(TabsContext);
+  const colors = useThemeColor();
+
+  const [layouts, setLayouts] = useState<Record<string, LayoutRectangle>>({});
+
+  const translateX = useRef(new Animated.Value(0)).current;
+  const widthAnim = useRef(new Animated.Value(0)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
+
+  const registerTrigger = (val: string, layout: LayoutRectangle) => {
+    setLayouts((prev) => {
+      if (
+        prev[val] &&
+        prev[val].x === layout.x &&
+        prev[val].width === layout.width
+      ) {
+        return prev;
+      }
+      return { ...prev, [val]: layout };
+    });
+  };
+
+  useEffect(() => {
+    const activeLayout = layouts[value];
+    if (activeLayout && activeLayout.width > 0) {
+      Animated.parallel([
+        Animated.spring(translateX, {
+          toValue: activeLayout.x,
+          damping: 24,
+          stiffness: 280,
+          mass: 0.8,
+          useNativeDriver: false,
+        }),
+        Animated.spring(widthAnim, {
+          toValue: activeLayout.width,
+          damping: 24,
+          stiffness: 280,
+          mass: 0.8,
+          useNativeDriver: false,
+        }),
+        Animated.timing(opacityAnim, {
+          toValue: 1,
+          duration: 120,
+          useNativeDriver: false,
+        }),
+      ]).start();
+    }
+  }, [value, layouts, translateX, widthAnim, opacityAnim]);
+
   return (
-    <View
-      className={cn(
-        'flex-row items-center justify-center rounded-xl bg-muted p-1',
-        className
-      )}
-      style={[{ borderCurve: 'continuous' }, style]}
-      {...props}
-    />
+    <TabsContext.Provider
+      value={{
+        ...useContext(TabsContext),
+        registerTrigger,
+      }}
+    >
+      <View
+        className={cn(
+          'relative flex-row items-center rounded-xl bg-muted p-1',
+          className
+        )}
+        style={[{ borderCurve: 'continuous' }, style]}
+        {...props}
+      >
+        {/* Animated Shared Sliding Indicator Pill */}
+        <Animated.View
+          style={[
+            styles.indicator,
+            {
+              backgroundColor: colors.card || '#ffffff',
+              borderColor: colors.border,
+              left: translateX,
+              width: widthAnim,
+              opacity: opacityAnim,
+            },
+          ]}
+        />
+        {children}
+      </View>
+    </TabsContext.Provider>
   );
 }
 
@@ -71,9 +188,11 @@ export function TabsTrigger({
   children,
   disabled,
   style,
+  onLayout,
   ...props
 }: TabsTriggerProps) {
-  const { value: active, onValueChange } = useContext(TabsContext);
+  const { value: active, onValueChange, registerTrigger } =
+    useContext(TabsContext);
   const colors = useThemeColor();
   const isActive = active === value;
 
@@ -82,26 +201,19 @@ export function TabsTrigger({
       accessibilityRole="tab"
       accessibilityState={{ selected: isActive, disabled: !!disabled }}
       disabled={disabled}
-      onPress={() => onValueChange?.(value)}
+      onPress={() => onValueChange(value)}
+      onLayout={(e) => {
+        registerTrigger?.(value, e.nativeEvent.layout);
+        onLayout?.(e);
+      }}
       className={cn(
-        'relative flex-1 items-center justify-center rounded-lg px-3.5 py-2',
+        'relative flex-1 items-center justify-center rounded-lg px-3.5 py-2 z-10',
         disabled && 'opacity-50',
         className
       )}
       style={style}
       {...props}
     >
-      {isActive && (
-        <View
-          style={[
-            styles.activeIndicator,
-            {
-              backgroundColor: colors.card || '#ffffff',
-              borderColor: colors.border,
-            },
-          ]}
-        />
-      )}
       <Text
         style={[
           styles.labelText,
@@ -121,24 +233,74 @@ export function TabsTrigger({
 export interface TabsContentProps extends ViewProps {
   value: string;
   className?: string;
+  children?: ReactNode;
 }
 
-export function TabsContent({ value, className, ...props }: TabsContentProps) {
+export function TabsContent({
+  value,
+  className,
+  children,
+  style,
+  ...props
+}: TabsContentProps) {
   const { value: active } = useContext(TabsContext);
-  if (active !== value) return null;
-  return <View className={cn('mt-3', className)} {...props} />;
+  const isSelected = active === value;
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(4)).current;
+
+  useEffect(() => {
+    if (isSelected) {
+      fadeAnim.setValue(0);
+      translateY.setValue(4);
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 180,
+          useNativeDriver: true,
+        }),
+        Animated.spring(translateY, {
+          toValue: 0,
+          damping: 22,
+          stiffness: 300,
+          mass: 0.7,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [isSelected, fadeAnim, translateY]);
+
+  if (!isSelected) return null;
+
+  return (
+    <Animated.View
+      className={cn('mt-3', className)}
+      style={[
+        {
+          opacity: fadeAnim,
+          transform: [{ translateY }],
+        },
+        style,
+      ]}
+      {...props}
+    >
+      {children}
+    </Animated.View>
+  );
 }
 
 const styles = StyleSheet.create({
-  activeIndicator: {
-    ...StyleSheet.absoluteFillObject,
+  indicator: {
+    position: 'absolute',
+    top: 4,
+    bottom: 4,
     borderRadius: 8,
     borderWidth: StyleSheet.hairlineWidth,
     ...Platform.select({
       ios: {
         shadowColor: '#000000',
         shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.07,
+        shadowOpacity: 0.08,
         shadowRadius: 2,
       },
       android: {
@@ -150,6 +312,5 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 13,
     textAlign: 'center',
-    zIndex: 1,
   },
 });
