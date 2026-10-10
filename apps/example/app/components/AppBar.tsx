@@ -1,106 +1,105 @@
-import { ChevronLeft, Menu, MoreVertical, Search } from 'lucide-react-native';
-import { AppBar, AppBarSubtitle, AppBarTitle } from '@/components/ui/app-bar';
-import { IconButton } from '@/components/ui/icon-button';
+import { ChevronLeft, MoreVertical, Search, Settings, Share } from 'lucide-react-native';
+import { AppBar, AppBarAction } from '@/components/ui/app-bar';
+import { Card } from '@/components/ui/card';
 import { Stack } from '@/components/ui/stack';
-import { useIconColor } from '@/lib/utils';
+import { useIconColor, useThemeColor } from '@/lib/utils';
+import { useToast } from '@/components/ui/toast';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function AppBarScreen() {
+  const { toast } = useToast();
   const iconColor = useIconColor('foreground');
-  const inverseIconColor = useIconColor('onPrimary');
+  const colors = useThemeColor();
 
   return (
     <DemoPage
       title="AppBar"
-      description="Top bar with navigation, title, and screen actions."
+      description="Top navigation bar with standard centered title, iOS large heading, floating mode, and circular action wells."
     >
       <DemoSection
-        title="Basic"
-        description="Leading navigation and trailing actions."
+        title="Standard Navigation Bar"
+        description="Centered title, circular back button well, and action buttons."
+        bare
       >
-        <AppBar
-          className="overflow-hidden rounded-xl"
-          leading={
-            <IconButton
-              variant="ghost"
-              icon={<Menu size={22} color={iconColor} />}
-              accessibilityLabel="Open menu"
-            />
-          }
-          trailing={
-            <>
-              <IconButton
-                variant="ghost"
-                icon={<Search size={22} color={iconColor} />}
-                accessibilityLabel="Search"
-              />
-              <IconButton
-                variant="ghost"
-                icon={<MoreVertical size={22} color={iconColor} />}
-                accessibilityLabel="More actions"
-              />
-            </>
-          }
-        >
-          <AppBarTitle>Page Title</AppBarTitle>
-        </AppBar>
-      </DemoSection>
-
-      <DemoSection title="With Subtitle">
-        <AppBar className="overflow-hidden rounded-xl" onBack={() => {}}>
-          <AppBarTitle>Main Title</AppBarTitle>
-          <AppBarSubtitle>Subtitle or secondary info</AppBarSubtitle>
-        </AppBar>
+        <Card className="overflow-hidden border border-border">
+          <AppBar
+            safeArea={false}
+            title="Account Settings"
+            subtitle="Manage your profile and teams"
+            onBack={() => toast.info('Navigating back')}
+            trailing={
+              <>
+                <AppBarAction onPress={() => toast.info('Search tapped')}>
+                  <Search size={20} color={iconColor} />
+                </AppBarAction>
+                <AppBarAction onPress={() => toast.info('More options tapped')}>
+                  <MoreVertical size={20} color={iconColor} />
+                </AppBarAction>
+              </>
+            }
+          />
+        </Card>
       </DemoSection>
 
       <DemoSection
-        title="Brand"
-        description="Inverse text on brand backgrounds."
+        title="iOS Large Title Header"
+        description="Prominent 26px bold heading layout for main index views."
+        bare
       >
-        <AppBar
-          className="overflow-hidden rounded-xl bg-primary"
-          leading={
-            <IconButton
-              variant="ghost"
-              icon={<ChevronLeft size={22} color={inverseIconColor} />}
-              accessibilityLabel="Go back"
-            />
-          }
-          trailing={
-            <IconButton
-              variant="ghost"
-              icon={<Search size={22} color={inverseIconColor} />}
-              accessibilityLabel="Search"
-            />
-          }
-        >
-          <AppBarTitle className="text-primary-foreground">
-            Brand Identity
-          </AppBarTitle>
-          <AppBarSubtitle className="text-primary-foreground opacity-70">
-            In the cloud
-          </AppBarSubtitle>
-        </AppBar>
+        <Card className="overflow-hidden border border-border">
+          <AppBar
+            safeArea={false}
+            variant="large"
+            title="Messages"
+            subtitle="12 unread conversations"
+            onBack={() => toast.info('Back tapped')}
+            trailing={
+              <AppBarAction onPress={() => toast.info('Settings tapped')}>
+                <Settings size={20} color={iconColor} />
+              </AppBarAction>
+            }
+          />
+        </Card>
       </DemoSection>
 
-      <DemoSection title="Variants">
-        <Stack spacing="lg">
-          <AppBar className="overflow-hidden rounded-xl border">
-            <AppBarTitle>Bordered App Bar</AppBarTitle>
-          </AppBar>
+      <DemoSection
+        title="Floating Card App Bar"
+        description="Modern floating card island mode."
+        bare
+      >
+        <AppBar
+          safeArea={false}
+          variant="floating"
+          title="Explore Destinations"
+          subtitle="San Francisco, CA"
+          onBack={() => toast.info('Back tapped')}
+          trailing={
+            <AppBarAction onPress={() => toast.info('Share tapped')}>
+              <Share size={18} color={iconColor} />
+            </AppBarAction>
+          }
+        />
+      </DemoSection>
+
+      <DemoSection
+        title="Brand Primary Theme"
+        description="Solid primary background with inverse typography."
+        bare
+      >
+        <Card className="overflow-hidden border border-border">
           <AppBar
-            className="border-transparent bg-transparent"
+            safeArea={false}
+            className="bg-primary border-primary"
+            title="Project Dashboard"
+            subtitle="v2.4.0 Live"
+            onBack={() => toast.info('Back tapped')}
             trailing={
-              <IconButton
-                variant="ghost"
-                icon={<MoreVertical size={22} color={iconColor} />}
-                accessibilityLabel="More actions"
-              />
+              <AppBarAction onPress={() => toast.info('Search tapped')}>
+                <Search size={20} color={colors.primaryForeground} />
+              </AppBarAction>
             }
-          >
-            <AppBarTitle>Transparent App Bar</AppBarTitle>
-          </AppBar>
-        </Stack>
+          />
+        </Card>
       </DemoSection>
     </DemoPage>
   );

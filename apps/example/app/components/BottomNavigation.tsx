@@ -1,66 +1,84 @@
-import { Heart, Home, Search, User } from 'lucide-react-native';
+import { Bell, Heart, Home, Search, User } from 'lucide-react-native';
 import { useState } from 'react';
-import {
-  BottomNavigation,
-  type BottomNavigationItem,
-} from '@/components/ui/bottom-navigation';
+import { View } from 'react-native';
+import { BottomNavigation } from '@/components/ui/bottom-navigation';
+import { Card } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
 import { useThemeColor } from '@/lib/utils';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
-const DESTINATIONS = [
-  { key: 'home', label: 'Home', icon: Home },
-  { key: 'favorites', label: 'Favorites', icon: Heart },
-  { key: 'search', label: 'Search', icon: Search },
-  { key: 'profile', label: 'Profile', icon: User },
-] as const;
+const ICON_SIZE = 22;
 
 export default function BottomNavigationScreen() {
   const colors = useThemeColor();
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab1, setActiveTab1] = useState('home');
+  const [activeTab2, setActiveTab2] = useState('search');
 
-  const items: BottomNavigationItem[] = DESTINATIONS.map(
-    ({ key, label, icon: ItemIcon }) => ({
-      key,
-      label,
-      renderIcon: (active) => (
-        <ItemIcon
-          size={24}
-          color={active ? colors.foreground : colors.mutedForeground}
-        />
-      ),
-    })
-  );
+  const standardItems = [
+    { key: 'home', label: 'Home', icon: <Home size={ICON_SIZE} /> },
+    { key: 'search', label: 'Explore', icon: <Search size={ICON_SIZE} /> },
+    { key: 'favorites', label: 'Saved', icon: <Heart size={ICON_SIZE} />, badge: 3 },
+    { key: 'inbox', label: 'Alerts', icon: <Bell size={ICON_SIZE} />, badge: true },
+    { key: 'profile', label: 'Account', icon: <User size={ICON_SIZE} /> },
+  ];
 
   return (
     <DemoPage
-      title="BottomNavigation"
-      description="Primary destination navigation at the bottom of the screen."
+      title="Bottom Navigation"
+      description="Primary destination navigation with active capsule highlights, floating island mode, and badges."
     >
-      <DemoSection title="With Labels">
-        <BottomNavigation
-          items={items}
-          value={activeTab}
-          onValueChange={setActiveTab}
-        />
-        <Text variant="muted" style={{ marginTop: 16, textAlign: 'center' }}>
-          Current Tab: <Text variant="small">{activeTab}</Text>
-        </Text>
+      <DemoSection
+        title="Standard Capsule Navigation Bar"
+        description="Active tab highlighted with tinted capsule and notification badges."
+        bare
+      >
+        <Card className="overflow-hidden border border-border">
+          <View
+            className="items-center justify-center p-6"
+            style={{ minHeight: 90, backgroundColor: colors.background }}
+          >
+            <Text className="text-base font-semibold text-foreground capitalize">
+              Active Screen: {activeTab1}
+            </Text>
+            <Text variant="muted">Tap tabs below to switch view</Text>
+          </View>
+          <BottomNavigation
+            safeArea={false}
+            items={standardItems}
+            value={activeTab1}
+            onValueChange={setActiveTab1}
+          />
+        </Card>
       </DemoSection>
 
       <DemoSection
-        title="Static Icons"
-        description="`icon` renders as-is — `renderIcon` receives the active state for per-state tinting."
+        title="Floating Island Navigation Bar"
+        description="Trendy floating pill bar elevated above the content."
+        bare
       >
-        <BottomNavigation
-          items={DESTINATIONS.map(({ key, label, icon: ItemIcon }) => ({
-            key,
-            label,
-            icon: <ItemIcon size={24} color={colors.mutedForeground} />,
-          }))}
-          value={activeTab}
-          onValueChange={setActiveTab}
-        />
+        <Card className="overflow-hidden border border-border">
+          <View
+            className="items-center justify-center bg-muted/40 p-6"
+            style={{ minHeight: 140 }}
+          >
+            <Text className="text-base font-semibold text-foreground capitalize">
+              Destination: {activeTab2}
+            </Text>
+            <Text variant="muted">Floating pill bar with drop shadow</Text>
+          </View>
+          <BottomNavigation
+            safeArea={false}
+            variant="floating"
+            items={[
+              { key: 'home', label: 'Feed', icon: <Home size={ICON_SIZE} /> },
+              { key: 'search', label: 'Search', icon: <Search size={ICON_SIZE} /> },
+              { key: 'inbox', label: 'Activity', icon: <Bell size={ICON_SIZE} />, badge: '9+' },
+              { key: 'profile', label: 'Profile', icon: <User size={ICON_SIZE} /> },
+            ]}
+            value={activeTab2}
+            onValueChange={setActiveTab2}
+          />
+        </Card>
       </DemoSection>
     </DemoPage>
   );
