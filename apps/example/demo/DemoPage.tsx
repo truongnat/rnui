@@ -2,7 +2,7 @@ import { Text } from '@/components/ui/text';
 import { useThemeColor } from '@/lib/utils';
 import { DemoThemeControls } from '@/demo/DemoThemeControls';
 import { ChevronLeft } from 'lucide-react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useNavigation } from 'expo-router';
 import type React from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -28,6 +28,19 @@ export const DemoPage: React.FC<DemoPageProps> = ({
   const colors = useThemeColor();
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const navigation = useNavigation();
+
+  const handleBack = () => {
+    try {
+      if (navigation && navigation.canGoBack()) {
+        navigation.goBack();
+      } else {
+        router.replace('/');
+      }
+    } catch {
+      router.replace('/');
+    }
+  };
 
   const renderContent = () => (
     <View style={[styles.introSection, !scrollable && styles.flex]}>
@@ -55,13 +68,7 @@ export const DemoPage: React.FC<DemoPageProps> = ({
         ]}
       >
         <Pressable
-          onPress={() => {
-            if (router.canGoBack()) {
-              router.back();
-            } else {
-              router.replace('/');
-            }
-          }}
+          onPress={handleBack}
           hitSlop={14}
           style={({ pressed }) => [
             styles.backButton,
