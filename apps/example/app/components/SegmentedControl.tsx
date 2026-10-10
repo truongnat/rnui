@@ -5,7 +5,7 @@ import { Text } from '@/components/ui/text';
 import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
 
 const PERIODS = ['Daily', 'Weekly', 'Monthly'] as const;
-const STATUSES = ['All', 'Active', 'Pending', 'Completed', 'Archived'] as const;
+const STATUSES = ['All', 'Active', 'Pending', 'Done', 'Archived'] as const;
 const VIEWS = ['List', 'Grid', 'Gallery'] as const;
 
 export default function SegmentedControlScreen() {
