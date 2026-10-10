@@ -25,22 +25,22 @@ export default function BottomNavigationScreen() {
   return (
     <DemoPage
       title="Bottom Navigation"
-      description="Primary destination navigation with active capsule highlights, floating island mode, and badges."
+      description="Primary destination navigation with spring capsule highlights, floating island mode, and badges."
     >
       <DemoSection
         title="Standard Capsule Navigation Bar"
-        description="Active tab highlighted with tinted capsule and notification badges."
+        description="Tap destinations to see the spring capsule expand and highlight."
         bare
       >
         <Card className="overflow-hidden border border-border">
           <View
             className="items-center justify-center p-6"
-            style={{ minHeight: 90, backgroundColor: colors.background }}
+            style={{ minHeight: 110, backgroundColor: colors.background }}
           >
             <Text className="text-base font-semibold text-foreground capitalize">
               Active Screen: {activeTab1}
             </Text>
-            <Text variant="muted">Tap tabs below to switch view</Text>
+            <Text variant="muted">Tap tabs below to switch destination</Text>
           </View>
           <BottomNavigation
             safeArea={false}
@@ -53,18 +53,22 @@ export default function BottomNavigationScreen() {
 
       <DemoSection
         title="Floating Island Navigation Bar"
-        description="Trendy floating pill bar elevated above the content."
+        description="Elevated floating bar with increased height and generous preview clearance."
         bare
       >
         <Card className="overflow-hidden border border-border">
           <View
-            className="items-center justify-center bg-muted/40 p-6"
-            style={{ minHeight: 140 }}
+            className="items-center justify-center bg-muted/30 px-6 pt-8 pb-24"
+            style={{ minHeight: 220 }}
           >
-            <Text className="text-base font-semibold text-foreground capitalize">
-              Destination: {activeTab2}
-            </Text>
-            <Text variant="muted">Floating pill bar with drop shadow</Text>
+            <View className="items-center gap-1">
+              <Text className="text-base font-bold text-foreground capitalize">
+                Selected View: {activeTab2}
+              </Text>
+              <Text variant="muted" className="text-center">
+                Floating island floats above with drop shadow and ample clearance.
+              </Text>
+            </View>
           </View>
           <BottomNavigation
             safeArea={false}

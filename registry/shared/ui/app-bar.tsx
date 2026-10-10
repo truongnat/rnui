@@ -20,7 +20,7 @@ export interface AppBarProps extends ViewProps {
   onBack?: () => void;
   /** Trailing action buttons (e.g. search, settings, more). */
   trailing?: ReactNode;
-  /** Presentation style. Default: 'default'. */
+  /** Header presentation style. Default: 'default'. */
   variant?: AppBarVariant;
   /** Header title string. */
   title?: string;
@@ -34,6 +34,11 @@ export interface AppBarProps extends ViewProps {
   children?: ReactNode;
 }
 
+/**
+ * Top App Bar designed according to iOS Human Interface Guidelines and UI/UX Pro Max standards.
+ * Features 52px navigation height, symmetric side touch anchors (min 44x44px), centered 17px bold title,
+ * and large heading collapsible variants.
+ */
 export function AppBar({
   leading,
   onBack,
@@ -93,25 +98,25 @@ export function AppBar({
           : [
               !isTransparent && { backgroundColor: colors.card },
               safeArea && { paddingTop: insets.top + 4 },
-              { paddingBottom: isLarge ? 6 : 8 },
+              { paddingBottom: isLarge ? 8 : 10 },
             ],
         style,
       ]}
       {...props}
     >
-      {/* Top Navigation Row */}
+      {/* 52px Standard Navigation Row */}
       <View style={styles.topRow}>
-        {/* Leading Side */}
-        <View style={styles.sideContainer}>
+        {/* Leading Side Anchor (Min 44x44 for touch accessibility) */}
+        <View style={styles.sideSlot}>
           {leading ?? backBtn}
         </View>
 
-        {/* Center / Inline Title */}
+        {/* Center / Inline Title Stack */}
         {!isLarge && (
           <View
             style={[
-              styles.centerContainer,
-              alignTitle === 'left' && styles.leftAlignedCenter,
+              styles.centerSlot,
+              alignTitle === 'left' && styles.leftAlignSlot,
             ]}
           >
             {title ? (
@@ -145,13 +150,13 @@ export function AppBar({
           </View>
         )}
 
-        {/* Trailing Side */}
-        <View style={styles.sideContainer}>
-          <View style={styles.trailingRow}>{trailing}</View>
+        {/* Trailing Side Anchor (Min 44x44 for touch accessibility) */}
+        <View style={[styles.sideSlot, styles.trailingSlot]}>
+          {trailing}
         </View>
       </View>
 
-      {/* Large Title Section (iOS Large Heading Style) */}
+      {/* Large Title Row (iOS Large Heading pattern) */}
       {isLarge && (
         <View style={styles.largeTitleSection}>
           {title ? (
@@ -186,10 +191,7 @@ export function AppBar({
 export function AppBarTitle({ className, style, ...props }: TextProps) {
   return (
     <Text
-      className={cn(
-        'text-base font-bold text-foreground text-center',
-        className
-      )}
+      className={cn('text-[17px] font-bold text-foreground text-center tracking-tight', className)}
       style={style}
       numberOfLines={1}
       {...props}
@@ -200,10 +202,7 @@ export function AppBarTitle({ className, style, ...props }: TextProps) {
 export function AppBarSubtitle({ className, style, ...props }: TextProps) {
   return (
     <Text
-      className={cn(
-        'text-xs text-muted-foreground text-center mt-0.5',
-        className
-      )}
+      className={cn('text-xs text-muted-foreground text-center mt-0.5', className)}
       style={style}
       numberOfLines={1}
       {...props}
@@ -246,31 +245,29 @@ export function AppBarAction({
 
 const styles = StyleSheet.create({
   topRow: {
-    height: 48,
+    height: 52,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
   },
-  sideContainer: {
+  sideSlot: {
     minWidth: 44,
-    minHeight: 44,
+    height: 44,
     flexDirection: 'row',
     alignItems: 'center',
   },
-  trailingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  trailingSlot: {
     justifyContent: 'flex-end',
     gap: 4,
   },
-  centerContainer: {
+  centerSlot: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 8,
   },
-  leftAlignedCenter: {
+  leftAlignSlot: {
     alignItems: 'flex-start',
     paddingHorizontal: 4,
   },
@@ -279,9 +276,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   standardTitle: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '700',
-    letterSpacing: -0.3,
+    letterSpacing: -0.4,
   },
   standardSub: {
     fontSize: 11,

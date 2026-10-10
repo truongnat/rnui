@@ -1,10 +1,12 @@
 import {
   cloneElement,
   isValidElement,
-  type ReactElement,
+  useEffect,
+  useRef,
   type ReactNode,
 } from 'react';
 import {
+  Animated,
   Platform,
   Pressable,
   StyleSheet,
@@ -41,9 +43,136 @@ interface IconWithColorProps {
   color?: string;
 }
 
+function NavItemButton({
+  item,
+  active,
+  tint,
+  colors,
+  onPress,
+}: {
+  item: BottomNavigationItem;
+  active: boolean;
+  tint: string;
+  colors: Record<string, string>;
+  onPress: () => void;
+}) {
+  const anim = useRef(new Animated.Value(active ? 1 : 0)).current;
+
+  useEffect(() => {
+    Animated.spring(anim, {
+      toValue: active ? 1 : 0,
+      damping: 18,
+      stiffness: 300,
+      mass: 0.6,
+      useNativeDriver: true,
+    }).start();
+  }, [active, anim]);
+
+  const rawIcon = active && item.activeIcon ? item.activeIcon : item.icon;
+
+  let iconElement: ReactNode = rawIcon;
+  if (isValidElement<IconWithColorProps>(rawIcon)) {
+    const propsObj: unknown = rawIcon.props;
+    const explicitColor =
+      propsObj &&
+      typeof propsObj === 'object' &&
+      'color' in propsObj &&
+      typeof propsObj.color === 'string'
+        ? propsObj.color
+        : tint;
+    iconElement = cloneElement(rawIcon, { color: explicitColor });
+  }
+
+  const capsuleScale = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.75, 1],
+  });
+
+  const capsuleOpacity = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1],
+  });
+
+  const iconScale = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.95, 1.05],
+  });
+
+  return (
+    <Pressable
+      accessibilityRole="tab"
+      accessibilityState={{
+        selected: active,
+        disabled: !!item.disabled,
+      }}
+      disabled={item.disabled}
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.navItem,
+        pressed && { opacity: 0.7 },
+      ]}
+    >
+      {/* Animated Capsule Box */}
+      <View style={styles.iconContainer}>
+        {/* Animated Background Pill */}
+        <Animated.View
+          style={[
+            styles.animatedCapsule,
+            {
+              backgroundColor: `${colors.primary}18`,
+              opacity: capsuleOpacity,
+              transform: [{ scale: capsuleScale }],
+            },
+          ]}
+        />
+
+        {/* Animated Icon */}
+        <Animated.View style={{ transform: [{ scale: iconScale }] }}>
+          {iconElement}
+        </Animated.View>
+
+        {/* Notification Badge */}
+        {item.badge !== undefined && item.badge !== false && (
+          <View style={styles.badgeAnchor}>
+            {item.badge === true ? (
+              <View
+                style={[
+                  styles.dotBadge,
+                  { backgroundColor: colors.destructive },
+                ]}
+              />
+            ) : (
+              <Badge
+                variant="destructive"
+                className="px-1.5 py-0 min-w-4 h-4 rounded-full"
+              >
+                <Text style={styles.badgeText}>{item.badge}</Text>
+              </Badge>
+            )}
+          </View>
+        )}
+      </View>
+
+      {/* Label */}
+      <Text
+        style={[
+          styles.itemLabel,
+          {
+            color: active ? colors.foreground : colors.mutedForeground,
+            fontWeight: active ? '700' : '500',
+          },
+        ]}
+        numberOfLines={1}
+      >
+        {item.label}
+      </Text>
+    </Pressable>
+  );
+}
+
 /**
- * Pixel-perfect Bottom Navigation Bar with balanced equal-width distribution,
- * iOS capsule highlights, floating island variant, and notification badges.
+ * Animated Bottom Navigation Bar with spring capsule highlights, floating island variant,
+ * and badge counters.
  */
 export function BottomNavigation({
   items,
@@ -65,7 +194,7 @@ export function BottomNavigation({
       accessibilityRole="tablist"
       className={cn(
         isFloating
-          ? 'mx-4 rounded-full border border-border bg-card p-1.5 shadow-lg'
+          ? 'mx-4 rounded-full border border-border bg-card p-2 shadow-xl'
           : 'border-t border-border bg-card pt-2 px-1',
         className
       )}
@@ -93,83 +222,16 @@ export function BottomNavigation({
       {items.map((item) => {
         const active = item.key === value;
         const tint = active ? colors.primary : colors.mutedForeground;
-        const rawIcon = active && item.activeIcon ? item.activeIcon : item.icon;
-
-        let iconElement: ReactNode = rawIcon;
-        if (isValidElement<IconWithColorProps>(rawIcon)) {
-          const propsObj: unknown = rawIcon.props;
-          const explicitColor =
-            propsObj &&
-            typeof propsObj === 'object' &&
-            'color' in propsObj &&
-            typeof propsObj.color === 'string'
-              ? propsObj.color
-              : tint;
-          iconElement = cloneElement(rawIcon, { color: explicitColor });
-        }
 
         return (
-          <Pressable
+          <NavItemButton
             key={item.key}
-            accessibilityRole="tab"
-            accessibilityState={{
-              selected: active,
-              disabled: !!item.disabled,
-            }}
-            disabled={item.disabled}
+            item={item}
+            active={active}
+            tint={tint}
+            colors={colors}
             onPress={() => onValueChange?.(item.key)}
-            style={({ pressed }) => [
-              styles.navItem,
-              pressed && { opacity: 0.7 },
-            ]}
-          >
-            {/* Active Capsule Highlight Pill */}
-            <View
-              style={[
-                styles.iconBox,
-                active && {
-                  backgroundColor: `${colors.primary}18`,
-                },
-              ]}
-            >
-              {iconElement}
-
-              {/* Notification Badge */}
-              {item.badge !== undefined && item.badge !== false && (
-                <View style={styles.badgeAnchor}>
-                  {item.badge === true ? (
-                    <View
-                      style={[
-                        styles.dotBadge,
-                        { backgroundColor: colors.destructive },
-                      ]}
-                    />
-                  ) : (
-                    <Badge
-                      variant="destructive"
-                      className="px-1.5 py-0 min-w-4 h-4 rounded-full"
-                    >
-                      <Text style={styles.badgeText}>{item.badge}</Text>
-                    </Badge>
-                  )}
-                </View>
-              )}
-            </View>
-
-            {/* Label */}
-            <Text
-              style={[
-                styles.itemLabel,
-                {
-                  color: active ? colors.foreground : colors.mutedForeground,
-                  fontWeight: active ? '700' : '500',
-                },
-              ]}
-              numberOfLines={1}
-            >
-              {item.label}
-            </Text>
-          </Pressable>
+          />
         );
       })}
     </View>
@@ -182,6 +244,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
+    minHeight: 56,
   },
   floatingBar: {
     position: 'absolute',
@@ -190,15 +253,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
+    minHeight: 60,
     ...Platform.select({
       ios: {
         shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.12,
-        shadowRadius: 12,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.14,
+        shadowRadius: 14,
       },
       android: {
-        elevation: 6,
+        elevation: 8,
       },
       default: {},
     }),
@@ -211,18 +275,23 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     gap: 3,
   },
-  iconBox: {
+  iconContainer: {
     position: 'relative',
-    width: 48,
-    height: 28,
-    borderRadius: 14,
+    width: 52,
+    height: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  animatedCapsule: {
+    position: 'absolute',
+    width: 52,
+    height: 30,
+    borderRadius: 15,
+  },
   badgeAnchor: {
     position: 'absolute',
-    top: -2,
-    right: 2,
+    top: -3,
+    right: 4,
   },
   dotBadge: {
     width: 8,
