@@ -14,28 +14,26 @@ import { cn, useIconColor, useThemeColor } from '@/lib/utils';
 export type AppBarVariant = 'default' | 'large' | 'floating' | 'transparent';
 
 export interface AppBarProps extends ViewProps {
-  /** Leading icon or component (e.g. menu button). Overrides `onBack`. */
+  /** Leading icon / custom element (e.g. menu button). Overrides `onBack`. */
   leading?: ReactNode;
-  /** Callback showing a circular back button when provided. */
+  /** Back button handler. Renders a circular chevron well when passed. */
   onBack?: () => void;
-  /** Trailing action buttons / menu icons. */
+  /** Trailing action buttons (e.g. search, settings, more). */
   trailing?: ReactNode;
-  /** Header presentation style. Default: 'default'. */
+  /** Presentation style. Default: 'default'. */
   variant?: AppBarVariant;
-  /** Header title text (when using simple string title). */
+  /** Header title string. */
   title?: string;
-  /** Subtitle text under main title. */
+  /** Subtitle string under title. */
   subtitle?: string;
-  /** Auto-apply safe area top inset padding. Default: true. */
+  /** Alignment of title in standard mode. Default: 'center'. */
+  alignTitle?: 'center' | 'left';
+  /** Apply top padding for device notch / Dynamic Island. Default: true. */
   safeArea?: boolean;
   className?: string;
   children?: ReactNode;
 }
 
-/**
- * Modern iOS / Material style AppBar with centered title, large heading variant,
- * floating card mode, and circular action touch wells.
- */
 export function AppBar({
   leading,
   onBack,
@@ -43,6 +41,7 @@ export function AppBar({
   variant = 'default',
   title,
   subtitle,
+  alignTitle = 'center',
   safeArea = true,
   className,
   style,
@@ -64,7 +63,7 @@ export function AppBar({
       onPress={onBack}
       hitSlop={8}
       style={({ pressed }) => [
-        styles.circleBtn,
+        styles.actionWell,
         {
           backgroundColor: pressed ? colors.accent : 'transparent',
         },
@@ -78,7 +77,7 @@ export function AppBar({
     <View
       className={cn(
         isFloating
-          ? 'mx-4 rounded-2xl border border-border bg-card/95 shadow-sm px-3 py-2'
+          ? 'mx-4 rounded-2xl border border-border bg-card shadow-sm px-3.5 py-2'
           : isTransparent
             ? 'bg-transparent px-3'
             : 'border-b border-border bg-card px-3',
@@ -94,7 +93,7 @@ export function AppBar({
           : [
               !isTransparent && { backgroundColor: colors.card },
               safeArea && { paddingTop: insets.top + 4 },
-              { paddingBottom: isLarge ? 8 : 10 },
+              { paddingBottom: isLarge ? 6 : 8 },
             ],
         style,
       ]}
@@ -102,13 +101,26 @@ export function AppBar({
     >
       {/* Top Navigation Row */}
       <View style={styles.topRow}>
-        <View style={styles.leadingBox}>{leading ?? backBtn}</View>
+        {/* Leading Side */}
+        <View style={styles.sideContainer}>
+          {leading ?? backBtn}
+        </View>
 
-        {/* Standard Centered Title */}
-        {!isLarge ? (
-          <View style={styles.centerBox}>
+        {/* Center / Inline Title */}
+        {!isLarge && (
+          <View
+            style={[
+              styles.centerContainer,
+              alignTitle === 'left' && styles.leftAlignedCenter,
+            ]}
+          >
             {title ? (
-              <View style={styles.titleStack}>
+              <View
+                style={[
+                  styles.titleStack,
+                  alignTitle === 'left' && { alignItems: 'flex-start' },
+                ]}
+              >
                 <Text
                   style={[styles.standardTitle, { color: colors.foreground }]}
                   numberOfLines={1}
@@ -131,16 +143,17 @@ export function AppBar({
               children
             )}
           </View>
-        ) : (
-          <View style={styles.centerBox}>{!title && children}</View>
         )}
 
-        <View style={styles.trailingBox}>{trailing}</View>
+        {/* Trailing Side */}
+        <View style={styles.sideContainer}>
+          <View style={styles.trailingRow}>{trailing}</View>
+        </View>
       </View>
 
-      {/* Large Title Row (iOS Large Heading pattern) */}
+      {/* Large Title Section (iOS Large Heading Style) */}
       {isLarge && (
-        <View style={styles.largeTitleBox}>
+        <View style={styles.largeTitleSection}>
           {title ? (
             <View style={styles.largeTitleStack}>
               <Text
@@ -173,7 +186,10 @@ export function AppBar({
 export function AppBarTitle({ className, style, ...props }: TextProps) {
   return (
     <Text
-      className={cn('text-base font-bold text-foreground text-center', className)}
+      className={cn(
+        'text-base font-bold text-foreground text-center',
+        className
+      )}
       style={style}
       numberOfLines={1}
       {...props}
@@ -184,7 +200,10 @@ export function AppBarTitle({ className, style, ...props }: TextProps) {
 export function AppBarSubtitle({ className, style, ...props }: TextProps) {
   return (
     <Text
-      className={cn('text-xs text-muted-foreground text-center mt-0.5', className)}
+      className={cn(
+        'text-xs text-muted-foreground text-center mt-0.5',
+        className
+      )}
       style={style}
       numberOfLines={1}
       {...props}
@@ -209,7 +228,7 @@ export function AppBarAction({
       hitSlop={8}
       onPress={onPress}
       style={({ pressed }) => [
-        styles.circleBtn,
+        styles.actionWell,
         {
           backgroundColor: pressed ? colors.accent : 'transparent',
         },
@@ -224,24 +243,37 @@ export function AppBarAction({
 
 const styles = StyleSheet.create({
   topRow: {
-    minHeight: 46,
+    height: 48,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    width: '100%',
   },
-  leadingBox: {
+  sideContainer: {
     minWidth: 44,
+    minHeight: 44,
     flexDirection: 'row',
     alignItems: 'center',
   },
-  centerBox: {
-    flex: 1,
-    justifyContent: 'center',
+  trailingRow: {
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 6,
+    justifyContent: 'flex-end',
+    gap: 4,
+  },
+  centerContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+  },
+  leftAlignedCenter: {
+    alignItems: 'flex-start',
+    paddingHorizontal: 4,
   },
   titleStack: {
     alignItems: 'center',
+    justifyContent: 'center',
   },
   standardTitle: {
     fontSize: 16,
@@ -252,30 +284,23 @@ const styles = StyleSheet.create({
     fontSize: 11,
     marginTop: 1,
   },
-  trailingBox: {
-    minWidth: 44,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    gap: 4,
-  },
-  circleBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
+  actionWell: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  largeTitleBox: {
+  largeTitleSection: {
     paddingHorizontal: 4,
-    paddingTop: 8,
-    paddingBottom: 4,
+    paddingTop: 10,
+    paddingBottom: 6,
   },
   largeTitleStack: {
     gap: 2,
   },
   largeTitleText: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: '800',
     letterSpacing: -0.6,
   },

@@ -25,7 +25,7 @@ export interface BottomNavigationItem {
   disabled?: boolean;
 }
 
-export type BottomNavigationVariant = 'default' | 'floating' | 'pills';
+export type BottomNavigationVariant = 'default' | 'floating';
 
 export interface BottomNavigationProps extends ViewProps {
   items: BottomNavigationItem[];
@@ -42,8 +42,8 @@ interface IconWithColorProps {
 }
 
 /**
- * Modern Bottom Navigation Bar with iOS capsule highlights, floating island variant,
- * and notification badges.
+ * Pixel-perfect Bottom Navigation Bar with balanced equal-width distribution,
+ * iOS capsule highlights, floating island variant, and notification badges.
  */
 export function BottomNavigation({
   items,
@@ -65,141 +65,137 @@ export function BottomNavigation({
       accessibilityRole="tablist"
       className={cn(
         isFloating
-          ? 'mx-4 self-center rounded-full border border-border bg-card/95 p-1.5 shadow-lg'
-          : 'flex-row border-t border-border bg-card pt-1.5 px-3',
+          ? 'mx-4 rounded-full border border-border bg-card p-1.5 shadow-lg'
+          : 'border-t border-border bg-card pt-2 px-1',
         className
       )}
       style={[
         isFloating
           ? [
-              styles.floatingContainer,
+              styles.floatingBar,
               {
                 backgroundColor: colors.card,
                 borderColor: colors.border,
                 bottom: safeArea ? insets.bottom + 12 : 16,
               },
             ]
-          : safeArea && {
-              paddingBottom: Math.max(insets.bottom, 10),
-              backgroundColor: colors.card,
-            },
+          : [
+              styles.standardBar,
+              {
+                backgroundColor: colors.card,
+                paddingBottom: safeArea ? Math.max(insets.bottom, 10) : 10,
+              },
+            ],
         style,
       ]}
       {...props}
     >
-      <View
-        style={[
-          styles.rowWrapper,
-          isFloating && styles.floatingRowWrapper,
-        ]}
-      >
-        {items.map((item) => {
-          const active = item.key === value;
-          const tint = active ? colors.primary : colors.mutedForeground;
-          const rawIcon = active && item.activeIcon ? item.activeIcon : item.icon;
+      {items.map((item) => {
+        const active = item.key === value;
+        const tint = active ? colors.primary : colors.mutedForeground;
+        const rawIcon = active && item.activeIcon ? item.activeIcon : item.icon;
 
-          let iconElement: ReactNode = rawIcon;
-          if (isValidElement<IconWithColorProps>(rawIcon)) {
-            const propsObj: unknown = rawIcon.props;
-            const explicitColor =
-              propsObj &&
-              typeof propsObj === 'object' &&
-              'color' in propsObj &&
-              typeof propsObj.color === 'string'
-                ? propsObj.color
-                : tint;
-            iconElement = cloneElement(rawIcon, { color: explicitColor });
-          }
+        let iconElement: ReactNode = rawIcon;
+        if (isValidElement<IconWithColorProps>(rawIcon)) {
+          const propsObj: unknown = rawIcon.props;
+          const explicitColor =
+            propsObj &&
+            typeof propsObj === 'object' &&
+            'color' in propsObj &&
+            typeof propsObj.color === 'string'
+              ? propsObj.color
+              : tint;
+          iconElement = cloneElement(rawIcon, { color: explicitColor });
+        }
 
-          return (
-            <Pressable
-              key={item.key}
-              accessibilityRole="tab"
-              accessibilityState={{
-                selected: active,
-                disabled: !!item.disabled,
-              }}
-              disabled={item.disabled}
-              onPress={() => onValueChange?.(item.key)}
-              style={({ pressed }) => [
-                styles.itemPressable,
-                pressed && { opacity: 0.75 },
+        return (
+          <Pressable
+            key={item.key}
+            accessibilityRole="tab"
+            accessibilityState={{
+              selected: active,
+              disabled: !!item.disabled,
+            }}
+            disabled={item.disabled}
+            onPress={() => onValueChange?.(item.key)}
+            style={({ pressed }) => [
+              styles.navItem,
+              pressed && { opacity: 0.7 },
+            ]}
+          >
+            {/* Active Capsule Highlight Pill */}
+            <View
+              style={[
+                styles.iconBox,
+                active && {
+                  backgroundColor: `${colors.primary}18`,
+                },
               ]}
             >
-              {/* Icon with Active Capsule Highlight */}
-              <View
-                style={[
-                  styles.iconCapsule,
-                  active && {
-                    backgroundColor: `${colors.primary}16`,
-                  },
-                ]}
-              >
-                {iconElement}
+              {iconElement}
 
-                {/* Badge Indicator */}
-                {item.badge !== undefined && item.badge !== false && (
-                  <View style={styles.badgeWrapper}>
-                    {item.badge === true ? (
-                      <View
-                        style={[
-                          styles.dotBadge,
-                          { backgroundColor: colors.destructive },
-                        ]}
-                      />
-                    ) : (
-                      <Badge
-                        variant="destructive"
-                        className="px-1.5 py-0 min-w-4 h-4 rounded-full"
-                      >
-                        <Text style={styles.badgeText}>{item.badge}</Text>
-                      </Badge>
-                    )}
-                  </View>
-                )}
-              </View>
+              {/* Notification Badge */}
+              {item.badge !== undefined && item.badge !== false && (
+                <View style={styles.badgeAnchor}>
+                  {item.badge === true ? (
+                    <View
+                      style={[
+                        styles.dotBadge,
+                        { backgroundColor: colors.destructive },
+                      ]}
+                    />
+                  ) : (
+                    <Badge
+                      variant="destructive"
+                      className="px-1.5 py-0 min-w-4 h-4 rounded-full"
+                    >
+                      <Text style={styles.badgeText}>{item.badge}</Text>
+                    </Badge>
+                  )}
+                </View>
+              )}
+            </View>
 
-              {/* Label */}
-              <Text
-                style={[
-                  styles.label,
-                  {
-                    color: active ? colors.foreground : colors.mutedForeground,
-                    fontWeight: active ? '700' : '500',
-                  },
-                ]}
-                numberOfLines={1}
-              >
-                {item.label}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
+            {/* Label */}
+            <Text
+              style={[
+                styles.itemLabel,
+                {
+                  color: active ? colors.foreground : colors.mutedForeground,
+                  fontWeight: active ? '700' : '500',
+                },
+              ]}
+              numberOfLines={1}
+            >
+              {item.label}
+            </Text>
+          </Pressable>
+        );
+      })}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  rowWrapper: {
+  standardBar: {
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    width: '100%',
+    justifyContent: 'space-around',
   },
-  floatingRowWrapper: {
-    paddingHorizontal: 6,
-  },
-  floatingContainer: {
+  floatingBar: {
     position: 'absolute',
+    left: 16,
+    right: 16,
     flexDirection: 'row',
-    width: '92%',
-    maxWidth: 420,
+    alignItems: 'center',
+    justifyContent: 'space-around',
     ...Platform.select({
       ios: {
         shadowColor: '#000000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.12,
-        shadowRadius: 10,
+        shadowRadius: 12,
       },
       android: {
         elevation: 6,
@@ -207,15 +203,15 @@ const styles = StyleSheet.create({
       default: {},
     }),
   },
-  itemPressable: {
+  navItem: {
     flex: 1,
+    minWidth: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 3,
     paddingVertical: 4,
-    minHeight: 48,
+    gap: 3,
   },
-  iconCapsule: {
+  iconBox: {
     position: 'relative',
     width: 48,
     height: 28,
@@ -223,10 +219,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  badgeWrapper: {
+  badgeAnchor: {
     position: 'absolute',
     top: -2,
-    right: 4,
+    right: 2,
   },
   dotBadge: {
     width: 8,
@@ -239,8 +235,9 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     lineHeight: 12,
   },
-  label: {
+  itemLabel: {
     fontSize: 11,
+    textAlign: 'center',
     letterSpacing: -0.2,
   },
 });
