@@ -2,22 +2,23 @@ import {
   cloneElement,
   createContext,
   isValidElement,
-  type ReactElement,
+  useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from 'react';
 import {
   type GestureResponderEvent,
-  Modal,
   Pressable,
   ScrollView,
-  useWindowDimensions,
   View,
+  useWindowDimensions,
   type PressableProps,
   type ViewProps,
 } from 'react-native';
 import { Check } from 'lucide-react-native';
+import { Popper } from '@/components/ui/popper';
 import { Text, type TextProps } from '@/components/ui/text';
 import { cn, composeRefs, useIconColor } from '@/lib/utils';
 
@@ -33,13 +34,23 @@ const ContextMenuContext = createContext<{
   setOpen: (v: boolean) => void;
   anchor: Anchor | null;
   setAnchor: (a: Anchor | null) => void;
-}>({ open: false, setOpen: () => {}, anchor: null, setAnchor: () => {} });
+  activeTrigger: React.RefObject<View | null>;
+}>({
+  open: false,
+  setOpen: () => {},
+  anchor: null,
+  setAnchor: () => {},
+  activeTrigger: { current: null },
+});
 
 export function ContextMenu({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const [anchor, setAnchor] = useState<Anchor | null>(null);
+  const activeTrigger = useRef<View>(null);
   return (
-    <ContextMenuContext.Provider value={{ open, setOpen, anchor, setAnchor }}>
+    <ContextMenuContext.Provider
+      value={{ open, setOpen, anchor, setAnchor, activeTrigger }}
+    >
       {children}
     </ContextMenuContext.Provider>
   );
@@ -59,47 +70,152 @@ export function ContextMenuTrigger({
   asChild?: boolean;
   children?: React.ReactNode;
 }) {
-  const { setOpen, setAnchor } = useContext(ContextMenuContext);
+  const { open, setOpen, setAnchor, activeTrigger } =
+    useContext(ContextMenuContext);
   const ref = useRef<View>(null);
-  const handleLongPress = (e: GestureResponderEvent) => {
-    ref.current?.measureInWindow((x, y, width, height) => {
-      setAnchor({ x, y, width, height });
-      setOpen(true);
-    });
-    onLongPress?.(e);
+  const [isPressed, setIsPressed] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const child =
+    asChild &&
+    isValidElement<
+      PressableProps & { className?: string; ref?: React.Ref<View> }
+    >(children)
+      ? children
+      : null;
+  const childProps = child?.props;
+  const disabled = !!(props.disabled || childProps?.disabled);
+  const latest = useRef({ disabled, open });
+  latest.current = { disabled, open };
+  const request = useRef(0);
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const measure = useCallback(
+    (opening: boolean) => {
+      const wasOpen = latest.current.open;
+      if (latest.current.disabled || (!opening && !wasOpen)) return;
+      const target = ref.current;
+      if (!target || (!opening && activeTrigger.current !== target)) return;
+      if (opening) activeTrigger.current = target;
+      const current = ++request.current;
+      target.measureInWindow((x, y, width, height) => {
+        if (
+          current !== request.current ||
+          activeTrigger.current !== target ||
+          ref.current !== target ||
+          latest.current.disabled ||
+          (wasOpen && !latest.current.open) ||
+          width <= 0 ||
+          height <= 0
+        ) {
+          return;
+        }
+        setAnchor({ x, y, width, height });
+        if (opening) setOpen(true);
+      });
+    },
+    [setAnchor, setOpen, activeTrigger]
+  );
+  useEffect(
+    () => () => {
+      request.current += 1;
+    },
+    []
+  );
+  useEffect(() => {
+    if (windowWidth > 0 && windowHeight > 0) measure(false);
+  }, [windowWidth, windowHeight, measure]);
+  const handleLongPress = (event: GestureResponderEvent) => {
+    if (disabled) return;
+    childProps?.onLongPress?.(event);
+    onLongPress?.(event);
+    if (!event.defaultPrevented) measure(true);
   };
-  if (asChild && isValidElement(children)) {
-    const child = children as ReactElement<Record<string, unknown>>;
-    const childProps = child.props as {
-      onPress?: (e: GestureResponderEvent) => void;
-      onLongPress?: (e: GestureResponderEvent) => void;
-      className?: string;
-      ref?: React.Ref<View>;
-    };
+  const handleAccessibilityAction: NonNullable<
+    PressableProps['onAccessibilityAction']
+  > = (event) => {
+    if (disabled) return;
+    childProps?.onAccessibilityAction?.(event);
+    props.onAccessibilityAction?.(event);
+    if (
+      !event.defaultPrevented &&
+      event.nativeEvent.actionName === 'showActions'
+    ) {
+      measure(true);
+    }
+  };
+  const accessibilityActions = [
+    ...(childProps?.accessibilityActions ?? []),
+    ...(props.accessibilityActions ?? []),
+  ];
+  if (!accessibilityActions.some((action) => action.name === 'showActions')) {
+    accessibilityActions.push({ name: 'showActions', label: 'Open actions' });
+  }
+  const triggerProps: PressableProps = {
+    ...props,
+    disabled,
+    style: [
+      typeof childProps?.style === 'function'
+        ? childProps.style({ pressed: isPressed, hovered: isHovered })
+        : childProps?.style,
+      typeof props.style === 'function'
+        ? props.style({ pressed: isPressed, hovered: isHovered })
+        : props.style,
+    ],
+    accessibilityRole:
+      props.accessibilityRole ?? childProps?.accessibilityRole ?? 'button',
+    accessibilityHint:
+      props.accessibilityHint ??
+      childProps?.accessibilityHint ??
+      'Long press to open actions',
+    accessibilityState: {
+      ...childProps?.accessibilityState,
+      ...props.accessibilityState,
+      disabled,
+      expanded: open,
+    },
+    accessibilityActions,
+    onAccessibilityAction: handleAccessibilityAction,
+    collapsable: false,
+    onLayout: (event) => {
+      childProps?.onLayout?.(event);
+      props.onLayout?.(event);
+      measure(false);
+    },
+    onPress: (event) => {
+      if (disabled) return;
+      childProps?.onPress?.(event);
+      onPress?.(event);
+    },
+    onLongPress: handleLongPress,
+    onPressIn: (event) => {
+      setIsPressed(true);
+      childProps?.onPressIn?.(event);
+      props.onPressIn?.(event);
+    },
+    onPressOut: (event) => {
+      setIsPressed(false);
+      childProps?.onPressOut?.(event);
+      props.onPressOut?.(event);
+    },
+    onHoverIn: (event) => {
+      setIsHovered(true);
+      childProps?.onHoverIn?.(event);
+      props.onHoverIn?.(event);
+    },
+    onHoverOut: (event) => {
+      setIsHovered(false);
+      childProps?.onHoverOut?.(event);
+      props.onHoverOut?.(event);
+    },
+  };
+  if (child) {
     return cloneElement(child, {
-      ...props,
-      ref: composeRefs(ref, childProps.ref),
-      collapsable: false,
-      className: cn(className, childProps.className),
-      onPress: (e: GestureResponderEvent) => {
-        childProps.onPress?.(e);
-        onPress?.(e);
-      },
-      onLongPress: (e: GestureResponderEvent) => {
-        childProps.onLongPress?.(e);
-        handleLongPress(e);
-      },
+      ...triggerProps,
+      ref: composeRefs(ref, childProps?.ref),
+      className: cn(className, childProps?.className),
     });
   }
   return (
-    <Pressable
-      ref={ref}
-      accessibilityRole="button"
-      onLongPress={handleLongPress}
-      className={className}
-      collapsable={false}
-      {...props}
-    >
+    <Pressable {...triggerProps} ref={ref} className={className}>
       {children}
     </Pressable>
   );
@@ -112,42 +228,23 @@ export function ContextMenuContent({
   ...props
 }: ViewProps & { className?: string; sideOffset?: number }) {
   const { open, setOpen, anchor } = useContext(ContextMenuContext);
-  const { width: screenW, height: screenH } = useWindowDimensions();
-  const [menuH, setMenuH] = useState(0);
-  const left = anchor ? Math.max(8, Math.min(anchor.x, screenW - 224 - 8)) : 0;
-  const below = anchor ? anchor.y + anchor.height + sideOffset : 0;
-  // Flip above the trigger when the menu would overflow the bottom edge.
-  const top =
-    anchor && menuH > 0 && below + menuH > screenH - 8
-      ? Math.max(8, anchor.y - menuH - sideOffset)
-      : below;
   return (
-    <Modal visible={open} transparent animationType="fade">
-      <Pressable className="flex-1 bg-black/20" onPress={() => setOpen(false)}>
-        {anchor && (
-          <Pressable
-            onPress={(e) => e.stopPropagation()}
-            style={{
-              position: 'absolute',
-              left,
-              top,
-              opacity: menuH ? 1 : 0,
-            }}
-          >
-            <View
-              onLayout={(e) => setMenuH(e.nativeEvent.layout.height)}
-              className={cn(
-                'w-56 rounded-md border border-border bg-popover p-1 shadow-md',
-                className
-              )}
-              {...props}
-            >
-              <ScrollView className="max-h-72">{children}</ScrollView>
-            </View>
-          </Pressable>
-        )}
-      </Pressable>
-    </Modal>
+    <Popper
+      {...props}
+      open={open}
+      anchor={anchor}
+      placement="bottom-start"
+      sideOffset={sideOffset}
+      onClose={() => setOpen(false)}
+      onAccessibilityEscape={
+        props.onAccessibilityEscape ?? (() => setOpen(false))
+      }
+      className={cn('w-56 p-1 shadow-md', className)}
+    >
+      <ScrollView className="max-h-72" keyboardShouldPersistTaps="handled">
+        {children}
+      </ScrollView>
+    </Popper>
   );
 }
 
@@ -166,19 +263,24 @@ export function ContextMenuItem({
   inset,
   destructive,
   children,
+  onPress,
+  accessibilityState,
   ...props
 }: ContextMenuItemProps) {
   const { setOpen } = useContext(ContextMenuContext);
+  const destructiveColor = useIconColor('destructive');
   return (
     <Pressable
       accessibilityRole="menuitem"
+      accessibilityState={{ ...accessibilityState, disabled: !!disabled }}
       disabled={disabled}
       onPress={(e) => {
-        props.onPress?.(e);
+        if (disabled) return;
+        onPress?.(e);
         setOpen(false);
       }}
       className={cn(
-        'flex-row items-center gap-2 rounded-sm px-2 py-2 active:bg-accent',
+        'min-h-14 flex-row items-center gap-2 rounded-md px-3 py-2 active:bg-accent',
         inset && 'pl-8',
         disabled && 'opacity-50',
         className
@@ -187,10 +289,8 @@ export function ContextMenuItem({
     >
       {typeof children === 'string' ? (
         <Text
-          className={cn(
-            'text-sm',
-            destructive ? 'text-destructive' : 'text-popover-foreground'
-          )}
+          className="text-sm text-popover-foreground"
+          style={destructive ? { color: destructiveColor } : undefined}
         >
           {children}
         </Text>
@@ -201,8 +301,10 @@ export function ContextMenuItem({
   );
 }
 
-export interface ContextMenuCheckboxItemProps
-  extends Omit<PressableProps, 'children'> {
+export interface ContextMenuCheckboxItemProps extends Omit<
+  PressableProps,
+  'children'
+> {
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   /** Keep the menu open after toggling. */
@@ -218,21 +320,29 @@ export function ContextMenuCheckboxItem({
   onCheckedChange,
   closeOnPress = true,
   disabled,
+  onPress,
+  accessibilityState,
   ...props
 }: ContextMenuCheckboxItemProps) {
   const { setOpen } = useContext(ContextMenuContext);
   const checkColor = useIconColor('foreground');
   return (
     <Pressable
-      accessibilityRole="menuitem"
-      accessibilityState={{ checked, disabled: !!disabled }}
+      accessibilityRole="checkbox"
+      accessibilityState={{
+        ...accessibilityState,
+        checked: !!checked,
+        disabled: !!disabled,
+      }}
       disabled={disabled}
-      onPress={() => {
+      onPress={(event) => {
+        if (disabled) return;
+        onPress?.(event);
         onCheckedChange?.(!checked);
         if (closeOnPress) setOpen(false);
       }}
       className={cn(
-        'flex-row items-center gap-2 rounded-sm py-2 pl-8 pr-2 active:bg-accent',
+        'min-h-14 flex-row items-center gap-2 rounded-md py-2 pl-9 pr-3 active:bg-accent',
         disabled && 'opacity-50',
         className
       )}
@@ -273,7 +383,7 @@ export function ContextMenuLabel({ className, ...props }: TextProps) {
   return (
     <Text
       className={cn(
-        'px-2 py-1.5 text-xs font-semibold text-muted-foreground',
+        'px-2 py-1.5 text-sm font-semibold text-muted-foreground',
         className
       )}
       {...props}

@@ -12,7 +12,7 @@ export interface BlockquoteProps extends ViewProps {
 }
 
 /**
- * Quoted passage — left border accent + muted text, with optional cite.
+ * Quoted passage — quiet reading rule + emphasized text, with optional cite.
  *
  * @example
  * <Blockquote cite="— Ada Lovelace">
@@ -28,12 +28,12 @@ export function Blockquote({
 }: BlockquoteProps) {
   return (
     <View
-      className={cn('gap-2 border-l-4 border-border pl-4', className)}
+      className={cn('gap-3 border-l border-border pl-4', className)}
       {...props}
     >
       <Text
         className={cn(
-          'text-base italic leading-7 text-muted-foreground',
+          'text-base italic leading-7 text-foreground',
           textClassName
         )}
       >

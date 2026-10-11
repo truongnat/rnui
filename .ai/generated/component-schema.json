@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "generatedAt": "2026-10-09T16:14:06.110Z",
+  "generatedAt": "2026-10-11T15:02:57.516Z",
   "components": [
     {
       "name": "Screen",
@@ -2238,8 +2238,8 @@
       "name": "ContextMenu",
       "category": "overlay",
       "status": "beta",
-      "description": "Long-press context menu.",
-      "supportReason": "Native context menu / gesture coordination",
+      "description": "Custom long-press menu for secondary item actions; provide a visible tap alternative.",
+      "supportReason": "Custom native anchoring and long-press gesture coordination; not an OS-native context menu",
       "import": {
         "named": "ContextMenu",
         "from": "@/components/ui/context-menu",
@@ -2251,7 +2251,7 @@
       "support": {
         "native": true,
         "webPreview": false,
-        "reason": "Native context menu / gesture coordination"
+        "reason": "Custom native anchoring and long-press gesture coordination; not an OS-native context menu"
       }
     },
     {

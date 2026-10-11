@@ -39,7 +39,7 @@ export default function DropdownMenuScreen() {
             <DropdownMenuItem>Account Settings</DropdownMenuItem>
             <DropdownMenuItem>Privacy Policy</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Sign Out</DropdownMenuItem>
+            <DropdownMenuItem destructive>Sign Out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </DemoSection>
@@ -50,7 +50,11 @@ export default function DropdownMenuScreen() {
       >
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon">
+            <Button
+              variant="outline"
+              size="icon"
+              accessibilityLabel="Object actions"
+            >
               <Icon name="moreVertical" size={20} tone="foreground" />
             </Button>
           </DropdownMenuTrigger>

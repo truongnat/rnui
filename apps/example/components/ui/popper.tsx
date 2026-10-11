@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -6,12 +7,19 @@ import {
   type RefObject,
 } from 'react';
 import {
+  Animated,
   type LayoutChangeEvent,
   Modal,
   Pressable,
-  useWindowDimensions,
   View,
+  type ViewProps,
 } from 'react-native';
+import {
+  SafeAreaProvider,
+  useSafeAreaFrame,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
+import { useAnimatedOverlay } from '@/components/ui/animated-overlay';
 import { cn } from '@/lib/utils';
 
 export type PopperPlacement =
@@ -128,21 +136,21 @@ function overflows(
   side: Side,
   pos: { left: number; top: number },
   content: { width: number; height: number },
-  screen: { width: number; height: number }
+  bounds: { left: number; top: number; right: number; bottom: number }
 ) {
   switch (side) {
     case 'top':
-      return pos.top < EDGE_MARGIN;
+      return pos.top < bounds.top;
     case 'bottom':
-      return pos.top + content.height > screen.height - EDGE_MARGIN;
+      return pos.top + content.height > bounds.bottom;
     case 'left':
-      return pos.left < EDGE_MARGIN;
+      return pos.left < bounds.left;
     case 'right':
-      return pos.left + content.width > screen.width - EDGE_MARGIN;
+      return pos.left + content.width > bounds.right;
   }
 }
 
-export interface PopperProps {
+export interface PopperProps extends ViewProps {
   open: boolean;
   /** Window rect of the anchor element (see `usePopperAnchor`). */
   anchor?: AnchorRect | null;
@@ -165,9 +173,31 @@ export interface PopperProps {
  * Renders inside a transparent RN `Modal`; clamps to screen edges and
  * flips on overflow. Compose inside: menu items, tooltips, etc.
  */
-export function Popper({
+export function Popper(props: PopperProps) {
+  const shouldPresent = props.open && !!props.anchor;
+  const [mounted, setMounted] = useState(shouldPresent);
+  useEffect(() => {
+    if (shouldPresent) setMounted(true);
+  }, [shouldPresent]);
+  return (
+    <Modal
+      visible={mounted || shouldPresent}
+      transparent
+      statusBarTranslucent
+      navigationBarTranslucent
+      animationType="none"
+      onRequestClose={props.onClose}
+    >
+      <SafeAreaProvider>
+        <PopperFrame {...props} onClosed={() => setMounted(false)} />
+      </SafeAreaProvider>
+    </Modal>
+  );
+}
+
+function PopperFrame({
   open,
-  anchor,
+  anchor: windowAnchor,
   placement = 'bottom',
   sideOffset = 6,
   showArrow = false,
@@ -176,26 +206,57 @@ export function Popper({
   onClose,
   children,
   className,
-}: PopperProps) {
-  const { width: screenW, height: screenH } = useWindowDimensions();
+  onClosed,
+  style,
+  ...surfaceProps
+}: PopperProps & { onClosed: () => void }) {
+  const frame = useSafeAreaFrame();
+  const { width: screenW, height: screenH } = frame;
+  const anchor = useMemo(
+    () =>
+      windowAnchor && {
+        ...windowAnchor,
+        x: windowAnchor.x - frame.x,
+        y: windowAnchor.y - frame.y,
+      },
+    [windowAnchor, frame.x, frame.y]
+  );
   const [size, setSize] = useState({ width: 0, height: 0 });
+  const insets = useSafeAreaInsets();
+  const shouldPresent = open && !!anchor;
+  const openRef = useRef(shouldPresent);
+  openRef.current = shouldPresent;
+  const { setVisible, contentStyle } = useAnimatedOverlay({
+    animationType: 'scale',
+    onAnimationEnd: (entering) => {
+      if (!entering && !openRef.current) onClosed();
+    },
+  });
+  useEffect(() => {
+    setVisible(shouldPresent && size.width > 0);
+  }, [shouldPresent, size.width, setVisible]);
 
   const { pos, resolvedSide, arrow } = useMemo(() => {
     if (!anchor || size.width === 0) {
       return {
-        pos: { left: -9999, top: 0 },
+        pos: { left: EDGE_MARGIN, top: insets.top + EDGE_MARGIN },
         resolvedSide: parsePlacement(placement)[0],
         arrow: { left: 0, top: 0 },
       };
     }
-    const screen = { width: screenW, height: screenH };
+    const bounds = {
+      left: insets.left + EDGE_MARGIN,
+      top: insets.top + EDGE_MARGIN,
+      right: screenW - insets.right - EDGE_MARGIN,
+      bottom: screenH - insets.bottom - EDGE_MARGIN,
+    };
     let [side, align] = parsePlacement(placement);
     let p = resolve(side, align, anchor, size, sideOffset);
 
-    if (flip && overflows(side, p, size, screen)) {
+    if (flip && overflows(side, p, size, bounds)) {
       const flipped = flipSide(side);
       const fp = resolve(flipped, align, anchor, size, sideOffset);
-      if (!overflows(flipped, fp, size, screen)) {
+      if (!overflows(flipped, fp, size, bounds)) {
         side = flipped;
         p = fp;
       }
@@ -203,30 +264,54 @@ export function Popper({
 
     // Clamp inside the window.
     const left = Math.max(
-      EDGE_MARGIN,
-      Math.min(p.left, screenW - size.width - EDGE_MARGIN)
+      bounds.left,
+      Math.min(p.left, bounds.right - size.width)
     );
     const top = Math.max(
-      EDGE_MARGIN,
-      Math.min(p.top, screenH - size.height - EDGE_MARGIN)
+      bounds.top,
+      Math.min(p.top, bounds.bottom - size.height)
     );
 
     // Arrow sits on the edge facing the anchor, centered on its cross-axis.
     const arrowPos =
       side === 'top' || side === 'bottom'
         ? {
-            left: anchor.x + anchor.width / 2 - left - ARROW_SIZE / 2,
+            left: Math.max(
+              12,
+              Math.min(
+                anchor.x + anchor.width / 2 - left - ARROW_SIZE / 2,
+                size.width - ARROW_SIZE - 12
+              )
+            ),
             top:
               side === 'top' ? size.height - ARROW_SIZE / 2 : -ARROW_SIZE / 2,
           }
         : {
             left:
               side === 'left' ? size.width - ARROW_SIZE / 2 : -ARROW_SIZE / 2,
-            top: anchor.y + anchor.height / 2 - top - ARROW_SIZE / 2,
+            top: Math.max(
+              12,
+              Math.min(
+                anchor.y + anchor.height / 2 - top - ARROW_SIZE / 2,
+                size.height - ARROW_SIZE - 12
+              )
+            ),
           };
 
     return { pos: { left, top }, resolvedSide: side, arrow: arrowPos };
-  }, [anchor, size, placement, sideOffset, flip, screenW, screenH]);
+  }, [
+    anchor,
+    size,
+    placement,
+    sideOffset,
+    flip,
+    screenW,
+    screenH,
+    insets.top,
+    insets.bottom,
+    insets.left,
+    insets.right,
+  ]);
 
   const handleLayout = (e: LayoutChangeEvent) => {
     const { width, height } = e.nativeEvent.layout;
@@ -236,60 +321,77 @@ export function Popper({
   };
 
   return (
-    <Modal
-      visible={open}
-      transparent
-      animationType="fade"
-      onRequestClose={onClose}
+    <View
+      pointerEvents={open ? 'auto' : 'none'}
+      accessibilityElementsHidden={!open}
+      importantForAccessibility={open ? 'auto' : 'no-hide-descendants'}
+      style={{ flex: 1 }}
     >
       <Pressable
-        style={{ flex: 1 }}
-        onPress={dismissable ? onClose : undefined}
-      >
-        {anchor && (
-          <View
-            onLayout={handleLayout}
-            style={{
+        style={{ position: 'absolute', inset: 0 }}
+        disabled={!dismissable}
+        accessibilityRole="button"
+        accessibilityLabel="Close popup"
+        onPress={onClose}
+      />
+      {anchor && (
+        <Animated.View
+          accessibilityViewIsModal
+          pointerEvents={open && size.width > 0 ? 'auto' : 'none'}
+          onLayout={handleLayout}
+          style={[
+            {
               position: 'absolute',
               left: pos.left,
               top: pos.top,
-              opacity: size.width ? 1 : 0,
-            }}
-          >
-            {showArrow && (
-              <View
-                className={cn(
-                  'border-border bg-popover',
-                  resolvedSide === 'top' && 'border-b border-r',
-                  resolvedSide === 'bottom' && 'border-l border-t',
-                  resolvedSide === 'left' && 'border-r border-t',
-                  resolvedSide === 'right' && 'border-b border-l'
-                )}
-                style={{
-                  position: 'absolute',
-                  left: arrow.left,
-                  top: arrow.top,
-                  width: ARROW_SIZE,
-                  height: ARROW_SIZE,
-                  transform: [{ rotate: '45deg' }],
-                  zIndex: -1,
-                }}
-              />
+              maxWidth: screenW - insets.left - insets.right - EDGE_MARGIN * 2,
+              maxHeight: screenH - insets.top - insets.bottom - EDGE_MARGIN * 2,
+            },
+            contentStyle,
+          ]}
+        >
+          {showArrow && (
+            <View
+              className={cn(
+                'border-border bg-popover',
+                resolvedSide === 'top' && 'border-b border-r',
+                resolvedSide === 'bottom' && 'border-l border-t',
+                resolvedSide === 'left' && 'border-r border-t',
+                resolvedSide === 'right' && 'border-b border-l'
+              )}
+              style={{
+                position: 'absolute',
+                left: arrow.left,
+                top: arrow.top,
+                width: ARROW_SIZE,
+                height: ARROW_SIZE,
+                transform: [{ rotate: '45deg' }],
+                zIndex: -1,
+              }}
+            />
+          )}
+          <View
+            {...surfaceProps}
+            className={cn(
+              'rounded-lg border border-border bg-popover p-2',
+              className
             )}
-            <Pressable onPress={(e) => e.stopPropagation()}>
-              <View
-                className={cn(
-                  'rounded-md border border-border bg-popover p-2 shadow-md',
-                  className
-                )}
-              >
-                {children}
-              </View>
-            </Pressable>
+            style={[
+              { borderCurve: 'continuous' },
+              style,
+              {
+                maxWidth:
+                  screenW - insets.left - insets.right - EDGE_MARGIN * 2,
+                maxHeight:
+                  screenH - insets.top - insets.bottom - EDGE_MARGIN * 2,
+              },
+            ]}
+          >
+            {children}
           </View>
-        )}
-      </Pressable>
-    </Modal>
+        </Animated.View>
+      )}
+    </View>
   );
 }
 

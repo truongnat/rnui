@@ -38,13 +38,26 @@ export function ChatListItem({
 }: ChatListItemProps) {
   return (
     <Pressable
-      accessibilityRole="button"
+      accessibilityRole={onPress ? 'button' : undefined}
+      accessibilityLabel={
+        props.accessibilityLabel ??
+        [
+          name,
+          online ? 'Online' : undefined,
+          time,
+          message,
+          unreadCount > 0 ? `${unreadCount} unread messages` : undefined,
+        ]
+          .filter(Boolean)
+          .join(', ')
+      }
       onPress={onPress}
-      className="active:bg-accent"
+      disabled={!onPress}
+      className="active:opacity-70"
     >
       <View
         className={cn(
-          'min-h-16 flex-row items-center gap-3 px-4 py-2.5',
+          'min-h-20 flex-row items-center gap-3 px-4 py-3',
           className
         )}
         {...props}
@@ -59,33 +72,32 @@ export function ChatListItem({
           {online && (
             <View
               className={cn(
-                'absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-background bg-green-500',
+                'absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-background bg-primary',
                 presenceClassName
               )}
             />
           )}
         </View>
-        <View className="flex-1">
-          <View className="flex-row items-baseline justify-between">
-            <Text
-              className="flex-1 text-base font-medium text-foreground"
-              numberOfLines={1}
-            >
+        <View className="min-w-0 flex-1">
+          <View className="flex-row items-baseline justify-between gap-2">
+            <Text className="min-w-0 flex-1 text-base font-semibold leading-6 text-foreground">
               {name}
             </Text>
             {time && (
-              <Text className="ml-2 text-xs text-muted-foreground">{time}</Text>
+              <Text className="shrink text-xs leading-5 text-muted-foreground">
+                {time}
+              </Text>
             )}
           </View>
-          <View className="mt-0.5 flex-row items-center justify-between">
+          <View className="mt-1 flex-row items-start justify-between gap-2">
             <Text
-              className="flex-1 text-sm text-muted-foreground"
-              numberOfLines={1}
+              className="min-w-0 flex-1 text-sm leading-5 text-muted-foreground"
+              numberOfLines={2}
             >
               {message}
             </Text>
             {unreadCount > 0 && (
-              <Badge className="ml-2 h-5 min-w-5 px-1.5">
+              <Badge className="min-h-5 min-w-5 px-1.5">
                 {unreadCount > 99 ? '99+' : unreadCount}
               </Badge>
             )}

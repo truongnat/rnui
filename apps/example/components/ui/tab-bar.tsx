@@ -1,16 +1,10 @@
-import {
-  cloneElement,
-  isValidElement,
-  useState,
-  type ReactElement,
-  type ReactNode,
-} from 'react';
+import { cloneElement, isValidElement, useState, type ReactNode } from 'react';
 import { Pressable, View, type ViewProps } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { tv } from 'tailwind-variants';
 import { Badge } from '@/components/ui/badge';
 import { Text } from '@/components/ui/text';
-import { cn, useThemeColor } from '@/lib/utils';
+import { cn, spacingScale, useThemeColor } from '@/lib/utils';
 
 const tabBarStyles = tv({
   slots: {
@@ -37,7 +31,7 @@ export interface TabBarProps extends ViewProps {
   value?: string;
   defaultValue?: string;
   onValueChange?: (key: string) => void;
-  /** Pad the bottom edge for the home indicator. Default true. */
+  /** Apply bottom and side safe-area insets. Disable when the parent already owns them. Default true. */
   safeArea?: boolean;
   className?: string;
   itemClassName?: string;
@@ -71,7 +65,14 @@ export function TabBar({
     <View
       accessibilityRole="tablist"
       className={cn(container(), className)}
-      style={[safeArea && { paddingBottom: insets.bottom }, style]}
+      style={[
+        safeArea && {
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left + spacingScale.sm,
+          paddingRight: insets.right + spacingScale.sm,
+        },
+        style,
+      ]}
       {...props}
     >
       {items.map((entry) => {
@@ -97,7 +98,7 @@ export function TabBar({
           >
             <View>
               {isValidElement<{ color?: string }>(icon)
-                ? cloneElement(icon as ReactElement<{ color?: string }>, {
+                ? cloneElement(icon, {
                     color: icon.props.color ?? tint,
                   })
                 : icon}

@@ -50,9 +50,10 @@ export function List<T>({
   if (data && renderItem) {
     return (
       <FlatList
-        data={data as T[]}
+        data={data}
         renderItem={renderItem}
         ItemSeparatorComponent={ItemSeparatorComponent ?? ListSeparator}
+        className={className}
         ListHeaderComponent={header}
         {...props}
       />

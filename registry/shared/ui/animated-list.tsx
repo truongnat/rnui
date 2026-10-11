@@ -2,41 +2,38 @@ import {
   forwardRef,
   memo,
   useCallback,
-  useEffect,
-  useRef,
+  useState,
   type ComponentType,
   type ReactElement,
   type ReactNode,
   type Ref,
 } from 'react';
 import {
-  Animated,
   FlatList,
   type FlatListProps,
   type ListRenderItemInfo,
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
+import Animated, {
+  FadeIn,
+  LinearTransition,
+  ReduceMotion,
+} from 'react-native-reanimated';
 
-type AnyFlatList = ComponentType<FlatListProps<unknown>>;
-
-let cachedFlashList: AnyFlatList | null | undefined;
-
-function loadFlashList(): AnyFlatList | null {
+type OptionalList = ComponentType<FlatListProps<unknown>>;
+let cachedFlashList: OptionalList | null | undefined;
+function loadFlashList(): OptionalList | null {
   if (cachedFlashList !== undefined) return cachedFlashList;
   try {
-    // Optional peer dep — falls back to FlatList when not installed.
-    const mod = require('@shopify/flash-list') as {
-      FlashList?: AnyFlatList;
-    };
-    cachedFlashList = mod.FlashList ?? null;
+    const module: { FlashList?: OptionalList } = require('@shopify/flash-list');
+    cachedFlashList = module.FlashList ?? null;
   } catch {
     cachedFlashList = null;
   }
   return cachedFlashList;
 }
-
-const MAX_STAGGER_MS = 1000;
+const MAX_STAGGER_MS = 240;
 
 interface AnimatedCellProps {
   index: number;
@@ -48,7 +45,7 @@ interface AnimatedCellProps {
   children?: ReactNode;
 }
 
-/** Per-item fade+rise entrance; delay staggers by index. */
+/** Bounded item entrance plus layout continuity for mutations and reordering. */
 function AnimatedCellInner({
   index,
   itemDelay,
@@ -56,34 +53,22 @@ function AnimatedCellInner({
   itemContainerStyle,
   children,
 }: AnimatedCellProps) {
-  const progress = useRef(new Animated.Value(animated ? 0 : 1)).current;
-
-  useEffect(() => {
-    if (!animated) return;
-    Animated.timing(progress, {
-      toValue: 1,
-      duration: 260,
-      delay: Math.min(index * itemDelay, MAX_STAGGER_MS),
-      useNativeDriver: true,
-    }).start();
-  }, [animated, index, itemDelay, progress]);
+  // A stable React item key keeps this entrance from replaying on sort/reorder.
+  const [entrance] = useState(() =>
+    FadeIn.duration(180)
+      .delay(Math.min(Math.max(0, index * itemDelay), MAX_STAGGER_MS))
+      .reduceMotion(ReduceMotion.System)
+  );
 
   return (
     <Animated.View
-      style={[
-        itemContainerStyle,
-        {
-          opacity: progress,
-          transform: [
-            {
-              translateY: progress.interpolate({
-                inputRange: [0, 1],
-                outputRange: [16, 0],
-              }),
-            },
-          ],
-        },
-      ]}
+      entering={animated && itemDelay > 0 ? entrance : undefined}
+      layout={
+        animated
+          ? LinearTransition.duration(200).reduceMotion(ReduceMotion.System)
+          : undefined
+      }
+      style={itemContainerStyle}
     >
       {children}
     </Animated.View>
@@ -106,8 +91,8 @@ export interface AnimatedListProps<T>
 }
 
 /**
- * AnimatedList — FlatList (or FlashList when installed) with a staggered
- * fade-in-down entrance per item. Zero deps beyond RN Animated.
+ * AnimatedList — virtualized rows with bounded entrances and layout continuity.
+ * Uses FlashList when available; an explicit FlatList ref uses native FlatList.
  */
 function AnimatedListInner<T>(
   {
@@ -120,13 +105,10 @@ function AnimatedListInner<T>(
   }: AnimatedListProps<T>,
   ref: Ref<FlatList<T>>
 ) {
-  const ListImpl = (loadFlashList() ?? FlatList) as ComponentType<
-    FlatListProps<T> & { ref?: Ref<FlatList<T>> }
-  >;
-
   const renderAnimatedItem = useCallback(
     (info: ListRenderItemInfo<T>) => (
       <AnimatedCell
+        key={listProps.keyExtractor?.(info.item, info.index)}
         index={info.index}
         itemDelay={itemDelay}
         animated={animated}
@@ -135,12 +117,27 @@ function AnimatedListInner<T>(
         {renderItem(info)}
       </AnimatedCell>
     ),
-    [renderItem, itemDelay, animated, itemContainerStyle]
+    [
+      renderItem,
+      itemDelay,
+      animated,
+      itemContainerStyle,
+      listProps.keyExtractor,
+    ]
   );
+  // FlashList is not a FlatList instance: do not forward a dishonest ref.
+  const ListImpl = (loadFlashList() ?? FlatList) as ComponentType<
+    FlatListProps<T>
+  >;
+  if (!ref) {
+    return (
+      <ListImpl data={data} renderItem={renderAnimatedItem} {...listProps} />
+    );
+  }
 
   return (
-    <ListImpl
-      ref={ref as never}
+    <FlatList
+      ref={ref}
       data={data}
       renderItem={renderAnimatedItem}
       {...listProps}

@@ -1,75 +1,96 @@
+import { useState } from 'react';
+import { View } from 'react-native';
+import Animated, { FadeIn, ReduceMotion } from 'react-native-reanimated';
 import { ChatListItem } from '@/components/ui/chat-list-item';
-import { Separator } from '@/components/ui/separator';
+import { ListSeparator } from '@/components/ui/list-item';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
+const CONVERSATIONS = [
+  {
+    name: 'Maya Chen',
+    fallback: 'MC',
+    message: 'The updated calendar is ready for your review.',
+    time: '10:45',
+    unread: 3,
+    online: true,
+  },
+  {
+    name: 'Design team',
+    fallback: 'DT',
+    message: 'Alex: Let’s keep the motion subtle and the content easy to scan.',
+    time: 'Yesterday',
+    unread: 0,
+    online: false,
+  },
+  {
+    name: 'Release updates',
+    fallback: 'RU',
+    message: 'New builds are available. Read the notes before updating.',
+    time: 'Mon',
+    unread: 142,
+    online: false,
+  },
+];
+
 export default function ChatListItemScreen() {
+  const [read, setRead] = useState<string[]>([]);
+  const [opened, setOpened] = useState<string | null>(null);
   return (
     <DemoPage
-      title="ChatListItem"
-      description="Chat rows with avatar, preview, badges, and status."
+      title="Chat List Item"
+      description="An inbox hierarchy: names first, readable previews next, and compact timestamps and unread counts."
     >
       <DemoSection
-        title="Standard"
-        description="Unread count and online status."
+        title="Inbox"
+        description="Tap a conversation to mark it read. Counts over 99 remain compact."
         flush
       >
-        <ChatListItem
-          name="Truong Dang"
-          message="Hey! How is the component migration going?"
-          time="10:45 AM"
-          unreadCount={3}
-          fallback="TD"
-          online
-          onPress={() => {}}
-        />
-        <Separator />
-        <ChatListItem
-          name="Design Team"
-          message="Sarah: Let's check the new glassmorphism effect."
-          time="Yesterday"
-          avatarUrl="https://picsum.photos/100/100?random=1"
-          onPress={() => {}}
-        />
+        {CONVERSATIONS.map((chat, index) => (
+          <View key={chat.name}>
+            <ChatListItem
+              name={chat.name}
+              fallback={chat.fallback}
+              message={chat.message}
+              time={chat.time}
+              unreadCount={read.includes(chat.name) ? 0 : chat.unread}
+              online={chat.online}
+              onPress={() => {
+                setRead((current) =>
+                  current.includes(chat.name)
+                    ? current
+                    : [...current, chat.name]
+                );
+                setOpened(chat.name);
+              }}
+            />
+            {index < CONVERSATIONS.length - 1 ? (
+              <ListSeparator className="ml-16" />
+            ) : null}
+          </View>
+        ))}
+        <Animated.View
+          key={opened ?? 'unopened'}
+          entering={FadeIn.duration(150).reduceMotion(ReduceMotion.System)}
+          className="border-t border-border px-4 py-3"
+        >
+          <Text variant="muted" accessibilityLiveRegion="polite">
+            {opened
+              ? `${opened} marked as read.`
+              : 'Choose a conversation above.'}
+          </Text>
+        </Animated.View>
       </DemoSection>
-
       <DemoSection
-        title="Presence"
-        description="Presence dot and fallback initials."
+        title="Read-only preview"
+        description="Without an action the row is content, not a button."
         flush
       >
         <ChatListItem
-          name="James Wilson"
-          message="The PR was approved! 🚀"
-          time="Wed"
-          avatarUrl="https://picsum.photos/100/100?random=2"
-          online
-          presenceClassName="bg-amber-500"
-          onPress={() => {}}
-        />
-        <Separator />
-        <ChatListItem
-          name="Company Announcements"
-          message="All hands meeting at 2 PM today."
-          time="Mon"
-          fallback="CA"
-          online
-          presenceClassName="bg-red-500"
-          onPress={() => {}}
-        />
-      </DemoSection>
-
-      <DemoSection
-        title="Unread badge"
-        description="Counts clamp at 99+."
-        flush
-      >
-        <ChatListItem
-          name="Payment Alert"
-          message="Your subscription will be renewed tomorrow."
-          time="Just now"
-          unreadCount={142}
-          fallback="PA"
-          onPress={() => {}}
+          name="Customer support"
+          fallback="CS"
+          message="Your request has been received. We’ll reply here when there’s an update."
+          time="Tue"
         />
       </DemoSection>
     </DemoPage>

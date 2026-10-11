@@ -1,140 +1,141 @@
+import { useState } from 'react';
 import { View } from 'react-native';
-import { Plus, RefreshCw, Rocket } from 'lucide-react-native';
+import { Folder, Plus, Search } from 'lucide-react-native';
+import Animated, {
+  FadeIn,
+  LinearTransition,
+  ReduceMotion,
+} from 'react-native-reanimated';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import {
   EmptyState,
   EmptyStateAction,
   EmptyStateDescription,
   EmptyStateTitle,
 } from '@/components/ui/empty-state';
-import { Icon } from '@/components/ui/icon';
-import { useToast } from '@/components/ui/toast';
+import { ListItem } from '@/components/ui/list-item';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 import { useIconColor } from '@/lib/utils';
 
 export default function EmptyStateScreen() {
-  const { toast } = useToast();
-  const onPrimary = useIconColor('onPrimary');
+  const [projects, setProjects] = useState(0);
+  const [filtered, setFiltered] = useState(true);
   const muted = useIconColor('muted');
-
+  const onPrimary = useIconColor('onPrimary');
   return (
     <DemoPage
       title="Empty State"
-      description="Guide users when there is no content and suggest next steps."
+      description="Say what is missing and give a useful next step. Recovery changes the content, not just a toast."
     >
       <DemoSection
-        title="Standard Variants"
-        description="Compose icon, title, description, and an optional action."
-        bare
+        title="First project"
+        description="Create an item to move from an empty collection to real content."
+        flush
       >
-        <View className="gap-4">
-          <Card>
-            <EmptyState icon={<Icon name="box" size={40} tone="muted" />}>
-              <EmptyStateTitle>Nothing here yet</EmptyStateTitle>
+        <Animated.View
+          layout={LinearTransition.duration(200).reduceMotion(
+            ReduceMotion.System
+          )}
+        >
+          {projects === 0 ? (
+            <EmptyState icon={<Folder size={36} color={muted} />}>
+              <EmptyStateTitle>No projects yet</EmptyStateTitle>
               <EmptyStateDescription>
-                Items you create will show up in this list.
-              </EmptyStateDescription>
-            </EmptyState>
-          </Card>
-
-          <Card>
-            <EmptyState icon={<Icon name="search" size={40} tone="muted" />}>
-              <EmptyStateTitle>No results found</EmptyStateTitle>
-              <EmptyStateDescription>
-                Try adjusting your filters or search terms.
+                Keep your notes and files together. Create a project to get
+                started.
               </EmptyStateDescription>
               <EmptyStateAction>
-                <Button variant="outline" size="sm">
-                  Clear Filters
+                <Button onPress={() => setProjects(1)}>
+                  <Plus size={18} color={onPrimary} />
+                  <Text>Create a project</Text>
                 </Button>
               </EmptyStateAction>
             </EmptyState>
-          </Card>
-
-          <Card>
-            <EmptyState
-              icon={<Icon name="error" size={40} tone="destructive" />}
+          ) : (
+            <Animated.View
+              entering={FadeIn.duration(180).reduceMotion(ReduceMotion.System)}
+              className="py-3"
             >
-              <EmptyStateTitle>Systems Down</EmptyStateTitle>
-              <EmptyStateDescription>
-                We're having trouble connecting. Please try again later.
-              </EmptyStateDescription>
-              <EmptyStateAction>
-                <Button size="sm">
-                  <RefreshCw size={16} color={onPrimary} />
-                  Retry Connection
+              <ListItem
+                title="Untitled project"
+                subtitle="Just created · 0 files"
+                leading={<Folder size={24} color={muted} />}
+              />
+              <View className="items-start px-4 pt-3">
+                <Button variant="outline" onPress={() => setProjects(0)}>
+                  Reset collection
                 </Button>
-              </EmptyStateAction>
-            </EmptyState>
-          </Card>
-        </View>
-      </DemoSection>
-
-      <DemoSection
-        title="Density"
-        description="Tighten padding and scale the icon for compact contexts."
-        bare
-      >
-        <View className="gap-4">
-          <Card>
-            <EmptyState
-              className="py-6"
-              icon={<Icon name="box" size={24} tone="muted" />}
-            >
-              <EmptyStateTitle>Small</EmptyStateTitle>
-              <EmptyStateDescription>Minimal space usage</EmptyStateDescription>
-            </EmptyState>
-          </Card>
-          <Card>
-            <EmptyState icon={<Icon name="box" size={40} tone="muted" />}>
-              <EmptyStateTitle>Medium</EmptyStateTitle>
-              <EmptyStateDescription>
-                Standard layout size
-              </EmptyStateDescription>
-            </EmptyState>
-          </Card>
-          <Card>
-            <EmptyState
-              className="py-16"
-              icon={<Icon name="box" size={56} tone="muted" />}
-            >
-              <EmptyStateTitle>Large</EmptyStateTitle>
-              <EmptyStateDescription>
-                High visibility centered layout
-              </EmptyStateDescription>
-            </EmptyState>
-          </Card>
-        </View>
-      </DemoSection>
-
-      <DemoSection
-        title="Custom Experience"
-        description="Custom illustration and primary action for onboarding."
-        bare
-      >
-        <Card>
-          <EmptyState
-            icon={
-              <View className="mb-2 h-20 w-20 items-center justify-center rounded-full bg-muted">
-                <Rocket size={40} color={muted} />
               </View>
-            }
-          >
-            <EmptyStateTitle>Your Journey Starts Here</EmptyStateTitle>
-            <EmptyStateDescription>
-              Create your first project or invite team members to collaborate.
-            </EmptyStateDescription>
-            <EmptyStateAction>
-              <Button
-                onPress={() => toast.success('Initializing project setup…')}
-              >
-                <Plus size={18} color={onPrimary} />
-                Create First Project
-              </Button>
-            </EmptyStateAction>
-          </EmptyState>
-        </Card>
+            </Animated.View>
+          )}
+        </Animated.View>
+      </DemoSection>
+      <DemoSection
+        title="No matching results"
+        description="Clear the filter to reveal the underlying collection."
+        flush
+      >
+        <Animated.View
+          key={filtered ? 'filtered' : 'results'}
+          entering={FadeIn.duration(180).reduceMotion(ReduceMotion.System)}
+        >
+          {filtered ? (
+            <EmptyState icon={<Search size={36} color={muted} />}>
+              <EmptyStateTitle>No archived projects</EmptyStateTitle>
+              <EmptyStateDescription>
+                Your projects are still active. Clear the archive filter to see
+                them.
+              </EmptyStateDescription>
+              <EmptyStateAction>
+                <Button variant="outline" onPress={() => setFiltered(false)}>
+                  Clear archive filter
+                </Button>
+              </EmptyStateAction>
+            </EmptyState>
+          ) : (
+            <View className="py-3">
+              <ListItem
+                title="Mobile launch"
+                subtitle="Active · Updated today"
+                leading={<Folder size={24} color={muted} />}
+              />
+              <ListItem
+                title="Design review"
+                subtitle="Active · Updated yesterday"
+                leading={<Folder size={24} color={muted} />}
+              />
+              <View className="items-start px-4 pt-3">
+                <Button variant="outline" onPress={() => setFiltered(true)}>
+                  Show archived only
+                </Button>
+              </View>
+            </View>
+          )}
+        </Animated.View>
+      </DemoSection>
+      <DemoSection
+        title="Compact context"
+        description="A quiet informational state needs no animation or action."
+      >
+        <EmptyState
+          className="px-3 py-6"
+          icon={<Search size={24} color={muted} />}
+        >
+          <EmptyStateTitle>No saved searches</EmptyStateTitle>
+          <EmptyStateDescription>
+            Searches you save will appear here for quick access.
+          </EmptyStateDescription>
+        </EmptyState>
+        <Text
+          variant="muted"
+          className="mt-2 text-center"
+          accessibilityLiveRegion="polite"
+        >
+          {projects > 0
+            ? 'Your first project is ready.'
+            : 'Create your first project above.'}
+        </Text>
       </DemoSection>
     </DemoPage>
   );

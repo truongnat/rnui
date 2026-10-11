@@ -16,7 +16,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Badge } from '@/components/ui/badge';
 import { Text } from '@/components/ui/text';
-import { cn, useThemeColor } from '@/lib/utils';
+import { cn, spacingScale, useThemeColor } from '@/lib/utils';
 
 export interface BottomNavigationItem {
   key: string;
@@ -34,7 +34,7 @@ export interface BottomNavigationProps extends ViewProps {
   value: string;
   onValueChange?: (key: string) => void;
   variant?: BottomNavigationVariant;
-  /** Add bottom padding for the device Home Indicator. Default: true. */
+  /** Apply bottom and side safe-area insets. Disable when the parent already owns them. Default: true. */
   safeArea?: boolean;
   className?: string;
 }
@@ -107,10 +107,7 @@ function NavItemButton({
       }}
       disabled={item.disabled}
       onPress={onPress}
-      style={({ pressed }) => [
-        styles.navItem,
-        pressed && { opacity: 0.7 },
-      ]}
+      style={({ pressed }) => [styles.navItem, pressed && { opacity: 0.7 }]}
     >
       {/* Animated Capsule Box */}
       <View style={styles.iconContainer}>
@@ -206,6 +203,10 @@ export function BottomNavigation({
                 backgroundColor: colors.card,
                 borderColor: colors.border,
                 bottom: safeArea ? insets.bottom + 12 : 16,
+                ...(safeArea && {
+                  left: insets.left + spacingScale.md,
+                  right: insets.right + spacingScale.md,
+                }),
               },
             ]
           : [
@@ -213,6 +214,10 @@ export function BottomNavigation({
               {
                 backgroundColor: colors.card,
                 paddingBottom: safeArea ? Math.max(insets.bottom, 10) : 10,
+                ...(safeArea && {
+                  paddingLeft: insets.left + spacingScale.xs,
+                  paddingRight: insets.right + spacingScale.xs,
+                }),
               },
             ],
         style,

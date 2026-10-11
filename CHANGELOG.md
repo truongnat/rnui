@@ -13,7 +13,7 @@ Internal packages renamed: `@rnui/component-schema`, `@rnui/renderer`,
 ### Added
 
 - **toast**: Sonner-style API — `toast.success/error/info/warning/loading/
-  message/promise/dismiss`, `action`/`cancel`/`icon`/`id`/`duration` options,
+message/promise/dismiss`, `action`/`cancel`/`icon`/`id`/`duration` options,
   `ToastProvider` `position` + `richColors`.
 - **dropdown-menu / context-menu**: `*CheckboxItem`, `*RadioItem`,
   `*Shortcut`, item `inset` + `destructive`; anchored content flips above the
@@ -39,6 +39,97 @@ Internal packages renamed: `@rnui/component-schema`, `@rnui/renderer`,
 
 ### Fixed
 
+- **Calendar**: remove the fixed width cap and percentage-wrapped date cells
+  that left a right-side gutter and moved Saturday into the next row. Use
+  explicit seven-column weeks aligned with weekday headings and hidden outside
+  dates; enlarge mobile controls and weekday labels, and round range bands at
+  visible row boundaries.
+- **CodeBlock**: replace monochrome token emphasis with light/dark syntax colors
+  for supported source languages. Preserve source indentation/newlines, selectable
+  monospace text and exact clipboard contents rather than rewriting code.
+  Header visibility is independent of syntax language via `showHeader`; the
+  headerless demo retains TSX highlighting without a title/language/copy bar.
+
+- **Context menu / mobile demo**: separate long-press item actions from visible
+  tap overflow menus; preserve primary tap behavior and target the correct object.
+  Share preference state between both entry points, remove unavailable demo actions,
+  enlarge menu touch rows and labels, and use readable destructive foreground colors.
+  Preserve callback trigger styles and composed press/hover handlers. Forward content
+  props to its measured surface; use a separate accessibility action and escape dismissal.
+  Document the custom implementation rather than describing it as an OS-native menu.
+
+- **Popover content / demo**: apply caller `ViewProps` to the measured surface
+  so width/padding overrides no longer spill outside its painted boundary.
+  Preserve window-size caps, add semantic panel elevation and enlarge trigger
+  hit areas without replacing caller/child hit slop. Replace the inert
+  “View Profile” demo button with live account preferences and a working reset.
+
+- **safe-area ownership**: Modal/Dialog/AlertDialog, Sheet, Drawer and Popper
+  now measure their native presentation root instead of inheriting potentially
+  consumed screen insets. Bottom surfaces protect lateral content as well as
+  the home/navigation area; Sheet uses a consistent edge-to-edge native host.
+  Drawer reserves its actual exposed edge and mirrors its slide in RTL. AppBar, TabBar,
+  BottomNavigation and floating actions now respect lateral cutouts; long
+  floating FAB labels are bounded and SpeedDial actions can scroll within the
+  top-safe available height. Embedded previews opt out of window padding.
+- **feedback hosts**: Toast and the screen-edge Snackbar demo measure local
+  safe bounds, retaining caller-relative anchors without double-insetting an
+  already-safe parent. Snackbar itself remains a local positioning widget.
+  Registry peer metadata now includes safe-area dependencies for every
+  importing edge component and Badge dependencies for navigation chrome.
+- **Button / FAB caller styles**: resolve root styles as arrays rather than
+  NativeWind Pressable style callbacks, which discarded caller styles and
+  FAB's background/dimensions. Press/hover state and forwarded handlers are
+  preserved; floating FAB alignment stays physically right in RTL layouts.
+- **Drawer demo Log Out**: use the filled destructive Button variant with its
+  paired foreground instead of an outline background and destructive text.
+- **carousel pagination / automatic loop**: active dots stay circular with
+  uniform scale and a 220ms ease-out transition; short dot groups remain
+  centered. Added optional `autoPlay`, `autoPlayInterval` (3000ms), and `loop`
+  (all automatic behavior defaults off). Duplicate edge slides preserve
+  scroll continuity across both boundaries, including narrow-card viewports.
+  Automatic paging pauses for dragging, background, reduced motion and
+  screen readers, and stops at the last slide without `loop`. The hero demo
+  exposes pause/resume and disables autoplay when hidden or unfocused;
+  consumers likewise gate `autoPlay` with screen/viewport visibility.
+- **chip selected colors**: resolve the root style as a static array instead
+  of a NativeWind Pressable style callback, which left selected chips on the
+  secondary background while labels used primary-foreground. Explicit press
+  state preserves caller style callbacks, pressed feedback, and disabled
+  opacity in light and dark modes.
+- **focused core audit**: disabled chips dim correctly; removable labels and
+  removal have independent accessible 44pt actions. Carousel measures the
+  actual list and dot-rail viewports, realigns on resize, and respects reduced
+  motion for pagination.
+- **modal / drawer / anchored overlays**: narrowed modal surfaces no longer
+  intercept surrounding-space dismissal. Slotted popover/context-menu
+  triggers preserve child handlers/styles/state, reject disabled activation
+  and stale measurements, and track the active anchor on resize. Context-menu
+  checkbox callbacks no longer replace toggling or the close policy; Popper
+  constrains the actual surface to safe-area bounds.
+- **calendar**: controlled month changes update the visible week; a one-day
+  range retains its rounded selection marker.
+- **code-block**: use Menlo on iOS and lightweight syntax emphasis for JS/TS,
+  JSON and CSS, preserving source text and whitespace exactly. Ignore stale
+  clipboard results after source changes/unmount and prevent concurrent copy
+  requests.
+- **feedback / status**: readable semantic surfaces and labels, interruptible
+  toast/snackbar presence, animated progress and loading states, and working
+  dismiss/undo demos. Promise toasts dismissed while pending stay dismissed;
+  the demo uses a Hermes-compatible Promise constructor.
+- **overlays / dialogs**: retain native presentation through exit, cancel
+  interrupted transitions, respect reduced motion, and align sheets, drawers,
+  and anchored menus with measured content and safe areas.
+- **data display**: improve typography, row hierarchy, calendar/accordion
+  transitions, and functional list/chat/empty-state demos. Tables scroll at
+  large text sizes; sorting fades without animating column measurements.
+- **media**: reset image/avatar loading and fallback state when sources
+  change, size carousel pages from their container, and add accessible
+  controls. Marquee and loading loops stop when the app is backgrounded;
+  marquee uses manual scrolling for reduced motion and screen readers.
+- **core showcase**: consistent section spacing and responsive content width,
+  actionable examples instead of inert controls, and synchronized registry
+  sources, demo copies, dependencies, and NativeWind/Uniwind artifacts.
 - **Hermes OOM on interaction**: var-backed classes toggled dynamically
   (`shadow-sm`, `bg-primary`…) triggered a css-interop upgrade warning that
   stringified props and killed the JS thread. Dynamic state colours now go

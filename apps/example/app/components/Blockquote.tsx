@@ -1,69 +1,51 @@
-import { Blockquote } from '@/components/ui/blockquote';
-import { Card, CardContent } from '@/components/ui/card';
-import { Grid } from '@/components/ui/grid';
+import { Blockquote, BlockquoteCite } from '@/components/ui/blockquote';
 import { Stack } from '@/components/ui/stack';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
-
-const TESTIMONIALS = [
-  {
-    id: '1',
-    quote:
-      'RNUI made our design system consistent across iOS and Android without sacrificing native feel.',
-    author: '— Alex Chen, Mobile Lead',
-  },
-  {
-    id: '2',
-    quote:
-      'Token-driven theming let us ship dark mode and brand presets in a single sprint.',
-    author: '— Priya Sharma, Design Systems',
-  },
-  {
-    id: '3',
-    quote:
-      'We replaced one-off quote styles with Blockquote and testimonials finally look intentional.',
-    author: '— Jordan Lee, Product Designer',
-  },
-] as const;
 
 export default function BlockquoteScreen() {
   return (
     <DemoPage
       title="Blockquote"
-      description="Styled quotations with an emphasized left border and secondary text — for testimonials, excerpts, and cited content."
+      description="A quiet reading treatment: the quoted passage carries the emphasis, while attribution stays secondary."
     >
-      <DemoSection title="Basic quote">
+      <DemoSection
+        title="Quoted passage"
+        description="A simple excerpt without attribution."
+      >
         <Blockquote>
-          Design is not just what it looks like. Design is how it works.
+          The details are not the details. They make the design.
         </Blockquote>
       </DemoSection>
-
       <DemoSection
-        title="With attribution"
-        description="Use cite to credit the author or source."
+        title="With a source"
+        description="Keep attribution close to the passage it belongs to."
+      >
+        <Blockquote cite="— Charles Eames">
+          The details are not the details. They make the design.
+        </Blockquote>
+      </DemoSection>
+      <DemoSection
+        title="In a reading flow"
+        description="Longer quotations wrap naturally alongside the surrounding body text."
       >
         <Stack spacing="md">
-          <Blockquote>
-            The details are not the details. They make the design.
+          <Text variant="p">
+            A useful review starts with the person using the interface. This
+            sample team note captures that principle:
+          </Text>
+          <Blockquote
+            cite={<BlockquoteCite>— Sample design review note</BlockquoteCite>}
+          >
+            Make the next step clear, keep the important details readable, and
+            let each interaction explain what changed. An interface should help
+            people move forward without asking them to decode it.
           </Blockquote>
-          <Blockquote cite="— Charles Eames">
-            The details are not the details. They make the design.
-          </Blockquote>
+          <Text variant="muted">
+            Static reading content stays still. No entrance animation is needed
+            to understand a quotation.
+          </Text>
         </Stack>
-      </DemoSection>
-
-      <DemoSection
-        title="Testimonials"
-        description="Combine with Card and Grid for social-proof layouts."
-      >
-        <Grid columns={1} gap="md">
-          {TESTIMONIALS.map((item) => (
-            <Card key={item.id}>
-              <CardContent className="pt-6">
-                <Blockquote cite={item.author}>{item.quote}</Blockquote>
-              </CardContent>
-            </Card>
-          ))}
-        </Grid>
       </DemoSection>
     </DemoPage>
   );

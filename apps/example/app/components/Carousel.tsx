@@ -1,10 +1,12 @@
-import { useMemo, useState } from 'react';
-import { Image, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { useCallback, useMemo, useState } from 'react';
+import { View } from 'react-native';
+import { useFocusEffect } from 'expo-router';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Carousel } from '@/components/ui/carousel';
+import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
-import { useToast } from '@/components/ui/toast';
-import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 type CarouselSlide = {
   id: string;
@@ -26,54 +28,20 @@ const STORY_IMAGES = [
   'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80',
 ] as const;
 
-const styles = StyleSheet.create({
-  heroImage: {
-    width: '100%',
-    height: '100%',
-  },
-  heroOverlay: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    padding: 16,
-    gap: 4,
-    experimental_backgroundImage:
-      'linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0))',
-  },
-  card: {
-    flex: 1,
-    overflow: 'hidden',
-    marginHorizontal: 6,
-  },
-  cardImage: {
-    width: '100%',
-    height: 104,
-  },
-  cardBody: {
-    padding: 12,
-    gap: 4,
-  },
-  railCard: {
-    flex: 1,
-    overflow: 'hidden',
-    marginHorizontal: 6,
-  },
-  railImage: {
-    width: '100%',
-    height: 72,
-  },
-  railBody: {
-    padding: 12,
-  },
-});
-
 export default function CarouselScreen() {
-  const { toast } = useToast();
-  const { width: windowWidth } = useWindowDimensions();
+  const [contentWidth, setContentWidth] = useState(320);
   const [activeIndex, setActiveIndex] = useState(0);
-
-  const cardWidth = Math.round(windowWidth * 0.78);
+  const [playing, setPlaying] = useState(true);
+  const [focused, setFocused] = useState(true);
+  const [heroVisible, setHeroVisible] = useState(true);
+  const [heroBottom, setHeroBottom] = useState(0);
+  useFocusEffect(
+    useCallback(() => {
+      setFocused(true);
+      return () => setFocused(false);
+    }, [])
+  );
+  const cardWidth = Math.round(contentWidth * 0.86);
 
   const heroSlides = useMemo<CarouselSlide[]>(
     () => [
@@ -134,45 +102,74 @@ export default function CarouselScreen() {
     <DemoPage
       title="Carousel"
       description="Swipeable photo strips with snap, pagination, and navigation controls."
+      onScroll={(event) => {
+        setHeroVisible(event.nativeEvent.contentOffset.y < heroBottom);
+      }}
     >
-      <DemoSection
-        title="Hero carousel"
-        description="Full-width, snap paging with tappable dots — a clean image hero."
-        bare
+      <View
+        onLayout={(event) =>
+          setHeroBottom(
+            event.nativeEvent.layout.y + event.nativeEvent.layout.height
+          )
+        }
       >
-        <View style={{ borderRadius: 12, overflow: 'hidden', height: 200 }}>
-          <Carousel
-            data={heroSlides}
-            accessibilityLabel="Featured landscapes"
-            onIndexChange={setActiveIndex}
-            renderItem={(item) => (
-              <View style={{ flex: 1 }}>
-                <Image
-                  source={{ uri: item.imageUrl }}
-                  style={styles.heroImage}
-                  resizeMode="cover"
-                  accessibilityIgnoresInvertColors
-                />
-                <View style={styles.heroOverlay}>
-                  <Text variant="h4" style={{ color: '#fafafa' }}>
-                    {item.title}
-                  </Text>
-                  <Text variant="p" style={{ color: '#fafafa', opacity: 0.9 }}>
-                    {item.description}
-                  </Text>
+        <DemoSection
+          title="Hero carousel"
+          description="Auto-play loops every three seconds. Pause to inspect a slide; dragging restarts the interval. Reduced Motion and screen readers keep it manual."
+          bare
+        >
+          <View
+            onLayout={(event) =>
+              setContentWidth(event.nativeEvent.layout.width)
+            }
+            className="w-full"
+          >
+            <Carousel
+              data={heroSlides}
+              accessibilityLabel="Featured landscapes"
+              onIndexChange={setActiveIndex}
+              autoPlay={playing && focused && heroVisible}
+              autoPlayInterval={3000}
+              loop
+              renderItem={(item) => (
+                <View className="overflow-hidden rounded-lg bg-card">
+                  <Image
+                    source={{ uri: item.imageUrl }}
+                    rounded="none"
+                    aspectRatio={16 / 9}
+                    className="w-full"
+                    resizeMode="cover"
+                    accessibilityLabel={item.title}
+                    accessibilityIgnoresInvertColors
+                  />
+                  <View className="gap-1 p-4">
+                    <Text variant="h4">{item.title}</Text>
+                    <Text variant="muted">{item.description}</Text>
+                  </View>
                 </View>
-              </View>
-            )}
-          />
-        </View>
-        <Text variant="muted" style={{ textAlign: 'center' }}>
-          Slide {activeIndex + 1} of {heroSlides.length}
-        </Text>
-      </DemoSection>
+              )}
+            />
+          </View>
+          <Text
+            variant="muted"
+            className="text-center text-xs"
+            accessibilityLiveRegion="polite"
+          >
+            Slide {activeIndex + 1} of {heroSlides.length}
+          </Text>
+          <Button
+            variant="outline"
+            accessibilityLabel={playing ? 'Pause carousel' : 'Resume carousel'}
+            onPress={() => setPlaying((value) => !value)}
+          >
+            {playing ? 'Pause auto-play' : 'Resume auto-play'}
+          </Button>
+        </DemoSection>
+      </View>
 
       <DemoSection
         title="Card carousel"
-        description="Peek-and-snap cards with circular navigation buttons."
+        description="Peek-and-snap cards in a padded viewport with circular navigation buttons."
         bare
       >
         <Carousel
@@ -180,54 +177,56 @@ export default function CarouselScreen() {
           accessibilityLabel="Featured stories"
           itemWidth={cardWidth}
           showArrows
+          itemClassName="pr-3"
+          className="px-3"
           renderItem={(item) => (
-            <Card style={styles.card}>
+            <Card className="flex-1 overflow-hidden shadow-none">
               <Image
                 source={{ uri: item.imageUrl }}
-                style={styles.cardImage}
+                rounded="none"
+                aspectRatio={16 / 9}
+                className="w-full"
                 resizeMode="cover"
+                accessibilityLabel={item.title}
                 accessibilityIgnoresInvertColors
               />
-              <View style={styles.cardBody}>
+              <View className="gap-2 p-4">
                 <Text variant="large">{item.title}</Text>
                 <Text variant="muted">{item.description}</Text>
               </View>
             </Card>
           )}
-          onIndexChange={(index) => {
-            const item = storySlides[index];
-            if (item) {
-              toast.info(`Viewing ${item.title}`);
-            }
-          }}
         />
       </DemoSection>
 
       <DemoSection
         title="Continuous strip"
         description="A compact image rail without dots."
+        bare
       >
-        <DemoPreview>
-          <Carousel
-            data={storySlides}
-            accessibilityLabel="Inspiration rail"
-            itemWidth={200}
-            showDots={false}
-            renderItem={(item) => (
-              <Card style={styles.railCard}>
-                <Image
-                  source={{ uri: item.imageUrl }}
-                  style={styles.railImage}
-                  resizeMode="cover"
-                  accessibilityIgnoresInvertColors
-                />
-                <View style={styles.railBody}>
-                  <Text variant="small">{item.title}</Text>
-                </View>
-              </Card>
-            )}
-          />
-        </DemoPreview>
+        <Carousel
+          data={storySlides}
+          accessibilityLabel="Inspiration rail"
+          itemWidth={200}
+          itemClassName="pr-3"
+          showDots={false}
+          renderItem={(item) => (
+            <Card className="flex-1 overflow-hidden shadow-none">
+              <Image
+                source={{ uri: item.imageUrl }}
+                rounded="none"
+                aspectRatio={16 / 9}
+                className="w-full"
+                accessibilityLabel={item.title}
+                resizeMode="cover"
+                accessibilityIgnoresInvertColors
+              />
+              <View className="p-3">
+                <Text variant="small">{item.title}</Text>
+              </View>
+            </Card>
+          )}
+        />
       </DemoSection>
     </DemoPage>
   );

@@ -12,11 +12,12 @@ const textVariants = tv({
       h3: 'text-2xl font-semibold tracking-tight text-foreground',
       h4: 'text-xl font-semibold tracking-tight text-foreground',
       p: 'text-base leading-7 text-foreground',
-      lead: 'text-xl text-muted-foreground',
-      large: 'text-lg font-semibold text-foreground',
-      small: 'text-sm font-medium leading-none text-foreground',
-      muted: 'text-sm text-muted-foreground',
-      blockquote: 'border-l-4 border-border pl-4 italic text-foreground',
+      lead: 'text-xl leading-7 text-muted-foreground',
+      large: 'text-lg font-semibold leading-7 text-foreground',
+      small: 'text-sm font-medium leading-5 text-foreground',
+      muted: 'text-sm leading-6 text-muted-foreground',
+      blockquote:
+        'border-l border-border pl-4 italic leading-7 text-foreground',
       code: 'rounded-md bg-muted px-1.5 py-0.5 font-mono text-sm text-foreground',
     },
   },
@@ -49,6 +50,14 @@ export function Text({ variant = 'default', className, ...props }: TextProps) {
   return (
     <RNText
       className={cn(textVariants({ variant }), textClass, className)}
+      accessibilityRole={
+        variant === 'h1' ||
+        variant === 'h2' ||
+        variant === 'h3' ||
+        variant === 'h4'
+          ? 'header'
+          : undefined
+      }
       {...props}
     />
   );

@@ -1,33 +1,32 @@
-import { createContext, useContext, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Image, type ImageProps, View, type ViewProps } from 'react-native';
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+import { UserRound } from 'lucide-react-native';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
+import { cn, useIconColor } from '@/lib/utils';
 
-type LoadState = 'loading' | 'loaded' | 'error';
-
-const AvatarContext = createContext<{ setLoad: (v: LoadState) => void }>({
-  setLoad: () => {},
-});
+const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 export interface AvatarProps extends ViewProps {
   className?: string;
 }
 
 export function Avatar({ className, children, ...props }: AvatarProps) {
-  const [_load, setLoad] = useState<LoadState>('loading');
-
   return (
-    <AvatarContext.Provider value={{ setLoad }}>
-      <View
-        className={cn(
-          'relative h-10 w-10 overflow-hidden rounded-full',
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </View>
-    </AvatarContext.Provider>
+    <View
+      className={cn(
+        'relative h-10 w-10 overflow-hidden rounded-full bg-muted',
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </View>
   );
 }
 
@@ -35,27 +34,37 @@ export interface AvatarImageProps extends ImageProps {
   className?: string;
 }
 
-export function AvatarImage({
+export function AvatarImage(props: AvatarImageProps) {
+  return (
+    <AvatarImageContent
+      key={JSON.stringify([props.source, props.src, props.srcSet])}
+      {...props}
+    />
+  );
+}
+
+function AvatarImageContent({
   className,
   style,
   onLoad,
   onError,
   ...props
 }: AvatarImageProps) {
-  const { setLoad } = useContext(AvatarContext);
   const [failed, setFailed] = useState(false);
+  const opacity = useSharedValue(0);
+  const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
+  useEffect(() => () => cancelAnimation(opacity), [opacity]);
   if (failed) return null;
 
   return (
-    <Image
+    <AnimatedImage
       className={cn('absolute inset-0 h-full w-full', className)}
-      style={[{ zIndex: 1 }, style]}
+      style={[{ zIndex: 1 }, animatedStyle, style]}
       onLoad={(e) => {
-        setLoad('loaded');
+        opacity.value = withTiming(1, { duration: 220 });
         onLoad?.(e);
       }}
       onError={(e) => {
-        setLoad('error');
         setFailed(true);
         onError?.(e);
       }}
@@ -73,6 +82,7 @@ export function AvatarFallback({
   children,
   ...props
 }: AvatarFallbackProps) {
+  const iconColor = useIconColor('muted');
   return (
     <View
       className={cn(
@@ -86,7 +96,7 @@ export function AvatarFallback({
           {children}
         </Text>
       ) : (
-        children
+        (children ?? <UserRound size={20} color={iconColor} />)
       )}
     </View>
   );

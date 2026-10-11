@@ -20,24 +20,24 @@ export default function ListScreen() {
         <List>
           <ListItem
             title="Profile Settings"
-            onPress={() => toast.info('Menu item 1')}
+            onPress={() => toast.info('Profile settings selected')}
           />
           <ListSeparator />
           <ListItem
             title="Notifications"
-            onPress={() => toast.info('Menu item 2')}
+            onPress={() => toast.info('Notification preferences selected')}
           />
           <ListSeparator />
           <ListItem
             title="Help & Support"
-            onPress={() => toast.info('Menu item 3')}
+            onPress={() => toast.info('Help and support selected')}
           />
         </List>
       </DemoSection>
 
       <DemoSection
-        title="Chat List"
-        description="Telegram-style rows with avatar, subtitle, time, and unread badge."
+        title="People & metadata"
+        description="Names, roles, recent activity, and compact badges."
         flush
       >
         {CONTACTS.slice(0, 5).map((contact, index) => (
@@ -89,11 +89,14 @@ export default function ListScreen() {
         </List>
       </DemoSection>
 
-      <DemoSection title="Disabled State" flush>
+      <DemoSection
+        title="Informational row"
+        description="Without an action, a row has no chevron or button semantics."
+        flush
+      >
         <ListItem
-          title="Disabled List Item"
-          subtitle="Unavailable"
-          className="opacity-50"
+          title="Offline backup"
+          subtitle="Not available on this device"
         />
       </DemoSection>
     </DemoPage>

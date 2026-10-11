@@ -1,5 +1,6 @@
 import { createContext, type ReactNode, useContext } from 'react';
-import { Modal, Pressable, View, type ViewProps } from 'react-native';
+import { Pressable, View, type ViewProps } from 'react-native';
+import { Modal, ModalContent } from '@/components/ui/modal';
 import { Text, type TextProps } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
@@ -19,20 +20,12 @@ export function AlertDialog({
   children,
 }: AlertDialogProps) {
   return (
-    <Modal
-      visible={open}
-      transparent
-      animationType="fade"
-      onRequestClose={() => onOpenChange?.(false)}
-    >
-      {/* Backdrop stays non-pressable: AlertDialog requires an explicit choice. */}
-      <View className="flex-1 items-center justify-center bg-black/50 p-6">
-        <View className="w-full max-w-sm rounded-2xl border border-border bg-background p-6">
-          <AlertDialogContext.Provider value={onOpenChange ?? null}>
-            {children}
-          </AlertDialogContext.Provider>
-        </View>
-      </View>
+    <Modal open={open} onOpenChange={onOpenChange} dismissable={false}>
+      <ModalContent className="max-w-sm">
+        <AlertDialogContext.Provider value={onOpenChange ?? null}>
+          {children}
+        </AlertDialogContext.Provider>
+      </ModalContent>
     </Modal>
   );
 }
@@ -40,6 +33,7 @@ export function AlertDialog({
 export function AlertDialogTitle({ className, ...props }: TextProps) {
   return (
     <Text
+      accessibilityRole="header"
       className={cn('text-lg font-semibold text-foreground', className)}
       {...props}
     />
@@ -59,12 +53,7 @@ export function AlertDialogFooter({
   className,
   ...props
 }: ViewProps & { className?: string }) {
-  return (
-    <View
-      className={cn('mt-6 flex-row justify-end gap-2', className)}
-      {...props}
-    />
-  );
+  return <View className={cn('mt-6 flex-col gap-2', className)} {...props} />;
 }
 
 export interface AlertDialogActionProps {
@@ -87,13 +76,17 @@ export function AlertDialogAction({
         onOpenChange?.(false);
       }}
       className={cn(
-        'rounded-md bg-primary px-4 py-2 active:opacity-80',
+        'min-h-11 items-center justify-center rounded-md bg-primary px-4 py-3 active:opacity-80',
         className
       )}
     >
-      <Text className="text-sm font-medium text-primary-foreground">
-        {children}
-      </Text>
+      {typeof children === 'string' ? (
+        <Text className="text-center text-sm font-medium text-primary-foreground">
+          {children}
+        </Text>
+      ) : (
+        children
+      )}
     </Pressable>
   );
 }
@@ -112,11 +105,17 @@ export function AlertDialogCancel({
         onOpenChange?.(false);
       }}
       className={cn(
-        'rounded-md border border-border bg-background px-4 py-2 active:opacity-80',
+        'min-h-11 items-center justify-center rounded-md border border-border bg-background px-4 py-3 active:opacity-80',
         className
       )}
     >
-      <Text className="text-sm font-medium text-foreground">{children}</Text>
+      {typeof children === 'string' ? (
+        <Text className="text-center text-sm font-medium text-foreground">
+          {children}
+        </Text>
+      ) : (
+        children
+      )}
     </Pressable>
   );
 }

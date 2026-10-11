@@ -1,12 +1,12 @@
 import { X } from 'lucide-react-native';
 import { createContext, type ReactNode, useContext } from 'react';
 import {
-  Modal,
   Pressable,
   View,
   type PressableProps,
   type ViewProps,
 } from 'react-native';
+import { Modal, ModalContent } from '@/components/ui/modal';
 import { Text, type TextProps } from '@/components/ui/text';
 import { cn, useIconColor } from '@/lib/utils';
 
@@ -28,35 +28,22 @@ export function Dialog({
 }: DialogProps) {
   const iconColor = useIconColor('muted');
   return (
-    <Modal
-      visible={open}
-      transparent
-      animationType="fade"
-      onRequestClose={() => onOpenChange?.(false)}
-    >
-      <Pressable
-        className="flex-1 items-center justify-center bg-black/50 p-6"
-        onPress={() => onOpenChange?.(false)}
-      >
-        <Pressable
-          className="w-full max-w-sm rounded-2xl border border-border bg-background p-6"
-          onPress={(e) => e.stopPropagation()}
-        >
-          <DialogContext.Provider value={onOpenChange ?? null}>
-            {showClose && (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Close"
-                onPress={() => onOpenChange?.(false)}
-                className="absolute right-4 top-4 rounded-sm p-1 active:opacity-70"
-              >
-                <X size={16} color={iconColor} />
-              </Pressable>
-            )}
-            {children}
-          </DialogContext.Provider>
-        </Pressable>
-      </Pressable>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent className="max-w-sm">
+        <DialogContext.Provider value={onOpenChange ?? null}>
+          {showClose && (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Close dialog"
+              onPress={() => onOpenChange?.(false)}
+              className="absolute right-2 top-2 z-10 h-11 w-11 items-center justify-center rounded-md active:opacity-70"
+            >
+              <X size={20} color={iconColor} />
+            </Pressable>
+          )}
+          {children}
+        </DialogContext.Provider>
+      </ModalContent>
     </Modal>
   );
 }
@@ -86,7 +73,8 @@ export function DialogClose({
 export function DialogTitle({ className, ...props }: TextProps) {
   return (
     <Text
-      className={cn('text-lg font-semibold text-foreground', className)}
+      accessibilityRole="header"
+      className={cn('pr-8 text-lg font-semibold text-foreground', className)}
       {...props}
     />
   );
@@ -107,7 +95,7 @@ export function DialogFooter({
 }: ViewProps & { className?: string }) {
   return (
     <View
-      className={cn('mt-6 flex-row justify-end gap-2', className)}
+      className={cn('mt-6 flex-row flex-wrap justify-end gap-2', className)}
       {...props}
     />
   );

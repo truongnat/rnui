@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { View } from 'react-native';
 import { Button } from '@/components/ui/button';
 import {
@@ -5,14 +6,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { Switch } from '@/components/ui/switch';
 import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function PopoverScreen() {
+  const [emailUpdates, setEmailUpdates] = useState(true);
   return (
     <DemoPage
       title="Popover"
-      description="Content overlay anchored to a trigger element."
+      description="Tap a trigger to open its panel. Tap outside to close."
     >
       <DemoSection
         title="Anchor to Element"
@@ -58,12 +61,14 @@ export default function PopoverScreen() {
       </DemoSection>
 
       <DemoSection
-        title="Rich Content"
-        description="Compose any views inside PopoverContent."
+        title="Account Preferences"
+        description="Changes apply immediately and remain after closing the panel."
       >
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="secondary">Account</Button>
+            <Button variant="secondary" className="self-start min-h-14">
+              Account
+            </Button>
           </PopoverTrigger>
           <PopoverContent>
             <Text variant="small">Alex Nguyen</Text>
@@ -71,9 +76,42 @@ export default function PopoverScreen() {
               alex@example.com
             </Text>
             <View className="my-3 h-px bg-border" />
-            <Button size="sm" variant="outline">
-              View Profile
+            <View className="min-h-14 flex-row items-center justify-between gap-4">
+              <Text variant="small" className="flex-1">
+                Email updates
+              </Text>
+              <Switch
+                accessibilityLabel="Email updates"
+                checked={emailUpdates}
+                onCheckedChange={setEmailUpdates}
+              />
+            </View>
+            <Button
+              variant="outline"
+              className="mt-3 min-h-14"
+              onPress={() => setEmailUpdates(true)}
+            >
+              Reset preferences
             </Button>
+          </PopoverContent>
+        </Popover>
+        <Text variant="muted" className="mt-3" accessibilityLiveRegion="polite">
+          Email updates: {emailUpdates ? 'On' : 'Off'}
+        </Text>
+      </DemoSection>
+
+      <DemoSection
+        title="Disabled Trigger"
+        description="asChild preserves the child button's disabled state; activation does not open the popover."
+      >
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button disabled variant="outline" className="self-start">
+              Unavailable action
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <Text variant="muted">This disabled trigger must stay closed.</Text>
           </PopoverContent>
         </Popover>
       </DemoSection>

@@ -1,7 +1,7 @@
 import { Copy, FileText, Mail, Plus, Share2 } from 'lucide-react-native';
 import { View } from 'react-native';
 import { Card } from '@/components/ui/card';
-import { SpeedDial } from '@/components/ui/speed-dial';
+import { SpeedDial, type SpeedDialAction } from '@/components/ui/speed-dial';
 import { Text } from '@/components/ui/text';
 import { useIconColor } from '@/lib/utils';
 import { useToast } from '@/components/ui/toast';
@@ -11,11 +11,44 @@ export default function SpeedDialScreen() {
   const { toast } = useToast();
   const fabColor = useIconColor('onPrimary');
   const actionColor = useIconColor('foreground');
+  const actions: SpeedDialAction[] = [
+    {
+      key: 'compose',
+      label: 'New Draft',
+      icon: <FileText size={20} color={actionColor} />,
+      onPress: () => toast.success('New draft created!'),
+    },
+    {
+      key: 'email',
+      label: 'Send Email',
+      icon: <Mail size={20} color={actionColor} />,
+      onPress: () => toast.info('Opening email composer...'),
+    },
+    {
+      key: 'share',
+      label: 'Share Link',
+      icon: <Share2 size={20} color={actionColor} />,
+      onPress: () => toast.info('Link shared!'),
+    },
+    {
+      key: 'copy',
+      label: 'Copy Key',
+      icon: <Copy size={20} color={actionColor} />,
+      onPress: () => toast.info('Copied to clipboard!'),
+    },
+  ];
 
   return (
     <DemoPage
       title="SpeedDial"
-      description="Floating Action Button that expands upward with smooth spring animations, action labels, and backdrop blur."
+      description="The live screen-edge FAB avoids system gestures and cutouts. Its actions scroll when landscape space is limited; the embedded preview opts out."
+      floatingContent={
+        <SpeedDial
+          accessibilityLabel="Open quick actions"
+          icon={<Plus size={24} color={fabColor} />}
+          actions={actions}
+        />
+      }
     >
       <DemoSection
         title="Interactive SpeedDial Demo"
@@ -40,33 +73,10 @@ export default function SpeedDialScreen() {
             </Text>
 
             <SpeedDial
+              safeArea={false}
+              accessibilityLabel="Open preview actions"
               icon={<Plus size={24} color={fabColor} />}
-              actions={[
-                {
-                  key: 'compose',
-                  label: 'New Draft',
-                  icon: <FileText size={20} color={actionColor} />,
-                  onPress: () => toast.success('New draft created!'),
-                },
-                {
-                  key: 'email',
-                  label: 'Send Email',
-                  icon: <Mail size={20} color={actionColor} />,
-                  onPress: () => toast.info('Opening email composer...'),
-                },
-                {
-                  key: 'share',
-                  label: 'Share Link',
-                  icon: <Share2 size={20} color={actionColor} />,
-                  onPress: () => toast.info('Link shared!'),
-                },
-                {
-                  key: 'copy',
-                  label: 'Copy Key',
-                  icon: <Copy size={20} color={actionColor} />,
-                  onPress: () => toast.info('Copied to clipboard!'),
-                },
-              ]}
+              actions={actions}
             />
           </View>
         </Card>

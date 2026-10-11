@@ -1,7 +1,4 @@
-import {
-  isValidElement,
-  type ReactNode,
-} from 'react';
+import type { ReactNode } from 'react';
 import {
   Platform,
   Pressable,
@@ -14,15 +11,10 @@ import { ChevronLeft, Search, X } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Badge } from '@/components/ui/badge';
 import { Text, type TextProps } from '@/components/ui/text';
-import { cn, useIconColor, useThemeColor } from '@/lib/utils';
+import { cn, spacingScale, useIconColor, useThemeColor } from '@/lib/utils';
 
 export type AppBarVariant =
-  | 'default'
-  | 'large'
-  | 'search'
-  | 'floating'
-  | 'glass'
-  | 'transparent';
+  'default' | 'large' | 'search' | 'floating' | 'glass' | 'transparent';
 
 export interface AppBarProps extends ViewProps {
   /** Leading icon / custom element (e.g. back button, avatar). Overrides `onBack`. */
@@ -43,7 +35,7 @@ export interface AppBarProps extends ViewProps {
   searchValue?: string;
   onSearchChange?: (text: string) => void;
   searchPlaceholder?: string;
-  /** Auto-apply safe area top inset padding. Default: true. */
+  /** Apply top and side safe-area insets. Disable when the parent already owns them. Default: true. */
   safeArea?: boolean;
   className?: string;
   children?: ReactNode;
@@ -119,13 +111,21 @@ export function AppBar({
               styles.floatingCard,
               {
                 marginTop: safeArea ? insets.top + 8 : 12,
+                ...(safeArea && {
+                  marginLeft: insets.left + spacingScale.md,
+                  marginRight: insets.right + spacingScale.md,
+                }),
                 backgroundColor: colors.card,
                 borderColor: colors.border,
               },
             ]
           : [
               !isTransparent && { backgroundColor: colors.card },
-              safeArea && { paddingTop: insets.top + 4 },
+              safeArea && {
+                paddingTop: insets.top + spacingScale.xs,
+                paddingLeft: insets.left + spacingScale.md,
+                paddingRight: insets.right + spacingScale.md,
+              },
               { paddingBottom: isLarge ? 12 : 8 },
             ],
         style,
@@ -210,9 +210,7 @@ export function AppBar({
         )}
 
         {/* Trailing Side Anchor (Min 44x44px) */}
-        <View style={[styles.sideSlot, styles.trailingSlot]}>
-          {trailing}
-        </View>
+        <View style={[styles.sideSlot, styles.trailingSlot]}>{trailing}</View>
       </View>
 
       {/* Large Title Section (iOS Large Display Heading pattern) */}

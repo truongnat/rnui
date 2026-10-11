@@ -46,7 +46,7 @@ export interface TableRowProps extends ViewProps {
 export function TableRow({ className, onPress, ...props }: TableRowProps) {
   const row = (
     <View
-      className={cn('flex-row border-b border-border', className)}
+      className={cn('min-h-12 flex-row border-b border-border', className)}
       {...props}
     />
   );
@@ -71,17 +71,21 @@ export interface TableCellProps extends ViewProps {
 export function TableHead({
   className,
   flex = 1,
+  style,
   children,
   ...props
 }: TableCellProps) {
   return (
     <View
-      className={cn('justify-center px-2 py-3', className)}
-      style={{ flex }}
+      className={cn('min-w-0 justify-center px-3 py-3', className)}
+      style={[{ flex }, style]}
       {...props}
     >
       {typeof children === 'string' ? (
-        <Text className="text-sm font-medium text-muted-foreground">
+        <Text
+          accessibilityRole="header"
+          className="text-sm font-medium text-muted-foreground"
+        >
           {children}
         </Text>
       ) : (
@@ -94,16 +98,17 @@ export function TableHead({
 export function TableCell({
   className,
   flex = 1,
+  style,
   children,
   ...props
 }: TableCellProps) {
   return (
     <View
-      className={cn('justify-center px-2 py-3', className)}
-      style={{ flex }}
+      className={cn('min-w-0 justify-center px-3 py-3', className)}
+      style={[{ flex }, style]}
       {...props}
     >
-      {typeof children === 'string' ? (
+      {typeof children === 'string' || typeof children === 'number' ? (
         <Text className="text-sm text-foreground">{children}</Text>
       ) : (
         children

@@ -1,4 +1,10 @@
-import { Camera, MessageSquarePlus, Plus, Send, Trash2 } from 'lucide-react-native';
+import {
+  Camera,
+  MessageSquarePlus,
+  Plus,
+  Send,
+  Trash2,
+} from 'lucide-react-native';
 import { View } from 'react-native';
 import { Card } from '@/components/ui/card';
 import { Fab } from '@/components/ui/fab';
@@ -19,6 +25,7 @@ export default function FabScreen() {
       floatingContent={
         <Fab
           floating
+          accessibilityLabel="Create item"
           icon={<Plus size={26} color={onPrimary} />}
           onPress={() => toast.success('Floating Action Button tapped!')}
         />
@@ -35,7 +42,8 @@ export default function FabScreen() {
             👉 Look at the bottom-right of your screen!
           </Text>
           <Text variant="muted" className="mt-1">
-            The primary Floating Action Button hovers over all scrollable content with spring press feedback and shadow elevation.
+            The primary Floating Action Button hovers over all scrollable
+            content with spring press feedback and shadow elevation.
           </Text>
         </Card>
       </DemoSection>
@@ -124,10 +132,7 @@ export default function FabScreen() {
               icon={<Trash2 size={22} color="#ffffff" />}
               onPress={() => toast.error('Destructive action')}
             />
-            <Fab
-              disabled
-              icon={<Plus size={22} color={onPrimary} />}
-            />
+            <Fab disabled icon={<Plus size={22} color={onPrimary} />} />
           </View>
         </Card>
       </DemoSection>

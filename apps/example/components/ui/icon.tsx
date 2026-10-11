@@ -188,6 +188,10 @@ export function Icon({
   color,
   className,
   style,
+  accessible,
+  accessibilityLabel,
+  accessibilityHint,
+  accessibilityRole = 'image',
   strokeWidth = 2,
   ...props
 }: IconProps) {
@@ -196,19 +200,23 @@ export function Icon({
   const resolvedColor = color ?? toneColor;
 
   const ref = icon ?? name ?? 'info';
-  const IconComp: LucideIcon =
-    typeof ref === 'string' ? (ICON_MAP[ref as IconName] ?? Info) : ref;
+  const IconComp: LucideIcon = typeof ref === 'string' ? ICON_MAP[ref] : ref;
 
   return (
     <View
       className={cn('items-center justify-center', className)}
       style={[{ width: resolvedSize, height: resolvedSize }, style]}
+      accessible={accessible ?? Boolean(accessibilityLabel)}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityHint={accessibilityHint}
+      accessibilityRole={accessibilityRole}
     >
       <IconComp
         size={resolvedSize}
         color={resolvedColor}
         strokeWidth={strokeWidth}
         {...props}
+        accessible={false}
       />
     </View>
   );

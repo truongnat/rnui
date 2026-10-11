@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '@/components/ui/button';
 import { Snackbar, SnackbarAction } from '@/components/ui/snackbar';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoGroup, DemoSection } from '@/demo/DemoPage';
 
 type Anchor = {
@@ -14,100 +17,172 @@ const anchorClasses: Record<Anchor['vertical'], string> = {
 };
 
 const alignClasses: Record<Anchor['horizontal'], string> = {
-  left: 'left-4 right-auto w-64',
+  left: 'left-4 right-auto w-72 max-w-full',
   center: 'left-4 right-4',
-  right: 'left-auto right-4 w-64',
+  right: 'left-auto right-4 w-72 max-w-full',
 };
 
 export default function SnackbarScreen() {
-  const [basicOpen, setBasicOpen] = useState(false);
-  const [actionOpen, setActionOpen] = useState(false);
-  const [position, setPosition] = useState<Anchor | null>(null);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('Message archived');
+  const [undo, setUndo] = useState(false);
+  const [restored, setRestored] = useState(false);
+  const [anchor, setAnchor] = useState<Anchor>({
+    vertical: 'bottom',
+    horizontal: 'center',
+  });
+  const [duration, setDuration] = useState(4000);
+
+  const show = (
+    text: string,
+    position: Anchor,
+    withUndo = false,
+    delay = 4000
+  ) => {
+    setMessage(text);
+    setAnchor(position);
+    setUndo(withUndo);
+    setDuration(delay);
+    setOpen(true);
+  };
 
   return (
     <DemoPage
       title="Snackbar"
       description="Brief bottom-of-screen messages that inform without interrupting."
       floatingContent={
-        <>
-          <Snackbar open={basicOpen} onDismiss={() => setBasicOpen(false)}>
-            Message archived
-          </Snackbar>
-
-          <Snackbar
-            open={actionOpen}
-            onDismiss={() => setActionOpen(false)}
-            action={
-              <SnackbarAction
-                label="Undo"
-                onPress={() => setActionOpen(false)}
-              />
-            }
+        <SafeAreaProvider
+          style={StyleSheet.absoluteFill}
+          pointerEvents="box-none"
+        >
+          <SafeAreaView
+            style={StyleSheet.absoluteFill}
+            mode="margin"
+            pointerEvents="box-none"
           >
-            1 item deleted from your list
-          </Snackbar>
-
-          {position ? (
             <Snackbar
-              open
-              duration={2000}
-              onDismiss={() => setPosition(null)}
-              className={`${anchorClasses[position.vertical]} ${alignClasses[position.horizontal]}`}
+              open={open}
+              duration={duration}
+              onDismiss={() => setOpen(false)}
+              className={`${anchorClasses[anchor.vertical]} ${alignClasses[anchor.horizontal]}`}
+              action={
+                <SnackbarAction
+                  label={undo ? 'Undo' : 'Dismiss'}
+                  onPress={() => {
+                    if (undo) setRestored(true);
+                    setOpen(false);
+                  }}
+                />
+              }
             >
-              {`Position: ${position.vertical} ${position.horizontal}`}
+              {message}
             </Snackbar>
-          ) : null}
-        </>
+          </SafeAreaView>
+        </SafeAreaProvider>
       }
     >
       <DemoSection
         title="Core Behavior"
-        description="Auto-dismiss after 4s or close manually."
+        description="Appears, stays for four seconds, then exits. You can dismiss it at any time."
+        bare
       >
-        <Button onPress={() => setBasicOpen(true)}>Show Simple Snackbar</Button>
+        <DemoGroup direction="column">
+          <Button
+            onPress={() =>
+              show('Message archived', {
+                vertical: 'bottom',
+                horizontal: 'center',
+              })
+            }
+          >
+            Show Simple Snackbar
+          </Button>
+          <Button
+            variant="ghost"
+            disabled={!open}
+            onPress={() => setOpen(false)}
+          >
+            Dismiss current message
+          </Button>
+        </DemoGroup>
       </DemoSection>
 
       <DemoSection
         title="With Actions"
-        description="Inline buttons for immediate follow-up."
+        description="Undo closes the notification and restores the item in this demo."
+        bare
       >
-        <Button variant="outline" onPress={() => setActionOpen(true)}>
-          Show with Undo
-        </Button>
+        <DemoGroup direction="column">
+          <Button
+            variant="outline"
+            onPress={() => {
+              setRestored(false);
+              show(
+                '1 item deleted from your list',
+                { vertical: 'bottom', horizontal: 'center' },
+                true
+              );
+            }}
+          >
+            Show with Undo
+          </Button>
+          <Text variant="muted" accessibilityLiveRegion="polite">
+            {restored
+              ? 'Item restored to your list.'
+              : 'The action stays readable and easy to reach.'}
+          </Text>
+        </DemoGroup>
       </DemoSection>
 
       <DemoSection
         title="Positioning"
-        description="Anchor to top, bottom, or horizontal alignment."
+        description="One message at a time. Choosing a new position updates the active notification."
+        bare
       >
-        <DemoGroup direction="row">
+        <DemoGroup direction="column">
           <Button
-            size="sm"
-            variant="ghost"
+            variant="outline"
             onPress={() =>
-              setPosition({ vertical: 'top', horizontal: 'center' })
+              show(
+                'Position: top center',
+                { vertical: 'top', horizontal: 'center' },
+                false,
+                2000
+              )
             }
           >
             Top Center
           </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            onPress={() =>
-              setPosition({ vertical: 'bottom', horizontal: 'right' })
-            }
-          >
-            Bottom Right
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            onPress={() =>
-              setPosition({ vertical: 'bottom', horizontal: 'left' })
-            }
-          >
-            Bottom Left
-          </Button>
+          <DemoGroup direction="row">
+            <Button
+              className="flex-1"
+              variant="outline"
+              onPress={() =>
+                show(
+                  'Position: bottom right',
+                  { vertical: 'bottom', horizontal: 'right' },
+                  false,
+                  2000
+                )
+              }
+            >
+              Bottom Right
+            </Button>
+            <Button
+              className="flex-1"
+              variant="outline"
+              onPress={() =>
+                show(
+                  'Position: bottom left',
+                  { vertical: 'bottom', horizontal: 'left' },
+                  false,
+                  2000
+                )
+              }
+            >
+              Bottom Left
+            </Button>
+          </DemoGroup>
         </DemoGroup>
       </DemoSection>
     </DemoPage>

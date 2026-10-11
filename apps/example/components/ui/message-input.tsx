@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { Pressable, View, type ViewProps } from 'react-native';
 import { SendHorizontal } from 'lucide-react-native';
+import Animated, {
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { Input } from '@/components/ui/input';
 import { cn, useIconColor } from '@/lib/utils';
 
@@ -34,6 +40,12 @@ export function MessageInput({
     if (value === undefined) setInner('');
   };
   const iconColor = useIconColor('onPrimary');
+  const canSend = text.trim().length > 0;
+  const reducedMotion = useReducedMotion();
+  const scale = useSharedValue(1);
+  const sendStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
 
   return (
     <View
@@ -47,23 +59,34 @@ export function MessageInput({
         value={text}
         onChangeText={setText}
         placeholder={placeholder}
+        accessibilityLabel={placeholder}
         multiline
-        className="max-h-32 flex-1"
+        className="min-h-11 max-h-32 flex-1"
         onSubmitEditing={send}
         returnKeyType="send"
-        blurOnSubmit={false}
+        submitBehavior="submit"
       />
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel="Send"
-        onPress={send}
-        className={cn(
-          'mb-0.5 h-10 w-10 items-center justify-center rounded-full bg-primary active:opacity-80',
-          !text.trim() && 'opacity-50'
-        )}
-      >
-        <SendHorizontal size={18} color={iconColor} />
-      </Pressable>
+      <Animated.View style={sendStyle}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Send message"
+          accessibilityState={{ disabled: !canSend }}
+          disabled={!canSend}
+          onPress={send}
+          onPressIn={() => {
+            scale.value = withTiming(0.92, {
+              duration: reducedMotion ? 0 : 100,
+            });
+          }}
+          onPressOut={() => {
+            scale.value = withTiming(1, { duration: reducedMotion ? 0 : 150 });
+          }}
+          className="h-11 w-11 items-center justify-center rounded-full bg-primary"
+          style={{ opacity: canSend ? 1 : 0.4 }}
+        >
+          <SendHorizontal size={20} color={iconColor} />
+        </Pressable>
+      </Animated.View>
     </View>
   );
 }

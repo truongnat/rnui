@@ -1,6 +1,12 @@
 import { useMemo, useState } from 'react';
 import { Pressable, View, type ViewProps } from 'react-native';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+  ReduceMotion,
+} from 'react-native-reanimated';
 import {
   Table,
   TableBody,
@@ -48,6 +54,10 @@ export function DataTable<T extends Record<string, unknown>>({
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<SortDir>('asc');
   const iconColor = useIconColor();
+  const sortOpacity = useSharedValue(1);
+  const sortStyle = useAnimatedStyle(() => ({
+    opacity: sortOpacity.value,
+  }));
 
   const sorted = useMemo(() => {
     if (!sortKey) return data;
@@ -71,6 +81,11 @@ export function DataTable<T extends Record<string, unknown>>({
       setSortKey(null);
       setSortDir('asc');
     }
+    sortOpacity.value = 0.65;
+    sortOpacity.value = withTiming(1, {
+      duration: 180,
+      reduceMotion: ReduceMotion.System,
+    });
   };
 
   return (
@@ -83,10 +98,19 @@ export function DataTable<T extends Record<string, unknown>>({
                 {col.sortable ? (
                   <Pressable
                     accessibilityRole="button"
+                    accessibilityLabel={`Sort by ${col.header}`}
+                    accessibilityValue={{
+                      text:
+                        sortKey === col.key
+                          ? sortDir === 'asc'
+                            ? 'Ascending'
+                            : 'Descending'
+                          : 'Unsorted',
+                    }}
                     onPress={() => toggleSort(col.key)}
-                    className="flex-row items-center gap-1"
+                    className="min-h-11 flex-row flex-wrap items-center gap-1 active:opacity-60"
                   >
-                    <Text className="text-xs font-medium text-muted-foreground">
+                    <Text className="shrink text-sm font-medium text-muted-foreground">
                       {col.header}
                     </Text>
                     {sortKey === col.key ? (
@@ -100,7 +124,7 @@ export function DataTable<T extends Record<string, unknown>>({
                     )}
                   </Pressable>
                 ) : (
-                  <Text className="text-xs font-medium text-muted-foreground">
+                  <Text className="text-sm font-medium text-muted-foreground">
                     {col.header}
                   </Text>
                 )}
@@ -108,41 +132,43 @@ export function DataTable<T extends Record<string, unknown>>({
             ))}
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {sorted.length === 0 ? (
-            <TableRow>
-              <TableCell>
-                <Text className="py-4 text-center text-sm text-muted-foreground">
-                  {emptyText}
-                </Text>
-              </TableCell>
-            </TableRow>
-          ) : (
-            sorted.map((row) => (
-              <TableRow
-                key={rowKey(row)}
-                onPress={onRowPress ? () => onRowPress(row) : undefined}
-              >
-                {columns.map((col) => (
-                  <TableCell key={col.key} flex={col.flex}>
-                    {col.render ? (
-                      col.render(row)
-                    ) : (
-                      <Text
-                        className={cn(
-                          'text-sm text-foreground',
-                          col.align === 'right' && 'text-right'
-                        )}
-                      >
-                        {String(row[col.key] ?? '')}
-                      </Text>
-                    )}
-                  </TableCell>
-                ))}
+        <Animated.View style={sortStyle}>
+          <TableBody>
+            {sorted.length === 0 ? (
+              <TableRow>
+                <TableCell>
+                  <Text className="py-4 text-center text-sm text-muted-foreground">
+                    {emptyText}
+                  </Text>
+                </TableCell>
               </TableRow>
-            ))
-          )}
-        </TableBody>
+            ) : (
+              sorted.map((row) => (
+                <TableRow
+                  key={rowKey(row)}
+                  onPress={onRowPress ? () => onRowPress(row) : undefined}
+                >
+                  {columns.map((col) => (
+                    <TableCell key={col.key} flex={col.flex}>
+                      {col.render ? (
+                        col.render(row)
+                      ) : (
+                        <Text
+                          className={cn(
+                            'text-sm text-foreground',
+                            col.align === 'right' && 'text-right'
+                          )}
+                        >
+                          {String(row[col.key] ?? '')}
+                        </Text>
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Animated.View>
       </Table>
     </View>
   );

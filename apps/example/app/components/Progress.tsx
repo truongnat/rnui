@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
-import { Animated, Easing, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import { CircularProgress } from '@/components/ui/circular-progress';
 import { Progress } from '@/components/ui/progress';
 import { Stack } from '@/components/ui/stack';
 import { Text } from '@/components/ui/text';
@@ -7,38 +9,17 @@ import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function ProgressScreen() {
   const [progress, setProgress] = useState(10);
-  const opacity = useRef(new Animated.Value(1)).current;
+  const [running, setRunning] = useState(false);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (oldProgress >= 100) return 0;
-        const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100);
-      });
+    if (!running) return;
+    const timer = setTimeout(() => {
+      const next = Math.min(progress + 15, 100);
+      setProgress(next);
+      if (next === 100) setRunning(false);
     }, 500);
-    const pulse = Animated.loop(
-      Animated.sequence([
-        Animated.timing(opacity, {
-          toValue: 0.35,
-          duration: 700,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-        Animated.timing(opacity, {
-          toValue: 1,
-          duration: 700,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-      ])
-    );
-    pulse.start();
-    return () => {
-      clearInterval(timer);
-      pulse.stop();
-    };
-  }, [opacity]);
+    return () => clearTimeout(timer);
+  }, [progress, running]);
 
   return (
     <DemoPage
@@ -47,11 +28,16 @@ export default function ProgressScreen() {
     >
       <DemoSection
         title="Indeterminate"
-        description="Unknown wait time — pulse a bar with no measured value."
+        description="Unknown wait time — use a rotating indicator until a measurement is available."
       >
-        <Animated.View style={{ opacity }}>
-          <Progress value={100} />
-        </Animated.View>
+        <Stack direction="row" spacing="md" alignItems="center">
+          <CircularProgress
+            size={32}
+            strokeWidth={3}
+            accessibilityLabel="Preparing upload"
+          />
+          <Text variant="muted">Preparing upload…</Text>
+        </Stack>
       </DemoSection>
 
       <DemoSection
@@ -67,6 +53,29 @@ export default function ProgressScreen() {
               </Text>
             </View>
             <Progress value={progress} />
+            <View className="mt-4 flex-row flex-wrap gap-3">
+              <Button
+                onPress={() => {
+                  if (progress === 100) setProgress(0);
+                  setRunning((value) => !value);
+                }}
+              >
+                {running
+                  ? 'Pause upload'
+                  : progress === 100
+                    ? 'Upload again'
+                    : 'Start upload'}
+              </Button>
+              <Button
+                variant="outline"
+                onPress={() => {
+                  setRunning(false);
+                  setProgress(0);
+                }}
+              >
+                Reset
+              </Button>
+            </View>
           </View>
 
           <View>

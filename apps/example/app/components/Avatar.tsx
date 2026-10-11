@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { User } from 'lucide-react-native';
 import { View } from 'react-native';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { Stack } from '@/components/ui/stack';
 import { Text } from '@/components/ui/text';
-import { useIconColor } from '@/lib/utils';
+import { useIconColor, useThemeColor } from '@/lib/utils';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 const DEMO_IMAGE =
@@ -18,7 +20,14 @@ const SIZES = [
   { label: '2xl', className: 'h-20 w-20' },
 ] as const;
 
-const STATUS_COLORS = ['#22c55e', '#ef4444', '#f59e0b', '#a1a1aa'] as const;
+const STATUSES = ['Available', 'Busy', 'Away', 'Offline'] as const;
+const GROUP_MEMBERS = [
+  { id: 'riley', src: DEMO_IMAGE, initials: 'RN' },
+  { id: 'avery', src: undefined, initials: 'AB' },
+  { id: 'robin', src: DEMO_IMAGE, initials: 'RN' },
+  { id: 'alex', src: undefined, initials: 'AB' },
+];
+const SMALL_GROUP_MEMBERS = GROUP_MEMBERS.slice(0, 3);
 
 function AvatarDot({ color }: { color: string }) {
   return (
@@ -31,6 +40,15 @@ function AvatarDot({ color }: { color: string }) {
 
 export default function AvatarScreen() {
   const iconColor = useIconColor();
+  const colors = useThemeColor();
+  const statusColors = [
+    useIconColor('success'),
+    useIconColor('destructive'),
+    useIconColor('warning'),
+    colors.mutedForeground,
+  ];
+  const [imageVersion, setImageVersion] = useState(0);
+  const imageUri = `${DEMO_IMAGE}&v=${imageVersion}`;
 
   return (
     <DemoPage
@@ -40,12 +58,27 @@ export default function AvatarScreen() {
       <DemoSection title="Sizes">
         <Stack direction="row" spacing="md" wrap alignItems="center">
           {SIZES.map((s) => (
-            <Avatar key={s.label} className={s.className}>
-              <AvatarImage source={{ uri: DEMO_IMAGE }} />
-              <AvatarFallback>RN</AvatarFallback>
-            </Avatar>
+            <View key={s.label} className="min-w-12 items-center gap-3">
+              <Avatar
+                className={s.className}
+                accessible
+                accessibilityLabel={`${s.label} avatar`}
+              >
+                <AvatarImage source={{ uri: imageUri }} />
+                <AvatarFallback>RN</AvatarFallback>
+              </Avatar>
+              <Text variant="muted" className="text-xs">
+                {s.label}
+              </Text>
+            </View>
           ))}
         </Stack>
+        <Button
+          variant="outline"
+          onPress={() => setImageVersion((value) => value + 1)}
+        >
+          <Text>Reload images</Text>
+        </Button>
       </DemoSection>
 
       <DemoSection title="Types">
@@ -69,6 +102,9 @@ export default function AvatarScreen() {
           </View>
           <View className="items-center gap-1">
             <Avatar className="h-14 w-14">
+              <AvatarImage
+                source={{ uri: 'file:///rnui-avatar-unavailable.png' }}
+              />
               <AvatarFallback />
             </Avatar>
             <Text variant="muted" className="text-xs">
@@ -89,14 +125,26 @@ export default function AvatarScreen() {
       </DemoSection>
 
       <DemoSection title="Status" description="Availability badges on avatars.">
-        <Stack direction="row" spacing="lg">
-          {STATUS_COLORS.map((color) => (
-            <View key={color}>
-              <Avatar className="h-14 w-14">
-                <AvatarImage source={{ uri: DEMO_IMAGE }} />
-                <AvatarFallback>RN</AvatarFallback>
-              </Avatar>
-              <AvatarDot color={color} />
+        <Stack direction="row" spacing="lg" wrap>
+          {STATUSES.map((status, index) => (
+            <View
+              key={status}
+              className="items-center gap-3"
+              accessible
+              accessibilityLabel={status}
+            >
+              <View>
+                <Avatar className="h-14 w-14">
+                  <AvatarImage source={{ uri: DEMO_IMAGE }} />
+                  <AvatarFallback>RN</AvatarFallback>
+                </Avatar>
+                <AvatarDot
+                  color={statusColors[index] ?? colors.mutedForeground}
+                />
+              </View>
+              <Text variant="muted" className="text-xs">
+                {status}
+              </Text>
             </View>
           ))}
         </Stack>
@@ -131,14 +179,14 @@ export default function AvatarScreen() {
       >
         <Stack spacing="xl">
           <View className="flex-row items-center">
-            {[DEMO_IMAGE, undefined, DEMO_IMAGE, undefined].map((src, i) => (
+            {GROUP_MEMBERS.map(({ id, src, initials }, i) => (
               <Avatar
-                key={`${src ?? 'fallback'}-${i}`}
+                key={id}
                 className="border-2 border-background"
                 style={{ marginLeft: i === 0 ? 0 : -12 }}
               >
                 {src ? <AvatarImage source={{ uri: src }} /> : null}
-                <AvatarFallback>{i % 2 === 0 ? 'RN' : 'AB'}</AvatarFallback>
+                <AvatarFallback>{initials}</AvatarFallback>
               </Avatar>
             ))}
             <Avatar
@@ -149,9 +197,9 @@ export default function AvatarScreen() {
             </Avatar>
           </View>
           <View className="flex-row items-center">
-            {[DEMO_IMAGE, undefined, DEMO_IMAGE].map((src, i) => (
+            {SMALL_GROUP_MEMBERS.map(({ id, src }, i) => (
               <Avatar
-                key={i}
+                key={id}
                 className="h-8 w-8 border-2 border-background"
                 style={{ marginLeft: i === 0 ? 0 : -10 }}
               >

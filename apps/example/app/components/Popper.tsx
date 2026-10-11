@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { Button } from '@/components/ui/button';
-import { Paper } from '@/components/ui/paper';
 import {
   Popper,
   type PopperPlacement,
@@ -56,7 +55,7 @@ export default function PopperScreen() {
             collapsable={false}
             className="rounded-md bg-muted p-4"
           >
-            <Text variant="h4">ANCHOR</Text>
+            <Text variant="h4">Anchor</Text>
           </View>
         </View>
 
@@ -81,12 +80,15 @@ export default function PopperScreen() {
           showArrow
           onClose={() => setOpen(false)}
         >
-          <Paper elevation="lg" className="min-w-32 items-center bg-background">
-            <Text variant="small">Popper Content</Text>
-            <Text variant="muted" className="text-xs">
-              Placement: {placement}
+          <View className="min-w-48 gap-2 p-2">
+            <Text variant="small" className="font-semibold">
+              Anchored surface
             </Text>
-          </Paper>
+            <Text variant="muted">Placement: {placement}</Text>
+            <Button size="sm" variant="outline" onPress={() => setOpen(false)}>
+              Dismiss
+            </Button>
+          </View>
         </Popper>
       </DemoSection>
 

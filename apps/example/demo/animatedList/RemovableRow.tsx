@@ -15,12 +15,13 @@ import {
 import Animated, {
   Easing,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-const REMOVE_DURATION = 380;
+const REMOVE_DURATION = 240;
 
 type RemovableRowProps = {
   /** Row identity — resets local removal state when the cell is recycled. */
@@ -50,9 +51,11 @@ export const RemovableRow = memo(function RemovableRow({
   children,
 }: RemovableRowProps) {
   const [removing, setRemoving] = useState(false);
+  const reducedMotion = useReducedMotion();
   const progress = useSharedValue(1);
   const measuredHeight = useSharedValue(0);
   const hasMeasured = useSharedValue(false);
+  const previousKey = useRef(resetKey);
   const onRemovedRef = useRef(onRemoved);
   onRemovedRef.current = onRemoved;
 
@@ -65,6 +68,8 @@ export const RemovableRow = memo(function RemovableRow({
 
   // Reset when the list recycles this cell to a different item.
   useLayoutEffect(() => {
+    if (previousKey.current === resetKey) return;
+    previousKey.current = resetKey;
     setRemoving(false);
     progress.set(1);
     hasMeasured.set(false);
@@ -88,7 +93,10 @@ export const RemovableRow = memo(function RemovableRow({
     progress.set(
       withTiming(
         0,
-        { duration: REMOVE_DURATION, easing: Easing.out(Easing.cubic) },
+        {
+          duration: reducedMotion ? 0 : REMOVE_DURATION,
+          easing: Easing.out(Easing.cubic),
+        },
         (finished) => {
           if (finished) {
             scheduleOnRN(handleRemoved);
@@ -96,7 +104,7 @@ export const RemovableRow = memo(function RemovableRow({
         }
       )
     );
-  }, [removing, progress, handleRemoved]);
+  }, [removing, progress, handleRemoved, reducedMotion]);
 
   const animatedStyle = useAnimatedStyle<ViewStyle>(() => {
     if (!removing) return {};
@@ -108,7 +116,13 @@ export const RemovableRow = memo(function RemovableRow({
   });
 
   return (
-    <Animated.View onLayout={onLayout} style={[styles.clip, animatedStyle]}>
+    <Animated.View
+      pointerEvents={removing ? 'none' : 'auto'}
+      accessibilityElementsHidden={removing}
+      importantForAccessibility={removing ? 'no-hide-descendants' : 'auto'}
+      onLayout={onLayout}
+      style={[styles.clip, animatedStyle]}
+    >
       {children(remove)}
     </Animated.View>
   );

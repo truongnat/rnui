@@ -1,12 +1,12 @@
 import { useState, type ReactNode } from 'react';
 import {
+  I18nManager,
   Platform,
   Pressable,
   StyleSheet,
   View,
   type GestureResponderEvent,
   type PressableProps,
-  type StyleProp,
   type ViewStyle,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -25,7 +25,7 @@ export interface FabProps extends Omit<PressableProps, 'children'> {
   variant?: FabVariant;
   /** Automatically floats at bottom-right of screen over content. Default: false. */
   floating?: boolean;
-  /** Auto-offset bottom padding for device Home Indicator when floating. Default: true. */
+  /** Apply bottom/lateral safe-area bounds when floating. Disable in a parent-owned safe area. Default: true. */
   safeArea?: boolean;
   className?: string;
 }
@@ -53,11 +53,14 @@ export function Fab({
   style,
   onPressIn,
   onPressOut,
+  onHoverIn,
+  onHoverOut,
   ...props
 }: FabProps) {
   const insets = useSafeAreaInsets();
   const colors = useThemeColor();
   const [isPressed, setIsPressed] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const isExtended = Boolean(label);
   const sizeConfig = size === 'extended' || isExtended ? SIZES.md : SIZES[size];
@@ -74,7 +77,6 @@ export function Fab({
           fg: colors.foreground,
           border: colors.border,
         };
-      case 'default':
       default:
         return { bg: colors.primary, fg: colors.primaryForeground };
     }
@@ -104,6 +106,14 @@ export function Fab({
         setIsPressed(false);
         onPressOut?.(e);
       }}
+      onHoverIn={(event) => {
+        setIsHovered(true);
+        onHoverIn?.(event);
+      }}
+      onHoverOut={(event) => {
+        setIsHovered(false);
+        onHoverOut?.(event);
+      }}
       className={cn(className)}
       style={[
         styles.baseButton,
@@ -120,16 +130,22 @@ export function Fab({
             },
         dynamicStyle,
         styles.elevationShadow,
-        style as StyleProp<ViewStyle>,
+        floating && { direction: I18nManager.isRTL ? 'rtl' : 'ltr' },
+        floating && isExtended && { maxWidth: '100%' },
+        typeof style === 'function'
+          ? style({ pressed: isPressed, hovered: isHovered })
+          : style,
       ]}
       {...props}
     >
-      <View style={styles.contentRow}>
+      <View style={[styles.contentRow, floating && { flexShrink: 1 }]}>
         {icon}
         {label ? (
           <Text
+            numberOfLines={floating ? 1 : undefined}
             style={[
               styles.labelText,
+              floating && { flexShrink: 1 },
               {
                 color: themeColors.fg,
                 fontSize: size === 'sm' ? 12 : 14,
@@ -149,7 +165,12 @@ export function Fab({
         pointerEvents="box-none"
         style={[
           styles.floatingContainer,
-          { bottom: safeArea ? insets.bottom + 20 : 24 },
+          {
+            bottom: safeArea ? insets.bottom + 20 : 24,
+            left: styles.floatingContainer.right + (safeArea ? insets.left : 0),
+            right:
+              styles.floatingContainer.right + (safeArea ? insets.right : 0),
+          },
         ]}
       >
         {buttonContent}
@@ -192,6 +213,8 @@ const styles = StyleSheet.create({
   },
   floatingContainer: {
     position: 'absolute',
+    direction: 'ltr',
+    alignItems: 'flex-end',
     right: 20,
     zIndex: 999,
   },

@@ -4,10 +4,10 @@ Shadcn-compatible component registry for React Native. Components are **copied i
 
 Two styling-engine variants are served:
 
-| Variant | Engine | Tailwind | Setup |
-|---|---|---|---|
-| `nativewind` | [NativeWind](https://nativewind.dev) v4 | v3 (`tailwind.config`) | babel preset + `withNativeWind` metro |
-| `uniwind` | [Uniwind](https://uniwind.dev) | v4 (`@theme`, CSS-first) | `withUniwindConfig` metro only |
+| Variant      | Engine                                  | Tailwind                 | Setup                                 |
+| ------------ | --------------------------------------- | ------------------------ | ------------------------------------- |
+| `nativewind` | [NativeWind](https://nativewind.dev) v4 | v3 (`tailwind.config`)   | babel preset + `withNativeWind` metro |
+| `uniwind`    | [Uniwind](https://uniwind.dev)          | v4 (`@theme`, CSS-first) | `withUniwindConfig` metro only        |
 
 ## Layout
 
@@ -100,6 +100,33 @@ python3 -m http.server 4999 -d registry/dist          # serve locally for e2e
 - **Anchored content flips.** Popover/dropdown/context-menu/tooltip content
   measures itself via `onLayout` and flips above the trigger when it would
   overflow the bottom edge; render at `opacity: 0` until measured.
+- **Popover surfaces.** `PopoverContent` forwards its `ViewProps` (including
+  `style`, `onLayout` and accessibility props) to the measured panel, not an
+  inner body. Width/padding overrides therefore participate in positioning;
+  safe-window maximum dimensions still constrain the surface. Outside taps
+  dismiss without activating the underlying screen. Use working controls in
+  rich-content demos; account preferences update immediately and survive
+  closing/reopening the panel.
+- **Calendar grid.** Render explicit seven-column rows with equal flex cells,
+  not percentage-width wrapped cells: Yoga rounding can move Saturday to a new
+  row. Weekday headings and hidden outside-date placeholders share those columns.
+  The default calendar fills its container; callers can constrain width with
+  `style`/`className`. Range bands terminate at each visible week boundary.
+- **Code source.** `CodeBlock` applies light/dark lexical syntax colors to
+  JS/TS/JSX/TSX, JSON and CSS without rewriting source. Indentation, newlines,
+  selection and clipboard contents retain the supplied text; unsupported
+  languages remain plain. This is highlighting, not an automatic formatter
+  or a complete language parser.
+- **Mobile context menus.** `ContextMenu` is a custom anchored panel, not a
+  system-native preview/menu. Long-press an object for secondary actions; keep
+  its primary tap action intact and expose the same choices through a visible
+  overflow button (`DropdownMenu`). Use an independent context for each object.
+  Hide unavailable context actions and omit keyboard shortcut hints on mobile.
+  Default accessibility uses the separate `showActions` action, not `activate`;
+  accessibility escape dismisses the panel. Caller `ViewProps` reach the measured
+  surface, and callback trigger styles receive pressed/hovered state.
+  See [Apple context menus](https://developer.apple.com/design/human-interface-guidelines/context-menus)
+  and [Android contextual menus](https://developer.android.com/develop/ui/views/components/menus).
 - **Form context.** `FormFieldContext` and `TextClassContext` live in
   `lib/utils` (not `ui/form`) so controls consume them without a registry dep.
   Inputs auto-wire `nativeID` + `invalid` from the enclosing `FormField`.

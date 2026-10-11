@@ -9,13 +9,12 @@ import {
 } from 'react';
 import {
   type GestureResponderEvent,
-  Modal,
   Pressable,
-  useWindowDimensions,
   View,
   type PressableProps,
   type ViewProps,
 } from 'react-native';
+import { Popper } from '@/components/ui/popper';
 import { Text } from '@/components/ui/text';
 import { cn, composeRefs } from '@/lib/utils';
 
@@ -57,7 +56,7 @@ export function TooltipTrigger({
   asChild?: boolean;
   children?: React.ReactNode;
 }) {
-  const { setOpen, setAnchor } = useContext(TooltipContext);
+  const { open, setOpen, setAnchor } = useContext(TooltipContext);
   const ref = useRef<View>(null);
   const show = () =>
     ref.current?.measureInWindow((x, y, width, height) => {
@@ -75,6 +74,7 @@ export function TooltipTrigger({
     return cloneElement(child, {
       ...props,
       ref: composeRefs(ref, childProps.ref),
+      accessibilityState: { expanded: open },
       collapsable: false,
       className: cn(className, childProps.className),
       onPress: (e: GestureResponderEvent) => {
@@ -93,8 +93,15 @@ export function TooltipTrigger({
     <Pressable
       ref={ref}
       accessibilityRole="button"
-      onLongPress={show}
-      onPress={show}
+      accessibilityState={{ expanded: open }}
+      onLongPress={(event) => {
+        onLongPress?.(event);
+        show();
+      }}
+      onPress={(event) => {
+        onPress?.(event);
+        show();
+      }}
       className={className}
       collapsable={false}
       {...props}
@@ -117,54 +124,22 @@ export function TooltipContent({
   ...props
 }: TooltipContentProps) {
   const { open, setOpen, anchor } = useContext(TooltipContext);
-  const { width: screenW } = useWindowDimensions();
-  const [measured, setMeasured] = useState({ w: 0, h: 0 });
-  const left = anchor
-    ? Math.max(8, Math.min(anchor.x, screenW - (measured.w || 80) - 8))
-    : 0;
-  // Above the trigger by default; flip below when it would clip the top edge.
-  const above = anchor ? anchor.y - measured.h - sideOffset : 0;
-  const top =
-    anchor && measured.h > 0 && above < 8
-      ? anchor.y + anchor.height + sideOffset
-      : Math.max(above, 8);
   return (
-    <Modal visible={open} transparent animationType="fade">
-      <Pressable className="flex-1" onPress={() => setOpen(false)}>
-        {anchor && (
-          <View
-            style={{
-              position: 'absolute',
-              left,
-              top,
-              opacity: measured.h ? 1 : 0,
-            }}
-          >
-            <View
-              onLayout={(e) =>
-                setMeasured({
-                  w: e.nativeEvent.layout.width,
-                  h: e.nativeEvent.layout.height,
-                })
-              }
-              className={cn(
-                'rounded-md bg-primary px-3 py-1.5 shadow-md',
-                className
-              )}
-              style={[{ maxWidth: screenW - 16 }, style]}
-              {...props}
-            >
-              {typeof children === 'string' ? (
-                <Text className="text-xs text-primary-foreground">
-                  {children}
-                </Text>
-              ) : (
-                children
-              )}
-            </View>
-          </View>
+    <Popper
+      open={open}
+      anchor={anchor}
+      placement="top"
+      sideOffset={sideOffset}
+      onClose={() => setOpen(false)}
+      className={cn('border-0 bg-primary px-3 py-2', className)}
+    >
+      <View style={style} {...props}>
+        {typeof children === 'string' ? (
+          <Text className="text-sm text-primary-foreground">{children}</Text>
+        ) : (
+          children
         )}
-      </Pressable>
-    </Modal>
+      </View>
+    </Popper>
   );
 }

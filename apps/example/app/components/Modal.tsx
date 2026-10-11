@@ -37,11 +37,11 @@ export default function ModalScreen() {
     >
       <DemoSection
         title="Basic Modal"
-        description="Standard backdrop dismissal with header, body, alert, and actions."
+        description="Backdrop dismissal with a React modal host retained between presentations, without an invisible native overlay."
       >
         <Button onPress={() => setBasicOpen(true)}>Launch Basic Modal</Button>
 
-        <Modal open={basicOpen} onOpenChange={setBasicOpen}>
+        <Modal open={basicOpen} onOpenChange={setBasicOpen} keepMounted>
           <ModalContent>
             <ModalHeader>
               <ModalTitle>Information Dialog</ModalTitle>
@@ -136,14 +136,17 @@ export default function ModalScreen() {
 
       <DemoSection
         title="Custom Styling"
-        description="Override ModalContent className for brand or high-contrast surfaces."
+        description="A narrower styled surface still dismisses when its surrounding space is tapped."
       >
         <Button variant="ghost" onPress={() => setCustomStyleOpen(true)}>
           Launch Premium UI
         </Button>
 
         <Modal open={customStyleOpen} onOpenChange={setCustomStyleOpen}>
-          <ModalContent className="border-0 bg-primary">
+          <ModalContent
+            className="border-0 bg-primary"
+            style={{ width: '80%' }}
+          >
             <Stack spacing="lg">
               <Stack spacing="sm">
                 <Text variant="h3" className="text-primary-foreground">

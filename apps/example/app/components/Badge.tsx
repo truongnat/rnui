@@ -77,21 +77,16 @@ export default function BadgeScreen() {
       <DemoSection
         title="Visible surfaces"
         description="Background + border + text — readable without blur or overlay tricks."
+        bare
       >
         <Stack spacing="md">
-          <DemoSurfacePanel label="White surface" surface="white">
-            <BadgeStatusRow />
-          </DemoSurfacePanel>
           <DemoSurfacePanel label="App background" surface="app">
             <BadgeStatusRow />
           </DemoSurfacePanel>
           <DemoSurfacePanel label="Card surface" surface="card">
             <BadgeStatusRow />
           </DemoSurfacePanel>
-          <DemoSurfacePanel label="Glass surface" surface="glass">
-            <BadgeStatusRow />
-          </DemoSurfacePanel>
-          <DemoSurfacePanel label="Dark surface" surface="dark">
+          <DemoSurfacePanel label="Muted surface" surface="glass">
             <BadgeStatusRow />
           </DemoSurfacePanel>
         </Stack>
@@ -102,7 +97,7 @@ export default function BadgeScreen() {
           <Badge
             variant="default"
             className="px-2 py-0"
-            labelClassName="text-[10px]"
+            labelClassName="text-xs"
           >
             Small
           </Badge>
@@ -122,10 +117,15 @@ export default function BadgeScreen() {
         description="Notification counts and status dots."
       >
         <Stack direction="row" spacing="md" alignItems="center">
-          <Badge variant="destructive" className="h-2 w-2 px-0 py-0" />
+          <Badge
+            variant="destructive"
+            className="h-2 w-2 px-0 py-0"
+            accessibilityLabel="Needs attention"
+          />
           <Badge
             variant="default"
-            className="h-2 w-2 border-transparent bg-green-600 px-0 py-0"
+            className="h-2 w-2 border-transparent bg-primary px-0 py-0"
+            accessibilityLabel="Active"
           />
           <Badge variant="destructive">3</Badge>
           <Badge variant="destructive">99</Badge>

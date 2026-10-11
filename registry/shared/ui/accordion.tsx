@@ -1,13 +1,18 @@
 import { ChevronDown } from 'lucide-react-native';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import {
-  Animated,
   Pressable,
   View,
   type PressableProps,
   type ViewProps,
 } from 'react-native';
 import { Text, type TextProps } from '@/components/ui/text';
+import Animated, {
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { cn, useIconColor } from '@/lib/utils';
 
 interface AccordionContextValue {
@@ -96,24 +101,49 @@ export interface AccordionTriggerProps
 export function AccordionTrigger({
   className,
   children,
+  disabled,
+  style,
+  accessibilityState,
+  onPress,
   ...props
 }: AccordionTriggerProps) {
   const { toggle } = useContext(AccordionContext);
   const { value, open } = useContext(ItemContext);
   const iconColor = useIconColor();
+  const reducedMotion = useReducedMotion();
+  const rotation = useSharedValue(open ? 180 : 0);
+  useEffect(() => {
+    rotation.value = withTiming(open ? 180 : 0, {
+      duration: reducedMotion ? 0 : 200,
+    });
+  }, [open, reducedMotion, rotation]);
+  const iconStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${rotation.value}deg` }],
+  }));
 
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityState={{ expanded: open }}
-      onPress={() => toggle(value)}
-      className={cn('flex-row items-center justify-between py-4', className)}
+      disabled={disabled}
+      accessibilityState={{ ...accessibilityState, expanded: open, disabled }}
+      onPress={(event) => {
+        toggle(value);
+        onPress?.(event);
+      }}
+      className={cn(
+        'min-h-14 flex-row items-center justify-between gap-3 py-4',
+        className
+      )}
+      style={(state) => [
+        { opacity: disabled ? 0.5 : state.pressed ? 0.7 : 1 },
+        typeof style === 'function' ? style(state) : style,
+      ]}
       {...props}
     >
-      <Text className="text-sm font-medium text-foreground">{children}</Text>
-      <Animated.View
-        style={{ transform: [{ rotate: open ? '180deg' : '0deg' }] }}
-      >
+      <Text className="min-w-0 flex-1 text-base font-medium leading-6 text-foreground">
+        {children}
+      </Text>
+      <Animated.View style={iconStyle}>
         <ChevronDown size={16} color={iconColor} />
       </Animated.View>
     </Pressable>
@@ -127,17 +157,39 @@ export interface AccordionContentProps extends ViewProps {
 export function AccordionContent({
   className,
   children,
+  style,
   ...props
 }: AccordionContentProps) {
   const { open } = useContext(ItemContext);
-  if (!open) return null;
+  const reducedMotion = useReducedMotion();
+  const [contentHeight, setContentHeight] = useState(0);
+  const height = useSharedValue(0);
+  useEffect(() => {
+    height.value = withTiming(open ? contentHeight : 0, {
+      duration: reducedMotion ? 0 : 220,
+    });
+  }, [open, contentHeight, height, reducedMotion]);
+  const contentStyle = useAnimatedStyle(() => ({ height: height.value }));
   return (
-    <View className={cn('pb-4', className)} {...props}>
-      {typeof children === 'string' ? (
-        <Text className="text-sm text-foreground">{children}</Text>
-      ) : (
-        children
-      )}
-    </View>
+    <Animated.View
+      {...props}
+      pointerEvents={open ? 'auto' : 'none'}
+      accessibilityElementsHidden={!open}
+      importantForAccessibility={open ? 'auto' : 'no-hide-descendants'}
+      style={[{ overflow: 'hidden' }, style, contentStyle]}
+    >
+      <View
+        className={cn('absolute left-0 right-0 top-0 pb-4', className)}
+        onLayout={(event) => setContentHeight(event.nativeEvent.layout.height)}
+      >
+        {typeof children === 'string' ? (
+          <Text className="text-sm leading-6 text-muted-foreground">
+            {children}
+          </Text>
+        ) : (
+          children
+        )}
+      </View>
+    </Animated.View>
   );
 }

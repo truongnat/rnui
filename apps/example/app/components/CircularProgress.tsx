@@ -1,18 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
 import { Button } from '@/components/ui/button';
 import { CircularProgress } from '@/components/ui/circular-progress';
-import { DemoPage, DemoPreview, DemoSection } from '@/demo/DemoPage';
+import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function CircularProgressScreen() {
   const [progress, setProgress] = useState(40);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((v) => (v >= 100 ? 0 : v + 10));
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <DemoPage
@@ -23,36 +16,36 @@ export default function CircularProgressScreen() {
         title="Animated"
         description={`Value transitions on a 0–100 scale. Current: ${Math.round(progress)}%`}
       >
-        <DemoPreview>
-          <View className="items-center gap-4">
-            <CircularProgress
-              value={progress}
-              size={120}
-              strokeWidth={12}
-              showLabel
-            />
-            <View className="flex-row gap-3">
-              <Button
-                size="sm"
-                variant="outline"
-                onPress={() => setProgress((v) => Math.max(0, v - 10))}
-              >
-                Decrease
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onPress={() => setProgress((v) => Math.min(100, v + 10))}
-              >
-                Increase
-              </Button>
-            </View>
+        <View className="items-center gap-6 py-2">
+          <CircularProgress
+            value={progress}
+            size={120}
+            strokeWidth={12}
+            showLabel
+          />
+          <View className="flex-row gap-3">
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={progress === 0}
+              onPress={() => setProgress((v) => Math.max(0, v - 10))}
+            >
+              Decrease
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={progress === 100}
+              onPress={() => setProgress((v) => Math.min(100, v + 10))}
+            >
+              Increase
+            </Button>
           </View>
-        </DemoPreview>
+        </View>
       </DemoSection>
 
       <DemoSection title="Values" description="Determinate progress snapshots.">
-        <View className="flex-row items-center justify-around">
+        <View className="flex-row flex-wrap items-center justify-around gap-4">
           <CircularProgress value={25} size={60} />
           <CircularProgress value={50} size={60} />
           <CircularProgress value={75} size={60} />
@@ -61,7 +54,7 @@ export default function CircularProgressScreen() {
       </DemoSection>
 
       <DemoSection title="Sizes">
-        <View className="flex-row items-center justify-between">
+        <View className="flex-row flex-wrap items-center justify-between gap-4">
           <CircularProgress value={40} size={32} strokeWidth={4} />
           <CircularProgress value={50} size={48} strokeWidth={6} />
           <CircularProgress value={70} size={64} strokeWidth={8} />

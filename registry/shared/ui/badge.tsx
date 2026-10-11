@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
 import { Text, View, type ViewProps } from 'react-native';
 import { tv } from 'tailwind-variants';
-import { cn } from '@/lib/utils';
+import { cn, TextClassContext } from '@/lib/utils';
 
 const badgeVariants = tv({
   slots: {
-    base: 'flex-row items-center self-start rounded-full border px-2.5 py-0.5',
+    base: 'flex-row items-center gap-1 self-start rounded-full border px-2.5 py-1',
     label: 'text-xs font-semibold',
   },
   variants: {
@@ -51,11 +51,13 @@ export function Badge({
 
   return (
     <View className={cn(base(), className)} {...props}>
-      {typeof children === 'string' || typeof children === 'number' ? (
-        <Text className={cn(label(), labelClassName)}>{children}</Text>
-      ) : (
-        children
-      )}
+      <TextClassContext.Provider value={cn(label(), labelClassName)}>
+        {typeof children === 'string' || typeof children === 'number' ? (
+          <Text className={cn(label(), labelClassName)}>{children}</Text>
+        ) : (
+          children
+        )}
+      </TextClassContext.Provider>
     </View>
   );
 }

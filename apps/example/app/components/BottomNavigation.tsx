@@ -17,15 +17,33 @@ export default function BottomNavigationScreen() {
   const standardItems = [
     { key: 'home', label: 'Home', icon: <Home size={ICON_SIZE} /> },
     { key: 'search', label: 'Explore', icon: <Search size={ICON_SIZE} /> },
-    { key: 'favorites', label: 'Saved', icon: <Heart size={ICON_SIZE} />, badge: 3 },
-    { key: 'inbox', label: 'Alerts', icon: <Bell size={ICON_SIZE} />, badge: true },
+    {
+      key: 'favorites',
+      label: 'Saved',
+      icon: <Heart size={ICON_SIZE} />,
+      badge: 3,
+    },
+    {
+      key: 'inbox',
+      label: 'Alerts',
+      icon: <Bell size={ICON_SIZE} />,
+      badge: true,
+    },
     { key: 'profile', label: 'Account', icon: <User size={ICON_SIZE} /> },
   ];
 
   return (
     <DemoPage
       title="Bottom Navigation"
-      description="Primary destination navigation with spring capsule highlights, floating island mode, and badges."
+      description="Screen-edge navigation with spring capsule highlights. The live floating bar owns its safe-area offsets; embedded previews opt out."
+      floatingContent={
+        <BottomNavigation
+          variant="floating"
+          items={standardItems}
+          value={activeTab1}
+          onValueChange={setActiveTab1}
+        />
+      }
     >
       <DemoSection
         title="Standard Capsule Navigation Bar"
@@ -66,7 +84,8 @@ export default function BottomNavigationScreen() {
                 Selected View: {activeTab2}
               </Text>
               <Text variant="muted" className="text-center">
-                Floating island floats above with drop shadow and ample clearance.
+                Floating island floats above with drop shadow and ample
+                clearance.
               </Text>
             </View>
           </View>
@@ -75,9 +94,22 @@ export default function BottomNavigationScreen() {
             variant="floating"
             items={[
               { key: 'home', label: 'Feed', icon: <Home size={ICON_SIZE} /> },
-              { key: 'search', label: 'Search', icon: <Search size={ICON_SIZE} /> },
-              { key: 'inbox', label: 'Activity', icon: <Bell size={ICON_SIZE} />, badge: '9+' },
-              { key: 'profile', label: 'Profile', icon: <User size={ICON_SIZE} /> },
+              {
+                key: 'search',
+                label: 'Search',
+                icon: <Search size={ICON_SIZE} />,
+              },
+              {
+                key: 'inbox',
+                label: 'Activity',
+                icon: <Bell size={ICON_SIZE} />,
+                badge: '9+',
+              },
+              {
+                key: 'profile',
+                label: 'Profile',
+                icon: <User size={ICON_SIZE} />,
+              },
             ]}
             value={activeTab2}
             onValueChange={setActiveTab2}

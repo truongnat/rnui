@@ -1,4 +1,3 @@
-import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Stack } from '@/components/ui/stack';
 import { Text } from '@/components/ui/text';
@@ -14,24 +13,18 @@ export default function TypographyScreen() {
         title="Order confirmation"
         description="Article-style content block with realistic hierarchy."
       >
-        <Card>
-          <CardContent className="pt-6">
-            <Stack spacing="sm">
-              <Text className="text-xs uppercase tracking-wide text-primary">
-                Order #4821
-              </Text>
-              <Text variant="h2">Payment received</Text>
-              <Text variant="muted">
-                Your subscription renews on June 12. You can manage billing
-                anytime in Settings.
-              </Text>
-              <Separator />
-              <Text variant="muted" className="text-xs">
-                Receipt sent to alex@company.com
-              </Text>
-            </Stack>
-          </CardContent>
-        </Card>
+        <Stack spacing="sm">
+          <Text variant="h2">Payment received</Text>
+          <Text variant="muted">Order #4821</Text>
+          <Text variant="muted">
+            Your subscription renews on June 12. You can manage billing anytime
+            in Settings.
+          </Text>
+          <Separator />
+          <Text variant="muted" className="text-xs">
+            Receipt sent to alex@company.com
+          </Text>
+        </Stack>
       </DemoSection>
 
       <DemoSection title="Headings">

@@ -114,7 +114,7 @@
       "file": "calendar.tsx",
       "category": "data-display",
       "import": "import { Calendar } from '@/components/ui/calendar';",
-      "description": "Month-grid date selection for single dates or ranges."
+      "description": "Responsive seven-column month/week calendar for single dates or ranges, with aligned weekdays and mobile-sized controls."
     },
     {
       "name": "Card",
@@ -128,7 +128,7 @@
       "file": "carousel.tsx",
       "category": "data-display",
       "import": "import { Carousel } from '@/components/ui/carousel';",
-      "description": "Swipeable content strip with snap paging, pagination, and optional navigation controls."
+      "description": "Swipeable content strip with round animated pagination, arrows, optional autoPlay/autoPlayInterval and loop; automatic motion pauses for background, reduced motion and screen readers."
     },
     {
       "name": "Chart",
@@ -170,7 +170,7 @@
       "file": "code-block.tsx",
       "category": "data-display",
       "import": "import { CodeBlock } from '@/components/ui/code-block';",
-      "description": "Syntax-highlighted code display with copy, line numbers, and language badge."
+      "description": "Selectable monospace code with theme-aware lexical syntax colors for JS/TS/JSX/TSX, JSON and CSS, copy feedback, and a language badge; preserves exact source formatting."
     },
     {
       "name": "Collapsible",
@@ -191,7 +191,7 @@
       "file": "context-menu.tsx",
       "category": "overlay",
       "import": "import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuShortcut, ContextMenuSeparator, ContextMenuLabel } from '@/components/ui/context-menu';",
-      "description": "Long-press context menu."
+      "description": "Custom long-press menu for secondary item actions. Provide a visible tap alternative; not an OS-native context menu."
     },
     {
       "name": "DataTable",

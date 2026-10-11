@@ -95,12 +95,12 @@
     "glass-card",
     "gradient",
     "list",
-    "theme-butter",
-    "theme-chocolate",
-    "theme-gothic",
     "theme-matcha",
-    "theme-neutral",
     "theme-stone",
-    "theme-y2k"
+    "theme-neutral",
+    "theme-y2k",
+    "theme-chocolate",
+    "theme-butter",
+    "theme-gothic"
   ]
 }

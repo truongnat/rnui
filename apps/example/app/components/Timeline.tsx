@@ -1,112 +1,150 @@
+import { useState } from 'react';
 import { View } from 'react-native';
 import { Check } from 'lucide-react-native';
-import { Card } from '@/components/ui/card';
+import Animated, {
+  FadeIn,
+  LinearTransition,
+  ReduceMotion,
+} from 'react-native-reanimated';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import {
   Timeline,
   TimelineDescription,
   TimelineItem,
   TimelineTitle,
 } from '@/components/ui/timeline';
-import { useIconColor } from '@/lib/utils';
+import { useIconColor, useThemeColor } from '@/lib/utils';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
-function Dot({ tone }: { tone: 'primary' | 'muted' }) {
-  return (
-    <View
-      className={
-        tone === 'primary'
-          ? 'mt-1.5 h-2.5 w-2.5 rounded-full bg-primary'
-          : 'mt-1.5 h-2.5 w-2.5 rounded-full bg-muted-foreground/40'
-      }
-    />
-  );
-}
-
+const STEPS = [
+  {
+    title: 'Order received',
+    detail: 'Your order is confirmed.',
+    time: '09:30',
+  },
+  {
+    title: 'Packed for delivery',
+    detail: 'Your items are ready for collection.',
+    time: '10:45',
+  },
+  {
+    title: 'On the way',
+    detail: 'The courier has collected your parcel.',
+    time: '12:15',
+  },
+  { title: 'Delivered', detail: 'Your parcel has arrived.', time: '14:20' },
+];
 export default function TimelineScreen() {
-  const checkColor = useIconColor('onPrimary');
-
+  const [current, setCurrent] = useState(1);
+  const colors = useThemeColor();
+  const onPrimary = useIconColor('onPrimary');
   return (
     <DemoPage
       title="Timeline"
-      description="Events in chronological order with status indicators."
+      description="Follow an event sequence with aligned markers, readable details, and status expressed in words as well as color."
     >
       <DemoSection
-        title="Basic"
-        description="Completed, active, and pending states."
+        title="Delivery progress"
+        description="Advance the sample order to see the status update in place."
+      >
+        <Timeline>
+          {STEPS.map((step, index) => {
+            const complete = index < current;
+            const active = index === current;
+            return (
+              <TimelineItem
+                key={step.title}
+                line={index < STEPS.length - 1}
+                dot={
+                  <View
+                    className="h-6 w-6 items-center justify-center rounded-full"
+                    style={{
+                      backgroundColor: complete ? colors.primary : colors.muted,
+                      borderWidth: active ? 1 : 0,
+                      borderColor: colors.primary,
+                    }}
+                  >
+                    {complete ? (
+                      <Check size={14} color={onPrimary} />
+                    ) : (
+                      <View
+                        className="h-2 w-2 rounded-full"
+                        style={{
+                          backgroundColor: active
+                            ? colors.primary
+                            : colors.mutedForeground,
+                        }}
+                      />
+                    )}
+                  </View>
+                }
+              >
+                <TimelineTitle>{step.title}</TimelineTitle>
+                <Animated.View
+                  key={complete ? 'complete' : active ? 'active' : 'pending'}
+                  entering={FadeIn.duration(160).reduceMotion(
+                    ReduceMotion.System
+                  )}
+                  layout={LinearTransition.duration(200).reduceMotion(
+                    ReduceMotion.System
+                  )}
+                >
+                  <TimelineDescription>
+                    {complete
+                      ? `${step.time} · Completed`
+                      : active
+                        ? 'In progress'
+                        : 'Upcoming'}
+                  </TimelineDescription>
+                  {complete || active ? (
+                    <Text variant="muted" className="mt-1">
+                      {step.detail}
+                    </Text>
+                  ) : null}
+                </Animated.View>
+              </TimelineItem>
+            );
+          })}
+        </Timeline>
+        <View className="mt-5 items-start">
+          <Button
+            variant="outline"
+            onPress={() =>
+              setCurrent((step) => (step >= STEPS.length ? 1 : step + 1))
+            }
+          >
+            {current >= STEPS.length ? 'Replay delivery' : 'Advance delivery'}
+          </Button>
+        </View>
+        <Text variant="muted" accessibilityLiveRegion="polite" className="mt-3">
+          {current >= STEPS.length
+            ? 'Delivery complete.'
+            : `${STEPS[current].title} is in progress.`}
+        </Text>
+      </DemoSection>
+      <DemoSection
+        title="Activity history"
+        description="Past events stay static. Motion is reserved for changes."
       >
         <Timeline>
           <TimelineItem>
-            <TimelineTitle>Order Placed</TimelineTitle>
+            <TimelineTitle>Review approved</TimelineTitle>
             <TimelineDescription>
-              Your order has been received
+              Today, 10:45 · Maya approved the mobile layouts.
             </TimelineDescription>
           </TimelineItem>
           <TimelineItem>
-            <TimelineTitle>Payment Confirmed</TimelineTitle>
-            <TimelineDescription>Transaction successful</TimelineDescription>
-          </TimelineItem>
-          <TimelineItem dot={<Dot tone="primary" />}>
-            <TimelineTitle>Processing</TimelineTitle>
-            <TimelineDescription>Preparing your items</TimelineDescription>
-          </TimelineItem>
-          <TimelineItem line={false} dot={<Dot tone="muted" />}>
-            <TimelineTitle>Shipped</TimelineTitle>
-            <TimelineDescription>Pending pickup</TimelineDescription>
-          </TimelineItem>
-        </Timeline>
-      </DemoSection>
-
-      <DemoSection title="Timestamps" description="Times above each event.">
-        <Timeline>
-          <TimelineItem>
-            <TimelineDescription>09:30 AM</TimelineDescription>
-            <TimelineTitle>Login</TimelineTitle>
+            <TimelineTitle>Prototype shared</TimelineTitle>
+            <TimelineDescription>
+              Today, 09:30 · Alex shared the updated calendar flow.
+            </TimelineDescription>
           </TimelineItem>
           <TimelineItem line={false}>
-            <TimelineDescription>10:45 AM</TimelineDescription>
-            <TimelineTitle>Meeting</TimelineTitle>
-          </TimelineItem>
-        </Timeline>
-      </DemoSection>
-
-      <DemoSection title="Cards" description="Rich content inside each item.">
-        <Timeline>
-          {['Initial Setup', 'Configuration', 'Deployment'].map(
-            (title, i, arr) => (
-              <TimelineItem key={title} line={i < arr.length - 1}>
-                <Card className="p-3">
-                  <TimelineTitle>{title}</TimelineTitle>
-                  <TimelineDescription>Step {i + 1}</TimelineDescription>
-                </Card>
-              </TimelineItem>
-            )
-          )}
-        </Timeline>
-      </DemoSection>
-
-      <DemoSection
-        title="Custom Dots"
-        description="Outlined and custom icon dots."
-      >
-        <Timeline>
-          <TimelineItem
-            dot={
-              <View className="mt-1 h-3 w-3 rounded-full border-2 border-destructive bg-background" />
-            }
-          >
-            <TimelineTitle className="text-destructive">
-              System Failure
-            </TimelineTitle>
-          </TimelineItem>
-          <TimelineItem
-            line={false}
-            dot={
-              <View className="h-6 w-6 items-center justify-center rounded-full bg-primary">
-                <Check size={12} color={checkColor} strokeWidth={3} />
-              </View>
-            }
-          >
-            <TimelineTitle>Recovered</TimelineTitle>
+            <TimelineTitle>Project created</TimelineTitle>
+            <TimelineDescription>
+              Yesterday, 16:00 · The team started the design review.
+            </TimelineDescription>
           </TimelineItem>
         </Timeline>
       </DemoSection>

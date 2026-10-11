@@ -51,7 +51,7 @@ type IconTone =
   | 'success'
   | 'warning';
 
-/** Scheme-aware colors for lucide/SVG icons; keep aligned with global.css tokens. */
+/** Scheme-aware foreground colors for icons and semantic labels, not fill colors. */
 export function useIconColor(tone: IconTone = 'muted') {
   const dark = useColorScheme() === 'dark';
   const tones: Record<IconTone, string> = {
@@ -60,7 +60,7 @@ export function useIconColor(tone: IconTone = 'muted') {
     foreground: dark ? '#fafafa' : '#09090b',
     onPrimary: dark ? '#18181b' : '#fafafa',
     primary: dark ? '#fafafa' : '#18181b',
-    destructive: dark ? '#f87171' : '#ef4444',
+    destructive: dark ? '#f87171' : '#dc2626',
     success: '#16a34a',
     warning: '#f59e0b',
   };

@@ -20,7 +20,10 @@
     "reactNative": ">=0.83",
     "expo": "supported through example app",
     "newArchitecture": "recommended",
-    "stylingEngine": ["nativewind v4 (tailwind v3)", "uniwind (tailwind v4, CSS-first)"]
+    "stylingEngine": [
+      "nativewind v4 (tailwind v3)",
+      "uniwind (tailwind v4, CSS-first)"
+    ]
   },
   "designPrinciples": [
     "Prefer existing RNUI registry components over custom UI",
@@ -37,7 +40,15 @@
   },
   "themeBrands": {
     "note": "Registry 'theme' item + theme-<brand> items ship CSS var presets per variant (global.css / @theme).",
-    "available": ["neutral", "stone", "butter", "chocolate", "matcha", "gothic", "y2k"]
+    "available": [
+      "neutral",
+      "stone",
+      "butter",
+      "chocolate",
+      "matcha",
+      "gothic",
+      "y2k"
+    ]
   },
   "componentRegistryPath": ".ai/component-registry.json",
   "componentSchemaPath": ".ai/generated/component-schema.json",
@@ -90,6 +101,6 @@
     "expo-linear-gradient": "gradient backgrounds",
     "react-native-svg": "icon, circular-progress",
     "lucide-react-native": "icon",
-    "react-native-safe-area-context": "sheet, modal, tab-bar"
+    "react-native-safe-area-context": "modal, sheet, drawer, popper, toast, app-bar, tab-bar, bottom-navigation, fab, speed-dial"
   }
 }

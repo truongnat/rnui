@@ -3,17 +3,20 @@
   "name": "skeleton",
   "type": "registry:ui",
   "title": "Skeleton",
-  "description": "Pulsing placeholder via RN Animated.",
+  "description": "Reduced-motion-aware pulsing placeholder.",
   "registryDependencies": [
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/utils.json",
     "https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/uniwind/theme.json"
+  ],
+  "dependencies": [
+    "react-native-reanimated"
   ],
   "files": [
     {
       "path": "registry/shared/ui/skeleton.tsx",
       "type": "registry:ui",
       "target": "components/ui/skeleton.tsx",
-      "content": "import { useEffect, useRef } from 'react';\nimport { Animated, type ViewProps } from 'react-native';\nimport { cn } from '@/lib/utils';\n\nexport interface SkeletonProps extends ViewProps {\n  className?: string;\n}\n\nexport function Skeleton({ className, ...props }: SkeletonProps) {\n  const opacity = useRef(new Animated.Value(1)).current;\n\n  useEffect(() => {\n    const loop = Animated.loop(\n      Animated.sequence([\n        Animated.timing(opacity, {\n          toValue: 0.5,\n          duration: 700,\n          useNativeDriver: true,\n        }),\n        Animated.timing(opacity, {\n          toValue: 1,\n          duration: 700,\n          useNativeDriver: true,\n        }),\n      ])\n    );\n    loop.start();\n    return () => loop.stop();\n  }, [opacity]);\n\n  return (\n    <Animated.View\n      className={cn('rounded-md bg-muted', className)}\n      style={{ opacity }}\n      {...props}\n    />\n  );\n}\n"
+      "content": "import { useEffect } from 'react';\nimport { AppState, type ViewProps } from 'react-native';\nimport Animated, {\n  cancelAnimation,\n  Easing,\n  ReduceMotion,\n  useAnimatedStyle,\n  useSharedValue,\n  withRepeat,\n  withTiming,\n} from 'react-native-reanimated';\nimport { cn } from '@/lib/utils';\n\nexport interface SkeletonProps extends ViewProps {\n  className?: string;\n}\n\nexport function Skeleton({ className, style, ...props }: SkeletonProps) {\n  const opacity = useSharedValue(1);\n\n  useEffect(() => {\n    const updatePulse = (active: boolean) => {\n      cancelAnimation(opacity);\n      opacity.value = 1;\n      if (active) {\n        opacity.value = withRepeat(\n          withTiming(0.5, { duration: 900, easing: Easing.inOut(Easing.ease) }),\n          -1,\n          true,\n          undefined,\n          ReduceMotion.System\n        );\n      }\n    };\n    updatePulse(AppState.currentState === 'active');\n    const subscription = AppState.addEventListener('change', (state) =>\n      updatePulse(state === 'active')\n    );\n    return () => {\n      subscription.remove();\n      cancelAnimation(opacity);\n    };\n  }, [opacity]);\n\n  const pulseStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));\n\n  return (\n    <Animated.View\n      className={cn('rounded-md bg-muted', className)}\n      style={[pulseStyle, style]}\n      {...props}\n    />\n  );\n}\n"
     }
   ]
 }

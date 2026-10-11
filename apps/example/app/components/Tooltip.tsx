@@ -25,18 +25,16 @@ export default function TooltipScreen() {
         <DemoGroup gap={20}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Text
-                variant="large"
-                className="text-base font-semibold text-primary"
-              >
-                Tap for info
-              </Text>
+              <Button variant="outline">Tap for info</Button>
             </TooltipTrigger>
             <TooltipContent>This is a simple tooltip message</TooltipContent>
           </Tooltip>
 
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger
+              accessibilityLabel="Feature help"
+              className="h-11 w-11 items-center justify-center"
+            >
               <HelpCircle size={22} color={colors.mutedForeground} />
             </TooltipTrigger>
             <TooltipContent>
@@ -45,7 +43,10 @@ export default function TooltipScreen() {
           </Tooltip>
 
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger
+              accessibilityLabel="System information"
+              className="h-11 w-11 items-center justify-center"
+            >
               <Info size={22} color={colors.mutedForeground} />
             </TooltipTrigger>
             <TooltipContent>System Information</TooltipContent>
@@ -82,18 +83,7 @@ export default function TooltipScreen() {
       >
         <Tooltip>
           <TooltipTrigger>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 12,
-                padding: 16,
-                backgroundColor: colors.muted,
-                borderRadius: 12,
-                borderWidth: 1,
-                borderColor: colors.border,
-              }}
-            >
+            <View className="flex-row items-center gap-3 py-4">
               <Settings size={20} color={colors.foreground} />
               <Text className="font-medium">Account Preferences</Text>
             </View>

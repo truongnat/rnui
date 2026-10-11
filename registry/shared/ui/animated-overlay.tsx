@@ -1,6 +1,14 @@
-import { useCallback, useEffect, useRef, type ReactNode } from 'react';
 import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
+import {
+  AccessibilityInfo,
   Animated,
+  Easing,
   Pressable,
   StyleSheet,
   type StyleProp,
@@ -41,42 +49,71 @@ export function useAnimatedOverlay({
   onAnimationEnd,
 }: UseAnimatedOverlayOptions = {}) {
   const progress = useRef(new Animated.Value(0)).current;
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const callback = useRef(onAnimationEnd);
+  callback.current = onAnimationEnd;
+  const transition = useRef(0);
+
+  useEffect(() => {
+    let active = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then((enabled) => {
+      if (active) setReduceMotion(enabled);
+    });
+    const subscription = AccessibilityInfo.addEventListener(
+      'reduceMotionChanged',
+      setReduceMotion
+    );
+    return () => {
+      active = false;
+      subscription.remove();
+      transition.current += 1;
+      progress.stopAnimation();
+    };
+  }, [progress]);
 
   const setVisible = useCallback(
     (visible: boolean) => {
-      if (animationType === 'none') {
+      const current = ++transition.current;
+      progress.stopAnimation();
+      if (animationType === 'none' || reduceMotion) {
         progress.setValue(visible ? 1 : 0);
-        onAnimationEnd?.(visible);
+        callback.current?.(visible);
         return;
       }
       Animated.timing(progress, {
         toValue: visible ? 1 : 0,
         duration: duration ?? (visible ? ENTER_MS : EXIT_MS),
+        easing: visible ? Easing.out(Easing.cubic) : Easing.in(Easing.quad),
         useNativeDriver: true,
       }).start(({ finished }) => {
-        if (finished) onAnimationEnd?.(visible);
+        if (finished && current === transition.current) {
+          callback.current?.(visible);
+        }
       });
     },
-    [progress, animationType, duration, onAnimationEnd]
+    [progress, animationType, duration, reduceMotion]
   );
 
   const contentStyle: StyleProp<ViewStyle> = {
     opacity: progress,
-    transform: [
-      animationType === 'slideUp' || animationType === 'slideDown'
-        ? {
-            translateY: progress.interpolate({
-              inputRange: [0, 1],
-              outputRange: [animationType === 'slideUp' ? 24 : -24, 0],
-            }),
-          }
-        : {
-            scale: progress.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0.96, 1],
-            }),
-          },
-    ],
+    transform:
+      reduceMotion || animationType === 'fade' || animationType === 'none'
+        ? []
+        : [
+            animationType === 'slideUp' || animationType === 'slideDown'
+              ? {
+                  translateY: progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [animationType === 'slideUp' ? 24 : -24, 0],
+                  }),
+                }
+              : {
+                  scale: progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0.96, 1],
+                  }),
+                },
+          ],
   };
 
   const backdropStyle: StyleProp<ViewStyle> = {
@@ -143,12 +180,15 @@ export function AnimatedOverlay({
   return (
     <Animated.View
       pointerEvents={visible ? 'auto' : 'none'}
+      accessibilityElementsHidden={!visible}
+      importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
       className={className}
       style={[StyleSheet.absoluteFill, style]}
     >
       {showBackdrop && (
         <Pressable
           onPress={onBackdropPress}
+          disabled={!onBackdropPress}
           accessibilityRole="button"
           accessibilityLabel="Close overlay"
           style={StyleSheet.absoluteFill}
@@ -164,6 +204,7 @@ export function AnimatedOverlay({
         </Pressable>
       )}
       <Animated.View
+        pointerEvents="box-none"
         style={[styles.content, animContent, contentStyle]}
         accessible={false}
       >

@@ -104,8 +104,8 @@ export default function DrawerScreen() {
 
           <DrawerFooter>
             <Button
-              variant="outline"
-              labelClassName="text-destructive"
+              variant="destructive"
+              size="lg"
               className="w-full"
               onPress={() => setLeftOpen(false)}
             >

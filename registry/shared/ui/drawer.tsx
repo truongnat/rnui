@@ -1,13 +1,15 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   Animated,
+  I18nManager,
   Modal,
   Pressable,
   useWindowDimensions,
   View,
   type ViewProps,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { useAnimatedOverlay } from '@/components/ui/animated-overlay';
 import { Text, type TextProps } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
@@ -27,42 +29,80 @@ export function Drawer({
 }: DrawerProps) {
   const { width } = useWindowDimensions();
   const drawerWidth = Math.min(width * 0.8, 320);
-  const from = side === 'left' ? -drawerWidth : drawerWidth;
-  const translate = useRef(new Animated.Value(from)).current;
+  const physicalSide = I18nManager.isRTL
+    ? side === 'left'
+      ? 'right'
+      : 'left'
+    : side;
+  const from = physicalSide === 'left' ? -drawerWidth : drawerWidth;
+  const [mounted, setMounted] = useState(open);
+  const openRef = useRef(open);
+  openRef.current = open;
+  const { progress, setVisible, backdropStyle } = useAnimatedOverlay({
+    animationType: 'fade',
+    onAnimationEnd: (entering) => {
+      if (!entering && !openRef.current) setMounted(false);
+    },
+  });
+  const translate = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [from, 0],
+  });
 
   useEffect(() => {
-    Animated.timing(translate, {
-      toValue: open ? 0 : from,
-      duration: 220,
-      useNativeDriver: true,
-    }).start();
-  }, [open, from, translate]);
+    if (open) setMounted(true);
+    setVisible(open);
+  }, [open, setVisible]);
 
   return (
     <Modal
-      visible={open}
+      visible={mounted || open}
       transparent
-      animationType="fade"
+      statusBarTranslucent
+      navigationBarTranslucent
+      animationType="none"
       onRequestClose={() => onOpenChange?.(false)}
     >
-      <View className="flex-1 flex-row bg-black/50">
-        {side === 'right' && (
-          <Pressable className="flex-1" onPress={() => onOpenChange?.(false)} />
-        )}
-        <Animated.View
-          style={{
-            width: drawerWidth,
-            transform: [{ translateX: translate }],
-          }}
+      <SafeAreaProvider>
+        <View
+          className="flex-1"
+          pointerEvents={open ? 'auto' : 'none'}
+          accessibilityElementsHidden={!open}
+          importantForAccessibility={open ? 'auto' : 'no-hide-descendants'}
         >
-          <View className="h-full border-l border-border bg-background">
-            <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
+          <View
+            className="flex-1"
+            style={{ alignItems: side === 'left' ? 'flex-start' : 'flex-end' }}
+          >
+            <Animated.View
+              className="absolute inset-0 bg-black"
+              style={backdropStyle}
+              pointerEvents="none"
+            />
+            <Pressable
+              className="absolute inset-0"
+              accessibilityRole="button"
+              accessibilityLabel="Close drawer"
+              onPress={() => onOpenChange?.(false)}
+            />
+            <Animated.View
+              accessibilityViewIsModal
+              className="h-full bg-background"
+              style={{
+                width: drawerWidth,
+                transform: [{ translateX: translate }],
+              }}
+            >
+              <SafeAreaView
+                edges={['top', 'bottom', physicalSide]}
+                style={{ flex: 1 }}
+              >
+                {children}
+              </SafeAreaView>
+            </Animated.View>
           </View>
-        </Animated.View>
-        {side === 'left' && (
-          <Pressable className="flex-1" onPress={() => onOpenChange?.(false)} />
-        )}
-      </View>
+        </View>
+      </SafeAreaProvider>
     </Modal>
   );
 }
@@ -82,6 +122,7 @@ export function DrawerHeader({
 export function DrawerTitle({ className, ...props }: TextProps) {
   return (
     <Text
+      accessibilityRole="header"
       className={cn('text-lg font-semibold text-foreground', className)}
       {...props}
     />

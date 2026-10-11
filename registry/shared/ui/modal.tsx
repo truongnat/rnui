@@ -3,18 +3,21 @@ import {
   useContext,
   useEffect,
   useState,
+  useRef,
   type ReactNode,
 } from 'react';
 import {
   KeyboardAvoidingView,
   Modal as RNModal,
   Platform,
-  Pressable,
   StyleSheet,
   View,
   type ViewProps,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import {
   AnimatedOverlay,
   type OverlayAnimationType,
@@ -35,7 +38,7 @@ export interface ModalProps {
   position?: ModalPosition;
   /** Render the dimmed backdrop. Tapping outside still closes when hidden. */
   showOverlay?: boolean;
-  /** Keep the modal mounted after close (skips exit animation). */
+  /** Keep the React modal host mounted between native presentations. */
   keepMounted?: boolean;
   /** Tapping the backdrop requests close. Default true. */
   dismissable?: boolean;
@@ -57,6 +60,8 @@ export function Modal({
   children,
 }: ModalProps) {
   const [mounted, setMounted] = useState(open);
+  const openRef = useRef(open);
+  openRef.current = open;
 
   useEffect(() => {
     if (open) setMounted(true);
@@ -65,35 +70,65 @@ export function Modal({
   const animationType: OverlayAnimationType =
     position === 'bottom' ? 'slideUp' : 'scale';
 
+  if (!mounted && !open && !keepMounted) return null;
   return (
     <RNModal
-      visible={mounted || keepMounted}
+      visible={mounted || open}
       transparent
+      statusBarTranslucent
+      navigationBarTranslucent
       animationType="none"
       onRequestClose={() => onOpenChange?.(false)}
     >
-      <ModalContext.Provider value={{ position }}>
-        <AnimatedOverlay
-          visible={open}
-          animationType={animationType}
-          showBackdrop={showOverlay}
-          onBackdropPress={
-            dismissable ? () => onOpenChange?.(false) : undefined
-          }
-          onAnimationEnd={(entering) => {
-            if (!entering && !keepMounted) setMounted(false);
-          }}
-        >
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            pointerEvents="box-none"
-            style={[styles.host, position === 'bottom' && styles.hostBottom]}
+      <SafeAreaProvider>
+        <ModalContext.Provider value={{ position }}>
+          <AnimatedOverlay
+            visible={open}
+            animationType={animationType}
+            showBackdrop
+            backdropOpacity={showOverlay ? 0.5 : 0}
+            onBackdropPress={
+              dismissable ? () => onOpenChange?.(false) : undefined
+            }
+            onAnimationEnd={(entering) => {
+              if (!entering && !openRef.current) setMounted(false);
+            }}
           >
-            {children}
-          </KeyboardAvoidingView>
-        </AnimatedOverlay>
-      </ModalContext.Provider>
+            <ModalInsetHost position={position}>
+              {mounted || open || keepMounted ? children : null}
+            </ModalInsetHost>
+          </AnimatedOverlay>
+        </ModalContext.Provider>
+      </SafeAreaProvider>
     </RNModal>
+  );
+}
+
+function ModalInsetHost({
+  position,
+  children,
+}: {
+  position: ModalPosition;
+  children: ReactNode;
+}) {
+  const insets = useSafeAreaInsets();
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      pointerEvents="box-none"
+      style={[
+        styles.host,
+        {
+          paddingTop: insets.top + 24,
+          paddingBottom: position === 'center' ? insets.bottom + 24 : 0,
+          paddingLeft: position === 'center' ? insets.left + 24 : 0,
+          paddingRight: position === 'center' ? insets.right + 24 : 0,
+        },
+        position === 'bottom' && styles.hostBottom,
+      ]}
+    >
+      {children}
+    </KeyboardAvoidingView>
   );
 }
 
@@ -104,34 +139,41 @@ export interface ModalContentProps extends ViewProps {
 export function ModalContent({
   className,
   children,
+  style,
   ...props
 }: ModalContentProps) {
   const { position } = useContext(ModalContext);
   const insets = useSafeAreaInsets();
   return (
-    <Pressable>
+    <View
+      accessible={false}
+      pointerEvents="box-none"
+      className={
+        position === 'center' ? 'w-full max-w-md items-center' : 'w-full'
+      }
+      style={{ flexShrink: 1, maxHeight: '100%' }}
+    >
       <View
         accessibilityViewIsModal
         className={cn(
-          'border border-border bg-background p-6 shadow-lg',
-          position === 'center'
-            ? 'mx-6 w-full max-w-md rounded-2xl'
-            : 'w-full rounded-t-2xl border-b-0',
+          'bg-background p-6',
+          position === 'center' ? 'w-full rounded-2xl' : 'w-full rounded-t-2xl',
           className
         )}
-        style={
-          position === 'bottom'
-            ? { paddingBottom: insets.bottom + 24 }
-            : undefined
-        }
+        style={[
+          { flexShrink: 1 },
+          position === 'bottom' && {
+            paddingBottom: insets.bottom + 24,
+            paddingLeft: insets.left + 24,
+            paddingRight: insets.right + 24,
+          },
+          style,
+        ]}
         {...props}
       >
-        {position === 'bottom' && (
-          <View className="mx-auto mb-4 h-1.5 w-9 rounded-full bg-muted" />
-        )}
         {children}
       </View>
-    </Pressable>
+    </View>
   );
 }
 
@@ -145,6 +187,7 @@ export function ModalHeader({
 export function ModalTitle({ className, ...props }: TextProps) {
   return (
     <Text
+      accessibilityRole="header"
       className={cn('text-lg font-semibold text-foreground', className)}
       {...props}
     />
@@ -166,7 +209,7 @@ export function ModalFooter({
 }: ViewProps & { className?: string }) {
   return (
     <View
-      className={cn('mt-6 flex-row justify-end gap-2', className)}
+      className={cn('mt-6 flex-row flex-wrap justify-end gap-2', className)}
       {...props}
     />
   );

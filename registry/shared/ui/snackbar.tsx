@@ -1,8 +1,25 @@
-import { useEffect } from 'react';
-import { Pressable, View, type ViewProps } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import {
+  AccessibilityInfo,
+  Animated,
+  Easing,
+  Platform,
+  Pressable,
+  type ViewProps,
+} from 'react-native';
+import Reanimated, {
+  FadeIn,
+  ReduceMotion,
+  useReducedMotion,
+} from 'react-native-reanimated';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
+/**
+ * Positioned inside its parent, not portaled to the window. The host owns safe
+ * bounds; place screen-edge snackbars inside a margin-mode SafeAreaView so
+ * custom top/left/right anchors and embedded placements share those bounds.
+ */
 export interface SnackbarProps extends ViewProps {
   open: boolean;
   onDismiss?: () => void;
@@ -21,34 +38,93 @@ export function Snackbar({
   action,
   className,
   children,
+  style,
   ...props
 }: SnackbarProps) {
+  const [present, setPresent] = useState(open);
+  const progress = useRef(new Animated.Value(0)).current;
+  const reducedMotion = useReducedMotion();
+  const dismiss = useRef(onDismiss);
   useEffect(() => {
-    if (!open || duration <= 0) return;
-    const t = setTimeout(() => onDismiss?.(), duration);
-    return () => clearTimeout(t);
-  }, [open, duration, onDismiss]);
+    dismiss.current = onDismiss;
+  }, [onDismiss]);
 
-  if (!open) return null;
+  useEffect(() => {
+    if (open && typeof children === 'string' && Platform.OS === 'ios')
+      AccessibilityInfo.announceForAccessibility(children);
+  }, [open, children]);
+
+  useEffect(() => {
+    if (
+      !open ||
+      children == null ||
+      duration <= 0 ||
+      !Number.isFinite(duration)
+    )
+      return;
+    const timer = setTimeout(() => dismiss.current?.(), duration);
+    return () => clearTimeout(timer);
+  }, [open, duration, children]);
+
+  useEffect(() => {
+    if (open) setPresent(true);
+    const animation = Animated.timing(progress, {
+      toValue: open ? 1 : 0,
+      duration: reducedMotion ? 0 : open ? 220 : 140,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: true,
+    });
+    animation.start(({ finished }) => {
+      if (finished && !open) setPresent(false);
+    });
+    return () => animation.stop();
+  }, [open, progress, reducedMotion]);
+
+  if (!present && !open) return null;
 
   return (
-    <View
+    <Animated.View
       accessibilityLiveRegion="polite"
+      accessibilityElementsHidden={!open}
+      importantForAccessibility={open ? 'auto' : 'no-hide-descendants'}
+      onAccessibilityEscape={() => dismiss.current?.()}
+      pointerEvents={open ? 'auto' : 'none'}
       className={cn(
-        'absolute bottom-6 left-4 right-4 flex-row items-center rounded-md bg-foreground px-4 py-3 shadow-lg',
+        'absolute bottom-6 left-4 right-4 flex-row flex-wrap items-center gap-3 rounded-xl bg-foreground px-4 py-3',
         className
       )}
+      style={[
+        {
+          borderCurve: 'continuous',
+          opacity: progress,
+          transform: [
+            {
+              translateY: reducedMotion
+                ? 0
+                : progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [16, 0],
+                  }),
+            },
+          ],
+        },
+        style,
+      ]}
       {...props}
     >
-      <View className="flex-1">
+      <Reanimated.View
+        key={typeof children === 'string' ? children : 'content'}
+        entering={FadeIn.duration(150).reduceMotion(ReduceMotion.System)}
+        className="flex-1 min-w-0"
+      >
         {typeof children === 'string' ? (
-          <Text className="text-sm text-background">{children}</Text>
+          <Text className="text-sm leading-5 text-background">{children}</Text>
         ) : (
           children
         )}
-      </View>
+      </Reanimated.View>
       {action}
-    </View>
+    </Animated.View>
   );
 }
 
@@ -64,12 +140,14 @@ export function SnackbarAction({
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={label}
       onPress={onPress}
-      className={cn('ml-3 px-1 py-1', className)}
+      className={cn(
+        'min-h-11 min-w-11 items-center justify-center rounded-md px-3 active:opacity-60',
+        className
+      )}
     >
-      <Text className="text-sm font-medium text-primary-foreground">
-        {label}
-      </Text>
+      <Text className="text-sm font-semibold text-background">{label}</Text>
     </Pressable>
   );
 }

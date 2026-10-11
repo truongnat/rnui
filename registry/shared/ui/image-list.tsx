@@ -6,12 +6,7 @@ import {
   type ComponentProps,
   type ReactNode,
 } from 'react';
-import {
-  useWindowDimensions,
-  View,
-  type ImageSourcePropType,
-  type ViewProps,
-} from 'react-native';
+import { View, type ImageSourcePropType, type ViewProps } from 'react-native';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
@@ -50,16 +45,19 @@ export function ImageList({
   children,
   ...props
 }: ImageListProps) {
-  const { width: windowWidth } = useWindowDimensions();
-  const [width, setWidth] = useState(windowWidth);
-
-  const ctx = useMemo(() => ({ cols, gap, width }), [cols, gap, width]);
+  const [width, setWidth] = useState(0);
+  const columns = Math.max(1, Math.floor(cols));
+  const spacing = Math.max(0, gap);
+  const ctx = useMemo(
+    () => ({ cols: columns, gap: spacing, width }),
+    [columns, spacing, width]
+  );
 
   return (
     <ImageListContext.Provider value={ctx}>
       <View
         className={cn('flex-row flex-wrap', className)}
-        style={[{ gap }, style]}
+        style={[{ gap: spacing }, style]}
         onLayout={(e) => {
           const next = e.nativeEvent.layout.width;
           if (next !== width) setWidth(next);
@@ -101,14 +99,20 @@ export function ImageListItem({
 }: ImageListItemProps) {
   const { cols, gap, width } = useContext(ImageListContext);
 
-  const colWidth =
-    cols > 0 && width > 0 ? (width - gap * (cols - 1)) / cols : 0;
-  const itemWidth = span * colWidth + gap * (span - 1);
+  const columns = Math.max(1, Math.min(cols, Math.floor(span)));
+  const colWidth = Math.max(0, (width - gap * (cols - 1)) / cols);
+  const itemWidth = columns * colWidth + gap * (columns - 1);
 
   return (
     <View
       className={cn('overflow-hidden rounded-md', className)}
-      style={[itemWidth > 0 && { width: itemWidth }, { aspectRatio }, style]}
+      style={[
+        {
+          width: width > 0 ? itemWidth : `${(columns / cols) * 100}%`,
+          aspectRatio,
+        },
+        style,
+      ]}
       {...props}
     >
       {source ? (
@@ -118,9 +122,8 @@ export function ImageListItem({
           className="h-full w-full"
           {...imageProps}
         />
-      ) : (
-        children
-      )}
+      ) : null}
+      {children}
     </View>
   );
 }
@@ -146,7 +149,7 @@ export function ImageListItemBar({
   return (
     <View
       className={cn(
-        'absolute right-0 left-0 flex-row items-center gap-2 bg-black/60 px-3 py-2',
+        'absolute right-0 left-0 flex-row items-center gap-2 bg-card px-3 py-2',
         position === 'top' ? 'top-0' : 'bottom-0',
         className
       )}
@@ -154,12 +157,15 @@ export function ImageListItemBar({
     >
       <View className="flex-1">
         {title ? (
-          <Text className="text-sm font-medium text-white" numberOfLines={1}>
+          <Text
+            className="text-sm font-medium text-card-foreground"
+            numberOfLines={1}
+          >
             {title}
           </Text>
         ) : null}
         {subtitle ? (
-          <Text className="text-xs text-zinc-300" numberOfLines={1}>
+          <Text className="text-xs text-muted-foreground" numberOfLines={1}>
             {subtitle}
           </Text>
         ) : null}

@@ -33,7 +33,7 @@ export function TimelineItem({
 }: TimelineItemProps) {
   return (
     <View className={cn('flex-row gap-3', className)} {...props}>
-      <View className="items-center">
+      <View className="w-6 items-center">
         {dot ?? <View className="mt-1.5 h-2.5 w-2.5 rounded-full bg-primary" />}
         {line && <View className="w-px flex-1 bg-border" />}
       </View>
@@ -45,7 +45,10 @@ export function TimelineItem({
 export function TimelineTitle({ className, ...props }: TextProps) {
   return (
     <Text
-      className={cn('text-sm font-medium text-foreground', className)}
+      className={cn(
+        'text-base font-medium leading-6 text-foreground',
+        className
+      )}
       {...props}
     />
   );
@@ -54,7 +57,7 @@ export function TimelineTitle({ className, ...props }: TextProps) {
 export function TimelineDescription({ className, ...props }: TextProps) {
   return (
     <Text
-      className={cn('mt-0.5 text-sm text-muted-foreground', className)}
+      className={cn('mt-1 text-sm leading-6 text-muted-foreground', className)}
       {...props}
     />
   );

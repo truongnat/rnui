@@ -1,12 +1,19 @@
-import { useRef, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import {
-  Animated,
   Image as RNImage,
   type ImageProps as RNImageProps,
   StyleSheet,
   View,
 } from 'react-native';
-import { cn } from '@/lib/utils';
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+import { ImageOff } from 'lucide-react-native';
+import { Text } from '@/components/ui/text';
+import { cn, useIconColor } from '@/lib/utils';
 
 const AnimatedImage = Animated.createAnimatedComponent(RNImage);
 
@@ -39,7 +46,16 @@ export interface ImageProps extends RNImageProps {
  * RN Image with rounded/aspect-ratio presets, a muted loading
  * placeholder, optional fallback content, and a fade-in on load.
  */
-export function Image({
+export function Image(props: ImageProps) {
+  return (
+    <ImageContent
+      key={JSON.stringify([props.source, props.src, props.srcSet])}
+      {...props}
+    />
+  );
+}
+
+function ImageContent({
   rounded = 'md',
   aspectRatio,
   fallback,
@@ -52,9 +68,16 @@ export function Image({
   const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>(
     'loading'
   );
-  const opacity = useRef(new Animated.Value(0)).current;
+  const opacity = useSharedValue(0);
+  const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
+  const fallbackStyle = useAnimatedStyle(() => ({
+    opacity: 1 - opacity.value,
+  }));
+  const iconColor = useIconColor('muted');
 
-  const showFallback = status !== 'loaded' && fallback !== null;
+  useEffect(() => () => cancelAnimation(opacity), [opacity]);
+
+  const showFallback = fallback !== null;
 
   return (
     <View
@@ -65,29 +88,47 @@ export function Image({
       )}
       style={[aspectRatio != null && { aspectRatio }, style]}
     >
+      {showFallback && (
+        <Animated.View
+          className="absolute inset-0 items-center justify-center gap-2"
+          style={fallbackStyle}
+          accessibilityElementsHidden={status === 'loaded'}
+          importantForAccessibility={
+            status === 'loaded' ? 'no-hide-descendants' : 'auto'
+          }
+          accessibilityLiveRegion="polite"
+          pointerEvents={status === 'loaded' ? 'none' : 'auto'}
+        >
+          {typeof fallback === 'undefined' ? (
+            status === 'error' ? (
+              <>
+                <ImageOff size={24} color={iconColor} />
+                <Text variant="muted" className="text-xs">
+                  Image unavailable
+                </Text>
+              </>
+            ) : null
+          ) : (
+            fallback
+          )}
+        </Animated.View>
+      )}
       {status !== 'error' && (
         <AnimatedImage
-          style={[StyleSheet.absoluteFill, { opacity }]}
+          style={[StyleSheet.absoluteFill, animatedStyle]}
           onLoad={(e) => {
             setStatus('loaded');
-            Animated.timing(opacity, {
-              toValue: 1,
-              duration: 200,
-              useNativeDriver: true,
-            }).start();
+            opacity.value = withTiming(1, { duration: 220 });
             onLoad?.(e);
           }}
           onError={(e) => {
+            cancelAnimation(opacity);
+            opacity.value = 0;
             setStatus('error');
             onError?.(e);
           }}
           {...props}
         />
-      )}
-      {showFallback && (
-        <View className="absolute inset-0 items-center justify-center">
-          {typeof fallback === 'undefined' ? null : fallback}
-        </View>
       )}
     </View>
   );

@@ -22,10 +22,10 @@ export default function AnimatedListScreen() {
     <DemoPage
       scrollable={false}
       title="Animated List"
-      description="Feed-style layouts with a staggered per-item entrance animation."
+      description="Insert and remove rows without losing your place. Motion follows each change."
     >
-      <View style={{ flex: 1 }}>
-        <View style={{ paddingBottom: 12 }}>
+      <View className="flex-1">
+        <View className="pb-3">
           <SegmentedControl<DemoMode>
             options={DEMO_MODE_OPTIONS}
             value={mode}

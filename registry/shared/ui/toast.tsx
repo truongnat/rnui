@@ -1,4 +1,11 @@
-import { CircleCheck, CircleX, Info, TriangleAlert } from 'lucide-react-native';
+import {
+  CircleCheck,
+  CircleX,
+  Clock,
+  Info,
+  TriangleAlert,
+  X,
+} from 'lucide-react-native';
 import {
   createContext,
   type ReactNode,
@@ -9,17 +16,29 @@ import {
   useRef,
   useState,
 } from 'react';
-import { ActivityIndicator, Animated, Pressable, View } from 'react-native';
+import {
+  AccessibilityInfo,
+  ActivityIndicator,
+  Animated,
+  Easing,
+  Platform,
+  Pressable,
+  StyleSheet,
+  useColorScheme,
+  View,
+} from 'react-native';
+import Reanimated, {
+  FadeIn,
+  LinearTransition,
+  ReduceMotion,
+  useReducedMotion,
+} from 'react-native-reanimated';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/text';
-import { cn, useIconColor } from '@/lib/utils';
+import { cn, useIconColor, useThemeColor } from '@/lib/utils';
 
 export type ToastType =
-  | 'default'
-  | 'success'
-  | 'error'
-  | 'info'
-  | 'warning'
-  | 'loading';
+  'default' | 'success' | 'error' | 'info' | 'warning' | 'loading';
 
 export interface ToastButtonData {
   label: string;
@@ -69,50 +88,107 @@ interface ToastApi {
   dismiss: (id?: number) => void;
 }
 
-const ToastContext = createContext<{ toast: ToastApi }>({
-  toast: (() => 0) as unknown as ToastApi,
-});
+const ToastContext = createContext<{ toast: ToastApi } | null>(null);
 
-export const useToast = () => useContext(ToastContext);
+export function useToast() {
+  const context = useContext(ToastContext);
+  if (!context) throw new Error('useToast must be used within ToastProvider');
+  return context;
+}
+
+interface ToastEntry {
+  data: ToastData;
+  visible: boolean;
+  revision: number;
+}
 
 let nextId = 0;
 
 export function ToastProvider({
   children,
-  /** Where toasts stack, mirrors Sonner `position`. */
   position = 'bottom',
-  /** Colored type accents on the toast itself, mirrors Sonner `richColors`. */
   richColors = false,
 }: {
   children: ReactNode;
+  /** Where toasts stack, mirrors Sonner `position`. */
   position?: 'top' | 'bottom';
+  /** Use semantic status accents, mirrors Sonner `richColors`. */
   richColors?: boolean;
 }) {
-  const [toasts, setToasts] = useState<ToastData[]>([]);
+  const [toasts, setToasts] = useState<ToastEntry[]>([]);
   const timers = useRef(new Map<number, ReturnType<typeof setTimeout>>());
+  const active = useRef(new Map<number, number>());
+  const revision = useRef(0);
+  const mounted = useRef(true);
+
+  useEffect(() => {
+    mounted.current = true;
+    const pendingTimers = timers.current;
+    const activeToasts = active.current;
+    return () => {
+      mounted.current = false;
+      pendingTimers.forEach(clearTimeout);
+      pendingTimers.clear();
+      activeToasts.clear();
+    };
+  }, []);
 
   const dismiss = useCallback((id?: number) => {
-    setToasts((prev) =>
-      id === undefined ? [] : prev.filter((x) => x.id !== id)
+    if (!mounted.current) return;
+    if (id === undefined) {
+      timers.current.forEach(clearTimeout);
+      timers.current.clear();
+      active.current.clear();
+    } else {
+      clearTimeout(timers.current.get(id));
+      timers.current.delete(id);
+      active.current.delete(id);
+    }
+    setToasts((previous) =>
+      previous.map((entry) =>
+        id === undefined || entry.data.id === id
+          ? { ...entry, visible: false }
+          : entry
+      )
+    );
+  }, []);
+
+  const remove = useCallback((id: number, entryRevision: number) => {
+    if (!mounted.current) return;
+    setToasts((previous) =>
+      previous.filter(
+        (entry) =>
+          entry.data.id !== id ||
+          entry.visible ||
+          entry.revision !== entryRevision
+      )
     );
   }, []);
 
   const show = useCallback(
-    (t: Omit<ToastData, 'id'> & { id?: number }) => {
-      const id = t.id ?? ++nextId;
-      const toastData = { ...t, id };
-      setToasts((prev) =>
-        prev.some((x) => x.id === id)
-          ? prev.map((x) => (x.id === id ? toastData : x))
-          : [...prev, toastData]
+    (data: Omit<ToastData, 'id'> & { id?: number }) => {
+      const id = data.id ?? ++nextId;
+      nextId = Math.max(nextId, id);
+      if (!mounted.current) return id;
+      const entry = {
+        data: { ...data, id },
+        visible: true,
+        revision: ++revision.current,
+      };
+      active.current.set(id, entry.revision);
+      setToasts((previous) =>
+        previous.some((item) => item.data.id === id)
+          ? previous.map((item) => (item.data.id === id ? entry : item))
+          : [...previous, entry]
       );
-      const timer = timers.current.get(id);
-      if (timer) clearTimeout(timer);
-      const duration = t.duration ?? (t.type === 'loading' ? Infinity : 4000);
-      if (duration !== Infinity) {
+      clearTimeout(timers.current.get(id));
+      timers.current.delete(id);
+      const duration =
+        data.duration ?? (data.type === 'loading' ? Infinity : 4000);
+      if (Number.isFinite(duration)) {
         timers.current.set(
           id,
-          setTimeout(() => dismiss(id), duration)
+          setTimeout(() => dismiss(id), Math.max(0, duration))
         );
       }
       return id;
@@ -121,224 +197,307 @@ export function ToastProvider({
   );
 
   const toast = useMemo<ToastApi>(() => {
-    const api = ((
-      titleOrData: string | Omit<ToastData, 'id' | 'type'>,
-      opts?: ToastOptions
-    ) =>
-      show(
-        typeof titleOrData === 'string'
-          ? { ...opts, title: titleOrData, type: 'default' }
-          : { type: 'default', ...titleOrData }
-      )) as ToastApi;
-    for (const type of [
-      'success',
-      'error',
-      'info',
-      'warning',
-      'message',
-    ] as const) {
-      api[type] = (title, opts) =>
-        show({ ...opts, title, type: type === 'message' ? 'default' : type });
-    }
-    api.loading = (title, opts) =>
-      show({ duration: Infinity, ...opts, title, type: 'loading' });
-    api.promise = (promise, msgs, opts) => {
-      const id = show({ type: 'loading', title: msgs.loading, ...opts });
-      promise
-        .then((v) =>
+    const message = (title: string, opts?: ToastOptions) =>
+      show({ ...opts, title, type: 'default' });
+    const promise: ToastApi['promise'] = (pending, messages, opts) => {
+      const id = show({ ...opts, type: 'loading', title: messages.loading });
+      const pendingRevision = active.current.get(id);
+      void pending.then(
+        (value) => {
+          if (!mounted.current || active.current.get(id) !== pendingRevision)
+            return;
           show({
             ...opts,
             id,
             type: 'success',
             title:
-              typeof msgs.success === 'function'
-                ? msgs.success(v)
-                : msgs.success,
-          })
-        )
-        .catch((e) =>
+              typeof messages.success === 'function'
+                ? messages.success(value)
+                : messages.success,
+          });
+        },
+        (error: unknown) => {
+          if (!mounted.current || active.current.get(id) !== pendingRevision)
+            return;
           show({
             ...opts,
             id,
             type: 'error',
             title:
-              typeof msgs.error === 'function' ? msgs.error(e) : msgs.error,
-          })
-        );
+              typeof messages.error === 'function'
+                ? messages.error(error)
+                : messages.error,
+          });
+        }
+      );
       return id;
     };
-    api.dismiss = dismiss;
-    return api;
+    return Object.assign(
+      (
+        titleOrData:
+          string | (Omit<ToastData, 'id' | 'type'> & { type?: ToastType }),
+        opts?: ToastOptions
+      ) =>
+        typeof titleOrData === 'string'
+          ? message(titleOrData, opts)
+          : show({ type: 'default', ...titleOrData }),
+      {
+        success: (title: string, opts?: ToastOptions) =>
+          show({ ...opts, title, type: 'success' }),
+        error: (title: string, opts?: ToastOptions) =>
+          show({ ...opts, title, type: 'error' }),
+        info: (title: string, opts?: ToastOptions) =>
+          show({ ...opts, title, type: 'info' }),
+        warning: (title: string, opts?: ToastOptions) =>
+          show({ ...opts, title, type: 'warning' }),
+        message,
+        loading: (title: string, opts?: ToastOptions) =>
+          show({ duration: Infinity, ...opts, title, type: 'loading' }),
+        promise,
+        dismiss,
+      }
+    );
   }, [show, dismiss]);
 
   return (
     <ToastContext.Provider value={{ toast }}>
       <View className="flex-1">{children}</View>
-      <View
+      {/* Measure this host's bounds, not an ancestor's already-consumed insets. */}
+      <SafeAreaProvider
+        style={StyleSheet.absoluteFill}
         pointerEvents="box-none"
-        className={cn(
-          'absolute left-4 right-4 gap-2',
-          position === 'bottom' ? 'bottom-10' : 'top-12'
-        )}
       >
-        {toasts.map((t) => (
-          <Toast
-            key={t.id}
-            data={t}
-            richColors={richColors}
-            onDismiss={() => dismiss(t.id)}
-          />
-        ))}
-      </View>
+        <SafeAreaView
+          style={StyleSheet.absoluteFill}
+          mode="margin"
+          pointerEvents="box-none"
+        >
+          <View
+            pointerEvents="box-none"
+            className={cn(
+              'absolute left-4 right-4 gap-2',
+              position === 'bottom' ? 'bottom-10' : 'top-12'
+            )}
+          >
+            {toasts.map((entry) => (
+              <Toast
+                key={entry.data.id}
+                entry={entry}
+                richColors={richColors}
+                position={position}
+                onDismiss={dismiss}
+                onExited={remove}
+              />
+            ))}
+          </View>
+        </SafeAreaView>
+      </SafeAreaProvider>
     </ToastContext.Provider>
   );
 }
 
-const TYPE_COLORS = {
-  success: '#16a34a',
-  error: '#ef4444',
-  info: '#0ea5e9',
-  warning: '#f59e0b',
-} as const;
-
-function ToastIcon({ type, filled }: { type: ToastType; filled: boolean }) {
-  const foreground = useIconColor('foreground');
-  const size = 16;
-  if (type === 'loading') {
-    return <ActivityIndicator size="small" color={foreground} />;
-  }
-  if (type === 'default') return null;
-  const color = filled ? '#fafafa' : TYPE_COLORS[type];
-  const Icon = {
-    success: CircleCheck,
-    error: CircleX,
-    info: Info,
-    warning: TriangleAlert,
-  }[type];
-  return <Icon size={size} color={color} />;
-}
-
 function Toast({
-  data,
+  entry,
   richColors,
+  position,
   onDismiss,
+  onExited,
 }: {
-  data: ToastData;
+  entry: ToastEntry;
   richColors: boolean;
-  onDismiss: () => void;
+  position: 'top' | 'bottom';
+  onDismiss: (id: number) => void;
+  onExited: (id: number, revision: number) => void;
 }) {
-  const opacity = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    Animated.timing(opacity, {
-      toValue: 1,
-      duration: 150,
-      useNativeDriver: true,
-    }).start();
-  }, [opacity]);
-  const dismiss = () => {
-    Animated.timing(opacity, {
-      toValue: 0,
-      duration: 120,
-      useNativeDriver: true,
-    }).start(onDismiss);
-  };
+  const { data, visible, revision } = entry;
+  const colors = useThemeColor();
+  const success = useIconColor('success');
+  const warning = useIconColor('warning');
+  const reducedMotion = useReducedMotion();
+  const progress = useRef(new Animated.Value(0)).current;
+  const filled = data.variant === 'destructive';
+  const dark = useColorScheme() === 'dark';
+  const statusColor =
+    data.type === 'success'
+      ? success
+      : data.type === 'warning'
+        ? warning
+        : data.type === 'error'
+          ? colors.destructive
+          : colors.primary;
+  const foreground = filled
+    ? dark
+      ? colors.background
+      : colors.foreground
+    : colors.cardForeground;
+  const iconColor = filled ? foreground : statusColor;
+  const Icon =
+    data.type === 'success'
+      ? CircleCheck
+      : data.type === 'error'
+        ? CircleX
+        : data.type === 'warning'
+          ? TriangleAlert
+          : data.type === 'loading'
+            ? Clock
+            : Info;
 
-  // Legacy `variant="destructive"` and richColors typed toasts fill the color.
-  const tint =
-    data.type in TYPE_COLORS
-      ? TYPE_COLORS[data.type as keyof typeof TYPE_COLORS]
-      : undefined;
-  const filled = data.variant === 'destructive' || (richColors && !!tint);
+  useEffect(() => {
+    if (visible && Platform.OS === 'ios')
+      AccessibilityInfo.announceForAccessibility(
+        data.description ? `${data.title}. ${data.description}` : data.title
+      );
+  }, [visible, data.title, data.description]);
+
+  useEffect(() => {
+    const animation = Animated.timing(progress, {
+      toValue: visible ? 1 : 0,
+      duration: reducedMotion ? 0 : visible ? 220 : 140,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: true,
+    });
+    animation.start(({ finished }) => {
+      if (finished && !visible) onExited(data.id, revision);
+    });
+    return () => animation.stop();
+  }, [data.id, visible, revision, progress, reducedMotion, onExited]);
 
   return (
-    <Animated.View style={{ opacity }}>
-      <View
-        accessibilityRole="alert"
-        className={cn(
-          'flex-row items-center gap-3 rounded-md border p-4 shadow-md',
-          data.variant === 'destructive' && 'border-destructive bg-destructive',
-          richColors && tint ? undefined : 'border-border bg-background'
-        )}
-        style={
-          richColors && tint
-            ? { borderColor: tint, backgroundColor: tint }
-            : undefined
-        }
+    <Reanimated.View
+      layout={LinearTransition.duration(180).reduceMotion(ReduceMotion.System)}
+    >
+      <Animated.View
+        pointerEvents={visible ? 'auto' : 'none'}
+        accessibilityElementsHidden={!visible}
+        importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
+        style={{
+          opacity: progress,
+          transform: [
+            {
+              translateY: reducedMotion
+                ? 0
+                : progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [position === 'bottom' ? 16 : -16, 0],
+                  }),
+            },
+          ],
+        }}
       >
-        <Pressable
-          onPress={dismiss}
-          className="flex-1 flex-row items-center gap-3"
+        <View
+          accessibilityLiveRegion={
+            data.type === 'error' ? 'assertive' : 'polite'
+          }
+          onAccessibilityEscape={() => onDismiss(data.id)}
+          className="rounded-xl border p-4"
+          style={{
+            backgroundColor: filled ? colors.destructive : colors.card,
+            borderColor: filled
+              ? colors.destructive
+              : richColors
+                ? statusColor
+                : colors.border,
+            borderCurve: 'continuous',
+          }}
         >
-          {data.icon === undefined ? (
-            <ToastIcon type={data.type} filled={filled} />
-          ) : (
-            data.icon
-          )}
-          <View className="flex-1">
-            <Text
-              className={cn(
-                'text-sm font-semibold',
-                filled ? 'text-destructive-foreground' : 'text-foreground'
-              )}
-            >
-              {data.title}
-            </Text>
-            {!!data.description && (
-              <Text
-                className={cn(
-                  'mt-1 text-sm',
-                  filled
-                    ? 'text-destructive-foreground'
-                    : 'text-muted-foreground'
+          <View className="flex-row items-start gap-3">
+            {data.icon !== null ? (
+              <View className="pt-0.5" accessible={false}>
+                {data.icon !== undefined ? (
+                  data.icon
+                ) : data.type === 'loading' && !reducedMotion ? (
+                  <ActivityIndicator size="small" color={iconColor} />
+                ) : (
+                  <Icon size={20} color={iconColor} />
                 )}
+              </View>
+            ) : null}
+            <Reanimated.View
+              key={revision}
+              entering={FadeIn.duration(150).reduceMotion(ReduceMotion.System)}
+              className="flex-1 gap-1"
+            >
+              <Text
+                className="text-sm font-semibold leading-5"
+                style={{ color: foreground }}
               >
-                {data.description}
+                {data.title}
               </Text>
-            )}
+              {data.description ? (
+                <Text
+                  className="text-sm leading-5"
+                  style={{
+                    color: filled ? foreground : colors.mutedForeground,
+                  }}
+                >
+                  {data.description}
+                </Text>
+              ) : null}
+            </Reanimated.View>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={`Dismiss ${data.title}`}
+              onPress={() => onDismiss(data.id)}
+              hitSlop={8}
+              className="min-h-11 min-w-11 items-center justify-center rounded-md -mr-2 -mt-2 active:opacity-60"
+            >
+              <X
+                size={18}
+                color={filled ? foreground : colors.mutedForeground}
+              />
+            </Pressable>
           </View>
-        </Pressable>
-        {!!data.action && (
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => {
-              data.action?.onPress?.();
-              dismiss();
-            }}
-            className={cn(
-              'rounded-md border px-3 py-1.5',
-              filled ? 'border-destructive-foreground/40' : 'border-border'
-            )}
-          >
-            <Text
-              className={cn(
-                'text-sm font-medium',
-                filled ? 'text-destructive-foreground' : 'text-foreground'
-              )}
-            >
-              {data.action.label}
-            </Text>
-          </Pressable>
-        )}
-        {!!data.cancel && (
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => {
-              data.cancel?.onPress?.();
-              dismiss();
-            }}
-            className="rounded-md px-3 py-1.5"
-          >
-            <Text
-              className={cn(
-                'text-sm',
-                filled ? 'text-destructive-foreground' : 'text-muted-foreground'
-              )}
-            >
-              {data.cancel.label}
-            </Text>
-          </Pressable>
-        )}
-      </View>
-    </Animated.View>
+          {data.action || data.cancel ? (
+            <View className="mt-3 flex-row flex-wrap justify-end gap-2">
+              {data.cancel ? (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={data.cancel.label}
+                  onPress={() => {
+                    onDismiss(data.id);
+                    data.cancel?.onPress?.();
+                  }}
+                  className="min-h-11 justify-center rounded-md px-3 active:opacity-60"
+                >
+                  <Text
+                    className="text-sm font-medium"
+                    style={{ color: foreground }}
+                  >
+                    {data.cancel.label}
+                  </Text>
+                </Pressable>
+              ) : null}
+              {data.action ? (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={data.action.label}
+                  onPress={() => {
+                    onDismiss(data.id);
+                    data.action?.onPress?.();
+                  }}
+                  className="min-h-11 justify-center rounded-md px-4 active:opacity-60"
+                  style={{
+                    backgroundColor: filled
+                      ? colors.background
+                      : colors.primary,
+                  }}
+                >
+                  <Text
+                    className="text-sm font-semibold"
+                    style={{
+                      color: filled
+                        ? colors.foreground
+                        : colors.primaryForeground,
+                    }}
+                  >
+                    {data.action.label}
+                  </Text>
+                </Pressable>
+              ) : null}
+            </View>
+          ) : null}
+        </View>
+      </Animated.View>
+    </Reanimated.View>
   );
 }

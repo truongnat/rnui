@@ -1,18 +1,16 @@
-import {
-  createContext,
-  useContext,
-  type ReactNode,
-} from 'react';
+import type { ReactNode } from 'react';
 import { StyleSheet, View, type ViewProps, type ViewStyle } from 'react-native';
 import { AlertCircle, Info } from 'lucide-react-native';
+import Animated, {
+  FadeIn,
+  FadeOut,
+  LinearTransition,
+  ReduceMotion,
+} from 'react-native-reanimated';
 import { Text, type TextProps } from '@/components/ui/text';
 import { cn, useThemeColor } from '@/lib/utils';
 
 export type AlertVariant = 'default' | 'destructive';
-
-const AlertContext = createContext<{ variant: AlertVariant }>({
-  variant: 'default',
-});
 
 export interface AlertProps extends ViewProps {
   variant?: AlertVariant;
@@ -53,59 +51,46 @@ export function Alert({
   const DefaultIcon = isDestructive ? AlertCircle : Info;
 
   return (
-    <AlertContext.Provider value={{ variant }}>
-      <View
-        accessibilityRole="alert"
-        className={cn('flex-row items-start gap-3 rounded-xl p-4', className)}
-        style={[styles.baseAlert, dynamicStyle, style]}
-        {...props}
-      >
-        {!hideIcon && (
-          <View style={styles.iconWell}>
-            {icon ?? <DefaultIcon size={18} color={defaultIconColor} />}
-          </View>
-        )}
-        <View style={styles.contentStack}>{children}</View>
-      </View>
-    </AlertContext.Provider>
+    <Animated.View
+      entering={FadeIn.duration(180).reduceMotion(ReduceMotion.System)}
+      exiting={FadeOut.duration(120).reduceMotion(ReduceMotion.System)}
+      layout={LinearTransition.duration(180).reduceMotion(ReduceMotion.System)}
+      accessibilityRole="alert"
+      accessibilityLiveRegion={isDestructive ? 'assertive' : 'polite'}
+      className={cn('flex-row items-start gap-3 rounded-xl p-4', className)}
+      style={[styles.baseAlert, dynamicStyle, style]}
+      {...props}
+    >
+      {!hideIcon && (
+        <View style={styles.iconWell}>
+          {icon ?? <DefaultIcon size={20} color={defaultIconColor} />}
+        </View>
+      )}
+      <View style={styles.contentStack}>{children}</View>
+    </Animated.View>
   );
 }
 
 export function AlertTitle({ className, style, ...props }: TextProps) {
-  const { variant } = useContext(AlertContext);
   const colors = useThemeColor();
-  const isDestructive = variant === 'destructive';
 
   return (
     <Text
-      className={cn(
-        'text-[15px] font-semibold tracking-tight leading-5',
-        isDestructive ? 'text-destructive' : 'text-foreground',
-        className
-      )}
-      style={[isDestructive && { color: colors.destructive }, style]}
-      numberOfLines={1}
+      accessibilityRole="header"
+      className={cn('text-sm font-semibold leading-5', className)}
+      style={[{ color: colors.cardForeground }, style]}
       {...props}
     />
   );
 }
 
 export function AlertDescription({ className, style, ...props }: TextProps) {
-  const { variant } = useContext(AlertContext);
   const colors = useThemeColor();
-  const isDestructive = variant === 'destructive';
 
   return (
     <Text
-      className={cn(
-        'text-[13px] leading-5',
-        isDestructive ? 'text-destructive/90' : 'text-muted-foreground',
-        className
-      )}
-      style={[
-        isDestructive && { color: colors.destructive },
-        style,
-      ]}
+      className={cn('text-sm leading-5', className)}
+      style={[{ color: colors.mutedForeground }, style]}
       {...props}
     />
   );
@@ -122,6 +107,6 @@ const styles = StyleSheet.create({
   },
   contentStack: {
     flex: 1,
-    gap: 2,
+    gap: 4,
   },
 });

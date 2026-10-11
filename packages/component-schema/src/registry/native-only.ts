@@ -113,8 +113,10 @@ export const nativeOnlyComponentSchemas: ComponentSchema[] = [
     name: 'ContextMenu',
     category: 'overlay',
     status: 'beta',
-    description: 'Long-press context menu.',
-    supportReason: 'Native context menu / gesture coordination',
+    description:
+      'Custom long-press menu for secondary item actions; provide a visible tap alternative.',
+    supportReason:
+      'Custom native anchoring and long-press gesture coordination; not an OS-native context menu',
     import: uiImport('ContextMenu', 'context-menu'),
     props: [],
     examples: [],

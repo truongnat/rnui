@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useRef, useState } from 'react';
+import { Modal, StyleSheet, View } from 'react-native';
 import {
   AnimatedOverlay,
   type OverlayAnimationType,
@@ -10,14 +10,14 @@ import { DemoPage, DemoGroup, DemoSection } from '@/demo/DemoPage';
 
 export default function AnimatedOverlayScreen() {
   const [isVisible, setIsVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const visibleRef = useRef(isVisible);
+  visibleRef.current = isVisible;
   const [animationType, setAnimationType] =
     useState<OverlayAnimationType>('fade');
 
   const modalContent = (
-    <View
-      className="rounded-lg border border-border bg-background"
-      style={styles.modalContent}
-    >
+    <View className="w-full rounded-2xl bg-background p-6">
       <Text variant="h4" style={{ textAlign: 'center', marginBottom: 16 }}>
         {animationType.charAt(0).toUpperCase() + animationType.slice(1)}
       </Text>
@@ -26,8 +26,8 @@ export default function AnimatedOverlayScreen() {
         className="text-muted-foreground"
         style={[styles.modalText, { textAlign: 'center' }]}
       >
-        Shared motion language across Dialog, Modal, Menu, Snackbar, Drawer, and
-        BottomSheet.
+        A quiet entrance brings the surface into focus. Dismiss to see its
+        matching exit.
       </Text>
 
       <Button size="lg" className="w-full" onPress={() => setIsVisible(false)}>
@@ -41,19 +41,29 @@ export default function AnimatedOverlayScreen() {
       title="Animated Overlay"
       description="Animated overlay primitive for modals, sheets, and tooltips."
       floatingContent={
-        <AnimatedOverlay
-          visible={isVisible}
-          animationType={animationType}
-          onBackdropPress={() => setIsVisible(false)}
-          backdropOpacity={0.6}
+        <Modal
+          visible={mounted || isVisible}
+          transparent
+          animationType="none"
+          onRequestClose={() => setIsVisible(false)}
         >
-          {modalContent}
-        </AnimatedOverlay>
+          <AnimatedOverlay
+            visible={isVisible}
+            animationType={animationType}
+            onBackdropPress={() => setIsVisible(false)}
+            contentStyle={{ paddingHorizontal: 24 }}
+            onAnimationEnd={(entering) => {
+              if (!entering && !visibleRef.current) setMounted(false);
+            }}
+          >
+            {modalContent}
+          </AnimatedOverlay>
+        </Modal>
       }
     >
       <DemoSection
         title="Animation Presets"
-        description="Optimized for high-refresh displays."
+        description="Each preset has a matched entrance and exit, with reduced-motion support."
       >
         <DemoGroup gap={12}>
           {(['fade', 'scale', 'slideUp', 'slideDown', 'none'] as const).map(
@@ -62,6 +72,7 @@ export default function AnimatedOverlayScreen() {
                 key={type}
                 onPress={() => {
                   setAnimationType(type);
+                  setMounted(true);
                   setIsVisible(true);
                 }}
                 variant="outline"
@@ -84,6 +95,7 @@ export default function AnimatedOverlayScreen() {
           <Button
             onPress={() => {
               setAnimationType('scale');
+              setMounted(true);
               setIsVisible(true);
             }}
             variant="secondary"
@@ -94,6 +106,7 @@ export default function AnimatedOverlayScreen() {
           <Button
             onPress={() => {
               setAnimationType('slideUp');
+              setMounted(true);
               setIsVisible(true);
             }}
             variant="secondary"
@@ -106,8 +119,8 @@ export default function AnimatedOverlayScreen() {
 
       <View className="mt-5 rounded-lg border border-border bg-muted p-4">
         <Text variant="muted" style={{ lineHeight: 22 }}>
-          Dialog, Modal, Menu, Snackbar, Drawer, and BottomSheet share these
-          timing presets for consistent motion.
+          Close while a surface is entering, then open it again. Motion reverses
+          from its current position rather than replaying.
         </Text>
       </View>
     </DemoPage>
@@ -117,15 +130,6 @@ export default function AnimatedOverlayScreen() {
 const styles = StyleSheet.create({
   actionButton: {
     minWidth: '47%',
-  },
-  modalContent: {
-    width: '85%',
-    padding: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 24,
-    elevation: 12,
   },
   modalText: {
     marginBottom: 24,

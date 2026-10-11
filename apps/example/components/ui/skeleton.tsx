@@ -1,37 +1,53 @@
-import { useEffect, useRef } from 'react';
-import { Animated, type ViewProps } from 'react-native';
+import { useEffect } from 'react';
+import { AppState, type ViewProps } from 'react-native';
+import Animated, {
+  cancelAnimation,
+  Easing,
+  ReduceMotion,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 import { cn } from '@/lib/utils';
 
 export interface SkeletonProps extends ViewProps {
   className?: string;
 }
 
-export function Skeleton({ className, ...props }: SkeletonProps) {
-  const opacity = useRef(new Animated.Value(1)).current;
+export function Skeleton({ className, style, ...props }: SkeletonProps) {
+  const opacity = useSharedValue(1);
 
   useEffect(() => {
-    const loop = Animated.loop(
-      Animated.sequence([
-        Animated.timing(opacity, {
-          toValue: 0.5,
-          duration: 700,
-          useNativeDriver: true,
-        }),
-        Animated.timing(opacity, {
-          toValue: 1,
-          duration: 700,
-          useNativeDriver: true,
-        }),
-      ])
+    const updatePulse = (active: boolean) => {
+      cancelAnimation(opacity);
+      opacity.value = 1;
+      if (active) {
+        opacity.value = withRepeat(
+          withTiming(0.5, { duration: 900, easing: Easing.inOut(Easing.ease) }),
+          -1,
+          true,
+          undefined,
+          ReduceMotion.System
+        );
+      }
+    };
+    updatePulse(AppState.currentState === 'active');
+    const subscription = AppState.addEventListener('change', (state) =>
+      updatePulse(state === 'active')
     );
-    loop.start();
-    return () => loop.stop();
+    return () => {
+      subscription.remove();
+      cancelAnimation(opacity);
+    };
   }, [opacity]);
+
+  const pulseStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
 
   return (
     <Animated.View
       className={cn('rounded-md bg-muted', className)}
-      style={{ opacity }}
+      style={[pulseStyle, style]}
       {...props}
     />
   );

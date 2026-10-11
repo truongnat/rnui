@@ -9,6 +9,13 @@ import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 const ICON_SIZE = 22;
 
+const standardItems = [
+  { key: 'home', label: 'Home', icon: <Home size={ICON_SIZE} /> },
+  { key: 'search', label: 'Search', icon: <Search size={ICON_SIZE} /> },
+  { key: 'inbox', label: 'Inbox', icon: <Bell size={ICON_SIZE} />, badge: 4 },
+  { key: 'settings', label: 'Settings', icon: <Settings size={ICON_SIZE} /> },
+];
+
 export default function TabBarScreen() {
   const colors = useThemeColor();
   const [activeTab, setActiveTab] = useState('home');
@@ -17,7 +24,16 @@ export default function TabBarScreen() {
   return (
     <DemoPage
       title="TabBar"
-      description="Bottom navigation bar with icons, labels, badge counters, and safe-area insets."
+      description="A live bottom tab bar keeps actions clear of system gestures and landscape cutouts. Embedded previews use safeArea={false}."
+      floatingContent={
+        <View className="absolute bottom-0 left-0 right-0">
+          <TabBar
+            items={standardItems}
+            value={activeTab}
+            onValueChange={setActiveTab}
+          />
+        </View>
+      }
     >
       <DemoSection
         title="Interactive Standard TabBar"
@@ -38,29 +54,7 @@ export default function TabBarScreen() {
             safeArea={false}
             value={activeTab}
             onValueChange={setActiveTab}
-            items={[
-              {
-                key: 'home',
-                label: 'Home',
-                icon: <Home size={ICON_SIZE} />,
-              },
-              {
-                key: 'search',
-                label: 'Search',
-                icon: <Search size={ICON_SIZE} />,
-              },
-              {
-                key: 'inbox',
-                label: 'Inbox',
-                icon: <Bell size={ICON_SIZE} />,
-                badge: 4,
-              },
-              {
-                key: 'settings',
-                label: 'Settings',
-                icon: <Settings size={ICON_SIZE} />,
-              },
-            ]}
+            items={standardItems}
           />
         </Card>
       </DemoSection>
@@ -78,7 +72,9 @@ export default function TabBarScreen() {
             <Text className="text-base font-semibold text-foreground capitalize">
               Selected: {activeTab2}
             </Text>
-            <Text variant="muted">Testing notification badges and disabled items</Text>
+            <Text variant="muted">
+              Testing notification badges and disabled items
+            </Text>
           </View>
           <TabBar
             safeArea={false}

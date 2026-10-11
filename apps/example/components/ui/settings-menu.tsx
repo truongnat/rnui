@@ -33,13 +33,15 @@ export function SettingsMenu({
   ...props
 }: SettingsMenuProps) {
   return (
-    <View className={cn('w-full', className)} {...props}>
+    <View className={cn('w-full gap-6', className)} {...props}>
       {sections.map((section, si) => (
         <View key={section.title ?? si}>
           {section.title && (
-            <ListSectionTitle>{section.title}</ListSectionTitle>
+            <ListSectionTitle className="pb-2 pt-0">
+              {section.title}
+            </ListSectionTitle>
           )}
-          <View className="bg-background">
+          <View className="overflow-hidden rounded-xl border border-border bg-background">
             {section.items.map((item, ii) => (
               <View key={item.key}>
                 <ListItem

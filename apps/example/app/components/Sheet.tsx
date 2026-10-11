@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { Button } from '@/components/ui/button';
 import { ListItem } from '@/components/ui/list-item';
 import {
@@ -10,6 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
+import { Text } from '@/components/ui/text';
 import { DemoPage, DemoGroup, DemoSection } from '@/demo/DemoPage';
 
 export default function SheetScreen() {
@@ -46,11 +47,11 @@ export default function SheetScreen() {
           </Sheet>
 
           <Sheet
-            key={snapIndex}
             open={snapOpen}
             onOpenChange={setSnapOpen}
             snapPoints={['50%', '90%']}
             initialSnapIndex={snapIndex}
+            onSnapChange={setSnapIndex}
           >
             <SheetContent>
               <SheetHeader>
@@ -60,10 +61,28 @@ export default function SheetScreen() {
                   handle to move between detents.
                 </SheetDescription>
               </SheetHeader>
-              <View className="h-40 items-center justify-center rounded-lg bg-muted">
-                <SheetDescription>Extended Content Area</SheetDescription>
-              </View>
-              <SheetFooter>
+              <ScrollView
+                className="flex-1"
+                contentContainerClassName="gap-4 pb-4"
+                showsVerticalScrollIndicator={false}
+              >
+                <Text variant="large">
+                  {snapIndex === 0 ? 'Half-height view' : 'Expanded view'}
+                </Text>
+                <Text variant="muted">
+                  Drag the handle upward to expand, or down to return to the
+                  smaller detent.
+                </Text>
+                <Text variant="muted">
+                  The content scrolls independently of the handle. Header and
+                  actions stay in the sheet.
+                </Text>
+                <Text variant="muted">
+                  Swipe below the smaller detent to dismiss. Reopening starts at
+                  the height you choose.
+                </Text>
+              </ScrollView>
+              <SheetFooter className="mt-4">
                 <Button onPress={() => setSnapOpen(false)}>Done</Button>
               </SheetFooter>
             </SheetContent>

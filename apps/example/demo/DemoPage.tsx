@@ -2,10 +2,15 @@ import { AppBar } from '@/components/ui/app-bar';
 import { Card } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
 import { ThemeToggleButton } from '@/demo/DemoThemeControls';
-import { useThemeColor } from '@/lib/utils';
+import { spacingScale } from '@/lib/utils';
 import { useNavigation, useRouter } from 'expo-router';
 import type React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  type ScrollViewProps,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface DemoPageProps {
@@ -16,6 +21,7 @@ interface DemoPageProps {
   floatingContent?: React.ReactNode;
   /** Show global theme toggle button in AppBar trailing slot. Default true. */
   showThemeControls?: boolean;
+  onScroll?: ScrollViewProps['onScroll'];
 }
 
 export const DemoPage: React.FC<DemoPageProps> = ({
@@ -25,6 +31,7 @@ export const DemoPage: React.FC<DemoPageProps> = ({
   scrollable = true,
   floatingContent,
   showThemeControls = true,
+  onScroll,
 }) => {
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -32,7 +39,7 @@ export const DemoPage: React.FC<DemoPageProps> = ({
 
   const handleBack = () => {
     try {
-      if (navigation && navigation.canGoBack()) {
+      if (navigation?.canGoBack()) {
         navigation.goBack();
       } else {
         router.push('/');
@@ -57,9 +64,15 @@ export const DemoPage: React.FC<DemoPageProps> = ({
           style={styles.flex}
           contentContainerStyle={[
             styles.scrollContent,
-            { paddingBottom: insets.bottom + 36 },
+            {
+              paddingBottom: insets.bottom + 36,
+              paddingLeft: insets.left + spacingScale.md,
+              paddingRight: insets.right + spacingScale.md,
+            },
           ]}
           showsVerticalScrollIndicator={false}
+          onScroll={onScroll}
+          scrollEventThrottle={onScroll ? 16 : undefined}
         >
           {description ? (
             <View className="mt-4 mb-2">
@@ -71,7 +84,17 @@ export const DemoPage: React.FC<DemoPageProps> = ({
           <View className="gap-5 pb-8">{children}</View>
         </ScrollView>
       ) : (
-        <View style={[styles.flex, styles.scrollContent]}>
+        <View
+          style={[
+            styles.flex,
+            styles.scrollContent,
+            {
+              paddingBottom: insets.bottom,
+              paddingLeft: insets.left + spacingScale.md,
+              paddingRight: insets.right + spacingScale.md,
+            },
+          ]}
+        >
           {description ? (
             <View className="mt-4 mb-2">
               <Text variant="muted" className="leading-5">
@@ -103,7 +126,7 @@ export const DemoSection: React.FC<{
         {title}
       </Text>
       {description ? (
-        <Text variant="muted" className="text-xs leading-4 mt-0.5">
+        <Text variant="muted" className="text-sm leading-5 mt-1">
           {description}
         </Text>
       ) : null}
@@ -123,7 +146,13 @@ export const DemoSection: React.FC<{
     <View style={styles.section}>
       {header}
       {children ? (
-        <Card className={flush ? 'p-0 border-border' : 'p-5 border-border'}>
+        <Card
+          className={
+            flush
+              ? 'p-0 border-border shadow-none'
+              : 'p-5 gap-4 border-border shadow-none'
+          }
+        >
           {children}
         </Card>
       ) : null}
@@ -134,7 +163,7 @@ export const DemoSection: React.FC<{
 export const DemoPreview: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  return <View className="rounded-xl bg-muted/50 p-4 gap-3 border border-border">{children}</View>;
+  return <View className="rounded-xl bg-muted/50 p-4 gap-3">{children}</View>;
 };
 
 export const DemoGroup: React.FC<{
@@ -146,7 +175,10 @@ export const DemoGroup: React.FC<{
   return (
     <View style={styles.group}>
       {label ? (
-        <Text variant="muted" className="text-xs font-semibold uppercase tracking-wider mb-2">
+        <Text
+          variant="muted"
+          className="text-xs font-semibold uppercase tracking-wider mb-2"
+        >
           {label}
         </Text>
       ) : null}
@@ -167,7 +199,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 16,
+    paddingHorizontal: spacingScale.md,
+    width: '100%',
+    maxWidth: 768,
+    alignSelf: 'center',
   },
   section: {
     gap: 10,

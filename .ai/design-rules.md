@@ -13,22 +13,22 @@ How to design mobile screens with RNUI. Read alongside `.ai/component-registry.j
 
 ## Component mapping
 
-| Need | RNUI component |
-| ---- | -------------- |
-| Page structure | `Stack`, `View` (`flex-1`), `Grid`, `ScrollArea` |
-| Surfaces | `Card`, `GlassCard`, `Paper` |
-| Text | `Text` variants (never raw RN `Text` for body copy unless inside a custom leaf) |
-| Primary actions | `Button` (`variant="default"`) |
-| Secondary actions | `Button` (`variant="outline"` / `secondary` / `ghost`) or `Link` |
-| Text input | `TextField` (label + input + error), `Input`, `Textarea` |
-| Form structure | `FormField` + `FormLabel` + `FormDescription` + `FormMessage`, `Label` |
-| Navigation chrome | `AppBar`, `Tabs`, `TabBar`, `BottomNavigation` |
-| Lists | `List`, `ListItem`, `ListSectionTitle`, `ListSeparator` |
-| Feedback | `Alert`, `Snackbar`, `Toast` (`ToastProvider` + `useToast`) |
-| Overlays | `Modal`, `Sheet`, `Dialog`, `Drawer`, `Popover` |
-| Empty / error | `EmptyState` |
-| Loading | `Skeleton`, `CircularProgress`, `Progress` |
-| Media | `Avatar`, `Image`, `Icon` |
+| Need              | RNUI component                                                                  |
+| ----------------- | ------------------------------------------------------------------------------- |
+| Page structure    | `Stack`, `View` (`flex-1`), `Grid`, `ScrollArea`                                |
+| Surfaces          | `Card`, `GlassCard`, `Paper`                                                    |
+| Text              | `Text` variants (never raw RN `Text` for body copy unless inside a custom leaf) |
+| Primary actions   | `Button` (`variant="default"`)                                                  |
+| Secondary actions | `Button` (`variant="outline"` / `secondary` / `ghost`) or `Link`                |
+| Text input        | `TextField` (label + input + error), `Input`, `Textarea`                        |
+| Form structure    | `FormField` + `FormLabel` + `FormDescription` + `FormMessage`, `Label`          |
+| Navigation chrome | `AppBar`, `Tabs`, `TabBar`, `BottomNavigation`                                  |
+| Lists             | `List`, `ListItem`, `ListSectionTitle`, `ListSeparator`                         |
+| Feedback          | `Alert`, `Snackbar`, `Toast` (`ToastProvider` + `useToast`)                     |
+| Overlays          | `Modal`, `Sheet`, `Dialog`, `Drawer`, `Popover`                                 |
+| Empty / error     | `EmptyState`                                                                    |
+| Loading           | `Skeleton`, `CircularProgress`, `Progress`                                      |
+| Media             | `Avatar`, `Image`, `Icon`                                                       |
 
 ## Tokens and theme
 
@@ -68,6 +68,16 @@ How to design mobile screens with RNUI. Read alongside `.ai/component-registry.j
 - Scroll long content — wrap body in `ScrollView` when needed (RN primitive), keep header/footer fixed.
 - Support **dark mode** — rely on semantic classes, never light-only hex colors.
 
+### Safe-area ownership
+
+- Install `react-native-safe-area-context` in the app and place a `SafeAreaProvider` at the native screen root. A native `Modal` is a separate root: RNUI Modal/Dialog/AlertDialog, Sheet, Drawer and Popper measure their own presentation bounds.
+- Let backgrounds and scrims reach the physical edges. Keep text, controls and scrollable content outside **all four** unsafe edges, including landscape cutouts; never inset the scrim itself.
+- Screen-edge `AppBar`, `TabBar`, `BottomNavigation`, floating `Fab` and `SpeedDial` own their documented safe edges. Set `safeArea={false}` in an already-inset parent or an embedded preview; do not add the same window inset again around them.
+- Toast measures its local overlay host. Snackbar remains parent-relative: a screen-edge host must supply safe bounds before applying top/bottom/left/right anchors; an embedded Snackbar must not acquire unrelated window padding.
+- A screen body needs left/right inset plus its normal gutter, and bottom inset plus its normal scroll clearance. A header that already consumes the top inset does not require another top-safe wrapper around the body.
+- Use `Button variant="destructive"` for a filled destructive action. Do not combine `outline` with a dark destructive text override as a substitute for its paired background/foreground tokens.
+- Verify actual native presentation, dismissal and rotation. An imported `SafeAreaView` alone is not evidence that the component's actions are inside the safe region.
+
 ## Accessibility
 
 - `accessibilityLabel` on icon-only `IconButton`/`Button size="icon"` and controls.
@@ -83,16 +93,16 @@ How to design mobile screens with RNUI. Read alongside `.ai/component-registry.j
 
 ## Anti-patterns (do not generate)
 
-| Anti-pattern | Why |
-| ------------ | --- |
-| One giant screen file with 200+ lines of inline styles | Unmaintainable; split sections and use registry props/classes |
-| Random hex colors (`#1a1a1a`, `#6366f1`) | Breaks theming and dark mode |
-| Custom `PrimaryButton` / `CustomCard` | Duplicates registry components |
-| Adding UI libraries (Tamagui, NativeBase, RN Paper) | Conflicts with RNUI tokens and boundaries |
-| Toggling var-referencing classes at runtime (e.g. `dark:` swaps on state) | Hermes OOM — use `style` + `useThemeColor()` |
-| Styling with fixed pixel widths for all text | Breaks accessibility and font scaling |
-| FlashList/FlatList with heavy hooks inside every row | Performance — keep list items light |
-| `{count && <Text>}` when count can be 0 | RN crash — use ternary or `count > 0` |
+| Anti-pattern                                                              | Why                                                           |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| One giant screen file with 200+ lines of inline styles                    | Unmaintainable; split sections and use registry props/classes |
+| Random hex colors (`#1a1a1a`, `#6366f1`)                                  | Breaks theming and dark mode                                  |
+| Custom `PrimaryButton` / `CustomCard`                                     | Duplicates registry components                                |
+| Adding UI libraries (Tamagui, NativeBase, RN Paper)                       | Conflicts with RNUI tokens and boundaries                     |
+| Toggling var-referencing classes at runtime (e.g. `dark:` swaps on state) | Hermes OOM — use `style` + `useThemeColor()`                  |
+| Styling with fixed pixel widths for all text                              | Breaks accessibility and font scaling                         |
+| FlashList/FlatList with heavy hooks inside every row                      | Performance — keep list items light                           |
+| `{count && <Text>}` when count can be 0                                   | RN crash — use ternary or `count > 0`                         |
 
 ## State patterns
 

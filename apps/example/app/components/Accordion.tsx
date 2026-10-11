@@ -7,156 +7,104 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import { Stack } from '@/components/ui/stack';
 import { Text } from '@/components/ui/text';
 import { DemoPage, DemoSection } from '@/demo/DemoPage';
 
 export default function AccordionScreen() {
-  const [multiExpanded, setMultiExpanded] = useState<string[]>(['1']);
-
+  const [reminders, setReminders] = useState(false);
   return (
     <DemoPage
       title="Accordion"
-      description="Expandable sections for compact content organization."
+      description="Reveal details in place. Content and chevrons move together, even when you change your mind."
     >
       <DemoSection
-        title="Single Mode"
-        description="Only one item expanded at a time."
-        flush
+        title="Delivery questions"
+        description="Opening a question closes the previous answer."
       >
-        <Accordion defaultValue="1">
-          <AccordionItem value="1">
-            <AccordionTrigger>What is RNUI?</AccordionTrigger>
+        <Accordion defaultValue="delivery">
+          <AccordionItem value="delivery">
+            <AccordionTrigger>When will my order arrive?</AccordionTrigger>
             <AccordionContent>
-              <Text variant="muted">
-                A high-performance, themeable component library for React
-                Native.
-              </Text>
+              Standard delivery takes 3–5 business days. Your tracking link
+              appears as soon as the parcel is collected.
             </AccordionContent>
           </AccordionItem>
-
-          <AccordionItem value="2">
-            <AccordionTrigger>Can I use it with Expo?</AccordionTrigger>
+          <AccordionItem value="returns">
+            <AccordionTrigger>
+              Can I return an item that doesn't fit?
+            </AccordionTrigger>
             <AccordionContent>
-              <Text variant="muted">
-                Yes — fully compatible with Expo SDK and expo-blur /
-                expo-haptics.
-              </Text>
+              Keep the packaging and start a return from your order details
+              within 30 days of delivery.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="address" className="border-b-0">
+            <AccordionTrigger>
+              How do I update my delivery address?
+            </AccordionTrigger>
+            <AccordionContent>
+              You can edit the delivery address before your order moves into
+              packing.
             </AccordionContent>
           </AccordionItem>
         </Accordion>
       </DemoSection>
-
       <DemoSection
-        title="Multiple Mode"
-        description="Several items open simultaneously."
-        flush
+        title="Compare details"
+        description="Multiple sections can stay open. Tap the headings to compare them."
       >
-        <Stack direction="row" spacing="sm" className="p-4">
-          <Button
-            size="sm"
-            variant="outline"
-            onPress={() => setMultiExpanded(['1', '2', '3'])}
-          >
-            Expand All
-          </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            onPress={() => setMultiExpanded([])}
-          >
-            Collapse All
-          </Button>
-        </Stack>
-
-        {/* Key remount reapplies defaultValue when Expand/Collapse All changes state. */}
-        <Accordion
-          key={multiExpanded.join(',')}
-          multiple
-          defaultValue={multiExpanded}
-        >
-          <AccordionItem value="1">
-            <AccordionTrigger>Item One</AccordionTrigger>
+        <Accordion multiple defaultValue={['materials']}>
+          <AccordionItem value="materials">
+            <AccordionTrigger>Materials</AccordionTrigger>
             <AccordionContent>
-              <Text variant="muted">
-                Compare information across multiple sections.
-              </Text>
+              Organic cotton, with reinforced seams and a soft brushed finish.
             </AccordionContent>
           </AccordionItem>
-
-          <AccordionItem value="2">
-            <AccordionTrigger>Item Two</AccordionTrigger>
+          <AccordionItem value="care" className="border-b-0">
+            <AccordionTrigger>Care instructions</AccordionTrigger>
             <AccordionContent>
-              <Text variant="muted">
-                Use the value prop to identify items within a group.
-              </Text>
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="3">
-            <AccordionTrigger>Item Three</AccordionTrigger>
-            <AccordionContent>
-              <Text variant="muted">
-                Controlled state enables Expand All actions.
-              </Text>
+              Machine wash cold with similar colors. Air dry to preserve the
+              fit.
             </AccordionContent>
           </AccordionItem>
         </Accordion>
       </DemoSection>
-
       <DemoSection
-        title="Bordered"
-        description="Containers and separators via className."
-        flush
+        title="Actions inside content"
+        description="Expanded content can contain controls without leaving the page."
       >
-        <Accordion className="rounded-lg border border-border px-4">
-          <AccordionItem value="1">
-            <AccordionTrigger>Account Settings</AccordionTrigger>
+        <Accordion>
+          <AccordionItem value="reminders">
+            <AccordionTrigger>Delivery notifications</AccordionTrigger>
             <AccordionContent>
               <Text variant="muted">
-                Manage account preferences and security.
+                Choose whether to receive a reminder when your parcel is out for
+                delivery.
               </Text>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="2" className="border-b-0">
-            <AccordionTrigger>Privacy Policy</AccordionTrigger>
-            <AccordionContent>
-              <Text variant="muted">
-                Read our privacy policy for data handling details.
-              </Text>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </DemoSection>
-
-      <DemoSection title="Customization">
-        <Stack spacing="md">
-          <Accordion>
-            <AccordionItem value="actions">
-              <AccordionTrigger>With Actions</AccordionTrigger>
-              <AccordionContent>
-                <Text variant="muted">
-                  Interactive controls in the accordion footer.
+              <View className="mt-3 items-start gap-2">
+                <Button
+                  variant="outline"
+                  onPress={() => setReminders((current) => !current)}
+                >
+                  {reminders ? 'Turn reminders off' : 'Turn reminders on'}
+                </Button>
+                <Text variant="muted" accessibilityLiveRegion="polite">
+                  {reminders
+                    ? 'Delivery reminders are on.'
+                    : 'Delivery reminders are off.'}
                 </Text>
-                <View className="mt-3 flex-row justify-end gap-2">
-                  <Button variant="ghost" size="sm">
-                    Reset
-                  </Button>
-                  <Button size="sm">Apply</Button>
-                </View>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-
-          <Accordion>
-            <AccordionItem value="disabled">
-              <AccordionTrigger disabled>Disabled Accordion</AccordionTrigger>
-              <AccordionContent>
-                <Text>Hidden content</Text>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </Stack>
+              </View>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="unavailable" className="border-b-0">
+            <AccordionTrigger disabled>
+              Gift wrapping · unavailable
+            </AccordionTrigger>
+            <AccordionContent>
+              Gift wrapping is not available for this order.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </DemoSection>
     </DemoPage>
   );

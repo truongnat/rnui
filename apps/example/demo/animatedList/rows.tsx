@@ -49,12 +49,14 @@ const EngagementAction = memo(function EngagementAction({
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={count !== undefined ? `${label}, ${count}` : label}
+      accessibilityState={{ selected: active }}
       style={({ pressed }) => ({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 6,
+        minHeight: 44,
         paddingVertical: 8,
         opacity: pressed ? 0.7 : 1,
       })}
@@ -167,10 +169,8 @@ export const SocialFeedRow = memo(function SocialFeedRow({
           <Avatar>
             <AvatarFallback>{post.author.initials}</AvatarFallback>
           </Avatar>
-          <View style={{ flex: 1, gap: 2 }}>
-            <Text className="font-semibold" numberOfLines={1}>
-              {post.author.name}
-            </Text>
+          <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
+            <Text className="font-semibold">{post.author.name}</Text>
             <Text variant="muted">{post.timestamp} · Public</Text>
           </View>
           <IconButton
@@ -203,6 +203,8 @@ export const SocialFeedRow = memo(function SocialFeedRow({
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 4,
             paddingBottom: 4,
           }}
         >

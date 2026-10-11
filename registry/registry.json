@@ -13,41 +13,31 @@
           "src": "variants/nativewind/global.css",
           "target": "global.css",
           "type": "registry:file",
-          "variants": [
-            "nativewind"
-          ]
+          "variants": ["nativewind"]
         },
         {
           "src": "variants/nativewind/tailwind.config.ts",
           "target": "tailwind.config.ts",
           "type": "registry:file",
-          "variants": [
-            "nativewind"
-          ]
+          "variants": ["nativewind"]
         },
         {
           "src": "variants/nativewind/nativewind-env.d.ts",
           "target": "nativewind-env.d.ts",
           "type": "registry:file",
-          "variants": [
-            "nativewind"
-          ]
+          "variants": ["nativewind"]
         },
         {
           "src": "variants/uniwind/global.css",
           "target": "global.css",
           "type": "registry:file",
-          "variants": [
-            "uniwind"
-          ]
+          "variants": ["uniwind"]
         },
         {
           "src": "variants/uniwind/uniwind-env.d.ts",
           "target": "uniwind-env.d.ts",
           "type": "registry:file",
-          "variants": [
-            "uniwind"
-          ]
+          "variants": ["uniwind"]
         }
       ]
     },
@@ -63,10 +53,7 @@
           "type": "registry:lib"
         }
       ],
-      "dependencies": [
-        "clsx",
-        "tailwind-merge"
-      ]
+      "dependencies": ["clsx", "tailwind-merge"]
     },
     {
       "name": "text",
@@ -80,13 +67,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ],
-      "dependencies": [
-        "tailwind-variants"
-      ]
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["tailwind-variants"]
     },
     {
       "name": "button",
@@ -100,13 +82,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ],
-      "dependencies": [
-        "tailwind-variants"
-      ]
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["tailwind-variants"]
     },
     {
       "name": "card",
@@ -120,11 +97,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"]
     },
     {
       "name": "input",
@@ -138,10 +111,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"]
     },
     {
       "name": "label",
@@ -155,11 +125,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"]
     },
     {
       "name": "textarea",
@@ -173,10 +139,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"]
     },
     {
       "name": "checkbox",
@@ -190,13 +153,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["lucide-react-native"]
     },
     {
       "name": "switch",
@@ -210,10 +168,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"]
     },
     {
       "name": "radio-group",
@@ -227,10 +182,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"]
     },
     {
       "name": "select",
@@ -244,14 +196,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
     },
     {
       "name": "separator",
@@ -265,16 +211,13 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"]
     },
     {
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",
-      "description": "Pulsing placeholder via RN Animated.",
+      "description": "Reduced-motion-aware pulsing placeholder.",
       "files": [
         {
           "src": "shared/ui/skeleton.tsx",
@@ -282,10 +225,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["react-native-reanimated"]
     },
     {
       "name": "badge",
@@ -299,13 +240,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ],
-      "dependencies": [
-        "tailwind-variants"
-      ]
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["tailwind-variants"]
     },
     {
       "name": "avatar",
@@ -319,11 +255,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native", "react-native-reanimated"]
     },
     {
       "name": "alert",
@@ -337,14 +270,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native", "react-native-reanimated"]
     },
     {
       "name": "dialog",
@@ -358,20 +285,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "lucide-react-native"
-      ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "dependencies": ["lucide-react-native"],
+      "registryDependencies": ["utils", "text", "modal", "theme"]
     },
     {
       "name": "progress",
       "type": "registry:ui",
       "title": "Progress",
-      "description": "Determinate progress bar.",
+      "description": "Animated determinate progress bar.",
       "files": [
         {
           "src": "shared/ui/progress.tsx",
@@ -379,10 +300,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["react-native-reanimated"]
     },
     {
       "name": "accordion",
@@ -396,14 +315,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native", "react-native-reanimated"]
     },
     {
       "name": "tabs",
@@ -417,11 +330,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"]
     },
     {
       "name": "toggle",
@@ -435,13 +344,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ],
-      "dependencies": [
-        "tailwind-variants"
-      ]
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["tailwind-variants"]
     },
     {
       "name": "toggle-group",
@@ -455,11 +359,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "toggle",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "toggle", "theme"]
     },
     {
       "name": "collapsible",
@@ -473,16 +373,13 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"]
     },
     {
       "name": "sheet",
       "type": "registry:ui",
       "title": "Sheet",
-      "description": "Bottom sheet via RN Modal slide.",
+      "description": "Animated, draggable bottom sheet with safe-area insets.",
       "files": [
         {
           "src": "shared/ui/sheet.tsx",
@@ -490,11 +387,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "animated-overlay", "theme"],
+      "dependencies": ["react-native-safe-area-context"]
     },
     {
       "name": "popover",
@@ -508,10 +402,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "popper", "theme"]
     },
     {
       "name": "dropdown-menu",
@@ -525,14 +416,8 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "lucide-react-native"
-      ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "dependencies": ["lucide-react-native"],
+      "registryDependencies": ["utils", "text", "popper", "theme"]
     },
     {
       "name": "toast",
@@ -547,13 +432,11 @@
         }
       ],
       "dependencies": [
-        "lucide-react-native"
+        "lucide-react-native",
+        "react-native-reanimated",
+        "react-native-safe-area-context"
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"]
     },
     {
       "name": "slider",
@@ -567,10 +450,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"]
     },
     {
       "name": "table",
@@ -584,11 +464,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"]
     },
     {
       "name": "breadcrumb",
@@ -602,14 +478,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
     },
     {
       "name": "pagination",
@@ -623,14 +493,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
     },
     {
       "name": "command",
@@ -644,14 +508,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
     },
     {
       "name": "login-screen",
@@ -686,11 +544,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "modal", "theme"]
     },
     {
       "name": "aspect-ratio",
@@ -704,10 +558,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"]
     },
     {
       "name": "scroll-area",
@@ -721,10 +572,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"]
     },
     {
       "name": "tooltip",
@@ -738,17 +586,13 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "popper", "theme"]
     },
     {
       "name": "context-menu",
       "type": "registry:ui",
       "title": "Context Menu",
-      "description": "Long-press anchored menu (items, labels, separators).",
+      "description": "Custom anchored long-press menu for secondary item actions; pair with a visible tap alternative (not an OS-native menu).",
       "files": [
         {
           "src": "shared/ui/context-menu.tsx",
@@ -756,23 +600,15 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "lucide-react-native"
-      ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "dependencies": ["lucide-react-native"],
+      "registryDependencies": ["utils", "text", "popper", "theme"]
     },
     {
       "name": "drawer",
       "type": "registry:ui",
       "title": "Drawer",
       "description": "Edge slide-in panel with animated translate.",
-      "dependencies": [
-        "react-native-safe-area-context"
-      ],
+      "dependencies": ["react-native-safe-area-context"],
       "files": [
         {
           "src": "shared/ui/drawer.tsx",
@@ -780,17 +616,13 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "animated-overlay", "theme"]
     },
     {
       "name": "carousel",
       "type": "registry:ui",
       "title": "Carousel",
-      "description": "Snap-scrolling horizontal pager with optional arrows.",
+      "description": "Snap-scrolling pager with round animated dots, optional arrows, autoPlay/autoPlayInterval and seamless boundary looping.",
       "files": [
         {
           "src": "shared/ui/carousel.tsx",
@@ -798,19 +630,14 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["lucide-react-native", "react-native-reanimated"]
     },
     {
       "name": "calendar",
       "type": "registry:ui",
       "title": "Calendar",
-      "description": "Month grid date picker.",
+      "description": "Responsive seven-column month/week calendar for single dates or ranges.",
       "files": [
         {
           "src": "shared/ui/calendar.tsx",
@@ -818,14 +645,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native", "react-native-reanimated"]
     },
     {
       "name": "input-otp",
@@ -839,11 +660,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"]
     },
     {
       "name": "form",
@@ -857,11 +674,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"]
     },
     {
       "name": "app-bar",
@@ -875,14 +688,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "badge", "text", "theme"],
+      "dependencies": ["lucide-react-native", "react-native-safe-area-context"]
     },
     {
       "name": "chip",
@@ -896,14 +703,11 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
+      "registryDependencies": ["utils", "text", "theme"],
       "dependencies": [
         "tailwind-variants",
-        "lucide-react-native"
+        "lucide-react-native",
+        "react-native-reanimated"
       ]
     },
     {
@@ -918,14 +722,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "tailwind-variants"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["react-native-safe-area-context"]
     },
     {
       "name": "segmented-control",
@@ -939,11 +737,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"]
     },
     {
       "name": "stepper",
@@ -957,14 +751,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
     },
     {
       "name": "rating",
@@ -978,13 +766,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["lucide-react-native"]
     },
     {
       "name": "timeline",
@@ -998,11 +781,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"]
     },
     {
       "name": "marquee",
@@ -1016,10 +795,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["react-native-reanimated"]
     },
     {
       "name": "empty-state",
@@ -1033,17 +810,13 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"]
     },
     {
       "name": "circular-progress",
       "type": "registry:ui",
       "title": "Circular Progress",
-      "description": "SVG ring progress with optional percent label.",
+      "description": "Animated SVG progress ring with determinate values and an indeterminate spinner.",
       "files": [
         {
           "src": "shared/ui/circular-progress.tsx",
@@ -1051,14 +824,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "react-native-svg"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["react-native-svg", "react-native-reanimated"]
     },
     {
       "name": "date-picker",
@@ -1072,15 +839,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme",
-        "calendar"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "text", "theme", "calendar"],
+      "dependencies": ["lucide-react-native"]
     },
     {
       "name": "snackbar",
@@ -1094,11 +854,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["react-native-reanimated"]
     },
     {
       "name": "autocomplete",
@@ -1112,12 +869,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme",
-        "input"
-      ]
+      "registryDependencies": ["utils", "text", "theme", "input"]
     },
     {
       "name": "bottom-navigation",
@@ -1131,11 +883,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "badge", "text", "theme"],
+      "dependencies": ["react-native-safe-area-context"]
     },
     {
       "name": "icon-button",
@@ -1149,13 +898,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ],
-      "dependencies": [
-        "tailwind-variants"
-      ]
+      "registryDependencies": ["utils", "theme"],
+      "dependencies": ["tailwind-variants"]
     },
     {
       "name": "speed-dial",
@@ -1169,11 +913,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["react-native-safe-area-context"]
     },
     {
       "name": "list-item",
@@ -1187,14 +928,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["lucide-react-native"]
     },
     {
       "name": "settings-menu",
@@ -1208,12 +943,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme",
-        "list-item"
-      ]
+      "registryDependencies": ["utils", "text", "theme", "list-item"]
     },
     {
       "name": "chat-list-item",
@@ -1227,13 +957,7 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme",
-        "avatar",
-        "badge"
-      ]
+      "registryDependencies": ["utils", "text", "theme", "avatar", "badge"]
     },
     {
       "name": "message-input",
@@ -1247,14 +971,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "theme",
-        "input"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "theme", "input"],
+      "dependencies": ["lucide-react-native", "react-native-reanimated"]
     },
     {
       "name": "settings-screen",
@@ -1268,12 +986,7 @@
           "type": "registry:component"
         }
       ],
-      "registryDependencies": [
-        "settings-menu",
-        "switch",
-        "avatar",
-        "text"
-      ]
+      "registryDependencies": ["settings-menu", "switch", "avatar", "text"]
     },
     {
       "name": "profile-screen",
@@ -1308,12 +1021,7 @@
           "type": "registry:component"
         }
       ],
-      "registryDependencies": [
-        "carousel",
-        "button",
-        "text",
-        "utils"
-      ]
+      "registryDependencies": ["carousel", "button", "text", "utils"]
     },
     {
       "name": "chart",
@@ -1327,14 +1035,8 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme"
-      ],
-      "dependencies": [
-        "@shopify/react-native-skia@2.6.2"
-      ]
+      "registryDependencies": ["utils", "text", "theme"],
+      "dependencies": ["@shopify/react-native-skia@2.6.2"]
     },
     {
       "name": "data-table",
@@ -1348,24 +1050,15 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme",
-        "table"
-      ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "registryDependencies": ["utils", "text", "theme", "table"],
+      "dependencies": ["lucide-react-native", "react-native-reanimated"]
     },
     {
       "name": "icon",
       "title": "Icon",
       "description": "lucide-react-native icon wrapper with size/tone tokens.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "src": "shared/ui/icon.tsx",
@@ -1373,36 +1066,29 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "dependencies": ["lucide-react-native"]
     },
     {
       "name": "image",
       "title": "Image",
       "description": "Image with rounded variants, aspect ratio, fade-in and fallback.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils", "text"],
       "files": [
         {
           "src": "shared/ui/image.tsx",
           "target": "components/ui/image.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "dependencies": ["lucide-react-native", "react-native-reanimated"]
     },
     {
       "name": "image-list",
       "title": "Image List",
       "description": "Image grid with per-item span and title bars.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils",
-        "image",
-        "text"
-      ],
+      "registryDependencies": ["utils", "image", "text"],
       "files": [
         {
           "src": "shared/ui/image-list.tsx",
@@ -1416,9 +1102,7 @@
       "title": "Link",
       "description": "Text link with scheme-safe external opening.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "src": "shared/ui/link.tsx",
@@ -1426,18 +1110,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "tailwind-variants"
-      ]
+      "dependencies": ["tailwind-variants"]
     },
     {
       "name": "pressable",
       "title": "Pressable",
       "description": "Pressable with feedback variants (opacity/highlight).",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "src": "shared/ui/pressable.tsx",
@@ -1445,18 +1125,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "tailwind-variants"
-      ]
+      "dependencies": ["tailwind-variants"]
     },
     {
       "name": "stack",
       "title": "Stack",
       "description": "Flex stack with spacing tokens and optional dividers.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "src": "shared/ui/stack.tsx",
@@ -1470,9 +1146,7 @@
       "title": "Grid",
       "description": "Flex-wrap grid with columns, gap and span items.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "src": "shared/ui/grid.tsx",
@@ -1486,10 +1160,7 @@
       "title": "Paper",
       "description": "Elevated surface — flat/elevated/outlined variants.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ],
+      "registryDependencies": ["utils", "theme"],
       "files": [
         {
           "src": "shared/ui/paper.tsx",
@@ -1497,19 +1168,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "tailwind-variants"
-      ]
+      "dependencies": ["tailwind-variants"]
     },
     {
       "name": "blockquote",
       "title": "Blockquote",
       "description": "Quoted block with accent border and cite.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils",
-        "text"
-      ],
+      "registryDependencies": ["utils", "text"],
       "files": [
         {
           "src": "shared/ui/blockquote.tsx",
@@ -1521,12 +1187,9 @@
     {
       "name": "code-block",
       "title": "Code Block",
-      "description": "Code container with copy button and language badge.",
+      "description": "Selectable monospace code with theme-aware lexical syntax colors for JS/TS/JSX/TSX, JSON and CSS, copy feedback, and a language badge; preserves exact source formatting.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ],
+      "registryDependencies": ["utils", "theme"],
       "files": [
         {
           "src": "shared/ui/code-block.tsx",
@@ -1534,20 +1197,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "lucide-react-native"
-      ]
+      "dependencies": ["lucide-react-native"]
     },
     {
       "name": "text-field",
       "title": "Text Field",
       "description": "Label + input + description/error composite.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils",
-        "form",
-        "input"
-      ],
+      "registryDependencies": ["utils", "form", "input"],
       "files": [
         {
           "src": "shared/ui/text-field.tsx",
@@ -1561,9 +1218,7 @@
       "title": "Button Group",
       "description": "Attached or segmented group of buttons.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "src": "shared/ui/button-group.tsx",
@@ -1571,20 +1226,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "tailwind-variants"
-      ]
+      "dependencies": ["tailwind-variants"]
     },
     {
       "name": "tab-bar",
       "title": "Tab Bar",
       "description": "Bottom tab bar with badges, icons and safe-area inset.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils",
-        "badge",
-        "text"
-      ],
+      "registryDependencies": ["utils", "badge", "text"],
       "files": [
         {
           "src": "shared/ui/tab-bar.tsx",
@@ -1592,22 +1241,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "tailwind-variants",
-        "react-native-safe-area-context"
-      ]
+      "dependencies": ["tailwind-variants", "react-native-safe-area-context"]
     },
     {
       "name": "modal",
       "title": "Modal",
       "description": "Centered/bottom modal with compound content parts.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils",
-        "text",
-        "theme",
-        "animated-overlay"
-      ],
+      "registryDependencies": ["utils", "text", "theme", "animated-overlay"],
       "files": [
         {
           "src": "shared/ui/modal.tsx",
@@ -1615,35 +1256,29 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "react-native-safe-area-context"
-      ]
+      "dependencies": ["react-native-safe-area-context"]
     },
     {
       "name": "popper",
       "title": "Popper",
       "description": "Anchor-positioned floating content with flip.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils",
-        "theme"
-      ],
+      "registryDependencies": ["utils", "animated-overlay", "theme"],
       "files": [
         {
           "src": "shared/ui/popper.tsx",
           "target": "components/ui/popper.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "dependencies": ["react-native-safe-area-context"]
     },
     {
       "name": "animated-overlay",
       "title": "Animated Overlay",
       "description": "Shared pop-in/pop-out animated backdrop + content.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "theme"
-      ],
+      "registryDependencies": ["theme"],
       "files": [
         {
           "src": "shared/ui/animated-overlay.tsx",
@@ -1657,25 +1292,22 @@
       "title": "Animated List",
       "description": "Staggered entrance list (FlashList optional).",
       "type": "registry:ui",
-      "registryDependencies": [
-        "theme"
-      ],
+      "registryDependencies": ["theme"],
       "files": [
         {
           "src": "shared/ui/animated-list.tsx",
           "target": "components/ui/animated-list.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "dependencies": ["react-native-reanimated"]
     },
     {
       "name": "glass-card",
       "title": "Glass Card",
       "description": "Translucent blur card (expo-blur with fallback).",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "src": "shared/ui/glass-card.tsx",
@@ -1689,9 +1321,7 @@
       "title": "Gradient",
       "description": "Linear gradient container (expo-linear-gradient with fallback).",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "src": "shared/ui/gradient.tsx",
@@ -1705,10 +1335,7 @@
       "title": "List",
       "description": "FlatList group composing list-item + separators.",
       "type": "registry:ui",
-      "registryDependencies": [
-        "utils",
-        "list-item"
-      ],
+      "registryDependencies": ["utils", "list-item"],
       "files": [
         {
           "src": "shared/ui/list.tsx",

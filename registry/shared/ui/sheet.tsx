@@ -9,15 +9,22 @@ import {
   type ReactNode,
 } from 'react';
 import {
+  AccessibilityInfo,
   Animated,
+  Easing,
   Modal,
   PanResponder,
-  type PanResponderGestureState,
   Pressable,
-  useWindowDimensions,
+  StyleSheet,
   View,
   type ViewProps,
 } from 'react-native';
+import {
+  SafeAreaProvider,
+  useSafeAreaFrame,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
+import { useAnimatedOverlay } from '@/components/ui/animated-overlay';
 import { Text, type TextProps } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
@@ -25,11 +32,7 @@ import { cn } from '@/lib/utils';
 export type SnapPoint = number | `${number}%`;
 
 interface SheetContextValue {
-  /** Current translateY (bottom-anchored sheet). */
-  translateY?: Animated.Value;
-  /** Pan handlers attached to the drag-handle area. */
   panHandlers?: ViewProps;
-  /** Effective sheet height in px when snapPoints are used. */
   sheetHeight?: number;
 }
 
@@ -38,38 +41,50 @@ const SheetContext = createContext<SheetContextValue>({});
 export interface SheetProps {
   open: boolean;
   onOpenChange?: (open: boolean) => void;
-  /** Render the dimmed backdrop. Tapping outside still closes when hidden. */
   showOverlay?: boolean;
-  /**
-   * Detent heights the sheet snaps to, e.g. ['30%', '60%'] or [240, 480].
-   * When provided, the sheet drag-snaps between them; dragging past the
-   * lowest point dismisses. Omit for auto-height (no drag).
-   */
+  /** Detent heights; drag the handle to snap or dismiss. */
   snapPoints?: SnapPoint[];
-  /** Index into snapPoints the sheet opens at. Default last. */
+  /** Index into sorted snapPoints. Defaults to the highest detent. */
   initialSnapIndex?: number;
-  /** Called when the resting snap point changes. */
   onSnapChange?: (index: number) => void;
   children?: ReactNode;
 }
 
-function resolveSnapPoints(
-  snapPoints: SnapPoint[],
-  windowHeight: number
-): number[] {
-  return snapPoints
-    .map((p) =>
-      typeof p === 'string'
-        ? (parseFloat(p) / 100) * windowHeight
-        : p <= 1
-          ? p * windowHeight
-          : p
+function resolveSnapPoints(points: SnapPoint[], height: number): number[] {
+  return points
+    .map((point) =>
+      typeof point === 'string'
+        ? (parseFloat(point) / 100) * height
+        : point <= 1
+          ? point * height
+          : point
     )
-    .filter((h) => h > 0 && h <= windowHeight)
+    .filter((value) => Number.isFinite(value) && value > 0 && value <= height)
     .sort((a, b) => a - b);
 }
 
-export function Sheet({
+export function Sheet(props: SheetProps) {
+  const [mounted, setMounted] = useState(props.open);
+  useEffect(() => {
+    if (props.open) setMounted(true);
+  }, [props.open]);
+  return (
+    <Modal
+      visible={mounted || props.open}
+      transparent
+      statusBarTranslucent
+      navigationBarTranslucent
+      animationType="none"
+      onRequestClose={() => props.onOpenChange?.(false)}
+    >
+      <SafeAreaProvider>
+        <SheetFrame {...props} onClosed={() => setMounted(false)} />
+      </SafeAreaProvider>
+    </Modal>
+  );
+}
+
+function SheetFrame({
   open,
   onOpenChange,
   showOverlay = true,
@@ -77,212 +92,193 @@ export function Sheet({
   initialSnapIndex,
   onSnapChange,
   children,
-}: SheetProps) {
-  const { height: windowHeight } = useWindowDimensions();
+  onClosed,
+}: SheetProps & { onClosed: () => void }) {
+  const { height: windowHeight } = useSafeAreaFrame();
+  const insets = useSafeAreaInsets();
   const heights = useMemo(
-    () =>
-      snapPoints?.length ? resolveSnapPoints(snapPoints, windowHeight) : null,
-    [snapPoints, windowHeight]
+    () => resolveSnapPoints(snapPoints ?? [], windowHeight - insets.top),
+    [snapPoints, windowHeight, insets.top]
   );
-
-  const [mounted, setMounted] = useState(open);
   const [snapIndex, setSnapIndex] = useState(
-    initialSnapIndex ?? (heights ? heights.length - 1 : 0)
+    initialSnapIndex ?? heights.length - 1
   );
+  const [reduceMotion, setReduceMotion] = useState(false);
   const translateY = useRef(new Animated.Value(windowHeight)).current;
-  const gestureStartY = useRef(0);
+  const startY = useRef(0);
+  const openRef = useRef(open);
+  openRef.current = open;
+  const callbacks = useRef({ onOpenChange, onSnapChange, onClosed });
+  callbacks.current = { onOpenChange, onSnapChange, onClosed };
+  const maxHeight = heights.at(-1) ?? windowHeight - insets.top;
+  const index = Math.max(0, Math.min(snapIndex, heights.length - 1));
+  const sheetHeight = heights[index];
+  const restingY = sheetHeight === undefined ? 0 : maxHeight - sheetHeight;
+  const { setVisible, backdropStyle } = useAnimatedOverlay({
+    animationType: 'fade',
+  });
 
-  const setOpenRef = useRef(onOpenChange);
-  setOpenRef.current = onOpenChange;
+  useEffect(() => {
+    let active = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then((enabled) => {
+      if (active) setReduceMotion(enabled);
+    });
+    const subscription = AccessibilityInfo.addEventListener(
+      'reduceMotionChanged',
+      setReduceMotion
+    );
+    return () => {
+      active = false;
+      subscription.remove();
+      translateY.stopAnimation();
+    };
+  }, [translateY]);
 
   const animateTo = useCallback(
-    (toValue: number, onDone?: () => void) => {
-      Animated.spring(translateY, {
-        toValue,
+    (value: number, closing = false) => {
+      translateY.stopAnimation();
+      Animated.timing(translateY, {
+        toValue: value,
+        duration: reduceMotion ? 0 : closing ? 160 : 240,
+        easing: closing ? Easing.in(Easing.quad) : Easing.out(Easing.cubic),
         useNativeDriver: true,
-        damping: 30,
-        stiffness: 300,
-        mass: 0.8,
       }).start(({ finished }) => {
-        if (finished) onDone?.();
+        if (finished && closing && !openRef.current)
+          callbacks.current.onClosed();
       });
     },
-    [translateY]
+    [translateY, reduceMotion]
   );
 
-  const restY = useCallback(
-    (index: number) =>
-      heights
-        ? windowHeight -
-          heights[Math.max(0, Math.min(index, heights.length - 1))]
-        : 0,
-    [heights, windowHeight]
-  );
-
-  // Enter / exit.
+  const wasOpen = useRef(false);
   useEffect(() => {
-    if (open) {
-      setMounted(true);
-      animateTo(restY(snapIndex));
-    } else if (mounted) {
-      animateTo(windowHeight, () => setMounted(false));
+    if (open && !wasOpen.current) {
+      setSnapIndex(initialSnapIndex ?? heights.length - 1);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+    wasOpen.current = open;
+    setVisible(open);
+    animateTo(open ? restingY : maxHeight, !open);
+  }, [
+    open,
+    initialSnapIndex,
+    heights.length,
+    restingY,
+    maxHeight,
+    animateTo,
+    setVisible,
+  ]);
 
   const panHandlers = useMemo(
     () =>
-      heights
+      heights.length
         ? PanResponder.create({
-            onStartShouldSetPanResponder: () => true,
-            onMoveShouldSetPanResponder: (_e, g) => Math.abs(g.dy) > 4,
-            onPanResponderGrant: () => {
-              translateY.stopAnimation((v) => {
-                gestureStartY.current = v;
-              });
+            onMoveShouldSetPanResponder: (_event, gesture) =>
+              Math.abs(gesture.dy) > 4,
+            onPanResponderGrant: () =>
+              translateY.stopAnimation((value) => {
+                startY.current = value;
+              }),
+            onPanResponderMove: (_event, gesture) => {
+              translateY.setValue(
+                Math.max(0, Math.min(maxHeight, startY.current + gesture.dy))
+              );
             },
-            onPanResponderMove: (_e, g: PanResponderGestureState) => {
-              const next = Math.max(0, gestureStartY.current + g.dy);
-              translateY.setValue(next);
-            },
-            onPanResponderRelease: (_e, g) => {
-              const y = Math.max(0, gestureStartY.current + g.dy);
-              const sheetTop = y;
-              const heightAtY = windowHeight - sheetTop;
-              const lowest = heights[0];
-              // Dismiss when dragged below ~2/3 of the lowest detent
-              // or flicked down hard.
-              if (heightAtY < lowest * 0.66 || g.vy > 1.2) {
-                setOpenRef.current?.(false);
+            onPanResponderRelease: (_event, gesture) => {
+              const visibleHeight = maxHeight - startY.current - gesture.dy;
+              if (visibleHeight < heights[0] * 0.66 || gesture.vy > 1.2) {
+                callbacks.current.onOpenChange?.(false);
+                if (!callbacks.current.onOpenChange) animateTo(restingY);
                 return;
               }
-              // Snap to nearest detent; upward flick prefers next higher.
-              let best = 0;
-              let bestDist = Infinity;
-              heights.forEach((h, i) => {
-                const d =
-                  Math.abs(heightAtY - h) -
-                  (g.vy < -0.5 && h > heightAtY ? h * 0.15 : 0);
-                if (d < bestDist) {
-                  bestDist = d;
-                  best = i;
+              let nearest = 0;
+              let distance = Infinity;
+              heights.forEach((height, candidate) => {
+                const next = Math.abs(visibleHeight - height);
+                if (next < distance) {
+                  distance = next;
+                  nearest = candidate;
                 }
               });
-              setSnapIndex(best);
-              onSnapChange?.(best);
-              animateTo(windowHeight - heights[best]);
+              setSnapIndex(nearest);
+              callbacks.current.onSnapChange?.(nearest);
+              animateTo(maxHeight - heights[nearest]);
             },
-            onPanResponderTerminate: () => {
-              animateTo(restY(snapIndex));
-            },
+            onPanResponderTerminate: () => animateTo(restingY),
           }).panHandlers
         : undefined,
-    [
-      heights,
-      windowHeight,
-      translateY,
-      animateTo,
-      onSnapChange,
-      restY,
-      snapIndex,
-    ]
+    [heights, translateY, maxHeight, restingY, animateTo]
   );
-
-  const ctx = useMemo<SheetContextValue>(
-    () =>
-      heights
-        ? {
-            translateY,
-            panHandlers,
-            sheetHeight:
-              heights[Math.max(0, Math.min(snapIndex, heights.length - 1))],
-          }
-        : {},
-    [heights, translateY, panHandlers, snapIndex]
-  );
-
-  // Legacy path: no snapPoints → plain slide-in sheet (unchanged behavior).
-  if (!heights) {
-    return (
-      <Modal
-        visible={open}
-        transparent
-        animationType="slide"
-        onRequestClose={() => onOpenChange?.(false)}
-      >
-        <SheetContext.Provider value={ctx}>
-          <Pressable
-            className={cn('flex-1 justify-end', showOverlay && 'bg-black/50')}
-            onPress={() => onOpenChange?.(false)}
-          >
-            {children}
-          </Pressable>
-        </SheetContext.Provider>
-      </Modal>
-    );
-  }
-
-  const sheetTop = heights ? windowHeight - heights[snapIndex] : 0;
 
   return (
-    <Modal
-      visible={mounted}
-      transparent
-      animationType="none"
-      onRequestClose={() => onOpenChange?.(false)}
-    >
-      <SheetContext.Provider value={ctx}>
-        <View className="flex-1">
-          <Pressable
-            className="flex-1"
-            style={
-              showOverlay ? { backgroundColor: 'rgba(0,0,0,0.5)' } : undefined
-            }
-            onPress={() => onOpenChange?.(false)}
-          />
-          <Animated.View
-            className="absolute inset-x-0 bottom-0"
-            style={{
-              // Sheet is full-height; content area is bottom-anchored.
-              height: windowHeight,
-              transform: [{ translateY }],
-            }}
-          >
-            <View
-              className="absolute inset-x-0 bottom-0"
-              style={{ height: windowHeight - sheetTop }}
-            >
-              {children}
-            </View>
-          </Animated.View>
-        </View>
-      </SheetContext.Provider>
-    </Modal>
+    <SheetContext.Provider value={{ panHandlers, sheetHeight }}>
+      <View
+        className="flex-1 justify-end"
+        pointerEvents={open ? 'auto' : 'none'}
+        accessibilityElementsHidden={!open}
+        importantForAccessibility={open ? 'auto' : 'no-hide-descendants'}
+      >
+        <Pressable
+          style={StyleSheet.absoluteFill}
+          accessibilityRole="button"
+          accessibilityLabel="Close sheet"
+          onPress={() => onOpenChange?.(false)}
+        >
+          {showOverlay && (
+            <Animated.View
+              className="bg-black"
+              style={[StyleSheet.absoluteFill, backdropStyle]}
+            />
+          )}
+        </Pressable>
+        <Animated.View
+          pointerEvents="box-none"
+          style={{
+            height: sheetHeight === undefined ? undefined : maxHeight,
+            maxHeight,
+            transform: [{ translateY }],
+          }}
+        >
+          {children}
+        </Animated.View>
+      </View>
+    </SheetContext.Provider>
   );
 }
 
 export function SheetContent({
   className,
   children,
+  style,
   ...props
 }: ViewProps & { className?: string }) {
   const { panHandlers, sheetHeight } = useContext(SheetContext);
+  const insets = useSafeAreaInsets();
   return (
-    <Pressable onPress={(e) => e.stopPropagation()}>
+    <View
+      accessibilityViewIsModal
+      className={cn('rounded-t-2xl bg-background px-6 pb-6', className)}
+      style={[
+        {
+          height: sheetHeight,
+          paddingBottom: insets.bottom + 24,
+          paddingLeft: insets.left + 24,
+          paddingRight: insets.right + 24,
+          flexShrink: 1,
+        },
+        style,
+      ]}
+      {...props}
+    >
       <View
-        className={cn(
-          'rounded-t-2xl border-t border-border bg-background p-6 pt-3',
-          className
-        )}
-        style={sheetHeight ? { height: sheetHeight } : undefined}
-        {...props}
+        {...panHandlers}
+        collapsable={false}
+        className="h-11 items-center justify-center"
+        accessibilityLabel={panHandlers ? 'Drag to resize sheet' : undefined}
       >
-        <View {...panHandlers} collapsable={false}>
-          <View className="mx-auto mb-4 h-1.5 w-9 rounded-full bg-muted" />
-        </View>
-        {children}
+        <View className="h-1 w-9 rounded-full bg-muted-foreground/40" />
       </View>
-    </Pressable>
+      {children}
+    </View>
   );
 }
 
@@ -296,6 +292,7 @@ export function SheetHeader({
 export function SheetTitle({ className, ...props }: TextProps) {
   return (
     <Text
+      accessibilityRole="header"
       className={cn('text-lg font-semibold text-foreground', className)}
       {...props}
     />
@@ -317,7 +314,7 @@ export function SheetFooter({
 }: ViewProps & { className?: string }) {
   return (
     <View
-      className={cn('mt-6 flex-row justify-end gap-2', className)}
+      className={cn('mt-6 flex-row flex-wrap justify-end gap-2', className)}
       {...props}
     />
   );

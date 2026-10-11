@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Pressable, Text, type PressableProps } from 'react-native';
 import { tv } from 'tailwind-variants';
 import {
@@ -56,19 +56,9 @@ const buttonVariants = tv({
 });
 
 export type ButtonVariant =
-  | 'default'
-  | 'destructive'
-  | 'outline'
-  | 'secondary'
-  | 'ghost'
-  | 'link';
+  'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 export type ButtonSize =
-  | 'default'
-  | 'sm'
-  | 'lg'
-  | 'icon'
-  | 'icon-sm'
-  | 'icon-lg';
+  'default' | 'sm' | 'lg' | 'icon' | 'icon-sm' | 'icon-lg';
 
 export interface ButtonProps extends Omit<PressableProps, 'children'> {
   variant?: ButtonVariant;
@@ -88,12 +78,19 @@ export function Button({
   labelClassName,
   children,
   disabled,
+  style,
+  onPressIn,
+  onPressOut,
+  onHoverIn,
+  onHoverOut,
   ...props
 }: ButtonProps) {
   const { base, label } = buttonVariants({ variant, size });
   const field = useContext(FormFieldContext);
   const colors = useThemeColor();
   const isInvalid = invalid ?? !!field?.error;
+  const [isPressed, setIsPressed] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <Pressable
@@ -102,10 +99,28 @@ export function Button({
       disabled={disabled}
       className={cn(base(), className)}
       {...props}
-      style={(state) => [
+      onPressIn={(event) => {
+        setIsPressed(true);
+        onPressIn?.(event);
+      }}
+      onPressOut={(event) => {
+        setIsPressed(false);
+        onPressOut?.(event);
+      }}
+      onHoverIn={(event) => {
+        setIsHovered(true);
+        onHoverIn?.(event);
+      }}
+      onHoverOut={(event) => {
+        setIsHovered(false);
+        onHoverOut?.(event);
+      }}
+      style={[
         { borderCurve: 'continuous' },
         isInvalid && { borderColor: colors.destructive },
-        typeof props.style === 'function' ? props.style(state) : props.style,
+        typeof style === 'function'
+          ? style({ pressed: isPressed, hovered: isHovered })
+          : style,
       ]}
     >
       <TextClassContext.Provider value={cn(label(), labelClassName)}>

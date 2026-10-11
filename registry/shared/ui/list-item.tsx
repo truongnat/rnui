@@ -31,18 +31,18 @@ export function ListItem({
   const content = (
     <View
       className={cn(
-        'min-h-14 flex-row items-center gap-3 px-4 py-2',
+        'min-h-16 flex-row items-center gap-3 px-4 py-3',
         className
       )}
       {...props}
     >
       {leading}
-      <View className="flex-1">
-        <Text className="text-base text-foreground" numberOfLines={1}>
+      <View className="min-w-0 flex-1 gap-0.5">
+        <Text className="text-base font-medium leading-6 text-foreground">
           {title}
         </Text>
         {subtitle && (
-          <Text className="text-sm text-muted-foreground" numberOfLines={1}>
+          <Text className="text-sm leading-5 text-muted-foreground">
             {subtitle}
           </Text>
         )}
@@ -56,6 +56,9 @@ export function ListItem({
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={
+        props.accessibilityLabel ?? [title, subtitle].filter(Boolean).join(', ')
+      }
       onPress={onPress}
       className="active:bg-accent"
     >
@@ -79,7 +82,10 @@ export function ListSectionTitle({
   return (
     <View className={cn('px-4 pb-1 pt-4', className)} {...props}>
       {typeof children === 'string' ? (
-        <Text className="text-xs font-medium uppercase text-muted-foreground">
+        <Text
+          accessibilityRole="header"
+          className="text-sm font-medium leading-5 text-muted-foreground"
+        >
           {children}
         </Text>
       ) : (

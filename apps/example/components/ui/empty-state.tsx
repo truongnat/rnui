@@ -27,7 +27,11 @@ export function EmptyState({
 export function EmptyStateTitle({ className, ...props }: TextProps) {
   return (
     <Text
-      className={cn('text-base font-semibold text-foreground', className)}
+      accessibilityRole="header"
+      className={cn(
+        'text-center text-lg font-semibold leading-7 text-foreground',
+        className
+      )}
       {...props}
     />
   );
@@ -36,7 +40,10 @@ export function EmptyStateTitle({ className, ...props }: TextProps) {
 export function EmptyStateDescription({ className, ...props }: TextProps) {
   return (
     <Text
-      className={cn('text-center text-sm text-muted-foreground', className)}
+      className={cn(
+        'max-w-sm text-center text-sm leading-6 text-muted-foreground',
+        className
+      )}
       {...props}
     />
   );
