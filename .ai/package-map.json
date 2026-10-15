@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "distributionModel": "shadcn-style registry — components are copied into consumer apps under components/ui/ via npx @rnui/cli add and imported through the @/ alias; there is no installed @rnui/ui runtime package",
+  "distributionModel": "shadcn-style registry — components are copied into consumer apps under components/ui/ via npx github:truongnat/rnui#cli add and imported through the @/ alias; there is no installed @rnui/ui runtime package",
   "packages": {
     "registry:components": {
       "path": "registry/shared/ui",
@@ -20,7 +20,7 @@
       "purpose": "Theme presets (neutral, stone, butter, chocolate, matcha, gothic, y2k) shipped as CSS variable files per styling variant",
       "useWhen": [
         "Setting up theming via global.css / @theme block",
-        "Switching brand presets (npx @rnui/cli add theme-<brand>)",
+        "Switching brand presets (npx github:truongnat/rnui#cli add theme-<brand>)",
         "Looking up semantic color token names (primary, muted, destructive, ...)"
       ],
       "doNotUseFor": [
@@ -44,8 +44,8 @@
       "path": "packages/cli",
       "purpose": "CLI for the RNUI registry — init NativeWind/Uniwind setup and add components/themes to React Native apps",
       "useWhen": [
-        "Bootstrapping a consumer app (npx @rnui/cli init)",
-        "Adding components or theme presets (npx @rnui/cli add <item>)",
+        "Bootstrapping a consumer app (npx github:truongnat/rnui#cli init)",
+        "Adding components or theme presets (npx github:truongnat/rnui#cli add <item>)",
         "Listing available registry items"
       ],
       "doNotUseFor": [

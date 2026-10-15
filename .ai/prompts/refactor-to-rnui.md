@@ -49,4 +49,4 @@ Refactor the following **custom React Native UI** to use **RNUI** components and
 4. Optional native peers needed (svg, expo-blur, etc.)
 5. Follow-up items if no 1:1 RNUI equivalent exists (name the closest registry entry)
 
-If a custom component duplicates RNUI, delete the custom component and import from `@/components/ui/<kebab>` (add missing items with `npx @rnui/cli add`).
+If a custom component duplicates RNUI, delete the custom component and import from `@/components/ui/<kebab>` (add missing items with `npx github:truongnat/rnui#cli add`).

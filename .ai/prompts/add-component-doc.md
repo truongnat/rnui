@@ -29,7 +29,7 @@ Update the component's `registry/registry.json` item description and, when a doc
 3. **Install + import**
 
    ```bash
-   npx @rnui/cli add <kebab-name>
+   npx github:truongnat/rnui#cli add <kebab-name>
    ```
 
    ```tsx

@@ -1,8 +1,8 @@
-# Component Port Contract — ui (styled) → registry/shared (shadcn)
+# Registry component authoring contract
 
-Goal: single source of truth = `registry/shared/ui`. All components use
-NativeWind/Uniwind classes via `cn()` + `tv()` slots. No dependency on
-`@truongdq01/*` packages.
+`registry/shared/ui` is the source of truth for components copied into
+consumer apps. It uses NativeWind/Uniwind classes through `cn()` and `tv()`,
+with no dependency on `@truongdq01/*` packages.
 
 ## File rules (match existing `registry/shared/ui/*.tsx`)
 
@@ -23,36 +23,14 @@ NativeWind/Uniwind classes via `cn()` + `tv()` slots. No dependency on
 `useThemeColor` (Record<ThemeColorToken,string>). Add new helpers HERE if a
 port needs shared logic — don't duplicate.
 
-## Port mapping (ui/ name → registry file)
+## Component workflow
 
-Dedupe — SKIP, source already exists or fold behavior into existing file:
-typography→text, text-area→textarea, o-t-p-input→input-otp,
-bottom-sheet→sheet (add `snapPoints`-like prop if needed), menu→dropdown-menu,
-breadcrumbs→breadcrumb, radio→radio-group, toggle-button→toggle,
-linear-progress→progress, divider→separator, breadcrumbs→breadcrumb.
-
-PORT as new files (shadcn-convention names):
-- icon.tsx (lucide-react-native wrapper, tone colors via useIconColor)
-- image.tsx (RN Image + aspect/radius/fallback)
-- image-list.tsx
-- link.tsx
-- pressable.tsx (only if it adds value beyond RN Pressable — else skip)
-- box.tsx, stack.tsx, grid.tsx (layout helpers; keep minimal — maybe skip box if redundant with View)
-- paper.tsx (elevated surface)
-- blockquote.tsx
-- code-block.tsx
-- button-group.tsx
-- text-field.tsx (if distinct from input — else enrich input.tsx)
-- form-control.tsx / form-field.tsx (FormFieldContext providers)
-- modal.tsx (generic Modal wrapper beyond sheet)
-- popper.tsx, popup.tsx (positioning primitives)
-- tab-bar.tsx, bottom-sheet extra, animated-list.tsx, animated-overlay.tsx
-- glass-card.tsx, gradient.tsx (optional peer deps: expo-blur, expo-linear-gradient — must have fallback)
-- list.tsx, list-item merge
-- app-bar exists; check gaps.
-
-## registry.json
-
-For each new component add an item entry mirroring existing items:
-name, type "registry:component", files[].src → shared/ui/<name>.tsx,
-registryDependencies where it uses other items (e.g. text, utils).
+1. Check `.ai/component-registry.json` and `registry/registry.json` before
+   adding a component. Extend an existing component when it already covers the
+   behavior.
+2. Implement the source in `registry/shared/ui/<name>.tsx`. Keep registry code
+   self-contained; use only declared registry and npm dependencies.
+3. Add a variant override only when NativeWind and Uniwind need different code.
+4. Add the catalog entry, dependencies, and any component-schema metadata.
+5. Keep the example app's vendored component in sync with the registry source.
+6. Run `bun run registry:build` and commit the generated `registry/dist/` files.

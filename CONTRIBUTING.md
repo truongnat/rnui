@@ -61,4 +61,7 @@ Registry `shared/` files are templates — they don't typecheck standalone; `app
 
 ## Distribution
 
-No npm publish for components — consumers use `npx shadcn add <raw-url>` or `npx github:truongnat/rnui#cli <cmd>`. Releases = merging to `main` (dist is served from `main` via GitHub raw). Version bumps/changesets apply only to `@rnui/*` internal packages.
+Components are installed from the registry; the private CLI runs from the
+`cli` branch with `npx github:truongnat/rnui#cli`. Registry output is committed
+on `main` and served through GitHub raw. Changesets apply only to internal
+`@rnui/*` packages.

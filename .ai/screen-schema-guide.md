@@ -1,6 +1,6 @@
 # RNUI ScreenSchema Guide
 
-ScreenSchema is the JSON contract between AI and the future RNUI builder renderer.
+ScreenSchema is the JSON contract used by RNUI's web builder and renderer.
 
 ## Structure
 

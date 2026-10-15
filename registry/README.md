@@ -50,8 +50,8 @@ RNUI_REGISTRY_BASE_URL=http://localhost:4999/r \
 python3 -m http.server 4999 -d registry/dist          # serve locally for e2e
 ```
 
-`registry/dist/` is committed and served via GitHub raw on `master` —
-`https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/...`.
+`registry/dist/` is committed on `main` and served from:
+`https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/<variant>/<item>.json`.
 
 ## Authoring rules
 
@@ -137,46 +137,23 @@ python3 -m http.server 4999 -d registry/dist          # serve locally for e2e
   `disabled` to `editable={false}` and apply opacity yourself (`disabled:`
   class never fires). Keep `h-10` touch targets where web uses `h-9`.
 
-## Items
+## Catalog
 
-- **Core**: `theme`, `utils`
-- **UI**: `text`, `button`, `card`, `input`, `label`, `textarea`, `checkbox`,
-  `switch`, `radio-group`, `select`, `separator`, `skeleton`, `badge`,
-  `avatar`, `alert`, `dialog`, `progress`, `accordion`, `tabs`, `toggle`,
-  `toggle-group`, `collapsible`, `sheet`, `popover`, `dropdown-menu`, `toast`,
-  `slider`, `table`, `breadcrumb`, `pagination`, `command`, `alert-dialog`,
-  `aspect-ratio`, `scroll-area`, `tooltip`, `context-menu`, `drawer`,
-  `carousel`, `calendar`, `input-otp`, `form`, `app-bar`, `chip`, `fab`,
-  `segmented-control`, `stepper`, `rating`, `timeline`, `marquee`,
-  `empty-state`, `circular-progress`, `date-picker`, `snackbar`,
-  `autocomplete`, `bottom-navigation`, `icon-button`, `speed-dial`,
-  `list-item`, `settings-menu`, `chat-list-item`, `message-input`, `chart`,
-  `data-table`
-- **Blocks**: `login-screen`, `settings-screen`, `profile-screen`,
-  `onboarding-screen`
-- **Brand themes** (generated from `packages/themes`, `bun run registry:themes`):
-  `theme-butter`, `theme-chocolate`, `theme-gothic`, `theme-matcha`,
-  `theme-neutral`, `theme-stone`, `theme-y2k` — each overwrites `global.css`
-  with the brand's semantic variables.
-
-`rnui add` applies `theme-*` items in a second pass so the brand theme wins
-over the default `theme` dependency every UI item carries.
+[`registry.json`](registry.json) is the source of truth for item names, files,
+dependencies, and variants. `registry/dist/` is generated from this catalog by
+`bun run registry:build`.
 
 ## Adding a component
 
-1. Write `registry/shared/ui/<name>.tsx` (and any lib files).
-2. Add an item to `registry/registry.json` — name (kebab-case), type, files,
-   `registryDependencies` (bare names), `dependencies` (npm pkgs).
-3. If an engine needs a different implementation, put the override at
-   `variants/<variant>/ui/<name>.tsx` (same relative path under `variants/`).
-4. `bun run registry:build` and verify the JSON contains the override content
-   for that variant only.
-5. e2e: serve `registry/dist` and `npx shadcn add <url>` in a test app.
+Follow the [component authoring contract](../COMPONENT-PORT.md) for source and
+variant rules, and [CONTRIBUTING.md](../CONTRIBUTING.md) for the repository
+workflow.
 
 ## Consumer flow
 
-With the CLI — served straight from git, no npm publish needed (the `cli`
-branch contains only the bundled `cli.js`, rebuilt from `packages/cli`):
+The private CLI package is served from the `cli` branch; it is not installed
+from npm. That branch contains the bundled `cli.js`, rebuilt from
+`packages/cli`:
 
 ```bash
 npx github:truongnat/rnui#cli init        # picks variant, installs engine deps, writes configs

@@ -86,7 +86,9 @@ How to design mobile screens with RNUI. Read alongside `.ai/component-registry.j
 
 ## Dark mode and brands
 
-- Brand presets are `registry/themes/<brand>.json` added via the CLI (`npx @rnui/cli add theme-<brand>`) — they swap CSS variable values, not a provider.
+- Add brand presets as `theme-<brand>` registry items:
+  `npx github:truongnat/rnui#cli add theme-<brand>`. They replace CSS variables;
+  they do not use a provider.
 - Do not hardcode platform-specific visual hacks (iOS-only shadows, etc.).
 
 ---

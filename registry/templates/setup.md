@@ -1,8 +1,8 @@
 # Consumer setup — RNUI registry
 
 > Manual setup for adding RNUI registry components to an Expo app.
-> `npx @rnui/cli init` automates all of this — this file is the reference for
-> what it does and the manual fallback.
+> `npx github:truongnat/rnui#cli init` automates this setup. This file is the
+> manual reference and fallback.
 
 ## Variant A — NativeWind
 

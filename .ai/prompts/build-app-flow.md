@@ -29,7 +29,7 @@ List each screen:
 
 ### Strict rules
 
-- Theme via the registry `theme` item (`global.css` CSS variables) set up once at app root by `npx @rnui/cli init` — no `ThemeProvider` component.
+- Theme via the registry `theme` item (`global.css` CSS variables) set up once at app root by `npx github:truongnat/rnui#cli init` — no `ThemeProvider` component.
 - Every screen uses RNUI components from the registry — no custom design system.
 - Consistent layout: `AppBar` + body `Stack` + footer actions where needed.
 - Shared patterns: same spacing scale, same button variants for primary actions.
