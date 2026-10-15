@@ -1,0 +1,17 @@
+{
+  "name": "@rnui/landing",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:demo": "cd ../example && bunx expo export --platform web --output-dir ../landing/public/demo",
+    "dev": "bun run build:demo && astro dev",
+    "build": "bun run build:demo && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "5.3.0",
+    "@fontsource-variable/geist": "5.3.0",
+    "astro": "7.3.8"
+  }
+}

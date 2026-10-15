@@ -1,0 +1,61 @@
+---
+import DocsLayout from '../../../layouts/DocsLayout.astro';
+import manifest from '../../../../../../.ai/rnui.manifest.json';
+import registry from '../../../../../../registry/registry.json';
+
+const nativewind = manifest.distributionModel.variants[0];
+const registryBase = 'https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist';
+
+export function getStaticPaths() {
+  const components = registry.items
+    .filter((item) => item.type === 'registry:ui')
+    .sort((left, right) => left.title.localeCompare(right.title));
+  const routeOverrides: Record<string, string> = { textarea: 'TextArea' };
+  const toRouteName = (name: string) =>
+    routeOverrides[name] ??
+    name
+      .split('-')
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join('');
+
+  return components.map((item) => ({
+    params: { name: item.name },
+    props: { item, demoRoute: toRouteName(item.name) },
+  }));
+}
+
+const { item, demoRoute } = Astro.props;
+const demoUrl = `/demo/components/${demoRoute}`;
+const registryUrl = `${registryBase}/${nativewind}/${item.name}.json`;
+---
+
+<DocsLayout title={item.title} description={item.description ?? `${item.title} component demo and usage details.`}>
+  <div class="docs-live-demo-frame">
+    <div class="docs-live-demo-toolbar">
+      <a href={demoUrl} target="_blank" rel="noreferrer">
+        Open {item.title} demo <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+    <div class="docs-live-demo-stage">
+      <div class="docs-live-demo-phone">
+        <div class="docs-live-demo-phone-screen">
+          <div class="docs-live-demo-phone-top-inset" aria-hidden="true">
+            <span></span>
+          </div>
+          <iframe
+            src={demoUrl}
+            title={`Interactive ${item.title} component demo`}
+            loading="lazy"
+            allow="clipboard-write"
+          ></iframe>
+          <div class="docs-live-demo-phone-bottom-inset" aria-hidden="true">
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="docs-inline-cta" href={registryUrl} target="_blank" rel="noreferrer">
+    View registry item <span aria-hidden="true">↗</span>
+  </a>
+</DocsLayout>

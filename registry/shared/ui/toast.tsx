@@ -33,9 +33,15 @@ import Reanimated, {
   ReduceMotion,
   useReducedMotion,
 } from 'react-native-reanimated';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import {
+  SafeAreaInsetsContext,
+  SafeAreaProvider,
+  SafeAreaView,
+} from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/text';
 import { cn, useIconColor, useThemeColor } from '@/lib/utils';
+
+const ZERO_SAFE_AREA_INSETS = { top: 0, right: 0, bottom: 0, left: 0 };
 
 export type ToastType =
   'default' | 'success' | 'error' | 'info' | 'warning' | 'loading';
@@ -115,6 +121,7 @@ export function ToastProvider({
   /** Use semantic status accents, mirrors Sonner `richColors`. */
   richColors?: boolean;
 }) {
+  const safeAreaInsets = useContext(SafeAreaInsetsContext);
   const [toasts, setToasts] = useState<ToastEntry[]>([]);
   const timers = useRef(new Map<number, ReturnType<typeof setTimeout>>());
   const active = useRef(new Map<number, number>());
@@ -258,40 +265,51 @@ export function ToastProvider({
       }
     );
   }, [show, dismiss]);
+  const toastOverlay = (
+    <SafeAreaView
+      style={StyleSheet.absoluteFill}
+      mode="margin"
+      pointerEvents="box-none"
+    >
+      <View
+        pointerEvents="box-none"
+        className={cn(
+          'absolute left-4 right-4 gap-2',
+          position === 'bottom' ? 'bottom-10' : 'top-12'
+        )}
+      >
+        {toasts.map((entry) => (
+          <Toast
+            key={entry.data.id}
+            entry={entry}
+            richColors={richColors}
+            position={position}
+            onDismiss={dismiss}
+            onExited={remove}
+          />
+        ))}
+      </View>
+    </SafeAreaView>
+  );
 
   return (
     <ToastContext.Provider value={{ toast }}>
       <View className="flex-1">{children}</View>
-      {/* Measure this host's bounds, not an ancestor's already-consumed insets. */}
-      <SafeAreaProvider
-        style={StyleSheet.absoluteFill}
-        pointerEvents="box-none"
-      >
-        <SafeAreaView
+      {/* The nested web provider host blocks input, so use the root insets. */}
+      {Platform.OS === 'web' ? (
+        <SafeAreaInsetsContext.Provider
+          value={safeAreaInsets ?? ZERO_SAFE_AREA_INSETS}
+        >
+          {toastOverlay}
+        </SafeAreaInsetsContext.Provider>
+      ) : (
+        <SafeAreaProvider
           style={StyleSheet.absoluteFill}
-          mode="margin"
           pointerEvents="box-none"
         >
-          <View
-            pointerEvents="box-none"
-            className={cn(
-              'absolute left-4 right-4 gap-2',
-              position === 'bottom' ? 'bottom-10' : 'top-12'
-            )}
-          >
-            {toasts.map((entry) => (
-              <Toast
-                key={entry.data.id}
-                entry={entry}
-                richColors={richColors}
-                position={position}
-                onDismiss={dismiss}
-                onExited={remove}
-              />
-            ))}
-          </View>
-        </SafeAreaView>
-      </SafeAreaProvider>
+          {toastOverlay}
+        </SafeAreaProvider>
+      )}
     </ToastContext.Provider>
   );
 }

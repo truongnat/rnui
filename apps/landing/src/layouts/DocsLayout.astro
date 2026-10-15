@@ -1,0 +1,161 @@
+---
+import SiteLayout from './SiteLayout.astro';
+import '../styles/docs.css';
+
+interface PageLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  previous?: PageLink;
+  next?: PageLink;
+}
+
+const { title, description, previous, next } = Astro.props;
+const groups = [
+  {
+    label: 'Start here',
+    items: [
+      { label: 'Overview', href: '/docs/' },
+      { label: 'Getting started', href: '/docs/getting-started/' },
+    ],
+  },
+  {
+    label: 'Reference',
+    items: [
+      { label: 'Components', href: '/docs/components/' },
+      { label: 'Themes', href: '/docs/themes/' },
+      { label: 'Styling engines', href: '/docs/styling-engines/' },
+    ],
+  },
+];
+const currentPath = Astro.url.pathname.endsWith('/')
+  ? Astro.url.pathname
+  : `${Astro.url.pathname}/`;
+const isComponentDetail =
+  currentPath.startsWith('/docs/components/') &&
+  currentPath !== '/docs/components/';
+const currentPage = groups
+  .flatMap((group) => group.items)
+  .find((item) => item.href === currentPath);
+
+const isCurrent = (href: string) =>
+  currentPath === href ||
+  (href === '/docs/components/' && isComponentDetail);
+---
+
+<SiteLayout title={`${title} | RNUI Docs`} description={description} docs={true}>
+  <main id="main" class="docs-shell">
+    <div class="docs-layout">
+      <aside class="docs-sidebar">
+        <p class="docs-sidebar-title">Documentation</p>
+        <nav aria-label="Documentation sidebar">
+          {groups.map((group) => (
+            <section class="docs-nav-group" aria-label={group.label}>
+              <h2>{group.label}</h2>
+              <ul>
+                {group.items.map((item) => (
+                  <li>
+                    <a
+                      class="docs-nav-link"
+                      href={item.href}
+                      aria-current={isCurrent(item.href) ? 'page' : undefined}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </nav>
+        <p class="docs-sidebar-meta">RNUI · React Native registry</p>
+      </aside>
+
+      <details class="docs-mobile-nav">
+        <summary>
+          <span>Documentation</span>
+          <span class="docs-mobile-current">
+            {currentPage?.label ?? (isComponentDetail ? title : 'Overview')}
+          </span>
+        </summary>
+        <nav aria-label="Mobile documentation sidebar">
+          {groups.map((group) => (
+            <section class="docs-nav-group" aria-label={group.label}>
+              <h2>{group.label}</h2>
+              <ul>
+                {group.items.map((item) => (
+                  <li>
+                    <a
+                      class="docs-nav-link"
+                      href={item.href}
+                      aria-current={isCurrent(item.href) ? 'page' : undefined}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </nav>
+      </details>
+
+      <article class="docs-article">
+        <nav class="docs-breadcrumb" aria-label="Breadcrumb">
+          <a href="/">RNUI</a>
+          <span aria-hidden="true">/</span>
+          <a href="/docs/">Docs</a>
+          {isComponentDetail && (
+            <>
+              <span aria-hidden="true">/</span>
+              <a href="/docs/components/">Components</a>
+            </>
+          )}
+          {currentPath !== '/docs/' && (
+            <>
+              <span aria-hidden="true">/</span>
+              <span aria-current="page">
+                {isComponentDetail ? title : currentPage?.label ?? title}
+              </span>
+            </>
+          )}
+        </nav>
+
+        <header class="docs-article-header">
+          <p class="docs-eyebrow">RNUI / documentation</p>
+          <h1>{title}</h1>
+          <p>{description}</p>
+        </header>
+
+        <div class="docs-body">
+          <slot />
+        </div>
+
+        {(previous || next) && (
+          <nav class="docs-page-nav" aria-label="More documentation">
+            {previous ? (
+              <a class="docs-page-link" href={previous.href}>
+                <span>Previous</span>
+                <strong>← {previous.label}</strong>
+              </a>
+            ) : (
+              <span aria-hidden="true"></span>
+            )}
+            {next ? (
+              <a class="docs-page-link docs-page-link--next" href={next.href}>
+                <span>Next</span>
+                <strong>{next.label} →</strong>
+              </a>
+            ) : (
+              <span aria-hidden="true"></span>
+            )}
+          </nav>
+        )}
+      </article>
+    </div>
+  </main>
+</SiteLayout>

@@ -14,12 +14,14 @@ packages/*/build/
 apps/*/dist/
 apps/*/dist-types/
 apps/*/build/
+apps/landing/public/demo/
 *.tsbuildinfo
 
 # Cache
 .bun-cache
 .bun-tmp
 .turbo
+.astro/
 .next/
 .nuxt
 .expo/

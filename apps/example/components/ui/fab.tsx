@@ -130,7 +130,6 @@ export function Fab({
             },
         dynamicStyle,
         styles.elevationShadow,
-        floating && { direction: I18nManager.isRTL ? 'rtl' : 'ltr' },
         floating && isExtended && { maxWidth: '100%' },
         typeof style === 'function'
           ? style({ pressed: isPressed, hovered: isHovered })
@@ -145,7 +144,10 @@ export function Fab({
             numberOfLines={floating ? 1 : undefined}
             style={[
               styles.labelText,
-              floating && { flexShrink: 1 },
+              floating && {
+                flexShrink: 1,
+                writingDirection: I18nManager.isRTL ? 'rtl' : 'ltr',
+              },
               {
                 color: themeColors.fg,
                 fontSize: size === 'sm' ? 12 : 14,
@@ -213,8 +215,7 @@ const styles = StyleSheet.create({
   },
   floatingContainer: {
     position: 'absolute',
-    direction: 'ltr',
-    alignItems: 'flex-end',
+    alignItems: I18nManager.isRTL ? 'flex-start' : 'flex-end',
     right: 20,
     zIndex: 999,
   },

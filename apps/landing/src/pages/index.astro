@@ -1,0 +1,180 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { Code } from 'astro:components';
+import registry from '../../../../registry/registry.json';
+import manifest from '../../../../.ai/rnui.manifest.json';
+
+const uiComponents = registry.items.filter((item) => item.type === 'registry:ui');
+const componentCount = uiComponents.length;
+const engineCount = manifest.distributionModel.variants.length;
+const themeNames = manifest.themeBrands.available;
+const themeCount = themeNames.length;
+const sheetSnippet = `import { Sheet } from '@/components/ui/sheet';
+
+<Sheet
+  open={open}
+  snapPoints={['50%', '90%']}
+/>`;
+
+const groups = [
+  { title: 'Everyday building blocks', names: ['button', 'text', 'card', 'input', 'textarea', 'badge'] },
+  { title: 'Layers and actions', names: ['sheet', 'dialog', 'popover', 'tooltip', 'toast', 'drawer'] },
+  { title: 'Navigation and flow', names: ['tabs', 'app-bar', 'breadcrumb', 'pagination', 'bottom-navigation'] },
+  { title: 'Data and forms', names: ['calendar', 'chart', 'data-table', 'form', 'date-picker', 'autocomplete'] },
+];
+
+const componentGroups = groups.map((group) => ({
+  title: group.title,
+  items: group.names.flatMap((name) => {
+    const item = uiComponents.find((component) => component.name === name);
+    return item ? [item] : [];
+  }),
+}));
+---
+
+<SiteLayout
+  title="RNUI | React Native UI you own"
+  description={`A copy-in registry of ${componentCount} React Native components. Keep the source, make it yours, and ship with NativeWind or Uniwind.`}
+>
+  <main id="main">
+    <section class="hero page-shell" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">A component registry for React Native</p>
+        <h1 id="hero-title">Ship the UI.<br /><span>Keep the code.</span></h1>
+        <p class="hero-lead">
+          {componentCount} copy-ready components. Bring the source into your app, then make every detail yours.
+        </p>
+        <div class="hero-actions">
+          <a class="button button--primary" href="#install">Add your first component <span aria-hidden="true">↗</span></a>
+          <a class="button button--quiet" href="https://github.com/truongnat/rnui/tree/main/registry" target="_blank" rel="noreferrer">Explore the registry</a>
+        </div>
+        <p class="hero-note">Made for NativeWind and Uniwind. No RNUI runtime package to maintain.</p>
+      </div>
+
+      <div class="showcase-stage" role="group" aria-label="RNUI app and source preview">
+        <div class="stage-caption"><span>From registry to real app</span><span>Sheet / 50%</span></div>
+        <figure class="phone-preview">
+          <div class="phone-frame">
+            <img
+              src="/images/sheet-demo.jpg"
+              alt="RNUI example app showing the Sheet component open at its 50 percent snap point"
+              width="690"
+              height="1500"
+              fetchpriority="high"
+            />
+          </div>
+          <figcaption><span>Real RNUI demo</span><span>Native presentation</span></figcaption>
+        </figure>
+        <div class="source-note">
+          <div class="source-note-head"><span>components/ui/sheet.tsx</span><span class="source-note-tag">YOUR COPY</span></div>
+          <Code code={sheetSnippet} lang="tsx" theme="github-dark" wrap />
+        </div>
+        <div class="theme-stamp" role="group" aria-label={`${themeCount} brand themes`}>
+          <strong class="theme-stamp-number">{themeCount}</strong>
+          <span class="theme-stamp-copy">ways to<br />make it yours</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof-band page-shell" aria-label="RNUI at a glance">
+      <div><strong>{componentCount}</strong><span>components</span></div>
+      <span class="proof-separator" aria-hidden="true"></span>
+      <div><strong>{engineCount}</strong><span>styling engines</span></div>
+      <span class="proof-separator" aria-hidden="true"></span>
+      <div><strong>{themeCount}</strong><span>brand themes</span></div>
+      <span class="proof-note">One source. Your app.</span>
+    </section>
+
+    <section class="ownership-section page-shell" id="why" aria-labelledby="ownership-title">
+      <div class="ownership-intro">
+        <p class="eyebrow">Open code, by design</p>
+        <h2 id="ownership-title">Start with a system.<br /><span>Keep the freedom.</span></h2>
+        <p>Install only what you need. The component files live beside your app code, ready for your product rules and your next idea.</p>
+      </div>
+      <div class="ownership-details">
+        <article class="ownership-row">
+          <span class="ownership-index" aria-hidden="true">01</span>
+          <div>
+            <h3>Copy, then customize</h3>
+            <p>Each component lands in <code>components/ui/</code>. Change the source instead of fighting a black box.</p>
+          </div>
+        </article>
+        <article class="ownership-row">
+          <span class="ownership-index" aria-hidden="true">02</span>
+          <div>
+            <h3>Choose your styling engine</h3>
+            <p>Use NativeWind or Uniwind. The registry ships a variant for each one.</p>
+          </div>
+        </article>
+        <article class="ownership-row">
+          <span class="ownership-index" aria-hidden="true">03</span>
+          <div>
+            <h3>Keep the dependency surface small</h3>
+            <p>No installed RNUI UI runtime. Your app owns the code and its update path.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="catalog-section page-shell" id="catalog" aria-labelledby="catalog-title">
+      <div class="catalog-intro">
+        <div>
+          <p class="eyebrow">A shelf, not a black box</p>
+          <h2 id="catalog-title">Find a starting point.</h2>
+        </div>
+        <a class="text-link" href="https://github.com/truongnat/rnui/tree/main/registry/shared/ui" target="_blank" rel="noreferrer">
+          Browse all {componentCount} components <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="component-shelf">
+        {componentGroups.map((group, index) => (
+          <article class={`component-group component-group--${index + 1}`}>
+            <div class="component-group-heading">
+              <h3 class="component-group-title">{group.title}</h3>
+              <span class="component-group-count">{group.items.length} items</span>
+            </div>
+            <ul>
+              {group.items.map((item) => <li>{item.title}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="theme-section page-shell" id="themes" aria-labelledby="themes-title">
+      <div class="theme-copy">
+        <p class="eyebrow">Same components, new character</p>
+        <h2 id="themes-title">Pick a palette.<br /><span>Keep your system.</span></h2>
+        <p>Seven ready-made brand themes change the semantic colors, not the component API. Start with one or make your own.</p>
+      </div>
+      <ul class="theme-list" aria-label="Available brand themes">
+        {themeNames.map((theme) => (
+          <li class={`theme-chip theme-chip--${theme}`}><span>{theme}</span></li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="install-section page-shell" id="install" aria-labelledby="install-title">
+      <div class="install-copy">
+        <p class="eyebrow">Start with one component</p>
+        <h2 id="install-title">One command.<br /><span>Your code.</span></h2>
+        <p>Choose a styling engine, copy the install command, then keep building in your own project.</p>
+        <a class="text-link" href="https://github.com/truongnat/rnui/blob/main/registry/templates/setup.md" target="_blank" rel="noreferrer">
+          Read the setup guide <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="install-panel">
+        <div class="engine-switch" role="group" aria-label="Choose a styling engine">
+          <button type="button" data-engine="nativewind" aria-pressed="true">NativeWind</button>
+          <button type="button" data-engine="uniwind" aria-pressed="false">Uniwind</button>
+        </div>
+        <div class="install-command">
+          <code data-install-code>npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/nativewind/button.json</code>
+          <button class="copy-button" type="button" data-copy-command aria-label="Copy install command">Copy</button>
+        </div>
+        <p class="copy-status" data-copy-status aria-live="polite"></p>
+        <p class="install-footnote">The first install also brings in the shared theme and utility files.</p>
+      </div>
+    </section>
+  </main>
+</SiteLayout>

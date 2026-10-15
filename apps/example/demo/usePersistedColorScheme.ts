@@ -1,9 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useColorScheme } from 'nativewind';
 import { useCallback, useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import type { SchemePreference } from './DemoThemeContext';
 
 export const COLOR_SCHEME_STORAGE_KEY = '@rnui-example/color-scheme';
+
+/** Keep CSS aware of explicit and system preferences on web. */
+function syncBrowserColorScheme(scheme: SchemePreference) {
+  if (Platform.OS === 'web' && typeof document !== 'undefined') {
+    document.documentElement.dataset.rnuiColorScheme = scheme;
+  }
+}
 
 /**
  * Load the persisted scheme once, then drive NativeWind's global color scheme.
@@ -27,6 +35,7 @@ export function usePersistedColorScheme() {
         if (!cancelled) {
           setPreference(next);
           setColorScheme(next);
+          syncBrowserColorScheme(next);
         }
       } finally {
         if (!cancelled) setHydrated(true);
@@ -41,6 +50,7 @@ export function usePersistedColorScheme() {
     (scheme: SchemePreference) => {
       setPreference(scheme);
       setColorScheme(scheme);
+      syncBrowserColorScheme(scheme);
       void AsyncStorage.setItem(COLOR_SCHEME_STORAGE_KEY, scheme);
     },
     [setColorScheme]

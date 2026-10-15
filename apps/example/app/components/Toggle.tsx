@@ -1,129 +1,70 @@
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import {
-  AlignCenter,
-  AlignJustify,
-  AlignLeft,
-  AlignRight,
-  Bold,
-  Italic,
-  Underline,
-} from 'lucide-react-native';
 import { useState } from 'react';
+import { Bookmark, Star } from 'lucide-react-native';
+import { Toggle } from '@/components/ui/toggle';
 import { DemoGroup, DemoPage, DemoSection } from '@/demo/DemoPage';
-import { useThemeColor } from '@/lib/utils';
+import { useIconColor } from '@/lib/utils';
 
-export default function ToggleButtonScreen() {
-  const colors = useThemeColor();
-  const [alignment, setAlignment] = useState('left');
-  const [formatting, setFormatting] = useState<string[]>(['bold']);
-
-  const ICON_SIZE = 18;
-
-  const iconColor = (active: boolean) =>
-    active ? colors.foreground : colors.mutedForeground;
-
-  const activeFormat = (value: string) => formatting.includes(value);
+export default function ToggleScreen() {
+  const [saved, setSaved] = useState(false);
+  const [starred, setStarred] = useState(true);
+  const iconColor = useIconColor();
 
   return (
     <DemoPage
-      title="ToggleButton"
-      description="Grouped toggles for related options — exclusive or multi-select."
+      title="Toggle"
+      description="A two-state pressable for persistent on/off choices."
     >
       <DemoSection
-        title="Exclusive"
-        description={`Selected alignment: ${alignment || 'none'}`}
+        title="Variants"
+        description="Use the outline variant when the control needs a clearer boundary."
       >
-        <ToggleGroup
-          type="single"
-          value={alignment}
-          onValueChange={(v) =>
-            setAlignment(Array.isArray(v) ? (v[0] ?? '') : v)
-          }
-        >
-          <ToggleGroupItem value="left" accessibilityLabel="Align left">
-            <AlignLeft
-              size={ICON_SIZE}
-              color={iconColor(alignment === 'left')}
-            />
-          </ToggleGroupItem>
-          <ToggleGroupItem value="center" accessibilityLabel="Align center">
-            <AlignCenter
-              size={ICON_SIZE}
-              color={iconColor(alignment === 'center')}
-            />
-          </ToggleGroupItem>
-          <ToggleGroupItem value="right" accessibilityLabel="Align right">
-            <AlignRight
-              size={ICON_SIZE}
-              color={iconColor(alignment === 'right')}
-            />
-          </ToggleGroupItem>
-          <ToggleGroupItem value="justify" accessibilityLabel="Align justify">
-            <AlignJustify
-              size={ICON_SIZE}
-              color={iconColor(alignment === 'justify')}
-            />
-          </ToggleGroupItem>
-        </ToggleGroup>
-      </DemoSection>
-
-      <DemoSection
-        title="Multiple"
-        description={`Selected styles: ${formatting.length ? formatting.join(', ') : 'none'}`}
-      >
-        <ToggleGroup
-          type="multiple"
-          value={formatting}
-          onValueChange={(v) => setFormatting(Array.isArray(v) ? v : [v])}
-        >
-          <ToggleGroupItem value="bold" accessibilityLabel="Bold">
-            <Bold size={ICON_SIZE} color={iconColor(activeFormat('bold'))} />
-          </ToggleGroupItem>
-          <ToggleGroupItem value="italic" accessibilityLabel="Italic">
-            <Italic
-              size={ICON_SIZE}
-              color={iconColor(activeFormat('italic'))}
-            />
-          </ToggleGroupItem>
-          <ToggleGroupItem value="underline" accessibilityLabel="Underline">
-            <Underline
-              size={ICON_SIZE}
-              color={iconColor(activeFormat('underline'))}
-            />
-          </ToggleGroupItem>
-        </ToggleGroup>
-      </DemoSection>
-
-      <DemoSection title="Sizes" description="sm, md, and lg densities.">
-        <DemoGroup direction="column" gap={16}>
-          <ToggleGroup type="single" size="sm" defaultValue="sm">
-            <ToggleGroupItem value="sm">Small</ToggleGroupItem>
-            <ToggleGroupItem value="md">Medium</ToggleGroupItem>
-          </ToggleGroup>
-          <ToggleGroup type="single" size="default" defaultValue="md">
-            <ToggleGroupItem value="sm">Small</ToggleGroupItem>
-            <ToggleGroupItem value="md">Medium</ToggleGroupItem>
-          </ToggleGroup>
-          <ToggleGroup type="single" size="lg" defaultValue="lg">
-            <ToggleGroupItem value="sm">Small</ToggleGroupItem>
-            <ToggleGroupItem value="md">Medium</ToggleGroupItem>
-          </ToggleGroup>
+        <DemoGroup>
+          <Toggle pressed={saved} onPressedChange={setSaved}>
+            Save
+          </Toggle>
+          <Toggle
+            variant="outline"
+            pressed={starred}
+            onPressedChange={setStarred}
+          >
+            Starred
+          </Toggle>
+        </DemoGroup>
+        <DemoGroup>
+          <Toggle size="sm" pressed={saved} onPressedChange={setSaved}>
+            Compact
+          </Toggle>
+          <Toggle
+            size="lg"
+            variant="outline"
+            pressed={starred}
+            onPressedChange={setStarred}
+          >
+            Large
+          </Toggle>
         </DemoGroup>
       </DemoSection>
-
-      <DemoSection title="Vertical" description="Stacked button orientation.">
-        <ToggleGroup
-          type="single"
-          orientation="vertical"
-          value={alignment}
-          onValueChange={(v) =>
-            setAlignment(Array.isArray(v) ? (v[0] ?? '') : v)
-          }
-        >
-          <ToggleGroupItem value="left">Left Align</ToggleGroupItem>
-          <ToggleGroupItem value="center">Center Align</ToggleGroupItem>
-          <ToggleGroupItem value="right">Right Align</ToggleGroupItem>
-        </ToggleGroup>
+      <DemoSection
+        title="Icon toggle"
+        description="Icon controls preserve an accessible text label."
+      >
+        <DemoGroup>
+          <Toggle
+            accessibilityLabel={saved ? 'Remove bookmark' : 'Add bookmark'}
+            pressed={saved}
+            onPressedChange={setSaved}
+          >
+            <Bookmark size={18} color={iconColor} />
+          </Toggle>
+          <Toggle
+            accessibilityLabel={starred ? 'Unstar item' : 'Star item'}
+            variant="outline"
+            pressed={starred}
+            onPressedChange={setStarred}
+          >
+            <Star size={18} color={iconColor} />
+          </Toggle>
+        </DemoGroup>
       </DemoSection>
     </DemoPage>
   );

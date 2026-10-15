@@ -1,0 +1,50 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import CodeBlock from '../../components/CodeBlock.astro';
+import manifest from '../../../../../.ai/rnui.manifest.json';
+import registry from '../../../../../registry/registry.json';
+
+const componentCount = registry.items.filter((item) => item.type === 'registry:ui').length;
+const engineCount = manifest.distributionModel.variants.length;
+const themeCount = manifest.themeBrands.available.length;
+const importExample = `import { Button } from '@/components/ui/button';\n\n<Button>Continue</Button>`;
+---
+
+<DocsLayout
+  title="Documentation"
+  description="Learn how RNUI's copy-in component registry works, choose a styling engine, and install the components your React Native app needs."
+  next={{ label: 'Getting started', href: '/docs/getting-started/' }}
+>
+  <p>
+    RNUI is a shadcn-compatible registry for React Native. Add a component to your app, then own and adapt the source alongside your product code.
+  </p>
+
+  <div class="docs-callout">
+    <p><strong>Not a runtime UI package.</strong> The registry copies component files into <code>components/ui/</code>. Your app owns the installed source.</p>
+  </div>
+
+  <h2 id="at-a-glance">At a glance</h2>
+  <ul>
+    <li><strong>{componentCount} UI components</strong> for inputs, navigation, overlays, feedback, and data display.</li>
+    <li><strong>{engineCount} styling engines</strong>: NativeWind v4 and Uniwind.</li>
+    <li><strong>{themeCount} brand themes</strong> shipped as registry items.</li>
+  </ul>
+
+  <h2 id="how-installation-works">How installation works</h2>
+  <p>
+    Choose an engine, run the shadcn CLI against RNUI's registry URL, and the files are written into your project. Registry dependencies such as shared utilities and theme setup are installed with the component when declared.
+  </p>
+  <CodeBlock code={importExample} lang="tsx" label="button.tsx" />
+
+  <h2 id="interactive-demos">Explore interactive demos</h2>
+  <p>
+    Each component has its own live demo. Browse the catalog to open a focused preview and read the component details.
+  </p>
+  <a class="docs-inline-cta" href="/docs/components/">Browse interactive components <span aria-hidden="true">↗</span></a>
+
+  <h2 id="where-to-go-next">Where to go next</h2>
+  <p>
+    Start with the install guide, compare the styling engines, or browse the full registry catalog.
+  </p>
+  <a class="docs-inline-cta" href="/docs/getting-started/">Install your first component <span aria-hidden="true">↗</span></a>
+</DocsLayout>

@@ -36,11 +36,30 @@ message/promise/dismiss`, `action`/`cancel`/`icon`/`id`/`duration` options,
   error wiring.
 - **utils**: `useThemeColor()`, `TextClassContext`, `FormFieldContext`,
   `composeRefs()` in `lib/utils`.
+- **Astro component docs**: dedicated detail pages with a matching Expo Web
+  phone preview; the overview links to the component catalog instead of embedding
+  the entire gallery.
+- **Expo demos**: add missing toggle, collapsible, command, list-item, chart,
+  and data-table screens; all 83 registry UI components map to demo routes.
+- **chart**: render `BarChart` on web with native views while keeping Skia
+  rendering on native platforms.
 
 ### Fixed
 
+- **Expo Web theme**: align system-mode CSS tokens with the embedded scheme,
+  preserve explicit light/dark preferences, and unify gallery accents with the
+  active primary token.
+
 - **sheet**: keep the backdrop static, remove it immediately on close, and open
   at the requested snap point so the 50% detent stays visible.
+
+- **toast / Expo web demo**: avoid a nested full-screen safe-area host that blocked
+  page clicks; reuse parent insets on web and keep the self-contained provider on
+  native.
+
+- **fab / Expo web**: move RTL text direction to supported text styles and use
+  RTL-aware alignment for the floating container; remove RN Web's invalid
+  `direction` style warning.
 
 - **Calendar**: remove the fixed width cap and percentage-wrapped date cells
   that left a right-side gutter and moved Saturday into the next row. Use

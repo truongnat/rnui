@@ -1,0 +1,45 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import CodeBlock from '../../components/CodeBlock.astro';
+import manifest from '../../../../../.ai/rnui.manifest.json';
+
+const themes = manifest.themeBrands.available;
+const firstVariant = manifest.distributionModel.variants[0];
+const registryBase = 'https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist';
+const themeCommand = `npx shadcn add ${registryBase}/${firstVariant}/theme-matcha.json`;
+---
+
+<DocsLayout
+  title="Themes"
+  description={`${themes.length} brand presets provide semantic color tokens for the RNUI registry.`}
+  previous={{ label: 'Components', href: '/docs/components/' }}
+  next={{ label: 'Styling engines', href: '/docs/styling-engines/' }}
+>
+  <p>
+    RNUI ships a base theme item for the selected styling engine and separate brand presets. Add one brand preset to switch the semantic palette without rewriting component classes.
+  </p>
+
+  <h2 id="available-themes">Available brand themes</h2>
+  <div class="docs-theme-list">
+    {themes.map((theme) => (
+      <article class="docs-theme-entry">
+        <h2 class="docs-theme-title">{theme[0].toUpperCase() + theme.slice(1)}</h2>
+        <code class="docs-theme-id">theme-{theme}</code>
+        <p>Brand preset for semantic color tokens and surfaces.</p>
+        <a
+          href={`${registryBase}/${firstVariant}/theme-${theme}.json`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          View registry item <span aria-hidden="true">↗</span>
+        </a>
+      </article>
+    ))}
+  </div>
+
+  <h2 id="install-a-theme">Install a brand theme</h2>
+  <CodeBlock code={themeCommand} lang="bash" label="install-theme.sh" />
+  <p>
+    Replace <code>matcha</code> with the brand name you want. Use the matching <code>nativewind</code> or <code>uniwind</code> registry path for your styling engine.
+  </p>
+</DocsLayout>

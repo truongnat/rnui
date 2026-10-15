@@ -1,0 +1,145 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  docs?: boolean;
+}
+
+const {
+  title = 'RNUI | React Native UI you own',
+  description = 'Copy-ready React Native components. Keep the source, make it yours, and ship with NativeWind or Uniwind.',
+  docs = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <title>{title}</title>
+    <script is:inline>
+      try {
+        const savedTheme = localStorage.getItem('rnui-theme');
+        if (savedTheme === 'light' || savedTheme === 'dark') {
+          document.documentElement.dataset.theme = savedTheme;
+        }
+      } catch {
+        // The system color scheme remains the fallback when storage is unavailable.
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner page-shell">
+        <a class="brand" href={docs ? '/' : '#top'} aria-label="RNUI home">
+          <span class="brand-mark" aria-hidden="true">R</span>
+          <span>RNUI</span>
+        </a>
+        {docs ? (
+          <nav class="primary-nav" aria-label="Main navigation">
+            <a href="/docs/">Docs</a>
+            <a href="/docs/components/">Components</a>
+            <a href="/docs/themes/">Themes</a>
+          </nav>
+        ) : (
+          <nav class="primary-nav" aria-label="Main navigation">
+            <a href="#why">Why RNUI</a>
+            <a href="#catalog">Components</a>
+            <a href="#themes">Themes</a>
+            <a href="/docs/">Docs</a>
+          </nav>
+        )}
+        <div class="header-actions">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme">
+            <span class="theme-toggle-mark" aria-hidden="true"></span>
+            <span data-theme-label>Dark</span>
+          </button>
+          <a class="header-cta" href={docs ? '/docs/getting-started/' : '#install'}>Get started <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </header>
+
+    <slot />
+
+    <footer class="site-footer page-shell">
+      <a class="brand brand--footer" href={docs ? '/' : '#top'} aria-label="RNUI home">
+        <span class="brand-mark" aria-hidden="true">R</span>
+        <span>RNUI</span>
+      </a>
+      <p>Built for apps you can keep improving.</p>
+      <nav aria-label="Footer links">
+        <a href="https://github.com/truongnat/rnui" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://github.com/truongnat/rnui/tree/main/registry" target="_blank" rel="noreferrer">Registry</a>
+        <a href="/docs/">Docs</a>
+      </nav>
+    </footer>
+
+    <script>
+      const themeToggle = document.querySelector('[data-theme-toggle]');
+      const themeLabel = document.querySelector('[data-theme-label]');
+      const root = document.documentElement;
+
+      const getTheme = () => {
+        if (root.dataset.theme === 'light' || root.dataset.theme === 'dark') {
+          return root.dataset.theme;
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+
+      const updateThemeLabel = () => {
+        const nextTheme = getTheme() === 'dark' ? 'light' : 'dark';
+        if (themeLabel) themeLabel.textContent = nextTheme === 'dark' ? 'Dark' : 'Light';
+        themeToggle?.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
+      };
+
+      themeToggle?.addEventListener('click', () => {
+        const nextTheme = getTheme() === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = nextTheme;
+        try {
+          localStorage.setItem('rnui-theme', nextTheme);
+        } catch {
+          // The selected theme still applies for this page view.
+        }
+        updateThemeLabel();
+      });
+      updateThemeLabel();
+
+      const installCode = document.querySelector('[data-install-code]');
+      const installButtons = document.querySelectorAll('[data-engine]');
+      const copyButton = document.querySelector('[data-copy-command]');
+      const copyStatus = document.querySelector('[data-copy-status]');
+      const makeCommand = (engine) => `npx shadcn add https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist/${engine}/button.json`;
+
+      installButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const engine = button.getAttribute('data-engine');
+          if (engine !== 'nativewind' && engine !== 'uniwind') return;
+          installButtons.forEach((option) => {
+            option.setAttribute('aria-pressed', String(option === button));
+          });
+          if (installCode) installCode.textContent = makeCommand(engine);
+          if (copyStatus) copyStatus.textContent = '';
+        });
+      });
+
+      copyButton?.addEventListener('click', async () => {
+        const command = installCode?.textContent ?? '';
+        if (!command || !copyStatus) return;
+        try {
+          await navigator.clipboard.writeText(command);
+          copyStatus.textContent = 'Command copied.';
+        } catch {
+          copyStatus.textContent = 'Clipboard unavailable. Select the command to copy it.';
+        }
+      });
+    </script>
+  </body>
+</html>

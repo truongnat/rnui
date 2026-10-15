@@ -1,0 +1,58 @@
+---
+import { Code } from 'astro:components';
+
+interface Props {
+  code: string;
+  lang: string;
+  label?: string;
+}
+
+const { code, lang, label = lang.toUpperCase() } = Astro.props;
+---
+
+<div class="docs-code-block" data-code-block>
+  <div class="docs-code-toolbar">
+    <span>{label}</span>
+    <button
+      class="docs-copy-button"
+      type="button"
+      data-copy-code
+      aria-label={`Copy ${label} code`}
+    >
+      Copy
+    </button>
+  </div>
+  <div class="docs-code-output">
+    <Code code={code} lang={lang} theme="github-dark" wrap />
+  </div>
+  <p class="docs-code-status" data-copy-status aria-live="polite"></p>
+</div>
+
+<script>
+  const copyButtons = document.querySelectorAll('[data-copy-code]');
+
+  for (const button of copyButtons) {
+    if (!(button instanceof HTMLButtonElement)) continue;
+
+    button.addEventListener('click', async () => {
+      const block = button.closest('[data-code-block]');
+      const code = block?.querySelector('pre code');
+      const status = block?.querySelector('[data-copy-status]');
+
+      if (!(code instanceof HTMLElement) || !(status instanceof HTMLElement)) return;
+      const value = code.textContent ?? '';
+      if (!value) return;
+
+      try {
+        await navigator.clipboard.writeText(value);
+        button.textContent = 'Copied';
+        status.textContent = 'Copied to clipboard.';
+        window.setTimeout(() => {
+          button.textContent = 'Copy';
+        }, 1600);
+      } catch {
+        status.textContent = 'Clipboard unavailable. Select and copy the code manually.';
+      }
+    });
+  }
+</script>

@@ -1,0 +1,51 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import CodeBlock from '../../components/CodeBlock.astro';
+import manifest from '../../../../../.ai/rnui.manifest.json';
+
+const firstVariant = manifest.distributionModel.variants[0];
+const registryBase = 'https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist';
+const installCommand = `npx shadcn add ${registryBase}/${firstVariant}/theme.json\nnpx shadcn add ${registryBase}/${firstVariant}/button.json`;
+const importExample = `import { Button } from '@/components/ui/button';\n\n<Button>Continue</Button>`;
+---
+
+<DocsLayout
+  title="Getting started"
+  description="Install RNUI into an Expo app with the shadcn CLI, then import the component source from your project."
+  previous={{ label: 'Overview', href: '/docs/' }}
+  next={{ label: 'Styling engines', href: '/docs/styling-engines/' }}
+>
+  <p>
+    RNUI targets React Native {manifest.supportedRuntime.reactNative} and React {manifest.supportedRuntime.react}. The example app uses Expo; install the engine setup that matches your project before adding components.
+  </p>
+
+  <h2 id="install">Install the theme and first component</h2>
+  <p>
+    The commands below use the {firstVariant} registry variant. Replace <code>{firstVariant}</code> with <code>uniwind</code> if your app uses Tailwind CSS v4.
+  </p>
+  <CodeBlock code={installCommand} lang="bash" label="install.sh" />
+  <p>
+    The first component also installs its declared registry dependencies, such as shared utilities and theme setup.
+  </p>
+
+  <h2 id="use-the-component">Import the copied source</h2>
+  <CodeBlock code={importExample} lang="tsx" label="button.tsx" />
+  <p>
+    Components are copied to <code>{manifest.distributionModel.consumerPath}</code>. Change the source to fit your app; updates are made by adding or replacing registry files, not by upgrading an RNUI runtime package.
+  </p>
+
+  <div class="docs-callout">
+    <p><strong>Already use the RNUI CLI?</strong> Run <code>npx github:truongnat/rnui#cli init</code> to automate engine setup, then <code>npx github:truongnat/rnui#cli add button</code>.</p>
+  </div>
+
+  <h2 id="requirements">Requirements</h2>
+  <ul>
+    <li>React Native {manifest.supportedRuntime.reactNative} or newer.</li>
+    <li>React {manifest.supportedRuntime.react}.</li>
+    <li>Choose NativeWind v4 or Uniwind; see <a href="/docs/styling-engines/">styling engine setup</a>.</li>
+  </ul>
+
+  <p>
+    Some components declare additional peer dependencies. The shadcn CLI lists them during installation; install native packages with <code>npx expo install</code> so their versions match your Expo SDK.
+  </p>
+</DocsLayout>

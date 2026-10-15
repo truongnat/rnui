@@ -30,7 +30,9 @@
     "web:dev:clean": "cd apps/web && bun run dev:clean",
     "web:build": "cd apps/web && bun run build",
     "builder:dev": "cd apps/web && bun run dev",
-    "builder:build": "cd apps/web && bun run build"
+    "builder:build": "cd apps/web && bun run build",
+    "landing:dev": "cd apps/landing && bun run dev",
+    "landing:build": "cd apps/landing && bun run build"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

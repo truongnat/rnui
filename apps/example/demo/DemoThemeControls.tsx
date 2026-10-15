@@ -1,6 +1,7 @@
 import { AppBarAction } from '@/components/ui/app-bar';
 import { Select, type SelectOption } from '@/components/ui/select';
 import { useThemeColor } from '@/lib/utils';
+import { useColorScheme } from 'nativewind';
 import { Moon, Sun } from 'lucide-react-native';
 import {
   useDemoThemePreference,
@@ -33,9 +34,10 @@ export function ThemeSelect() {
  * Direct theme toggle button on the AppBar that switches between Light & Dark on click.
  */
 export function ThemeToggleButton() {
-  const { schemePreference, setSchemePreference } = useDemoThemePreference();
+  const { setSchemePreference } = useDemoThemePreference();
   const colors = useThemeColor();
-  const isDark = schemePreference === 'dark';
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   const toggle = () => {
     setSchemePreference(isDark ? 'light' : 'dark');

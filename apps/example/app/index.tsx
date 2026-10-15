@@ -1,8 +1,6 @@
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
-import { Text } from '@/components/ui/text';
 import { usePersistedColorScheme } from '@/demo/usePersistedColorScheme';
 import { useThemeColor } from '@/lib/utils';
+import { useColorScheme } from 'nativewind';
 import { useRouter, type Href } from 'expo-router';
 import {
   Bell,
@@ -12,14 +10,14 @@ import {
   Layers,
   LayoutGrid,
   Moon,
-  Palette,
   Search,
   Sliders,
   Sparkles,
   Sun,
   X,
 } from 'lucide-react-native';
-import React, { useMemo, useState } from 'react';
+import type React from 'react';
+import { useMemo, useState } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -35,7 +33,6 @@ export interface CategoryInfo {
   title: string;
   description: string;
   icon: React.ComponentType<{ size?: number; color?: string }>;
-  accentColor: string;
   items: readonly string[];
 }
 
@@ -45,7 +42,6 @@ export const CATEGORIES: readonly CategoryInfo[] = [
     title: 'AI & Automation',
     description: 'Autonomous screen generation & schema rendering',
     icon: Sparkles,
-    accentColor: '#8b5cf6',
     items: ['AIRenderer'],
   },
   {
@@ -53,7 +49,6 @@ export const CATEGORIES: readonly CategoryInfo[] = [
     title: 'Inputs & Forms',
     description: 'Buttons, fields, pickers, toggles & form controls',
     icon: Sliders,
-    accentColor: '#3b82f6',
     items: [
       'Button',
       'ButtonGroup',
@@ -61,7 +56,7 @@ export const CATEGORIES: readonly CategoryInfo[] = [
       'Fab',
       'Input',
       'TextField',
-      'Textarea',
+      'TextArea',
       'Checkbox',
       'RadioGroup',
       'Select',
@@ -70,6 +65,7 @@ export const CATEGORIES: readonly CategoryInfo[] = [
       'Rating',
       'SegmentedControl',
       'Toggle',
+      'ToggleGroup',
       'DatePicker',
       'InputOtp',
       'Autocomplete',
@@ -83,11 +79,11 @@ export const CATEGORIES: readonly CategoryInfo[] = [
     title: 'Layout & Structure',
     description: 'Stacks, responsive grids, cards, surfaces & glass',
     icon: LayoutGrid,
-    accentColor: '#10b981',
     items: [
       'Stack',
       'Grid',
       'Card',
+      'Collapsible',
       'Paper',
       'GlassCard',
       'Gradient',
@@ -101,12 +97,12 @@ export const CATEGORIES: readonly CategoryInfo[] = [
     title: 'Navigation',
     description: 'Tabs, breadcrumbs, app bars, steppers & pagination',
     icon: Compass,
-    accentColor: '#f59e0b',
     items: [
       'Tabs',
       'TabBar',
       'Breadcrumb',
       'Pagination',
+      'Command',
       'BottomNavigation',
       'AppBar',
       'Stepper',
@@ -119,7 +115,6 @@ export const CATEGORIES: readonly CategoryInfo[] = [
     title: 'Feedback & Status',
     description: 'Alerts, toasts, progress bars, chips & skeletons',
     icon: Bell,
-    accentColor: '#ec4899',
     items: [
       'Alert',
       'AlertDialog',
@@ -137,7 +132,6 @@ export const CATEGORIES: readonly CategoryInfo[] = [
     title: 'Overlays & Dialogs',
     description: 'Modals, bottom sheets, drawers, popovers & menus',
     icon: Layers,
-    accentColor: '#06b6d4',
     items: [
       'Dialog',
       'Sheet',
@@ -157,7 +151,6 @@ export const CATEGORIES: readonly CategoryInfo[] = [
     title: 'Data Display & Media',
     description: 'Avatars, carousels, charts, tables, lists & calendars',
     icon: Boxes,
-    accentColor: '#6366f1',
     items: [
       'Text',
       'Avatar',
@@ -165,7 +158,10 @@ export const CATEGORIES: readonly CategoryInfo[] = [
       'Image',
       'ImageList',
       'Table',
+      'DataTable',
+      'Chart',
       'List',
+      'ListItem',
       'ChatListItem',
       'MessageInput',
       'Carousel',
@@ -181,15 +177,21 @@ export const CATEGORIES: readonly CategoryInfo[] = [
   },
 ];
 
+const totalDemoItems = CATEGORIES.reduce(
+  (total, category) => total + category.items.length,
+  0
+);
+
 export default function ComponentsShowcaseScreen() {
   const colors = useThemeColor();
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { schemePreference, setSchemePreference } = usePersistedColorScheme();
+  const { setSchemePreference } = usePersistedColorScheme();
+  const { colorScheme } = useColorScheme();
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  const isDark = schemePreference === 'dark';
+  const isDark = colorScheme === 'dark';
 
   const toggleTheme = () => {
     setSchemePreference(isDark ? 'light' : 'dark');
@@ -296,7 +298,7 @@ export default function ComponentsShowcaseScreen() {
           <TextInput
             value={search}
             onChangeText={setSearch}
-            placeholder="Search 78 components..."
+            placeholder={`Search ${totalDemoItems} components...`}
             placeholderTextColor={colors.mutedForeground}
             style={[styles.searchInput, { color: colors.foreground }]}
             returnKeyType="search"
@@ -346,7 +348,7 @@ export default function ComponentsShowcaseScreen() {
                 },
               ]}
             >
-              All (78)
+              All ({totalDemoItems})
             </RNText>
           </Pressable>
 
@@ -376,7 +378,7 @@ export default function ComponentsShowcaseScreen() {
                   color={
                     isSelected
                       ? colors.primaryForeground
-                      : cat.accentColor
+                      : colors.primary
                   }
                 />
                 <RNText
@@ -520,10 +522,10 @@ export default function ComponentsShowcaseScreen() {
                   <View
                     style={[
                       styles.categoryIconWrap,
-                      { backgroundColor: `${cat.accentColor}18` },
+                      { backgroundColor: colors.muted },
                     ]}
                   >
-                    <IconComp size={20} color={cat.accentColor} />
+                    <IconComp size={20} color={colors.primary} />
                   </View>
                   <View style={{ flex: 1 }}>
                     <RNText
@@ -599,7 +601,7 @@ export default function ComponentsShowcaseScreen() {
                           <View
                             style={[
                               styles.itemDot,
-                              { backgroundColor: cat.accentColor },
+                              { backgroundColor: colors.primary },
                             ]}
                           />
                           <RNText

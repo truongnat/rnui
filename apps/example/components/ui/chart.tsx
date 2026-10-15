@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useColorScheme, View, type ViewProps } from 'react-native';
+import { Platform, useColorScheme, View, type ViewProps } from 'react-native';
 import {
   Canvas,
   Circle,
@@ -76,6 +76,49 @@ export function BarChart({
       };
     });
   }, [width, data, height, max, palette, colors]);
+
+  if (Platform.OS === 'web') {
+    return (
+      <View className={cn('w-full', className)} {...props}>
+        <View
+          className="w-full flex-row items-end justify-around"
+          style={{ height }}
+        >
+          {data.map((datum, index) => (
+            <View
+              key={datum.label}
+              className="h-full flex-1 items-center justify-end"
+            >
+              <View
+                style={{
+                  width: '55%',
+                  maxWidth: 56,
+                  height: `${Math.max((datum.value / max) * 100, 1)}%`,
+                  borderRadius: barRadius,
+                  backgroundColor:
+                    datum.color ??
+                    (colors ? palette[index % palette.length] : palette[0]),
+                }}
+              />
+            </View>
+          ))}
+        </View>
+        {showLabels && (
+          <View className="mt-1 flex-row">
+            {data.map((datum) => (
+              <Text
+                key={datum.label}
+                className="flex-1 text-center text-xs text-muted-foreground"
+                numberOfLines={1}
+              >
+                {datum.label}
+              </Text>
+            ))}
+          </View>
+        )}
+      </View>
+    );
+  }
 
   return (
     <View className={cn('w-full', className)} onLayout={onLayout} {...props}>

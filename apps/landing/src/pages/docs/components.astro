@@ -1,0 +1,83 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import manifest from '../../../../../.ai/rnui.manifest.json';
+import registry from '../../../../../registry/registry.json';
+
+const components = registry.items
+  .filter((item) => item.type === 'registry:ui')
+  .sort((left, right) => left.title.localeCompare(right.title));
+const nativewind = manifest.distributionModel.variants[0];
+const registryBase = 'https://raw.githubusercontent.com/truongnat/rnui/main/registry/dist';
+---
+
+<DocsLayout
+  title="Components"
+  description={`Browse all ${components.length} copy-in components. Search by component name or purpose, then add the registry item you need.`}
+  previous={{ label: 'Getting started', href: '/docs/getting-started/' }}
+  next={{ label: 'Themes', href: '/docs/themes/' }}
+>
+  <p>
+    Every entry is source code for your app, not a wrapper around a hosted UI runtime. Install one component at a time with the registry URL.
+  </p>
+
+  <label class="docs-component-search">
+    <span>Filter components</span>
+    <input type="search" data-component-search placeholder="Search by name or purpose" autocomplete="off" />
+  </label>
+  <p class="docs-search-results" data-search-results aria-live="polite">{components.length} components</p>
+
+  <div class="docs-component-grid">
+    {components.map((item) => (
+      <article
+        class="docs-component-entry"
+        id={`component-${item.name}`}
+        data-component-entry
+        data-search={`${item.name} ${item.title} ${item.description ?? ''}`}
+      >
+        <div class="docs-component-heading">
+          <h2 class="docs-component-title">
+            <a href={`/docs/components/${item.name}/`}>{item.title}</a>
+          </h2>
+          <code class="docs-component-id">{item.name}</code>
+        </div>
+        <p>{item.description}</p>
+        <div class="docs-component-actions">
+          <a href={`/docs/components/${item.name}/`}>
+            View docs &amp; demo <span aria-hidden="true">↗</span>
+          </a>
+          <a
+            href={`${registryBase}/${nativewind}/${item.name}.json`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Registry item <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </article>
+    ))}
+  </div>
+</DocsLayout>
+
+<script>
+  const searchInput = document.querySelector('[data-component-search]');
+  const entries = Array.from(document.querySelectorAll('[data-component-entry]'));
+  const resultCount = document.querySelector('[data-search-results]');
+
+  if (searchInput instanceof HTMLInputElement) {
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      for (const entry of entries) {
+        if (!(entry instanceof HTMLElement)) continue;
+        const matches = entry.dataset.search?.toLowerCase().includes(query) ?? false;
+        entry.hidden = !matches;
+        if (matches) visibleCount += 1;
+      }
+
+      if (resultCount) {
+        resultCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'component' : 'components'}`;
+      }
+    });
+  }
+</script>

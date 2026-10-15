@@ -1,0 +1,70 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import CodeBlock from '../../components/CodeBlock.astro';
+import manifest from '../../../../../.ai/rnui.manifest.json';
+
+const variants = manifest.distributionModel.variants;
+const nativewindInstall = 'npx expo install nativewind tailwindcss@^3 react-native-reanimated react-native-worklets';
+const nativewindMetro = `const { getDefaultConfig } = require('expo/metro-config');\nconst { withNativeWind } = require('nativewind/metro');\n\nconst config = getDefaultConfig(__dirname);\nmodule.exports = withNativeWind(config, { input: './global.css' });`;
+const uniwindInstall = 'npx expo install uniwind tailwindcss';
+const uniwindMetro = `const { getDefaultConfig } = require('expo/metro-config');\nconst { withUniwindConfig } = require('uniwind/metro');\n\nconst config = getDefaultConfig(__dirname);\nmodule.exports = withUniwindConfig(config, { cssEntryFile: './global.css' });`;
+---
+
+<DocsLayout
+  title="Styling engines"
+  description="RNUI publishes two registry variants with the same component API and engine-specific styling setup."
+  previous={{ label: 'Themes', href: '/docs/themes/' }}
+  next={{ label: 'Components', href: '/docs/components/' }}
+>
+  <p>
+    Choose the variant that matches the styling system already configured in your Expo app. Component names and semantic color tokens stay consistent across both variants.
+  </p>
+
+  <div class="docs-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Registry variant</th><th>Tailwind</th><th>Setup difference</th></tr>
+      </thead>
+      <tbody>
+        {variants.includes('nativewind') && (
+          <tr><td>NativeWind v4</td><td>v3 config</td><td>Babel preset and <code>withNativeWind</code> Metro wrapper.</td></tr>
+        )}
+        {variants.includes('uniwind') && (
+          <tr><td>Uniwind</td><td>v4, CSS-first</td><td><code>withUniwindConfig</code> Metro wrapper; no Babel plugin.</td></tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="docs-engine-grid">
+    {variants.includes('nativewind') && (
+      <section class="docs-engine-entry">
+        <h2>NativeWind v4</h2>
+        <p>For apps already using NativeWind with Tailwind CSS v3.</p>
+        <CodeBlock code={nativewindInstall} lang="bash" label="install.sh" />
+        <h3>Metro setup</h3>
+        <CodeBlock code={nativewindMetro} lang="js" label="metro.config.js" />
+      </section>
+    )}
+    {variants.includes('uniwind') && (
+      <section class="docs-engine-entry">
+        <h2>Uniwind</h2>
+        <p>For Tailwind CSS v4 projects using Uniwind's CSS-first configuration.</p>
+        <CodeBlock code={uniwindInstall} lang="bash" label="install.sh" />
+        <h3>Metro setup</h3>
+        <CodeBlock code={uniwindMetro} lang="js" label="metro.config.js" />
+      </section>
+    )}
+  </div>
+
+  <h2 id="shared-setup">Shared setup</h2>
+  <ol>
+    <li>Configure the <code>@/*</code> import alias in <code>tsconfig.json</code>.</li>
+    <li>Copy RNUI's <code>components.json</code> template to the app root.</li>
+    <li>Import <code>global.css</code> from the app entry.</li>
+    <li>For system theme switching, set Expo's <code>userInterfaceStyle</code> to <code>automatic</code>.</li>
+  </ol>
+  <p>
+    See the <a href="https://github.com/truongnat/rnui/blob/main/registry/templates/setup.md" target="_blank" rel="noreferrer">complete manual setup reference</a> for Babel, Metro, and TypeScript configuration examples.
+  </p>
+</DocsLayout>

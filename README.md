@@ -74,6 +74,7 @@ packages/
 apps/
   example                # Expo showcase app (registry consumer)
   web                    # Next.js screen builder (schema → preview → TSX)
+  landing                # Astro product landing page
 ```
 
 ## Development
@@ -95,6 +96,15 @@ bun run registry:build   # rebuild registry/dist
 bun run demo          # Expo dev client
 bun run demo:go       # Expo Go
 ```
+
+### Landing page
+
+```bash
+bun run landing:dev
+bun run landing:build
+```
+
+The landing site includes integrated documentation at `/docs/`, with a searchable component catalog.
 
 ## AI-native usage
 
@@ -118,6 +128,8 @@ Validate AI files: `bun run ai:check`
 | `bun run test` / `lint` / `typecheck` | Turbo pipeline |
 | `bun run web:dev` | Next.js builder dev server |
 | `bun run demo` | Expo example app |
+| `bun run landing:dev` | Astro marketing site |
+| `bun run landing:build` | Build the static landing page |
 
 ## License
 
