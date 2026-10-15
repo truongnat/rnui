@@ -24,7 +24,6 @@ import {
   useSafeAreaFrame,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import { useAnimatedOverlay } from '@/components/ui/animated-overlay';
 import { Text, type TextProps } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
@@ -114,9 +113,6 @@ function SheetFrame({
   const index = Math.max(0, Math.min(snapIndex, heights.length - 1));
   const sheetHeight = heights[index];
   const restingY = sheetHeight === undefined ? 0 : maxHeight - sheetHeight;
-  const { setVisible, backdropStyle } = useAnimatedOverlay({
-    animationType: 'fade',
-  });
 
   useEffect(() => {
     let active = true;
@@ -152,21 +148,22 @@ function SheetFrame({
 
   const wasOpen = useRef(false);
   useEffect(() => {
-    if (open && !wasOpen.current) {
-      setSnapIndex(initialSnapIndex ?? heights.length - 1);
-    }
+    const opening = open && !wasOpen.current;
     wasOpen.current = open;
-    setVisible(open);
+
+    if (opening) {
+      const nextIndex = Math.max(
+        0,
+        Math.min(initialSnapIndex ?? heights.length - 1, heights.length - 1)
+      );
+      const nextHeight = heights[nextIndex];
+      setSnapIndex(nextIndex);
+      animateTo(nextHeight === undefined ? 0 : maxHeight - nextHeight);
+      return;
+    }
+
     animateTo(open ? restingY : maxHeight, !open);
-  }, [
-    open,
-    initialSnapIndex,
-    heights.length,
-    restingY,
-    maxHeight,
-    animateTo,
-    setVisible,
-  ]);
+  }, [open, initialSnapIndex, heights, maxHeight, restingY, animateTo]);
 
   const panHandlers = useMemo(
     () =>
@@ -223,10 +220,13 @@ function SheetFrame({
           accessibilityLabel="Close sheet"
           onPress={() => onOpenChange?.(false)}
         >
-          {showOverlay && (
-            <Animated.View
-              className="bg-black"
-              style={[StyleSheet.absoluteFill, backdropStyle]}
+          {showOverlay && open && (
+            <View
+              pointerEvents="none"
+              style={[
+                StyleSheet.absoluteFill,
+                { backgroundColor: 'rgba(0,0,0,0.5)' },
+              ]}
             />
           )}
         </Pressable>

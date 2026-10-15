@@ -39,6 +39,9 @@ message/promise/dismiss`, `action`/`cancel`/`icon`/`id`/`duration` options,
 
 ### Fixed
 
+- **sheet**: keep the backdrop static, remove it immediately on close, and open
+  at the requested snap point so the 50% detent stays visible.
+
 - **Calendar**: remove the fixed width cap and percentage-wrapped date cells
   that left a right-side gutter and moved Saturday into the next row. Use
   explicit seven-column weeks aligned with weekday headings and hidden outside

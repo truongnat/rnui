@@ -379,7 +379,7 @@
       "name": "sheet",
       "type": "registry:ui",
       "title": "Sheet",
-      "description": "Animated, draggable bottom sheet with safe-area insets.",
+      "description": "Draggable bottom sheet with static backdrop, snap points, and safe-area insets.",
       "files": [
         {
           "src": "shared/ui/sheet.tsx",
